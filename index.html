@@ -1,435 +1,553 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8"/>
-<title>スケベな日常</title>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="ネットに流れる大人向け画像・話題を、2ちゃん風レス形式でサッと読むサイト。">
+<title>淫談屋｜画像・SNSまとめ</title>
 <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background: #fff;
-      color: #111;
-    }
-    header {
-      background: #ffcc00;
-      padding: 1em;
-      font-size: 1.8em;
-      text-align: center;
-      font-weight: bold;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    .news-ticker {
-      background: #ff6666;
-      color: white;
-      text-align: center;
-      padding: 0.3em;
-      font-size: 0.9em;
-    }
-    nav {
-      background: #333;
-      color: white;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 0.5em;
-    }
-    nav a {
-      color: white;
-      margin: 0.5em;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .trending-tags {
-      text-align: center;
-      background: #f0f0f0;
-      padding: 0.5em;
-      font-size: 0.9em;
-    }
-    .trending-tags a {
-      margin: 0.3em;
-      color: #0077cc;
-      text-decoration: none;
-    }
-    .layout {
-      display: flex;
-      max-width: 1200px;
-      margin: auto;
-      padding: 1em;
-      box-sizing: border-box;
-    }
-    .sidebar {
-      width: 33.33%;
-      padding-right: 1em;
-      box-sizing: border-box;
-      position: sticky;
-      top: 100px;
-      align-self: flex-start;
-    }
-    .sidebar section {
-      background: #f9f9f9;
-      padding: 1em;
-      border: 1px solid #ccc;
-      margin-bottom: 1em;
-    }
-    .container {
-      width: 66.66%;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1em;
-    }
-    .card {
-      border: 1px solid #ccc;
-      background: white;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .card img {
-      width: 100%;
-      display: block;
-    }
-    .card .title {
-      padding: 0.5em;
-      font-weight: bold;
-      font-size: 0.9em;
-    }
-    .card .comment {
-      background: #f8f8f8;
-      padding: 0.5em;
-      font-size: 0.85em;
-    }
-    #pagination {
-      text-align: center;
-      margin: 2em 0;
-    }
-    #pagination a {
-      margin: 0 0.5em;
-      text-decoration: none;
-      color: #0077cc;
-    }
-    .ad-inline {
-      text-align: center;
-      padding: 1em;
-      margin: 2em auto;
-      border: 1px dashed #aaa;
-      width: 90%;
-      background: #f0f0f0;
-    }
-    .related {
-      padding: 1em;
-      text-align: center;
-      background: #f5f5f5;
-    }
-    footer {
-      text-align: center;
-      font-size: 0.8em;
-      color: #666;
-      padding: 1em;
-    }
-  
-.sidebar section.ad {
-  background: #ffe;
-  border: 2px dashed #ff9900;
-  font-weight: bold;
-  text-align: center;
+:root {
+  --ink:#171510;
+  --paper:#f2f0ea;
+  --white:#fff;
+  --line:#d6d3ca;
+  --gold:#b69a58;
+  --muted:#77736a;
+  --red:#c7241b;
+  --max:1120px;
 }
-
-.below-inline {
-  background: #e6f2ff;
-  margin: 2em auto;
-  padding: 1em;
-  max-width: 1000px;
-  border: 1px solid #99c;
-  font-size: 0.9em;
-}
-
-.sidebar section.filler {
-  background: #fff0f0;
-  color: #888;
-  padding: 1em;
-  border: 1px dashed #faa;
-  font-size: 0.85em;
-  text-align: center;
-}
-
-.below-inline {
-  background: #e6f2ff;
-  margin: 2em auto;
-  padding: 1em;
-  max-width: 1000px;
-  border: 1px solid #99c;
-  font-size: 0.9em;
-}
-
-.sidebar section.ad {
-  background: #ffe;
-  border: 2px dashed #ff9900;
-  font-weight: bold;
-  text-align: center;
-  padding: 1.5em;
-  font-size: 1.1em;
-}
-
-.triple-row {
-  display: flex;
-  gap: 1em;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin: 2em auto;
-  max-width: 1000px;
-}
-.triple-row .box {
-  flex: 1 1 calc(33.3% - 1em);
-  background: #fafafa;
-  border: 1px solid #ccc;
-  padding: 1em;
-  text-align: center;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-.feature-banner {
-  margin: 2em auto;
-  background: #222;
-  color: #fff;
-  padding: 2em;
-  text-align: center;
-  font-size: 1.1em;
-  border-top: 3px solid gold;
-}
-
-.card img {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.card img:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-}
-
-
-a {
-  color: inherit;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-a:hover {
-  color: #ff9900;
-}
-
-
-.sidebar section.ad-space {
-  aspect-ratio: 3 / 4;
-  height: auto;
-}
-
-
+* { box-sizing:border-box; }
 body {
-  background-color: #202020;
-  color: #eeeeee;
+  margin:0;
+  background:var(--paper);
+  color:#222;
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  line-height:1.65;
 }
-header {
-  background-color: #FF6600;
-  color: #000;
+a { color:inherit; text-decoration:none; }
+img { display:block; width:100%; }
+.topbar {
+  padding:5px 12px;
+  background:#111;
+  color:#eee;
+  text-align:center;
+  font-size:10px;
+  letter-spacing:0;
 }
-a:hover {
-  color: #FF6600;
+.site-header {
+  background:#fff;
+  border-bottom:1px solid var(--ink);
 }
-
-/* 背景と全体ベースカラー調整 */
-body {
-  background-color: #202020;
-  color: #f2f2f2;
+.header-inner {
+  width:min(var(--max),calc(100% - 30px));
+  min-height:108px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:28px;
 }
-header {
-  background-color: #e05500; /* 落ち着いたオレンジ */
-  color: #000;
+.logo img { width:310px; height:auto; }
+.header-copy {
+  color:#555149;
+  font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+  font-size:13px;
+  line-height:1.7;
+  text-align:right;
 }
-
-/* サイドバー見やすく */
-.sidebar section {
-  background: #2a2a2a;
-  color: #fff;
-  border: 1px solid #444;
+.nav {
+  background:#fff;
+  border-bottom:3px solid var(--ink);
 }
-.sidebar h3, .sidebar ul li, .sidebar p {
-  color: #f2f2f2;
+.nav-inner {
+  width:min(var(--max),calc(100% - 30px));
+  margin:auto;
+  display:flex;
+  overflow:auto;
+  border-left:1px solid var(--line);
 }
-
-/* リンク表示調整 */
-a {
-  color: inherit;
-  text-decoration: none;
-  transition: color 0.3s ease;
+.nav a {
+  flex:0 0 auto;
+  padding:9px 17px 8px;
+  border-right:1px solid var(--line);
+  font-size:12px;
+  font-weight:900;
 }
-a:hover {
-  color: #ff9900; /* ソフトオレンジ */
+.nav a.active,.nav a:hover {
+  background:var(--ink);
+  color:#fff;
 }
-
-/* 記事カードも明度調整 */
-.card {
-  background: #2c2c2c;
-  color: #fff;
+.page {
+  width:min(var(--max),calc(100% - 30px));
+  margin:20px auto 66px;
 }
-.card .title, .card .comment {
-  color: #f2f2f2;
+.breaking {
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:13px;
+  align-items:center;
+  margin-bottom:18px;
+  padding:10px 13px;
+  background:#fff;
+  border:1px solid #c9c6bd;
 }
-
-/* ページネーションも白寄りに */
-#pagination a {
-  color: #ff9900;
+.breaking b {
+  padding:4px 7px;
+  background:var(--red);
+  color:#fff;
+  font-size:10px;
+  letter-spacing:0;
 }
-
-
-.card {
-  background-color: #1a1a1a;
-  border: 1px solid #444;
+.breaking a {
+  overflow:hidden;
+  font-size:12px;
+  font-weight:800;
+  white-space:nowrap;
+  text-overflow:ellipsis;
 }
-.card .comment {
-  background-color: #2b2b2b;
+.layout {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 286px;
+  gap:24px;
+  align-items:start;
 }
-
-
-header {
-  font-family: 'Kaisei Decol', serif;
+.feature {
+  margin-bottom:22px;
+  background:#fff;
+  border:1px solid #c9c6bd;
 }
-
-.ad-space {
-  aspect-ratio: 4 / 3;
-  width: 100%;
-  background: #555;
-  margin: 1em 0;
+.feature-grid {
+  display:grid;
+  grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);
 }
-
-.quote-block {
-  background: #444;
-  color: #ffcc66;
-  text-align: center;
-  padding: 1em;
-  font-style: italic;
-  margin: 2em auto;
-  max-width: 800px;
+.feature-thumb {
+  position:relative;
+  min-height:440px;
+  overflow:hidden;
+  background:#111;
 }
-
-    .ad-space {
-      background: #444;
-      aspect-ratio: 4 / 3;
-      margin-bottom: 1em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 0.9em;
-      min-height: 150px;
-    }
-
-
-@media screen and (max-aspect-ratio: 16/9) {
-  .container {
-    grid-template-columns: 1fr !important;
+.feature-thumb img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 20%;
+}
+.feature-badge {
+  position:absolute;
+  left:13px;
+  top:13px;
+  padding:5px 8px;
+  background:var(--red);
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:0;
+}
+.feature-copy {
+  padding:28px 25px 24px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.feature-copy small {
+  color:var(--red);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:0;
+}
+.feature-copy h1 {
+  margin:10px 0 13px;
+  font-size:42px;
+  line-height:1.42;
+  letter-spacing:0;
+}
+.feature-copy p {
+  margin:0 0 18px;
+  color:#555149;
+  font-size:13px;
+  line-height:1.8;
+}
+.read-more {
+  align-self:flex-start;
+  padding:8px 12px;
+  background:var(--ink);
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+}
+.section-head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin:0 0 12px;
+  padding-bottom:8px;
+  border-bottom:3px solid var(--ink);
+}
+.section-head h2 {
+  margin:0;
+  font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+  font-size:22px;
+}
+.section-head a {
+  color:var(--muted);
+  font-size:10px;
+}
+.card-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.post-card {
+  background:#fff;
+  border:1px solid #c9c6bd;
+}
+.thumb {
+  position:relative;
+  display:block;
+  overflow:hidden;
+  background:#111;
+}
+.thumb img {
+  aspect-ratio:16/10;
+  object-fit:cover;
+  transition:transform .22s ease;
+}
+.thumb:hover img { transform:scale(1.03); }
+.badge {
+  position:absolute;
+  top:9px;
+  left:9px;
+  padding:4px 7px;
+  background:var(--red);
+  color:#fff;
+  font-size:9px;
+  font-weight:900;
+}
+.card-body { padding:12px 13px 14px; }
+.card-meta {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  color:var(--muted);
+  font-size:9px;
+}
+.card-body h2 {
+  margin:7px 0 0;
+  font-size:16px;
+  line-height:1.55;
+}
+.card-body h2 a:hover { text-decoration:underline; }
+.more-row {
+  display:flex;
+  justify-content:center;
+  margin-top:18px;
+}
+.more-button {
+  padding:9px 18px;
+  border:1px solid var(--ink);
+  background:#fff;
+  font-size:11px;
+  font-weight:900;
+}
+.sidebox {
+  margin-bottom:17px;
+  background:#fff;
+  border:1px solid #c9c6bd;
+}
+.side-title {
+  margin:0;
+  padding:9px 11px;
+  background:var(--ink);
+  color:#fff;
+  font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+  font-size:15px;
+}
+.sidebody { padding:10px; }
+.rank {
+  display:grid;
+  grid-template-columns:29px 1fr;
+  gap:8px;
+  padding:9px 0;
+  border-bottom:1px dotted #bbb;
+}
+.rank:last-child { border-bottom:0; }
+.rank-num {
+  width:25px;
+  height:25px;
+  display:grid;
+  place-items:center;
+  background:#e1ded6;
+  border:1px solid var(--ink);
+  font-size:10px;
+  font-weight:bold;
+}
+.rank a {
+  font-size:12px;
+  line-height:1.45;
+  font-weight:bold;
+}
+.rank span {
+  display:block;
+  margin-top:2px;
+  color:#888;
+  font-size:9px;
+}
+.comment {
+  padding:9px 0;
+  border-bottom:1px dotted #bbb;
+}
+.comment:last-child { border-bottom:0; }
+.comment b {
+  display:block;
+  color:#444;
+  font-size:10px;
+}
+.comment p {
+  margin:3px 0 0;
+  font-size:11px;
+  line-height:1.55;
+}
+.category-list {
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+.category-list a {
+  padding:6px 8px;
+  background:#f0eee7;
+  border:1px solid #d2cfc6;
+  font-size:10px;
+  font-weight:800;
+}
+.side-ad {
+  min-height:110px;
+  display:grid;
+  place-items:center;
+  border:1px dashed #aaa;
+  background:#f2f0e9;
+  color:#777;
+  text-align:center;
+  font-size:11px;
+}
+.footer {
+  background:#171717;
+  color:#ddd;
+  border-top:4px solid var(--gold);
+}
+.footer-inner {
+  width:min(var(--max),calc(100% - 30px));
+  margin:auto;
+  padding:27px 0;
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+  font-size:11px;
+}
+@media(max-width:900px) {
+  .layout { grid-template-columns:1fr; }
+  .sidebar {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
   }
+  .sidebox { margin:0; }
 }
-
+@media(max-width:700px) {
+  .feature-grid { grid-template-columns:1fr; }
+  .feature-thumb { min-height:390px; }
+  .feature-copy { padding:20px 18px 22px; }
+}
+@media(max-width:620px) {
+  .header-inner {
+    width:calc(100% - 20px);
+    min-height:86px;
+  }
+  .logo img { width:245px; }
+  .header-copy { display:none; }
+  .nav-inner,.page,.footer-inner { width:calc(100% - 18px); }
+  .nav a { padding:8px 13px; }
+  .breaking { grid-template-columns:1fr; gap:7px; }
+  .card-grid { grid-template-columns:1fr; }
+  .feature-thumb { min-height:360px; }
+  .feature-copy h1 { font-size:27px; }
+  .sidebar { grid-template-columns:1fr; }
+}
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol&amp;display=swap" rel="stylesheet"/></head>
+</head>
 <body>
-<header><a href="index.html">スケベな日常</a></header>
-<div class="news-ticker">🔥 最新更新: [2025/06/11] 本日も記事を大量追加中！</div>
-<nav>
-<a href="#">巨乳</a>
-<a href="#">美尻</a>
-<a href="#">GIF</a>
-<a href="#">コスプレ</a>
-<a href="#">素人</a>
+<div class="topbar">PRを含む場合は記事内に表示します</div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="index.html"><img src="assets/common/indanya-logo.png" alt="淫談屋"></a>
+    <div class="header-copy">ネットに流れる大人向け画像・話題を、<br>余計な解説を入れずレス形式でサッと読む。</div>
+  </div>
+</header>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="active" href="index.html">新着</a>
+    <a href="#">画像</a>
+    <a href="#">SNS</a>
+    <a href="#">水着</a>
+    <a href="#">お姉さん</a>
+    <a href="#">人気記事</a>
+  </div>
 </nav>
-<div class="trending-tags">
-<strong>🔥 トレンドタグ:</strong>
-<a href="#">#異世界転生</a>
-<a href="#">#猫耳</a>
-<a href="#">#召喚術</a>
-<a href="#">#チャイナ服</a>
-</div>
-<div class="layout">
-<aside class="sidebar">
+
+<main class="page">
+  <div class="breaking">
+    <b>注目</b>
+    <a id="breakingLink" href="articles/pool-look-back.html">【画像】プールでめっちゃ見られた女さん、見つめ返してしまうｗｗｗｗｗ</a>
+  </div>
+
+  <div class="layout">
+    <div>
+      <section class="feature">
+        <div class="feature-grid">
+          <a class="feature-thumb" id="featureThumbLink" href="articles/pool-look-back.html">
+            <img id="featureImage" src="assets/articles/pool-look-back/image-02.webp" alt="プールで視線を横へ向ける人物">
+            <span class="feature-badge" id="featureBadge">画像5枚</span>
+          </a>
+          <div class="feature-copy">
+            <small>TODAY'S PICK</small>
+            <h1><a id="featureTitleLink" href="articles/pool-look-back.html">【画像】プールでめっちゃ見られた女さん、見つめ返してしまうｗｗｗ</a></h1>
+            <p id="featureSummary">使える画像は全部掲載。最初の2枚から、別日の画像、追加の2枚までレスの流れで見せます。</p>
+            <a class="read-more" id="featureReadMore" href="articles/pool-look-back.html">記事を開く →</a>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-head">
+        <h2>新着記事</h2>
+        <a href="#">新着をすべて見る</a>
+      </div>
+
+      <section class="card-grid" id="articleGrid">
+
+<article class="post-card">
+  <a class="thumb" href="articles/pool-look-back.html">
+    <img src="assets/articles/pool-look-back/image-02.webp" alt="プールで視線を横へ向ける人物">
+    <span class="badge">NEW</span>
+  </a>
+  <div class="card-body">
+    <div class="card-meta"><span>水着</span><span>2026.07.18</span><span>31コメント</span></div>
+    <h2><a href="articles/pool-look-back.html">【画像】プールでめっちゃ見られた女さん、見つめ返してしまうｗｗｗｗｗ</a></h2>
+  </div>
+</article>
 
 
+<article class="post-card">
+  <a class="thumb" href="#">
+    <img src="assets/common/card-summer.svg" alt="">
+
+  </a>
+  <div class="card-body">
+    <div class="card-meta"><span>画像</span><span>2026.07.18</span><span>27コメント</span></div>
+    <h2><a href="#">【画像】夏祭りで目立ちすぎる浴衣女子ｗｗｗ</a></h2>
+  </div>
+</article>
 
 
+<article class="post-card">
+  <a class="thumb" href="#">
+    <img src="assets/common/card-beach.svg" alt="">
+
+  </a>
+  <div class="card-body">
+    <div class="card-meta"><span>SNS</span><span>2026.07.18</span><span>22コメント</span></div>
+    <h2><a href="#">【朗報】海辺で撮られた一枚、雰囲気が良すぎる</a></h2>
+  </div>
+</article>
 
 
+<article class="post-card">
+  <a class="thumb" href="#">
+    <img src="assets/common/card-gym.svg" alt="">
 
-<section class="ad"><div>[広告スペース①]</div></section>
-<section>
-<img alt="サムネイル" src="images/thumb_sample.jpg"/><h3>おすすめ記事</h3>
-<ul>
-<li><a href="#">チャイナ服で召喚術</a></li>
-<li><a href="#">猫耳で変身</a></li>
-<li><a href="#">GIFで見る神作画</a></li>
-</ul>
-</section>
-<section class="ad"><div>[広告スペース②]</div></section>
-<section>
-<img alt="サムネイル" src="images/thumb_sample.jpg"/><h3>人気記事</h3>
-<ul>
-<li><a href="#">【GIF】止まらないギガリすと</a></li>
-<li><a href="#">【コスプレ】この完成度</a></li>
-</ul>
-</section>
-<section>
-<h3>タグ一覧</h3>
-<p>#美尻 #ギャル #変身 #もふもふ</p>
-</section>
-<section class="ad"><div>[広告スペース③]</div></section>
-<section>
-<h3>新着記事</h3>
-<ul>
-<li><a href="#">編集部おすすめ</a></li>
-<li><a href="#">GIF爆増特集</a></li>
-</ul>
-</section>
-<section>
-<h3>月別アーカイブ</h3>
-<ul>
-<li><a href="#">2025年6月</a></li>
-<li><a href="#">2025年5月</a></li>
-</ul>
-</section>
-<section>
-<h3>PR: 注目まとめ</h3>
-<ul>
-<li><a href="#">▶ 推しGIF爆発まとめ</a></li>
-<li><a href="#">▶ 伝説のチャイナ回</a></li>
-</ul>
-</section>
-<section>
-<h3>PR: 編集部激推し</h3>
-<ul>
-<li><a href="#">▶ 神回セレクション</a></li>
-<li><a href="#">▶ 話題の異世界編</a></li>
-</ul>
-</section>
-<section class="filler">[このスペースは読み込み中のPRや特集が追加されます]</section></aside>
-<div class="container" id="card-container"></div>
-</div>
-<div id="pagination"></div>
-<div class="ad-inline">[インライン広告]</div><div class="quote-block">💬 今日の一言：『GIFは芸術だ。』</div>
-<div class="triple-row">
-<div class="box">🔥 今週の人気タグ<br/>#GIF #美尻 #チャイナ服</div>
-<div class="box">📈 ランキング上昇中<br/>【コスプレ】注目の作品</div>
-<div class="box">💬 コメントが熱い<br/>GIFで止まらないやつ</div>
-</div>
-<div class="below-inline">
-<h3>💡 編集部の注目ポイント</h3>
-<ul>
-<li>GIF多用記事は保存推奨</li>
-<li>月末ランキングは要チェック</li>
-<li>過去記事にも神回あり</li>
-</ul>
-</div>
-<div class="related">
-<h3>🔁 次に読むべき記事</h3>
-<p><a href="#">▶ GIFまとめ</a> | <a href="#">▶ 人気：コスプレ</a></p>
-</div>
-<footer>© 2025 スケベな日常 | powered by ChattyCMS</footer>
-<script src="js/articleLoader.js"></script>
+  </a>
+  <div class="card-body">
+    <div class="card-meta"><span>お姉さん</span><span>2026.07.17</span><span>18コメント</span></div>
+    <h2><a href="#">【画像】ジムのお姉さん、ウェアがさすがに強い</a></h2>
+  </div>
+</article>
+
+
+<article class="post-card">
+  <a class="thumb" href="#">
+    <img src="assets/common/card-room.svg" alt="">
+
+  </a>
+  <div class="card-body">
+    <div class="card-meta"><span>画像</span><span>2026.07.17</span><span>16コメント</span></div>
+    <h2><a href="#">【画像】部屋着のお姉さん、距離感がバグってる</a></h2>
+  </div>
+</article>
+
+
+<article class="post-card">
+  <a class="thumb" href="articles/pool-look-back.html">
+    <img src="assets/articles/pool-look-back/image-04.webp" alt="紫色の浴槽で自撮りをする人物">
+
+  </a>
+  <div class="card-body">
+    <div class="card-meta"><span>水着</span><span>2026.07.16</span><span>14コメント</span></div>
+    <h2><a href="articles/pool-look-back.html">【画像】別角度も全部貼るぞｗｗｗ</a></h2>
+  </div>
+</article>
+
+      </section>
+
+      <div class="more-row"><a class="more-button" href="#">もっと見る</a></div>
+    </div>
+
+    <aside class="sidebar">
+      <section class="sidebox">
+        <h2 class="side-title">今日の人気記事</h2>
+        <div class="sidebody" id="popularArticles">
+          <div class="rank"><span class="rank-num">1</span><div><a href="articles/pool-look-back.html">【画像】プールでめっちゃ見られた女さんｗｗｗ</a><span>31コメント</span></div></div>
+          <div class="rank"><span class="rank-num">2</span><div><a href="#">【画像】夏祭りで目立ちすぎる浴衣女子ｗｗｗ</a><span>27コメント</span></div></div>
+          <div class="rank"><span class="rank-num">3</span><div><a href="#">【朗報】海辺で撮られた一枚、雰囲気が良すぎる</a><span>22コメント</span></div></div>
+          <div class="rank"><span class="rank-num">4</span><div><a href="#">【画像】ジムのお姉さん、ウェアが強い</a><span>18コメント</span></div></div>
+          <div class="rank"><span class="rank-num">5</span><div><a href="#">【画像】部屋着のお姉さん、距離感バグる</a><span>16コメント</span></div></div>
+        </div>
+      </section>
+
+      <section class="sidebox">
+        <h2 class="side-title">最新コメント</h2>
+        <div class="sidebody">
+          <div class="comment"><b>12:14　プール記事</b><p>これは見つめ返された方が負けや</p></div>
+          <div class="comment"><b>12:13　プール記事</b><p>永久機関で草</p></div>
+          <div class="comment"><b>12:10　浴衣記事</b><p>夏祭りでこれは目立つ</p></div>
+          <div class="comment"><b>12:06　海辺記事</b><p>背景まで完成してる</p></div>
+        </div>
+      </section>
+
+      <section class="sidebox">
+        <h2 class="side-title">カテゴリ</h2>
+        <div class="sidebody">
+          <div class="category-list">
+            <a href="#">画像</a><a href="#">SNS</a><a href="#">水着</a><a href="#">グラビア</a><a href="#">お姉さん</a><a href="#">動画</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="sidebox">
+        <h2 class="side-title">PR</h2>
+        <div class="sidebody"><div class="side-ad">関連広告枠</div></div>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <span>© 2026 淫談屋</span>
+    <span>運営者情報　広告掲載　お問い合わせ　プライバシーポリシー</span>
+  </div>
+</footer>
+<script src="assets/common/site.js" defer></script>
 </body>
 </html>
