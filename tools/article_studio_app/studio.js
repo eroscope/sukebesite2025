@@ -15,6 +15,14 @@ const state = {
   xPosts: [],
   xTokenConfigured: false,
   xFreeCover: null,
+  sourceSession: "",
+  sourceData: null,
+  sourceImages: [],
+  sourceFallback: null,
+  drafts: [],
+  currentView: "source",
+  editorialStatus: "draft",
+  rightsStatus: "unconfirmed",
 };
 
 const elements = {};
@@ -46,7 +54,7 @@ function resetState() {
   elements.categoryInput.value = "画像";
   elements.summaryInput.value = "";
   elements.publishedAtInput.value = localDateTimeValue();
-  elements.statusInput.value = "published";
+  elements.statusInput.value = "draft";
   elements.commentsInput.value = "0";
   elements.posterNameInput.value = "風吹けば名無し";
   elements.tagsInput.value = "";
@@ -63,6 +71,9 @@ function resetState() {
   elements.previewFrame.removeAttribute("srcdoc");
   elements.previewEmpty.hidden = false;
   elements.saveState.textContent = "新規記事";
+  elements.editorArticleTitle.textContent = "新規記事";
+  state.editorialStatus = "draft";
+  state.rightsStatus = "unconfirmed";
   renderImages();
   renderBlocks();
   updateExistingState();
@@ -95,6 +106,8 @@ function setBusy(busy) {
     elements.xFreeBuildButton,
     elements.xFetchButton,
     elements.xBuildButton,
+    elements.sourceAnalyzeButton,
+    elements.sourceGenerateButton,
   ].forEach((button) => {
     if (button) button.disabled = busy;
   });
@@ -115,6 +128,312 @@ async function apiJson(path, options = {}) {
   return result;
 }
 
+const VIEW_META = {
+  source: ["CREATE", "URLから記事を作成"],
+  drafts: ["DRAFTS", "記事下書き"],
+  editor: ["EDITOR", "記事を編集"],
+  future: ["WORKFLOW", "準備中"],
+};
+
+function showView(name, futureTitle = "") {
+  const resolved = ["source", "drafts", "editor"].includes(name) ? name : "future";
+  state.currentView = resolved;
+  elements.sourceView.hidden = resolved !== "source";
+  elements.draftsView.hidden = resolved !== "drafts";
+  elements.editorView.hidden = resolved !== "editor";
+  elements.futureView.hidden = resolved !== "future";
+  elements.editorDraftTools.hidden = resolved !== "editor";
+  const [eyebrow, title] = VIEW_META[resolved];
+  elements.viewEyebrow.textContent = eyebrow;
+  elements.viewTitle.textContent = resolved === "future" && futureTitle ? futureTitle : title;
+  if (resolved === "future") elements.futureTitle.textContent = futureTitle || "準備中";
+  document.querySelectorAll(".nav-item").forEach((button) => {
+    const active = button.dataset.view === resolved || (resolved === "future" && button.dataset.title === futureTitle);
+    button.classList.toggle("active", active);
+  });
+  window.scrollTo({ top: 0, behavior: "auto" });
+}
+
+function sourceTypeLabel(type) {
+  return ({ x_post: "X POST", x_profile: "X PROFILE", youtube: "VIDEO", web: "WEB" })[type] || "WEB";
+}
+
+function selectedSourceImageIds() {
+  return Array.from(elements.sourceImageGrid.querySelectorAll('input[type="checkbox"]:checked'), (input) => input.value);
+}
+
+function updateSourceSelection() {
+  const selected = new Set(selectedSourceImageIds());
+  elements.sourceImageGrid.querySelectorAll(".source-image-choice").forEach((choice) => {
+    choice.classList.toggle("selected", selected.has(choice.dataset.imageId));
+  });
+  const fallbackSelected = state.sourceFallback ? 1 : 0;
+  elements.sourceSelectedCount.textContent = `${selected.size + fallbackSelected}枚選択`;
+}
+
+function renderSourceImages(recommendedIds = []) {
+  const recommended = new Set(recommendedIds);
+  elements.sourceImageGrid.replaceChildren();
+  if (!state.sourceImages.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty-media";
+    empty.textContent = "ページ内の画像を取得できませんでした";
+    elements.sourceImageGrid.append(empty);
+  }
+  state.sourceImages.forEach((image, index) => {
+    const choice = document.createElement("label");
+    choice.className = "source-image-choice";
+    choice.dataset.imageId = image.id;
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = image.id;
+    checkbox.checked = recommended.has(image.id);
+    checkbox.addEventListener("change", () => {
+      if (checkbox.checked && selectedSourceImageIds().length > 8) {
+        checkbox.checked = false;
+        showToast("画像は最大8枚まで選べます", "error");
+      }
+      updateSourceSelection();
+    });
+    const preview = document.createElement("img");
+    preview.src = image.preview_url;
+    preview.alt = image.alt || `画像候補 ${index + 1}`;
+    preview.loading = "lazy";
+    const count = document.createElement("span");
+    count.textContent = String(index + 1).padStart(2, "0");
+    choice.append(checkbox, preview, count);
+    elements.sourceImageGrid.append(choice);
+  });
+  elements.sourceFallbackBox.hidden = state.sourceImages.length > 0;
+  updateSourceSelection();
+}
+
+function renderSourceResult(result) {
+  state.sourceSession = result.session_id;
+  state.sourceData = result.source;
+  state.sourceImages = Array.isArray(result.images) ? result.images : [];
+  state.sourceFallback = null;
+  elements.sourceFallbackInput.value = "";
+  elements.sourceFallbackPreview.replaceChildren();
+  elements.sourceTypeBadge.textContent = sourceTypeLabel(result.source.type);
+  elements.sourceSiteName.textContent = result.source.site_name || "元ページ";
+  elements.sourceOpenLink.href = result.source.url;
+  elements.sourceResultTitle.textContent = result.source.title || "タイトルを取得できませんでした";
+  elements.sourceResultDescription.textContent = result.source.description || "概要は記事編集画面で追加できます。";
+  elements.sourceImageMetric.textContent = String(state.sourceImages.length);
+  elements.sourceTextMetric.textContent = String(Array.isArray(result.source.excerpts) ? result.source.excerpts.length : 0);
+  elements.sourceResult.hidden = false;
+  renderSourceImages(result.recommended_image_ids || []);
+  elements.sourceResult.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+async function analyzeSource() {
+  const url = elements.sourceAnalyzerInput.value.trim();
+  if (!url) {
+    elements.sourceAnalyzerInput.focus();
+    showToast("記事にしたいURLを入力してください", "error");
+    return;
+  }
+  state.sourceSession = "";
+  elements.sourceProgress.hidden = false;
+  elements.sourceResult.hidden = true;
+  setBusy(true);
+  try {
+    const result = await apiJson("/api/source/analyze", { method: "POST", body: { url } });
+    renderSourceResult(result);
+    showToast("ページの解析が完了しました", "success");
+  } catch (error) {
+    showToast(error.message, "error");
+  } finally {
+    elements.sourceProgress.hidden = true;
+    setBusy(false);
+  }
+}
+
+async function pasteSourceUrl() {
+  try {
+    const text = await navigator.clipboard.readText();
+    elements.sourceAnalyzerInput.value = text.trim();
+    elements.sourceAnalyzerInput.focus();
+  } catch (_error) {
+    elements.sourceAnalyzerInput.focus();
+    showToast("URL欄へ貼り付けてください", "error");
+  }
+}
+
+async function selectSourceFallback() {
+  const file = elements.sourceFallbackInput.files[0];
+  state.sourceFallback = null;
+  elements.sourceFallbackPreview.replaceChildren();
+  if (!file) {
+    updateSourceSelection();
+    return;
+  }
+  try {
+    const dataUrl = await readFileAsDataUrl(file);
+    const dimensions = await inspectImage(dataUrl);
+    state.sourceFallback = {
+      name: file.name,
+      data_url: dataUrl,
+      alt: state.sourceData?.title || "記事の画像",
+      orientation: dimensions.width >= dimensions.height ? "landscape" : "portrait",
+    };
+    const preview = document.createElement("img");
+    preview.src = dataUrl;
+    preview.alt = "追加画像のプレビュー";
+    elements.sourceFallbackPreview.append(preview);
+    updateSourceSelection();
+  } catch (error) {
+    showToast(error.message || "画像を読み込めませんでした", "error");
+  }
+}
+
+function applySourceOptions(payload) {
+  if (elements.sourceCategoryInput.value !== "auto") payload.category = elements.sourceCategoryInput.value;
+  const requestedPosts = Number(elements.sourceReplyCountInput.value);
+  if (Number.isInteger(requestedPosts) && requestedPosts > 0) {
+    let postCount = 0;
+    payload.blocks = payload.blocks.filter((block) => {
+      if (block.type !== "post") return true;
+      postCount += 1;
+      return postCount <= requestedPosts;
+    });
+    payload.comments = Math.min(postCount, requestedPosts);
+  }
+  return payload;
+}
+
+async function buildSourceDraft() {
+  if (!state.sourceSession) {
+    showToast("先にURLを解析してください", "error");
+    return;
+  }
+  const selectedImageIds = selectedSourceImageIds();
+  if (!selectedImageIds.length && !state.sourceFallback) {
+    showToast("記事に使う画像を選択してください", "error");
+    return;
+  }
+  setBusy(true);
+  try {
+    const result = await apiJson("/api/source/draft", {
+      method: "POST",
+      body: {
+        session_id: state.sourceSession,
+        selected_image_ids: selectedImageIds,
+        manual_image: state.sourceFallback,
+      },
+    });
+    const payload = applySourceOptions(result.payload);
+    await apiJson("/api/drafts", { method: "POST", body: payload });
+    applyPayload(payload);
+    state.dirty = false;
+    elements.saveState.textContent = "自動保存済み";
+    const bootstrap = await apiJson("/api/bootstrap");
+    refreshDraftSelect(bootstrap.drafts);
+    elements.draftSelect.value = payload.slug;
+    showView("editor");
+    showToast("記事下書きを生成して保存しました", "success");
+  } catch (error) {
+    showToast(error.message, "error");
+  } finally {
+    setBusy(false);
+  }
+  if (state.currentView === "editor") await refreshPreview();
+}
+
+function formatDraftDate(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "---";
+  return new Intl.DateTimeFormat("ja-JP", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }).format(date);
+}
+
+async function openDraftSlug(slug) {
+  elements.draftSelect.value = slug;
+  await loadDraft();
+  if (elements.slugInput.value === slug) showView("editor");
+}
+
+function draftMiniCard(draft) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "draft-mini";
+  const mark = document.createElement("span");
+  mark.className = "draft-mini-mark";
+  mark.textContent = String(draft.category || "記").slice(0, 1);
+  const copy = document.createElement("div");
+  const title = document.createElement("strong");
+  title.textContent = draft.title;
+  const meta = document.createElement("span");
+  meta.textContent = `${formatDraftDate(draft.updated_at)}・画像${draft.image_count}枚`;
+  copy.append(title, meta);
+  const arrow = document.createElement("em");
+  arrow.textContent = "↗";
+  button.append(mark, copy, arrow);
+  button.addEventListener("click", () => openDraftSlug(draft.slug));
+  return button;
+}
+
+function renderDraftViews(drafts) {
+  state.drafts = Array.isArray(drafts) ? drafts : [];
+  elements.draftNavCount.textContent = String(state.drafts.length);
+  elements.draftTotalCount.textContent = String(state.drafts.length);
+  elements.draftRightsCount.textContent = String(state.drafts.filter((draft) => draft.rights_status !== "confirmed").length);
+  elements.recentDrafts.replaceChildren();
+  state.drafts.slice(0, 3).forEach((draft) => elements.recentDrafts.append(draftMiniCard(draft)));
+  if (!state.drafts.length) {
+    const empty = document.createElement("div");
+    empty.className = "draft-empty";
+    empty.textContent = "保存済みの下書きはありません";
+    elements.recentDrafts.append(empty);
+  }
+
+  elements.draftsList.replaceChildren();
+  const head = document.createElement("div");
+  head.className = "draft-table-head";
+  ["記事", "状態", "画像利用", "画像", "更新", ""].forEach((label) => {
+    const cell = document.createElement("span");
+    cell.textContent = label;
+    head.append(cell);
+  });
+  elements.draftsList.append(head);
+  state.drafts.forEach((draft) => {
+    const row = document.createElement("div");
+    row.className = "draft-row";
+    const titleCell = document.createElement("div");
+    titleCell.className = "draft-title-cell";
+    const title = document.createElement("strong");
+    title.textContent = draft.title;
+    const source = document.createElement("span");
+    source.textContent = draft.source_url || draft.slug;
+    titleCell.append(title, source);
+    const status = document.createElement("span");
+    status.className = "status-pill";
+    status.textContent = draft.status === "published" ? "公開" : "下書き";
+    const rights = document.createElement("span");
+    rights.className = `status-pill${draft.rights_status === "confirmed" ? "" : " warning"}`;
+    rights.textContent = draft.rights_status === "confirmed" ? "確認済み" : "未確認";
+    const images = document.createElement("span");
+    images.textContent = `${draft.image_count}枚`;
+    const updated = document.createElement("span");
+    updated.textContent = formatDraftDate(draft.updated_at);
+    const open = document.createElement("button");
+    open.type = "button";
+    open.className = "draft-open";
+    open.title = "下書きを開く";
+    open.setAttribute("aria-label", "下書きを開く");
+    open.textContent = "↗";
+    open.addEventListener("click", () => openDraftSlug(draft.slug));
+    row.append(titleCell, status, rights, images, updated, open);
+    elements.draftsList.append(row);
+  });
+  if (!state.drafts.length) {
+    const empty = document.createElement("div");
+    empty.className = "draft-empty";
+    empty.textContent = "URLから最初の記事を作成してください";
+    elements.draftsList.append(empty);
+  }
+}
+
 function splitTags(value) {
   return value
     .split(/[,、]/)
@@ -132,6 +451,8 @@ function collectPayload() {
     summary: elements.summaryInput.value.trim(),
     published_at: publishedAt,
     status: elements.statusInput.value,
+    editorial_status: state.editorialStatus,
+    rights_status: elements.rightsConfirmed.checked ? "confirmed" : state.rightsStatus,
     comments: Number(elements.commentsInput.value || 0),
     poster_name: elements.posterNameInput.value.trim(),
     tags: splitTags(elements.tagsInput.value),
@@ -881,6 +1202,7 @@ function refreshDraftSelect(drafts) {
     elements.draftSelect.append(option);
   });
   if (drafts.some((draft) => draft.slug === current)) elements.draftSelect.value = current;
+  renderDraftViews(drafts);
 }
 
 async function saveDraft() {
@@ -933,8 +1255,11 @@ function applyPayload(payload) {
   elements.rightsConfirmed.checked = Boolean(payload.rights_confirmed);
   elements.privacyConfirmed.checked = Boolean(payload.privacy_confirmed);
   elements.sourceConfirmed.checked = Boolean(payload.source_confirmed);
+  state.editorialStatus = payload.editorial_status || "draft";
+  state.rightsStatus = payload.rights_status || (payload.rights_confirmed ? "confirmed" : "unconfirmed");
   state.dirty = false;
   elements.saveState.textContent = "下書きを開きました";
+  elements.editorArticleTitle.textContent = payload.title || "新規記事";
   elements.previewFrame.removeAttribute("srcdoc");
   elements.previewEmpty.hidden = false;
   renderImages();
@@ -953,6 +1278,7 @@ async function loadDraft() {
   try {
     const payload = await apiJson(`/api/drafts/${encodeURIComponent(slug)}`);
     applyPayload(payload);
+    showView("editor");
     showToast("下書きを開きました", "success");
   } catch (error) {
     showToast(error.message, "error");
@@ -1051,12 +1377,51 @@ function cacheElements() {
     "xCoverPreview", "xFreeBuildButton",
     "xUsernameInput", "xTokenInput", "xTokenHelp", "xFetchButton", "xResults", "xAccountSummary",
     "xPostCount", "xPostList", "xBuildButton", "toast",
+    "viewEyebrow", "viewTitle", "editorDraftTools", "sourceView", "draftsView", "editorView",
+    "futureView", "futureTitle", "draftNavCount", "sourceAnalyzerInput", "sourcePasteButton",
+    "sourceAnalyzeButton", "sourceProgress", "sourceResult", "sourceTypeBadge", "sourceSiteName",
+    "sourceOpenLink", "sourceResultTitle", "sourceResultDescription", "sourceImageMetric",
+    "sourceTextMetric", "sourceSelectedCount", "sourceSelectAllButton", "sourceClearImagesButton",
+    "sourceImageGrid", "sourceFallbackBox", "sourceFallbackInput", "sourceFallbackPreview",
+    "sourceToneInput", "sourceCategoryInput", "sourceReplyCountInput", "sourceGenerateButton",
+    "recentDrafts", "draftsList", "draftTotalCount", "draftRightsCount", "publishedCount",
+    "editorArticleTitle",
   ].forEach((id) => {
     elements[id] = document.getElementById(id);
   });
 }
 
 function bindEvents() {
+  elements.sourceAnalyzeButton.addEventListener("click", analyzeSource);
+  elements.sourcePasteButton.addEventListener("click", pasteSourceUrl);
+  elements.sourceAnalyzerInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      analyzeSource();
+    }
+  });
+  elements.sourceSelectAllButton.addEventListener("click", () => {
+    elements.sourceImageGrid.querySelectorAll('input[type="checkbox"]').forEach((input, index) => { input.checked = index < 8; });
+    updateSourceSelection();
+  });
+  elements.sourceClearImagesButton.addEventListener("click", () => {
+    elements.sourceImageGrid.querySelectorAll('input[type="checkbox"]').forEach((input) => { input.checked = false; });
+    updateSourceSelection();
+  });
+  elements.sourceFallbackInput.addEventListener("change", selectSourceFallback);
+  elements.sourceGenerateButton.addEventListener("click", buildSourceDraft);
+  document.querySelectorAll("[data-view]").forEach((button) => {
+    button.addEventListener("click", () => showView(button.dataset.view));
+  });
+  document.querySelectorAll("[data-future]").forEach((button) => {
+    button.addEventListener("click", () => showView("future", button.dataset.title));
+  });
+  document.querySelectorAll("[data-open-drafts]").forEach((button) => {
+    button.addEventListener("click", () => showView("drafts"));
+  });
+  document.querySelectorAll("[data-view-jump]").forEach((button) => {
+    button.addEventListener("click", () => showView(button.dataset.viewJump));
+  });
   elements.xImportButton.addEventListener("click", openXImporter);
   elements.xCloseButton.addEventListener("click", () => elements.xImportDialog.close());
   elements.xFreeModeButton.addEventListener("click", () => setXImportMode("free"));
@@ -1081,11 +1446,13 @@ function bindEvents() {
   elements.newArticleButton.addEventListener("click", () => {
     if (state.dirty && !window.confirm("未保存の変更を破棄しますか？")) return;
     resetState();
+    showView("editor");
   });
   elements.slugInput.addEventListener("input", updateExistingState);
   document.querySelectorAll("input, textarea, select").forEach((control) => {
     if (![elements.draftSelect, elements.imageInput, elements.xUsernameInput, elements.xTokenInput,
-      elements.xPostUrlsInput, elements.xCoverInput].includes(control)) {
+      elements.xPostUrlsInput, elements.xCoverInput, elements.sourceAnalyzerInput, elements.sourceFallbackInput,
+      elements.sourceToneInput, elements.sourceCategoryInput, elements.sourceReplyCountInput].includes(control)) {
       control.addEventListener("input", markDirty);
       control.addEventListener("change", markDirty);
     }
@@ -1107,6 +1474,7 @@ async function initialize() {
     state.articles = bootstrap.articles;
     state.existingSlugs = new Set(bootstrap.articles.map((article) => article.slug));
     state.xTokenConfigured = Boolean(bootstrap.x_token_configured);
+    elements.publishedCount.textContent = String(bootstrap.articles.filter((article) => article.status === "published").length);
     bootstrap.categories.forEach((category) => {
       const option = document.createElement("option");
       option.value = category;
@@ -1114,6 +1482,7 @@ async function initialize() {
     });
     refreshDraftSelect(bootstrap.drafts);
     updateExistingState();
+    showView("source");
   } catch (error) {
     showToast(error.message, "error");
   }

@@ -125,6 +125,38 @@ class FakeXOpener:
         raise AssertionError(f"unexpected URL: {url}")
 
 
+class FakeSourceOpener:
+    def __init__(self) -> None:
+        self.urls: list[str] = []
+
+    def open(self, request: urllib.request.Request, timeout: int = 20) -> FakeResponse:
+        url = request.full_url
+        self.urls.append(url)
+        if url == "https://news.example.com/cosplay/story":
+            return FakeResponse(
+                (
+                    '<!doctype html><html lang="ja"><head>'
+                    '<title>ページ側タイトル</title>'
+                    '<meta property="og:title" content="注目コスプレイヤーの新作が話題">'
+                    '<meta property="og:description" content="公開された新作写真と活動内容を紹介します。">'
+                    '<meta property="og:site_name" content="テストニュース">'
+                    '<meta property="og:image" content="/media/main.png">'
+                    '<link rel="canonical" href="https://news.example.com/cosplay/story">'
+                    '</head><body><main><h1>注目コスプレイヤーの新作が話題</h1>'
+                    '<p>今回公開された写真には、衣装や撮影場所へのこだわりが詰まっています。</p>'
+                    '<img src="/media/second.png" alt="公開された二枚目の写真" width="600" height="900">'
+                    '</main></body></html>'
+                ).encode("utf-8"),
+                content_type="text/html; charset=utf-8",
+                url=url,
+            )
+        if url == "https://news.example.com/media/main.png":
+            return FakeResponse(PNG_BYTES, content_type="image/png", url=url)
+        if url == "https://news.example.com/media/second.png":
+            return FakeResponse(PNG_BYTES + b"x", content_type="image/png", url=url)
+        raise AssertionError(f"unexpected URL: {url}")
+
+
 def make_payload() -> dict[str, object]:
     return {
         "title": "【画像】記事スタジオの動作確認",
@@ -256,6 +288,7 @@ class ArticleStudioTests(unittest.TestCase):
         self.assertNotIn("platform.twitter.com/widgets.js", preview.article_html)
         self.assertIn("platform.twitter.com/widgets.js", final.article_html)
         self.assertIn("https://x.com/Test_User/status/1900000000000000001", final.article_html)
+        self.assertIn('src="images/image-01.png"', final.article_html)
 
     def test_x_username_validation(self) -> None:
         self.assertEqual(article_studio.normalize_x_username("@Test_User"), "Test_User")
@@ -291,6 +324,7 @@ class ArticleStudioTests(unittest.TestCase):
         final = article_studio.build_article(draft, self.site_root)
         self.assertIn("platform.twitter.com/widgets.js", final.article_html)
         self.assertIn(canonical, final.article_html)
+        self.assertIn('src="images/image-01.png"', final.article_html)
 
         timeline_draft = article_studio.build_x_free_draft_payload(
             ["https://x.com/Test_User"],
@@ -307,6 +341,44 @@ class ArticleStudioTests(unittest.TestCase):
         timeline = article_studio.build_article(timeline_draft, self.site_root)
         self.assertIn('class="twitter-timeline"', timeline.article_html)
         self.assertIn("https://x.com/Test_User", timeline.article_html)
+        self.assertIn('src="images/image-01.png"', timeline.article_html)
+
+    def test_url_analysis_builds_an_editable_article_with_source_images(self) -> None:
+        opener = FakeSourceOpener()
+        source = article_studio.analyze_source_url(
+            "https://news.example.com/cosplay/story",
+            opener,
+        )
+
+        self.assertEqual(source["title"], "注目コスプレイヤーの新作が話題")
+        self.assertEqual(source["site_name"], "テストニュース")
+        self.assertEqual(len(source["images"]), 2)
+        self.assertEqual(source["images"][1]["orientation"], "portrait")
+
+        draft = article_studio.build_source_draft_payload(
+            source,
+            ["media-1", "media-2"],
+        )
+        self.assertEqual(draft["status"], "draft")
+        self.assertEqual(draft["rights_status"], "unconfirmed")
+        self.assertEqual(draft["source_label"], "テストニュース")
+        self.assertEqual(len(draft["images"]), 2)
+        self.assertTrue(draft["title"].startswith("【画像】"))
+        self.assertTrue(draft["fictional_responses"])
+
+        final = article_studio.build_article(draft, self.site_root)
+        self.assertIn('src="images/image-01.png"', final.article_html)
+        self.assertIn('src="images/image-02.png"', final.article_html)
+
+        draft.update({
+            "adult_confirmed": True,
+            "rights_confirmed": True,
+            "privacy_confirmed": True,
+            "source_confirmed": True,
+        })
+        result = article_studio.add_built_article(draft, self.site_root)
+        self.assertEqual(result["slug"], draft["slug"])
+        self.assertTrue((self.site_root / "articles" / f"{draft['slug']}.html").is_file())
 
     def test_local_api_renders_with_session_token(self) -> None:
         server = article_studio.StudioServer(("127.0.0.1", 0), self.site_root)
@@ -366,6 +438,53 @@ class ArticleStudioTests(unittest.TestCase):
                 draft = json.loads(response.read().decode("utf-8"))["payload"]
             self.assertEqual(draft["blocks"][1]["type"], "x_embed")
             self.assertEqual(draft["thumbnail_id"], "x-cover")
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=5)
+
+    def test_local_url_endpoint_analyzes_media_and_builds_a_draft(self) -> None:
+        fake_source = FakeSourceOpener()
+        server = article_studio.StudioServer(
+            ("127.0.0.1", 0),
+            self.site_root,
+            url_opener=fake_source,
+        )
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+        try:
+            base = f"http://127.0.0.1:{server.server_port}"
+            with opener.open(f"{base}/api/bootstrap", timeout=5) as response:
+                bootstrap = json.loads(response.read().decode("utf-8"))
+            analyze_request = urllib.request.Request(
+                f"{base}/api/source/analyze",
+                data=json.dumps({"url": "https://news.example.com/cosplay/story"}).encode("utf-8"),
+                headers={"Content-Type": "application/json", "X-Indanya-Token": bootstrap["token"]},
+                method="POST",
+            )
+            with opener.open(analyze_request, timeout=5) as response:
+                analysis = json.loads(response.read().decode("utf-8"))
+            self.assertEqual(analysis["source"]["site_name"], "テストニュース")
+            self.assertEqual(len(analysis["images"]), 2)
+
+            with opener.open(f"{base}{analysis['images'][0]['preview_url']}", timeout=5) as response:
+                self.assertEqual(response.read(), PNG_BYTES)
+
+            draft_request = urllib.request.Request(
+                f"{base}/api/source/draft",
+                data=json.dumps({
+                    "session_id": analysis["session_id"],
+                    "selected_image_ids": analysis["recommended_image_ids"],
+                }).encode("utf-8"),
+                headers={"Content-Type": "application/json", "X-Indanya-Token": bootstrap["token"]},
+                method="POST",
+            )
+            with opener.open(draft_request, timeout=5) as response:
+                draft = json.loads(response.read().decode("utf-8"))["payload"]
+            self.assertEqual(draft["rights_status"], "unconfirmed")
+            self.assertEqual(len(draft["images"]), 2)
+            self.assertEqual(draft["source_url"], "https://news.example.com/cosplay/story")
         finally:
             server.shutdown()
             server.server_close()

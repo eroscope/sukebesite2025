@@ -9,10 +9,12 @@ import binascii
 import hashlib
 import html
 import io
+import ipaddress
 import json
 import os
 import re
 import secrets
+import socket
 import sys
 import tempfile
 import threading
@@ -28,7 +30,7 @@ from html.parser import HTMLParser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
-from urllib.parse import quote, unquote, urlencode, urlparse
+from urllib.parse import quote, unquote, urlencode, urljoin, urlparse
 from zoneinfo import ZoneInfo
 
 TOOLS_ROOT = Path(__file__).resolve().parent
@@ -49,6 +51,10 @@ MAX_IMAGES = 20
 MAX_X_POSTS = 20
 MAX_X_SELECTED_POSTS = 6
 X_SESSION_SECONDS = 30 * 60
+MAX_SOURCE_PAGE_BYTES = 6 * 1024 * 1024
+MAX_SOURCE_IMAGES = 12
+MAX_SELECTED_SOURCE_IMAGES = 8
+SOURCE_SESSION_SECONDS = 60 * 60
 SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 ANCHOR_PATTERN = re.compile(r"&gt;&gt;([0-9]+)")
 X_USERNAME_PATTERN = re.compile(r"^[A-Za-z0-9_]{1,15}$")
@@ -111,6 +117,502 @@ class ArticleBuild:
     article_html: str
     images: tuple[ImageAsset, ...]
     payload: dict[str, Any]
+
+
+class _SourcePageParser(HTMLParser):
+    """Collect editorial metadata without attempting to reproduce the source DOM."""
+
+    TEXT_TAGS = {"title", "h1", "h2", "h3", "p", "figcaption"}
+    IGNORED_TAGS = {"script", "style", "noscript", "svg", "nav", "footer", "form"}
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.metadata: dict[str, str] = {}
+        self.canonical_url = ""
+        self.text_items: list[tuple[str, str]] = []
+        self.images: list[dict[str, Any]] = []
+        self._ignored_depth = 0
+        self._capture_tag = ""
+        self._capture_parts: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        tag = tag.lower()
+        attributes = {str(key).lower(): str(value or "") for key, value in attrs}
+        if tag in self.IGNORED_TAGS:
+            self._ignored_depth += 1
+            return
+        if self._ignored_depth:
+            return
+        if tag == "meta":
+            key = (attributes.get("property") or attributes.get("name") or "").strip().lower()
+            value = attributes.get("content", "").strip()
+            if key and value and key not in self.metadata:
+                self.metadata[key] = value
+            return
+        if tag == "link" and "canonical" in attributes.get("rel", "").lower():
+            self.canonical_url = attributes.get("href", "").strip()
+            return
+        if tag == "img":
+            source = (
+                attributes.get("data-src")
+                or attributes.get("data-original")
+                or attributes.get("data-lazy-src")
+                or attributes.get("src")
+                or ""
+            ).strip()
+            srcset = (attributes.get("data-srcset") or attributes.get("srcset") or "").strip()
+            if srcset:
+                choices = [item.strip().split()[0] for item in srcset.split(",") if item.strip()]
+                if choices:
+                    source = choices[-1]
+            if source:
+                self.images.append({
+                    "url": source,
+                    "alt": attributes.get("alt", "").strip(),
+                    "width": _safe_int(attributes.get("width")),
+                    "height": _safe_int(attributes.get("height")),
+                })
+            return
+        if tag in self.TEXT_TAGS and not self._capture_tag:
+            self._capture_tag = tag
+            self._capture_parts = []
+
+    def handle_endtag(self, tag: str) -> None:
+        tag = tag.lower()
+        if tag in self.IGNORED_TAGS and self._ignored_depth:
+            self._ignored_depth -= 1
+            return
+        if tag == self._capture_tag:
+            value = _clean_space("".join(self._capture_parts))
+            if value:
+                self.text_items.append((tag, value))
+            self._capture_tag = ""
+            self._capture_parts = []
+
+    def handle_data(self, data: str) -> None:
+        if not self._ignored_depth and self._capture_tag:
+            self._capture_parts.append(data)
+
+
+def _safe_int(value: Any) -> int:
+    try:
+        return max(0, int(str(value or "0").strip()))
+    except ValueError:
+        return 0
+
+
+def _clean_space(value: str) -> str:
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def _trim_text(value: str, maximum: int) -> str:
+    cleaned = _clean_space(value)
+    if len(cleaned) <= maximum:
+        return cleaned
+    return cleaned[: maximum - 1].rstrip("、。,. ") + "…"
+
+
+def _validate_source_url(value: Any) -> str:
+    if not isinstance(value, str) or not value.strip() or len(value.strip()) > 2048:
+        raise ValidationError("URLを1件入力してください")
+    parsed = urlparse(value.strip())
+    if parsed.scheme not in {"http", "https"} or not parsed.hostname:
+        raise ValidationError("httpまたはhttpsの公開URLを入力してください")
+    if parsed.username or parsed.password:
+        raise ValidationError("ユーザー情報を含むURLは取得できません")
+    hostname = parsed.hostname.rstrip(".").lower()
+    if hostname == "localhost" or hostname.endswith(".localhost") or hostname.endswith(".local"):
+        raise ValidationError("ローカルURLは取得できません")
+    try:
+        address = ipaddress.ip_address(hostname)
+    except ValueError:
+        address = None
+    if address and not address.is_global:
+        raise ValidationError("公開インターネットのURLを入力してください")
+    return value.strip()
+
+
+def _decode_source_html(raw: bytes, content_type: str) -> str:
+    charset_match = re.search(r"charset\s*=\s*['\"]?([A-Za-z0-9._-]+)", content_type, re.I)
+    candidates = [charset_match.group(1)] if charset_match else []
+    candidates.extend(["utf-8", "cp932"])
+    for encoding in dict.fromkeys(candidates):
+        try:
+            return raw.decode(encoding)
+        except (LookupError, UnicodeDecodeError):
+            continue
+    return raw.decode("utf-8", errors="replace")
+
+
+def _fetch_source_html(url_value: str, opener: Any = None) -> tuple[str, str]:
+    source_url = _validate_source_url(url_value)
+    request = urllib.request.Request(
+        source_url,
+        headers={
+            "Accept": "text/html,application/xhtml+xml;q=0.9,*/*;q=0.5",
+            "Accept-Language": "ja,en;q=0.7",
+            "User-Agent": "Mozilla/5.0 (compatible; IndanyaArticleStudio/2.0; +local-editor)",
+        },
+    )
+    client = opener or urllib.request.build_opener()
+    try:
+        with client.open(request, timeout=25) as response:
+            final_url = _validate_source_url(response.geturl() if hasattr(response, "geturl") else source_url)
+            content_type = str(response.headers.get("Content-Type", ""))
+            if content_type and not any(kind in content_type.lower() for kind in ("text/html", "application/xhtml+xml")):
+                raise ValidationError("HTMLページのURLを入力してください")
+            raw = response.read(MAX_SOURCE_PAGE_BYTES + 1)
+    except ValidationError:
+        raise
+    except urllib.error.HTTPError as exc:
+        raise ValidationError(f"ページを取得できませんでした（HTTP {exc.code}）") from exc
+    except (OSError, TimeoutError, socket.timeout) as exc:
+        raise ValidationError("ページへ接続できませんでした") from exc
+    if not raw or len(raw) > MAX_SOURCE_PAGE_BYTES:
+        raise ValidationError("ページが大きすぎるため取得できません")
+    return final_url, _decode_source_html(raw, content_type)
+
+
+def _image_extension(data: bytes, content_type: str, image_url: str) -> str:
+    candidates = {
+        "image/jpeg": ".jpg",
+        "image/png": ".png",
+        "image/gif": ".gif",
+        "image/webp": ".webp",
+        "image/avif": ".avif",
+    }
+    declared = candidates.get(content_type.split(";", 1)[0].strip().lower(), "")
+    suffix = Path(urlparse(image_url).path).suffix.lower()
+    suffix = ".jpg" if suffix == ".jpeg" else suffix
+    for extension in (declared, suffix, ".jpg", ".png", ".gif", ".webp", ".avif"):
+        if extension in ALLOWED_IMAGE_EXTENSIONS and _validate_magic(extension, data):
+            return ".jpg" if extension == ".jpeg" else extension
+    return ""
+
+
+def _download_source_image(image_url: str, opener: Any = None) -> dict[str, Any]:
+    normalized_url = _validate_source_url(image_url)
+    request = urllib.request.Request(
+        normalized_url,
+        headers={"Accept": "image/avif,image/webp,image/png,image/jpeg,image/gif", "User-Agent": "Mozilla/5.0 (IndanyaArticleStudio/2.0)"},
+    )
+    client = opener or urllib.request.build_opener()
+    try:
+        with client.open(request, timeout=20) as response:
+            final_url = _validate_source_url(response.geturl() if hasattr(response, "geturl") else normalized_url)
+            content_type = str(response.headers.get("Content-Type", ""))
+            data = response.read(MAX_IMAGE_BYTES + 1)
+    except ValidationError:
+        raise
+    except (OSError, TimeoutError, socket.timeout, urllib.error.HTTPError) as exc:
+        raise ValidationError("画像を取得できませんでした") from exc
+    if not data or len(data) > MAX_IMAGE_BYTES:
+        raise ValidationError("画像は12MB未満である必要があります")
+    extension = _image_extension(data, content_type, final_url)
+    if not extension:
+        raise ValidationError("対応していない画像形式です")
+    mime_type = "image/jpeg" if extension == ".jpg" else f"image/{extension[1:]}"
+    return {"url": final_url, "data": data, "extension": extension, "mime_type": mime_type}
+
+
+def _source_kind(url_value: str) -> tuple[str, dict[str, str]]:
+    parsed = urlparse(url_value)
+    hostname = (parsed.hostname or "").lower()
+    if hostname in {"x.com", "www.x.com", "twitter.com", "www.twitter.com"}:
+        try:
+            post_url, username, post_id = normalize_x_post_url(url_value)
+            return "x_post", {"url": post_url, "username": username, "post_id": post_id}
+        except ValidationError:
+            profile_url, username = normalize_x_profile_url(url_value)
+            return "x_profile", {"url": profile_url, "username": username}
+    if hostname in {"youtube.com", "www.youtube.com", "youtu.be", "m.youtube.com"}:
+        return "youtube", {}
+    return "web", {}
+
+
+def _metadata_value(parser: _SourcePageParser, *keys: str) -> str:
+    return next((_clean_space(parser.metadata.get(key, "")) for key in keys if parser.metadata.get(key)), "")
+
+
+def _is_source_boilerplate(value: str) -> bool:
+    lowered = value.lower()
+    phrases = (
+        "今すぐ登録して",
+        "タイムラインをカスタマイズ",
+        "アカウントを登録することにより",
+        "利用規約とプライバシーポリシー",
+        "cookieの使用を含む",
+        "javascriptを有効",
+        "log in",
+        "sign up",
+    )
+    return any(phrase in lowered for phrase in phrases)
+
+
+def _candidate_image_urls(parser: _SourcePageParser, base_url: str) -> list[dict[str, Any]]:
+    candidates: list[dict[str, Any]] = []
+    for key in ("og:image", "og:image:url", "twitter:image", "twitter:image:src"):
+        value = parser.metadata.get(key)
+        if value:
+            candidates.append({"url": value, "alt": _metadata_value(parser, "og:image:alt", "twitter:image:alt"), "width": 0, "height": 0})
+    candidates.extend(parser.images)
+    unique: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for item in candidates:
+        absolute = urljoin(base_url, str(item.get("url") or ""))
+        try:
+            absolute = _validate_source_url(absolute)
+        except ValidationError:
+            continue
+        lowered = absolute.lower()
+        if any(word in lowered for word in ("favicon", "sprite", "spacer", "tracking", "pixel.gif", "logo")):
+            continue
+        if absolute in seen:
+            continue
+        seen.add(absolute)
+        unique.append({**item, "url": absolute})
+        if len(unique) >= MAX_SOURCE_IMAGES * 3:
+            break
+    return unique
+
+
+def analyze_source_url(url_value: str, opener: Any = None) -> dict[str, Any]:
+    requested_url = _validate_source_url(url_value)
+    source_type, x_info = _source_kind(requested_url)
+    x_embed: dict[str, Any] | None = None
+    if source_type == "x_post":
+        x_embed = fetch_x_oembed(x_info["url"], opener)
+    elif source_type == "x_profile":
+        x_embed = fetch_x_timeline_oembed(x_info["url"], opener)
+
+    try:
+        final_url, page_html = _fetch_source_html(requested_url, opener)
+    except ValidationError:
+        if not x_embed:
+            raise
+        final_url, page_html = x_info["url"], ""
+
+    parser = _SourcePageParser()
+    if page_html:
+        parser.feed(page_html)
+    canonical = urljoin(final_url, parser.canonical_url) if parser.canonical_url else final_url
+    try:
+        canonical = _validate_source_url(canonical)
+    except ValidationError:
+        canonical = final_url
+
+    title = _metadata_value(parser, "og:title", "twitter:title")
+    if not title:
+        title = next((text for tag, text in parser.text_items if tag in {"h1", "title"}), "")
+    if not title and x_embed:
+        title = (
+            f"{x_embed.get('author_name', x_embed.get('username', 'X'))}のX投稿"
+            if source_type == "x_post" else f"@{x_embed.get('username', 'X')}の最新投稿"
+        )
+    title = _trim_text(title or urlparse(final_url).hostname or "話題のページ", 180)
+    description = _trim_text(_metadata_value(parser, "og:description", "twitter:description", "description"), 500)
+    site_name = _trim_text(_metadata_value(parser, "og:site_name", "application-name"), 80)
+    if not site_name:
+        site_name = (urlparse(final_url).hostname or "元ページ").removeprefix("www.")
+    author = _trim_text(_metadata_value(parser, "author", "article:author"), 80)
+
+    excerpts: list[str] = []
+    seen_text: set[str] = set()
+    for tag, text_value in parser.text_items:
+        cleaned = _trim_text(text_value, 260)
+        if tag == "title" or len(cleaned) < 24 or cleaned in seen_text or cleaned == title or _is_source_boilerplate(cleaned):
+            continue
+        seen_text.add(cleaned)
+        excerpts.append(cleaned)
+        if len(excerpts) >= 8:
+            break
+    if not description and excerpts:
+        description = excerpts[0]
+    if source_type == "x_post" and x_embed:
+        description = _trim_text(str(x_embed.get("text") or description), 500)
+
+    downloaded_images: list[dict[str, Any]] = []
+    downloaded_hashes: set[str] = set()
+    for candidate in _candidate_image_urls(parser, final_url):
+        try:
+            downloaded = _download_source_image(candidate["url"], opener)
+        except ValidationError:
+            continue
+        content_hash = hashlib.sha256(downloaded["data"]).hexdigest()
+        if content_hash in downloaded_hashes:
+            continue
+        downloaded_hashes.add(content_hash)
+        width = _safe_int(candidate.get("width"))
+        height = _safe_int(candidate.get("height"))
+        downloaded_images.append({
+            "id": f"media-{len(downloaded_images) + 1}",
+            "url": downloaded["url"],
+            "data": downloaded["data"],
+            "extension": downloaded["extension"],
+            "mime_type": downloaded["mime_type"],
+            "alt": _trim_text(str(candidate.get("alt") or title), 180),
+            "orientation": "portrait" if height > width and width > 0 else "landscape",
+            "width": width,
+            "height": height,
+        })
+        if len(downloaded_images) >= MAX_SOURCE_IMAGES:
+            break
+
+    return {
+        "source_type": source_type,
+        "url": canonical,
+        "requested_url": requested_url,
+        "title": title,
+        "description": description,
+        "site_name": site_name,
+        "author": author,
+        "excerpts": excerpts,
+        "images": downloaded_images,
+        "x_embed": x_embed,
+        "x_info": x_info,
+    }
+
+
+def _source_slug(source: dict[str, Any]) -> str:
+    if source["source_type"] == "x_post":
+        username = str(source["x_info"]["username"]).lower().replace("_", "-")
+        return f"x-{username}-{str(source['x_info']['post_id'])[-8:]}"
+    if source["source_type"] == "x_profile":
+        username = str(source["x_info"]["username"]).lower().replace("_", "-")
+        return f"x-{username}-profile"
+    host = (urlparse(str(source["url"])).hostname or "page").removeprefix("www.")
+    host_slug = re.sub(r"[^a-z0-9]+", "-", host.lower()).strip("-")[:36] or "page"
+    digest = hashlib.sha256(str(source["url"]).encode("utf-8")).hexdigest()[:8]
+    return f"url-{host_slug}-{digest}"
+
+
+def _response_blocks(source: dict[str, Any]) -> list[dict[str, Any]]:
+    title = str(source["title"])
+    description = _trim_text(str(source.get("description") or ""), 300)
+    excerpts = [str(value) for value in source.get("excerpts", []) if isinstance(value, str)]
+    responses = [f"『{title}』が公開されていて、ちょっと気になる。"]
+    if description:
+        responses.append(f"元ページでは「{_trim_text(description, 260)}」と紹介されている。")
+    for excerpt in excerpts[:3]:
+        if excerpt != description:
+            responses.append(_trim_text(excerpt, 320))
+    responses.extend([
+        "画像の雰囲気だけでも目を引くな。",
+        "ほかの投稿や続報も追ってみたい。",
+        "気になった人は出典元も見てみてほしい。",
+    ])
+    unique = list(dict.fromkeys(value for value in responses if value))[:8]
+    return [
+        {"id": f"auto-post-{index}", "type": "post", "text": value, "style": "large" if index == 1 else "normal"}
+        for index, value in enumerate(unique, start=1)
+    ]
+
+
+def build_source_draft_payload(
+    source: dict[str, Any],
+    selected_image_ids: Any,
+    manual_image: Any = None,
+) -> dict[str, Any]:
+    available = {item["id"]: item for item in source.get("images", []) if isinstance(item, dict)}
+    if not isinstance(selected_image_ids, list) or len(selected_image_ids) > MAX_SELECTED_SOURCE_IMAGES:
+        raise ValidationError(f"画像は最大{MAX_SELECTED_SOURCE_IMAGES}枚まで選べます")
+    if len(selected_image_ids) != len(set(selected_image_ids)) or any(item not in available for item in selected_image_ids):
+        raise ValidationError("選択した画像が無効です")
+
+    images: list[dict[str, Any]] = []
+    for index, image_id in enumerate(selected_image_ids, start=1):
+        item = available[image_id]
+        images.append({
+            "id": f"source-image-{index}",
+            "name": f"source-{index}{item['extension']}",
+            "data_url": f"data:{item['mime_type']};base64,{base64.b64encode(item['data']).decode('ascii')}",
+            "alt": str(item.get("alt") or source["title"])[:180],
+            "orientation": item.get("orientation", "landscape"),
+        })
+    if not images and isinstance(manual_image, dict):
+        fallback = {**manual_image, "id": "source-image-1"}
+        _decode_images([fallback])
+        images.append(fallback)
+    if not images:
+        raise ValidationError("記事に使う画像を1枚以上選ぶか、画像ファイルを追加してください")
+
+    responses = _response_blocks(source)
+    blocks: list[dict[str, Any]] = [responses[0]]
+    first_image_id = images[0]["id"]
+    x_embed = source.get("x_embed") if isinstance(source.get("x_embed"), dict) else None
+    if source["source_type"] == "x_post" and x_embed:
+        blocks.append({
+            "id": f"x-post-{x_embed['id']}",
+            "type": "x_embed",
+            "post_id": x_embed["id"],
+            "post_url": x_embed["url"],
+            "author_name": x_embed["author_name"],
+            "username": x_embed["username"],
+            "text": x_embed["text"],
+            "created_at": x_embed["created_at"],
+            "lang": x_embed["lang"],
+            "image_ids": [first_image_id],
+        })
+    elif source["source_type"] == "x_profile" and x_embed:
+        blocks.append({
+            "id": "x-timeline",
+            "type": "x_timeline",
+            "profile_url": x_embed["url"],
+            "username": x_embed["username"],
+            "limit": x_embed["limit"],
+            "image_ids": [first_image_id],
+        })
+    else:
+        blocks.append({"id": "source-images-1", "type": "images", "image_ids": [first_image_id]})
+
+    remaining_image_ids = [item["id"] for item in images[1:]]
+    response_index = 1
+    for offset in range(0, len(remaining_image_ids), 2):
+        if response_index < len(responses):
+            blocks.append(responses[response_index])
+            response_index += 1
+        blocks.append({
+            "id": f"source-images-{offset + 2}",
+            "type": "images",
+            "image_ids": remaining_image_ids[offset:offset + 2],
+        })
+    blocks.extend(responses[response_index:])
+    blocks.append({"id": "auto-ad", "type": "ad", "text": "記事内容に合う関連広告枠"})
+
+    raw_title = str(source["title"])
+    title = raw_title if raw_title.startswith("【") else f"【画像】{raw_title}"
+    source_type = str(source["source_type"])
+    category = "SNS" if source_type.startswith("x_") else "動画" if source_type == "youtube" else "話題"
+    tags = [category, str(source["site_name"])]
+    if source_type.startswith("x_"):
+        tags.extend(["X", str(source["x_info"]["username"])])
+    now = datetime.now(JST)
+    return {
+        "title": _trim_text(title, 180),
+        "slug": _source_slug(source),
+        "category": category,
+        "summary": _trim_text(str(source.get("description") or raw_title), 240),
+        "published_at": now.isoformat(timespec="seconds"),
+        "status": "draft",
+        "editorial_status": "draft",
+        "rights_status": "unconfirmed",
+        "comments": len([block for block in blocks if block["type"] == "post"]),
+        "poster_name": "風吹けば名無し",
+        "tags": list(dict.fromkeys(tags)),
+        "featured": False,
+        "fictional_responses": True,
+        "replace_existing": False,
+        "source_url": str(source["url"]),
+        "source_label": str(source["site_name"]),
+        "transparency_note": "元ページの公開情報をもとに編集用のレスとして再構成した下書きです。公開前に内容と画像利用許可を確認してください。",
+        "thumbnail_id": first_image_id,
+        "adult_confirmed": False,
+        "rights_confirmed": False,
+        "privacy_confirmed": False,
+        "source_confirmed": False,
+        "images": images,
+        "blocks": blocks,
+    }
 
 
 def _require_text(payload: dict[str, Any], field: str, maximum: int) -> str:
@@ -1020,6 +1522,25 @@ def render_article(
     rendered_blocks: list[str] = []
     post_number = 0
     image_number = 0
+
+    def render_image_group(selected_ids: list[str]) -> str:
+        nonlocal image_number
+        selected = [image_map[image_id] for image_id in selected_ids]
+        group_class = "image-group single" if len(selected) == 1 else "image-group"
+        cards: list[str] = []
+        for image in selected:
+            image_number += 1
+            source = image.data_url if preview else f"images/{image.filename}"
+            cards.append(
+                f'<div class="image-card {image.orientation}"><img class="zoomable" '
+                f'src="{html.escape(source, quote=True)}" alt="{html.escape(image.alt, quote=True)}">'
+                f'<span class="image-count">{image_number} / {len(images)}</span></div>'
+            )
+        return (
+            f'<div class="{group_class}">{"".join(cards)}</div>'
+            '<div class="image-note">画像を押すと拡大できます</div>'
+        )
+
     for block in blocks:
         if block["type"] == "post":
             post_number += 1
@@ -1036,21 +1557,10 @@ def render_article(
                 f'<div class="{body_class}">{body}</div></div>'
             )
         elif block["type"] == "images":
-            selected = [image_map[image_id] for image_id in block["image_ids"]]
-            group_class = "image-group single" if len(selected) == 1 else "image-group"
-            cards: list[str] = []
-            for image in selected:
-                image_number += 1
-                source = image.data_url if preview else f"images/{image.filename}"
-                cards.append(
-                    f'<div class="image-card {image.orientation}"><img class="zoomable" '
-                    f'src="{html.escape(source, quote=True)}" alt="{html.escape(image.alt, quote=True)}">'
-                    f'<span class="image-count">{image_number} / {len(images)}</span></div>'
-                )
-            rendered_blocks.append(f'<div class="{group_class}">{"".join(cards)}</div>')
-            if image_number == len(selected):
-                rendered_blocks.append('<div class="image-note">画像を押すと拡大できます</div>')
+            rendered_blocks.append(render_image_group(block["image_ids"]))
         elif block["type"] == "x_embed":
+            if block["image_ids"]:
+                rendered_blocks.append(render_image_group(block["image_ids"]))
             normalized_created = block["created_at"][:-1] + "+00:00" if block["created_at"].endswith("Z") else block["created_at"]
             created = datetime.fromisoformat(normalized_created).astimezone(JST)
             embed_text = html.escape(block["text"]).replace("\n", "<br>")
@@ -1062,6 +1572,8 @@ def render_article(
                 f'{created.strftime("%Y年%m月%d日 %H:%M")}</a></blockquote></div>'
             )
         elif block["type"] == "x_timeline":
+            if block["image_ids"]:
+                rendered_blocks.append(render_image_group(block["image_ids"]))
             rendered_blocks.append(
                 '<div class="x-timeline-shell">'
                 f'<a class="twitter-timeline" data-dnt="true" data-theme="light" '
@@ -1215,8 +1727,18 @@ def list_drafts(site_root: Path = SITE_ROOT) -> list[dict[str, Any]]:
         return []
     drafts = []
     for path in sorted(draft_root.glob("*.json"), key=lambda item: item.stat().st_mtime, reverse=True):
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            payload = {}
         drafts.append({
             "slug": path.stem,
+            "title": str(payload.get("title") or path.stem)[:180],
+            "status": str(payload.get("editorial_status") or payload.get("status") or "draft"),
+            "rights_status": str(payload.get("rights_status") or ("confirmed" if payload.get("rights_confirmed") else "unconfirmed")),
+            "source_url": str(payload.get("source_url") or "")[:2048],
+            "category": str(payload.get("category") or "")[:40],
+            "image_count": len(payload.get("images", [])) if isinstance(payload.get("images"), list) else 0,
             "updated_at": datetime.fromtimestamp(path.stat().st_mtime, JST).isoformat(),
             "size": path.stat().st_size,
         })
@@ -1353,6 +1875,22 @@ class StudioHandler(BaseHTTPRequestHandler):
                 data, mime_type, _ = _download_x_image(media["url"], self.studio_server.url_opener)
                 self._send_bytes(data, mime_type)
                 return
+            if path.startswith("/api/source/media/"):
+                reference = path.removeprefix("/api/source/media/")
+                if "/" not in reference:
+                    self.send_error(HTTPStatus.NOT_FOUND)
+                    return
+                session_id, media_id = reference.split("/", 1)
+                source = self.studio_server.get_source_session(session_id)
+                media = next((
+                    item for item in source.get("images", [])
+                    if isinstance(item, dict) and item.get("id") == media_id
+                ), None)
+                if not media or not isinstance(media.get("data"), bytes):
+                    self.send_error(HTTPStatus.NOT_FOUND)
+                    return
+                self._send_bytes(media["data"], str(media.get("mime_type") or "application/octet-stream"))
+                return
             if path.startswith("/site/"):
                 relative = path.removeprefix("/site/")
                 if relative != "index.html" and not relative.startswith("assets/common/"):
@@ -1388,6 +1926,41 @@ class StudioHandler(BaseHTTPRequestHandler):
             elif self.path == "/api/articles":
                 result = add_built_article(payload, self.studio_server.site_root)
                 self._send_json(result, HTTPStatus.CREATED)
+            elif self.path == "/api/source/analyze":
+                source = analyze_source_url(payload.get("url", ""), self.studio_server.url_opener)
+                session_id = self.studio_server.store_source_session(source)
+                public_images = [{
+                    "id": item["id"],
+                    "alt": item.get("alt", ""),
+                    "orientation": item.get("orientation", "landscape"),
+                    "width": item.get("width", 0),
+                    "height": item.get("height", 0),
+                    "preview_url": f"/api/source/media/{quote(session_id)}/{quote(str(item['id']))}",
+                } for item in source.get("images", []) if isinstance(item, dict)]
+                self._send_json({
+                    "session_id": session_id,
+                    "source": {
+                        "type": source["source_type"],
+                        "url": source["url"],
+                        "title": source["title"],
+                        "description": source["description"],
+                        "site_name": source["site_name"],
+                        "author": source["author"],
+                        "excerpts": source["excerpts"],
+                    },
+                    "images": public_images,
+                    "recommended_image_ids": [item["id"] for item in public_images[:6]],
+                    "needs_image_upload": not public_images,
+                })
+            elif self.path == "/api/source/draft":
+                session_id = _require_text(payload, "session_id", 200)
+                source = self.studio_server.get_source_session(session_id)
+                draft = build_source_draft_payload(
+                    source,
+                    payload.get("selected_image_ids"),
+                    payload.get("manual_image"),
+                )
+                self._send_json({"payload": draft})
             elif self.path == "/api/x/account":
                 bearer_token = payload.get("bearer_token") or self.studio_server.x_bearer_token
                 result = fetch_x_candidates(payload.get("username", ""), bearer_token, self.studio_server.url_opener)
@@ -1434,7 +2007,9 @@ class StudioServer(ThreadingHTTPServer):
         self.x_bearer_token = x_bearer_token if x_bearer_token is not None else os.environ.get("X_BEARER_TOKEN", "")
         self.url_opener = url_opener or urllib.request.build_opener()
         self.x_sessions: dict[str, tuple[float, dict[str, Any]]] = {}
+        self.source_sessions: dict[str, tuple[float, dict[str, Any]]] = {}
         self.x_session_lock = threading.Lock()
+        self.source_session_lock = threading.Lock()
         super().__init__(address, StudioHandler)
 
     def store_x_session(self, result: dict[str, Any]) -> str:
@@ -1454,6 +2029,25 @@ class StudioServer(ThreadingHTTPServer):
             value = self.x_sessions.get(session_id)
         if not value or now - value[0] > X_SESSION_SECONDS:
             raise ValidationError("X import session expired; fetch the account again")
+        return value[1]
+
+    def store_source_session(self, result: dict[str, Any]) -> str:
+        now = time.monotonic()
+        session_id = secrets.token_urlsafe(24)
+        with self.source_session_lock:
+            self.source_sessions = {
+                key: value for key, value in self.source_sessions.items()
+                if now - value[0] <= SOURCE_SESSION_SECONDS
+            }
+            self.source_sessions[session_id] = (now, result)
+        return session_id
+
+    def get_source_session(self, session_id: str) -> dict[str, Any]:
+        now = time.monotonic()
+        with self.source_session_lock:
+            value = self.source_sessions.get(session_id)
+        if not value or now - value[0] > SOURCE_SESSION_SECONDS:
+            raise ValidationError("URL解析の有効期限が切れました。もう一度URLを解析してください")
         return value[1]
 
 
