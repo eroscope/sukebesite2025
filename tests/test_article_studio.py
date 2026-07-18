@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import json
 import shutil
 import sys
@@ -25,6 +26,82 @@ PNG_DATA_URL = (
     "data:image/png;base64,"
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9WlKXmgAAAAASUVORK5CYII="
 )
+PNG_BYTES = base64.b64decode(PNG_DATA_URL.split(",", 1)[1])
+
+
+class FakeResponse:
+    def __init__(self, body: bytes, *, content_type: str = "application/json", url: str = "https://api.x.com/") -> None:
+        self.body = body
+        self.headers = {"Content-Type": content_type}
+        self.url = url
+
+    def __enter__(self) -> "FakeResponse":
+        return self
+
+    def __exit__(self, *args: object) -> None:
+        return None
+
+    def read(self, limit: int = -1) -> bytes:
+        return self.body if limit < 0 else self.body[:limit]
+
+    def geturl(self) -> str:
+        return self.url
+
+
+class FakeXOpener:
+    def __init__(self) -> None:
+        self.urls: list[str] = []
+
+    def open(self, request: urllib.request.Request, timeout: int = 20) -> FakeResponse:
+        url = request.full_url
+        self.urls.append(url)
+        if "/users/by/username/" in url:
+            return FakeResponse(json.dumps({
+                "data": {
+                    "id": "12345",
+                    "name": "テスト投稿者",
+                    "username": "Test_User",
+                    "description": "公開プロフィール",
+                    "profile_image_url": "https://pbs.twimg.com/profile_images/test_normal.jpg",
+                    "protected": False,
+                    "verified": False,
+                    "public_metrics": {"followers_count": 3456},
+                }
+            }, ensure_ascii=False).encode("utf-8"), url=url)
+        if "/users/12345/tweets" in url:
+            return FakeResponse(json.dumps({
+                "data": [
+                    {
+                        "id": "1900000000000000001",
+                        "text": "公開投稿の本文です。",
+                        "created_at": "2026-07-18T08:30:00.000Z",
+                        "lang": "ja",
+                        "possibly_sensitive": True,
+                        "public_metrics": {"like_count": 120, "retweet_count": 8, "reply_count": 4},
+                        "attachments": {"media_keys": ["3_photo"]},
+                    },
+                    {
+                        "id": "1900000000000000002",
+                        "text": "画像のない投稿",
+                        "created_at": "2026-07-18T07:30:00.000Z",
+                    },
+                ],
+                "includes": {
+                    "media": [{
+                        "media_key": "3_photo",
+                        "type": "photo",
+                        "url": "https://pbs.twimg.com/media/test.png",
+                        "alt_text": "投稿者が公開したテスト画像",
+                        "width": 1200,
+                        "height": 800,
+                    }]
+                },
+            }, ensure_ascii=False).encode("utf-8"), url=url)
+        if url == "https://pbs.twimg.com/media/test.png":
+            return FakeResponse(PNG_BYTES, content_type="image/png", url=url)
+        if url == "https://pbs.twimg.com/profile_images/test_normal.jpg":
+            return FakeResponse(PNG_BYTES, content_type="image/png", url=url)
+        raise AssertionError(f"unexpected URL: {url}")
 
 
 def make_payload() -> dict[str, object]:
@@ -131,6 +208,40 @@ class ArticleStudioTests(unittest.TestCase):
         result = article_studio.add_built_article(payload, self.site_root)
         self.assertIn("update", result["message"])
 
+    def test_x_account_import_builds_official_embed_draft(self) -> None:
+        opener = FakeXOpener()
+        result = article_studio.fetch_x_candidates("https://x.com/Test_User", "test-token", opener)
+
+        self.assertEqual(result["account"]["username"], "Test_User")
+        self.assertEqual(len(result["posts"]), 1)
+        self.assertEqual(result["posts"][0]["media"][0]["media_key"], "3_photo")
+        self.assertTrue(result["posts"][0]["possibly_sensitive"])
+
+        draft = article_studio.build_x_draft_payload(
+            result,
+            ["1900000000000000001"],
+            "3_photo",
+            opener,
+        )
+        self.assertEqual(draft["status"], "draft")
+        self.assertEqual(draft["thumbnail_id"], "x-cover")
+        self.assertEqual(draft["blocks"][1]["type"], "x_embed")
+        self.assertEqual(draft["blocks"][1]["text"], "公開投稿の本文です。")
+        self.assertFalse(draft["rights_confirmed"])
+
+        preview = article_studio.build_article(draft, self.site_root, preview=True)
+        final = article_studio.build_article(draft, self.site_root)
+        self.assertIn('class="twitter-tweet"', preview.article_html)
+        self.assertNotIn("platform.twitter.com/widgets.js", preview.article_html)
+        self.assertIn("platform.twitter.com/widgets.js", final.article_html)
+        self.assertIn("https://x.com/Test_User/status/1900000000000000001", final.article_html)
+
+    def test_x_username_validation(self) -> None:
+        self.assertEqual(article_studio.normalize_x_username("@Test_User"), "Test_User")
+        self.assertEqual(article_studio.normalize_x_username("https://twitter.com/Test_User/"), "Test_User")
+        with self.assertRaisesRegex(ValidationError, "1 to 15"):
+            article_studio.normalize_x_username("bad-name")
+
     def test_local_api_renders_with_session_token(self) -> None:
         server = article_studio.StudioServer(("127.0.0.1", 0), self.site_root)
         thread = threading.Thread(target=server.serve_forever, daemon=True)
@@ -150,6 +261,60 @@ class ArticleStudioTests(unittest.TestCase):
                 rendered = json.loads(response.read().decode("utf-8"))
             self.assertEqual(rendered["metadata"]["slug"], "studio-check")
             self.assertIn("data:image/png;base64,", rendered["html"])
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=5)
+
+    def test_local_x_api_creates_a_draft_without_exposing_configured_token(self) -> None:
+        fake_x = FakeXOpener()
+        server = article_studio.StudioServer(
+            ("127.0.0.1", 0),
+            self.site_root,
+            x_bearer_token="configured-token",
+            url_opener=fake_x,
+        )
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+        try:
+            base = f"http://127.0.0.1:{server.server_port}"
+            with opener.open(f"{base}/api/bootstrap", timeout=5) as response:
+                bootstrap = json.loads(response.read().decode("utf-8"))
+            self.assertTrue(bootstrap["x_token_configured"])
+            self.assertNotIn("configured-token", json.dumps(bootstrap))
+
+            account_request = urllib.request.Request(
+                f"{base}/api/x/account",
+                data=json.dumps({"username": "@Test_User"}).encode("utf-8"),
+                headers={"Content-Type": "application/json", "X-Indanya-Token": bootstrap["token"]},
+                method="POST",
+            )
+            with opener.open(account_request, timeout=5) as response:
+                account = json.loads(response.read().decode("utf-8"))
+            with opener.open(
+                f"{base}/api/x/media/{account['session_id']}/3_photo", timeout=5
+            ) as response:
+                self.assertEqual(response.read(), PNG_BYTES)
+            with opener.open(
+                f"{base}/api/x/avatar/{account['session_id']}", timeout=5
+            ) as response:
+                self.assertEqual(response.read(), PNG_BYTES)
+
+            draft_request = urllib.request.Request(
+                f"{base}/api/x/draft",
+                data=json.dumps({
+                    "session_id": account["session_id"],
+                    "selected_post_ids": ["1900000000000000001"],
+                    "cover_media_key": "3_photo",
+                }).encode("utf-8"),
+                headers={"Content-Type": "application/json", "X-Indanya-Token": bootstrap["token"]},
+                method="POST",
+            )
+            with opener.open(draft_request, timeout=5) as response:
+                draft = json.loads(response.read().decode("utf-8"))["payload"]
+            self.assertEqual(draft["images"][0]["id"], "x-cover")
+            self.assertEqual(draft["blocks"][1]["type"], "x_embed")
         finally:
             server.shutdown()
             server.server_close()

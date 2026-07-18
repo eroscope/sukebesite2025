@@ -10,11 +10,15 @@ import hashlib
 import html
 import io
 import json
+import os
 import re
 import secrets
 import sys
 import tempfile
 import threading
+import time
+import urllib.error
+import urllib.request
 import webbrowser
 import zipfile
 from dataclasses import dataclass
@@ -23,7 +27,7 @@ from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
-from urllib.parse import unquote, urlparse
+from urllib.parse import quote, unquote, urlencode, urlparse
 from zoneinfo import ZoneInfo
 
 TOOLS_ROOT = Path(__file__).resolve().parent
@@ -41,10 +45,41 @@ MAX_REQUEST_BYTES = 110 * 1024 * 1024
 MAX_IMAGE_BYTES = 12 * 1024 * 1024
 MAX_TOTAL_IMAGE_BYTES = 100 * 1024 * 1024
 MAX_IMAGES = 20
+MAX_X_POSTS = 20
+MAX_X_SELECTED_POSTS = 6
+X_SESSION_SECONDS = 30 * 60
 SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 ANCHOR_PATTERN = re.compile(r"&gt;&gt;([0-9]+)")
+X_USERNAME_PATTERN = re.compile(r"^[A-Za-z0-9_]{1,15}$")
+X_POST_ID_PATTERN = re.compile(r"^[0-9]{1,19}$")
 ALLOWED_IMAGE_EXTENSIONS = {".avif", ".gif", ".jpeg", ".jpg", ".png", ".webp"}
+X_MEDIA_HOSTS = {"pbs.twimg.com"}
 JST = ZoneInfo("Asia/Tokyo")
+
+X_EMBED_STYLE = r'''
+.x-embed-shell {
+  max-width: 620px;
+  margin: 24px auto;
+}
+.x-embed-shell .twitter-tweet {
+  margin: 0;
+  padding: 18px 20px;
+  border: 1px solid #cfd3d7;
+  border-radius: 8px;
+  background: #fff;
+  color: #0f1419;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Meiryo,sans-serif;
+  line-height: 1.55;
+}
+.x-embed-shell .twitter-tweet p {
+  margin: 0 0 13px;
+  white-space: normal;
+}
+.x-embed-shell .twitter-tweet a {
+  color: #0f6eae;
+  text-decoration: underline;
+}
+'''
 
 
 @dataclass(frozen=True)
@@ -81,6 +116,290 @@ def _optional_text(payload: dict[str, Any], field: str, maximum: int) -> str:
     if not isinstance(value, str) or len(value.strip()) > maximum:
         raise ValidationError(f"{field} must contain at most {maximum} characters")
     return value.strip()
+
+
+def normalize_x_username(value: str) -> str:
+    if not isinstance(value, str):
+        raise ValidationError("X username must be text")
+    candidate = value.strip()
+    if candidate.startswith("@"):
+        candidate = candidate[1:]
+    elif "://" in candidate:
+        parsed = urlparse(candidate)
+        if parsed.scheme not in {"http", "https"} or parsed.netloc.lower() not in {"x.com", "www.x.com", "twitter.com", "www.twitter.com"}:
+            raise ValidationError("X account URL must use x.com")
+        candidate = parsed.path.strip("/").split("/", 1)[0]
+    if not X_USERNAME_PATTERN.fullmatch(candidate):
+        raise ValidationError("X username must contain 1 to 15 ASCII letters, numbers, or underscores")
+    return candidate
+
+
+def _x_api_json(url: str, bearer_token: str, opener: Any = None) -> dict[str, Any]:
+    if not isinstance(bearer_token, str) or not bearer_token.strip() or len(bearer_token) > 4096:
+        raise ValidationError("X API Bearer Token is required")
+    request = urllib.request.Request(
+        url,
+        headers={
+            "Accept": "application/json",
+            "Authorization": f"Bearer {bearer_token.strip()}",
+            "User-Agent": "IndanyaArticleStudio/1.1",
+        },
+    )
+    client = opener or urllib.request.build_opener()
+    try:
+        with client.open(request, timeout=20) as response:
+            raw = response.read(5 * 1024 * 1024 + 1)
+    except urllib.error.HTTPError as exc:
+        if exc.code == 401:
+            raise ValidationError("X API Bearer Token was rejected") from exc
+        if exc.code == 403:
+            raise ValidationError("X API access was refused; check the app permissions and credits") from exc
+        if exc.code == 404:
+            raise ValidationError("X account was not found") from exc
+        if exc.code == 429:
+            raise ValidationError("X API rate limit was reached; try again later") from exc
+        raise ValidationError(f"X API returned HTTP {exc.code}") from exc
+    except (OSError, TimeoutError) as exc:
+        raise ValidationError("X API could not be reached") from exc
+    if len(raw) > 5 * 1024 * 1024:
+        raise ValidationError("X API response was too large")
+    try:
+        result = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise ValidationError("X API returned invalid JSON") from exc
+    if not isinstance(result, dict):
+        raise ValidationError("X API returned an invalid response")
+    return result
+
+
+def fetch_x_candidates(username_value: str, bearer_token: str, opener: Any = None) -> dict[str, Any]:
+    username = normalize_x_username(username_value)
+    user_query = urlencode({
+        "user.fields": "name,username,description,profile_image_url,protected,public_metrics,verified",
+    })
+    user_result = _x_api_json(
+        f"https://api.x.com/2/users/by/username/{quote(username)}?{user_query}",
+        bearer_token,
+        opener,
+    )
+    account = user_result.get("data")
+    if not isinstance(account, dict) or not isinstance(account.get("id"), str):
+        raise ValidationError("X account was not found")
+    if account.get("protected") is True:
+        raise ValidationError("protected X accounts cannot be imported")
+
+    timeline_query = urlencode({
+        "max_results": MAX_X_POSTS,
+        "exclude": "retweets,replies",
+        "tweet.fields": "attachments,created_at,entities,lang,note_tweet,possibly_sensitive,public_metrics",
+        "expansions": "attachments.media_keys",
+        "media.fields": "alt_text,height,media_key,preview_image_url,type,url,width",
+    })
+    timeline_result = _x_api_json(
+        f"https://api.x.com/2/users/{quote(account['id'])}/tweets?{timeline_query}",
+        bearer_token,
+        opener,
+    )
+    media_items = timeline_result.get("includes", {}).get("media", [])
+    media_by_key = {
+        item.get("media_key"): item
+        for item in media_items
+        if isinstance(item, dict) and isinstance(item.get("media_key"), str)
+    }
+
+    posts: list[dict[str, Any]] = []
+    for raw_post in timeline_result.get("data", []):
+        if not isinstance(raw_post, dict) or not X_POST_ID_PATTERN.fullmatch(str(raw_post.get("id", ""))):
+            continue
+        attachments = raw_post.get("attachments")
+        media_keys = attachments.get("media_keys", []) if isinstance(attachments, dict) else []
+        photos: list[dict[str, Any]] = []
+        for media_key in media_keys:
+            item = media_by_key.get(media_key)
+            if not item or item.get("type") != "photo" or not isinstance(item.get("url"), str):
+                continue
+            parsed_media = urlparse(item["url"])
+            if parsed_media.scheme != "https" or parsed_media.hostname not in X_MEDIA_HOSTS:
+                continue
+            photos.append({
+                "media_key": media_key,
+                "url": item["url"],
+                "alt_text": str(item.get("alt_text") or ""),
+                "width": int(item.get("width") or 0),
+                "height": int(item.get("height") or 0),
+            })
+        if not photos:
+            continue
+        note = raw_post.get("note_tweet")
+        text_value = note.get("text") if isinstance(note, dict) else raw_post.get("text")
+        if not isinstance(text_value, str) or not text_value.strip():
+            continue
+        metrics = raw_post.get("public_metrics") if isinstance(raw_post.get("public_metrics"), dict) else {}
+        post_id = str(raw_post["id"])
+        posts.append({
+            "id": post_id,
+            "url": f"https://x.com/{account.get('username', username)}/status/{post_id}",
+            "text": text_value,
+            "created_at": str(raw_post.get("created_at") or ""),
+            "lang": str(raw_post.get("lang") or "ja")[:20],
+            "possibly_sensitive": bool(raw_post.get("possibly_sensitive", False)),
+            "metrics": {
+                "like_count": int(metrics.get("like_count") or 0),
+                "retweet_count": int(metrics.get("retweet_count") or 0),
+                "reply_count": int(metrics.get("reply_count") or 0),
+            },
+            "media": photos,
+        })
+    if not posts:
+        raise ValidationError("no recent public photo posts were found for this X account")
+
+    public_metrics = account.get("public_metrics") if isinstance(account.get("public_metrics"), dict) else {}
+    return {
+        "account": {
+            "id": account["id"],
+            "name": str(account.get("name") or account.get("username") or username),
+            "username": str(account.get("username") or username),
+            "description": str(account.get("description") or ""),
+            "profile_image_url": str(account.get("profile_image_url") or ""),
+            "verified": bool(account.get("verified", False)),
+            "followers_count": int(public_metrics.get("followers_count") or 0),
+            "url": f"https://x.com/{account.get('username', username)}",
+        },
+        "posts": posts,
+    }
+
+
+def _download_x_image(media_url: str, opener: Any = None) -> tuple[bytes, str, str]:
+    if not isinstance(media_url, str):
+        raise ValidationError("X image is invalid")
+    parsed = urlparse(media_url)
+    if parsed.scheme != "https" or parsed.hostname not in X_MEDIA_HOSTS:
+        raise ValidationError("X image host is not allowed")
+    request = urllib.request.Request(media_url, headers={"User-Agent": "IndanyaArticleStudio/1.1"})
+    client = opener or urllib.request.build_opener()
+    try:
+        with client.open(request, timeout=20) as response:
+            final_url = response.geturl() if hasattr(response, "geturl") else media_url
+            if urlparse(final_url).hostname not in X_MEDIA_HOSTS:
+                raise ValidationError("X image redirected to an untrusted host")
+            data = response.read(MAX_IMAGE_BYTES + 1)
+            content_type = str(response.headers.get("Content-Type", "")).split(";", 1)[0].lower()
+    except ValidationError:
+        raise
+    except (OSError, TimeoutError, urllib.error.HTTPError) as exc:
+        raise ValidationError("X image could not be downloaded") from exc
+    if not data or len(data) > MAX_IMAGE_BYTES:
+        raise ValidationError("X image must be smaller than 12 MB")
+    extension_by_type = {
+        "image/jpeg": ".jpg",
+        "image/png": ".png",
+        "image/gif": ".gif",
+        "image/webp": ".webp",
+    }
+    extension = extension_by_type.get(content_type)
+    if not extension or not _validate_magic(extension, data):
+        raise ValidationError("X image format is unsupported")
+    mime_type = "image/jpeg" if extension == ".jpg" else f"image/{extension[1:]}"
+    return data, mime_type, extension
+
+
+def _download_x_cover(media: dict[str, Any], opener: Any = None) -> dict[str, Any]:
+    media_url = media.get("url")
+    if not isinstance(media_url, str):
+        raise ValidationError("selected X cover image is invalid")
+    data, mime_type, extension = _download_x_image(media_url, opener)
+    return {
+        "id": "x-cover",
+        "name": f"x-cover{extension}",
+        "data_url": f"data:{mime_type};base64,{base64.b64encode(data).decode('ascii')}",
+        "alt": str(media.get("alt_text") or "X投稿の画像")[:180],
+        "orientation": "landscape" if int(media.get("width") or 0) >= int(media.get("height") or 0) else "portrait",
+    }
+
+
+def build_x_draft_payload(
+    result: dict[str, Any],
+    selected_post_ids: Any,
+    cover_media_key: str,
+    opener: Any = None,
+) -> dict[str, Any]:
+    if not isinstance(selected_post_ids, list) or not 1 <= len(selected_post_ids) <= MAX_X_SELECTED_POSTS:
+        raise ValidationError(f"select 1 to {MAX_X_SELECTED_POSTS} X posts")
+    if len(selected_post_ids) != len(set(selected_post_ids)) or any(not isinstance(item, str) for item in selected_post_ids):
+        raise ValidationError("selected X posts are invalid")
+    account = result.get("account")
+    posts = result.get("posts")
+    if not isinstance(account, dict) or not isinstance(posts, list):
+        raise ValidationError("X import session is invalid")
+    posts_by_id = {post.get("id"): post for post in posts if isinstance(post, dict)}
+    try:
+        selected = [posts_by_id[post_id] for post_id in selected_post_ids]
+    except KeyError as exc:
+        raise ValidationError("selected X post is no longer available") from exc
+
+    cover_post: dict[str, Any] | None = None
+    cover_media: dict[str, Any] | None = None
+    for post in selected:
+        for media in post.get("media", []):
+            if isinstance(media, dict) and media.get("media_key") == cover_media_key:
+                cover_post = post
+                cover_media = media
+                break
+        if cover_media:
+            break
+    if not cover_post or not cover_media:
+        raise ValidationError("choose a cover image from a selected X post")
+    cover = _download_x_cover(cover_media, opener)
+
+    username = normalize_x_username(str(account.get("username") or ""))
+    name = str(account.get("name") or username)[:80]
+    now = datetime.now(JST)
+    blocks: list[dict[str, Any]] = [
+        {
+            "id": "x-intro",
+            "type": "post",
+            "text": f"Xで公開されている{name}（@{username}）さんの投稿をまとめました。",
+            "style": "large",
+        }
+    ]
+    for post in selected:
+        blocks.append({
+            "id": f"x-post-{post['id']}",
+            "type": "x_embed",
+            "post_id": post["id"],
+            "post_url": post["url"],
+            "author_name": name,
+            "username": username,
+            "text": post["text"],
+            "created_at": post["created_at"],
+            "lang": post.get("lang") or "ja",
+            "image_ids": [cover["id"]] if post["id"] == cover_post["id"] else [],
+        })
+    blocks.append({"id": "x-ad", "type": "ad", "text": "記事内容に合う関連広告枠"})
+    return {
+        "title": f"【画像】{name}（@{username}）のX投稿まとめ",
+        "slug": f"x-{username.lower().replace('_', '-')}-{selected[0]['id'][-8:]}",
+        "category": "SNS",
+        "summary": f"{name}（@{username}）がXで公開している画像付き投稿をまとめています。",
+        "published_at": now.isoformat(timespec="seconds"),
+        "status": "draft",
+        "comments": 0,
+        "poster_name": "風吹けば名無し",
+        "tags": ["X", "SNS", username],
+        "featured": False,
+        "fictional_responses": True,
+        "replace_existing": False,
+        "source_url": selected[0]["url"],
+        "source_label": f"@{username}のX投稿",
+        "transparency_note": "選択した公開投稿はXの公式埋め込みで表示します。投稿画像は記事一覧のサムネイルにも使用します。投稿の削除・変更があった場合は記事も確認してください。",
+        "thumbnail_id": cover["id"],
+        "adult_confirmed": False,
+        "rights_confirmed": False,
+        "privacy_confirmed": False,
+        "source_confirmed": False,
+        "images": [cover],
+        "blocks": blocks,
+    }
 
 
 def _validate_magic(extension: str, data: bytes) -> bool:
@@ -181,6 +500,45 @@ def _validate_blocks(raw_blocks: Any, images: tuple[ImageAsset, ...]) -> list[di
                 raise ValidationError(f"block {index} references an unknown image")
             used_images.extend(selected)
             blocks.append({"type": "images", "image_ids": selected[:]})
+        elif block_type == "x_embed":
+            post_id = _require_text(raw, "post_id", 19)
+            if not X_POST_ID_PATTERN.fullmatch(post_id):
+                raise ValidationError(f"block {index} has an invalid X post ID")
+            username = normalize_x_username(_require_text(raw, "username", 15))
+            author_name = _require_text(raw, "author_name", 80)
+            text = _require_text(raw, "text", 10000)
+            created_at = _require_text(raw, "created_at", 40)
+            try:
+                normalized = created_at[:-1] + "+00:00" if created_at.endswith("Z") else created_at
+                parsed_created_at = datetime.fromisoformat(normalized)
+            except ValueError as exc:
+                raise ValidationError(f"block {index} has an invalid X post date") from exc
+            if parsed_created_at.tzinfo is None:
+                raise ValidationError(f"block {index} X post date needs a timezone")
+            post_url = _require_text(raw, "post_url", 2048)
+            parsed_url = urlparse(post_url)
+            if parsed_url.scheme != "https" or parsed_url.hostname not in {"x.com", "www.x.com"}:
+                raise ValidationError(f"block {index} has an invalid X post URL")
+            if parsed_url.path.rstrip("/") != f"/{username}/status/{post_id}":
+                raise ValidationError(f"block {index} X post URL does not match its account")
+            lang = _optional_text(raw, "lang", 20) or "ja"
+            selected = raw.get("image_ids", [])
+            if not isinstance(selected, list) or len(selected) > 1:
+                raise ValidationError(f"block {index} can own at most one cover image")
+            if any(not isinstance(item, str) or item not in image_ids for item in selected):
+                raise ValidationError(f"block {index} references an unknown cover image")
+            used_images.extend(selected)
+            blocks.append({
+                "type": "x_embed",
+                "post_id": post_id,
+                "post_url": post_url,
+                "author_name": author_name,
+                "username": username,
+                "text": text,
+                "created_at": created_at,
+                "lang": lang,
+                "image_ids": selected[:],
+            })
         elif block_type == "separator":
             blocks.append({"type": "separator"})
         elif block_type == "ad":
@@ -377,6 +735,17 @@ def render_article(
             rendered_blocks.append(f'<div class="{group_class}">{"".join(cards)}</div>')
             if image_number == len(selected):
                 rendered_blocks.append('<div class="image-note">画像を押すと拡大できます</div>')
+        elif block["type"] == "x_embed":
+            normalized_created = block["created_at"][:-1] + "+00:00" if block["created_at"].endswith("Z") else block["created_at"]
+            created = datetime.fromisoformat(normalized_created).astimezone(JST)
+            embed_text = html.escape(block["text"]).replace("\n", "<br>")
+            rendered_blocks.append(
+                '<div class="x-embed-shell"><blockquote class="twitter-tweet" data-dnt="true" data-theme="light">'
+                f'<p lang="{html.escape(block["lang"], quote=True)}" dir="ltr">{embed_text}</p>'
+                f'&mdash; {html.escape(block["author_name"])} (@{html.escape(block["username"])}) '
+                f'<a href="{html.escape(block["post_url"], quote=True)}">'
+                f'{created.strftime("%Y年%m月%d日 %H:%M")}</a></blockquote></div>'
+            )
         elif block["type"] == "separator":
             rendered_blocks.append('<div class="separator"></div>')
         elif block["type"] == "ad":
@@ -400,7 +769,13 @@ def render_article(
     title = str(metadata["title"])
     summary = str(metadata.get("summary", title))
     sidebar = _render_sidebar(site_root, metadata, blocks)
-    style_markup = '<link rel="stylesheet" href="/preview.css">' if preview else f"<style>{style}</style>"
+    has_x_embeds = any(block["type"] == "x_embed" for block in blocks)
+    complete_style = style + (X_EMBED_STYLE if has_x_embeds else "")
+    style_markup = '<link rel="stylesheet" href="/preview.css">' if preview else f"<style>{complete_style}</style>"
+    x_widgets = (
+        '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
+        if has_x_embeds and not preview else ""
+    )
     return f'''<!doctype html>
 <html lang="ja">
 <head>
@@ -431,6 +806,7 @@ def render_article(
 <div class="lightbox" id="lightbox" aria-hidden="true"><button class="lightbox-close" id="lightboxClose" aria-label="閉じる">×</button><img id="lightboxImage" alt="拡大画像"></div>
 <footer class="footer"><div class="footer-inner"><span>© 2026 淫談屋</span><span>運営者情報　広告掲載　お問い合わせ　プライバシーポリシー</span></div></footer>
 <script>{script}</script>
+{x_widgets}
 </body>
 </html>
 '''
@@ -611,6 +987,7 @@ class StudioHandler(BaseHTTPRequestHandler):
                     "articles": articles,
                     "categories": categories,
                     "drafts": list_drafts(self.studio_server.site_root),
+                    "x_token_configured": bool(self.studio_server.x_bearer_token),
                 })
                 return
             if path.startswith("/api/drafts/"):
@@ -624,6 +1001,35 @@ class StudioHandler(BaseHTTPRequestHandler):
                     return
                 self._send_bytes(draft.read_bytes(), "application/json; charset=utf-8")
                 return
+            if path.startswith("/api/x/avatar/"):
+                session_id = path.removeprefix("/api/x/avatar/")
+                result = self.studio_server.get_x_session(session_id)
+                account = result.get("account", {})
+                image_url = account.get("profile_image_url") if isinstance(account, dict) else None
+                if not isinstance(image_url, str) or not image_url:
+                    self.send_error(HTTPStatus.NOT_FOUND)
+                    return
+                data, mime_type, _ = _download_x_image(image_url, self.studio_server.url_opener)
+                self._send_bytes(data, mime_type)
+                return
+            if path.startswith("/api/x/media/"):
+                reference = path.removeprefix("/api/x/media/")
+                if "/" not in reference:
+                    self.send_error(HTTPStatus.NOT_FOUND)
+                    return
+                session_id, media_key = reference.split("/", 1)
+                result = self.studio_server.get_x_session(session_id)
+                media = next((
+                    item
+                    for post in result.get("posts", []) if isinstance(post, dict)
+                    for item in post.get("media", []) if isinstance(item, dict) and item.get("media_key") == media_key
+                ), None)
+                if not media:
+                    self.send_error(HTTPStatus.NOT_FOUND)
+                    return
+                data, mime_type, _ = _download_x_image(media["url"], self.studio_server.url_opener)
+                self._send_bytes(data, mime_type)
+                return
             if path.startswith("/site/"):
                 relative = path.removeprefix("/site/")
                 if relative != "index.html" and not relative.startswith("assets/common/"):
@@ -633,7 +1039,7 @@ class StudioHandler(BaseHTTPRequestHandler):
                 return
             if path == "/preview.css":
                 style, _ = _extract_sample_assets(self.studio_server.site_root)
-                self._send_bytes(style.encode("utf-8"), "text/css; charset=utf-8")
+                self._send_bytes((style + X_EMBED_STYLE).encode("utf-8"), "text/css; charset=utf-8")
                 return
 
             relative = "index.html" if path in {"", "/"} else path.lstrip("/")
@@ -659,6 +1065,21 @@ class StudioHandler(BaseHTTPRequestHandler):
             elif self.path == "/api/articles":
                 result = add_built_article(payload, self.studio_server.site_root)
                 self._send_json(result, HTTPStatus.CREATED)
+            elif self.path == "/api/x/account":
+                bearer_token = payload.get("bearer_token") or self.studio_server.x_bearer_token
+                result = fetch_x_candidates(payload.get("username", ""), bearer_token, self.studio_server.url_opener)
+                session_id = self.studio_server.store_x_session(result)
+                self._send_json({"session_id": session_id, **result})
+            elif self.path == "/api/x/draft":
+                session_id = _require_text(payload, "session_id", 200)
+                result = self.studio_server.get_x_session(session_id)
+                draft = build_x_draft_payload(
+                    result,
+                    payload.get("selected_post_ids"),
+                    _require_text(payload, "cover_media_key", 200),
+                    self.studio_server.url_opener,
+                )
+                self._send_json({"payload": draft})
             else:
                 self.send_error(HTTPStatus.NOT_FOUND)
         except PermissionError as exc:
@@ -670,10 +1091,40 @@ class StudioHandler(BaseHTTPRequestHandler):
 class StudioServer(ThreadingHTTPServer):
     daemon_threads = True
 
-    def __init__(self, address: tuple[str, int], site_root: Path) -> None:
+    def __init__(
+        self,
+        address: tuple[str, int],
+        site_root: Path,
+        *,
+        x_bearer_token: str | None = None,
+        url_opener: Any = None,
+    ) -> None:
         self.site_root = site_root.resolve()
         self.api_token = secrets.token_urlsafe(32)
+        self.x_bearer_token = x_bearer_token if x_bearer_token is not None else os.environ.get("X_BEARER_TOKEN", "")
+        self.url_opener = url_opener or urllib.request.build_opener()
+        self.x_sessions: dict[str, tuple[float, dict[str, Any]]] = {}
+        self.x_session_lock = threading.Lock()
         super().__init__(address, StudioHandler)
+
+    def store_x_session(self, result: dict[str, Any]) -> str:
+        now = time.monotonic()
+        session_id = secrets.token_urlsafe(24)
+        with self.x_session_lock:
+            self.x_sessions = {
+                key: value for key, value in self.x_sessions.items()
+                if now - value[0] <= X_SESSION_SECONDS
+            }
+            self.x_sessions[session_id] = (now, result)
+        return session_id
+
+    def get_x_session(self, session_id: str) -> dict[str, Any]:
+        now = time.monotonic()
+        with self.x_session_lock:
+            value = self.x_sessions.get(session_id)
+        if not value or now - value[0] > X_SESSION_SECONDS:
+            raise ValidationError("X import session expired; fetch the account again")
+        return value[1]
 
 
 def main() -> int:

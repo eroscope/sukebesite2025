@@ -33,6 +33,7 @@
           <span class="step">01</span>
           <h1 id="settingsTitle">記事情報</h1>
         </div>
+        <button class="text-button" id="xImportButton" type="button">Xから作成</button>
       </div>
       <div class="panel-scroll form-stack">
         <label class="field field-wide">
@@ -177,6 +178,47 @@
         <button value="confirm" class="primary-button">追加する</button>
       </div>
     </form>
+  </dialog>
+
+  <dialog id="xImportDialog" class="x-import-dialog">
+    <div class="x-import-shell">
+      <header class="x-import-head">
+        <div>
+          <span class="step">X IMPORT</span>
+          <h2>Xアカウントから記事を作成</h2>
+        </div>
+        <button class="icon-button" id="xCloseButton" type="button" title="閉じる" aria-label="閉じる">×</button>
+      </header>
+
+      <div class="x-import-controls">
+        <label class="field">
+          <span>@ユーザー名またはX URL</span>
+          <input id="xUsernameInput" type="text" maxlength="120" placeholder="@username">
+        </label>
+        <label class="field">
+          <span>X API Bearer Token</span>
+          <input id="xTokenInput" type="password" maxlength="4096" autocomplete="off" placeholder="保存せず今回の取得だけに使用">
+        </label>
+        <p class="x-token-help" id="xTokenHelp">Tokenはブラウザーや下書きへ保存しません。</p>
+        <button class="primary-button" id="xFetchButton" type="button">公開投稿を取得</button>
+      </div>
+
+      <section class="x-import-results" id="xResults" hidden aria-live="polite">
+        <div class="x-account-summary" id="xAccountSummary"></div>
+        <div class="x-result-head">
+          <div>
+            <strong>画像付き投稿</strong>
+            <span id="xPostCount"></span>
+          </div>
+          <span>記事に使う投稿と一覧画像を選択</span>
+        </div>
+        <div class="x-post-list" id="xPostList"></div>
+        <div class="x-import-footer">
+          <p>本文はXの公式埋め込みを使用します。投稿画像を一覧サムネイルへ使う権利は、サイト追加前に確認してください。</p>
+          <button class="primary-button" id="xBuildButton" type="button">選択した投稿から下書きを作成</button>
+        </div>
+      </section>
+    </div>
   </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>

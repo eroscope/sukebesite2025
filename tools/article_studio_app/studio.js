@@ -10,6 +10,10 @@ const state = {
   dirty: false,
   busy: false,
   toastTimer: null,
+  xSession: "",
+  xAccount: null,
+  xPosts: [],
+  xTokenConfigured: false,
 };
 
 const elements = {};
@@ -86,8 +90,11 @@ function setBusy(busy) {
     elements.addToSiteButton,
     elements.refreshPreviewButton,
     elements.uploadButton,
+    elements.xImportButton,
+    elements.xFetchButton,
+    elements.xBuildButton,
   ].forEach((button) => {
-    button.disabled = busy;
+    if (button) button.disabled = busy;
   });
 }
 
@@ -176,7 +183,7 @@ function validateBasics({ requireSafety = false } = {}) {
     showToast("空のレスを入力してください", "error");
     return false;
   }
-  const used = state.blocks.flatMap((block) => block.type === "images" ? block.image_ids : []);
+  const used = state.blocks.flatMap((block) => ["images", "x_embed"].includes(block.type) ? (block.image_ids || []) : []);
   if (new Set(used).size !== used.length || used.length !== state.images.length) {
     showToast("すべての画像を重複なしで記事へ配置してください", "error");
     return false;
@@ -293,7 +300,7 @@ function renderImages() {
 }
 
 function blockLabel(type) {
-  return { post: "R", images: "画", separator: "線", ad: "PR" }[type] || "?";
+  return { post: "R", images: "画", x_embed: "X", separator: "線", ad: "PR" }[type] || "?";
 }
 
 function moveBlock(index, offset) {
@@ -309,8 +316,8 @@ function renderBlocks() {
   elements.blockList.replaceChildren();
   const assigned = new Map();
   state.blocks.forEach((block) => {
-    if (block.type === "images") {
-      block.image_ids.forEach((imageId) => assigned.set(imageId, block.id));
+    if (["images", "x_embed"].includes(block.type)) {
+      (block.image_ids || []).forEach((imageId) => assigned.set(imageId, block.id));
     }
   });
 
@@ -387,6 +394,23 @@ function renderBlocks() {
         picker.append(empty);
       }
       body.append(picker);
+    } else if (block.type === "x_embed") {
+      const summary = document.createElement("div");
+      summary.className = "x-block-summary";
+      const badge = document.createElement("span");
+      badge.className = "x-block-badge";
+      badge.textContent = "公式埋め込み";
+      const author = document.createElement("strong");
+      author.textContent = `${block.author_name}（@${block.username}）`;
+      const text = document.createElement("p");
+      text.textContent = block.text;
+      const link = document.createElement("a");
+      link.href = block.post_url;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.textContent = "Xで投稿を確認";
+      summary.append(badge, author, text, link);
+      body.append(summary);
     } else if (block.type === "separator") {
       const line = document.createElement("div");
       line.className = "section-rule";
@@ -448,6 +472,10 @@ function addBlock(type) {
 }
 
 function autoArrange() {
+  if (state.blocks.some((block) => block.type === "x_embed")) {
+    showToast("X投稿を含む記事はすでに自動構成されています", "error");
+    return;
+  }
   if (state.images.length === 0) {
     showToast("先に画像を追加してください", "error");
     return;
@@ -530,6 +558,198 @@ async function addImages(files) {
   } finally {
     setBusy(false);
     elements.imageInput.value = "";
+  }
+}
+
+function formatXDate(value) {
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return "日時不明";
+  return new Intl.DateTimeFormat("ja-JP", {
+    year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit",
+  }).format(parsed);
+}
+
+function chooseFirstAvailableXCover() {
+  const selectedIds = new Set(Array.from(elements.xPostList.querySelectorAll(".x-post-checkbox:checked"), (input) => input.value));
+  const current = elements.xPostList.querySelector('input[name="x-cover"]:checked');
+  if (current && selectedIds.has(current.dataset.postId)) return;
+  const next = Array.from(elements.xPostList.querySelectorAll('input[name="x-cover"]'))
+    .find((input) => selectedIds.has(input.dataset.postId));
+  if (next) next.checked = true;
+}
+
+function renderXResults() {
+  const account = state.xAccount;
+  elements.xAccountSummary.replaceChildren();
+  if (account.profile_image_url) {
+    const avatar = document.createElement("img");
+    avatar.src = `/api/x/avatar/${encodeURIComponent(state.xSession)}`;
+    avatar.alt = `${account.name}のプロフィール画像`;
+    elements.xAccountSummary.append(avatar);
+  } else {
+    const placeholder = document.createElement("div");
+    placeholder.className = "x-account-avatar-placeholder";
+    placeholder.textContent = "X";
+    elements.xAccountSummary.append(placeholder);
+  }
+  const main = document.createElement("div");
+  main.className = "x-account-main";
+  const name = document.createElement("strong");
+  name.textContent = account.name;
+  const handle = document.createElement("span");
+  handle.textContent = `@${account.username}`;
+  const description = document.createElement("p");
+  description.textContent = account.description || "プロフィール文なし";
+  main.append(name, handle, description);
+  const metric = document.createElement("div");
+  metric.className = "x-account-metric";
+  metric.textContent = `${Number(account.followers_count || 0).toLocaleString("ja-JP")} フォロワー`;
+  elements.xAccountSummary.append(main, metric);
+
+  elements.xPostList.replaceChildren();
+  state.xPosts.forEach((post, postIndex) => {
+    const item = document.createElement("article");
+    item.className = "x-post-candidate";
+    item.dataset.xPostId = post.id;
+
+    const selectCell = document.createElement("div");
+    selectCell.className = "x-post-select";
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.className = "x-post-checkbox";
+    checkbox.value = post.id;
+    checkbox.checked = postIndex < 3;
+    checkbox.setAttribute("aria-label", `${postIndex + 1}件目の投稿を記事に使う`);
+    checkbox.addEventListener("change", chooseFirstAvailableXCover);
+    selectCell.append(checkbox);
+
+    const copy = document.createElement("div");
+    copy.className = "x-post-copy";
+    const text = document.createElement("p");
+    text.textContent = post.text;
+    const meta = document.createElement("div");
+    meta.className = "x-post-meta";
+    [
+      formatXDate(post.created_at),
+      `いいね ${Number(post.metrics.like_count || 0).toLocaleString("ja-JP")}`,
+      `リポスト ${Number(post.metrics.retweet_count || 0).toLocaleString("ja-JP")}`,
+      `返信 ${Number(post.metrics.reply_count || 0).toLocaleString("ja-JP")}`,
+    ].forEach((value) => {
+      const span = document.createElement("span");
+      span.textContent = value;
+      meta.append(span);
+    });
+    if (post.possibly_sensitive) {
+      const sensitive = document.createElement("span");
+      sensitive.className = "x-sensitive";
+      sensitive.textContent = "センシティブ設定あり";
+      meta.append(sensitive);
+    }
+    copy.append(text, meta);
+
+    const mediaList = document.createElement("div");
+    mediaList.className = "x-media-list";
+    post.media.forEach((media, mediaIndex) => {
+      const choice = document.createElement("label");
+      choice.className = "x-media-choice";
+      const radio = document.createElement("input");
+      radio.type = "radio";
+      radio.name = "x-cover";
+      radio.value = media.media_key;
+      radio.dataset.postId = post.id;
+      radio.checked = postIndex === 0 && mediaIndex === 0;
+      radio.setAttribute("aria-label", "この記事の一覧画像にする");
+      radio.addEventListener("change", () => {
+        if (radio.checked) checkbox.checked = true;
+      });
+      const image = document.createElement("img");
+      image.src = `/api/x/media/${encodeURIComponent(state.xSession)}/${encodeURIComponent(media.media_key)}`;
+      image.alt = media.alt_text || `${account.name}の投稿画像`;
+      image.loading = "lazy";
+      const label = document.createElement("span");
+      label.textContent = "一覧画像";
+      choice.append(radio, image, label);
+      mediaList.append(choice);
+    });
+
+    item.append(selectCell, copy, mediaList);
+    elements.xPostList.append(item);
+  });
+  elements.xPostCount.textContent = `${state.xPosts.length}件`;
+  elements.xResults.hidden = false;
+}
+
+function openXImporter() {
+  elements.xTokenHelp.textContent = state.xTokenConfigured
+    ? "環境変数 X_BEARER_TOKEN を使用できます。入力したTokenは保存しません。"
+    : "Tokenはブラウザーや下書きへ保存せず、今回のX公式API通信だけに使用します。";
+  elements.xImportDialog.showModal();
+  elements.xUsernameInput.focus();
+}
+
+async function fetchXAccount() {
+  const username = elements.xUsernameInput.value.trim();
+  const bearerToken = elements.xTokenInput.value.trim();
+  if (!username) {
+    elements.xUsernameInput.focus();
+    showToast("Xのユーザー名を入力してください", "error");
+    return;
+  }
+  if (!bearerToken && !state.xTokenConfigured) {
+    elements.xTokenInput.focus();
+    showToast("X API Bearer Tokenを入力してください", "error");
+    return;
+  }
+  setBusy(true);
+  try {
+    const result = await apiJson("/api/x/account", {
+      method: "POST",
+      body: { username, bearer_token: bearerToken },
+    });
+    state.xSession = result.session_id;
+    state.xAccount = result.account;
+    state.xPosts = result.posts;
+    elements.xTokenInput.value = "";
+    renderXResults();
+    showToast(`${result.posts.length}件の画像付き投稿を取得しました`, "success");
+  } catch (error) {
+    showToast(error.message, "error");
+  } finally {
+    setBusy(false);
+  }
+}
+
+async function buildXDraft() {
+  const selectedPostIds = Array.from(elements.xPostList.querySelectorAll(".x-post-checkbox:checked"), (input) => input.value);
+  const cover = elements.xPostList.querySelector('input[name="x-cover"]:checked');
+  if (selectedPostIds.length < 1 || selectedPostIds.length > 6) {
+    showToast("記事に使う投稿を1件から6件選んでください", "error");
+    return;
+  }
+  if (!cover || !selectedPostIds.includes(cover.dataset.postId)) {
+    showToast("選択した投稿の画像を一覧画像に指定してください", "error");
+    return;
+  }
+  if (state.dirty && !window.confirm("編集中の記事を破棄してXの下書きを作成しますか？")) return;
+  setBusy(true);
+  try {
+    const result = await apiJson("/api/x/draft", {
+      method: "POST",
+      body: {
+        session_id: state.xSession,
+        selected_post_ids: selectedPostIds,
+        cover_media_key: cover.value,
+      },
+    });
+    applyPayload(result.payload);
+    state.dirty = true;
+    elements.saveState.textContent = "Xから作成・未保存";
+    elements.xImportDialog.close();
+    showToast("X投稿から記事の下書きを作成しました", "success");
+  } catch (error) {
+    showToast(error.message, "error");
+  } finally {
+    setBusy(false);
   }
 }
 
@@ -727,13 +947,19 @@ function cacheElements() {
     "imageList", "autoArrangeButton", "blockList", "desktopPreviewButton", "mobilePreviewButton",
     "refreshPreviewButton", "previewStage", "previewFrame", "previewEmpty", "adultConfirmed",
     "rightsConfirmed", "privacyConfirmed", "sourceConfirmed", "saveDraftButton", "downloadPackageButton",
-    "addToSiteButton", "confirmDialog", "confirmMessage", "toast",
+    "addToSiteButton", "confirmDialog", "confirmMessage", "xImportButton", "xImportDialog", "xCloseButton",
+    "xUsernameInput", "xTokenInput", "xTokenHelp", "xFetchButton", "xResults", "xAccountSummary",
+    "xPostCount", "xPostList", "xBuildButton", "toast",
   ].forEach((id) => {
     elements[id] = document.getElementById(id);
   });
 }
 
 function bindEvents() {
+  elements.xImportButton.addEventListener("click", openXImporter);
+  elements.xCloseButton.addEventListener("click", () => elements.xImportDialog.close());
+  elements.xFetchButton.addEventListener("click", fetchXAccount);
+  elements.xBuildButton.addEventListener("click", buildXDraft);
   elements.uploadButton.addEventListener("click", () => elements.imageInput.click());
   elements.imageInput.addEventListener("change", () => addImages(elements.imageInput.files));
   elements.autoArrangeButton.addEventListener("click", autoArrange);
@@ -753,7 +979,7 @@ function bindEvents() {
   });
   elements.slugInput.addEventListener("input", updateExistingState);
   document.querySelectorAll("input, textarea, select").forEach((control) => {
-    if (![elements.draftSelect, elements.imageInput].includes(control)) {
+    if (![elements.draftSelect, elements.imageInput, elements.xUsernameInput, elements.xTokenInput].includes(control)) {
       control.addEventListener("input", markDirty);
       control.addEventListener("change", markDirty);
     }
@@ -774,6 +1000,7 @@ async function initialize() {
     state.token = bootstrap.token;
     state.articles = bootstrap.articles;
     state.existingSlugs = new Set(bootstrap.articles.map((article) => article.slug));
+    state.xTokenConfigured = Boolean(bootstrap.x_token_configured);
     bootstrap.categories.forEach((category) => {
       const option = document.createElement("option");
       option.value = category;
