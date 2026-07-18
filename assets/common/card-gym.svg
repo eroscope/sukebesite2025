@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600">
+<rect width="900" height="600" fill="#eceae4"/>
+<rect x="70" y="420" width="760" height="30" fill="#171510"/>
+<g stroke="#171510" stroke-width="16" fill="none">
+<path d="M210 300h480"/><path d="M240 250v100"/><path d="M660 250v100"/>
+</g>
+<circle cx="450" cy="155" r="55" fill="#171510"/>
+<path d="M380 210h140l80 190H300Z" fill="#d9a239" stroke="#171510" stroke-width="8"/>
+<text x="55" y="90" font-family="Yu Gothic, sans-serif" font-size="36" font-weight="900" fill="#171510">ジムのお姉さん、服が強い</text>
+</svg>
