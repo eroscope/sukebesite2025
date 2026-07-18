@@ -20,6 +20,22 @@ python -m http.server 8000
 
 ## 記事パッケージの追加
 
+### 記事スタジオ
+
+フォーム入力、画像配置、PC／スマホプレビュー、下書き保存、ZIP書き出し、サイトへの追加を一画面で行えます。
+
+```sh
+python tools/article_studio.py
+```
+
+ブラウザで `http://127.0.0.1:8770/` を開きます。「サイトへ追加」は記事HTML、画像、`data/articles.json`をローカルへ原子的に反映します。GitHub Pagesへ公開するときは、追加後の変更をcommitして`main`へ反映します。
+
+Windowsでは、リポジトリ直下の `START_ARTICLE_STUDIO.cmd` をダブルクリックしても起動できます。
+
+下書きはリポジトリ内の `.article-studio/drafts/` に保存され、Git管理から除外されます。
+
+### 記事パッケージを直接追加
+
 推奨パッケージ構成:
 
 ```text

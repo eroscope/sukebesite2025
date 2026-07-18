@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>淫談屋 記事スタジオ</title>
+  <link rel="stylesheet" href="studio.css">
+</head>
+<body>
+  <header class="appbar">
+    <div class="brand">
+      <img src="/site/assets/common/indanya-logo.png" alt="淫談屋">
+      <div>
+        <strong>記事スタジオ</strong>
+        <span id="saveState">新規記事</span>
+      </div>
+    </div>
+    <div class="draft-tools">
+      <label class="sr-only" for="draftSelect">下書き</label>
+      <select id="draftSelect">
+        <option value="">下書きを選択</option>
+      </select>
+      <button class="icon-button" id="loadDraftButton" type="button" title="下書きを開く" aria-label="下書きを開く">↗</button>
+      <button class="icon-button" id="newArticleButton" type="button" title="新規記事" aria-label="新規記事">＋</button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <section class="panel settings-panel" aria-labelledby="settingsTitle">
+      <div class="panel-head">
+        <div>
+          <span class="step">01</span>
+          <h1 id="settingsTitle">記事情報</h1>
+        </div>
+      </div>
+      <div class="panel-scroll form-stack">
+        <label class="field field-wide">
+          <span>タイトル</span>
+          <textarea id="titleInput" rows="3" maxlength="180" required></textarea>
+        </label>
+
+        <div class="field-grid">
+          <label class="field">
+            <span>スラッグ</span>
+            <input id="slugInput" type="text" maxlength="100" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" placeholder="summer-pool-look">
+          </label>
+          <label class="field">
+            <span>カテゴリ</span>
+            <input id="categoryInput" type="text" maxlength="40" list="categoryList" value="画像">
+            <datalist id="categoryList"></datalist>
+          </label>
+        </div>
+
+        <label class="field field-wide">
+          <span>概要</span>
+          <textarea id="summaryInput" rows="3" maxlength="240"></textarea>
+        </label>
+
+        <div class="field-grid">
+          <label class="field">
+            <span>公開日時</span>
+            <input id="publishedAtInput" type="datetime-local">
+          </label>
+          <label class="field">
+            <span>状態</span>
+            <select id="statusInput">
+              <option value="draft">下書き</option>
+              <option value="published" selected>公開</option>
+              <option value="archived">保管</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="field-grid compact-grid">
+          <label class="field">
+            <span>コメント数</span>
+            <input id="commentsInput" type="number" min="0" step="1" value="0">
+          </label>
+          <label class="field">
+            <span>投稿者名</span>
+            <input id="posterNameInput" type="text" maxlength="80" value="風吹けば名無し">
+          </label>
+        </div>
+
+        <label class="field field-wide">
+          <span>タグ</span>
+          <input id="tagsInput" type="text" placeholder="水着, SNS, 夏">
+        </label>
+
+        <div class="toggle-row">
+          <label><input id="featuredInput" type="checkbox"> 注目記事</label>
+          <label><input id="fictionalInput" type="checkbox" checked> レスは再構成</label>
+          <label id="replaceField" hidden><input id="replaceInput" type="checkbox"> 既存記事を更新</label>
+        </div>
+
+        <div class="section-rule"><span>出典</span></div>
+
+        <label class="field field-wide">
+          <span>元記事URL</span>
+          <input id="sourceUrlInput" type="url" placeholder="https://example.com/article">
+        </label>
+        <label class="field field-wide">
+          <span>リンク表示名</span>
+          <input id="sourceLabelInput" type="text" maxlength="120" value="元記事">
+        </label>
+        <label class="field field-wide">
+          <span>注記</span>
+          <textarea id="transparencyInput" rows="3" maxlength="500" placeholder="画像の利用範囲や再構成について"></textarea>
+        </label>
+
+        <div class="section-rule"><span>画像</span><strong id="imageCount">0 / 20</strong></div>
+        <button class="upload-button" id="uploadButton" type="button"><span aria-hidden="true">＋</span> 画像を追加</button>
+        <input id="imageInput" type="file" accept="image/avif,image/gif,image/jpeg,image/png,image/webp" multiple hidden>
+        <div class="image-list" id="imageList"></div>
+      </div>
+    </section>
+
+    <section class="panel composer-panel" aria-labelledby="composerTitle">
+      <div class="panel-head composer-head">
+        <div>
+          <span class="step">02</span>
+          <h2 id="composerTitle">記事構成</h2>
+        </div>
+        <button class="text-button" id="autoArrangeButton" type="button">自動構成</button>
+      </div>
+      <div class="block-toolbar" role="toolbar" aria-label="ブロック追加">
+        <button type="button" data-add-block="post">レス</button>
+        <button type="button" data-add-block="images">画像</button>
+        <button type="button" data-add-block="separator">区切り</button>
+        <button type="button" data-add-block="ad">PR</button>
+      </div>
+      <div class="panel-scroll block-list" id="blockList"></div>
+    </section>
+
+    <section class="panel preview-panel" aria-labelledby="previewTitle">
+      <div class="panel-head preview-head">
+        <div>
+          <span class="step">03</span>
+          <h2 id="previewTitle">プレビュー</h2>
+        </div>
+        <div class="preview-actions">
+          <div class="segmented" aria-label="プレビュー幅">
+            <button id="desktopPreviewButton" type="button" class="active" aria-pressed="true">PC</button>
+            <button id="mobilePreviewButton" type="button" aria-pressed="false">スマホ</button>
+          </div>
+          <button class="icon-button" id="refreshPreviewButton" type="button" title="プレビュー更新" aria-label="プレビュー更新">↻</button>
+        </div>
+      </div>
+      <div class="preview-stage" id="previewStage">
+        <iframe id="previewFrame" title="記事プレビュー" sandbox="allow-same-origin"></iframe>
+        <div class="preview-empty" id="previewEmpty">プレビュー未生成</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="actionbar">
+    <div class="safety-checks">
+      <label><input id="adultConfirmed" type="checkbox"> 成人のみ</label>
+      <label><input id="rightsConfirmed" type="checkbox"> 利用権確認</label>
+      <label><input id="privacyConfirmed" type="checkbox"> 個人情報なし</label>
+      <label><input id="sourceConfirmed" type="checkbox"> 出典確認</label>
+    </div>
+    <div class="primary-actions">
+      <button id="saveDraftButton" type="button" class="secondary-button">下書き保存</button>
+      <button id="downloadPackageButton" type="button" class="secondary-button">ZIP書き出し</button>
+      <button id="addToSiteButton" type="button" class="primary-button">サイトへ追加</button>
+    </div>
+  </footer>
+
+  <dialog id="confirmDialog">
+    <form method="dialog">
+      <h2>サイトへ追加</h2>
+      <p id="confirmMessage"></p>
+      <div class="dialog-actions">
+        <button value="cancel" class="secondary-button">戻る</button>
+        <button value="confirm" class="primary-button">追加する</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="studio.js" defer></script>
+</body>
+</html>
