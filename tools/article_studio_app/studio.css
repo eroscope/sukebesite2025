@@ -429,6 +429,69 @@ dialog p { margin: 0; color: #555149; line-height: 1.7; }
 
 .x-import-head h2 { margin: 2px 0 0; font-size: 18px; }
 
+.x-import-modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+.x-import-modes button {
+  min-height: 42px;
+  border: 0;
+  border-right: 1px solid var(--line);
+  background: #fff;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.x-import-modes button:last-child { border-right: 0; }
+.x-import-modes button.active { background: #111; color: #fff; }
+
+.x-free-panel {
+  min-height: 0;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(220px, .65fr);
+  gap: 14px;
+  padding: 16px;
+  background: var(--paper);
+}
+
+.x-free-urls textarea { min-height: 236px; }
+
+.x-free-cover {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+
+.x-free-cover input[type="file"] {
+  width: 100%;
+  min-width: 0;
+  padding: 7px;
+  border: 1px solid #bdbab2;
+  border-radius: 3px;
+  background: #fff;
+}
+
+.x-free-cover-preview {
+  aspect-ratio: 4 / 3;
+  min-width: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: #111;
+  color: #fff;
+}
+
+.x-free-cover-preview img { width: 100%; height: 100%; object-fit: cover; }
+.x-free-panel .x-import-footer { grid-column: 1 / -1; margin: 0 -16px -16px; }
+#xApiPanel { min-height: 0; overflow: auto; }
+
 .x-import-controls {
   display: grid;
   grid-template-columns: minmax(180px, .75fr) minmax(260px, 1.25fr) auto;
@@ -594,6 +657,9 @@ dialog p { margin: 0; color: #555149; line-height: 1.7; }
   .preview-stage iframe { min-height: 650px; }
   .toast { bottom: 16px; }
   .x-import-controls { grid-template-columns: 1fr; }
+  .x-free-panel { grid-template-columns: 1fr; }
+  .x-free-urls textarea { min-height: 190px; }
+  .x-free-cover-preview { max-height: 300px; }
   .x-token-help { grid-column: auto; }
   .x-account-summary { grid-template-columns: 46px minmax(0, 1fr); }
   .x-account-summary img { width: 46px; height: 46px; }

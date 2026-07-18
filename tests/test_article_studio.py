@@ -55,6 +55,19 @@ class FakeXOpener:
     def open(self, request: urllib.request.Request, timeout: int = 20) -> FakeResponse:
         url = request.full_url
         self.urls.append(url)
+        if url.startswith("https://publish.x.com/oembed?"):
+            return FakeResponse(json.dumps({
+                "url": "https://x.com/Test_User/status/1900000000000000001",
+                "author_name": "テスト投稿者",
+                "author_url": "https://x.com/Test_User",
+                "html": (
+                    '<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">'
+                    '無料投稿の本文です。 <a href="https://x.com/hashtag/test">#test</a>'
+                    '</p>&mdash; テスト投稿者 (@Test_User) '
+                    '<a href="https://twitter.com/Test_User/status/1900000000000000001?ref_src=twsrc">'
+                    'July 18, 2026</a></blockquote>'
+                ),
+            }, ensure_ascii=False).encode("utf-8"), url=url)
         if "/users/by/username/" in url:
             return FakeResponse(json.dumps({
                 "data": {
@@ -242,6 +255,35 @@ class ArticleStudioTests(unittest.TestCase):
         with self.assertRaisesRegex(ValidationError, "1 to 15"):
             article_studio.normalize_x_username("bad-name")
 
+    def test_free_x_oembed_draft_needs_no_bearer_token(self) -> None:
+        opener = FakeXOpener()
+        canonical, username, post_id = article_studio.normalize_x_post_url(
+            "https://twitter.com/Test_User/status/1900000000000000001/photo/1?ref=test"
+        )
+        self.assertEqual(canonical, "https://x.com/Test_User/status/1900000000000000001")
+        self.assertEqual(username, "Test_User")
+        self.assertEqual(post_id, "1900000000000000001")
+
+        draft = article_studio.build_x_free_draft_payload(
+            [canonical],
+            {
+                "name": "creator.png",
+                "data_url": PNG_DATA_URL,
+                "alt": "投稿者本人の公開画像",
+                "orientation": "landscape",
+            },
+            opener,
+        )
+        self.assertEqual(draft["status"], "draft")
+        self.assertEqual(draft["images"][0]["id"], "x-cover")
+        self.assertEqual(draft["blocks"][1]["text"], "無料投稿の本文です。 #test")
+        self.assertTrue(any(url.startswith("https://publish.x.com/oembed?") for url in opener.urls))
+        self.assertFalse(any("api.x.com" in url for url in opener.urls))
+
+        final = article_studio.build_article(draft, self.site_root)
+        self.assertIn("platform.twitter.com/widgets.js", final.article_html)
+        self.assertIn(canonical, final.article_html)
+
     def test_local_api_renders_with_session_token(self) -> None:
         server = article_studio.StudioServer(("127.0.0.1", 0), self.site_root)
         thread = threading.Thread(target=server.serve_forever, daemon=True)
@@ -261,6 +303,45 @@ class ArticleStudioTests(unittest.TestCase):
                 rendered = json.loads(response.read().decode("utf-8"))
             self.assertEqual(rendered["metadata"]["slug"], "studio-check")
             self.assertIn("data:image/png;base64,", rendered["html"])
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=5)
+
+    def test_local_free_x_endpoint_builds_a_draft_without_a_token(self) -> None:
+        fake_x = FakeXOpener()
+        server = article_studio.StudioServer(
+            ("127.0.0.1", 0),
+            self.site_root,
+            x_bearer_token="",
+            url_opener=fake_x,
+        )
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+        try:
+            base = f"http://127.0.0.1:{server.server_port}"
+            with opener.open(f"{base}/api/bootstrap", timeout=5) as response:
+                bootstrap = json.loads(response.read().decode("utf-8"))
+            self.assertFalse(bootstrap["x_token_configured"])
+            request = urllib.request.Request(
+                f"{base}/api/x/free-draft",
+                data=json.dumps({
+                    "post_urls": ["https://x.com/Test_User/status/1900000000000000001"],
+                    "cover_image": {
+                        "name": "creator.png",
+                        "data_url": PNG_DATA_URL,
+                        "alt": "投稿者本人の公開画像",
+                        "orientation": "landscape",
+                    },
+                }).encode("utf-8"),
+                headers={"Content-Type": "application/json", "X-Indanya-Token": bootstrap["token"]},
+                method="POST",
+            )
+            with opener.open(request, timeout=5) as response:
+                draft = json.loads(response.read().decode("utf-8"))["payload"]
+            self.assertEqual(draft["blocks"][1]["type"], "x_embed")
+            self.assertEqual(draft["thumbnail_id"], "x-cover")
         finally:
             server.shutdown()
             server.server_close()

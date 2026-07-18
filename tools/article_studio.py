@@ -24,6 +24,7 @@ import zipfile
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from http import HTTPStatus
+from html.parser import HTMLParser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
@@ -132,6 +133,129 @@ def normalize_x_username(value: str) -> str:
     if not X_USERNAME_PATTERN.fullmatch(candidate):
         raise ValidationError("X username must contain 1 to 15 ASCII letters, numbers, or underscores")
     return candidate
+
+
+def normalize_x_post_url(value: str) -> tuple[str, str, str]:
+    if not isinstance(value, str) or len(value.strip()) > 2048:
+        raise ValidationError("X post URL must be text")
+    parsed = urlparse(value.strip())
+    if parsed.scheme not in {"http", "https"} or parsed.netloc.lower() not in {
+        "x.com", "www.x.com", "twitter.com", "www.twitter.com",
+    }:
+        raise ValidationError("X post URL must use x.com")
+    parts = [part for part in parsed.path.split("/") if part]
+    if len(parts) < 3 or parts[1].lower() != "status":
+        raise ValidationError("paste an X post URL containing /status/")
+    username = normalize_x_username(parts[0])
+    post_id = parts[2]
+    if not X_POST_ID_PATTERN.fullmatch(post_id):
+        raise ValidationError("X post URL has an invalid post ID")
+    return f"https://x.com/{username}/status/{post_id}", username, post_id
+
+
+class _XOEmbedParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.in_first_paragraph = False
+        self.paragraph_finished = False
+        self.post_parts: list[str] = []
+        self.paragraph_lang = ""
+        self.current_link = ""
+        self.current_link_parts: list[str] = []
+        self.links: list[tuple[str, str]] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        attributes = dict(attrs)
+        if tag == "p" and not self.paragraph_finished:
+            self.in_first_paragraph = True
+            self.paragraph_lang = str(attributes.get("lang") or "")[:20]
+        elif tag == "br" and self.in_first_paragraph:
+            self.post_parts.append("\n")
+        if tag == "a":
+            self.current_link = str(attributes.get("href") or "")
+            self.current_link_parts = []
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag == "p" and self.in_first_paragraph:
+            self.in_first_paragraph = False
+            self.paragraph_finished = True
+        if tag == "a" and self.current_link:
+            self.links.append((self.current_link, "".join(self.current_link_parts).strip()))
+            self.current_link = ""
+            self.current_link_parts = []
+
+    def handle_data(self, data: str) -> None:
+        if self.in_first_paragraph:
+            self.post_parts.append(data)
+        if self.current_link:
+            self.current_link_parts.append(data)
+
+
+def fetch_x_oembed(post_url_value: str, opener: Any = None) -> dict[str, Any]:
+    post_url, username, post_id = normalize_x_post_url(post_url_value)
+    query = urlencode({
+        "url": post_url,
+        "omit_script": "1",
+        "hide_thread": "1",
+        "dnt": "true",
+        "lang": "en",
+    })
+    request = urllib.request.Request(
+        f"https://publish.x.com/oembed?{query}",
+        headers={"Accept": "application/json", "User-Agent": "IndanyaArticleStudio/1.2"},
+    )
+    client = opener or urllib.request.build_opener()
+    try:
+        with client.open(request, timeout=20) as response:
+            raw = response.read(2 * 1024 * 1024 + 1)
+    except urllib.error.HTTPError as exc:
+        if exc.code in {404, 410}:
+            raise ValidationError("X post was not found or cannot be embedded") from exc
+        raise ValidationError(f"X embed service returned HTTP {exc.code}") from exc
+    except (OSError, TimeoutError) as exc:
+        raise ValidationError("X embed service could not be reached") from exc
+    if len(raw) > 2 * 1024 * 1024:
+        raise ValidationError("X embed response was too large")
+    try:
+        result = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise ValidationError("X embed service returned invalid JSON") from exc
+    if not isinstance(result, dict) or not isinstance(result.get("html"), str):
+        raise ValidationError("X post cannot be embedded")
+
+    parser = _XOEmbedParser()
+    parser.feed(result["html"])
+    text_value = "".join(parser.post_parts).strip()
+    if not text_value:
+        raise ValidationError("X embed did not contain post text")
+    if len(text_value) > 10000:
+        raise ValidationError("X post text is too long")
+
+    date_text = ""
+    for href, label in parser.links:
+        try:
+            _, _, linked_post_id = normalize_x_post_url(href)
+        except ValidationError:
+            continue
+        if linked_post_id == post_id:
+            date_text = label
+    try:
+        posted_date = datetime.strptime(date_text, "%B %d, %Y").replace(tzinfo=JST)
+    except ValueError as exc:
+        raise ValidationError("X embed did not contain a readable post date") from exc
+
+    author_name = str(result.get("author_name") or username).strip()[:80]
+    if not author_name:
+        author_name = username
+    return {
+        "id": post_id,
+        "url": post_url,
+        "username": username,
+        "author_name": author_name,
+        "text": text_value,
+        "created_at": posted_date.isoformat(),
+        "lang": parser.paragraph_lang or "ja",
+    }
 
 
 def _x_api_json(url: str, bearer_token: str, opener: Any = None) -> dict[str, Any]:
@@ -393,6 +517,84 @@ def build_x_draft_payload(
         "source_label": f"@{username}のX投稿",
         "transparency_note": "選択した公開投稿はXの公式埋め込みで表示します。投稿画像は記事一覧のサムネイルにも使用します。投稿の削除・変更があった場合は記事も確認してください。",
         "thumbnail_id": cover["id"],
+        "adult_confirmed": False,
+        "rights_confirmed": False,
+        "privacy_confirmed": False,
+        "source_confirmed": False,
+        "images": [cover],
+        "blocks": blocks,
+    }
+
+
+def build_x_free_draft_payload(
+    post_urls: Any,
+    cover_image: Any,
+    opener: Any = None,
+) -> dict[str, Any]:
+    if not isinstance(post_urls, list) or not 1 <= len(post_urls) <= MAX_X_SELECTED_POSTS:
+        raise ValidationError(f"paste 1 to {MAX_X_SELECTED_POSTS} X post URLs")
+    normalized_urls: list[str] = []
+    usernames: list[str] = []
+    for value in post_urls:
+        post_url, username, _ = normalize_x_post_url(value)
+        normalized_urls.append(post_url)
+        usernames.append(username)
+    if len(normalized_urls) != len(set(normalized_urls)):
+        raise ValidationError("X post URLs must not contain duplicates")
+    if len({username.lower() for username in usernames}) != 1:
+        raise ValidationError("all X post URLs must belong to the same account")
+    if not isinstance(cover_image, dict):
+        raise ValidationError("choose one creator image for the article thumbnail")
+
+    cover = {
+        **cover_image,
+        "id": "x-cover",
+        "alt": str(cover_image.get("alt") or f"@{usernames[0]}の投稿画像")[:180],
+    }
+    _decode_images([cover])
+    posts = [fetch_x_oembed(post_url, opener) for post_url in normalized_urls]
+    username = posts[0]["username"]
+    name = posts[0]["author_name"]
+    now = datetime.now(JST)
+    blocks: list[dict[str, Any]] = [
+        {
+            "id": "x-intro",
+            "type": "post",
+            "text": f"Xで公開されている{name}（@{username}）さんの投稿をまとめました。",
+            "style": "large",
+        }
+    ]
+    for index, post in enumerate(posts):
+        blocks.append({
+            "id": f"x-post-{post['id']}",
+            "type": "x_embed",
+            "post_id": post["id"],
+            "post_url": post["url"],
+            "author_name": post["author_name"],
+            "username": post["username"],
+            "text": post["text"],
+            "created_at": post["created_at"],
+            "lang": post["lang"],
+            "image_ids": ["x-cover"] if index == 0 else [],
+        })
+    blocks.append({"id": "x-ad", "type": "ad", "text": "記事内容に合う関連広告枠"})
+    return {
+        "title": f"【画像】{name}（@{username}）のX投稿まとめ",
+        "slug": f"x-{username.lower().replace('_', '-')}-{posts[0]['id'][-8:]}",
+        "category": "SNS",
+        "summary": f"{name}（@{username}）がXで公開している投稿をまとめています。",
+        "published_at": now.isoformat(timespec="seconds"),
+        "status": "draft",
+        "comments": 0,
+        "poster_name": "風吹けば名無し",
+        "tags": ["X", "SNS", username],
+        "featured": False,
+        "fictional_responses": True,
+        "replace_existing": False,
+        "source_url": posts[0]["url"],
+        "source_label": f"@{username}のX投稿",
+        "transparency_note": "投稿URLはXの無料oEmbedで確認し、本文は公式埋め込みで表示します。選択した投稿者画像は記事一覧のサムネイルにも使用します。投稿の削除・変更があった場合は記事も確認してください。",
+        "thumbnail_id": "x-cover",
         "adult_confirmed": False,
         "rights_confirmed": False,
         "privacy_confirmed": False,
@@ -1077,6 +1279,13 @@ class StudioHandler(BaseHTTPRequestHandler):
                     result,
                     payload.get("selected_post_ids"),
                     _require_text(payload, "cover_media_key", 200),
+                    self.studio_server.url_opener,
+                )
+                self._send_json({"payload": draft})
+            elif self.path == "/api/x/free-draft":
+                draft = build_x_free_draft_payload(
+                    payload.get("post_urls"),
+                    payload.get("cover_image"),
                     self.studio_server.url_opener,
                 )
                 self._send_json({"payload": draft})

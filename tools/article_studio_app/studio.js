@@ -14,6 +14,7 @@ const state = {
   xAccount: null,
   xPosts: [],
   xTokenConfigured: false,
+  xFreeCover: null,
 };
 
 const elements = {};
@@ -91,6 +92,7 @@ function setBusy(busy) {
     elements.refreshPreviewButton,
     elements.uploadButton,
     elements.xImportButton,
+    elements.xFreeBuildButton,
     elements.xFetchButton,
     elements.xBuildButton,
   ].forEach((button) => {
@@ -679,12 +681,92 @@ function renderXResults() {
   elements.xResults.hidden = false;
 }
 
+function setXImportMode(mode) {
+  const free = mode === "free";
+  elements.xFreePanel.hidden = !free;
+  elements.xApiPanel.hidden = free;
+  elements.xFreeModeButton.classList.toggle("active", free);
+  elements.xApiModeButton.classList.toggle("active", !free);
+  elements.xFreeModeButton.setAttribute("aria-selected", String(free));
+  elements.xApiModeButton.setAttribute("aria-selected", String(!free));
+  if (elements.xImportDialog.open) {
+    (free ? elements.xPostUrlsInput : elements.xUsernameInput).focus();
+  }
+}
+
+async function selectXFreeCover() {
+  const file = elements.xCoverInput.files[0];
+  if (!file) {
+    state.xFreeCover = null;
+    elements.xCoverPreview.replaceChildren(Object.assign(document.createElement("span"), { textContent: "画像未選択" }));
+    return;
+  }
+  setBusy(true);
+  try {
+    if (file.size > 12 * 1024 * 1024) throw new Error(`${file.name} は12MBを超えています`);
+    const dataUrl = await readFileAsDataUrl(file);
+    const dimensions = await inspectImage(dataUrl);
+    state.xFreeCover = {
+      id: "x-cover",
+      name: file.name,
+      data_url: dataUrl,
+      alt: altFromName(file.name),
+      orientation: dimensions.width >= dimensions.height ? "landscape" : "portrait",
+    };
+    const preview = document.createElement("img");
+    preview.src = dataUrl;
+    preview.alt = "選択した一覧画像";
+    elements.xCoverPreview.replaceChildren(preview);
+  } catch (error) {
+    state.xFreeCover = null;
+    elements.xCoverInput.value = "";
+    showToast(error.message, "error");
+  } finally {
+    setBusy(false);
+  }
+}
+
+async function buildXFreeDraft() {
+  const postUrls = elements.xPostUrlsInput.value
+    .split(/\r?\n/)
+    .map((value) => value.trim())
+    .filter(Boolean);
+  if (postUrls.length < 1 || postUrls.length > 6) {
+    showToast("X投稿URLを1件から6件、1行ずつ入力してください", "error");
+    elements.xPostUrlsInput.focus();
+    return;
+  }
+  if (!state.xFreeCover) {
+    showToast("一覧に使う本人画像を選んでください", "error");
+    elements.xCoverInput.focus();
+    return;
+  }
+  if (state.dirty && !window.confirm("編集中の記事を破棄してXの下書きを作成しますか？")) return;
+  setBusy(true);
+  try {
+    const result = await apiJson("/api/x/free-draft", {
+      method: "POST",
+      body: { post_urls: postUrls, cover_image: state.xFreeCover },
+    });
+    applyPayload(result.payload);
+    state.dirty = true;
+    elements.saveState.textContent = "X無料モード・未保存";
+    elements.xImportDialog.close();
+    showToast("X投稿URLから記事の下書きを作成しました", "success");
+  } catch (error) {
+    showToast(error.message, "error");
+  } finally {
+    setBusy(false);
+  }
+}
+
 function openXImporter() {
   elements.xTokenHelp.textContent = state.xTokenConfigured
     ? "環境変数 X_BEARER_TOKEN を使用できます。入力したTokenは保存しません。"
     : "Tokenはブラウザーや下書きへ保存せず、今回のX公式API通信だけに使用します。";
+  setXImportMode("free");
   elements.xImportDialog.showModal();
-  elements.xUsernameInput.focus();
+  elements.xPostUrlsInput.focus();
 }
 
 async function fetchXAccount() {
@@ -948,6 +1030,8 @@ function cacheElements() {
     "refreshPreviewButton", "previewStage", "previewFrame", "previewEmpty", "adultConfirmed",
     "rightsConfirmed", "privacyConfirmed", "sourceConfirmed", "saveDraftButton", "downloadPackageButton",
     "addToSiteButton", "confirmDialog", "confirmMessage", "xImportButton", "xImportDialog", "xCloseButton",
+    "xFreeModeButton", "xApiModeButton", "xFreePanel", "xApiPanel", "xPostUrlsInput", "xCoverInput",
+    "xCoverPreview", "xFreeBuildButton",
     "xUsernameInput", "xTokenInput", "xTokenHelp", "xFetchButton", "xResults", "xAccountSummary",
     "xPostCount", "xPostList", "xBuildButton", "toast",
   ].forEach((id) => {
@@ -958,6 +1042,10 @@ function cacheElements() {
 function bindEvents() {
   elements.xImportButton.addEventListener("click", openXImporter);
   elements.xCloseButton.addEventListener("click", () => elements.xImportDialog.close());
+  elements.xFreeModeButton.addEventListener("click", () => setXImportMode("free"));
+  elements.xApiModeButton.addEventListener("click", () => setXImportMode("api"));
+  elements.xCoverInput.addEventListener("change", selectXFreeCover);
+  elements.xFreeBuildButton.addEventListener("click", buildXFreeDraft);
   elements.xFetchButton.addEventListener("click", fetchXAccount);
   elements.xBuildButton.addEventListener("click", buildXDraft);
   elements.uploadButton.addEventListener("click", () => elements.imageInput.click());
@@ -979,7 +1067,8 @@ function bindEvents() {
   });
   elements.slugInput.addEventListener("input", updateExistingState);
   document.querySelectorAll("input, textarea, select").forEach((control) => {
-    if (![elements.draftSelect, elements.imageInput, elements.xUsernameInput, elements.xTokenInput].includes(control)) {
+    if (![elements.draftSelect, elements.imageInput, elements.xUsernameInput, elements.xTokenInput,
+      elements.xPostUrlsInput, elements.xCoverInput].includes(control)) {
       control.addEventListener("input", markDirty);
       control.addEventListener("change", markDirty);
     }
