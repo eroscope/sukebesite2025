@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600">
+<rect width="900" height="600" fill="#e9ded2"/>
+<rect x="90" y="120" width="720" height="350" rx="8" fill="#fff7ef" stroke="#171510" stroke-width="8"/>
+<rect x="140" y="300" width="620" height="140" fill="#b77b63"/>
+<circle cx="450" cy="190" r="55" fill="#171510"/>
+<path d="M365 245h170l70 160H295Z" fill="#e0a9b0" stroke="#171510" stroke-width="8"/>
+<text x="55" y="85" font-family="Yu Gothic, sans-serif" font-size="36" font-weight="900" fill="#171510">部屋着のお姉さん、距離感バグる</text>
+</svg>

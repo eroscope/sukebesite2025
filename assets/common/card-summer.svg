@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600">
+<rect width="900" height="600" fill="#1c2034"/>
+<circle cx="150" cy="130" r="52" fill="#ffdf77"/><circle cx="760" cy="120" r="40" fill="#ff8d70"/>
+<g stroke="#f3c316" stroke-width="6" fill="none">
+<path d="M90 200l60-100 60 100"/><path d="M675 185l80-120 75 120"/>
+</g>
+<path d="M350 115h200l65 395H285Z" fill="#b33c58" stroke="#fff" stroke-width="7"/>
+<path d="M392 115l58 95 58-95" fill="#f7e7d0"/>
+<path d="M330 240h240" stroke="#f3c316" stroke-width="38"/>
+<text x="48" y="560" font-family="Yu Gothic, sans-serif" font-size="36" font-weight="900" fill="#fff">夏祭りの浴衣女子ｗｗｗ</text>
+</svg>
