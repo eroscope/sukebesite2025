@@ -80,6 +80,17 @@ X_EMBED_STYLE = r'''
   color: #0f6eae;
   text-decoration: underline;
 }
+.x-timeline-shell {
+  max-width: 620px;
+  min-height: 180px;
+  margin: 24px auto;
+  padding: 18px 20px;
+  border: 1px solid #cfd3d7;
+  border-radius: 8px;
+  background: #fff;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Meiryo,sans-serif;
+}
+.x-timeline-shell a { color: #0f6eae; text-decoration: underline; }
 '''
 
 
@@ -151,6 +162,21 @@ def normalize_x_post_url(value: str) -> tuple[str, str, str]:
     if not X_POST_ID_PATTERN.fullmatch(post_id):
         raise ValidationError("X post URL has an invalid post ID")
     return f"https://x.com/{username}/status/{post_id}", username, post_id
+
+
+def normalize_x_profile_url(value: str) -> tuple[str, str]:
+    if not isinstance(value, str) or len(value.strip()) > 2048:
+        raise ValidationError("X profile URL must be text")
+    parsed = urlparse(value.strip())
+    if parsed.scheme not in {"http", "https"} or parsed.netloc.lower() not in {
+        "x.com", "www.x.com", "twitter.com", "www.twitter.com",
+    }:
+        raise ValidationError("X profile URL must use x.com")
+    parts = [part for part in parsed.path.split("/") if part]
+    if len(parts) != 1:
+        raise ValidationError("paste an X profile URL or post URL")
+    username = normalize_x_username(parts[0])
+    return f"https://x.com/{username}", username
 
 
 class _XOEmbedParser(HTMLParser):
@@ -256,6 +282,40 @@ def fetch_x_oembed(post_url_value: str, opener: Any = None) -> dict[str, Any]:
         "created_at": posted_date.isoformat(),
         "lang": parser.paragraph_lang or "ja",
     }
+
+
+def fetch_x_timeline_oembed(profile_url_value: str, opener: Any = None) -> dict[str, Any]:
+    profile_url, username = normalize_x_profile_url(profile_url_value)
+    query = urlencode({
+        "url": profile_url,
+        "limit": str(MAX_X_SELECTED_POSTS),
+        "omit_script": "1",
+        "dnt": "true",
+        "lang": "ja",
+    })
+    request = urllib.request.Request(
+        f"https://publish.x.com/oembed?{query}",
+        headers={"Accept": "application/json", "User-Agent": "IndanyaArticleStudio/1.2"},
+    )
+    client = opener or urllib.request.build_opener()
+    try:
+        with client.open(request, timeout=20) as response:
+            raw = response.read(2 * 1024 * 1024 + 1)
+    except urllib.error.HTTPError as exc:
+        if exc.code in {404, 410}:
+            raise ValidationError("X profile was not found or cannot be embedded") from exc
+        raise ValidationError(f"X embed service returned HTTP {exc.code}") from exc
+    except (OSError, TimeoutError) as exc:
+        raise ValidationError("X embed service could not be reached") from exc
+    if len(raw) > 2 * 1024 * 1024:
+        raise ValidationError("X embed response was too large")
+    try:
+        result = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise ValidationError("X embed service returned invalid JSON") from exc
+    if not isinstance(result, dict) or "twitter-timeline" not in str(result.get("html") or ""):
+        raise ValidationError("X profile timeline cannot be embedded")
+    return {"url": profile_url, "username": username, "limit": MAX_X_SELECTED_POSTS}
 
 
 def _x_api_json(url: str, bearer_token: str, opener: Any = None) -> dict[str, Any]:
@@ -532,57 +592,88 @@ def build_x_free_draft_payload(
     opener: Any = None,
 ) -> dict[str, Any]:
     if not isinstance(post_urls, list) or not 1 <= len(post_urls) <= MAX_X_SELECTED_POSTS:
-        raise ValidationError(f"paste 1 to {MAX_X_SELECTED_POSTS} X post URLs")
-    normalized_urls: list[str] = []
-    usernames: list[str] = []
-    for value in post_urls:
-        post_url, username, _ = normalize_x_post_url(value)
-        normalized_urls.append(post_url)
-        usernames.append(username)
-    if len(normalized_urls) != len(set(normalized_urls)):
-        raise ValidationError("X post URLs must not contain duplicates")
-    if len({username.lower() for username in usernames}) != 1:
-        raise ValidationError("all X post URLs must belong to the same account")
+        raise ValidationError(f"paste one X profile URL or 1 to {MAX_X_SELECTED_POSTS} post URLs")
     if not isinstance(cover_image, dict):
         raise ValidationError("choose one creator image for the article thumbnail")
+
+    timeline: dict[str, Any] | None = None
+    if len(post_urls) == 1:
+        try:
+            timeline = fetch_x_timeline_oembed(post_urls[0], opener)
+        except ValidationError as profile_error:
+            try:
+                normalize_x_post_url(post_urls[0])
+            except ValidationError:
+                raise profile_error
+
+    if timeline:
+        username = timeline["username"]
+        source_url = timeline["url"]
+        title = f"【画像】@{username}のX最新投稿まとめ"
+        slug = f"x-{username.lower().replace('_', '-')}-timeline"
+        summary = f"@{username}がXで公開している最新投稿をまとめています。"
+        intro_text = f"Xで公開されている@{username}さんの最新投稿をまとめました。"
+        blocks: list[dict[str, Any]] = [
+            {"id": "x-intro", "type": "post", "text": intro_text, "style": "large"},
+            {
+                "id": "x-timeline",
+                "type": "x_timeline",
+                "profile_url": timeline["url"],
+                "username": username,
+                "limit": timeline["limit"],
+                "image_ids": ["x-cover"],
+            },
+            {"id": "x-ad", "type": "ad", "text": "記事内容に合う関連広告枠"},
+        ]
+        transparency_note = "プロフィールURLはXの無料oEmbedで確認し、本文は最新投稿の公式タイムラインで表示します。選択した投稿者画像は記事一覧のサムネイルにも使用します。投稿の削除・変更は埋め込み表示へ反映されます。"
+    else:
+        normalized_urls: list[str] = []
+        usernames: list[str] = []
+        for value in post_urls:
+            post_url, item_username, _ = normalize_x_post_url(value)
+            normalized_urls.append(post_url)
+            usernames.append(item_username)
+        if len(normalized_urls) != len(set(normalized_urls)):
+            raise ValidationError("X post URLs must not contain duplicates")
+        if len({item.lower() for item in usernames}) != 1:
+            raise ValidationError("all X post URLs must belong to the same account")
+        posts = [fetch_x_oembed(post_url, opener) for post_url in normalized_urls]
+        username = posts[0]["username"]
+        name = posts[0]["author_name"]
+        source_url = posts[0]["url"]
+        title = f"【画像】{name}（@{username}）のX投稿まとめ"
+        slug = f"x-{username.lower().replace('_', '-')}-{posts[0]['id'][-8:]}"
+        summary = f"{name}（@{username}）がXで公開している投稿をまとめています。"
+        intro_text = f"Xで公開されている{name}（@{username}）さんの投稿をまとめました。"
+        blocks = [{"id": "x-intro", "type": "post", "text": intro_text, "style": "large"}]
+        for index, post in enumerate(posts):
+            blocks.append({
+                "id": f"x-post-{post['id']}",
+                "type": "x_embed",
+                "post_id": post["id"],
+                "post_url": post["url"],
+                "author_name": post["author_name"],
+                "username": post["username"],
+                "text": post["text"],
+                "created_at": post["created_at"],
+                "lang": post["lang"],
+                "image_ids": ["x-cover"] if index == 0 else [],
+            })
+        blocks.append({"id": "x-ad", "type": "ad", "text": "記事内容に合う関連広告枠"})
+        transparency_note = "投稿URLはXの無料oEmbedで確認し、本文は公式埋め込みで表示します。選択した投稿者画像は記事一覧のサムネイルにも使用します。投稿の削除・変更があった場合は記事も確認してください。"
 
     cover = {
         **cover_image,
         "id": "x-cover",
-        "alt": str(cover_image.get("alt") or f"@{usernames[0]}の投稿画像")[:180],
+        "alt": str(cover_image.get("alt") or f"@{username}の投稿画像")[:180],
     }
     _decode_images([cover])
-    posts = [fetch_x_oembed(post_url, opener) for post_url in normalized_urls]
-    username = posts[0]["username"]
-    name = posts[0]["author_name"]
     now = datetime.now(JST)
-    blocks: list[dict[str, Any]] = [
-        {
-            "id": "x-intro",
-            "type": "post",
-            "text": f"Xで公開されている{name}（@{username}）さんの投稿をまとめました。",
-            "style": "large",
-        }
-    ]
-    for index, post in enumerate(posts):
-        blocks.append({
-            "id": f"x-post-{post['id']}",
-            "type": "x_embed",
-            "post_id": post["id"],
-            "post_url": post["url"],
-            "author_name": post["author_name"],
-            "username": post["username"],
-            "text": post["text"],
-            "created_at": post["created_at"],
-            "lang": post["lang"],
-            "image_ids": ["x-cover"] if index == 0 else [],
-        })
-    blocks.append({"id": "x-ad", "type": "ad", "text": "記事内容に合う関連広告枠"})
     return {
-        "title": f"【画像】{name}（@{username}）のX投稿まとめ",
-        "slug": f"x-{username.lower().replace('_', '-')}-{posts[0]['id'][-8:]}",
+        "title": title,
+        "slug": slug,
         "category": "SNS",
-        "summary": f"{name}（@{username}）がXで公開している投稿をまとめています。",
+        "summary": summary,
         "published_at": now.isoformat(timespec="seconds"),
         "status": "draft",
         "comments": 0,
@@ -591,9 +682,9 @@ def build_x_free_draft_payload(
         "featured": False,
         "fictional_responses": True,
         "replace_existing": False,
-        "source_url": posts[0]["url"],
+        "source_url": source_url,
         "source_label": f"@{username}のX投稿",
-        "transparency_note": "投稿URLはXの無料oEmbedで確認し、本文は公式埋め込みで表示します。選択した投稿者画像は記事一覧のサムネイルにも使用します。投稿の削除・変更があった場合は記事も確認してください。",
+        "transparency_note": transparency_note,
         "thumbnail_id": "x-cover",
         "adult_confirmed": False,
         "rights_confirmed": False,
@@ -739,6 +830,28 @@ def _validate_blocks(raw_blocks: Any, images: tuple[ImageAsset, ...]) -> list[di
                 "text": text,
                 "created_at": created_at,
                 "lang": lang,
+                "image_ids": selected[:],
+            })
+        elif block_type == "x_timeline":
+            username = normalize_x_username(_require_text(raw, "username", 15))
+            profile_url = _require_text(raw, "profile_url", 2048)
+            normalized_profile_url, profile_username = normalize_x_profile_url(profile_url)
+            if profile_username.lower() != username.lower():
+                raise ValidationError(f"block {index} X profile URL does not match its account")
+            limit = raw.get("limit", MAX_X_SELECTED_POSTS)
+            if not isinstance(limit, int) or not 1 <= limit <= MAX_X_SELECTED_POSTS:
+                raise ValidationError(f"block {index} has an invalid X timeline limit")
+            selected = raw.get("image_ids", [])
+            if not isinstance(selected, list) or len(selected) > 1:
+                raise ValidationError(f"block {index} can own at most one cover image")
+            if any(not isinstance(item, str) or item not in image_ids for item in selected):
+                raise ValidationError(f"block {index} references an unknown cover image")
+            used_images.extend(selected)
+            blocks.append({
+                "type": "x_timeline",
+                "profile_url": normalized_profile_url,
+                "username": username,
+                "limit": limit,
                 "image_ids": selected[:],
             })
         elif block_type == "separator":
@@ -948,6 +1061,14 @@ def render_article(
                 f'<a href="{html.escape(block["post_url"], quote=True)}">'
                 f'{created.strftime("%Y年%m月%d日 %H:%M")}</a></blockquote></div>'
             )
+        elif block["type"] == "x_timeline":
+            rendered_blocks.append(
+                '<div class="x-timeline-shell">'
+                f'<a class="twitter-timeline" data-dnt="true" data-theme="light" '
+                f'data-tweet-limit="{block["limit"]}" '
+                f'href="{html.escape(block["profile_url"], quote=True)}">'
+                f'@{html.escape(block["username"])}の最新投稿をXで見る</a></div>'
+            )
         elif block["type"] == "separator":
             rendered_blocks.append('<div class="separator"></div>')
         elif block["type"] == "ad":
@@ -971,7 +1092,7 @@ def render_article(
     title = str(metadata["title"])
     summary = str(metadata.get("summary", title))
     sidebar = _render_sidebar(site_root, metadata, blocks)
-    has_x_embeds = any(block["type"] == "x_embed" for block in blocks)
+    has_x_embeds = any(block["type"] in {"x_embed", "x_timeline"} for block in blocks)
     complete_style = style + (X_EMBED_STYLE if has_x_embeds else "")
     style_markup = '<link rel="stylesheet" href="/preview.css">' if preview else f"<style>{complete_style}</style>"
     x_widgets = (

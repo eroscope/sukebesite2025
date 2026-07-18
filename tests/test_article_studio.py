@@ -56,6 +56,14 @@ class FakeXOpener:
         url = request.full_url
         self.urls.append(url)
         if url.startswith("https://publish.x.com/oembed?"):
+            if "limit=6" in url:
+                return FakeResponse(json.dumps({
+                    "url": "https://x.com/Test_User",
+                    "html": (
+                        '<a class="twitter-timeline" href="https://x.com/Test_User">'
+                        'Posts by Test_User</a>'
+                    ),
+                }).encode("utf-8"), url=url)
             return FakeResponse(json.dumps({
                 "url": "https://x.com/Test_User/status/1900000000000000001",
                 "author_name": "テスト投稿者",
@@ -283,6 +291,22 @@ class ArticleStudioTests(unittest.TestCase):
         final = article_studio.build_article(draft, self.site_root)
         self.assertIn("platform.twitter.com/widgets.js", final.article_html)
         self.assertIn(canonical, final.article_html)
+
+        timeline_draft = article_studio.build_x_free_draft_payload(
+            ["https://x.com/Test_User"],
+            {
+                "name": "creator.png",
+                "data_url": PNG_DATA_URL,
+                "alt": "投稿者本人の公開画像",
+                "orientation": "landscape",
+            },
+            opener,
+        )
+        self.assertEqual(timeline_draft["blocks"][1]["type"], "x_timeline")
+        self.assertEqual(timeline_draft["blocks"][1]["limit"], 6)
+        timeline = article_studio.build_article(timeline_draft, self.site_root)
+        self.assertIn('class="twitter-timeline"', timeline.article_html)
+        self.assertIn("https://x.com/Test_User", timeline.article_html)
 
     def test_local_api_renders_with_session_token(self) -> None:
         server = article_studio.StudioServer(("127.0.0.1", 0), self.site_root)

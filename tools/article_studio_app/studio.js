@@ -185,7 +185,7 @@ function validateBasics({ requireSafety = false } = {}) {
     showToast("空のレスを入力してください", "error");
     return false;
   }
-  const used = state.blocks.flatMap((block) => ["images", "x_embed"].includes(block.type) ? (block.image_ids || []) : []);
+  const used = state.blocks.flatMap((block) => ["images", "x_embed", "x_timeline"].includes(block.type) ? (block.image_ids || []) : []);
   if (new Set(used).size !== used.length || used.length !== state.images.length) {
     showToast("すべての画像を重複なしで記事へ配置してください", "error");
     return false;
@@ -302,7 +302,7 @@ function renderImages() {
 }
 
 function blockLabel(type) {
-  return { post: "R", images: "画", x_embed: "X", separator: "線", ad: "PR" }[type] || "?";
+  return { post: "R", images: "画", x_embed: "X", x_timeline: "X", separator: "線", ad: "PR" }[type] || "?";
 }
 
 function moveBlock(index, offset) {
@@ -318,7 +318,7 @@ function renderBlocks() {
   elements.blockList.replaceChildren();
   const assigned = new Map();
   state.blocks.forEach((block) => {
-    if (["images", "x_embed"].includes(block.type)) {
+    if (["images", "x_embed", "x_timeline"].includes(block.type)) {
       (block.image_ids || []).forEach((imageId) => assigned.set(imageId, block.id));
     }
   });
@@ -413,6 +413,23 @@ function renderBlocks() {
       link.textContent = "Xで投稿を確認";
       summary.append(badge, author, text, link);
       body.append(summary);
+    } else if (block.type === "x_timeline") {
+      const summary = document.createElement("div");
+      summary.className = "x-block-summary";
+      const badge = document.createElement("span");
+      badge.className = "x-block-badge";
+      badge.textContent = "公式タイムライン";
+      const author = document.createElement("strong");
+      author.textContent = `@${block.username}`;
+      const text = document.createElement("p");
+      text.textContent = `最新${block.limit}件を表示`;
+      const link = document.createElement("a");
+      link.href = block.profile_url;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.textContent = "Xでプロフィールを確認";
+      summary.append(badge, author, text, link);
+      body.append(summary);
     } else if (block.type === "separator") {
       const line = document.createElement("div");
       line.className = "section-rule";
@@ -474,7 +491,7 @@ function addBlock(type) {
 }
 
 function autoArrange() {
-  if (state.blocks.some((block) => block.type === "x_embed")) {
+  if (state.blocks.some((block) => ["x_embed", "x_timeline"].includes(block.type))) {
     showToast("X投稿を含む記事はすでに自動構成されています", "error");
     return;
   }
@@ -732,7 +749,7 @@ async function buildXFreeDraft() {
     .map((value) => value.trim())
     .filter(Boolean);
   if (postUrls.length < 1 || postUrls.length > 6) {
-    showToast("X投稿URLを1件から6件、1行ずつ入力してください", "error");
+    showToast("XプロフィールURLを1件、または投稿URLを1件から6件入力してください", "error");
     elements.xPostUrlsInput.focus();
     return;
   }
