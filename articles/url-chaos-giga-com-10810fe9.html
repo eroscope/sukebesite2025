@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="居酒屋の席で酔ってうつむいている女性の写真を見た掲示板の短い反応まとめ。体勢や飲み会終盤っぽさにツッコミが集まる流れ。">
+<title>【画像】居酒屋で酔って沈んでる女さん、これは見るやろｗ｜淫談屋</title>
+<style>
+:root {
+  --ink:#171510;
+  --paper:#f2f0ea;
+  --white:#ffffff;
+  --line:#d7d4cb;
+  --soft:#f8f7f2;
+  --gold:#b69a58;
+  --name:#008000;
+  --anchor:#0000cc;
+  --red:#c82219;
+  --muted:#737068;
+  --max:1120px;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0;
+  color:#222;
+  background:var(--paper);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  line-height:1.72;
+}
+a { color:inherit; text-decoration:none; }
+img { display:block; max-width:100%; }
+.topbar {
+  padding:5px 12px;
+  background:#111;
+  color:#e8e5dc;
+  text-align:center;
+  font-size:10px;
+  letter-spacing:0;
+}
+.site-header {
+  background:var(--white);
+  border-bottom:1px solid var(--ink);
+}
+.header-inner {
+  width:min(var(--max),calc(100% - 30px));
+  min-height:108px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:28px;
+}
+.logo img {
+  width:310px;
+  height:auto;
+}
+.header-copy {
+  max-width:430px;
+  color:#555149;
+  font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+  font-size:13px;
+  line-height:1.75;
+  text-align:right;
+}
+.nav {
+  background:#fff;
+  border-bottom:3px solid var(--ink);
+}
+.nav-inner {
+  width:min(var(--max),calc(100% - 30px));
+  margin:auto;
+  display:flex;
+  overflow:auto;
+  border-left:1px solid var(--line);
+}
+.nav a {
+  flex:0 0 auto;
+  padding:9px 16px 8px;
+  border-right:1px solid var(--line);
+  font-size:12px;
+  font-weight:900;
+}
+.nav a:hover {
+  background:var(--ink);
+  color:#fff;
+}
+.page {
+  width:min(var(--max),calc(100% - 30px));
+  margin:18px auto 64px;
+}
+.breadcrumb {
+  margin-bottom:11px;
+  color:var(--muted);
+  font-size:11px;
+}
+.layout {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 286px;
+  gap:24px;
+  align-items:start;
+}
+.article {
+  overflow:hidden;
+  background:#fff;
+  border:1px solid #c9c6bd;
+  box-shadow:0 2px 8px rgba(0,0,0,.045);
+}
+.article-head {
+  padding:22px 24px 17px;
+  border-bottom:1px solid var(--line);
+}
+.article-title {
+  margin:0;
+  font-size:40px;
+  line-height:1.43;
+  letter-spacing:0;
+  font-weight:900;
+  text-wrap:pretty;
+}
+.article-meta {
+  display:flex;
+  gap:13px;
+  flex-wrap:wrap;
+  margin-top:10px;
+  color:var(--muted);
+  font-size:11px;
+}
+.thread {
+  padding:18px 21px 39px;
+}
+.post {
+  margin:0 0 17px;
+  font-family:"MS PGothic","Mona","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;
+}
+.post-head {
+  color:#333;
+  font-size:13px;
+  line-height:1.55;
+  overflow-wrap:anywhere;
+}
+.post-name {
+  color:var(--name);
+  font-weight:bold;
+}
+.post-date,.post-id { color:#555; }
+.post-body {
+  margin:7px 0 0 20px;
+  font-size:16px;
+  line-height:1.75;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+.post-body.large {
+  font-size:18px;
+  font-weight:700;
+}
+.anchor {
+  color:var(--anchor);
+  font-weight:bold;
+}
+.red {
+  color:var(--red);
+  font-weight:bold;
+}
+.image-group {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  max-width:790px;
+  margin:13px auto 21px;
+}
+.image-group.single {
+  grid-template-columns:minmax(0,620px);
+  justify-content:center;
+}
+.image-group.landscape {
+  grid-template-columns:1fr;
+  max-width:800px;
+}
+.image-card {
+  position:relative;
+  overflow:hidden;
+  min-width:0;
+  background:#111;
+  border:1px solid #bdbab1;
+}
+.image-card img {
+  width:100%;
+  height:100%;
+  max-height:760px;
+  object-fit:contain;
+  cursor:zoom-in;
+}
+.image-card.portrait img {
+  aspect-ratio:3/4;
+}
+.image-card.landscape img {
+  aspect-ratio:4/3;
+}
+.image-count {
+  position:absolute;
+  right:8px;
+  bottom:8px;
+  padding:3px 7px;
+  background:rgba(0,0,0,.72);
+  border:1px solid rgba(255,255,255,.35);
+  color:#fff;
+  font-size:10px;
+}
+.image-note {
+  margin:-14px 0 21px;
+  color:#888;
+  text-align:center;
+  font-size:10px;
+}
+.highlight {
+  margin:19px -5px;
+  padding:12px 14px;
+  background:#fffbe7;
+  border-left:5px solid var(--gold);
+}
+.separator {
+  height:1px;
+  margin:23px 0;
+  background:#ddd;
+}
+.ad {
+  min-height:116px;
+  margin:27px 0;
+  display:grid;
+  place-items:center;
+  padding:16px;
+  border:1px dashed #999;
+  background:#f2f0e9;
+  color:#777;
+  text-align:center;
+  font-size:11px;
+}
+.source {
+  margin-top:30px;
+  padding:13px 14px;
+  background:#f2f1ed;
+  border:1px solid #d0cdc4;
+  color:#666;
+  font-size:11px;
+  line-height:1.75;
+}
+.source a {
+  color:var(--anchor);
+  text-decoration:underline;
+}
+.sidebox {
+  margin-bottom:17px;
+  background:#fff;
+  border:1px solid #c9c6bd;
+}
+.side-title {
+  margin:0;
+  padding:9px 11px;
+  background:var(--ink);
+  color:#fff;
+  border-bottom:1px solid var(--ink);
+  font-family:"Yu Mincho","Hiragino Mincho ProN",serif;
+  font-size:15px;
+}
+.sidebody { padding:10px; }
+.rank {
+  display:grid;
+  grid-template-columns:27px 1fr;
+  gap:8px;
+  padding:9px 0;
+  border-bottom:1px dotted #bbb;
+}
+.rank:last-child { border-bottom:0; }
+.rank-num {
+  width:24px;
+  height:24px;
+  display:grid;
+  place-items:center;
+  background:#dedbd2;
+  border:1px solid var(--ink);
+  color:#222;
+  font-size:10px;
+  font-weight:bold;
+}
+.rank a {
+  font-size:12px;
+  line-height:1.48;
+  font-weight:bold;
+}
+.rank span {
+  display:block;
+  margin-top:2px;
+  color:#888;
+  font-size:10px;
+}
+.side-ad {
+  min-height:106px;
+  display:grid;
+  place-items:center;
+  border:1px dashed #aaa;
+  background:#f3f1ea;
+  color:#777;
+  text-align:center;
+  font-size:11px;
+}
+.footer {
+  background:#171717;
+  color:#ddd;
+  border-top:4px solid var(--gold);
+}
+.footer-inner {
+  width:min(var(--max),calc(100% - 30px));
+  margin:auto;
+  padding:26px 0;
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  flex-wrap:wrap;
+  font-size:11px;
+}
+.lightbox {
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  place-items:center;
+  padding:18px;
+  background:rgba(0,0,0,.95);
+}
+.lightbox.open { display:grid; }
+.lightbox img {
+  max-width:97vw;
+  max-height:95vh;
+  object-fit:contain;
+}
+.lightbox-close {
+  position:fixed;
+  top:14px;
+  right:16px;
+  width:44px;
+  height:44px;
+  border:1px solid rgba(255,255,255,.55);
+  background:rgba(0,0,0,.35);
+  color:#fff;
+  font-size:26px;
+  cursor:pointer;
+}
+@media(max-width:850px) {
+  .layout { grid-template-columns:1fr; }
+  .sidebar {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
+  }
+  .sidebox { margin:0; }
+}
+@media(max-width:620px) {
+  .header-inner {
+    width:calc(100% - 20px);
+    min-height:86px;
+  }
+  .logo img { width:245px; }
+  .header-copy { display:none; }
+  .nav-inner,.page,.footer-inner { width:calc(100% - 18px); }
+  .nav a { padding:8px 13px; }
+  .article-head { padding:16px 13px 13px; }
+  .article-title { font-size:26px; }
+  .thread { padding:14px 10px 30px; }
+  .post-head { font-size:12px; }
+  .post-body {
+    margin-left:12px;
+    font-size:15px;
+    line-height:1.72;
+  }
+  .post-body.large { font-size:16px; }
+  .image-group {
+    grid-template-columns:1fr;
+    gap:8px;
+    margin-left:-3px;
+    margin-right:-3px;
+  }
+  .image-card.portrait img {
+    max-height:none;
+    aspect-ratio:auto;
+  }
+  .sidebar { grid-template-columns:1fr; }
+}
+
+.video-group {
+  display: grid;
+  gap: 14px;
+  max-width: 720px;
+  margin: 24px auto;
+}
+.video-card {
+  overflow: hidden;
+  border: 1px solid #cfd3d7;
+  background: #0f1011;
+}
+.article-video {
+  width: 100%;
+  max-height: 82vh;
+  display: block;
+  background: #0f1011;
+}
+.video-caption {
+  padding: 8px 10px;
+  background: #f4f5f6;
+  color: #596168;
+  font-size: 12px;
+  text-align: center;
+}
+.video-native-link {
+  position: relative;
+  min-height: 230px;
+  display: block;
+  overflow: hidden;
+  background: #111315;
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+}
+.video-native-thumb {
+  width: 100%;
+  height: 100%;
+  min-height: 230px;
+  max-height: 520px;
+  display: block;
+  object-fit: contain;
+  background: #111315;
+}
+.video-native-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .22);
+}
+.video-native-action {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  padding: 28px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .9);
+}
+.video-native-action span {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  font-size: 24px;
+}
+</style>
+</head>
+<body>
+<div class="topbar">PRを含む場合は記事内に表示します</div>
+<header class="site-header"><div class="header-inner">
+  <a class="logo" href="../index.html"><img src="../assets/common/indanya-logo.png" alt="淫談屋"></a>
+  <div class="header-copy">ネットに流れる大人向け画像・話題を、<br>余計な解説を入れずレス形式でサッと読む。</div>
+</div></header>
+<nav class="nav"><div class="nav-inner">
+  <a href="../index.html">新着</a><a href="#">画像</a><a href="#">SNS</a><a href="#">水着</a><a href="#">お姉さん</a><a href="#">人気記事</a>
+</div></nav>
+<main class="page">
+  <div class="breadcrumb"><a href="../index.html">淫談屋</a> ＞ 画像 ＞ 【画像】居酒屋で酔って沈んでる女さん、これは見るやろｗ</div>
+  <div class="layout"><article class="article">
+    <header class="article-head"><h1 class="article-title">【画像】居酒屋で酔って沈んでる女さん、これは見るやろｗ</h1>
+      <div class="article-meta"><span>2026.07.22</span><span>8 コメント</span><span>画像1枚</span></div>
+    </header>
+    <div class="thread"><div class="post"><div class="post-head"><span>1:</span> <span class="post-name">風吹けば名無し</span> <span class="post-date">2026/07/22(水) 22:28:20.90</span> <span class="post-id">ID:77d10a</span></div><div class="post-body">これは見てまう</div></div><div class="image-group single"><div class="image-card landscape"><img class="zoomable" src="../assets/articles/url-chaos-giga-com-10810fe9/image-01.webp" alt="【画像】この状態からセックスに持ち込めない弱男ｗｗｗｗｗｗｗｗ"><span class="image-count">1 / 1</span></div></div><div class="image-note">画像を押すと拡大できます</div><div class="post"><div class="post-head"><span>2:</span> <span class="post-name">風吹けば名無し</span> <span class="post-date">2026/07/22(水) 22:28:57.17</span> <span class="post-id">ID:84aa98</span></div><div class="post-body large">でっかｗ</div></div><div class="post"><div class="post-head"><span>3:</span> <span class="post-name">風吹けば名無し</span> <span class="post-date">2026/07/22(水) 22:29:34.36</span> <span class="post-id">ID:cedf9b</span></div><div class="post-body">飲み会終盤の空気すぎる</div></div><div class="post"><div class="post-head"><span>4:</span> <span class="post-name">風吹けば名無し</span> <span class="post-date">2026/07/22(水) 22:30:11.27</span> <span class="post-id">ID:82e91c</span></div><div class="post-body"><span class="anchor">&gt;&gt;2</span> そこだけ先に目いくわ</div></div><div class="post"><div class="post-head"><span>5:</span> <span class="post-name">風吹けば名無し</span> <span class="post-date">2026/07/22(水) 22:30:48.07</span> <span class="post-id">ID:d099fe</span></div><div class="post-body">横の皿までリアルで草</div></div><div class="post highlight"><div class="post-head"><span>6:</span> <span class="post-name">風吹けば名無し</span> <span class="post-date">2026/07/22(水) 22:31:25.46</span> <span class="post-id">ID:a8c1a0</span></div><div class="post-body"><span class="red">この角度はずるい</span></div></div><div class="post"><div class="post-head"><span>7:</span> <span class="post-name">風吹けば名無し</span> <span class="post-date">2026/07/22(水) 22:32:02.62</span> <span class="post-id">ID:edecdb</span></div><div class="post-body">周り普通に気まずそう</div></div><div class="post"><div class="post-head"><span>8:</span> <span class="post-name">風吹けば名無し</span> <span class="post-date">2026/07/22(水) 22:32:39.48</span> <span class="post-id">ID:8449e5</span></div><div class="post-body"><span class="anchor">&gt;&gt;7</span> 見るなって方が無理ある</div></div><div class="ad">PR<br>記事内容に合う関連広告枠</div><div class="source">元記事：<a href="https://chaos-giga.com/archives/287379" target="_blank" rel="noopener">混沌戯画</a><br>※元ページの公開情報をもとに編集用のレスとして再構成した下書きです。公開前に内容と画像利用許可を確認してください。 レス本文は記事構成のための再構成です。</div></div>
+  </article><aside class="sidebar"><section class="sidebox"><h2 class="side-title">今日の人気記事</h2><div class="sidebody"><div class="rank"><span class="rank-num">1</span><div><a href="pool-look-back.html">【画像】プールでめっちゃ見られた女さん、見つめ返してしまうｗｗｗｗｗ</a><span>31コメント</span></div></div><div class="rank"><span class="rank-num">2</span><div><a href="url-chaos-giga-com-21f573be.html">【動画】裏垢女子さん、服が限界っぽいｗｗｗ</a><span>8コメント</span></div></div><div class="rank"><span class="rank-num">3</span><div><a href="url-chaos-giga-com-0a526351.html">【画像】女子ゴルファーさん、ウェアがすごい</a><span>8コメント</span></div></div><div class="rank"><span class="rank-num">4</span><div><a href="url-chaos-giga-com-0b7ac7b5.html">【画像】VTuberのこれ、事故なんか演出なんか分からんｗｗｗ</a><span>8コメント</span></div></div></div></section><section class="sidebox"><h2 class="side-title">最新コメント</h2><div class="sidebody"><div class="rank"><span class="rank-num">新</span><div><a href="#">これは見てまう</a><span>01:00</span></div></div><div class="rank"><span class="rank-num">新</span><div><a href="#">でっかｗ</a><span>02:00</span></div></div><div class="rank"><span class="rank-num">新</span><div><a href="#">飲み会終盤の空気すぎる</a><span>03:00</span></div></div></div></section><section class="sidebox"><h2 class="side-title">PR</h2><div class="sidebody"><div class="side-ad">関連広告枠</div></div></section></aside></div>
+</main>
+<div class="lightbox" id="lightbox" aria-hidden="true"><button class="lightbox-close" id="lightboxClose" aria-label="閉じる">×</button><img id="lightboxImage" alt="拡大画像"></div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 淫談屋</span><span>運営者情報　広告掲載　お問い合わせ　プライバシーポリシー</span></div></footer>
+<script>
+const lightbox = document.getElementById('lightbox');
+const lightboxImage = document.getElementById('lightboxImage');
+const closeButton = document.getElementById('lightboxClose');
+let previouslyFocused = null;
+
+document.querySelectorAll('.zoomable').forEach(image => {
+  image.tabIndex = 0;
+  image.setAttribute('role', 'button');
+  image.setAttribute('aria-label', `${image.alt}を拡大表示`);
+  const openImage = () => {
+    previouslyFocused = document.activeElement;
+    lightboxImage.src = image.src;
+    lightboxImage.alt = image.alt;
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    closeButton.focus();
+  };
+  image.addEventListener('click', openImage);
+  image.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openImage();
+    }
+  });
+});
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  lightbox.setAttribute('aria-hidden', 'true');
+  lightboxImage.src = '';
+  lightboxImage.alt = '';
+  document.body.style.overflow = '';
+  if (previouslyFocused) previouslyFocused.focus();
+  previouslyFocused = null;
+}
+closeButton.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', event => {
+  if (event.target === lightbox) closeLightbox();
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') closeLightbox();
+});
+</script>
+
+</body>
+</html>
