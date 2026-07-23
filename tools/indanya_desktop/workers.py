@@ -39,6 +39,7 @@ def _mark_ready_to_publish(payload: dict[str, Any]) -> dict[str, Any]:
     payload["rights_confirmed"] = True
     payload["privacy_confirmed"] = True
     payload["source_confirmed"] = True
+    payload["review_status"] = "unreviewed"
     return payload
 
 
@@ -279,6 +280,7 @@ class BatchDraftWorker(QRunnable):
     def run(self) -> None:
         try:
             created: list[dict[str, Any]] = []
+            failures: list[dict[str, str]] = []
             total = max(1, len(self.urls))
             for index, source_url in enumerate(self.urls, start=1):
                 base = int((index - 1) * 100 / total)
@@ -287,12 +289,29 @@ class BatchDraftWorker(QRunnable):
                 def progress(value: int, message: str) -> None:
                     self.signals.progress.emit(min(99, base + int(value * span / 100)), f"{index}/{total} {message}")
 
-                payload = _generate_article_payload(self.site_root, source_url, self.category, self.reply_count, progress)
-                slug = save_draft(payload, self.site_root)
-                mark_candidate_status(self.site_root, source_url, "drafted", slug)
-                created.append({"slug": slug, "title": payload.get("title", ""), "source_url": source_url})
+                try:
+                    payload = _generate_article_payload(
+                        self.site_root, source_url, self.category, self.reply_count, progress
+                    )
+                    slug = save_draft(payload, self.site_root)
+                    mark_candidate_status(self.site_root, source_url, "drafted", slug)
+                    created.append({"slug": slug, "title": payload.get("title", ""), "source_url": source_url})
+                except Exception as exc:
+                    traceback.print_exc()
+                    message = str(exc) or exc.__class__.__name__
+                    mark_candidate_status(self.site_root, source_url, "failed")
+                    failures.append({"source_url": source_url, "message": message[:500]})
+                    self.signals.progress.emit(
+                        min(99, base + span),
+                        f"{index}/{total} 生成失敗。次の候補へ進みます",
+                    )
             self.signals.progress.emit(100, "選択URLの下書き生成が完了しました")
-            self.signals.completed.emit({"count": len(created), "items": created})
+            self.signals.completed.emit({
+                "count": len(created),
+                "items": created,
+                "failed_count": len(failures),
+                "failures": failures,
+            })
         except Exception as exc:
             traceback.print_exc()
             self.signals.failed.emit(str(exc) or exc.__class__.__name__)

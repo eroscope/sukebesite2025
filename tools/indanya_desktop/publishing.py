@@ -1,6 +1,8 @@
 ﻿from __future__ import annotations
 
 import copy
+import base64
+import binascii
 import html
 import json
 import os
@@ -21,6 +23,7 @@ from indanya_desktop.sites import ManagedSite
 ProgressCallback = Callable[[int, str], None]
 SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 MAX_PUBLISH_VIDEO_BYTES = 95 * 1024 * 1024
+MAX_PUBLISH_POSTER_BYTES = 12 * 1024 * 1024
 
 
 def _run_git(
@@ -138,6 +141,59 @@ def _download_video(video: dict[str, Any], destination: Path) -> None:
         temporary.unlink(missing_ok=True)
 
 
+def _localize_video_poster(
+    video: dict[str, Any],
+    destination_base: Path,
+    article_html: str,
+    local_prefix: str,
+) -> str:
+    poster_data = str(video.get("poster_data_url") or "").strip()
+    poster_url = str(video.get("poster") or "").strip()
+    data_match = re.fullmatch(
+        r"data:image/(jpeg|png|webp);base64,([A-Za-z0-9+/=\s]+)",
+        poster_data,
+    )
+    if data_match:
+        extension = {"jpeg": ".jpg", "png": ".png", "webp": ".webp"}[data_match.group(1)]
+        try:
+            raw = base64.b64decode(re.sub(r"\s+", "", data_match.group(2)), validate=True)
+        except (ValueError, binascii.Error):
+            return article_html
+        if not raw or len(raw) > MAX_PUBLISH_POSTER_BYTES:
+            return article_html
+        destination = destination_base.with_suffix(extension)
+        destination.write_bytes(raw)
+        return article_html.replace(
+            html.escape(poster_data, quote=True),
+            f"{local_prefix}{destination.name}",
+        )
+    if not poster_url.startswith(("http://", "https://")):
+        return article_html
+    headers = {
+        "Accept": "image/avif,image/webp,image/png,image/jpeg,*/*;q=0.5",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/136 Safari/537.36",
+    }
+    referer = str(video.get("referer") or "").strip()
+    if referer:
+        headers["Referer"] = referer
+    request = urllib.request.Request(_validate_source_url(poster_url), headers=headers)
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            raw = response.read(MAX_PUBLISH_POSTER_BYTES + 1)
+            content_type = str(response.headers.get("Content-Type") or "").lower()
+    except (OSError, TimeoutError):
+        return article_html
+    if not raw or len(raw) > MAX_PUBLISH_POSTER_BYTES:
+        return article_html
+    extension = ".png" if "png" in content_type else ".webp" if "webp" in content_type else ".jpg"
+    destination = destination_base.with_suffix(extension)
+    destination.write_bytes(raw)
+    return article_html.replace(
+        html.escape(poster_url, quote=True),
+        f"{local_prefix}{destination.name}",
+    )
+
+
 def _localize_videos(site_root: Path, payload: dict[str, Any], progress: ProgressCallback) -> None:
     videos = [item for item in payload.get("videos", []) if isinstance(item, dict)]
     direct_videos = [item for item in videos if item.get("kind") == "direct"]
@@ -155,10 +211,17 @@ def _localize_videos(site_root: Path, payload: dict[str, Any], progress: Progres
         progress(35 + round(index / len(direct_videos) * 30), f"動画 {index}/{len(direct_videos)} をサイト用に保存しています")
         _download_video(video, destination)
         remote = html.escape(str(video.get("url") or ""), quote=True)
-        local = f"../assets/articles/{slug}/{destination.name}"
+        local_prefix = f"../assets/articles/{slug}/"
+        local = f"{local_prefix}{destination.name}"
         if remote not in article_html:
             raise RuntimeError(f"記事内の動画 {index} を置き換えられませんでした")
         article_html = article_html.replace(remote, local)
+        article_html = _localize_video_poster(
+            video,
+            asset_root / f"video-{index:02d}-poster",
+            article_html,
+            local_prefix,
+        )
     article_path.write_text(article_html, encoding="utf-8", newline="")
 
 

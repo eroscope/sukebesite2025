@@ -31,6 +31,26 @@ BAD_HOST_PARTS = (
     "policies.google.",
     "support.google.",
 )
+NAVIGATION_TITLES = {
+    "home", "top", "next", "previous", "more", "read more",
+    "ホーム", "トップ", "次へ", "前へ", "もっと見る", "続きを読む",
+    "お問い合わせ", "利用規約", "プライバシーポリシー", "サイトマップ",
+}
+DEFAULT_AUTOMATION_SETTINGS = {
+    "start_with_windows": True,
+    "auto_crawl_enabled": True,
+    "crawl_times": ["06:00", "12:00", "18:00"],
+    "auto_draft_limit": 3,
+    "publish_enabled": True,
+    "publish_slots": [
+        {"time": "08:00", "count": 2},
+        {"time": "20:00", "count": 2},
+    ],
+    "queue": [],
+    "completed_crawl_runs": [],
+    "completed_publish_runs": [],
+}
+REVIEW_STATUSES = {"unreviewed", "queued", "published", "deleted", "failed"}
 
 
 @dataclass
@@ -58,6 +78,10 @@ class _LinkParser(HTMLParser):
         if tag.lower() == "a":
             self._anchor_href = values.get("href", "")
             self._anchor_text = []
+        elif tag.lower() == "img" and self._anchor_href:
+            alternative = values.get("alt", "").strip()
+            if alternative:
+                self._anchor_text.append(alternative)
         elif tag.lower() == "title":
             self._in_title = True
 
@@ -91,6 +115,10 @@ def _candidates_path(site_root: Path) -> Path:
     return _studio_root(site_root) / "candidates.json"
 
 
+def _automation_path(site_root: Path) -> Path:
+    return _studio_root(site_root) / "automation-settings.json"
+
+
 def _read_json(path: Path, fallback: Any) -> Any:
     try:
         return json.loads(path.read_text(encoding="utf-8"))
@@ -103,6 +131,170 @@ def _write_json(path: Path, payload: Any) -> None:
     temporary = path.with_suffix(".tmp")
     temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     temporary.replace(path)
+
+
+def _valid_clock(value: Any) -> bool:
+    return isinstance(value, str) and bool(re.fullmatch(r"(?:[01]\d|2[0-3]):[0-5]\d", value))
+
+
+def load_automation_settings(site_root: Path) -> dict[str, Any]:
+    raw = _read_json(_automation_path(site_root), {})
+    settings = {
+        **DEFAULT_AUTOMATION_SETTINGS,
+        **(raw if isinstance(raw, dict) else {}),
+    }
+    settings["crawl_times"] = sorted({
+        value for value in settings.get("crawl_times", []) if _valid_clock(value)
+    }) or list(DEFAULT_AUTOMATION_SETTINGS["crawl_times"])
+    slots = []
+    for item in settings.get("publish_slots", []):
+        if not isinstance(item, dict) or not _valid_clock(item.get("time")):
+            continue
+        count = item.get("count")
+        if isinstance(count, bool) or not isinstance(count, int) or not 1 <= count <= 20:
+            continue
+        slots.append({"time": item["time"], "count": count})
+    settings["publish_slots"] = sorted(slots, key=lambda item: item["time"]) or list(
+        DEFAULT_AUTOMATION_SETTINGS["publish_slots"]
+    )
+    queue = []
+    seen: set[str] = set()
+    for item in settings.get("queue", []):
+        if not isinstance(item, dict):
+            continue
+        slug = str(item.get("slug") or "")
+        if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug) or slug in seen:
+            continue
+        seen.add(slug)
+        queue.append({
+            "slug": slug,
+            "queued_at": str(item.get("queued_at") or ""),
+        })
+    settings["queue"] = queue
+    settings["auto_draft_limit"] = max(1, min(20, int(settings.get("auto_draft_limit") or 3)))
+    settings["completed_crawl_runs"] = [
+        str(value) for value in settings.get("completed_crawl_runs", []) if isinstance(value, str)
+    ][-120:]
+    settings["completed_publish_runs"] = [
+        str(value) for value in settings.get("completed_publish_runs", []) if isinstance(value, str)
+    ][-120:]
+    return settings
+
+
+def save_automation_settings(site_root: Path, settings: dict[str, Any]) -> dict[str, Any]:
+    normalized = load_automation_settings(site_root)
+    normalized.update(settings)
+    # Revalidate the merged value through the same normalization path.
+    _write_json(_automation_path(site_root), normalized)
+    normalized = load_automation_settings(site_root)
+    _write_json(_automation_path(site_root), normalized)
+    return normalized
+
+
+def _draft_path(site_root: Path, slug: str) -> Path:
+    return _studio_root(site_root) / "drafts" / f"{slug}.json"
+
+
+def update_review_status(
+    site_root: Path,
+    slug: str,
+    status: str,
+    *,
+    message: str = "",
+) -> dict[str, Any]:
+    if status not in REVIEW_STATUSES:
+        raise ValueError("記事状態が不正です")
+    path = _draft_path(site_root, slug)
+    payload = _read_json(path, {})
+    if not isinstance(payload, dict) or not payload:
+        raise ValueError("下書きが見つかりません")
+    payload["review_status"] = status
+    payload["review_status_at"] = datetime.now(JST).isoformat(timespec="seconds")
+    if message:
+        payload["review_message"] = message[:500]
+    elif status != "failed":
+        payload.pop("review_message", None)
+    _write_json(path, payload)
+    return payload
+
+
+def enqueue_article(site_root: Path, slug: str) -> int:
+    path = _draft_path(site_root, slug)
+    if not path.is_file():
+        raise ValueError("下書きが見つかりません")
+    settings = load_automation_settings(site_root)
+    existing = next(
+        (index for index, item in enumerate(settings["queue"], start=1) if item["slug"] == slug),
+        0,
+    )
+    if existing:
+        update_review_status(site_root, slug, "queued")
+        return existing
+    settings["queue"].append({
+        "slug": slug,
+        "queued_at": datetime.now(JST).isoformat(timespec="seconds"),
+    })
+    save_automation_settings(site_root, settings)
+    update_review_status(site_root, slug, "queued")
+    return len(settings["queue"])
+
+
+def remove_from_queue(site_root: Path, slug: str, next_status: str = "unreviewed") -> None:
+    settings = load_automation_settings(site_root)
+    settings["queue"] = [item for item in settings["queue"] if item["slug"] != slug]
+    save_automation_settings(site_root, settings)
+    if _draft_path(site_root, slug).is_file():
+        update_review_status(site_root, slug, next_status)
+
+
+def soft_delete_article(site_root: Path, slug: str) -> None:
+    remove_from_queue(site_root, slug, "deleted")
+
+
+def queue_position_map(site_root: Path) -> dict[str, int]:
+    settings = load_automation_settings(site_root)
+    return {item["slug"]: index for index, item in enumerate(settings["queue"], start=1)}
+
+
+def due_crawl_runs(site_root: Path, now: datetime | None = None) -> list[str]:
+    current = (now or datetime.now(JST)).astimezone(JST)
+    settings = load_automation_settings(site_root)
+    if not settings.get("auto_crawl_enabled", True):
+        return []
+    completed = set(settings["completed_crawl_runs"])
+    return [
+        f"{current:%Y-%m-%d}@{clock}"
+        for clock in settings["crawl_times"]
+        if current.strftime("%H:%M") >= clock and f"{current:%Y-%m-%d}@{clock}" not in completed
+    ]
+
+
+def due_publish_runs(site_root: Path, now: datetime | None = None) -> list[dict[str, Any]]:
+    current = (now or datetime.now(JST)).astimezone(JST)
+    settings = load_automation_settings(site_root)
+    if not settings.get("publish_enabled", True):
+        return []
+    completed = set(settings["completed_publish_runs"])
+    queue = [item["slug"] for item in settings["queue"]]
+    offset = 0
+    runs = []
+    for slot in settings["publish_slots"]:
+        key = f"{current:%Y-%m-%d}@{slot['time']}"
+        if current.strftime("%H:%M") < slot["time"] or key in completed:
+            continue
+        count = int(slot["count"])
+        runs.append({"key": key, "time": slot["time"], "slugs": queue[offset:offset + count]})
+        offset += count
+    return runs
+
+
+def record_automation_run(site_root: Path, kind: str, key: str) -> None:
+    field = "completed_crawl_runs" if kind == "crawl" else "completed_publish_runs"
+    settings = load_automation_settings(site_root)
+    values = [value for value in settings[field] if value != key]
+    values.append(key)
+    settings[field] = values[-120:]
+    save_automation_settings(site_root, settings)
 
 
 def normalize_candidate_url(value: str) -> str:
@@ -186,9 +378,19 @@ def _existing_urls(site_root: Path) -> set[str]:
             except ValueError:
                 pass
     for candidate in list_candidates(site_root):
-        if candidate.get("status") == "drafted":
+        if candidate.get("status") in {"drafted", "failed", "ignored"}:
             try:
                 urls.add(normalize_candidate_url(str(candidate.get("url") or "")))
+            except ValueError:
+                pass
+    database = _read_json(site_root / "data" / "articles.json", [])
+    for article in database if isinstance(database, list) else []:
+        if not isinstance(article, dict):
+            continue
+        value = str(article.get("source_url") or "")
+        if value:
+            try:
+                urls.add(normalize_candidate_url(value))
             except ValueError:
                 pass
     return urls
@@ -213,6 +415,9 @@ def _fetch_text(url: str) -> str:
 
 def _score_candidate(url: str, title: str, source_url: str) -> int:
     haystack = f"{url} {title}".lower()
+    compact_title = re.sub(r"\s+", " ", html.unescape(title)).strip().lower()
+    if compact_title in NAVIGATION_TITLES or len(compact_title) < 4:
+        return -100
     if any(term.lower() in haystack for term in BLOCKED_TERMS):
         return -100
     parsed = urlparse(url)
@@ -237,7 +442,16 @@ def _score_candidate(url: str, title: str, source_url: str) -> int:
 
 def discover_candidates(site_root: Path, per_source_limit: int = 12) -> list[dict[str, Any]]:
     existing = _existing_urls(site_root)
-    known = {normalize_candidate_url(str(item.get("url") or "")) for item in list_candidates(site_root) if item.get("url")}
+    known = {
+        normalize_candidate_url(str(item.get("url") or ""))
+        for item in list_candidates(site_root)
+        if item.get("url") and item.get("status") != "deleted"
+    }
+    known_titles = {
+        re.sub(r"[\W_]+", "", str(item.get("title") or "").lower())
+        for item in list_candidates(site_root)
+        if item.get("status") != "deleted"
+    }
     discovered: list[dict[str, Any]] = []
     sources = list_sources(site_root)
     now = datetime.now(JST).isoformat(timespec="seconds")
@@ -263,6 +477,9 @@ def discover_candidates(site_root: Path, per_source_limit: int = 12) -> list[dic
             if url in existing or url in known or url == source_url:
                 continue
             title = str(link.get("text") or "").strip()[:160] or urlparse(url).path.rsplit("/", 1)[-1]
+            title_key = re.sub(r"[\W_]+", "", title.lower())
+            if title_key and title_key in known_titles:
+                continue
             score = _score_candidate(url, title, source_url)
             if score < 15:
                 continue
@@ -277,6 +494,8 @@ def discover_candidates(site_root: Path, per_source_limit: int = 12) -> list[dic
                 "discovered_at": now,
             })
             known.add(url)
+            if title_key:
+                known_titles.add(title_key)
         scored.sort(key=lambda item: int(item["score"]), reverse=True)
         discovered.extend(scored[:per_source_limit])
         source["last_checked_at"] = now

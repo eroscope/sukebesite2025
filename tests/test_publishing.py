@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import json
 import shutil
 import subprocess
@@ -127,16 +128,28 @@ class PublishingTests(unittest.TestCase):
                 "url": source_url,
                 "referer": "https://example.com/article",
                 "mime_type": "video/mp4",
+                "poster_data_url": "data:image/jpeg;base64," + base64.b64encode(b"poster-data").decode("ascii"),
             }],
         }
+        article_path.write_text(
+            (
+                f'<video poster="{payload["videos"][0]["poster_data_url"]}">'
+                f'<source src="{escaped_url}"></video>'
+            ),
+            encoding="utf-8",
+        )
 
         with patch("urllib.request.urlopen", return_value=BytesIO(b"test-video-data")):
             publishing._localize_videos(site_root, payload, lambda _value, _message: None)
 
         localized = site_root / "assets" / "articles" / "video-check" / "video-01.mp4"
         self.assertEqual(b"test-video-data", localized.read_bytes())
+        poster = site_root / "assets" / "articles" / "video-check" / "video-01-poster.jpg"
+        self.assertEqual(b"poster-data", poster.read_bytes())
         rendered = article_path.read_text(encoding="utf-8")
         self.assertIn("../assets/articles/video-check/video-01.mp4", rendered)
+        self.assertIn("../assets/articles/video-check/video-01-poster.jpg", rendered)
+        self.assertNotIn("data:image/", rendered)
         self.assertNotIn("media.example.com", rendered)
 
 

@@ -35,6 +35,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="淫談屋 記事編集室")
     parser.add_argument("--site-root", type=Path, default=default_site_root())
     parser.add_argument("--screenshot", type=Path, help="画面確認用PNGを保存して終了")
+    parser.add_argument("--background", action="store_true", help="自動処理用に最小化して起動")
     parser.add_argument("--video-smoke", type=Path, help=argparse.SUPPRESS)
     args = parser.parse_args()
 
@@ -47,7 +48,10 @@ def main() -> int:
     window.codex_state.setText(
         f"Codex: 接続済み ({status.get('version', '')})" if status.get("available") else f"Codex: {status.get('message', '未接続')}"
     )
-    window.show()
+    if args.background:
+        window.showMinimized()
+    else:
+        window.show()
     if args.video_smoke:
         import json
         from PySide6.QtCore import QTimer, QUrl

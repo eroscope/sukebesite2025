@@ -1,13 +1,17 @@
 ﻿from __future__ import annotations
 
 import base64
+import html
 import json
+import os
+import re
+import sys
 import threading
 import time
 from pathlib import Path
 from typing import Callable
 
-from PySide6.QtCore import Qt, QThreadPool, QUrl, Signal
+from PySide6.QtCore import Qt, QThreadPool, QTimer, QUrl, Signal
 from PySide6.QtGui import QDesktopServices, QPixmap
 from PySide6.QtWidgets import (
     QAbstractItemView,
@@ -57,11 +61,21 @@ from indanya_desktop.sites import ManagedSite, SiteRegistry
 from indanya_desktop.theme import APP_STYLE
 from indanya_desktop.automation import (
     add_source,
+    due_crawl_runs,
+    due_publish_runs,
+    enqueue_article,
     list_candidates,
+    load_automation_settings,
     list_sources,
+    queue_position_map,
+    record_automation_run,
+    remove_from_queue,
     remove_source,
+    save_automation_settings,
     save_candidates,
     save_sources,
+    soft_delete_article,
+    update_review_status,
     update_source,
 )
 from indanya_desktop.workers import (
@@ -112,6 +126,19 @@ class PreviewPage(QWebEnginePage):
             video_id = url.path().strip("/")
             if video_id:
                 self.video_requested.emit(video_id)
+            return False
+        return super().acceptNavigationRequest(url, navigation_type, is_main_frame)
+
+
+class ReviewActionPage(QWebEnginePage):
+    action_requested = Signal(str, str)
+
+    def acceptNavigationRequest(self, url: QUrl, navigation_type, is_main_frame: bool) -> bool:  # noqa: N802
+        if url.scheme() == "indanya-action":
+            action = url.host()
+            slug = url.path().strip("/")
+            if action and slug:
+                self.action_requested.emit(action, slug)
             return False
         return super().acceptNavigationRequest(url, navigation_type, is_main_frame)
 
@@ -253,6 +280,13 @@ class MainWindow(QMainWindow):
         self.publish_progress: QProgressDialog | None = None
         self.publish_queue: list[tuple[str, str]] = []
         self.publish_batch_total = 0
+        self.scheduled_collect = False
+        self.scheduled_crawl_keys: list[str] = []
+        self.scheduled_publish_slugs: list[str] = []
+        self.scheduled_publish_key = ""
+        self.scheduled_publish_active = False
+        self.publish_current_slug = ""
+        self.publish_from_schedule = False
         self.current_slug = ""
         self.preview_videos: dict[str, dict] = {}
         self.video_windows: list[VideoPlayerDialog] = []
@@ -268,8 +302,14 @@ class MainWindow(QMainWindow):
         self.setStyleSheet(APP_STYLE)
         self._build_ui()
         self._start_preview_server()
-        self.switch_page("dashboard")
+        self.scheduler_timer = QTimer(self)
+        self.scheduler_timer.setInterval(60_000)
+        self.scheduler_timer.timeout.connect(self._scheduler_tick)
+        self.scheduler_timer.start()
+        self._ensure_startup_launcher()
+        self.switch_page("review")
         self.refresh_all()
+        QTimer.singleShot(4_000, self._scheduler_tick)
 
     @property
     def site(self) -> ManagedSite:
@@ -289,6 +329,7 @@ class MainWindow(QMainWindow):
         body_layout.addWidget(self._build_topbar())
         self.stack = QStackedWidget()
         self.pages = {
+            "review": self._review_page(),
             "dashboard": self._dashboard_page(),
             "create": self._create_page(),
             "drafts": self._drafts_page(),
@@ -324,7 +365,8 @@ class MainWindow(QMainWindow):
         layout.addLayout(logo_row)
         layout.addSpacing(18)
         groups = [
-            ("制作", [("dashboard", "▦  ダッシュボード"), ("create", "＋  URLから作成"), ("drafts", "□  記事下書き"), ("editor", "T  記事編集")]),
+            ("編集部", [("review", "▦  公開前ボード"), ("dashboard", "·  ダッシュボード")]),
+            ("制作", [("create", "＋  URLから作成"), ("drafts", "□  記事下書き"), ("editor", "T  記事編集")]),
             ("編集フロー", [("rights", "✓  許可管理"), ("publishing", "↑  公開管理")]),
             ("自動化", [("sources", "◎  情報源"), ("automation", "↻  自動巡回")]),
             ("サイト", [("sites", "◇  管理サイト"), ("settings", "⚙  設定")]),
@@ -452,6 +494,82 @@ class MainWindow(QMainWindow):
         self.generate_result.setWordWrap(True)
         status.addWidget(self.generate_result)
         layout.addWidget(panel(status))
+        return self._page_shell(body)
+
+    def _review_page(self) -> QWidget:
+        body = QWidget()
+        layout = QVBoxLayout(body)
+        head = QHBoxLayout()
+        head.addWidget(heading(
+            "公開前ボード",
+            "自動生成された記事をサイトと同じ見た目で確認し、公開・予約待機・消去を選びます。",
+        ), 1)
+        refresh = button("更新")
+        refresh.clicked.connect(self._refresh_review_board)
+        head.addWidget(refresh)
+        layout.addLayout(head)
+
+        filters = QHBoxLayout()
+        filters.addWidget(QLabel("表示"))
+        self.review_filter = QComboBox()
+        for label, value in (
+            ("未判別", "unreviewed"),
+            ("すべて", "all"),
+            ("予約待機", "queued"),
+            ("公開済み", "published"),
+            ("消去済み", "deleted"),
+            ("公開失敗", "failed"),
+        ):
+            self.review_filter.addItem(label, value)
+        self.review_filter.currentIndexChanged.connect(self._refresh_review_board)
+        filters.addWidget(self.review_filter)
+        filters.addWidget(QLabel("並び順"))
+        self.review_sort = QComboBox()
+        self.review_sort.addItem("新しい順", "newest")
+        self.review_sort.addItem("古い順", "oldest")
+        self.review_sort.addItem("待機順", "queue")
+        self.review_sort.currentIndexChanged.connect(self._refresh_review_board)
+        filters.addWidget(self.review_sort)
+        filters.addStretch()
+        self.review_queue_label = QLabel("予約待機 0件", objectName="success")
+        filters.addWidget(self.review_queue_label)
+        layout.addLayout(filters)
+
+        schedule = QHBoxLayout()
+        schedule.setContentsMargins(14, 10, 14, 10)
+        self.auto_crawl_enabled = QCheckBox("自動巡回")
+        schedule.addWidget(self.auto_crawl_enabled)
+        self.crawl_times_input = QLineEdit()
+        self.crawl_times_input.setPlaceholderText("06:00,12:00,18:00")
+        self.crawl_times_input.setMaximumWidth(190)
+        schedule.addWidget(self.crawl_times_input)
+        schedule.addWidget(QLabel("各巡回の記事数"))
+        self.auto_draft_limit = QComboBox()
+        for value in range(1, 6):
+            self.auto_draft_limit.addItem(f"{value}件", value)
+        schedule.addWidget(self.auto_draft_limit)
+        self.auto_publish_enabled = QCheckBox("予約投稿")
+        schedule.addWidget(self.auto_publish_enabled)
+        self.publish_slots_input = QLineEdit()
+        self.publish_slots_input.setPlaceholderText("08:00=2,20:00=2")
+        schedule.addWidget(self.publish_slots_input, 1)
+        save_schedule = button("自動化設定を保存", "primary")
+        save_schedule.clicked.connect(self.save_scheduler_controls)
+        schedule.addWidget(save_schedule)
+        layout.addWidget(panel(schedule))
+        self.scheduler_note = QLabel("", objectName="muted")
+        layout.addWidget(self.scheduler_note)
+
+        self.review_view = QWebEngineView()
+        self.review_view.setMinimumHeight(560)
+        self.review_page = ReviewActionPage(self.review_view)
+        self.review_page.action_requested.connect(self._review_action)
+        self.review_view.setPage(self.review_page)
+        self.review_view.settings().setAttribute(
+            QWebEngineSettings.WebAttribute.LocalContentCanAccessRemoteUrls, True
+        )
+        layout.addWidget(self.review_view, 1)
+        self._load_scheduler_controls()
         return self._page_shell(body)
 
     def _drafts_page(self) -> QWidget:
@@ -703,6 +821,7 @@ class MainWindow(QMainWindow):
     def switch_page(self, name: str) -> None:
         self.stack.setCurrentWidget(self.pages[name])
         titles = {
+            "review": ("REVIEW", "公開前ボード"),
             "dashboard": ("OVERVIEW", "ダッシュボード"), "create": ("CREATE", "URLから記事を作成"),
             "drafts": ("DRAFTS", "記事下書き"), "editor": ("EDIT", "記事編集"),
             "rights": ("RIGHTS", "許可管理"), "publishing": ("PUBLISH", "公開管理"),
@@ -713,7 +832,7 @@ class MainWindow(QMainWindow):
         self.page_title.setText(titles[name][1])
         for key, nav in self.nav_buttons.items():
             nav.setChecked(key == name)
-        if name in {"dashboard", "drafts", "rights", "publishing", "sites", "editor"}:
+        if name in {"review", "dashboard", "drafts", "rights", "publishing", "sites", "editor"}:
             self.refresh_all()
 
     def refresh_all(self) -> None:
@@ -727,10 +846,268 @@ class MainWindow(QMainWindow):
         self._refresh_sites()
         self._refresh_sources()
         self._refresh_candidates()
+        self._refresh_review_board(drafts)
         self.workspace_path.setText(f"現在の作業フォルダ: {self.site.root}")
         logo_path = self.site.root / "assets" / "common" / "indanya-logo.png"
         if logo_path.is_file():
             self.logo.setPixmap(QPixmap(str(logo_path)).scaled(42, 42, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+
+    def _board_thumbnail_url(self, slug: str, payload: dict) -> str:
+        images = payload.get("images") if isinstance(payload.get("images"), list) else []
+        thumbnail_id = str(payload.get("thumbnail_id") or "")
+        selected = next(
+            (item for item in images if isinstance(item, dict) and str(item.get("id")) == thumbnail_id),
+            None,
+        )
+        if selected is None:
+            selected = next((item for item in images if isinstance(item, dict)), None)
+        data_url = str(selected.get("data_url") or "") if selected else ""
+        if not data_url:
+            videos = payload.get("videos") if isinstance(payload.get("videos"), list) else []
+            data_url = next(
+                (
+                    str(item.get("poster_data_url") or "")
+                    for item in videos
+                    if isinstance(item, dict) and item.get("poster_data_url")
+                ),
+                "",
+            )
+        match = re.fullmatch(r"data:image/(jpeg|png|webp|gif);base64,([A-Za-z0-9+/=]+)", data_url)
+        if not match:
+            return ""
+        suffix = {"jpeg": ".jpg", "png": ".png", "webp": ".webp", "gif": ".gif"}[match.group(1)]
+        destination = self.site.root / ".article-studio" / "board-thumbs" / f"{slug}{suffix}"
+        try:
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_bytes(base64.b64decode(match.group(2), validate=True))
+            return QUrl.fromLocalFile(str(destination.resolve())).toString()
+        except (OSError, ValueError):
+            return ""
+
+    def _refresh_review_board(self, drafts: list[dict] | None = None) -> None:
+        if not hasattr(self, "review_view"):
+            return
+        drafts = drafts if isinstance(drafts, list) else list_drafts(self.site.root)
+        positions = queue_position_map(self.site.root)
+        selected_filter = str(self.review_filter.currentData() or "unreviewed")
+        selected_sort = str(self.review_sort.currentData() or "newest")
+        records = []
+        for draft in drafts:
+            try:
+                payload = self._draft_payload(str(draft["slug"]))
+            except Exception:
+                continue
+            status = str(payload.get("review_status") or "unreviewed")
+            if payload.get("published_url") or str(payload.get("editorial_status") or "") == "published":
+                status = "published"
+            elif draft["slug"] in positions:
+                status = "queued"
+            if status not in {"unreviewed", "queued", "published", "deleted", "failed"}:
+                status = "unreviewed"
+            if selected_filter != "all" and status != selected_filter:
+                continue
+            records.append((draft, payload, status))
+        if selected_sort == "oldest":
+            records.reverse()
+        elif selected_sort == "queue":
+            records.sort(key=lambda item: (positions.get(item[0]["slug"], 1_000_000), item[0]["updated_at"]))
+
+        labels = {
+            "queued": "予約待機",
+            "published": "公開済み",
+            "deleted": "消去済み",
+            "failed": "公開失敗",
+        }
+        cards = []
+        for draft, payload, status in records:
+            slug = str(draft["slug"])
+            title = html.escape(str(payload.get("title") or slug))
+            summary = html.escape(str(payload.get("summary") or ""))
+            category = html.escape(str(payload.get("category") or "話題"))
+            tags = "".join(
+                f"<span>#{html.escape(str(tag))}</span>"
+                for tag in (payload.get("tags") or [])[:6]
+                if isinstance(tag, str)
+            )
+            thumb = html.escape(self._board_thumbnail_url(slug, payload), quote=True)
+            media = f'<img src="{thumb}" alt="">' if thumb else '<div class="no-image">NO IMAGE</div>'
+            overlay = ""
+            if status != "unreviewed":
+                label = labels[status]
+                if status == "queued":
+                    label += f" #{positions.get(slug, 0)}"
+                overlay = f'<div class="status-overlay {status}">{label}</div>'
+            actions = []
+            if status in {"unreviewed", "failed"}:
+                actions.extend([
+                    ("publish", "すぐ公開", "primary"),
+                    ("queue", "予約待機へ", "queue"),
+                    ("delete", "消去", "danger"),
+                ])
+            elif status == "queued":
+                actions.extend([
+                    ("publish", "すぐ公開", "primary"),
+                    ("dequeue", "待機から外す", "queue"),
+                    ("delete", "消去", "danger"),
+                ])
+            elif status == "published":
+                actions.append(("open", "公開記事を開く", "primary"))
+            elif status == "deleted":
+                actions.append(("restore", "未判別へ戻す", "queue"))
+            actions.append(("edit", "編集", "plain"))
+            action_markup = "".join(
+                f'<a class="{kind}" href="indanya-action://{action}/{slug}">{label}</a>'
+                for action, label, kind in actions
+            )
+            cards.append(f"""
+<article class="card">
+  <a class="media" href="indanya-action://edit/{slug}">{media}{overlay}</a>
+  <div class="copy">
+    <div class="meta">{category}　{html.escape(draft["updated_at"][:10])}　画像{draft["image_count"]} / 動画{draft["video_count"]}</div>
+    <h2>{title}</h2><p>{summary}</p><div class="tags">{tags}</div>
+  </div>
+  <div class="actions">{action_markup}</div>
+</article>""")
+        empty = '<div class="empty">この状態の記事はありません。</div>' if not cards else ""
+        document = f"""<!doctype html><html lang="ja"><head><meta charset="utf-8"><style>
+*{{box-sizing:border-box}}body{{margin:0;padding:18px;background:#f2f0ea;color:#211f1a;font-family:"Yu Gothic UI",Meiryo,sans-serif}}
+.grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:1180px;margin:auto}}
+.card{{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid #c9c6bd;min-width:0}}
+.media{{position:relative;display:block;aspect-ratio:16/10;overflow:hidden;background:#171717}}
+.media img{{width:100%;height:100%;display:block;object-fit:cover}}.no-image{{height:100%;display:grid;place-items:center;color:#888}}
+.status-overlay{{position:absolute;inset:0;display:grid;place-items:center;background:rgba(35,35,35,.67);color:#fff;font-size:26px;font-weight:900}}
+.status-overlay.published{{background:rgba(21,94,73,.72)}}.status-overlay.queued{{background:rgba(120,91,24,.72)}}.status-overlay.deleted{{background:rgba(50,50,50,.76)}}.status-overlay.failed{{background:rgba(156,36,27,.74)}}
+.copy{{padding:13px 14px 8px;flex:1}}.meta{{color:#77736a;font-size:10px}}h2{{margin:7px 0;font-size:17px;line-height:1.5;letter-spacing:0}}p{{margin:0;color:#5e5a52;font-size:11px;line-height:1.65}}
+.tags{{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}}.tags span{{padding:3px 6px;border:1px solid #d2cfc6;background:#f4f2ec;font-size:9px}}
+.actions{{display:flex;gap:6px;flex-wrap:wrap;padding:10px 14px 14px;border-top:1px solid #e3e0d8}}.actions a{{padding:7px 10px;border:1px solid #aaa69d;color:#222;text-decoration:none;font-size:11px;font-weight:800}}
+.actions .primary{{background:#181a1d;color:#fff;border-color:#181a1d}}.actions .queue{{background:#e7f2ef;color:#126e68;border-color:#9bc9c4}}.actions .danger{{margin-left:auto;background:#fff;color:#b0251d;border-color:#d7aaa6}}
+.empty{{padding:80px 20px;background:#fff;border:1px solid #c9c6bd;text-align:center;color:#777}}
+@media(max-width:800px){{.grid{{grid-template-columns:1fr}}}}
+</style></head><body><main class="grid">{''.join(cards)}{empty}</main></body></html>"""
+        self.review_queue_label.setText(f"予約待機 {len(positions)}件")
+        self.review_view.setHtml(document, QUrl.fromLocalFile(str(self.site.root.resolve()) + os.sep))
+
+    def _review_action(self, action: str, slug: str) -> None:
+        try:
+            if action == "edit":
+                self.edit_publish_article(slug)
+            elif action == "publish":
+                self.start_publish(slug)
+            elif action == "queue":
+                position = enqueue_article(self.site.root, slug)
+                self.scheduler_note.setText(f"予約待機 #{position} に追加しました。")
+                self.refresh_all()
+            elif action == "dequeue":
+                remove_from_queue(self.site.root, slug)
+                self.scheduler_note.setText("予約待機から外しました。")
+                self.refresh_all()
+            elif action == "delete":
+                soft_delete_article(self.site.root, slug)
+                self.scheduler_note.setText("記事を消去済みに移しました。")
+                self.refresh_all()
+            elif action == "restore":
+                update_review_status(self.site.root, slug, "unreviewed")
+                self.scheduler_note.setText("未判別へ戻しました。")
+                self.refresh_all()
+            elif action == "open":
+                self.open_published_article(slug)
+        except Exception as exc:
+            QMessageBox.critical(self, "操作できません", str(exc))
+
+    def _load_scheduler_controls(self) -> None:
+        settings = load_automation_settings(self.site.root)
+        self.auto_crawl_enabled.setChecked(bool(settings.get("auto_crawl_enabled", True)))
+        self.crawl_times_input.setText(",".join(settings["crawl_times"]))
+        self.auto_draft_limit.setCurrentIndex(
+            max(0, self.auto_draft_limit.findData(int(settings["auto_draft_limit"])))
+        )
+        self.auto_publish_enabled.setChecked(bool(settings.get("publish_enabled", True)))
+        self.publish_slots_input.setText(",".join(
+            f"{item['time']}={item['count']}" for item in settings["publish_slots"]
+        ))
+
+    def save_scheduler_controls(self) -> None:
+        crawl_times = [
+            value.strip() for value in self.crawl_times_input.text().split(",") if value.strip()
+        ]
+        if not crawl_times or any(not re.fullmatch(r"(?:[01]\d|2[0-3]):[0-5]\d", value) for value in crawl_times):
+            QMessageBox.warning(self, "巡回時刻を確認", "巡回時刻は 06:00,12:00,18:00 の形式で入力してください。")
+            return
+        publish_slots = []
+        for value in self.publish_slots_input.text().split(","):
+            match = re.fullmatch(r"\s*((?:[01]\d|2[0-3]):[0-5]\d)\s*=\s*(\d{1,2})\s*", value)
+            if not match or not 1 <= int(match.group(2)) <= 20:
+                QMessageBox.warning(self, "予約投稿を確認", "予約投稿は 08:00=2,20:00=2 の形式で入力してください。")
+                return
+            publish_slots.append({"time": match.group(1), "count": int(match.group(2))})
+        settings = load_automation_settings(self.site.root)
+        settings.update({
+            "auto_crawl_enabled": self.auto_crawl_enabled.isChecked(),
+            "crawl_times": crawl_times,
+            "auto_draft_limit": int(self.auto_draft_limit.currentData()),
+            "publish_enabled": self.auto_publish_enabled.isChecked(),
+            "publish_slots": publish_slots,
+        })
+        save_automation_settings(self.site.root, settings)
+        self.scheduler_note.setText("自動巡回と予約投稿の設定を保存しました。")
+        self._refresh_review_board()
+
+    def _ensure_startup_launcher(self) -> None:
+        if not getattr(sys, "frozen", False):
+            return
+        settings = load_automation_settings(self.site.root)
+        if not settings.get("start_with_windows", True):
+            return
+        app_data = os.environ.get("APPDATA", "").strip()
+        if not app_data:
+            return
+        startup = Path(app_data) / "Microsoft" / "Windows" / "Start Menu" / "Programs" / "Startup"
+        launcher = startup / "IndanyaStudioBackground.cmd"
+        try:
+            startup.mkdir(parents=True, exist_ok=True)
+            launcher.write_text(
+                '@echo off\r\n'
+                f'start "" /min "{Path(sys.executable).resolve()}" --background --site-root "{self.site.root}"\r\n',
+                encoding="utf-8",
+                newline="",
+            )
+        except OSError:
+            pass
+
+    def _scheduler_tick(self) -> None:
+        if self.publish_worker or self.unpublish_worker or self.collect_worker or self.batch_worker:
+            return
+        publish_runs = due_publish_runs(self.site.root)
+        if publish_runs:
+            run = publish_runs[0]
+            if not run["slugs"]:
+                record_automation_run(self.site.root, "publish", str(run["key"]))
+            else:
+                self.scheduled_publish_key = str(run["key"])
+                self.scheduled_publish_slugs = list(run["slugs"])
+                self.scheduler_note.setText(
+                    f"{run['time']} の予約投稿を開始します（{len(run['slugs'])}件）"
+                )
+                self._start_next_scheduled_publish()
+                return
+        crawl_runs = due_crawl_runs(self.site.root)
+        if crawl_runs:
+            self.scheduled_collect = True
+            self.scheduled_crawl_keys = crawl_runs
+            self.collect_auto_candidates(scheduled=True)
+
+    def _start_next_scheduled_publish(self) -> None:
+        if not self.scheduled_publish_slugs:
+            if self.scheduled_publish_key:
+                record_automation_run(self.site.root, "publish", self.scheduled_publish_key)
+            self.scheduled_publish_key = ""
+            self.scheduled_publish_active = False
+            self.scheduler_note.setText("予約投稿が完了しました。")
+            self.refresh_all()
+            QTimer.singleShot(500, self._scheduler_tick)
+            return
+        slug = self.scheduled_publish_slugs.pop(0)
+        self.start_publish(slug, scheduled=True)
 
     def _refresh_metrics(self, drafts: list[dict]) -> None:
         self.metric_labels["drafts"].setText(str(len(drafts)))
@@ -898,12 +1275,13 @@ class MainWindow(QMainWindow):
         self.sources_note.setText("情報源を削除しました。")
         self._refresh_sources()
 
-    def collect_auto_candidates(self) -> None:
+    def collect_auto_candidates(self, scheduled: bool = False) -> None:
         if self.collect_worker:
             return
         self.save_auto_sources()
+        self.scheduled_collect = scheduled
         self.auto_progress.setValue(1)
-        self.auto_note.setText("候補URLを収集中です。")
+        self.auto_note.setText("自動巡回で候補URLを収集中です。" if scheduled else "候補URLを収集中です。")
         self.collect_worker = CollectCandidatesWorker(self.site.root, int(self.collect_limit.currentData()))
         self.collect_worker.signals.progress.connect(self._auto_progress_changed)
         self.collect_worker.signals.completed.connect(self._collect_completed)
@@ -920,6 +1298,31 @@ class MainWindow(QMainWindow):
         self.auto_progress.setValue(100)
         self.auto_note.setText(f"{result.get('count', 0)}件の候補URLを拾いました。")
         self.refresh_all()
+        if not self.scheduled_collect:
+            return
+        for key in self.scheduled_crawl_keys:
+            record_automation_run(self.site.root, "crawl", key)
+        self.scheduled_crawl_keys = []
+        settings = load_automation_settings(self.site.root)
+        limit = int(settings.get("auto_draft_limit") or 3)
+        candidates = sorted(
+            (
+                item for item in list_candidates(self.site.root)
+                if item.get("status") == "new" and int(item.get("score") or 0) >= 22
+            ),
+            key=lambda item: (
+                int(item.get("score") or 0),
+                str(item.get("discovered_at") or ""),
+            ),
+            reverse=True,
+        )
+        urls = [str(item.get("url") or "") for item in candidates[:limit] if item.get("url")]
+        if urls:
+            self._start_batch_drafts(urls, scheduled=True)
+            return
+        self.scheduled_collect = False
+        self.scheduler_note.setText("自動巡回完了。今回、新しく記事にする候補はありませんでした。")
+        QTimer.singleShot(500, self._scheduler_tick)
 
     def create_auto_drafts(self) -> None:
         if self.batch_worker:
@@ -935,8 +1338,15 @@ class MainWindow(QMainWindow):
         if not urls:
             self.auto_note.setText("下書きにする候補が選ばれていません。")
             return
+        self._start_batch_drafts(urls, scheduled=False)
+
+    def _start_batch_drafts(self, urls: list[str], scheduled: bool) -> None:
+        if self.batch_worker or not urls:
+            return
+        self.scheduled_collect = scheduled
         self.auto_progress.setValue(1)
-        self.auto_note.setText(f"{len(urls)}件を下書き生成します。")
+        prefix = "自動巡回から" if scheduled else ""
+        self.auto_note.setText(f"{prefix}{len(urls)}件を下書き生成します。")
         self.batch_worker = BatchDraftWorker(self.site.root, urls, "auto", "auto")
         self.batch_worker.signals.progress.connect(self._auto_progress_changed)
         self.batch_worker.signals.completed.connect(self._batch_completed)
@@ -946,14 +1356,31 @@ class MainWindow(QMainWindow):
     def _batch_completed(self, result: dict) -> None:
         self.batch_worker = None
         self.auto_progress.setValue(100)
-        self.auto_note.setText(f"{result.get('count', 0)}件の下書きを作成しました。")
+        failed = int(result.get("failed_count") or 0)
+        suffix = f"（失敗 {failed}件）" if failed else ""
+        self.auto_note.setText(f"{result.get('count', 0)}件の下書きを作成しました。{suffix}")
+        was_scheduled = self.scheduled_collect
+        self.scheduled_collect = False
         self.refresh_all()
+        if was_scheduled:
+            self.scheduler_note.setText(
+                f"自動巡回完了。確認待ちへ {result.get('count', 0)}件追加しました。{suffix}"
+            )
+            QTimer.singleShot(500, self._scheduler_tick)
 
     def _auto_failed(self, message: str) -> None:
         self.collect_worker = None
         self.batch_worker = None
+        was_scheduled = self.scheduled_collect
+        if was_scheduled:
+            for key in self.scheduled_crawl_keys:
+                record_automation_run(self.site.root, "crawl", key)
+            self.scheduled_crawl_keys = []
+        self.scheduled_collect = False
         self.auto_progress.setValue(100)
         self.auto_note.setText(f"自動処理失敗: {message}")
+        if was_scheduled:
+            self.scheduler_note.setText("自動巡回でエラーが発生しました。次の巡回時刻に再開します。")
 
     def clean_auto_candidates(self) -> None:
         candidates = [item for item in list_candidates(self.site.root) if item.get("status") == "new"]
@@ -1274,30 +1701,60 @@ class MainWindow(QMainWindow):
         else:
             self.start_unpublish(current, confirm=False, from_queue=True)
 
-    def start_publish(self, slug: str, from_queue: bool = False) -> None:
+    def start_publish(
+        self,
+        slug: str,
+        from_queue: bool = False,
+        scheduled: bool = False,
+    ) -> None:
+        if self.publish_worker:
+            return
         if not slug:
-            QMessageBox.information(self, "記事を選択", "公開する記事を選んでください。")
+            if scheduled:
+                self._start_next_scheduled_publish()
+            else:
+                QMessageBox.information(self, "記事を選択", "公開する記事を選んでください。")
             return
         try:
             payload = self._draft_payload(slug)
         except Exception as exc:
-            QMessageBox.critical(self, "読込エラー", str(exc))
+            if scheduled:
+                remove_from_queue(self.site.root, slug, "failed")
+                self.scheduler_note.setText(f"{slug} を読めないため予約から外しました。")
+                self._start_next_scheduled_publish()
+            else:
+                QMessageBox.critical(self, "読込エラー", str(exc))
             return
         if payload.get("rights_status") != "confirmed" or payload.get("rights_confirmed") is not True:
-            QMessageBox.warning(self, "許可確認が必要です", "許可管理でこの記事を「許可済み」にしてから公開してください。")
+            if scheduled:
+                remove_from_queue(self.site.root, slug, "failed")
+                update_review_status(self.site.root, slug, "failed", message="画像・動画の使用許可が未確認です")
+                self.scheduler_note.setText(f"「{payload.get('title', slug)}」は許可未確認のため予約から外しました。")
+                self._start_next_scheduled_publish()
+            else:
+                QMessageBox.warning(self, "許可確認が必要です", "許可管理でこの記事を「許可済み」にしてから公開してください。")
             return
         if not self.site.repository_url.strip():
-            QMessageBox.warning(self, "公開先を確認", "管理サイトにGitHubリポジトリURLを設定してください。")
+            if scheduled:
+                remove_from_queue(self.site.root, slug, "failed")
+                update_review_status(self.site.root, slug, "failed", message="公開先リポジトリが未設定です")
+                self._start_next_scheduled_publish()
+            else:
+                QMessageBox.warning(self, "公開先を確認", "管理サイトにGitHubリポジトリURLを設定してください。")
             return
+        self.publish_current_slug = slug
+        self.publish_from_schedule = scheduled
+        self.scheduled_publish_active = scheduled
         existing = str(payload.get("editorial_status") or payload.get("status") or "") == "published"
         action = "更新" if existing else "公開"
         self.publish_note.setText(f"「{payload.get('title', slug)}」を{action}しています。")
-        self.publish_progress = QProgressDialog(f"{action}しています", "", 0, 100, self)
-        self.publish_progress.setWindowTitle("サイトへ公開")
-        self.publish_progress.setCancelButton(None)
-        self.publish_progress.setWindowModality(Qt.WindowModality.WindowModal)
-        self.publish_progress.setMinimumDuration(0)
-        self.publish_progress.setValue(1)
+        if not scheduled:
+            self.publish_progress = QProgressDialog(f"{action}しています", "", 0, 100, self)
+            self.publish_progress.setWindowTitle("サイトへ公開")
+            self.publish_progress.setCancelButton(None)
+            self.publish_progress.setWindowModality(Qt.WindowModality.WindowModal)
+            self.publish_progress.setMinimumDuration(0)
+            self.publish_progress.setValue(1)
         self.publish_worker = PublishArticleWorker(self.site.root, payload, self.site)
         self.publish_worker.signals.progress.connect(self._publish_progress_changed)
         self.publish_worker.signals.completed.connect(self._publish_completed)
@@ -1315,11 +1772,20 @@ class MainWindow(QMainWindow):
             self.publish_progress.close()
             self.publish_progress = None
         self.publish_worker = None
-        self.current_slug = str(result.get("slug") or self.current_slug)
+        slug = str(result.get("slug") or self.publish_current_slug or self.current_slug)
+        self.current_slug = slug
+        if slug:
+            remove_from_queue(self.site.root, slug, "published")
+        was_scheduled = self.publish_from_schedule
+        self.publish_current_slug = ""
+        self.publish_from_schedule = False
         self.refresh_all()
         if self.stack.currentWidget() == self.pages["editor"]:
             self.load_editor_draft()
-        if self.publish_queue:
+        if was_scheduled:
+            self.scheduler_note.setText(f"予約公開完了: {result.get('url', '')}")
+            self._start_next_scheduled_publish()
+        elif self.publish_queue:
             self.publish_note.setText(f"公開/更新完了: {result.get('url', '')}")
             self._start_next_publish_in_queue()
         elif self.publish_batch_total:
@@ -1333,6 +1799,17 @@ class MainWindow(QMainWindow):
             self.publish_progress.close()
             self.publish_progress = None
         self.publish_worker = None
+        slug = self.publish_current_slug
+        was_scheduled = self.publish_from_schedule
+        self.publish_current_slug = ""
+        self.publish_from_schedule = False
+        if slug:
+            remove_from_queue(self.site.root, slug, "failed")
+            update_review_status(self.site.root, slug, "failed", message=message)
+        if was_scheduled:
+            self.scheduler_note.setText(f"予約公開失敗: {message}。次の記事へ進みます。")
+            self._start_next_scheduled_publish()
+            return
         self.publish_queue = []
         self.publish_batch_total = 0
         self.publish_note.setText(f"公開/更新失敗: {message}")

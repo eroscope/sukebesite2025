@@ -21,7 +21,7 @@ class ReferenceCollector(HTMLParser):
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         for key, value in attrs:
-            if value and key.lower() in {"href", "src"}:
+            if value and key.lower() in {"href", "src", "poster"}:
                 self.references.append(value)
 
 
@@ -44,7 +44,11 @@ class SiteIntegrityTests(unittest.TestCase):
             image_files = [
                 path
                 for path in image_directory.iterdir()
-                if path.is_file() and path.suffix.lower() in {".avif", ".gif", ".jpeg", ".jpg", ".png", ".webp"}
+                if (
+                    path.is_file()
+                    and path.name.startswith("image-")
+                    and path.suffix.lower() in {".avif", ".gif", ".jpeg", ".jpg", ".png", ".webp"}
+                )
             ]
             self.assertEqual(len(image_files), article["images_used"])
 

@@ -3263,6 +3263,14 @@ def list_drafts(site_root: Path = SITE_ROOT) -> list[dict[str, Any]]:
             "published_site_id": str(payload.get("published_site_id") or "")[:120],
             "published_site_name": str(payload.get("published_site_name") or "")[:120],
             "published_at": str(payload.get("published_at") or "")[:40],
+            "review_status": str(payload.get("review_status") or (
+                "published" if payload.get("published_url") else "unreviewed"
+            ))[:40],
+            "review_message": str(payload.get("review_message") or "")[:500],
+            "summary": str(payload.get("summary") or "")[:240],
+            "tags": [
+                str(tag)[:40] for tag in payload.get("tags", []) if isinstance(tag, str)
+            ][:12] if isinstance(payload.get("tags"), list) else [],
             "image_count": len(payload.get("images", [])) if isinstance(payload.get("images"), list) else 0,
             "video_count": len(payload.get("videos", [])) if isinstance(payload.get("videos"), list) else 0,
             "updated_at": datetime.fromtimestamp(path.stat().st_mtime, JST).isoformat(),

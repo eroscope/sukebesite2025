@@ -3,6 +3,8 @@ from __future__ import annotations
 import os
 import tempfile
 import unittest
+import json
+from datetime import datetime
 from email.message import Message
 from io import BytesIO
 from pathlib import Path
@@ -14,7 +16,22 @@ TOOLS = ROOT / "tools"
 if str(TOOLS) not in os.sys.path:
     os.sys.path.insert(0, str(TOOLS))
 
-from indanya_desktop.automation import add_source, discover_candidates, list_candidates, list_sources  # noqa: E402
+from article_studio import JST  # noqa: E402
+from indanya_desktop.automation import (  # noqa: E402
+    add_source,
+    due_crawl_runs,
+    due_publish_runs,
+    enqueue_article,
+    discover_candidates,
+    list_candidates,
+    list_sources,
+    load_automation_settings,
+    queue_position_map,
+    record_automation_run,
+    remove_from_queue,
+    save_automation_settings,
+    soft_delete_article,
+)
 
 
 class FakeResponse(BytesIO):
@@ -31,6 +48,15 @@ class FakeResponse(BytesIO):
 
 
 class AutomationTests(unittest.TestCase):
+    def _draft(self, root: Path, slug: str) -> Path:
+        path = root / ".article-studio" / "drafts" / f"{slug}.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps({"slug": slug, "title": slug, "review_status": "unreviewed"}),
+            encoding="utf-8",
+        )
+        return path
+
     def test_add_source_and_discover_candidates(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -74,6 +100,53 @@ class AutomationTests(unittest.TestCase):
             with patch("urllib.request.urlopen", return_value=FakeResponse(html)):
                 discovered = discover_candidates(root, per_source_limit=10)
             self.assertEqual(["https://example.com/archives/22222"], [item["url"] for item in discovered])
+
+    def test_queue_is_fifo_and_status_tracks_actions(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            first = self._draft(root, "first-article")
+            second = self._draft(root, "second-article")
+            self.assertEqual(1, enqueue_article(root, "first-article"))
+            self.assertEqual(2, enqueue_article(root, "second-article"))
+            self.assertEqual(
+                {"first-article": 1, "second-article": 2},
+                queue_position_map(root),
+            )
+            self.assertEqual("queued", json.loads(first.read_text(encoding="utf-8"))["review_status"])
+            remove_from_queue(root, "first-article", "published")
+            self.assertEqual({"second-article": 1}, queue_position_map(root))
+            self.assertEqual("published", json.loads(first.read_text(encoding="utf-8"))["review_status"])
+            soft_delete_article(root, "second-article")
+            self.assertEqual({}, queue_position_map(root))
+            self.assertEqual("deleted", json.loads(second.read_text(encoding="utf-8"))["review_status"])
+
+    def test_due_runs_respect_times_completion_and_slot_counts(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for slug in ("one", "two", "three", "four", "five"):
+                self._draft(root, slug)
+                enqueue_article(root, slug)
+            settings = load_automation_settings(root)
+            settings.update({
+                "crawl_times": ["06:00", "12:00"],
+                "publish_slots": [
+                    {"time": "08:00", "count": 2},
+                    {"time": "20:00", "count": 2},
+                ],
+            })
+            save_automation_settings(root, settings)
+            now = datetime(2026, 7, 24, 21, 0, tzinfo=JST)
+            self.assertEqual(
+                ["2026-07-24@06:00", "2026-07-24@12:00"],
+                due_crawl_runs(root, now),
+            )
+            runs = due_publish_runs(root, now)
+            self.assertEqual(["one", "two"], runs[0]["slugs"])
+            self.assertEqual(["three", "four"], runs[1]["slugs"])
+            record_automation_run(root, "crawl", "2026-07-24@06:00")
+            record_automation_run(root, "publish", "2026-07-24@08:00")
+            self.assertEqual(["2026-07-24@12:00"], due_crawl_runs(root, now))
+            self.assertEqual(["2026-07-24@20:00"], [item["key"] for item in due_publish_runs(root, now)])
 
 
 if __name__ == "__main__":
