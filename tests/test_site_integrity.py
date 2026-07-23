@@ -41,11 +41,26 @@ class SiteIntegrityTests(unittest.TestCase):
             self.assertTrue((ROOT / article["url"]).is_file())
             self.assertTrue((ROOT / article["thumbnail"]).is_file())
             image_directory = ROOT / "assets" / "articles" / article["slug"]
-            image_files = [path for path in image_directory.iterdir() if path.is_file()]
+            image_files = [
+                path
+                for path in image_directory.iterdir()
+                if path.is_file() and path.suffix.lower() in {".avif", ".gif", ".jpeg", ".jpg", ".png", ".webp"}
+            ]
             self.assertEqual(len(image_files), article["images_used"])
 
-    def test_home_and_articles_have_no_broken_local_references(self) -> None:
-        pages = [ROOT / "index.html", *sorted((ROOT / "articles").glob("*.html"))]
+    def test_home_catalog_pages_and_articles_have_no_broken_local_references(self) -> None:
+        pages = [
+            ROOT / "index.html",
+            ROOT / "latest.html",
+            ROOT / "popular.html",
+            ROOT / "random.html",
+            ROOT / "search.html",
+            ROOT / "tags.html",
+            ROOT / "about.html",
+            ROOT / "privacy.html",
+            ROOT / "contact.html",
+            *sorted((ROOT / "articles").glob("*.html")),
+        ]
         for page in pages:
             source = page.read_text(encoding="utf-8")
             self.assertNotIn("data:image/", source)
@@ -63,6 +78,15 @@ class SiteIntegrityTests(unittest.TestCase):
         script = (ROOT / "assets" / "common" / "site.js").read_text(encoding="utf-8")
         self.assertNotIn("innerHTML", script)
         self.assertIn('article.status === "published"', script)
+
+    def test_catalog_pages_share_search_and_article_data(self) -> None:
+        catalog_script = (ROOT / "assets" / "common" / "catalog.js").read_text(encoding="utf-8")
+        self.assertIn("article.search_text", catalog_script)
+        self.assertIn("article.tags", catalog_script)
+        for filename in ("latest.html", "popular.html", "random.html", "search.html", "tags.html"):
+            source = (ROOT / filename).read_text(encoding="utf-8")
+            self.assertIn('action="search.html"', source)
+            self.assertIn("assets/common/catalog.js", source)
 
 
 if __name__ == "__main__":

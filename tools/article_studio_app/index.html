@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>記事編集室 | 淫談屋</title>
+  <link rel="stylesheet" href="studio.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="/site/assets/common/indanya-logo.png" alt="淫談屋">
+        <div><strong>記事編集室</strong><span>LOCAL STUDIO</span></div>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="管理メニュー">
+        <p class="nav-label">制作</p>
+        <button class="nav-item active" type="button" data-view="source"><span class="nav-mark">＋</span><span>URLから作成</span></button>
+        <button class="nav-item" type="button" data-view="drafts"><span class="nav-mark">□</span><span>記事下書き</span><strong id="draftNavCount">0</strong></button>
+        <button class="nav-item" type="button" data-view="editor"><span class="nav-mark">T</span><span>記事編集</span></button>
+
+        <p class="nav-label">編集フロー</p>
+        <button class="nav-item" type="button" data-future="candidates" data-title="話題候補"><span class="nav-mark">↗</span><span>話題候補</span><em>準備中</em></button>
+        <button class="nav-item" type="button" data-view="rights"><span class="nav-mark">✓</span><span>許可管理</span><strong id="rightsNavCount">0</strong></button>
+        <button class="nav-item" type="button" data-future="publishing" data-title="公開管理"><span class="nav-mark">●</span><span>公開管理</span><em>準備中</em></button>
+
+        <p class="nav-label">自動化</p>
+        <button class="nav-item" type="button" data-future="sources" data-title="情報源"><span class="nav-mark">≡</span><span>情報源</span><em>準備中</em></button>
+        <button class="nav-item" type="button" data-future="automation" data-title="自動巡回"><span class="nav-mark">↻</span><span>自動巡回</span><em>準備中</em></button>
+        <button class="nav-item" type="button" data-future="settings" data-title="生成設定"><span class="nav-mark">⚙</span><span>生成設定</span><em>準備中</em></button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <span class="connection-dot"></span>
+        <div><strong>ローカル接続</strong><span>127.0.0.1:8770</span></div>
+      </div>
+    </aside>
+
+    <section class="app-main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="viewEyebrow">CREATE</p>
+          <h1 id="viewTitle">URLから記事を作成</h1>
+        </div>
+        <div class="topbar-actions">
+          <span class="save-state" id="saveState">新規記事</span>
+          <div class="draft-tools" id="editorDraftTools" hidden>
+            <label class="sr-only" for="draftSelect">下書き</label>
+            <select id="draftSelect"><option value="">下書きを選択</option></select>
+            <button class="icon-button" id="loadDraftButton" type="button" title="下書きを開く" aria-label="下書きを開く">↗</button>
+            <button class="icon-button" id="newArticleButton" type="button" title="新規記事" aria-label="新規記事">＋</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-area">
+        <section class="app-view source-view" id="sourceView">
+          <div class="view-heading">
+            <div><h2>URLだけで記事下書きまで作成</h2><p>素材選定・広告除外・タイトル・レス・構成をCodexがまとめて担当します。</p></div>
+            <div class="supported-types"><span>WEB</span><span>X POST</span><span>X PROFILE</span><span>VIDEO</span></div>
+          </div>
+
+          <section class="url-console">
+            <label for="sourceAnalyzerInput">ページURL</label>
+            <div class="url-input-row">
+              <input id="sourceAnalyzerInput" type="url" inputmode="url" autocomplete="off" placeholder="https://example.com/article">
+              <button class="secondary-button" id="sourcePasteButton" type="button">貼り付け</button>
+              <button class="primary-button" id="sourceAnalyzeButton" type="button">Codexに全部任せて作る</button>
+            </div>
+            <div class="analysis-progress" id="sourceProgress" hidden>
+              <span></span><strong>Codexが記事を準備しています</strong><em>素材回収・広告除外・本編選定を実行中</em>
+            </div>
+          </section>
+
+          <section class="source-result" id="sourceResult" hidden>
+            <header class="result-head">
+              <div class="result-source">
+                <span class="source-type" id="sourceTypeBadge">WEB</span>
+                <div><strong id="sourceSiteName">サイト名</strong><a id="sourceOpenLink" href="#" target="_blank" rel="noopener">元ページを開く ↗</a></div>
+              </div>
+              <div class="result-metrics">
+                <div><strong id="sourceImageMetric">0</strong><span>画像候補</span></div>
+                <div><strong id="sourceVideoMetric">0</strong><span>動画候補</span></div>
+                <div><strong id="sourceTextMetric">0</strong><span>本文候補</span></div>
+              </div>
+            </header>
+
+            <div class="source-summary">
+              <p class="eyebrow" id="sourceAnalysisLabel">CODEX ANALYZED</p>
+              <h3 id="sourceResultTitle"></h3>
+              <p id="sourceResultDescription"></p>
+            </div>
+
+            <div class="result-grid">
+              <section class="media-panel">
+                <div class="section-head">
+                  <div><h3>Codexが選んだ素材</h3><span id="sourceSelectedCount">0件選択</span></div>
+                  <div><button class="text-button" id="sourceExcludedToggleButton" type="button" hidden>除外素材 0</button><button class="text-button" id="sourceSelectAllButton" type="button">すべて選択</button><button class="text-button" id="sourceClearImagesButton" type="button">解除</button></div>
+                </div>
+                <div class="source-image-grid" id="sourceImageGrid"></div>
+                <div class="source-media-subhead"><strong>動画候補</strong><span>Codexが本編と判定した動画を選択済み</span></div>
+                <div class="source-video-grid" id="sourceVideoGrid"></div>
+                <div class="fallback-upload" id="sourceFallbackBox" hidden>
+                  <label for="sourceFallbackInput"><strong>画像を追加</strong><span>ページから画像を取得できなかった場合に使用</span></label>
+                  <input id="sourceFallbackInput" type="file" accept="image/avif,image/gif,image/jpeg,image/png,image/webp">
+                  <div id="sourceFallbackPreview"></div>
+                </div>
+              </section>
+
+              <aside class="generate-panel">
+                <div class="generate-status" id="codexStatus"><span></span><div><strong id="codexStatusTitle">Codexを確認中</strong><small id="codexStatusDetail">---</small></div></div>
+                <label class="field"><span>記事形式</span><select id="sourceToneInput"><option value="thread">2ちゃん風まとめ</option></select></label>
+                <label class="field"><span>カテゴリー</span><select id="sourceCategoryInput"><option value="auto">自動判定</option><option value="SNS">SNS</option><option value="画像">画像</option><option value="動画">動画</option><option value="話題">話題</option></select></label>
+                <label class="field"><span>レスの本数</span><select id="sourceReplyCountInput"><option value="auto">自動（8本）</option><option value="5">5本</option><option value="8">8本</option><option value="10">10本</option></select></label>
+                <div class="permission-state"><span>画像・動画利用</span><strong>未確認</strong></div>
+                <div class="generation-job" id="generationJob" hidden>
+                  <div><strong id="generationJobTitle">生成待ち</strong><span id="generationJobProgress">0%</span></div>
+                  <progress id="generationProgressBar" max="100" value="0"></progress>
+                  <p id="generationJobMessage"></p>
+                  <button class="secondary-button" id="generationRetryButton" type="button" hidden>もう一度実行</button>
+                </div>
+                <button class="primary-button generate-button" id="sourceGenerateButton" type="button">選択内容で作り直す</button>
+              </aside>
+            </div>
+          </section>
+
+          <section class="recent-drafts">
+            <div class="section-head"><div><h3>最近の下書き</h3><span>保存した記事</span></div><button class="text-button" type="button" data-open-drafts>すべて見る</button></div>
+            <div class="draft-strip" id="recentDrafts"></div>
+          </section>
+        </section>
+
+        <section class="app-view drafts-view" id="draftsView" hidden>
+          <div class="view-heading"><div><h2>記事下書き</h2><p>生成した記事と手動保存した記事をまとめて管理します。</p></div><button class="primary-button" type="button" data-view-jump="source">＋ URLから作成</button></div>
+          <div class="draft-summary-bar"><div><strong id="draftTotalCount">0</strong><span>すべて</span></div><div><strong id="draftRightsCount">0</strong><span>許可未確認</span></div><div><strong id="publishedCount">0</strong><span>公開記事</span></div></div>
+          <div class="draft-table" id="draftsList"></div>
+        </section>
+
+        <section class="app-view rights-view" id="rightsView" hidden>
+          <div class="view-heading"><div><h2>許可管理</h2><p>記事ごとの画像・動画利用の確認状況です。</p></div><button class="primary-button" type="button" data-view-jump="source">＋ URLから作成</button></div>
+          <div class="rights-summary">
+            <div><strong id="rightsUnconfirmedCount">0</strong><span>未連絡</span></div>
+            <div><strong id="rightsRequestedCount">0</strong><span>依頼済み</span></div>
+            <div><strong id="rightsConfirmedCount">0</strong><span>許可済み</span></div>
+            <div><strong id="rightsRejectedCount">0</strong><span>使用不可</span></div>
+          </div>
+          <div class="rights-table" id="rightsList"></div>
+        </section>
+
+        <section class="app-view editor-view" id="editorView" hidden>
+          <div class="editor-bar">
+            <button class="back-button" type="button" data-view-jump="source">← URL作成へ</button>
+            <div><strong id="editorArticleTitle">新規記事</strong><span>編集・素材配置・プレビュー</span></div>
+            <button class="text-button" id="xImportButton" type="button" hidden>Xから作成</button>
+          </div>
+
+          <div class="workspace">
+            <section class="panel settings-panel" aria-labelledby="settingsTitle">
+              <div class="panel-head"><div><span class="step">01</span><h2 id="settingsTitle">記事情報</h2></div></div>
+              <div class="panel-scroll form-stack">
+                <label class="field field-wide"><span>タイトル</span><textarea id="titleInput" rows="3" maxlength="180" required></textarea></label>
+                <div class="field-grid">
+                  <label class="field"><span>スラッグ</span><input id="slugInput" type="text" maxlength="100" pattern="[a-z0-9]+(?:-[a-z0-9]+)*"></label>
+                  <label class="field"><span>カテゴリー</span><input id="categoryInput" type="text" maxlength="40" list="categoryList" value="画像"><datalist id="categoryList"></datalist></label>
+                </div>
+                <label class="field field-wide"><span>概要</span><textarea id="summaryInput" rows="3" maxlength="240"></textarea></label>
+                <div class="field-grid">
+                  <label class="field"><span>公開日時</span><input id="publishedAtInput" type="datetime-local"></label>
+                  <label class="field"><span>状態</span><select id="statusInput"><option value="draft">下書き</option><option value="published">公開</option><option value="archived">非公開</option></select></label>
+                </div>
+                <div class="field-grid compact-grid">
+                  <label class="field"><span>コメント数</span><input id="commentsInput" type="number" min="0" step="1" value="0"></label>
+                  <label class="field"><span>投稿者名</span><input id="posterNameInput" type="text" maxlength="80" value="風吹けば名無し"></label>
+                </div>
+                <label class="field field-wide"><span>タグ</span><input id="tagsInput" type="text" placeholder="SNS, 画像"></label>
+                <div class="toggle-row"><label><input id="featuredInput" type="checkbox"> 注目記事</label><label><input id="fictionalInput" type="checkbox" checked> レスは再構成</label><label id="replaceField" hidden><input id="replaceInput" type="checkbox"> 既存記事を更新</label></div>
+                <div class="section-rule"><span>出典</span></div>
+                <label class="field field-wide"><span>元記事URL</span><input id="sourceUrlInput" type="url"></label>
+                <label class="field field-wide"><span>リンク表示名</span><input id="sourceLabelInput" type="text" maxlength="120" value="元記事"></label>
+                <label class="field field-wide"><span>編集メモ</span><textarea id="transparencyInput" rows="3" maxlength="500"></textarea></label>
+                <div class="section-rule"><span>画像</span><strong id="imageCount">0 / 20</strong></div>
+                <button class="upload-button" id="uploadButton" type="button"><span aria-hidden="true">＋</span> 画像を追加</button>
+                <input id="imageInput" type="file" accept="image/avif,image/gif,image/jpeg,image/png,image/webp" multiple hidden>
+                <div class="image-list" id="imageList"></div>
+                <div class="section-rule"><span>動画</span><strong id="videoCount">0 / 6</strong></div>
+                <div class="video-list" id="videoList"></div>
+              </div>
+            </section>
+
+            <section class="panel composer-panel" aria-labelledby="composerTitle">
+              <div class="panel-head composer-head"><div><span class="step">02</span><h2 id="composerTitle">記事構成</h2></div><button class="text-button" id="autoArrangeButton" type="button">自動構成</button></div>
+              <div class="block-toolbar" role="toolbar" aria-label="ブロック追加"><button type="button" data-add-block="post">レス</button><button type="button" data-add-block="images">画像</button><button type="button" data-add-block="videos">動画</button><button type="button" data-add-block="separator">区切り</button><button type="button" data-add-block="ad">PR</button></div>
+              <div class="panel-scroll block-list" id="blockList"></div>
+            </section>
+
+            <section class="panel preview-panel" aria-labelledby="previewTitle">
+              <div class="panel-head preview-head"><div><span class="step">03</span><h2 id="previewTitle">プレビュー</h2></div><div class="preview-actions"><div class="segmented"><button id="desktopPreviewButton" type="button" class="active" aria-pressed="true">PC</button><button id="mobilePreviewButton" type="button" aria-pressed="false">スマホ</button></div><button class="icon-button" id="refreshPreviewButton" type="button" title="プレビュー更新" aria-label="プレビュー更新">↻</button></div></div>
+              <div class="preview-stage" id="previewStage"><iframe id="previewFrame" title="記事プレビュー" sandbox="allow-same-origin"></iframe><div class="preview-empty" id="previewEmpty">プレビュー未生成</div></div>
+            </section>
+          </div>
+
+          <footer class="actionbar">
+            <div class="safety-checks"><label><input id="adultConfirmed" type="checkbox"> 成人のみ</label><label><input id="rightsConfirmed" type="checkbox"> 利用権確認</label><label><input id="privacyConfirmed" type="checkbox"> 個人情報なし</label><label><input id="sourceConfirmed" type="checkbox"> 出典確認</label></div>
+            <div class="primary-actions"><button id="saveDraftButton" type="button" class="secondary-button">下書き保存</button><button id="downloadPackageButton" type="button" class="secondary-button">ZIP書き出し</button><button id="addToSiteButton" type="button" class="primary-button">サイトへ追加</button></div>
+          </footer>
+        </section>
+
+        <section class="app-view future-view" id="futureView" hidden>
+          <div class="view-heading"><div><p class="eyebrow">NEXT PHASE</p><h2 id="futureTitle">準備中</h2></div><span class="future-badge">準備中</span></div>
+          <div class="future-table"><div><span>接続状態</span><strong>未接続</strong></div><div><span>対象データ</span><strong>0件</strong></div><div><span>最終実行</span><strong>---</strong></div></div>
+        </section>
+      </main>
+    </section>
+  </div>
+
+  <dialog id="confirmDialog"><form method="dialog"><h2>サイトへ追加</h2><p id="confirmMessage"></p><div class="dialog-actions"><button value="cancel" class="secondary-button">戻る</button><button value="confirm" class="primary-button">追加する</button></div></form></dialog>
+
+  <dialog id="xImportDialog" hidden>
+    <div><button id="xCloseButton" type="button">閉じる</button><button id="xFreeModeButton" type="button">無料</button><button id="xApiModeButton" type="button">API</button>
+      <section id="xFreePanel"><textarea id="xPostUrlsInput"></textarea><input id="xCoverInput" type="file"><div id="xCoverPreview"></div><button id="xFreeBuildButton" type="button">作成</button></section>
+      <section id="xApiPanel" hidden><input id="xUsernameInput"><input id="xTokenInput"><span id="xTokenHelp"></span><button id="xFetchButton" type="button">取得</button><div id="xResults" hidden><div id="xAccountSummary"></div><span id="xPostCount"></span><div id="xPostList"></div><button id="xBuildButton" type="button">作成</button></div></section>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="studio.js"></script>
+</body>
+</html>

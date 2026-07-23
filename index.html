@@ -77,6 +77,46 @@ img { display:block; width:100%; }
   background:var(--ink);
   color:#fff;
 }
+.site-search {
+  background:#e7e4dc;
+  border-bottom:1px solid #cbc7bd;
+}
+.site-search form {
+  width:min(var(--max),calc(100% - 30px));
+  margin:auto;
+  padding:11px 0;
+  display:grid;
+  grid-template-columns:1fr auto;
+}
+.site-search input {
+  min-width:0;
+  padding:10px 12px;
+  border:1px solid #a9a59c;
+  border-radius:0;
+  background:#fff;
+  color:#222;
+  font:inherit;
+  font-size:13px;
+}
+.site-search button {
+  padding:0 22px;
+  border:1px solid var(--ink);
+  background:var(--ink);
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+}
+.sr-only {
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
 .page {
   width:min(var(--max),calc(100% - 30px));
   margin:20px auto 66px;
@@ -193,6 +233,25 @@ img { display:block; width:100%; }
   color:var(--muted);
   font-size:10px;
 }
+.section-tools {
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+.section-tools button {
+  padding:5px 9px;
+  border:1px solid #aaa69d;
+  background:#fff;
+  color:#444;
+  font-size:10px;
+  font-weight:900;
+  cursor:pointer;
+}
+.section-tools button.active {
+  border-color:var(--ink);
+  background:var(--ink);
+  color:#fff;
+}
 .card-grid {
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
@@ -293,6 +352,21 @@ img { display:block; width:100%; }
   color:#888;
   font-size:9px;
 }
+.rank-with-thumb {
+  grid-template-columns:25px 68px 1fr;
+  align-items:center;
+}
+.rank-with-thumb img {
+  width:68px;
+  aspect-ratio:4/3;
+  object-fit:cover;
+  background:#111;
+}
+.rank-with-thumb b {
+  display:block;
+  font-size:10px;
+  line-height:1.45;
+}
 .comment {
   padding:9px 0;
   border-bottom:1px dotted #bbb;
@@ -366,13 +440,14 @@ img { display:block; width:100%; }
   }
   .logo img { width:245px; }
   .header-copy { display:none; }
-  .nav-inner,.page,.footer-inner { width:calc(100% - 18px); }
+  .nav-inner,.page,.footer-inner,.site-search form { width:calc(100% - 18px); }
   .nav a { padding:8px 13px; }
   .breaking { grid-template-columns:1fr; gap:7px; }
   .card-grid { grid-template-columns:1fr; }
   .feature-thumb { min-height:360px; }
   .feature-copy h1 { font-size:27px; }
   .sidebar { grid-template-columns:1fr; }
+  .site-search button { padding:0 16px; }
 }
 </style>
 </head>
@@ -388,14 +463,21 @@ img { display:block; width:100%; }
 
 <nav class="nav">
   <div class="nav-inner">
-    <a class="active" href="index.html">新着</a>
-    <a href="#">画像</a>
-    <a href="#">SNS</a>
-    <a href="#">水着</a>
-    <a href="#">お姉さん</a>
-    <a href="#">人気記事</a>
+    <a class="active" href="index.html">ホーム</a>
+    <a href="latest.html">新着</a>
+    <a href="popular.html">人気記事</a>
+    <a href="random.html">ランダム</a>
+    <a href="tags.html">タグ</a>
+    <a href="about.html">サイト案内</a>
   </div>
 </nav>
+<div class="site-search">
+  <form action="search.html" method="get">
+    <label class="sr-only" for="homeSearch">記事を検索</label>
+    <input id="homeSearch" name="q" type="search" placeholder="タイトル・本文・タグから検索">
+    <button type="submit">検索</button>
+  </form>
+</div>
 
 <main class="page">
   <div class="breaking">
@@ -421,8 +503,13 @@ img { display:block; width:100%; }
       </section>
 
       <div class="section-head">
-        <h2>新着記事</h2>
-        <a href="#">新着をすべて見る</a>
+        <h2 id="listTitle">新着記事</h2>
+        <div class="section-tools" aria-label="記事の並び順">
+          <button class="active" type="button" data-list-mode="latest">新着</button>
+          <button type="button" data-list-mode="popular">人気</button>
+          <button type="button" data-list-mode="random">ランダム</button>
+          <a id="listMore" href="latest.html">すべて見る</a>
+        </div>
       </div>
 
       <section class="card-grid" id="articleGrid">
@@ -500,7 +587,7 @@ img { display:block; width:100%; }
 
       </section>
 
-      <div class="more-row"><a class="more-button" href="#">もっと見る</a></div>
+      <div class="more-row"><a class="more-button" href="latest.html">記事一覧へ</a></div>
     </div>
 
     <aside class="sidebar">
@@ -529,7 +616,7 @@ img { display:block; width:100%; }
         <h2 class="side-title">カテゴリ</h2>
         <div class="sidebody">
           <div class="category-list">
-            <a href="#">画像</a><a href="#">SNS</a><a href="#">水着</a><a href="#">グラビア</a><a href="#">お姉さん</a><a href="#">動画</a>
+            <a href="search.html?category=画像">画像</a><a href="search.html?category=SNS">SNS</a><a href="search.html?tag=水着">水着</a><a href="search.html?tag=グラビア">グラビア</a><a href="search.html?tag=お姉さん">お姉さん</a><a href="search.html?category=動画">動画</a>
           </div>
         </div>
       </section>
@@ -545,7 +632,7 @@ img { display:block; width:100%; }
 <footer class="footer">
   <div class="footer-inner">
     <span>© 2026 淫談屋</span>
-    <span>運営者情報　広告掲載　お問い合わせ　プライバシーポリシー</span>
+    <span><a href="about.html">運営者情報</a>　<a href="contact.html">お問い合わせ</a>　<a href="privacy.html">プライバシーポリシー</a></span>
   </div>
 </footer>
 <script src="assets/common/site.js" defer></script>

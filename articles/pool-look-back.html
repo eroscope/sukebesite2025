@@ -388,6 +388,7 @@ img { display:block; max-width:100%; }
   .sidebar { grid-template-columns:1fr; }
 }
 </style>
+<link rel="stylesheet" href="../assets/common/article-extras.css">
 </head>
 <body>
 <div class="topbar">PRを含む場合は記事内に表示します</div>
@@ -401,14 +402,15 @@ img { display:block; max-width:100%; }
 
 <nav class="nav">
   <div class="nav-inner">
-    <a href="../index.html">新着</a>
-    <a href="#">画像</a>
-    <a href="#">SNS</a>
-    <a href="#">水着</a>
-    <a href="#">お姉さん</a>
-    <a href="#">人気記事</a>
+    <a href="../latest.html">新着</a>
+    <a href="../search.html?category=画像">画像</a>
+    <a href="../search.html?category=SNS">SNS</a>
+    <a href="../tags.html">タグ</a>
+    <a href="../popular.html">人気記事</a>
+    <a href="../random.html">ランダム</a>
   </div>
 </nav>
+<div class="site-search"><form action="../search.html" method="get"><label class="sr-only" for="articleSearch">記事を検索</label><input id="articleSearch" name="q" type="search" placeholder="タイトル・本文・タグから検索"><button type="submit">検索</button></form></div>
 
 <main class="page">
   <div class="breadcrumb"><a href="../index.html">淫談屋</a> ＞ 画像 ＞ プールで見つめ返す女さん</div>
@@ -583,7 +585,7 @@ img { display:block; max-width:100%; }
 <footer class="footer">
   <div class="footer-inner">
     <span>© 2026 淫談屋</span>
-    <span>運営者情報　広告掲載　お問い合わせ　プライバシーポリシー</span>
+    <span><a href="../about.html">運営者情報</a>　<a href="../contact.html">お問い合わせ</a>　<a href="../privacy.html">プライバシーポリシー</a></span>
   </div>
 </footer>
 

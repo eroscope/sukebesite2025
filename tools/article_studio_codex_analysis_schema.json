@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "description", "category", "analysis_summary", "image_decisions", "video_decisions"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "category": {
+      "type": "string",
+      "enum": ["SNS", "画像", "動画", "話題"]
+    },
+    "analysis_summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "image_decisions": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["image_id", "verdict", "role", "recommended_use", "content_group", "relation", "relevance_score", "reason"],
+        "properties": {
+          "image_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "verdict": {
+            "type": "string",
+            "enum": ["article", "advertisement", "logo", "navigation", "unrelated", "unclear"]
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "recommended_use": {
+            "type": "string",
+            "enum": ["thumbnail", "body", "thumbnail_and_body", "exclude"]
+          },
+          "content_group": {
+            "type": "string",
+            "maxLength": 80
+          },
+          "relation": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "relevance_score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        }
+      }
+    },
+    "video_decisions": {
+      "type": "array",
+      "maxItems": 24,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["video_id", "verdict", "relevance_score", "reason"],
+        "properties": {
+          "video_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "verdict": {
+            "type": "string",
+            "enum": ["article", "advertisement", "navigation", "unrelated", "unclear"]
+          },
+          "relevance_score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        }
+      }
+    }
+  }
+}

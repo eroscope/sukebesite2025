@@ -27,6 +27,7 @@ ALLOWED_FIELDS = {
     "source_url",
     "images_used",
     "summary",
+    "search_text",
     "tags",
     "featured",
 }
@@ -141,6 +142,11 @@ def validate_metadata(metadata: dict[str, Any]) -> dict[str, Any]:
         summary = metadata["summary"]
         if not isinstance(summary, str) or len(summary) > 240:
             raise ValidationError("summary must be a string of at most 240 characters")
+
+    if "search_text" in metadata:
+        search_text = metadata["search_text"]
+        if not isinstance(search_text, str) or len(search_text) > 12000:
+            raise ValidationError("search_text must be a string of at most 12000 characters")
 
     if "tags" in metadata:
         tags = metadata["tags"]

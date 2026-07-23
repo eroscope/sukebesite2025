@@ -1,0 +1,114 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Indanya ChatGPT Bridge",
+    "version": "1.0.0",
+    "description": "PC上のPlaywrightワーカーへ記事解析・下書き・公開処理を依頼する"
+  },
+  "servers": [
+    {
+      "url": "https://script.google.com"
+    }
+  ],
+  "paths": {
+    "/macros/s/AKfycbziQQz8KKzgYzrm4qpcErujVEHe1y4RC9qq4ChhpmqgN5sMHSkp1ECteOrf6xK9RyKWiA/exec": {
+      "post": {
+        "operationId": "indanyaAction",
+        "summary": "淫談屋の記事解析・下書き・公開処理を実行する",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IndanyaRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ジョブの状態または完了結果",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "IndanyaRequest": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": ["health", "capture_article", "get_job", "create_draft", "publish_article"]
+          },
+          "client_key": {
+            "type": "string",
+            "enum": ["V_HDntDXDk5UmtljnKiTI3n2-grJuLvX"]
+          },
+          "url": {
+            "type": "string",
+            "description": "解析する公開記事URL"
+          },
+          "job_id": {
+            "type": "string",
+            "description": "状態確認するジョブID"
+          },
+          "capture_job_id": {
+            "type": "string",
+            "description": "元となる記事解析ジョブID"
+          },
+          "wait_seconds": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 35,
+            "default": 35
+          },
+          "rights_confirmed": {
+            "type": "boolean",
+            "description": "画像・動画の利用許可を確認済みの場合だけtrue"
+          },
+          "article": {
+            "$ref": "#/components/schemas/ArticleDraft"
+          }
+        },
+        "required": ["action", "client_key"]
+      },
+      "ArticleDraft": {
+        "type": "object",
+        "properties": {
+          "title": {"type": "string"},
+          "slug": {"type": "string"},
+          "category": {"type": "string"},
+          "summary": {"type": "string"},
+          "tags": {"type": "array", "items": {"type": "string"}},
+          "comments": {"type": "integer"},
+          "featured": {"type": "boolean"},
+          "thumbnail_id": {"type": "string"},
+          "responses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {"type": "string"},
+                "image_ids": {"type": "array", "items": {"type": "string"}},
+                "video_ids": {"type": "array", "items": {"type": "string"}},
+                "style": {"type": "string", "enum": ["normal", "large", "highlight"]}
+              },
+              "required": ["text", "image_ids", "video_ids"]
+            }
+          }
+        },
+        "required": ["title", "slug", "category", "summary", "responses", "thumbnail_id"]
+      }
+    }
+  }
+}

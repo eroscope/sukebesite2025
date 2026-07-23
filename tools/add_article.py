@@ -136,7 +136,12 @@ def collect_images(directory: Path) -> list[Path]:
     return images
 
 
-def normalize_article_html(source: str, slug: str, image_names: set[str]) -> str:
+def normalize_article_html(
+    source: str,
+    slug: str,
+    image_names: set[str],
+    allowed_unreferenced_images: set[str] | None = None,
+) -> str:
     lowered = source.lower()
     if "<!doctype" not in lowered or "<html" not in lowered or "<body" not in lowered:
         raise ValidationError("article HTML must be a complete document")
@@ -151,8 +156,9 @@ def normalize_article_html(source: str, slug: str, image_names: set[str]) -> str
     references = parser.article_image_references
     if len(references) != len(set(references)):
         raise ValidationError("article HTML must not repeat an article image")
-    if set(references) != image_names:
-        missing = sorted(image_names - set(references))
+    allowed_unreferenced_images = allowed_unreferenced_images or set()
+    if set(references) | allowed_unreferenced_images != image_names:
+        missing = sorted(image_names - set(references) - allowed_unreferenced_images)
         extra = sorted(set(references) - image_names)
         details = []
         if missing:
@@ -264,7 +270,12 @@ def add_article(
         raise ValidationError("thumbnail must reference one of the packaged images")
 
     article_source = html_path.read_text(encoding="utf-8")
-    normalized_html = normalize_article_html(article_source, slug, image_names)
+    normalized_html = normalize_article_html(
+        article_source,
+        slug,
+        image_names,
+        allowed_unreferenced_images={thumbnail_name},
+    )
     articles = load_database(data_path)
     updated_articles = upsert_article(articles, metadata)
 

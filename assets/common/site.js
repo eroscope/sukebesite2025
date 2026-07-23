@@ -26,6 +26,8 @@
     if (!isSafeLocalPath(article.thumbnail, "assets/")) return false;
     if (!Number.isInteger(article.images_used) || article.images_used < 1) return false;
     if (article.summary !== undefined && (typeof article.summary !== "string" || article.summary.length > 240)) return false;
+    if (article.search_text !== undefined && (typeof article.search_text !== "string" || article.search_text.length > 12000)) return false;
+    if (article.tags !== undefined && (!Array.isArray(article.tags) || article.tags.some(tag => typeof tag !== "string"))) return false;
 
     try {
       const source = new URL(article.source_url);
@@ -85,21 +87,26 @@
   }
 
   function createRank(article, index) {
-    const row = document.createElement("div");
-    row.className = "rank";
+    const row = document.createElement("a");
+    row.className = "rank rank-with-thumb";
+    row.href = article.url;
 
     const number = document.createElement("span");
     number.className = "rank-num";
     number.textContent = String(index + 1);
 
+    const image = document.createElement("img");
+    image.src = article.thumbnail;
+    image.alt = "";
+    image.loading = "lazy";
+
     const details = document.createElement("div");
-    const link = document.createElement("a");
-    link.href = article.url;
-    link.textContent = article.title;
+    const title = document.createElement("b");
+    title.textContent = article.title;
     const comments = document.createElement("span");
     comments.textContent = `${article.comments}コメント`;
-    details.append(link, comments);
-    row.append(number, details);
+    details.append(title, comments);
+    row.append(number, image, details);
     return row;
   }
 
@@ -114,6 +121,8 @@
     const featureReadMore = document.getElementById("featureReadMore");
     const articleGrid = document.getElementById("articleGrid");
     const popularArticles = document.getElementById("popularArticles");
+    const listTitle = document.getElementById("listTitle");
+    const listMore = document.getElementById("listMore");
 
     [breakingLink, featureThumbLink, featureTitleLink, featureReadMore].forEach(link => setLink(link, featured));
     breakingLink.textContent = featured.title;
@@ -123,7 +132,32 @@
     featureTitleLink.textContent = featured.title;
     featureSummary.textContent = featured.summary || `${featured.images_used}枚の画像をレスの流れでまとめています。`;
 
-    articleGrid.replaceChildren(...articles.map(createCard));
+    function selectArticles(mode) {
+      if (mode === "popular") {
+        return [...articles].sort((left, right) => right.comments - left.comments || Date.parse(right.published_at) - Date.parse(left.published_at));
+      }
+      if (mode === "random") {
+        return [...articles].sort(() => Math.random() - 0.5);
+      }
+      return [...articles];
+    }
+
+    function showMode(mode) {
+      const selected = selectArticles(mode);
+      articleGrid.replaceChildren(...selected.slice(0, 8).map(createCard));
+      const labels = { latest: "新着記事", popular: "人気記事", random: "ランダム記事" };
+      const links = { latest: "latest.html", popular: "popular.html", random: "random.html" };
+      listTitle.textContent = labels[mode];
+      listMore.href = links[mode];
+      document.querySelectorAll("[data-list-mode]").forEach(button => {
+        button.classList.toggle("active", button.dataset.listMode === mode);
+      });
+    }
+
+    document.querySelectorAll("[data-list-mode]").forEach(button => {
+      button.addEventListener("click", () => showMode(button.dataset.listMode));
+    });
+    showMode("latest");
 
     const ranking = [...articles]
       .sort((left, right) => right.comments - left.comments || Date.parse(right.published_at) - Date.parse(left.published_at))
