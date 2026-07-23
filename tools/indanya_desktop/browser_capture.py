@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import hashlib
 import io
 import re
@@ -78,6 +79,37 @@ def _media_url_key(value: Any) -> str:
     return f"{parsed.netloc.lower()}{parsed.path}" if parsed.netloc and parsed.path else str(value or "")
 
 
+def _video_canvas_frame(video: Any) -> bytes:
+    """Read the decoded video pixels without capturing DOM overlays."""
+    data_url = video.evaluate("""(element) => {
+        if (!element.videoWidth || !element.videoHeight || element.readyState < 2) return "";
+        const canvas = document.createElement("canvas");
+        canvas.width = element.videoWidth;
+        canvas.height = element.videoHeight;
+        const context = canvas.getContext("2d", {alpha: false});
+        if (!context) return "";
+        try {
+            context.drawImage(element, 0, 0, canvas.width, canvas.height);
+            return canvas.toDataURL("image/jpeg", 0.84);
+        } catch (_) {
+            return "";
+        }
+    }""")
+    prefix = "data:image/jpeg;base64,"
+    if not isinstance(data_url, str) or not data_url.startswith(prefix):
+        return b""
+    try:
+        raw = base64.b64decode(data_url[len(prefix):], validate=True)
+        with Image.open(io.BytesIO(raw)) as opened:
+            if opened.width < 16 or opened.height < 16:
+                return b""
+            output = io.BytesIO()
+            opened.convert("RGB").save(output, "JPEG", quality=84, optimize=True)
+            return output.getvalue()
+    except Exception:
+        return b""
+
+
 def _capture_video_frames(page: Any) -> dict[str, bytes]:
     frames: dict[str, bytes] = {}
     videos = page.locator("video")
@@ -114,14 +146,64 @@ def _capture_video_frames(page: Any) -> dict[str, bytes]:
                 } catch (_) {}
                 return urls;
             }""")
-            raw = video.screenshot(type="jpeg", quality=82, timeout=10000)
+            raw = _video_canvas_frame(video)
             video.evaluate("(element) => element.pause()")
+            if not raw:
+                continue
             for video_url in urls or []:
                 frames[str(video_url)] = raw
                 frames[_media_url_key(video_url)] = raw
         except Exception:
             continue
     return frames
+
+
+def _capture_isolated_video_frame(context: Any, video_url: str, referer: str) -> bytes:
+    """Render one direct video on an otherwise empty page so source-page ads cannot overlap it."""
+    isolated = context.new_page()
+    try:
+        if referer:
+            isolated.set_extra_http_headers({"Referer": referer})
+        isolated.set_content(
+            '<!doctype html><meta charset="utf-8"><style>'
+            'html,body{margin:0;background:#08090a}video{display:block;max-width:100vw;max-height:100vh}'
+            '</style><video id="frameVideo" muted playsinline preload="auto"></video>',
+            wait_until="domcontentloaded",
+            timeout=10000,
+        )
+        video = isolated.locator("#frameVideo")
+        video.evaluate("(element, source) => { element.src = source; element.load(); }", video_url)
+        ready = video.evaluate("""async (element) => {
+            if (element.readyState < 2) {
+                await Promise.race([
+                    new Promise(resolve => element.addEventListener("loadeddata", resolve, {once: true})),
+                    new Promise(resolve => element.addEventListener("error", resolve, {once: true})),
+                    new Promise(resolve => setTimeout(resolve, 7000)),
+                ]);
+            }
+            const duration = Number.isFinite(element.duration) ? element.duration : 0;
+            if (duration > 0.5) {
+                element.currentTime = Math.min(Math.max(duration * 0.35, 0.2), duration - 0.1);
+                await Promise.race([
+                    new Promise(resolve => element.addEventListener("seeked", resolve, {once: true})),
+                    new Promise(resolve => setTimeout(resolve, 3500)),
+                ]);
+            }
+            return element.readyState >= 2 && element.videoWidth > 0 && element.videoHeight > 0;
+        }""")
+        if not ready or not video.bounding_box():
+            return b""
+        raw = video.screenshot(type="jpeg", quality=84, timeout=10000)
+        with Image.open(io.BytesIO(raw)) as opened:
+            if opened.width < 16 or opened.height < 16:
+                return b""
+            output = io.BytesIO()
+            opened.convert("RGB").save(output, "JPEG", quality=84, optimize=True)
+            return output.getvalue()
+    except Exception:
+        return b""
+    finally:
+        isolated.close()
 
 
 def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m: None) -> dict[str, Any]:
@@ -234,6 +316,7 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
         raw_videos.sort(key=_video_priority)
         videos: list[dict[str, Any]] = []
         seen_video_urls: set[str] = set()
+        isolated_frame_attempts = 0
         for raw in raw_videos:
             for candidate_url in raw.get("urls") or []:
                 candidate_url = str(candidate_url or "").strip()
@@ -249,6 +332,9 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
                 except Exception:
                     continue
                 frame_data = video_frames.get(candidate_url) or video_frames.get(_media_url_key(candidate_url))
+                if not frame_data and kind == "direct" and isolated_frame_attempts < 8:
+                    isolated_frame_attempts += 1
+                    frame_data = _capture_isolated_video_frame(context, validated_url, final_url)
                 videos.append({
                     "id": f"video-{len(videos) + 1}", "kind": kind, "url": validated_url,
                     "poster": str(raw.get("poster") or ""),

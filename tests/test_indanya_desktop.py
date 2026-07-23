@@ -1,11 +1,15 @@
 from __future__ import annotations
 
+import base64
 import json
 import os
 import tempfile
 import unittest
+from io import BytesIO
 from pathlib import Path
 from unittest.mock import patch
+
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 TOOLS = ROOT / "tools"
@@ -14,7 +18,7 @@ if str(TOOLS) not in os.sys.path:
 
 from indanya_desktop.sites import SiteRegistry  # noqa: E402
 from indanya_desktop.workers import _mark_ready_to_publish, _select_article_images  # noqa: E402
-from indanya_desktop.browser_capture import _usable_final_url, _video_priority  # noqa: E402
+from indanya_desktop.browser_capture import _usable_final_url, _video_canvas_frame, _video_priority  # noqa: E402
 
 
 class SiteRegistryTests(unittest.TestCase):
@@ -115,6 +119,21 @@ class SiteRegistryTests(unittest.TestCase):
     def test_browser_error_page_keeps_requested_url(self) -> None:
         fallback = "https://example.com/story"
         self.assertEqual(fallback, _usable_final_url("chrome-error://chromewebdata/", fallback))
+
+    def test_video_thumbnail_uses_canvas_pixels_instead_of_dom_screenshot(self) -> None:
+        buffer = BytesIO()
+        Image.new("RGB", (64, 96), "#663344").save(buffer, format="JPEG")
+
+        class FakeVideo:
+            def evaluate(self, _script: str) -> str:
+                return "data:image/jpeg;base64," + base64.b64encode(buffer.getvalue()).decode("ascii")
+
+            def screenshot(self, **_kwargs: object) -> bytes:
+                raise AssertionError("DOM screenshot must not be used for video thumbnails")
+
+        captured = _video_canvas_frame(FakeVideo())
+        with Image.open(BytesIO(captured)) as image:
+            self.assertEqual((64, 96), image.size)
 
     def test_default_site_and_persistence(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
