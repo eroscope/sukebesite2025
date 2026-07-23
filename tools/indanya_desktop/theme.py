@@ -18,8 +18,8 @@ QLabel#sectionTitle { font-size: 18px; font-weight: 800; }
 QLabel#muted { color: #687078; }
 QLabel#metric { font-size: 26px; font-weight: 800; }
 QLabel#success { color: #137f78; font-weight: 800; }
-QLineEdit, QTextEdit, QPlainTextEdit, QComboBox, QTableWidget { background: white; border: 1px solid #c5cbd0; border-radius: 4px; padding: 8px; selection-background-color: #137f78; }
-QLineEdit:focus, QTextEdit:focus, QComboBox:focus { border: 2px solid #137f78; }
+QLineEdit, QTextEdit, QPlainTextEdit, QComboBox, QSpinBox, QTimeEdit, QTableWidget { background: white; border: 1px solid #c5cbd0; border-radius: 4px; padding: 8px; selection-background-color: #137f78; }
+QLineEdit:focus, QTextEdit:focus, QComboBox:focus, QSpinBox:focus, QTimeEdit:focus { border: 2px solid #137f78; }
 QComboBox { min-height: 22px; }
 QPushButton#primary { color: white; background: #181a1d; border: 0; border-radius: 4px; padding: 10px 16px; font-weight: 800; }
 QPushButton#primary:hover { background: #2b2f33; }
@@ -38,4 +38,3 @@ QTabBar::tab { background: #e9ecee; padding: 9px 16px; border: 1px solid #c5cbd0
 QTabBar::tab:selected { background: white; color: #c72d22; font-weight: 800; }
 QScrollArea { border: 0; background: transparent; }
 """
-
