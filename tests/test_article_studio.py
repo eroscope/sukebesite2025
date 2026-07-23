@@ -502,6 +502,31 @@ class ArticleStudioTests(unittest.TestCase):
         )
         article_studio.build_article(payload, self.site_root)
 
+    def test_thumbnail_only_image_is_not_inserted_into_article_body(self) -> None:
+        source = article_studio.analyze_source_url(
+            "https://news.example.com/cosplay/story",
+            FakeSourceOpener(),
+        )
+        source["images"][0]["ai_recommended_use"] = "thumbnail"
+        source["images"][1]["ai_recommended_use"] = "body"
+
+        draft = article_studio.build_source_draft_payload(
+            source,
+            ["media-2"],
+            thumbnail_image_id="media-1",
+        )
+
+        self.assertEqual("source-image-1", draft["thumbnail_id"])
+        self.assertTrue(draft["thumbnail_only"])
+        body_ids = [
+            image_id
+            for block in draft["blocks"]
+            if block["type"] == "images"
+            for image_id in block["image_ids"]
+        ]
+        self.assertEqual(["source-image-2"], body_ids)
+        self.assertNotIn("source-image-1", body_ids)
+
     def test_codex_title_normalization_uses_media_kind_and_image_count(self) -> None:
         self.assertEqual(
             article_studio._normalize_codex_title(

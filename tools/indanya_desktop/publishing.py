@@ -23,6 +23,8 @@ from indanya_desktop.sites import ManagedSite
 ProgressCallback = Callable[[int, str], None]
 SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 MAX_PUBLISH_VIDEO_BYTES = 95 * 1024 * 1024
+TARGET_PUBLISH_VIDEO_BYTES = 88 * 1024 * 1024
+MAX_SOURCE_VIDEO_BYTES = 750 * 1024 * 1024
 MAX_PUBLISH_POSTER_BYTES = 12 * 1024 * 1024
 
 
@@ -112,7 +114,74 @@ def _published_payload(payload: dict[str, Any]) -> dict[str, Any]:
     return published
 
 
-def _download_video(video: dict[str, Any], destination: Path) -> None:
+def _ffmpeg_executable() -> str:
+    try:
+        import imageio_ffmpeg
+
+        return imageio_ffmpeg.get_ffmpeg_exe()
+    except (ImportError, RuntimeError, OSError) as exc:
+        raise RuntimeError("動画圧縮機能を準備できませんでした。アプリを最新版へ更新してください") from exc
+
+
+def _video_duration(source: Path, ffmpeg: str) -> float:
+    completed = subprocess.run(
+        [ffmpeg, "-hide_banner", "-i", str(source)],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        timeout=90,
+        check=False,
+        creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+    )
+    match = re.search(r"Duration:\s*(\d+):(\d+):(\d+(?:\.\d+)?)", completed.stderr or "")
+    if not match:
+        raise RuntimeError("動画の長さを確認できないため圧縮できませんでした")
+    return int(match.group(1)) * 3600 + int(match.group(2)) * 60 + float(match.group(3))
+
+
+def _compress_video(source: Path, destination: Path) -> None:
+    ffmpeg = _ffmpeg_executable()
+    duration = _video_duration(source, ffmpeg)
+    if duration <= 0:
+        raise RuntimeError("動画の長さが不正なため圧縮できませんでした")
+    total_kbps = max(260, int(TARGET_PUBLISH_VIDEO_BYTES * 8 / duration / 1000))
+    attempts = (
+        (1280, max(180, total_kbps - 80)),
+        (960, max(160, int((total_kbps - 80) * 0.78))),
+        (720, max(140, int((total_kbps - 80) * 0.58))),
+    )
+    for width, video_kbps in attempts:
+        destination.unlink(missing_ok=True)
+        completed = subprocess.run(
+            [
+                ffmpeg, "-y", "-hide_banner", "-loglevel", "error",
+                "-i", str(source),
+                "-map", "0:v:0", "-map", "0:a:0?",
+                "-vf", f"scale={width}:-2:force_original_aspect_ratio=decrease",
+                "-c:v", "libx264", "-preset", "medium",
+                "-b:v", f"{video_kbps}k",
+                "-maxrate", f"{video_kbps}k",
+                "-bufsize", f"{video_kbps * 2}k",
+                "-c:a", "aac", "-b:a", "64k",
+                "-movflags", "+faststart",
+                str(destination),
+            ],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=1800,
+            check=False,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+        )
+        if completed.returncode == 0 and destination.is_file() and 0 < destination.stat().st_size <= MAX_PUBLISH_VIDEO_BYTES:
+            return
+    destination.unlink(missing_ok=True)
+    raise RuntimeError("動画をGitHub Pagesの上限内まで小さくできませんでした")
+
+
+def _download_video(video: dict[str, Any], destination: Path) -> Path:
     video_url = _validate_source_url(str(video.get("url") or ""))
     referer = str(video.get("referer") or "").strip()
     headers = {
@@ -122,7 +191,7 @@ def _download_video(video: dict[str, Any], destination: Path) -> None:
     if referer:
         headers["Referer"] = referer
     request = urllib.request.Request(video_url, headers=headers)
-    temporary = destination.with_suffix(destination.suffix + ".part")
+    temporary = destination.with_suffix(destination.suffix + ".source")
     written = 0
     try:
         with urllib.request.urlopen(request, timeout=45) as response, temporary.open("wb") as output:
@@ -131,12 +200,17 @@ def _download_video(video: dict[str, Any], destination: Path) -> None:
                 if not chunk:
                     break
                 written += len(chunk)
-                if written > MAX_PUBLISH_VIDEO_BYTES:
-                    raise RuntimeError("動画が95MBを超えるためGitHub Pagesへ公開できません")
+                if written > MAX_SOURCE_VIDEO_BYTES:
+                    raise RuntimeError("元動画が750MBを超えるため回収できません")
                 output.write(chunk)
         if written == 0:
             raise RuntimeError("動画データを取得できませんでした")
-        temporary.replace(destination)
+        if written <= MAX_PUBLISH_VIDEO_BYTES:
+            temporary.replace(destination)
+            return destination
+        compressed = destination.with_suffix(".mp4")
+        _compress_video(temporary, compressed)
+        return compressed
     finally:
         temporary.unlink(missing_ok=True)
 
@@ -209,13 +283,30 @@ def _localize_videos(site_root: Path, payload: dict[str, Any], progress: Progres
         extension = ".webm" if mime_type == "video/webm" else ".mp4"
         destination = asset_root / f"video-{index:02d}{extension}"
         progress(35 + round(index / len(direct_videos) * 30), f"動画 {index}/{len(direct_videos)} をサイト用に保存しています")
-        _download_video(video, destination)
+        destination = _download_video(video, destination)
         remote = html.escape(str(video.get("url") or ""), quote=True)
         local_prefix = f"../assets/articles/{slug}/"
         local = f"{local_prefix}{destination.name}"
         if remote not in article_html:
             raise RuntimeError(f"記事内の動画 {index} を置き換えられませんでした")
-        article_html = article_html.replace(remote, local)
+        source_pattern = re.compile(
+            r'(<source\b[^>]*\bsrc=["\'])' + re.escape(remote) + r'(["\'][^>]*>)',
+            re.IGNORECASE,
+        )
+        if source_pattern.search(article_html):
+            def replace_source(match: re.Match[str]) -> str:
+                tag = f"{match.group(1)}{local}{match.group(2)}"
+                if destination.suffix.lower() == ".mp4":
+                    tag = re.sub(
+                        r'\btype=(["\'])video/[^"\']+\1',
+                        'type="video/mp4"',
+                        tag,
+                        flags=re.IGNORECASE,
+                    )
+                return tag
+            article_html = source_pattern.sub(replace_source, article_html)
+        else:
+            article_html = article_html.replace(remote, local)
         article_html = _localize_video_poster(
             video,
             asset_root / f"video-{index:02d}-poster",

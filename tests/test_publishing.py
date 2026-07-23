@@ -152,6 +152,50 @@ class PublishingTests(unittest.TestCase):
         self.assertNotIn("data:image/", rendered)
         self.assertNotIn("media.example.com", rendered)
 
+    def test_large_video_is_compressed_and_mime_is_rewritten(self) -> None:
+        site_root = self.root / "large-video-site"
+        article_root = site_root / "articles"
+        article_root.mkdir(parents=True)
+        source_url = "https://media.example.com/movie.webm"
+        article_path = article_root / "large-video.html"
+        article_path.write_text(
+            f'<video><source src="{source_url}" type="video/webm"></video>',
+            encoding="utf-8",
+        )
+        payload = {
+            "slug": "large-video",
+            "videos": [{
+                "id": "video-1",
+                "kind": "direct",
+                "url": source_url,
+                "referer": "https://example.com/article",
+                "mime_type": "video/webm",
+            }],
+        }
+
+        class LargeResponse(BytesIO):
+            pass
+
+        compressed_bytes = b"compressed-mp4"
+
+        def fake_compress(source: Path, destination: Path) -> None:
+            self.assertTrue(source.stat().st_size > publishing.MAX_PUBLISH_VIDEO_BYTES)
+            destination.write_bytes(compressed_bytes)
+
+        oversized = b"x" * 11
+        with (
+            patch("urllib.request.urlopen", return_value=LargeResponse(oversized)),
+            patch.object(publishing, "_compress_video", side_effect=fake_compress),
+            patch.object(publishing, "MAX_PUBLISH_VIDEO_BYTES", 10),
+        ):
+            publishing._localize_videos(site_root, payload, lambda _value, _message: None)
+
+        localized = site_root / "assets" / "articles" / "large-video" / "video-01.mp4"
+        self.assertEqual(compressed_bytes, localized.read_bytes())
+        rendered = article_path.read_text(encoding="utf-8")
+        self.assertIn('src="../assets/articles/large-video/video-01.mp4"', rendered)
+        self.assertIn('type="video/mp4"', rendered)
+
 
 if __name__ == "__main__":
     unittest.main()

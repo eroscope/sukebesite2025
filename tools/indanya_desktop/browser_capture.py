@@ -367,6 +367,22 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
         "title": str(extracted.get("title") or "")[:180], "description": str(extracted.get("description") or "")[:500],
         "site_name": urlparse(final_url).hostname or "元ページ", "author": "", "excerpts": text_blocks[:8],
         "body_text": str(extracted.get("body_text") or "")[:30000], "text_blocks": text_blocks,
+        "links": [
+            {
+                "url": str(item.get("url") or "")[:2048],
+                "text": str(item.get("text") or "")[:500],
+                "contains_image": bool(item.get("contains_image")),
+                "browser_rect": item.get("rect") or {},
+                "browser_context": str(item.get("context") or "")[:700],
+                "browser_ancestors": str(item.get("ancestors") or "")[:500],
+                "font_size": str(item.get("font_size") or "")[:40],
+                "font_weight": str(item.get("font_weight") or "")[:40],
+                "color": str(item.get("color") or "")[:80],
+                "background": str(item.get("background") or "")[:80],
+            }
+            for item in (extracted.get("links") or [])
+            if isinstance(item, dict) and item.get("url")
+        ][:200],
         "images": images, "videos": videos, "browser_attachments": attachments,
         "browser_capture": True, "page_dimensions": extracted.get("page") or {},
     }

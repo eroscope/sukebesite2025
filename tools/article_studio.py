@@ -845,6 +845,7 @@ def build_source_draft_payload(
     selected_image_ids: Any,
     manual_image: Any = None,
     selected_video_ids: Any = None,
+    thumbnail_image_id: str | None = None,
 ) -> dict[str, Any]:
     available = {item["id"]: item for item in source.get("images", []) if isinstance(item, dict)}
     if not isinstance(selected_image_ids, list) or len(selected_image_ids) > MAX_SELECTED_SOURCE_IMAGES:
@@ -857,11 +858,18 @@ def build_source_draft_payload(
         raise ValidationError(f"動画は最大{MAX_SELECTED_SOURCE_VIDEOS}本まで選べます")
     if len(selected_video_ids) != len(set(selected_video_ids)) or any(item not in available_videos for item in selected_video_ids):
         raise ValidationError("選択した動画が無効です")
+    if thumbnail_image_id is not None and thumbnail_image_id not in available:
+        raise ValidationError("選択したサムネイル画像が無効です")
+    ordered_image_ids = list(dict.fromkeys(
+        ([thumbnail_image_id] if thumbnail_image_id else []) + selected_image_ids
+    ))
     images: list[dict[str, Any]] = []
     body_image_ids: list[str] = []
-    for index, image_id in enumerate(selected_image_ids, start=1):
+    payload_ids_by_source: dict[str, str] = {}
+    for index, image_id in enumerate(ordered_image_ids, start=1):
         item = available[image_id]
         payload_image_id = f"source-image-{index}"
+        payload_ids_by_source[image_id] = payload_image_id
         images.append({
             "id": payload_image_id,
             "name": f"source-{index}{item['extension']}",
@@ -869,8 +877,7 @@ def build_source_draft_payload(
             "alt": str(item.get("alt") or source["title"])[:180],
             "orientation": item.get("orientation", "landscape"),
         })
-        recommended_use = str(item.get("ai_recommended_use") or "")
-        if recommended_use in {"body", "thumbnail_and_body"} or not recommended_use:
+        if image_id in selected_image_ids:
             body_image_ids.append(payload_image_id)
     if not images and isinstance(manual_image, dict):
         fallback = {**manual_image, "id": "source-image-1"}
@@ -903,10 +910,11 @@ def build_source_draft_payload(
 
     responses = _response_blocks(source)
     blocks: list[dict[str, Any]] = [responses[0]]
-    first_image_id = images[0]["id"]
-    thumbnail_only = bool(selected_image_ids) and str(
-        available[selected_image_ids[0]].get("ai_recommended_use") or ""
-    ) == "thumbnail"
+    first_image_id = (
+        payload_ids_by_source.get(thumbnail_image_id or "")
+        or images[0]["id"]
+    )
+    thumbnail_only = bool(thumbnail_image_id) and thumbnail_image_id not in selected_image_ids
     x_embed = source.get("x_embed") if isinstance(source.get("x_embed"), dict) else None
     media_blocks: list[dict[str, Any]] = []
     if videos:
@@ -1203,6 +1211,10 @@ title、summary、category、tags、responsesを{reply_count}本で指定スキ�
 
 
 def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, Any]]) -> str:
+    navigation = source.get("navigation_context", {})
+    has_navigation_context = isinstance(navigation, dict) and bool(navigation)
+    body_limit = 2500 if has_navigation_context else 6000
+    block_limit = 10 if has_navigation_context else 20
     source_facts = {
         "source_type": source.get("source_type"),
         "url": source.get("url"),
@@ -1211,19 +1223,63 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
         "extracted_title": source.get("title"),
         "extracted_description": source.get("description"),
         "text_candidates": source.get("excerpts", [])[:8],
-        "rendered_body_text": str(source.get("body_text") or "")[:12000],
-        "rendered_text_blocks": source.get("text_blocks", [])[:40],
+        "rendered_body_text": str(source.get("body_text") or "")[:body_limit],
+        "rendered_text_blocks": [
+            str(item)[:350] for item in source.get("text_blocks", [])[:block_limit]
+        ],
         "browser_capture": bool(source.get("browser_capture")),
         "page_dimensions": source.get("page_dimensions", {}),
         "video_candidate_count": len(source.get("videos", [])),
+        "navigation_context": source.get("navigation_context", {}),
     }
+    raw_links = [item for item in source.get("links", []) if isinstance(item, dict)]
+    navigation_text = " ".join(
+        str(navigation.get(key) or "")
+        for key in ("from_title", "followed_link_text", "follow_reason")
+    ) if isinstance(navigation, dict) else ""
+    navigation_pairs = {
+        navigation_text[index:index + 2]
+        for index in range(max(0, len(navigation_text) - 1))
+        if not navigation_text[index:index + 2].isspace()
+    }
+
+    def link_priority(item: dict[str, Any]) -> tuple[int, int]:
+        text = str(item.get("text") or "")
+        overlap = sum(1 for pair in navigation_pairs if pair in text)
+        y = int((item.get("browser_rect") or {}).get("y") or 0)
+        return overlap, -y
+
+    if navigation_pairs:
+        prioritized_links = sorted(raw_links, key=link_priority, reverse=True)[:60]
+        seen_link_urls = {str(item.get("url") or "") for item in prioritized_links}
+        prioritized_links.extend(
+            item for item in raw_links
+            if str(item.get("url") or "") not in seen_link_urls
+        )
+    else:
+        prioritized_links = raw_links
+    link_manifest = [
+        {
+            "url": item.get("url", ""),
+            "text": str(item.get("text", ""))[:240],
+            "contains_image": item.get("contains_image", False),
+            "page_rect": item.get("browser_rect", {}),
+            "surrounding_text": str(item.get("browser_context", ""))[:180],
+            "dom_ancestors": str(item.get("browser_ancestors", ""))[:180],
+            "font_size": item.get("font_size", ""),
+            "font_weight": item.get("font_weight", ""),
+            "color": item.get("color", ""),
+            "background": item.get("background", ""),
+        }
+        for item in prioritized_links
+    ][:25 if has_navigation_context else 50]
     manifest = [
         {
             "image_id": item.get("id"), "source_url": item.get("url", ""),
             "html_alt": item.get("alt", ""), "declared_width": item.get("width", 0),
             "declared_height": item.get("height", 0), "visible": item.get("browser_visible"),
-            "page_rect": item.get("browser_rect", {}), "surrounding_text": item.get("browser_context", ""),
-            "dom_ancestors": item.get("browser_ancestors", ""), "link_target": item.get("browser_link_url", ""),
+            "page_rect": item.get("browser_rect", {}), "surrounding_text": str(item.get("browser_context", ""))[:220],
+            "dom_ancestors": str(item.get("browser_ancestors", ""))[:180], "link_target": item.get("browser_link_url", ""),
         }
         for item in source.get("images", []) if isinstance(item, dict)
     ]
@@ -1243,8 +1299,8 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
             "declared_width": item.get("width", 0),
             "declared_height": item.get("height", 0),
             "page_rect": item.get("browser_rect", {}),
-            "surrounding_text": item.get("browser_context", ""),
-            "dom_ancestors": item.get("browser_ancestors", ""),
+            "surrounding_text": str(item.get("browser_context", ""))[:220],
+            "dom_ancestors": str(item.get("browser_ancestors", ""))[:180],
         }
         for item in source.get("videos", [])
         if isinstance(item, dict)
@@ -1259,6 +1315,13 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
 - 静的HTML、WordPress、JavaScript遅延読込、画像ギャラリー、動画中心、SNS埋め込みなど構造が違っても同じ目的で判断する。
 - ファイル名やドメインだけで決めず、画面上の位置と記事主題との関係を最優先する。
 - プログラム側は観測と保存しか担当しない。何が記事本文か、何を採用するかはあなたが責任を持って決める。
+- 最初に、現在のページが本編そのものか、本編への入口・紹介カード・中継ページかを判断する。
+- 現在ページが少数のプレビューと目立つ記事リンクだけを示し、その先にギャラリー、動画、本文がある構造ならpage_roleをgatewayにする。follow_urlには、提示されたリンク一覧から本編へ進むURLを一字も変えずに入れる。
+- 中継は一段とは限らない。リンク先も入口なら後工程が再解析するため、その時点で最も妥当な次の本編導線を選ぶ。
+- navigation_contextがある場合は、前ページで実際に選んだリンク文と目的を引き継いでいる。リンク集のページタイトルや先頭記事が別内容でも、それへ横滑りせず、前ページで選ばれた主題・リンク文・遷移URLに対応する続きを探す。
+- リンク集やアンテナでは、受け取ったURLのクエリに転送先が符号化・逆順化されている場合がある。リンク文との一致も使い、同じ記事を指す最終リンクを選ぶ。単に画面の先頭、最大文字、最大画像という理由だけでは選ばない。
+- 広告、購入誘導、無関係な関連記事、サイトナビゲーションは追わない。URLの文字だけでなく、リンク文、強調表示、本文との位置関係、前後の説明、遷移先の目的を総合する。
+- page_roleがarticle、index、unclearならfollow_urlを空文字にする。gateway以外では追跡を要求しない。
 
 目的:
 - ページの本編素材が何を扱い、何を見せる記事かを自然な日本語のtitleとdescriptionにまとめる。descriptionには広告、関連記事、UIの説明を混ぜず、それらの判別結果はanalysis_summaryだけに書く。
@@ -1279,6 +1342,7 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
 - ページ内の座標、DOMの親要素、リンク先、前後の文章から、記事カード用画像と本文内画像と関連記事カードを区別する。
 - 同じ人物・場面・素材の画像には同じcontent_groupを付ける。モザイク版、切り抜き、縮小版、無修正版などの関係はrelationへ具体的に書く。
 - 一覧表示にはモザイク版が適切で本文には鮮明版がある場合、前者をarticle_thumbnailかつthumbnail、後者をarticle_mainかつbodyにする。モザイクという語だけで機械的に除外しない。
+- 同じ被写体のモザイク・ぼかし・トリミング版と鮮明版が併存し、前者が一覧や入口、後者が本文で使われているなら、モザイク版を本文用にしてはならない。本文の1枚目は鮮明版にする。
 - OGPや記事先頭の画像でも、本文画像の縮小・加工版ならサムネイル専用にできる。反対に関連記事へのリンク画像は見た目が主題に近くてもrelated_articleかつexcludeにする。
 - 本文の話の流れと複数画像の共通点から、誰・何をどんな魅力で紹介するページかを判断し、title、description、roleへ反映する。
 - 同じ用途の完全な重複がある場合は最も鮮明な1枚だけを採用し、他はexcludeにする。ただしサムネイル版と本文版で役割が異なる重複は両方残せる。
@@ -1302,6 +1366,9 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
 
 動画・埋め込み候補一覧:
 {json.dumps(video_manifest, ensure_ascii=False, indent=2)}
+
+画面内リンク候補一覧:
+{json.dumps(link_manifest, ensure_ascii=False, indent=2)}
 """
 
 
@@ -1311,6 +1378,22 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
     title = _require_text(value, "title", 180)
     description = _require_text(value, "description", 500)
     category = _require_text(value, "category", 40)
+    page_role = str(value.get("page_role") or "unclear")
+    if page_role not in {"article", "gateway", "index", "unclear"}:
+        page_role = "unclear"
+    follow_url = _optional_text(value, "follow_url", 2048)
+    follow_reason = _optional_text(value, "follow_reason", 300)
+    available_links = {
+        str(item.get("url") or "")
+        for item in source.get("links", [])
+        if isinstance(item, dict) and item.get("url")
+    }
+    if page_role != "gateway":
+        follow_url = ""
+    elif follow_url not in available_links:
+        page_role = "unclear"
+        follow_url = ""
+        follow_reason = "候補一覧にないリンクが返されたため追跡を中止しました"
     summary = _require_text(value, "analysis_summary", 500)
     if category not in {"SNS", "画像", "動画", "話題"}:
         raise ValidationError("Codexが未対応のカテゴリーを返しました")
@@ -1404,6 +1487,9 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
         "title": title,
         "description": description,
         "category": category,
+        "page_role": page_role,
+        "follow_url": follow_url,
+        "follow_reason": follow_reason,
         "analysis_summary": summary,
         "image_decisions": list(decisions.values()),
         "video_decisions": list(video_decisions.values()),
@@ -1415,6 +1501,9 @@ def apply_codex_analysis(source: dict[str, Any], analysis: dict[str, Any]) -> di
     result["title"] = analysis["title"]
     result["description"] = analysis["description"]
     result["ai_category"] = analysis["category"]
+    result["ai_page_role"] = analysis.get("page_role", "article")
+    result["ai_follow_url"] = analysis.get("follow_url", "")
+    result["ai_follow_reason"] = analysis.get("follow_reason", "")
     result["ai_analysis_summary"] = analysis["analysis_summary"]
     result["analysis_method"] = "codex_vision"
     decisions = {item["image_id"]: item for item in analysis["image_decisions"]}
@@ -1853,7 +1942,7 @@ class CodexRunner:
             if completed.returncode != 0:
                 raw_detail = completed.stderr or completed.stdout or "unknown error"
                 detail = _trim_text(raw_detail[-4000:], 1000)
-                lowered_detail = detail.lower()
+                lowered_detail = raw_detail.lower()
                 if "rate limit" in lowered_detail or "usage limit" in lowered_detail:
                     raise ValidationError("Codexの利用上限に達しました。時間を置いて再実行してください")
                 if any(message in lowered_detail for message in (

@@ -17,7 +17,11 @@ if str(TOOLS) not in os.sys.path:
     os.sys.path.insert(0, str(TOOLS))
 
 from indanya_desktop.sites import SiteRegistry  # noqa: E402
-from indanya_desktop.workers import _mark_ready_to_publish, _select_article_images  # noqa: E402
+from indanya_desktop.workers import (  # noqa: E402
+    _capture_and_analyze_source,
+    _mark_ready_to_publish,
+    _select_article_images,
+)
 from indanya_desktop.browser_capture import _usable_final_url, _video_canvas_frame, _video_priority  # noqa: E402
 
 
@@ -88,10 +92,10 @@ class SiteRegistryTests(unittest.TestCase):
 
         selected = _select_article_images(source)
 
-        self.assertEqual("thumb", selected[0])
-        self.assertEqual(["main-1", "main-2"], selected[1:])
-        self.assertIn("main-2", selected)
-        self.assertNotIn("ad", selected)
+        self.assertEqual("thumb", selected["thumbnail_id"])
+        self.assertEqual(["main-1", "main-2"], selected["body_ids"])
+        self.assertNotIn("thumb", selected["body_ids"])
+        self.assertNotIn("ad", selected["body_ids"])
 
     def test_article_image_selection_does_not_replace_codex_rejection(self) -> None:
         source = {
@@ -105,7 +109,74 @@ class SiteRegistryTests(unittest.TestCase):
                 "ai_relevance_score": 5,
             }],
         }
-        self.assertEqual([], _select_article_images(source))
+        self.assertEqual(
+            {"thumbnail_id": "", "body_ids": []},
+            _select_article_images(source),
+        )
+
+    def test_gateway_follow_keeps_previous_link_intent(self) -> None:
+        first_url = "https://example.com/entry"
+        relay_url = "https://example.com/relay?id=123"
+        final_url = "https://example.com/article"
+        sources = {
+            first_url: {
+                "source_type": "web", "url": first_url, "title": "入口記事",
+                "description": "本編への入口", "site_name": "入口", "author": "",
+                "images": [], "videos": [],
+                "links": [{"url": relay_url, "text": "目的の記事 volume184"}],
+            },
+            relay_url: {
+                "source_type": "web", "url": relay_url, "title": "リンク集",
+                "description": "新着リンク", "site_name": "中継", "author": "",
+                "images": [], "videos": [],
+                "links": [
+                    {"url": "https://example.com/latest", "text": "先頭の別記事"},
+                    {"url": final_url, "text": "目的の記事 volume184"},
+                ],
+            },
+            final_url: {
+                "source_type": "web", "url": final_url, "title": "本編",
+                "description": "画像ギャラリー", "site_name": "本編", "author": "",
+                "images": [], "videos": [], "links": [],
+            },
+        }
+
+        class FakeRunner:
+            def analyze(self, source: dict[str, object]) -> dict[str, object]:
+                common = {
+                    "title": str(source["title"]),
+                    "description": str(source["description"]),
+                    "category": "画像",
+                    "analysis_summary": "テスト判定",
+                    "image_decisions": [],
+                    "video_decisions": [],
+                }
+                if source["url"] == first_url:
+                    return {
+                        **common, "page_role": "gateway", "follow_url": relay_url,
+                        "follow_reason": "目的の記事リンク",
+                    }
+                if source["url"] == relay_url:
+                    context = source.get("navigation_context")
+                    self_outer.assertEqual("目的の記事 volume184", context["followed_link_text"])
+                    return {
+                        **common, "page_role": "gateway", "follow_url": final_url,
+                        "follow_reason": "同じ記事の最終リンク",
+                    }
+                return {
+                    **common, "page_role": "article", "follow_url": "",
+                    "follow_reason": "",
+                }
+
+        self_outer = self
+        with patch(
+            "indanya_desktop.workers.capture_rendered_source",
+            side_effect=lambda url, _progress: dict(sources[url]),
+        ):
+            result = _capture_and_analyze_source(ROOT, first_url, FakeRunner())
+
+        self.assertEqual(final_url, result["url"])
+        self.assertEqual([first_url, relay_url, final_url], result["source_chain"])
 
     def test_browser_video_candidates_prioritize_media_before_iframes(self) -> None:
         items = [

@@ -360,6 +360,29 @@ EXTRACT_SCRIPT = r"""
   }
 
   const preferredRoot = document.querySelector('article') || document.querySelector('main') || document.body;
+  const links = [];
+  for (const el of Array.from(document.querySelectorAll('a[href]')).slice(0, 3000)) {
+    if (!visible(el)) continue;
+    const url = abs(el.href || '');
+    if (!url || !/^https?:/i.test(url)) continue;
+    const text = clean(el.innerText || el.getAttribute('aria-label') || el.title);
+    const image = el.querySelector('img');
+    if (!text && !image) continue;
+    const style = getComputedStyle(el);
+    links.push({
+      url,
+      text: text.slice(0, 500),
+      contains_image: Boolean(image),
+      rect: rectData(el),
+      context: nearestText(el),
+      ancestors: ancestors(el),
+      font_size: style.fontSize || '',
+      font_weight: style.fontWeight || '',
+      color: style.color || '',
+      background: style.backgroundColor || ''
+    });
+    if (links.length >= 200) break;
+  }
   const blocks = [];
   for (const el of Array.from(preferredRoot.querySelectorAll('h1,h2,h3,h4,p,li,blockquote,figcaption,pre')).slice(0, 1000)) {
     const text = clean(el.innerText);
@@ -384,6 +407,7 @@ EXTRACT_SCRIPT = r"""
     final_url: location.href,
     body_text: clean(preferredRoot.innerText).slice(0, 100000),
     text_blocks: blocks,
+    links,
     images: images.concat(backgroundImages),
     videos,
     page: {

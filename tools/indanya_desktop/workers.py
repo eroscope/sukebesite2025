@@ -7,6 +7,7 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 from typing import Any
+from urllib.parse import urldefrag
 
 from PySide6.QtCore import QObject, QRunnable, Signal, Slot
 
@@ -99,10 +100,10 @@ def _image_quality_score(item: dict[str, Any]) -> int:
     return score
 
 
-def _select_article_images(source: dict[str, Any]) -> list[str]:
+def _select_article_images(source: dict[str, Any]) -> dict[str, Any]:
     images = [item for item in source.get("images") or [] if isinstance(item, dict) and item.get("id")]
     if not images:
-        return []
+        return {"thumbnail_id": "", "body_ids": []}
     by_id = {str(item["id"]): item for item in images}
     chosen: list[str] = []
     thumbnail_ids = [
@@ -114,14 +115,18 @@ def _select_article_images(source: dict[str, Any]) -> list[str]:
         if str(image_id) in by_id
     ]
     if thumbnail_ids or body_ids:
-        if thumbnail_ids:
-            chosen.append(max(thumbnail_ids, key=lambda image_id: _image_quality_score(by_id[image_id])))
-        elif body_ids:
-            chosen.append(max(body_ids, key=lambda image_id: _image_quality_score(by_id[image_id])))
-        for image_id in sorted(body_ids, key=lambda value: _image_quality_score(by_id[value]), reverse=True):
-            if image_id not in chosen:
-                chosen.append(image_id)
-        return chosen[:MAX_DESKTOP_SOURCE_IMAGES]
+        thumbnail_id = max(
+            thumbnail_ids or body_ids,
+            key=lambda image_id: _image_quality_score(by_id[image_id]),
+        )
+        chosen = sorted(body_ids, key=lambda value: _image_quality_score(by_id[value]), reverse=True)
+        chosen = [image_id for image_id in chosen if image_id != thumbnail_id]
+        if thumbnail_id in body_ids and not chosen:
+            chosen = [thumbnail_id]
+        return {
+            "thumbnail_id": thumbnail_id,
+            "body_ids": chosen[:MAX_DESKTOP_SOURCE_IMAGES],
+        }
     for image_id in source.get("recommended_image_ids") or []:
         image_id = str(image_id)
         if image_id in by_id and _image_quality_score(by_id[image_id]) > -100 and image_id not in chosen:
@@ -137,7 +142,77 @@ def _select_article_images(source: dict[str, Any]) -> list[str]:
         if len(chosen) >= MAX_DESKTOP_SOURCE_IMAGES:
             break
     chosen.sort(key=lambda image_id: _image_quality_score(by_id[image_id]), reverse=True)
-    return chosen[:MAX_DESKTOP_SOURCE_IMAGES]
+    chosen = chosen[:MAX_DESKTOP_SOURCE_IMAGES]
+    return {
+        "thumbnail_id": chosen[0] if chosen else "",
+        "body_ids": chosen,
+    }
+
+
+def _capture_and_analyze_source(
+    site_root: Path,
+    source_url: str,
+    runner: CodexRunner,
+    progress: Any = None,
+) -> dict[str, Any]:
+    current_url = _validate_source_url(source_url)
+    visited: set[str] = set()
+    source_chain: list[str] = []
+    navigation_context: dict[str, Any] = {}
+    for depth in range(3):
+        normalized = urldefrag(current_url)[0]
+        if normalized in visited:
+            break
+        visited.add(normalized)
+        source_chain.append(current_url)
+        if progress:
+            progress(8 + depth * 8, "Chromeでページ全体とリンク先を確認しています")
+        try:
+            source = capture_rendered_source(
+                current_url,
+                (lambda value, message: progress(min(26 + depth * 8, 8 + depth * 8 + value // 4), message))
+                if progress else (lambda _v, _m: None),
+            )
+        except Exception:
+            traceback.print_exc()
+            if progress:
+                progress(18 + depth * 8, "ブラウザ表示に失敗したためHTML解析で回収しています")
+            source = analyze_source_url(current_url)
+        if navigation_context:
+            source["navigation_context"] = navigation_context
+        if progress:
+            progress(30 + depth * 8, "Codexがページの役割と本編素材を判定しています")
+        analysis = runner.analyze(source)
+        follow_url = str(analysis.get("follow_url") or "").strip()
+        if analysis.get("page_role") == "gateway" and follow_url:
+            allowed = {
+                urldefrag(str(item.get("url") or ""))[0]
+                for item in source.get("links", [])
+                if isinstance(item, dict)
+            }
+            validated = _validate_source_url(follow_url)
+            if urldefrag(validated)[0] in allowed and urldefrag(validated)[0] not in visited:
+                followed_link = next(
+                    (
+                        item for item in source.get("links", [])
+                        if isinstance(item, dict) and urldefrag(str(item.get("url") or ""))[0] == urldefrag(validated)[0]
+                    ),
+                    {},
+                )
+                navigation_context = {
+                    "from_url": str(source.get("url") or current_url),
+                    "from_title": str(source.get("title") or ""),
+                    "followed_url": validated,
+                    "followed_link_text": str(followed_link.get("text") or ""),
+                    "follow_reason": str(analysis.get("follow_reason") or ""),
+                }
+                current_url = validated
+                continue
+        result = apply_codex_analysis(source, analysis)
+        result["requested_url"] = source_url
+        result["source_chain"] = source_chain
+        return result
+    raise RuntimeError("本編へのリンクを追跡できませんでした。元ページのリンク構造を確認してください")
 
 
 class GenerateArticleWorker(QRunnable):
@@ -152,37 +227,34 @@ class GenerateArticleWorker(QRunnable):
     @Slot()
     def run(self) -> None:
         try:
-            self.signals.progress.emit(8, "Codex確認用にChromeでページ全体を開いています")
-            try:
-                source = capture_rendered_source(
-                    self.source_url,
-                    lambda value, message: self.signals.progress.emit(min(26, 8 + value // 3), message),
-                )
-            except Exception:
-                traceback.print_exc()
-                self.signals.progress.emit(18, "ブラウザ表示に失敗したためHTML解析で回収しています")
-                source = analyze_source_url(self.source_url)
             runner = CodexRunner(self.site_root)
             status = runner.status()
             if not status.get("available"):
                 raise RuntimeError(status.get("message") or "Codexへ接続できません")
-
-            self.signals.progress.emit(30, "Codexが広告を除外し、本編素材を判定しています")
-            source = apply_codex_analysis(source, runner.analyze(source))
+            source = _capture_and_analyze_source(
+                self.site_root,
+                self.source_url,
+                runner,
+                lambda value, message: self.signals.progress.emit(value, message),
+            )
             selected_videos = list(source.get("recommended_video_ids") or [])
-            selected_images = _select_article_images(source)
+            image_selection = _select_article_images(source)
+            thumbnail_id = str(image_selection["thumbnail_id"])
+            body_image_ids = list(image_selection["body_ids"])
             if selected_videos:
-                selected_images = selected_images[:1]
-            if not selected_images:
+                body_image_ids = []
+            if not thumbnail_id:
                 raise RuntimeError("記事のサムネイルに使える画像が見つかりませんでした")
 
             options: dict[str, Any] = {
                 "category": self.category,
                 "reply_count": self.reply_count,
-                "selected_image_ids": selected_images,
+                "selected_image_ids": list(dict.fromkeys([thumbnail_id, *body_image_ids])),
                 "selected_video_ids": selected_videos,
             }
-            base = build_source_draft_payload(source, selected_images, None, selected_videos)
+            base = build_source_draft_payload(
+                source, body_image_ids, None, selected_videos, thumbnail_image_id=thumbnail_id
+            )
             self.signals.progress.emit(58, "Codexが画像・動画を見ながらタイトルと記事を書いています")
             generated = runner.generate(source, options)
             if self.category != "auto":
@@ -205,40 +277,29 @@ class GenerateArticleWorker(QRunnable):
 
 
 def _generate_article_payload(site_root: Path, source_url: str, category: str, reply_count: str, progress: Any = None) -> dict[str, Any]:
-    if progress:
-        progress(8, "Chromeでページ全体と通信を確認しています")
-    try:
-        source = capture_rendered_source(
-            source_url,
-            (lambda value, message: progress(min(26, 8 + value // 3), message)) if progress else (lambda _v, _m: None),
-        )
-    except Exception:
-        traceback.print_exc()
-        if progress:
-            progress(18, "ブラウザ表示に失敗したためHTML解析で回収しています")
-        source = analyze_source_url(source_url)
     runner = CodexRunner(site_root)
     status = runner.status()
     if not status.get("available"):
         raise RuntimeError(status.get("message") or "Codexへ接続できません")
-
-    if progress:
-        progress(30, "Codexが広告を除外し、本編素材を判定しています")
-    source = apply_codex_analysis(source, runner.analyze(source))
+    source = _capture_and_analyze_source(site_root, source_url, runner, progress)
     selected_videos = list(source.get("recommended_video_ids") or [])
-    selected_images = _select_article_images(source)
+    image_selection = _select_article_images(source)
+    thumbnail_id = str(image_selection["thumbnail_id"])
+    body_image_ids = list(image_selection["body_ids"])
     if selected_videos:
-        selected_images = selected_images[:1]
-    if not selected_images:
+        body_image_ids = []
+    if not thumbnail_id:
         raise RuntimeError("記事のサムネイルに使える画像が見つかりませんでした")
 
     options: dict[str, Any] = {
         "category": category,
         "reply_count": reply_count,
-        "selected_image_ids": selected_images,
+        "selected_image_ids": list(dict.fromkeys([thumbnail_id, *body_image_ids])),
         "selected_video_ids": selected_videos,
     }
-    base = build_source_draft_payload(source, selected_images, None, selected_videos)
+    base = build_source_draft_payload(
+        source, body_image_ids, None, selected_videos, thumbnail_image_id=thumbnail_id
+    )
     if progress:
         progress(58, "Codexが画像・動画を見ながらタイトルと記事を書いています")
     generated = runner.generate(source, options)
