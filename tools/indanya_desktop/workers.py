@@ -249,17 +249,27 @@ def _generate_article_payload(site_root: Path, source_url: str, category: str, r
 
 
 class CollectCandidatesWorker(QRunnable):
-    def __init__(self, site_root: Path, per_source_limit: int) -> None:
+    def __init__(
+        self,
+        site_root: Path,
+        per_source_limit: int,
+        source_ids: list[str] | None = None,
+    ) -> None:
         super().__init__()
         self.site_root = site_root
         self.per_source_limit = per_source_limit
+        self.source_ids = source_ids or []
         self.signals = WorkerSignals()
 
     @Slot()
     def run(self) -> None:
         try:
             self.signals.progress.emit(15, "登録した情報源を巡回しています")
-            candidates = discover_candidates(self.site_root, self.per_source_limit)
+            candidates = discover_candidates(
+                self.site_root,
+                self.per_source_limit,
+                self.source_ids,
+            )
             self.signals.progress.emit(100, "候補URLの収集が完了しました")
             self.signals.completed.emit({"count": len(candidates)})
         except Exception as exc:
@@ -305,7 +315,7 @@ class BatchDraftWorker(QRunnable):
                         min(99, base + span),
                         f"{index}/{total} 生成失敗。次の候補へ進みます",
                     )
-            self.signals.progress.emit(100, "選択URLの下書き生成が完了しました")
+            self.signals.progress.emit(100, "記事生成が完了しました")
             self.signals.completed.emit({
                 "count": len(created),
                 "items": created,

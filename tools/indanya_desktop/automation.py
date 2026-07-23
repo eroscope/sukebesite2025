@@ -41,6 +41,11 @@ DEFAULT_AUTOMATION_SETTINGS = {
     "auto_crawl_enabled": True,
     "crawl_times": ["06:00", "12:00", "18:00"],
     "auto_draft_limit": 3,
+    "crawl_slots": [
+        {"slot_id": "morning", "time": "06:00", "count": 3, "source_ids": []},
+        {"slot_id": "noon", "time": "12:00", "count": 3, "source_ids": []},
+        {"slot_id": "evening", "time": "18:00", "count": 3, "source_ids": []},
+    ],
     "publish_enabled": True,
     "publish_slots": [
         {"time": "08:00", "count": 2},
@@ -139,13 +144,51 @@ def _valid_clock(value: Any) -> bool:
 
 def load_automation_settings(site_root: Path) -> dict[str, Any]:
     raw = _read_json(_automation_path(site_root), {})
+    raw = raw if isinstance(raw, dict) else {}
     settings = {
         **DEFAULT_AUTOMATION_SETTINGS,
-        **(raw if isinstance(raw, dict) else {}),
+        **raw,
     }
     settings["crawl_times"] = sorted({
         value for value in settings.get("crawl_times", []) if _valid_clock(value)
     }) or list(DEFAULT_AUTOMATION_SETTINGS["crawl_times"])
+    raw_crawl_slots = raw.get("crawl_slots")
+    if not isinstance(raw_crawl_slots, list):
+        raw_crawl_slots = [
+            {
+                "slot_id": f"legacy-{index + 1}",
+                "time": clock,
+                "count": settings.get("auto_draft_limit", 3),
+                "source_ids": [],
+            }
+            for index, clock in enumerate(settings["crawl_times"])
+        ]
+    crawl_slots = []
+    seen_slot_ids: set[str] = set()
+    for index, item in enumerate(raw_crawl_slots):
+        if not isinstance(item, dict) or not _valid_clock(item.get("time")):
+            continue
+        count = item.get("count")
+        if isinstance(count, bool) or not isinstance(count, int) or not 1 <= count <= 100:
+            continue
+        slot_id = re.sub(r"[^a-zA-Z0-9_-]", "", str(item.get("slot_id") or ""))[:40]
+        if not slot_id or slot_id in seen_slot_ids:
+            slot_id = f"slot-{index + 1}-{hashlib.sha1(str(item).encode()).hexdigest()[:6]}"
+        seen_slot_ids.add(slot_id)
+        source_ids = list(dict.fromkeys(
+            str(value) for value in item.get("source_ids", [])
+            if isinstance(value, str) and value
+        ))
+        crawl_slots.append({
+            "slot_id": slot_id,
+            "time": item["time"],
+            "count": count,
+            "source_ids": source_ids,
+        })
+    settings["crawl_slots"] = sorted(crawl_slots, key=lambda item: item["time"]) or list(
+        DEFAULT_AUTOMATION_SETTINGS["crawl_slots"]
+    )
+    settings["crawl_times"] = [item["time"] for item in settings["crawl_slots"]]
     slots = []
     for item in settings.get("publish_slots", []):
         if not isinstance(item, dict) or not _valid_clock(item.get("time")):
@@ -256,17 +299,18 @@ def queue_position_map(site_root: Path) -> dict[str, int]:
     return {item["slug"]: index for index, item in enumerate(settings["queue"], start=1)}
 
 
-def due_crawl_runs(site_root: Path, now: datetime | None = None) -> list[str]:
+def due_crawl_runs(site_root: Path, now: datetime | None = None) -> list[dict[str, Any]]:
     current = (now or datetime.now(JST)).astimezone(JST)
     settings = load_automation_settings(site_root)
     if not settings.get("auto_crawl_enabled", True):
         return []
     completed = set(settings["completed_crawl_runs"])
-    return [
-        f"{current:%Y-%m-%d}@{clock}"
-        for clock in settings["crawl_times"]
-        if current.strftime("%H:%M") >= clock and f"{current:%Y-%m-%d}@{clock}" not in completed
-    ]
+    runs = []
+    for slot in settings["crawl_slots"]:
+        key = f"{current:%Y-%m-%d}@{slot['time']}#{slot['slot_id']}"
+        if current.strftime("%H:%M") >= slot["time"] and key not in completed:
+            runs.append({**slot, "key": key})
+    return runs
 
 
 def due_publish_runs(site_root: Path, now: datetime | None = None) -> list[dict[str, Any]]:
@@ -440,7 +484,11 @@ def _score_candidate(url: str, title: str, source_url: str) -> int:
     return score
 
 
-def discover_candidates(site_root: Path, per_source_limit: int = 12) -> list[dict[str, Any]]:
+def discover_candidates(
+    site_root: Path,
+    per_source_limit: int = 12,
+    source_ids: list[str] | None = None,
+) -> list[dict[str, Any]]:
     existing = _existing_urls(site_root)
     known = {
         normalize_candidate_url(str(item.get("url") or ""))
@@ -454,9 +502,12 @@ def discover_candidates(site_root: Path, per_source_limit: int = 12) -> list[dic
     }
     discovered: list[dict[str, Any]] = []
     sources = list_sources(site_root)
+    selected_sources = set(source_ids or [])
     now = datetime.now(JST).isoformat(timespec="seconds")
     for source in sources:
         if not source.get("enabled", True):
+            continue
+        if selected_sources and str(source.get("source_id") or "") not in selected_sources:
             continue
         source_url = normalize_candidate_url(str(source.get("url") or ""))
         try:

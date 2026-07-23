@@ -128,7 +128,10 @@ class AutomationTests(unittest.TestCase):
                 enqueue_article(root, slug)
             settings = load_automation_settings(root)
             settings.update({
-                "crawl_times": ["06:00", "12:00"],
+                "crawl_slots": [
+                    {"slot_id": "first", "time": "06:00", "count": 4, "source_ids": ["source-a"]},
+                    {"slot_id": "second", "time": "12:00", "count": 7, "source_ids": []},
+                ],
                 "publish_slots": [
                     {"time": "08:00", "count": 2},
                     {"time": "20:00", "count": 2},
@@ -137,15 +140,20 @@ class AutomationTests(unittest.TestCase):
             save_automation_settings(root, settings)
             now = datetime(2026, 7, 24, 21, 0, tzinfo=JST)
             self.assertEqual(
-                ["2026-07-24@06:00", "2026-07-24@12:00"],
-                due_crawl_runs(root, now),
+                ["2026-07-24@06:00#first", "2026-07-24@12:00#second"],
+                [item["key"] for item in due_crawl_runs(root, now)],
             )
+            self.assertEqual(4, due_crawl_runs(root, now)[0]["count"])
+            self.assertEqual(["source-a"], due_crawl_runs(root, now)[0]["source_ids"])
             runs = due_publish_runs(root, now)
             self.assertEqual(["one", "two"], runs[0]["slugs"])
             self.assertEqual(["three", "four"], runs[1]["slugs"])
-            record_automation_run(root, "crawl", "2026-07-24@06:00")
+            record_automation_run(root, "crawl", "2026-07-24@06:00#first")
             record_automation_run(root, "publish", "2026-07-24@08:00")
-            self.assertEqual(["2026-07-24@12:00"], due_crawl_runs(root, now))
+            self.assertEqual(
+                ["2026-07-24@12:00#second"],
+                [item["key"] for item in due_crawl_runs(root, now)],
+            )
             self.assertEqual(["2026-07-24@20:00"], [item["key"] for item in due_publish_runs(root, now)])
 
 

@@ -27,6 +27,8 @@ from PySide6.QtWidgets import (
     QHeaderView,
     QLabel,
     QLineEdit,
+    QListWidget,
+    QListWidgetItem,
     QMainWindow,
     QMessageBox,
     QPlainTextEdit,
@@ -39,6 +41,7 @@ from PySide6.QtWidgets import (
     QStackedWidget,
     QTableWidget,
     QTableWidgetItem,
+    QTabWidget,
     QTimeEdit,
     QVBoxLayout,
     QWidget,
@@ -143,6 +146,253 @@ class ReviewActionPage(QWebEnginePage):
                 self.action_requested.emit(action, slug)
             return False
         return super().acceptNavigationRequest(url, navigation_type, is_main_frame)
+
+
+class TimeWheel(QWidget):
+    def __init__(self) -> None:
+        super().__init__()
+        layout = QHBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        self.hours = QListWidget()
+        self.minutes = QListWidget()
+        for value in range(24):
+            self.hours.addItem(f"{value:02d}")
+        for value in range(0, 60, 5):
+            self.minutes.addItem(f"{value:02d}")
+        for widget, label in ((self.hours, "時"), (self.minutes, "分")):
+            widget.setFixedSize(92, 166)
+            widget.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+            column = QVBoxLayout()
+            column.addWidget(QLabel(label), 0, Qt.AlignmentFlag.AlignCenter)
+            column.addWidget(widget)
+            layout.addLayout(column)
+
+    def set_value(self, value: str) -> None:
+        parsed = QTime.fromString(value, "HH:mm")
+        if not parsed.isValid():
+            parsed = QTime(0, 0)
+        self.hours.setCurrentRow(parsed.hour())
+        self.minutes.setCurrentRow(round(parsed.minute() / 5) % 12)
+        self.hours.scrollToItem(self.hours.currentItem(), QAbstractItemView.ScrollHint.PositionAtCenter)
+        self.minutes.scrollToItem(self.minutes.currentItem(), QAbstractItemView.ScrollHint.PositionAtCenter)
+
+    def value(self) -> str:
+        hour = max(0, self.hours.currentRow())
+        minute = max(0, self.minutes.currentRow()) * 5
+        return f"{hour:02d}:{minute:02d}"
+
+
+class ScheduleEditor(QWidget):
+    def __init__(self, slots: list[dict], sources: list[dict] | None = None) -> None:
+        super().__init__()
+        self.sources = sources
+        self.slots = [dict(item) for item in slots]
+        self.loading = False
+        layout = QHBoxLayout(self)
+
+        left = QVBoxLayout()
+        self.slot_list = QListWidget()
+        self.slot_list.setMinimumWidth(280)
+        self.slot_list.currentRowChanged.connect(self._load_current)
+        left.addWidget(self.slot_list, 1)
+        slot_buttons = QHBoxLayout()
+        add = button("+", "primary")
+        add.setToolTip("時刻を追加")
+        add.clicked.connect(self.add_slot)
+        remove = button("−", "danger")
+        remove.setToolTip("選択した時刻を削除")
+        remove.clicked.connect(self.remove_slot)
+        slot_buttons.addWidget(add)
+        slot_buttons.addWidget(remove)
+        slot_buttons.addStretch()
+        left.addLayout(slot_buttons)
+        layout.addLayout(left, 4)
+
+        right = QVBoxLayout()
+        self.time_wheel = TimeWheel()
+        self.time_wheel.hours.currentRowChanged.connect(self._save_current)
+        self.time_wheel.minutes.currentRowChanged.connect(self._save_current)
+        right.addWidget(self.time_wheel, 0, Qt.AlignmentFlag.AlignCenter)
+        count_row = QHBoxLayout()
+        count_row.addWidget(QLabel("1回の記事数"))
+        self.count_slider = QSlider(Qt.Orientation.Horizontal)
+        self.count_slider.setRange(1, 30)
+        self.count_slider.valueChanged.connect(self._count_changed)
+        count_row.addWidget(self.count_slider, 1)
+        self.count_label = QLabel("3件", objectName="success")
+        self.count_label.setFixedWidth(46)
+        count_row.addWidget(self.count_label)
+        right.addLayout(count_row)
+
+        self.source_list: QListWidget | None = None
+        if sources is not None:
+            right.addWidget(QLabel("巡回する情報源"))
+            self.source_list = QListWidget()
+            all_item = QListWidgetItem("すべての有効な情報源")
+            all_item.setData(Qt.ItemDataRole.UserRole, "")
+            all_item.setFlags(all_item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
+            self.source_list.addItem(all_item)
+            for source in sources:
+                item = QListWidgetItem(str(source.get("name") or source.get("url") or "情報源"))
+                item.setData(Qt.ItemDataRole.UserRole, str(source.get("source_id") or ""))
+                item.setToolTip(str(source.get("url") or ""))
+                item.setFlags(item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
+                self.source_list.addItem(item)
+            self.source_list.itemChanged.connect(self._sources_changed)
+            right.addWidget(self.source_list, 1)
+        else:
+            right.addStretch()
+        layout.addLayout(right, 6)
+        self._refresh_list()
+
+    def _slot_label(self, slot: dict) -> str:
+        source_ids = slot.get("source_ids", [])
+        source_label = "全情報源" if self.sources is not None and not source_ids else (
+            f"{len(source_ids)}情報源" if self.sources is not None else ""
+        )
+        return f"{slot.get('time', '00:00')}　{slot.get('count', 1)}件　{source_label}".rstrip()
+
+    def _refresh_list(self, selected: int | None = None) -> None:
+        current = self.slot_list.currentRow() if selected is None else selected
+        self.slot_list.blockSignals(True)
+        self.slot_list.clear()
+        for slot in self.slots:
+            self.slot_list.addItem(self._slot_label(slot))
+        self.slot_list.blockSignals(False)
+        if self.slots:
+            self.slot_list.setCurrentRow(max(0, min(current, len(self.slots) - 1)))
+            self._load_current(self.slot_list.currentRow())
+
+    def _load_current(self, row: int) -> None:
+        if row < 0 or row >= len(self.slots):
+            return
+        self.loading = True
+        slot = self.slots[row]
+        self.time_wheel.set_value(str(slot.get("time") or "00:00"))
+        self.count_slider.setValue(int(slot.get("count") or 1))
+        self.count_label.setText(f"{self.count_slider.value()}件")
+        if self.source_list is not None:
+            selected = set(slot.get("source_ids") or [])
+            for index in range(self.source_list.count()):
+                item = self.source_list.item(index)
+                source_id = str(item.data(Qt.ItemDataRole.UserRole) or "")
+                item.setCheckState(
+                    Qt.CheckState.Checked
+                    if (not source_id and not selected) or source_id in selected
+                    else Qt.CheckState.Unchecked
+                )
+        self.loading = False
+
+    def _save_current(self, _value: int = 0) -> None:
+        row = self.slot_list.currentRow()
+        if self.loading or row < 0 or row >= len(self.slots):
+            return
+        self.slots[row]["time"] = self.time_wheel.value()
+        self.slot_list.item(row).setText(self._slot_label(self.slots[row]))
+
+    def _count_changed(self, value: int) -> None:
+        self.count_label.setText(f"{value}件")
+        row = self.slot_list.currentRow()
+        if self.loading or row < 0 or row >= len(self.slots):
+            return
+        self.slots[row]["count"] = value
+        self.slot_list.item(row).setText(self._slot_label(self.slots[row]))
+
+    def _sources_changed(self, changed_item: QListWidgetItem) -> None:
+        row = self.slot_list.currentRow()
+        if self.loading or self.source_list is None or row < 0:
+            return
+        changed_index = self.source_list.row(changed_item)
+        self.loading = True
+        if changed_index == 0 and changed_item.checkState() == Qt.CheckState.Checked:
+            for index in range(1, self.source_list.count()):
+                self.source_list.item(index).setCheckState(Qt.CheckState.Unchecked)
+        elif changed_index > 0 and changed_item.checkState() == Qt.CheckState.Checked:
+            self.source_list.item(0).setCheckState(Qt.CheckState.Unchecked)
+        if not any(
+            self.source_list.item(index).checkState() == Qt.CheckState.Checked
+            for index in range(self.source_list.count())
+        ):
+            self.source_list.item(0).setCheckState(Qt.CheckState.Checked)
+        self.loading = False
+        all_checked = self.source_list.item(0).checkState() == Qt.CheckState.Checked
+        selected = []
+        if not all_checked:
+            for index in range(1, self.source_list.count()):
+                item = self.source_list.item(index)
+                if item.checkState() == Qt.CheckState.Checked:
+                    selected.append(str(item.data(Qt.ItemDataRole.UserRole) or ""))
+        self.slots[row]["source_ids"] = selected
+        self.slot_list.item(row).setText(self._slot_label(self.slots[row]))
+
+    def add_slot(self) -> None:
+        slot = {
+            "slot_id": f"slot-{time.time_ns()}",
+            "time": "12:00",
+            "count": 3,
+            "source_ids": [],
+        }
+        self.slots.append(slot)
+        self._refresh_list(len(self.slots) - 1)
+
+    def remove_slot(self) -> None:
+        row = self.slot_list.currentRow()
+        if row < 0:
+            return
+        self.slots.pop(row)
+        self._refresh_list(max(0, row - 1))
+
+    def values(self) -> list[dict]:
+        self._save_current()
+        return [dict(item) for item in self.slots]
+
+
+class AutomationSettingsDialog(QDialog):
+    def __init__(self, parent: QWidget, settings: dict, sources: list[dict]) -> None:
+        super().__init__(parent)
+        self.setWindowTitle("自動巡回・予約投稿の設定")
+        self.resize(840, 600)
+        layout = QVBoxLayout(self)
+        tabs = QTabWidget()
+
+        crawl_page = QWidget()
+        crawl_layout = QVBoxLayout(crawl_page)
+        self.crawl_enabled = QCheckBox("自動巡回を有効にする")
+        self.crawl_enabled.setChecked(bool(settings.get("auto_crawl_enabled", True)))
+        crawl_layout.addWidget(self.crawl_enabled)
+        self.crawl_editor = ScheduleEditor(list(settings.get("crawl_slots") or []), sources)
+        crawl_layout.addWidget(self.crawl_editor, 1)
+        tabs.addTab(crawl_page, "自動巡回")
+
+        publish_page = QWidget()
+        publish_layout = QVBoxLayout(publish_page)
+        self.publish_enabled = QCheckBox("予約投稿を有効にする")
+        self.publish_enabled.setChecked(bool(settings.get("publish_enabled", True)))
+        publish_layout.addWidget(self.publish_enabled)
+        self.publish_editor = ScheduleEditor(list(settings.get("publish_slots") or []))
+        publish_layout.addWidget(self.publish_editor, 1)
+        tabs.addTab(publish_page, "予約投稿")
+        layout.addWidget(tabs, 1)
+
+        actions = QDialogButtonBox(
+            QDialogButtonBox.StandardButton.Save | QDialogButtonBox.StandardButton.Cancel
+        )
+        actions.button(QDialogButtonBox.StandardButton.Save).setText("保存")
+        actions.button(QDialogButtonBox.StandardButton.Cancel).setText("キャンセル")
+        actions.accepted.connect(self.accept)
+        actions.rejected.connect(self.reject)
+        layout.addWidget(actions)
+
+    def values(self) -> dict:
+        return {
+            "auto_crawl_enabled": self.crawl_enabled.isChecked(),
+            "crawl_slots": self.crawl_editor.values(),
+            "publish_enabled": self.publish_enabled.isChecked(),
+            "publish_slots": [
+                {"time": item["time"], "count": item["count"]}
+                for item in self.publish_editor.values()
+            ],
+        }
 
 
 class VideoPlayerDialog(QDialog):
@@ -284,6 +534,7 @@ class MainWindow(QMainWindow):
         self.publish_batch_total = 0
         self.scheduled_collect = False
         self.scheduled_crawl_keys: list[str] = []
+        self.scheduled_crawl_run: dict = {}
         self.scheduled_publish_slugs: list[str] = []
         self.scheduled_publish_key = ""
         self.scheduled_publish_active = False
@@ -369,7 +620,7 @@ class MainWindow(QMainWindow):
         layout.addSpacing(18)
         groups = [
             ("編集部", [("review", "▦  公開前ボード"), ("dashboard", "·  ダッシュボード")]),
-            ("制作", [("create", "＋  URLから作成"), ("drafts", "□  記事下書き"), ("editor", "T  記事編集")]),
+            ("制作", [("create", "＋  URLから作成"), ("editor", "T  記事編集")]),
             ("編集フロー", [("rights", "✓  許可管理"), ("publishing", "↑  公開管理")]),
             ("自動化", [("sources", "◎  情報源"), ("automation", "↻  自動巡回")]),
             ("サイト", [("sites", "◇  管理サイト"), ("settings", "⚙  設定")]),
@@ -429,7 +680,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(heading("制作状況", "URLから作った記事、許可待ち、公開準備をまとめて確認できます。"))
         metrics = QHBoxLayout()
         self.metric_labels = {}
-        for key, title in (("drafts", "下書き"), ("rights", "許可待ち"), ("videos", "動画素材"), ("sites", "管理サイト")):
+        for key, title in (("drafts", "記事"), ("rights", "許可待ち"), ("videos", "動画素材"), ("sites", "管理サイト")):
             inner = QVBoxLayout()
             label = QLabel("0", objectName="metric")
             self.metric_labels[key] = label
@@ -441,7 +692,7 @@ class MainWindow(QMainWindow):
         quick = QHBoxLayout()
         left = QVBoxLayout()
         left.addWidget(QLabel("次の記事を作る", objectName="sectionTitle"))
-        left.addWidget(QLabel("気になったページのURLを貼るだけで、Codexが素材選定から下書きまで担当します。", objectName="muted"))
+        left.addWidget(QLabel("気になったページのURLを貼るだけで、Codexが素材選定から記事作成まで担当します。", objectName="muted"))
         go = button("URLから記事を作る", "primary")
         go.clicked.connect(lambda: self.switch_page("create"))
         left.addWidget(go, 0, Qt.AlignmentFlag.AlignLeft)
@@ -556,7 +807,7 @@ class MainWindow(QMainWindow):
         body = QWidget()
         layout = QVBoxLayout(body)
         head = QHBoxLayout()
-        head.addWidget(heading("記事下書き", "Codexが生成した記事を確認して編集します。"), 1)
+        head.addWidget(heading("記事一覧", "Codexが生成した記事を確認して編集します。"), 1)
         new = button("URLから新規作成", "primary")
         new.clicked.connect(lambda: self.switch_page("create"))
         head.addWidget(new)
@@ -746,85 +997,31 @@ class MainWindow(QMainWindow):
     def _automation_page(self) -> QWidget:
         body = QWidget()
         layout = QVBoxLayout(body)
-        layout.addWidget(heading("自動巡回", "情報源から候補URLを拾い、選んだものをまとめて下書きにします。"))
-
-        scheduler = QVBoxLayout()
-        scheduler.setContentsMargins(16, 14, 16, 14)
-        crawl_row = QHBoxLayout()
-        self.auto_crawl_enabled = QCheckBox("自動巡回を有効にする")
-        crawl_row.addWidget(self.auto_crawl_enabled)
-        crawl_row.addSpacing(12)
-        crawl_row.addWidget(QLabel("巡回時刻"))
-        self.crawl_time_edits: list[QTimeEdit] = []
-        for _index in range(3):
-            editor = QTimeEdit()
-            editor.setDisplayFormat("HH:mm")
-            editor.setFixedWidth(86)
-            self.crawl_time_edits.append(editor)
-            crawl_row.addWidget(editor)
-        crawl_row.addWidget(QLabel("1回の記事数"))
-        self.auto_draft_limit = QSpinBox()
-        self.auto_draft_limit.setRange(1, 20)
-        self.auto_draft_limit.setSuffix(" 件")
-        crawl_row.addWidget(self.auto_draft_limit)
-        crawl_row.addStretch()
-        scheduler.addLayout(crawl_row)
-
-        publish_row = QHBoxLayout()
-        self.auto_publish_enabled = QCheckBox("予約投稿を有効にする")
-        publish_row.addWidget(self.auto_publish_enabled)
-        publish_row.addSpacing(12)
-        publish_row.addWidget(QLabel("投稿枠"))
-        self.publish_slot_controls: list[tuple[QCheckBox, QTimeEdit, QSpinBox]] = []
-        for label in ("枠1", "枠2"):
-            enabled = QCheckBox(label)
-            time_editor = QTimeEdit()
-            time_editor.setDisplayFormat("HH:mm")
-            time_editor.setFixedWidth(86)
-            count = QSpinBox()
-            count.setRange(1, 20)
-            count.setSuffix(" 件")
-            publish_row.addWidget(enabled)
-            publish_row.addWidget(time_editor)
-            publish_row.addWidget(count)
-            self.publish_slot_controls.append((enabled, time_editor, count))
-        publish_row.addStretch()
-        save_schedule = button("設定を保存", "primary")
-        save_schedule.clicked.connect(self.save_scheduler_controls)
-        publish_row.addWidget(save_schedule)
-        scheduler.addLayout(publish_row)
-        self.automation_scheduler_note = QLabel("", objectName="muted")
-        scheduler.addWidget(self.automation_scheduler_note)
-        layout.addWidget(panel(scheduler, True))
-
+        layout.addWidget(heading("自動巡回", "登録した情報源を巡回し、記事を作って公開前ボードへ送ります。"))
         controls = QHBoxLayout()
-        collect = button("候補URLを拾う", "primary")
-        collect.clicked.connect(self.collect_auto_candidates)
-        draft = button("ONの候補で下書き作成", "primary")
-        draft.clicked.connect(self.create_auto_drafts)
-        clear = button("候補を整理")
-        clear.clicked.connect(self.clean_auto_candidates)
-        controls.addWidget(collect)
-        controls.addWidget(draft)
-        controls.addWidget(clear)
+        run_now = button("今すぐ巡回して記事を作る", "primary")
+        run_now.clicked.connect(self.run_manual_crawl)
+        settings_button = button("巡回・予約設定")
+        settings_button.clicked.connect(self.open_automation_settings)
+        controls.addWidget(run_now)
+        controls.addWidget(settings_button)
         controls.addStretch()
-        controls.addWidget(QLabel("最大"))
-        self.collect_limit = QComboBox()
-        for value in ("5", "10", "20"):
-            self.collect_limit.addItem(f"{value}件/情報源", value)
-        self.collect_limit.setCurrentIndex(1)
-        controls.addWidget(self.collect_limit)
         layout.addLayout(controls)
-        self.candidates_table = self._table(["作成", "スコア", "状態", "タイトル", "情報源", "URL"])
-        self.candidates_table.horizontalHeader().setSectionResizeMode(3, QHeaderView.ResizeMode.Stretch)
-        self.candidates_table.horizontalHeader().setSectionResizeMode(5, QHeaderView.ResizeMode.Stretch)
-        layout.addWidget(self.candidates_table)
+        summary = QVBoxLayout()
+        summary.setContentsMargins(16, 14, 16, 14)
+        self.automation_summary = QLabel("")
+        self.automation_summary.setWordWrap(True)
+        summary.addWidget(self.automation_summary)
+        self.automation_scheduler_note = QLabel("", objectName="muted")
+        summary.addWidget(self.automation_scheduler_note)
+        layout.addWidget(panel(summary, True))
         self.auto_progress = QProgressBar()
         self.auto_progress.setRange(0, 100)
         layout.addWidget(self.auto_progress)
-        self.auto_note = QLabel("候補URLを拾ってください。", objectName="muted")
+        self.auto_note = QLabel("待機中です。", objectName="muted")
         self.auto_note.setWordWrap(True)
         layout.addWidget(self.auto_note)
+        layout.addStretch()
         self._load_scheduler_controls()
         return self._page_shell(body)
 
@@ -854,7 +1051,7 @@ class MainWindow(QMainWindow):
         titles = {
             "review": ("REVIEW", "公開前ボード"),
             "dashboard": ("OVERVIEW", "ダッシュボード"), "create": ("CREATE", "URLから記事を作成"),
-            "drafts": ("DRAFTS", "記事下書き"), "editor": ("EDIT", "記事編集"),
+            "drafts": ("ARTICLES", "記事一覧"), "editor": ("EDIT", "記事編集"),
             "rights": ("RIGHTS", "許可管理"), "publishing": ("PUBLISH", "公開管理"),
             "sources": ("SOURCES", "情報源"), "automation": ("AUTOMATION", "自動巡回"),
             "sites": ("SITES", "管理サイト"), "settings": ("SETTINGS", "設定"),
@@ -1064,56 +1261,46 @@ class MainWindow(QMainWindow):
 
     def _load_scheduler_controls(self) -> None:
         settings = load_automation_settings(self.site.root)
-        self.auto_crawl_enabled.setChecked(bool(settings.get("auto_crawl_enabled", True)))
-        crawl_times = list(settings["crawl_times"])
-        defaults = ["06:00", "12:00", "18:00"]
-        for index, editor in enumerate(self.crawl_time_edits):
-            editor.setTime(QTime.fromString(
-                crawl_times[index] if index < len(crawl_times) else defaults[index],
-                "HH:mm",
-            ))
-        self.auto_draft_limit.setValue(int(settings["auto_draft_limit"]))
-        self.auto_publish_enabled.setChecked(bool(settings.get("publish_enabled", True)))
-        slots = list(settings["publish_slots"])
-        slot_defaults = [
-            {"time": "08:00", "count": 2},
-            {"time": "20:00", "count": 2},
+        source_names = {
+            str(item.get("source_id") or ""): str(item.get("name") or item.get("url") or "")
+            for item in list_sources(self.site.root)
+        }
+        crawl_parts = []
+        for slot in settings["crawl_slots"]:
+            selected = [source_names.get(source_id, source_id) for source_id in slot["source_ids"]]
+            target = "全情報源" if not selected else "・".join(selected)
+            crawl_parts.append(f"{slot['time']} / {slot['count']}件 / {target}")
+        publish_parts = [
+            f"{slot['time']} / {slot['count']}件" for slot in settings["publish_slots"]
         ]
-        for index, (enabled, time_editor, count) in enumerate(self.publish_slot_controls):
-            slot = slots[index] if index < len(slots) else slot_defaults[index]
-            enabled.setChecked(index < len(slots))
-            time_editor.setTime(QTime.fromString(str(slot["time"]), "HH:mm"))
-            count.setValue(int(slot["count"]))
-
-    def save_scheduler_controls(self) -> None:
-        crawl_times = sorted({
-            editor.time().toString("HH:mm") for editor in self.crawl_time_edits
-        })
-        publish_slots = sorted(
-            (
-                {
-                    "time": time_editor.time().toString("HH:mm"),
-                    "count": count.value(),
-                }
-                for enabled, time_editor, count in self.publish_slot_controls
-                if enabled.isChecked()
-            ),
-            key=lambda item: item["time"],
+        crawl_state = "ON" if settings.get("auto_crawl_enabled", True) else "OFF"
+        publish_state = "ON" if settings.get("publish_enabled", True) else "OFF"
+        self.automation_summary.setText(
+            f"自動巡回 {crawl_state}　" + "　｜　".join(crawl_parts)
+            + f"\n予約投稿 {publish_state}　" + "　｜　".join(publish_parts)
         )
-        if self.auto_publish_enabled.isChecked() and not publish_slots:
-            QMessageBox.warning(self, "予約投稿を確認", "予約投稿を有効にする場合は、投稿枠を1つ以上ONにしてください。")
+
+    def open_automation_settings(self) -> None:
+        dialog = AutomationSettingsDialog(
+            self,
+            load_automation_settings(self.site.root),
+            [item for item in list_sources(self.site.root) if item.get("enabled", True)],
+        )
+        if dialog.exec() != QDialog.DialogCode.Accepted:
+            return
+        values = dialog.values()
+        if values["auto_crawl_enabled"] and not values["crawl_slots"]:
+            QMessageBox.warning(self, "自動巡回を確認", "自動巡回を有効にする場合は、時刻を1つ以上追加してください。")
+            return
+        if values["publish_enabled"] and not values["publish_slots"]:
+            QMessageBox.warning(self, "予約投稿を確認", "予約投稿を有効にする場合は、投稿時刻を1つ以上追加してください。")
             return
         settings = load_automation_settings(self.site.root)
-        settings.update({
-            "auto_crawl_enabled": self.auto_crawl_enabled.isChecked(),
-            "crawl_times": crawl_times,
-            "auto_draft_limit": self.auto_draft_limit.value(),
-            "publish_enabled": self.auto_publish_enabled.isChecked(),
-            "publish_slots": publish_slots,
-        })
+        settings.update(values)
         save_automation_settings(self.site.root, settings)
         self.scheduler_note.setText("自動巡回と予約投稿の設定を保存しました。")
         self.automation_scheduler_note.setText("設定を保存しました。次の時刻から自動で動きます。")
+        self._load_scheduler_controls()
 
     def _ensure_startup_launcher(self) -> None:
         if not getattr(sys, "frozen", False):
@@ -1156,8 +1343,8 @@ class MainWindow(QMainWindow):
         crawl_runs = due_crawl_runs(self.site.root)
         if crawl_runs:
             self.scheduled_collect = True
-            self.scheduled_crawl_keys = crawl_runs
-            self.collect_auto_candidates(scheduled=True)
+            self.scheduled_crawl_run = dict(crawl_runs[0])
+            self.collect_auto_candidates(scheduled=True, run=self.scheduled_crawl_run)
 
     def _start_next_scheduled_publish(self) -> None:
         if not self.scheduled_publish_slugs:
@@ -1201,7 +1388,7 @@ class MainWindow(QMainWindow):
     def _refresh_publishing(self, drafts: list[dict]) -> None:
         self.publish_table.setRowCount(len(drafts))
         rights_labels = {"unconfirmed": "未確認", "requested": "確認中", "confirmed": "許可済み", "rejected": "使用不可"}
-        status_labels = {"draft": "下書き", "ready": "公開可能", "published": "公開済み", "archived": "非公開"}
+        status_labels = {"draft": "確認待ち", "ready": "公開可能", "published": "公開済み", "archived": "非公開"}
         for row, draft in enumerate(drafts):
             status = str(draft.get("status") or "draft")
             if status != "published" and draft.get("rights_status") == "confirmed":
@@ -1236,7 +1423,7 @@ class MainWindow(QMainWindow):
         selected = self.current_slug or self.editor_select.currentData()
         self.editor_select.blockSignals(True)
         self.editor_select.clear()
-        self.editor_select.addItem("下書きを選択", "")
+        self.editor_select.addItem("記事を選択", "")
         for draft in drafts:
             self.editor_select.addItem(draft["title"], draft["slug"])
         index = self.editor_select.findData(selected)
@@ -1338,14 +1525,28 @@ class MainWindow(QMainWindow):
         self.sources_note.setText("情報源を削除しました。")
         self._refresh_sources()
 
-    def collect_auto_candidates(self, scheduled: bool = False) -> None:
+    def run_manual_crawl(self) -> None:
+        settings = load_automation_settings(self.site.root)
+        slot = dict((settings.get("crawl_slots") or [{}])[0])
+        slot["key"] = ""
+        self.collect_auto_candidates(scheduled=True, run=slot)
+
+    def collect_auto_candidates(self, scheduled: bool = False, run: dict | None = None) -> None:
         if self.collect_worker:
             return
         self.save_auto_sources()
         self.scheduled_collect = scheduled
+        if run is not None:
+            self.scheduled_crawl_run = dict(run)
         self.auto_progress.setValue(1)
         self.auto_note.setText("自動巡回で候補URLを収集中です。" if scheduled else "候補URLを収集中です。")
-        self.collect_worker = CollectCandidatesWorker(self.site.root, int(self.collect_limit.currentData()))
+        article_count = int(self.scheduled_crawl_run.get("count") or 3) if scheduled else 10
+        source_ids = list(self.scheduled_crawl_run.get("source_ids") or []) if scheduled else []
+        self.collect_worker = CollectCandidatesWorker(
+            self.site.root,
+            max(5, min(30, article_count * 3)),
+            source_ids,
+        )
         self.collect_worker.signals.progress.connect(self._auto_progress_changed)
         self.collect_worker.signals.completed.connect(self._collect_completed)
         self.collect_worker.signals.failed.connect(self._auto_failed)
@@ -1363,15 +1564,17 @@ class MainWindow(QMainWindow):
         self.refresh_all()
         if not self.scheduled_collect:
             return
-        for key in self.scheduled_crawl_keys:
-            record_automation_run(self.site.root, "crawl", key)
+        run_key = str(self.scheduled_crawl_run.get("key") or "")
+        if run_key:
+            record_automation_run(self.site.root, "crawl", run_key)
         self.scheduled_crawl_keys = []
-        settings = load_automation_settings(self.site.root)
-        limit = int(settings.get("auto_draft_limit") or 3)
+        limit = int(self.scheduled_crawl_run.get("count") or 3)
+        source_ids = set(self.scheduled_crawl_run.get("source_ids") or [])
         candidates = sorted(
             (
                 item for item in list_candidates(self.site.root)
                 if item.get("status") == "new" and int(item.get("score") or 0) >= 22
+                and (not source_ids or str(item.get("source_id") or "") in source_ids)
             ),
             key=lambda item: (
                 int(item.get("score") or 0),
@@ -1384,6 +1587,7 @@ class MainWindow(QMainWindow):
             self._start_batch_drafts(urls, scheduled=True)
             return
         self.scheduled_collect = False
+        self.scheduled_crawl_run = {}
         self.scheduler_note.setText("自動巡回完了。今回、新しく記事にする候補はありませんでした。")
         QTimer.singleShot(500, self._scheduler_tick)
 
@@ -1409,7 +1613,7 @@ class MainWindow(QMainWindow):
         self.scheduled_collect = scheduled
         self.auto_progress.setValue(1)
         prefix = "自動巡回から" if scheduled else ""
-        self.auto_note.setText(f"{prefix}{len(urls)}件を下書き生成します。")
+        self.auto_note.setText(f"{prefix}{len(urls)}件の記事を生成します。")
         self.batch_worker = BatchDraftWorker(self.site.root, urls, "auto", "auto")
         self.batch_worker.signals.progress.connect(self._auto_progress_changed)
         self.batch_worker.signals.completed.connect(self._batch_completed)
@@ -1421,9 +1625,10 @@ class MainWindow(QMainWindow):
         self.auto_progress.setValue(100)
         failed = int(result.get("failed_count") or 0)
         suffix = f"（失敗 {failed}件）" if failed else ""
-        self.auto_note.setText(f"{result.get('count', 0)}件の下書きを作成しました。{suffix}")
+        self.auto_note.setText(f"{result.get('count', 0)}件の記事を作成しました。{suffix}")
         was_scheduled = self.scheduled_collect
         self.scheduled_collect = False
+        self.scheduled_crawl_run = {}
         self.refresh_all()
         if was_scheduled:
             self.scheduler_note.setText(
@@ -1436,10 +1641,12 @@ class MainWindow(QMainWindow):
         self.batch_worker = None
         was_scheduled = self.scheduled_collect
         if was_scheduled:
-            for key in self.scheduled_crawl_keys:
-                record_automation_run(self.site.root, "crawl", key)
+            run_key = str(self.scheduled_crawl_run.get("key") or "")
+            if run_key:
+                record_automation_run(self.site.root, "crawl", run_key)
             self.scheduled_crawl_keys = []
         self.scheduled_collect = False
+        self.scheduled_crawl_run = {}
         self.auto_progress.setValue(100)
         self.auto_note.setText(f"自動処理失敗: {message}")
         if was_scheduled:
@@ -1920,7 +2127,7 @@ class MainWindow(QMainWindow):
         if confirm and QMessageBox.question(
             self,
             "公開を取り消す",
-            f"「{payload.get('title', slug)}」を公開サイトから削除します。\n下書きはアプリに残ります。よろしいですか？",
+            f"「{payload.get('title', slug)}」を公開サイトから削除します。\n記事データはアプリに残ります。よろしいですか？",
         ) != QMessageBox.StandardButton.Yes:
             return
         self.publish_progress = QProgressDialog("公開取り消しを準備しています", "", 0, 100, self)
@@ -1949,7 +2156,7 @@ class MainWindow(QMainWindow):
             self.publish_batch_total = 0
             self.publish_note.setText("公開ON/OFFの反映が完了しました。")
         else:
-            self.publish_note.setText("非公開にしました。下書きは残っています。")
+            self.publish_note.setText("非公開にしました。記事データは残っています。")
 
     def _unpublish_failed(self, message: str) -> None:
         if self.publish_progress:
