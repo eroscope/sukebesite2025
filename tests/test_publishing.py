@@ -70,6 +70,27 @@ class PublishingTests(unittest.TestCase):
         git("clone", str(self.remote), str(destination))
         return destination
 
+    def test_dash_manifest_is_materialized_as_a_playable_mp4(self) -> None:
+        destination = self.root / "x-video.mp4"
+
+        def fake_materialize(url: str, output: Path, referer: str = "") -> Path:
+            self.assertTrue(url.endswith("/stream.mpd"))
+            self.assertEqual("https://x.com/Test_User/status/1", referer)
+            output.write_bytes(b"x-video" * 200)
+            return output
+
+        with patch.object(publishing, "_materialize_stream_video", side_effect=fake_materialize):
+            result = publishing._download_video(
+                {
+                    "url": "https://video.twimg.com/amplify_video/1/pl/stream.mpd",
+                    "referer": "https://x.com/Test_User/status/1",
+                },
+                destination,
+            )
+
+        self.assertEqual(destination, result)
+        self.assertEqual(b"x-video" * 200, destination.read_bytes())
+
     def test_publish_and_unpublish_round_trip(self) -> None:
         payload = make_payload()
         payload["rights_status"] = "confirmed"

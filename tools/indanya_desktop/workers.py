@@ -22,7 +22,12 @@ from article_studio import (
     save_draft,
     _validate_source_url,
 )
-from indanya_desktop.publishing import publish_article, unpublish_article
+from indanya_desktop.publishing import (
+    _compress_video,
+    _materialize_stream_video,
+    publish_article,
+    unpublish_article,
+)
 from indanya_desktop.sites import ManagedSite
 from indanya_desktop.browser_capture import capture_rendered_source, open_x_login_session
 from indanya_desktop.automation import discover_candidates, mark_candidate_status
@@ -697,6 +702,20 @@ class DownloadVideoWorker(QRunnable):
             destination = cache_root / f"{digest}{suffix}"
             if destination.is_file() and destination.stat().st_size > 1024:
                 self.signals.completed.emit({"path": str(destination), "cached": True})
+                return
+            if urlparse(video_url).path.lower().endswith(".mpd"):
+                self.signals.progress.emit(5, "X動画の音声と映像を準備しています")
+                materialized = destination.with_suffix(".stream.mp4")
+                try:
+                    _materialize_stream_video(video_url, materialized, referer)
+                    if materialized.stat().st_size <= MAX_VIDEO_PROXY_BYTES:
+                        materialized.replace(destination)
+                    else:
+                        _compress_video(materialized, destination)
+                finally:
+                    materialized.unlink(missing_ok=True)
+                self.signals.progress.emit(100, "動画を再生します")
+                self.signals.completed.emit({"path": str(destination), "cached": False})
                 return
 
             headers = {

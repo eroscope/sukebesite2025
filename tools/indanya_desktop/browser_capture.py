@@ -75,6 +75,12 @@ def _usable_final_url(value: Any, fallback: str) -> str:
 def _video_priority(item: dict[str, Any]) -> int:
     kind = str(item.get("kind") or "")
     urls = " ".join(str(value) for value in (item.get("urls") or []))
+    if re.search(r"\.mpd(?:[?#]|$)", urls, re.I):
+        return -1
+    if "video.twimg.com/" in urls:
+        match = re.search(r"/(\d+)x(\d+)/", urls)
+        if match:
+            return -max(int(match.group(1)), int(match.group(2)))
     if kind == "network" or re.search(r"\.(?:mp4|webm|m4v|mov)(?:[?#]|$)", urls, re.I):
         return 0
     if kind != "iframe":
@@ -92,10 +98,26 @@ def _plausible_video_candidate(
         return True
     if _media_url_key(url) == _media_url_key(source_url):
         return False
-    path = urlparse(url).path.lower()
+    parsed = urlparse(url)
+    path = parsed.path.lower()
+    if parsed.hostname == "video.twimg.com":
+        if "/aud/" in path or "/mp4a/" in path or path.endswith(".m4s"):
+            return False
+        if re.search(r"/vid/(?:avc1|hvc1)/0/0/", path):
+            return False
+        if path.endswith(".mpd"):
+            return True
     if re.search(r"\.(?:mp4|webm|m4v|mov)(?:$|/)", path):
         return True
     return mime_type.lower().startswith("video/")
+
+
+def _x_video_asset_key(url: str) -> str:
+    parsed = urlparse(url)
+    if parsed.hostname != "video.twimg.com":
+        return ""
+    match = re.search(r"/(?:amplify_video|ext_tw_video)/(\d+)/", parsed.path)
+    return match.group(1) if match else ""
 
 
 def _sheet(images: list[dict[str, Any]]) -> bytes:
@@ -409,7 +431,11 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
             try:
                 content_type = str(response.headers.get("content-type") or "").lower()
                 response_url = str(response.url)
-                if content_type.startswith("video/") or re.search(r"\.(?:mp4|webm)(?:[?#]|$)", response_url, re.I):
+                if (
+                    content_type.startswith("video/")
+                    or "dash+xml" in content_type
+                    or re.search(r"\.(?:mp4|webm|mpd)(?:[?#]|$)", response_url, re.I)
+                ):
                     try:
                         frame_url = str(response.request.frame.url)
                     except Exception:
@@ -534,6 +560,7 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
         raw_videos.sort(key=_video_priority)
         videos: list[dict[str, Any]] = []
         seen_video_urls: set[str] = set()
+        seen_x_video_assets: set[str] = set()
         isolated_frame_attempts = 0
         for raw in raw_videos:
             for candidate_url in raw.get("urls") or []:
@@ -557,6 +584,11 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
                     final_url,
                 ):
                     continue
+                x_asset_key = _x_video_asset_key(validated_url)
+                if x_asset_key and x_asset_key in seen_x_video_assets:
+                    continue
+                if x_asset_key:
+                    seen_x_video_assets.add(x_asset_key)
                 frame_data = video_frames.get(candidate_url) or video_frames.get(_media_url_key(candidate_url))
                 if not frame_data and kind == "direct" and isolated_frame_attempts < 8:
                     isolated_frame_attempts += 1
@@ -565,7 +597,8 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
                     "id": f"video-{len(videos) + 1}", "kind": kind, "url": validated_url,
                     "poster": str(raw.get("poster") or ""),
                     "mime_type": "text/html" if kind == "iframe" else str(
-                        declared_mime or ("video/webm" if suffix == ".webm" else "video/mp4")
+                        "video/mp4" if suffix == ".mpd"
+                        else declared_mime or ("video/webm" if suffix == ".webm" else "video/mp4")
                     ),
                     "width": int((raw.get("rect") or {}).get("width") or 0), "height": int((raw.get("rect") or {}).get("height") or 0),
                     "title": str(raw.get("title") or "")[:180], "html_class": "", "html_id": "",

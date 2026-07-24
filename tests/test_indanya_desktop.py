@@ -33,6 +33,7 @@ from indanya_desktop.browser_capture import (  # noqa: E402
     _usable_final_url,
     _video_canvas_frame,
     _video_priority,
+    _x_video_asset_key,
 )
 
 
@@ -382,6 +383,17 @@ class SiteRegistryTests(unittest.TestCase):
         ordered = sorted(items, key=_video_priority)
         self.assertEqual(["direct", "network", "iframe"], [item["kind"] for item in ordered])
 
+    def test_x_video_variants_prefer_highest_quality_and_share_an_asset_key(self) -> None:
+        low = "https://video.twimg.com/amplify_video/123/vid/avc1/320x568/low.mp4"
+        high = "https://video.twimg.com/amplify_video/123/vid/avc1/720x1280/high.mp4"
+        ordered = sorted(
+            [{"kind": "network", "urls": [low]}, {"kind": "network", "urls": [high]}],
+            key=_video_priority,
+        )
+        self.assertEqual(high, ordered[0]["urls"][0])
+        self.assertEqual("123", _x_video_asset_key(low))
+        self.assertEqual(_x_video_asset_key(low), _x_video_asset_key(high))
+
     def test_html_page_url_is_not_accepted_as_a_direct_video(self) -> None:
         page_url = "https://example.com/article/"
         self.assertFalse(_plausible_video_candidate(page_url, "direct", "", page_url))
@@ -397,6 +409,27 @@ class SiteRegistryTests(unittest.TestCase):
             "",
             page_url,
         ))
+
+    def test_x_dash_manifest_is_one_video_and_fragments_are_rejected(self) -> None:
+        page_url = "https://x.com/Test_User/status/1"
+        self.assertTrue(_plausible_video_candidate(
+            "https://video.twimg.com/amplify_video/1/pl/abc.mpd?tag=14",
+            "direct",
+            "application/dash+xml",
+            page_url,
+        ))
+        for fragment in (
+            "https://video.twimg.com/amplify_video/1/aud/mp4a/0/0/init.mp4",
+            "https://video.twimg.com/amplify_video/1/aud/mp4a/128000/segment.m4s",
+            "https://video.twimg.com/amplify_video/1/vid/avc1/720x1280/segment.m4s",
+            "https://video.twimg.com/amplify_video/1/vid/avc1/0/0/init.mp4",
+        ):
+            self.assertFalse(_plausible_video_candidate(
+                fragment,
+                "direct",
+                "video/mp4",
+                page_url,
+            ))
 
     def test_x_scroll_snapshots_keep_media_removed_from_later_dom(self) -> None:
         collected: dict[str, object] = {}

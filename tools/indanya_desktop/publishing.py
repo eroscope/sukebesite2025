@@ -181,9 +181,54 @@ def _compress_video(source: Path, destination: Path) -> None:
     raise RuntimeError("動画をGitHub Pagesの上限内まで小さくできませんでした")
 
 
+def _materialize_stream_video(url: str, destination: Path, referer: str = "") -> Path:
+    ffmpeg = _ffmpeg_executable()
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.unlink(missing_ok=True)
+    header_lines = [
+        "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/136 Safari/537.36",
+    ]
+    if referer:
+        header_lines.append(f"Referer: {_validate_source_url(referer)}")
+    completed = subprocess.run(
+        [
+            ffmpeg, "-y", "-hide_banner", "-loglevel", "error",
+            "-headers", "\r\n".join(header_lines) + "\r\n",
+            "-i", _validate_source_url(url),
+            "-map", "0:v:0", "-map", "0:a:0?",
+            "-c", "copy", "-movflags", "+faststart",
+            str(destination),
+        ],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        timeout=1800,
+        check=False,
+        creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+    )
+    if completed.returncode != 0 or not destination.is_file() or destination.stat().st_size < 1024:
+        destination.unlink(missing_ok=True)
+        detail = (completed.stderr or completed.stdout or "").strip()
+        raise RuntimeError(f"X動画の音声と映像を結合できませんでした: {detail[-300:]}")
+    return destination
+
+
 def _download_video(video: dict[str, Any], destination: Path) -> Path:
     video_url = _validate_source_url(str(video.get("url") or ""))
     referer = str(video.get("referer") or "").strip()
+    if urlparse(video_url).path.lower().endswith(".mpd"):
+        materialized = destination.with_suffix(".stream.mp4")
+        try:
+            _materialize_stream_video(video_url, materialized, referer)
+            if materialized.stat().st_size <= MAX_PUBLISH_VIDEO_BYTES:
+                materialized.replace(destination)
+                return destination
+            compressed = destination.with_suffix(".mp4")
+            _compress_video(materialized, compressed)
+            return compressed
+        finally:
+            materialized.unlink(missing_ok=True)
     headers = {
         "Accept": "video/mp4,video/webm,video/*;q=0.9,*/*;q=0.5",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/136 Safari/537.36",
