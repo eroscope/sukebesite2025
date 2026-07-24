@@ -44,8 +44,15 @@ def open_x_login_session(progress: ProgressCallback = lambda _v, _m: None) -> No
         page = context.pages[0] if context.pages else context.new_page()
         page.goto("https://x.com/home", wait_until="domcontentloaded", timeout=60000)
         progress(50, "Xへログインし、終わったらChromeを閉じてください")
+        authenticated = False
         while context.pages:
             try:
+                authenticated = authenticated or any(
+                    str(cookie.get("name") or "") == "auth_token"
+                    for cookie in context.cookies("https://x.com")
+                )
+                if authenticated:
+                    progress(85, "Xログインを確認しました。Chromeを閉じてください")
                 context.pages[0].wait_for_timeout(500)
             except Exception:
                 break
@@ -53,6 +60,8 @@ def open_x_login_session(progress: ProgressCallback = lambda _v, _m: None) -> No
             context.close()
         except Exception:
             pass
+    if not authenticated:
+        raise RuntimeError("Xへのログイン完了を確認できませんでした。ログイン後にChromeを閉じてください")
     progress(100, "Xログイン情報を保存しました")
 
 
@@ -71,6 +80,22 @@ def _video_priority(item: dict[str, Any]) -> int:
     if kind != "iframe":
         return 1
     return 2
+
+
+def _plausible_video_candidate(
+    url: str,
+    kind: str,
+    mime_type: str,
+    source_url: str,
+) -> bool:
+    if kind == "iframe":
+        return True
+    if _media_url_key(url) == _media_url_key(source_url):
+        return False
+    path = urlparse(url).path.lower()
+    if re.search(r"\.(?:mp4|webm|m4v|mov)(?:$|/)", path):
+        return True
+    return mime_type.lower().startswith("video/")
 
 
 def _sheet(images: list[dict[str, Any]]) -> bytes:
@@ -520,9 +545,17 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
                 seen_video_urls.add(candidate_url)
                 kind = "iframe" if raw.get("kind") == "iframe" else "direct"
                 suffix = Path(candidate_url.split("?", 1)[0]).suffix.lower()
+                declared_mime = str(raw.get("mime_type") or "")
                 try:
                     validated_url = _validate_source_url(candidate_url)
                 except Exception:
+                    continue
+                if not _plausible_video_candidate(
+                    validated_url,
+                    kind,
+                    declared_mime,
+                    final_url,
+                ):
                     continue
                 frame_data = video_frames.get(candidate_url) or video_frames.get(_media_url_key(candidate_url))
                 if not frame_data and kind == "direct" and isolated_frame_attempts < 8:
@@ -532,7 +565,7 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
                     "id": f"video-{len(videos) + 1}", "kind": kind, "url": validated_url,
                     "poster": str(raw.get("poster") or ""),
                     "mime_type": "text/html" if kind == "iframe" else str(
-                        raw.get("mime_type") or ("video/webm" if suffix == ".webm" else "video/mp4")
+                        declared_mime or ("video/webm" if suffix == ".webm" else "video/mp4")
                     ),
                     "width": int((raw.get("rect") or {}).get("width") or 0), "height": int((raw.get("rect") or {}).get("height") or 0),
                     "title": str(raw.get("title") or "")[:180], "html_class": "", "html_id": "",

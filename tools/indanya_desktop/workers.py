@@ -265,9 +265,15 @@ def _capture_and_analyze_source(
             source.get("source_type") == "x_profile"
             and source.get("browser_capture")
             and not source.get("x_authenticated")
+            and int(source.get("x_timeline_media_count") or 0) == 0
+            and any(
+                "/status/" in str(item.get("url") or "")
+                for item in source.get("links", [])
+                if isinstance(item, dict)
+            )
         ):
             raise RuntimeError(
-                "Xプロフィールの投稿画像・動画をすべて確認するにはXログインが必要です。"
+                "このXプロフィールの投稿画像・動画はログアウト状態では非表示です。"
                 "「URLから作成」のXログインを一度行ってから、もう一度作成してください"
             )
         if navigation_context:

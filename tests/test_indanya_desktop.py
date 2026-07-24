@@ -27,6 +27,7 @@ from indanya_desktop.workers import (  # noqa: E402
 from indanya_desktop.browser_capture import (  # noqa: E402
     _find_x_media_urls,
     _merge_snapshot,
+    _plausible_video_candidate,
     _usable_final_url,
     _video_canvas_frame,
     _video_priority,
@@ -293,9 +294,10 @@ class SiteRegistryTests(unittest.TestCase):
             "author": "",
             "images": [],
             "videos": [],
-            "links": [],
+            "links": [{"url": f"{profile_url}/status/1", "text": "投稿"}],
             "browser_capture": True,
             "x_authenticated": False,
+            "x_timeline_media_count": 0,
         }
         semantic_source = {
             **browser_source,
@@ -308,7 +310,7 @@ class SiteRegistryTests(unittest.TestCase):
             patch("indanya_desktop.workers.capture_rendered_source", return_value=browser_source),
             patch("indanya_desktop.workers.analyze_source_url", return_value=semantic_source),
         ):
-            with self.assertRaisesRegex(RuntimeError, "Xログインが必要"):
+            with self.assertRaisesRegex(RuntimeError, "ログアウト状態では非表示"):
                 _capture_and_analyze_source(ROOT, profile_url, object())
 
     def test_sponsored_metadata_is_disclosed_but_keeps_sales_note_private(self) -> None:
@@ -339,6 +341,22 @@ class SiteRegistryTests(unittest.TestCase):
         ]
         ordered = sorted(items, key=_video_priority)
         self.assertEqual(["direct", "network", "iframe"], [item["kind"] for item in ordered])
+
+    def test_html_page_url_is_not_accepted_as_a_direct_video(self) -> None:
+        page_url = "https://example.com/article/"
+        self.assertFalse(_plausible_video_candidate(page_url, "direct", "", page_url))
+        self.assertFalse(_plausible_video_candidate(
+            "https://example.com/player",
+            "direct",
+            "text/html",
+            page_url,
+        ))
+        self.assertTrue(_plausible_video_candidate(
+            "https://media.example.com/movie.mp4",
+            "direct",
+            "",
+            page_url,
+        ))
 
     def test_x_scroll_snapshots_keep_media_removed_from_later_dom(self) -> None:
         collected: dict[str, object] = {}

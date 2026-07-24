@@ -726,7 +726,7 @@ class MainWindow(QMainWindow):
         self.content_mode_combo.addItem("X投稿を紹介", "x_post")
         self.content_mode_combo.addItem("通常ページ", "web")
         options.addWidget(self.content_mode_combo)
-        self.x_login_button = button("Xログイン", "secondary")
+        self.x_login_button = button("Xログイン（必要時のみ）", "secondary")
         self.x_login_button.setToolTip("Xの投稿画像・動画を取得するためのログインを一度行います")
         self.x_login_button.clicked.connect(self.open_x_login)
         options.addWidget(self.x_login_button)
@@ -789,12 +789,12 @@ class MainWindow(QMainWindow):
 
     def _x_login_completed(self, _result: dict) -> None:
         self.x_login_button.setEnabled(True)
-        self.x_login_button.setText("Xログイン")
+        self.x_login_button.setText("Xログイン（必要時のみ）")
         self.generate_status.setText("Xログイン情報を保存しました。プロフィール記事を作成できます")
 
     def _x_login_failed(self, message: str) -> None:
         self.x_login_button.setEnabled(True)
-        self.x_login_button.setText("Xログイン")
+        self.x_login_button.setText("Xログイン（必要時のみ）")
         self.generate_status.setText(f"Xログインに失敗しました: {message}")
 
     def _review_page(self) -> QWidget:
