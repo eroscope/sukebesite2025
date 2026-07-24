@@ -283,6 +283,8 @@ class ArticleStudioTests(unittest.TestCase):
         self.assertIn('class="fanza-product"', build.article_html)
         self.assertIn('href="https://al.dmm.co.jp/?lurl=product"', build.article_html)
         self.assertIn('rel="sponsored noopener noreferrer"', build.article_html)
+        self.assertIn("border-left: 4px solid #c72d22", article_studio.FANZA_PRODUCT_STYLE)
+        self.assertNotIn("border: 2px solid #1a1a1a", article_studio.FANZA_PRODUCT_STYLE)
 
     def setUp(self) -> None:
         self.temporary = tempfile.TemporaryDirectory()
@@ -721,6 +723,48 @@ class ArticleStudioTests(unittest.TestCase):
         decision = result["image_decisions"][0]
         self.assertEqual("本文冒頭へ誘導するためだけの加工済み予告カット", decision["role"])
         self.assertEqual("thumbnail", decision["recommended_use"])
+
+    def test_codex_analysis_maps_named_people_only_to_available_images(self) -> None:
+        source = {
+            "images": [{"id": "media-1"}, {"id": "media-2"}],
+            "videos": [],
+        }
+        result = article_studio._validate_codex_analysis({
+            "title": "出演者名を確認できる画像記事",
+            "description": "画像周辺の見出しから出演者名を確認した。",
+            "category": "画像",
+            "analysis_summary": "画像と人物名の対応を確認した。",
+            "fanza_people": [
+                {
+                    "name": "宮下玲奈",
+                    "image_ids": ["media-1", "missing-image"],
+                    "reason": "画像直前の見出しに出演者名がある",
+                }
+            ],
+            "image_decisions": [
+                {
+                    "image_id": image_id,
+                    "verdict": "article",
+                    "role": "本文画像",
+                    "recommended_use": "body",
+                    "content_group": "gallery",
+                    "relation": "",
+                    "relevance_score": 90,
+                    "reason": "本文内にある",
+                }
+                for image_id in ("media-1", "media-2")
+            ],
+            "video_decisions": [],
+        }, source)
+
+        self.assertEqual(
+            [{
+                "name": "宮下玲奈",
+                "image_ids": ["media-1"],
+                "reason": "画像直前の見出しに出演者名がある",
+            }],
+            result["fanza_people"],
+        )
 
     def test_codex_analysis_does_not_force_video_category_for_mixed_articles(self) -> None:
         result = article_studio.apply_codex_analysis(

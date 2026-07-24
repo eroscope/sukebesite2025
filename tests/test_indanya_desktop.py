@@ -179,6 +179,64 @@ class SiteRegistryTests(unittest.TestCase):
             [block["type"] for block in payload["blocks"]],
         )
 
+    def test_named_people_get_separate_fanza_links_after_their_images(self) -> None:
+        payload = {
+            "tags": ["画像"],
+            "images": [
+                {"id": "source-image-1", "source_id": "media-a"},
+                {"id": "source-image-2", "source_id": "media-b"},
+            ],
+            "blocks": [
+                {"id": "post-1", "type": "post", "text": "まず一人目"},
+                {"id": "images-a", "type": "images", "image_ids": ["source-image-1"]},
+                {"id": "post-2", "type": "post", "text": "次は二人目"},
+                {"id": "images-b", "type": "images", "image_ids": ["source-image-2"]},
+                {"id": "ad", "type": "ad", "text": "広告"},
+            ],
+        }
+        _apply_editorial_metadata(
+            payload,
+            {
+                "url": "https://example.com/gallery",
+                "title": "出演者が複数いる画像記事",
+                "ai_fanza_people": [
+                    {
+                        "name": "宮下玲奈",
+                        "image_ids": ["media-a"],
+                        "reason": "画像直前の見出しに名前がある",
+                    },
+                    {
+                        "name": "石川澪",
+                        "image_ids": ["media-b"],
+                        "reason": "画像のキャプションに名前がある",
+                    },
+                ],
+                "links": [],
+            },
+            {"content_mode": "auto", "promotion_type": "organic"},
+        )
+
+        self.assertEqual(
+            [
+                "post",
+                "images",
+                "product_cta",
+                "post",
+                "images",
+                "product_cta",
+                "ad",
+            ],
+            [block["type"] for block in payload["blocks"]],
+        )
+        products = [
+            block for block in payload["blocks"] if block["type"] == "product_cta"
+        ]
+        self.assertEqual(2, len(products))
+        self.assertIn("宮下玲奈", products[0]["title"])
+        self.assertIn("%E5%AE%AE%E4%B8%8B%E7%8E%B2%E5%A5%88", products[0]["url"])
+        self.assertIn("石川澪", products[1]["title"])
+        self.assertNotIn("G%E3%82%AB%E3%83%83%E3%83%97", products[0]["url"])
+
     def test_saved_affiliate_id_rewrites_discovered_product_link(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

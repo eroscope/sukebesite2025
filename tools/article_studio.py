@@ -161,8 +161,9 @@ FANZA_PRODUCT_STYLE = r'''
 .fanza-product {
   margin: 26px 0;
   padding: 18px;
-  border: 2px solid #1a1a1a;
-  background: #fff;
+  border: 0;
+  border-left: 4px solid #c72d22;
+  background: #f7f7f5;
 }
 .fanza-product-label {
   margin-bottom: 8px;
@@ -904,6 +905,7 @@ def build_source_draft_payload(
         payload_ids_by_source[image_id] = payload_image_id
         images.append({
             "id": payload_image_id,
+            "source_id": image_id,
             "name": f"source-{index}{item['extension']}",
             "data_url": f"data:{item['mime_type']};base64,{base64.b64encode(item['data']).decode('ascii')}",
             "alt": str(item.get("alt") or source["title"])[:180],
@@ -1394,6 +1396,8 @@ FANZA関連判定:
 - 各画像について、同一人物の連続カットか、別人が混ざるか、名前を示す見出し・キャプション・リンク文が近くにあるかを確認する。記事の中心人物をページ上の根拠から特定できた場合だけfanza_performer_nameへ正式な出演者名を入れる。複数人で誰の画像か対応できない場合は空文字にする。
 - fanza_search_queryには、確認できた出演者名、作品名、品番のいずれかを使った実際に検索可能な短い語句だけを入れる。「Gカップ 爆乳 AV女優」「制服 巨乳」など体型・衣装・ジャンルを並べただけの語句は禁止し、特定情報がなければ空文字にする。
 - 人物の顔だけから本名や出演作品を推測しない。ページ本文、画像のalt・キャプション、投稿本文、作品情報などで名前が確認できる場合だけ使う。
+- fanza_peopleには、ページ上の根拠から名前を確認でき、どの画像がその人物かまで対応できた人物だけを入れる。nameは正式な出演者名、image_idsはその人物が写る画像ID、reasonは名前と画像を対応付けた根拠にする。同じ人物の画像は1件へまとめ、複数人の記事では人物ごとに分ける。
+- 名前だけ確認できても画像との対応が不明ならfanza_peopleへ入れない。顔だけの照合、体型、衣装、雰囲気から人物名を推測しない。対応できた人物がいなければ空配列を返す。
 - fanza_product_codeはページ内で確認できた場合だけ返す。fanza_reasonには判定根拠を簡潔に書く。
 
 画像判定ルール:
@@ -1476,6 +1480,36 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
         for item in source.get("images", [])
         if isinstance(item, dict) and item.get("id")
     }
+    fanza_people: list[dict[str, Any]] = []
+    claimed_person_images: set[str] = set()
+    seen_people: set[str] = set()
+    raw_people = value.get("fanza_people", [])
+    if not isinstance(raw_people, list):
+        raise ValidationError("CodexのFANZA人物対応が不正です")
+    for item in raw_people:
+        if not isinstance(item, dict):
+            continue
+        name = _trim_text(str(item.get("name") or ""), 80)
+        reason = _trim_text(str(item.get("reason") or ""), 240)
+        raw_image_ids = item.get("image_ids")
+        if not name or not reason or not isinstance(raw_image_ids, list):
+            continue
+        image_ids = [
+            str(image_id)
+            for image_id in raw_image_ids
+            if str(image_id) in available and str(image_id) not in claimed_person_images
+        ]
+        image_ids = list(dict.fromkeys(image_ids))
+        normalized_name = name.casefold()
+        if not image_ids or normalized_name in seen_people:
+            continue
+        seen_people.add(normalized_name)
+        claimed_person_images.update(image_ids)
+        fanza_people.append({
+            "name": name,
+            "image_ids": image_ids,
+            "reason": reason,
+        })
     raw_decisions = value.get("image_decisions")
     if not isinstance(raw_decisions, list):
         raise ValidationError("Codexの画像判定が不正です")
@@ -1570,6 +1604,7 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
         "fanza_search_query": fanza_search_query,
         "fanza_product_code": fanza_product_code,
         "fanza_reason": fanza_reason,
+        "fanza_people": fanza_people,
         "image_decisions": list(decisions.values()),
         "video_decisions": list(video_decisions.values()),
     }
@@ -1589,6 +1624,7 @@ def apply_codex_analysis(source: dict[str, Any], analysis: dict[str, Any]) -> di
     result["ai_fanza_search_query"] = analysis.get("fanza_search_query", "")
     result["ai_fanza_product_code"] = analysis.get("fanza_product_code", "")
     result["ai_fanza_reason"] = analysis.get("fanza_reason", "")
+    result["ai_fanza_people"] = analysis.get("fanza_people", [])
     result["analysis_method"] = "codex_vision"
     decisions = {item["image_id"]: item for item in analysis["image_decisions"]}
     images: list[dict[str, Any]] = []

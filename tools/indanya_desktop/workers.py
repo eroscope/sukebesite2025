@@ -495,23 +495,43 @@ def _apply_editorial_metadata(
         username = str((source.get("x_info") or {}).get("username") or "")
         payload["source_label"] = f"@{username}のX" if username else "X"
     fanza = _resolve_fanza_promotion(source, intent, site_root)
-    if fanza:
+    person_promotions = (
+        [] if fanza and fanza["match_level"] == "exact"
+        else _resolve_fanza_person_promotions(payload, source, site_root)
+    )
+    promotions = [fanza] if fanza and not person_promotions else person_promotions
+    if promotions:
         payload["content_mode"] = "fanza_product"
         payload["promotion_type"] = "affiliate"
         payload["tags"] = list(dict.fromkeys(["PR", "FANZA", *payload.get("tags", [])]))[:8]
         disclosure = "この記事にはFANZAのアフィリエイト広告が含まれます。"
         existing = str(payload.get("transparency_note") or "")
         payload["transparency_note"] = f"{disclosure} {existing}".strip()[:500]
-        product_block = {
-            "id": "fanza-product",
-            "type": "product_cta",
-            "url": fanza["url"],
-            "title": fanza["title"],
-            "text": fanza["text"],
-            "button_text": fanza["button_text"],
-        }
-        insert_at = _fanza_insert_index(payload["blocks"], fanza["match_level"])
-        payload["blocks"].insert(insert_at, product_block)
+        if person_promotions:
+            for number, promotion in enumerate(person_promotions, start=1):
+                product_block = {
+                    "id": f"fanza-person-{number}",
+                    "type": "product_cta",
+                    "url": promotion["url"],
+                    "title": promotion["title"],
+                    "text": promotion["text"],
+                    "button_text": promotion["button_text"],
+                }
+                insert_at = _fanza_person_insert_index(
+                    payload["blocks"], set(promotion["payload_image_ids"])
+                )
+                payload["blocks"].insert(insert_at, product_block)
+        else:
+            product_block = {
+                "id": "fanza-product",
+                "type": "product_cta",
+                "url": fanza["url"],
+                "title": fanza["title"],
+                "text": fanza["text"],
+                "button_text": fanza["button_text"],
+            }
+            insert_at = _fanza_insert_index(payload["blocks"], fanza["match_level"])
+            payload["blocks"].insert(insert_at, product_block)
     elif promotion_type == "sponsored":
         payload["tags"] = list(dict.fromkeys(["PR", *payload.get("tags", [])]))[:8]
         disclosure = "この記事は紹介依頼に基づくPR記事です。"
@@ -600,6 +620,74 @@ def _fanza_insert_index(blocks: list[dict[str, Any]], match_level: str) -> int:
         if blocks[index].get("type") != "ad":
             return index + 1
     return len(blocks)
+
+
+def _fanza_person_insert_index(
+    blocks: list[dict[str, Any]], payload_image_ids: set[str]
+) -> int:
+    matching_indexes = [
+        index
+        for index, block in enumerate(blocks)
+        if block.get("type") in {"images", "x_embed", "x_timeline"}
+        and payload_image_ids.intersection(
+            str(image_id) for image_id in block.get("image_ids", [])
+        )
+    ]
+    if matching_indexes:
+        insert_at = matching_indexes[-1] + 1
+        while (
+            insert_at < len(blocks)
+            and blocks[insert_at].get("type") == "product_cta"
+            and str(blocks[insert_at].get("id") or "").startswith("fanza-person-")
+        ):
+            insert_at += 1
+        return insert_at
+    return _fanza_insert_index(blocks, "related")
+
+
+def _resolve_fanza_person_promotions(
+    payload: dict[str, Any],
+    source: dict[str, Any],
+    site_root: Path | None = None,
+) -> list[dict[str, Any]]:
+    raw_people = source.get("ai_fanza_people")
+    if not isinstance(raw_people, list):
+        return []
+    payload_ids_by_source = {
+        str(image.get("source_id") or ""): str(image.get("id") or "")
+        for image in payload.get("images", [])
+        if isinstance(image, dict)
+    }
+    affiliate_id = load_fanza_settings(site_root)["affiliate_id"] if site_root else ""
+    promotions: list[dict[str, Any]] = []
+    seen_names: set[str] = set()
+    for person in raw_people:
+        if not isinstance(person, dict):
+            continue
+        name = " ".join(str(person.get("name") or "").split())[:80]
+        normalized_name = name.casefold()
+        if not name or normalized_name in seen_names:
+            continue
+        payload_image_ids = [
+            payload_ids_by_source.get(str(source_image_id), "")
+            for source_image_id in person.get("image_ids", [])
+        ]
+        payload_image_ids = [
+            image_id for image_id in dict.fromkeys(payload_image_ids) if image_id
+        ]
+        if not payload_image_ids:
+            continue
+        seen_names.add(normalized_name)
+        destination = _with_fanza_affiliate_id(_fanza_search_url(name), affiliate_id)
+        promotions.append({
+            "url": _validate_source_url(destination),
+            "title": f"{name}の出演作品をFANZAで見る",
+            "text": f"{name}の出演作品、サンプル、配信内容をFANZAで確認できます。",
+            "button_text": f"{name}の作品を見る",
+            "match_level": "strong",
+            "payload_image_ids": payload_image_ids,
+        })
+    return promotions
 
 
 def _resolve_fanza_promotion(
