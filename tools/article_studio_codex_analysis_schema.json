@@ -53,7 +53,7 @@
     },
     "image_decisions": {
       "type": "array",
-      "maxItems": 32,
+      "maxItems": 120,
       "items": {
         "type": "object",
         "additionalProperties": false,

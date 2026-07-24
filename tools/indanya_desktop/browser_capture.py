@@ -17,7 +17,7 @@ from chatgpt_worker import EXTRACT_SCRIPT, auto_scroll, dismiss_common_overlays,
 
 
 ProgressCallback = Callable[[int, str], None]
-MAX_BROWSER_IMAGES = 32
+MAX_BROWSER_IMAGES = 120
 MAX_BROWSER_VIDEOS = 24
 MAX_X_SCROLL_STEPS = 24
 

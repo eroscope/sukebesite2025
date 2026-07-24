@@ -73,7 +73,7 @@ def _mark_ready_to_publish(payload: dict[str, Any]) -> dict[str, Any]:
     return payload
 
 
-MAX_DESKTOP_SOURCE_IMAGES = 10
+MAX_DESKTOP_SOURCE_IMAGES = 50
 MAX_DESKTOP_SOURCE_IMAGE_BYTES = 72 * 1024 * 1024
 BAD_THUMBNAIL_TERMS = (
     "advert", "banner", "logo", "noimage", "ogp", "sns",
@@ -157,7 +157,7 @@ def _select_article_images(source: dict[str, Any]) -> dict[str, Any]:
             thumbnail_ids or body_ids,
             key=lambda image_id: _image_quality_score(by_id[image_id]),
         )
-        chosen = sorted(body_ids, key=lambda value: _image_quality_score(by_id[value]), reverse=True)
+        chosen = body_ids[:]
         chosen = [image_id for image_id in chosen if image_id != thumbnail_id]
         if thumbnail_id in body_ids and not chosen:
             chosen = [thumbnail_id]
@@ -370,8 +370,6 @@ class GenerateArticleWorker(QRunnable):
             image_selection = _select_article_images(source)
             thumbnail_id = str(image_selection["thumbnail_id"])
             body_image_ids = list(image_selection["body_ids"])
-            if selected_videos:
-                body_image_ids = []
             if not thumbnail_id:
                 raise RuntimeError("記事のサムネイルに使える画像が見つかりませんでした")
 
@@ -453,8 +451,6 @@ def _generate_article_payload(
     image_selection = _select_article_images(source)
     thumbnail_id = str(image_selection["thumbnail_id"])
     body_image_ids = list(image_selection["body_ids"])
-    if selected_videos:
-        body_image_ids = []
     if not thumbnail_id:
         raise RuntimeError("記事のサムネイルに使える画像が見つかりませんでした")
 

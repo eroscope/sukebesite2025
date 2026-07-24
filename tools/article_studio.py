@@ -52,15 +52,15 @@ CODEX_ANALYSIS_SCHEMA_PATH = TOOLS_ROOT / "article_studio_codex_analysis_schema.
 MAX_REQUEST_BYTES = 110 * 1024 * 1024
 MAX_IMAGE_BYTES = 12 * 1024 * 1024
 MAX_TOTAL_IMAGE_BYTES = 100 * 1024 * 1024
-MAX_IMAGES = 20
+MAX_IMAGES = 50
 MAX_X_POSTS = 20
 MAX_X_SELECTED_POSTS = 6
 X_SESSION_SECONDS = 30 * 60
 MAX_SOURCE_PAGE_BYTES = 6 * 1024 * 1024
-MAX_SOURCE_IMAGES = 12
-MAX_SELECTED_SOURCE_IMAGES = 10
-MAX_SOURCE_VIDEOS = 8
-MAX_SELECTED_SOURCE_VIDEOS = 5
+MAX_SOURCE_IMAGES = 50
+MAX_SELECTED_SOURCE_IMAGES = 50
+MAX_SOURCE_VIDEOS = 20
+MAX_SELECTED_SOURCE_VIDEOS = 10
 MAX_VIDEO_PROXY_BYTES = 160 * 1024 * 1024
 SOURCE_SESSION_SECONDS = 60 * 60
 CODEX_TIMEOUT_SECONDS = 12 * 60
@@ -977,7 +977,7 @@ def build_source_draft_payload(
             "limit": x_embed["limit"],
             "image_ids": [first_image_id],
         })
-    elif not videos and body_image_ids:
+    elif body_image_ids:
         media_blocks.append({"id": "source-images-1", "type": "images", "image_ids": [body_image_ids[0]]})
 
     media_image_ids = {
@@ -1282,7 +1282,13 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
         ],
         "browser_capture": bool(source.get("browser_capture")),
         "page_dimensions": source.get("page_dimensions", {}),
+        "image_candidate_count": len(source.get("images", [])),
         "video_candidate_count": len(source.get("videos", [])),
+        "selection_policy": (
+            "画像と動画は競合する選択肢ではない。ページ全体の主題と構成を理解し、"
+            "本編に必要な画像と本編に必要な動画をそれぞれ独立して判定する。"
+            "動画があることを理由に本文画像を除外せず、画像があることを理由に動画を除外しない。"
+        ),
         "navigation_context": source.get("navigation_context", {}),
     }
     raw_links = [item for item in source.get("links", []) if isinstance(item, dict)]
@@ -1636,8 +1642,6 @@ def apply_codex_analysis(source: dict[str, Any], analysis: dict[str, Any]) -> di
         videos.append(enriched)
     result["videos"] = videos
     result["recommended_video_ids"] = recommended_videos
-    if recommended_videos:
-        result["ai_category"] = "動画"
     return result
 
 
@@ -1646,7 +1650,7 @@ def _codex_image_attachments(
     selected_image_ids: set[str] | None = None,
 ) -> list[dict[str, Any]]:
     attachments: list[dict[str, Any]] = []
-    for index, item in enumerate(source.get("images", [])[:MAX_SOURCE_IMAGES], start=1):
+    for index, item in enumerate(source.get("images", []), start=1):
         if not isinstance(item, dict) or not isinstance(item.get("data"), bytes):
             continue
         image_id = str(item.get("id") or f"media-{index}")
@@ -1678,6 +1682,8 @@ def _codex_image_attachments(
             "height": int(item.get("height") or 0),
             "ai_reason": str(item.get("ai_reason") or ""),
         })
+        if len(attachments) >= MAX_SELECTED_SOURCE_IMAGES:
+            break
     return attachments
 
 
@@ -1884,8 +1890,11 @@ def apply_codex_result(base_payload: dict[str, Any], generated: dict[str, Any]) 
     blocks: list[dict[str, Any]] = []
     if base_video_ids:
         non_video_media = [
-            block for block in media_blocks if block.get("type") in {"x_embed", "x_timeline"}
+            block
+            for block in media_blocks
+            if block.get("type") in {"images", "x_embed", "x_timeline"}
         ]
+        media_index = 0
         for index, (response, generated_response) in enumerate(zip(response_blocks, generated["responses"]), start=1):
             blocks.append(response)
             attached_video_ids = generated_response.get("video_ids", [])
@@ -1895,8 +1904,10 @@ def apply_codex_result(base_payload: dict[str, Any], generated: dict[str, Any]) 
                     "type": "videos",
                     "video_ids": attached_video_ids[:],
                 })
-            if index == 1:
-                blocks.extend(non_video_media)
+            if media_index < len(non_video_media):
+                blocks.append(non_video_media[media_index])
+                media_index += 1
+        blocks.extend(non_video_media[media_index:])
     else:
         response_index = 0
         if response_blocks:
@@ -2071,7 +2082,7 @@ class CodexRunner:
         result = _validate_codex_result(
             value,
             prompt_options.get("reply_count", "auto"),
-            selected_media_count=selected_video_count if selected_video_count else len(content_attachments),
+            selected_media_count=selected_video_count + len(content_attachments),
             selected_video_ids=selected_video_ids,
         )
         refined_value = self._execute(
@@ -2083,7 +2094,7 @@ class CodexRunner:
         result = _validate_codex_result(
             refined_value,
             prompt_options.get("reply_count", "auto"),
-            selected_media_count=selected_video_count if selected_video_count else len(content_attachments),
+            selected_media_count=selected_video_count + len(content_attachments),
             selected_video_ids=selected_video_ids,
         )
         payload_video_ids = {
@@ -2156,7 +2167,7 @@ class CodexRunner:
         return _validate_codex_result(
             refined_value,
             "auto",
-            selected_media_count=len(selected_video_ids) if selected_video_ids else len(payload.get("images", [])),
+            selected_media_count=len(selected_video_ids) + len(payload.get("images", [])),
             selected_video_ids=selected_video_ids,
         )
 
@@ -2998,7 +3009,7 @@ def _validate_blocks(
         raise ValidationError("the article needs at least one response")
     if len(used_images) != len(set(used_images)):
         raise ValidationError("each image can be placed only once")
-    optional_image_ids = image_ids if video_ids else (
+    optional_image_ids = (
         {thumbnail_only_image_id} if thumbnail_only_image_id in image_ids else set()
     )
     missing = sorted(image_ids - set(used_images) - optional_image_ids)

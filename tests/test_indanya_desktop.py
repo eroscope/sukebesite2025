@@ -291,10 +291,10 @@ class SiteRegistryTests(unittest.TestCase):
             _select_article_images(source),
         )
 
-    def test_article_image_selection_uses_at_most_ten_images_total(self) -> None:
+    def test_article_image_selection_uses_at_most_fifty_images_total(self) -> None:
         source = {
             "recommended_thumbnail_ids": ["thumb"],
-            "recommended_body_image_ids": [f"body-{index}" for index in range(12)],
+            "recommended_body_image_ids": [f"body-{index}" for index in range(60)],
             "images": [
                 {
                     "id": "thumb",
@@ -310,7 +310,7 @@ class SiteRegistryTests(unittest.TestCase):
                         "ai_verdict": "article",
                         "ai_relevance_score": 100 - index,
                     }
-                    for index in range(12)
+                    for index in range(60)
                 ],
             ],
         }
@@ -318,8 +318,8 @@ class SiteRegistryTests(unittest.TestCase):
         selected = _select_article_images(source)
 
         self.assertEqual("thumb", selected["thumbnail_id"])
-        self.assertEqual(9, len(selected["body_ids"]))
-        self.assertEqual(10, len({selected["thumbnail_id"], *selected["body_ids"]}))
+        self.assertEqual(49, len(selected["body_ids"]))
+        self.assertEqual(50, len({selected["thumbnail_id"], *selected["body_ids"]}))
 
     def test_gateway_follow_keeps_previous_link_intent(self) -> None:
         first_url = "https://example.com/entry"

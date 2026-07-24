@@ -722,6 +722,49 @@ class ArticleStudioTests(unittest.TestCase):
         self.assertEqual("本文冒頭へ誘導するためだけの加工済み予告カット", decision["role"])
         self.assertEqual("thumbnail", decision["recommended_use"])
 
+    def test_codex_analysis_does_not_force_video_category_for_mixed_articles(self) -> None:
+        result = article_studio.apply_codex_analysis(
+            {
+                "images": [],
+                "videos": [{"id": "video-1", "kind": "direct", "url": "https://media.example.com/1.mp4"}],
+            },
+            {
+                "title": "画像中心の記事",
+                "description": "画像を中心に動画も一本掲載する。",
+                "category": "画像",
+                "analysis_summary": "画像が中心で動画は補足素材。",
+                "image_decisions": [],
+                "video_decisions": [{
+                    "video_id": "video-1",
+                    "verdict": "article",
+                    "relevance_score": 90,
+                    "reason": "本文の補足動画",
+                }],
+            },
+        )
+
+        self.assertEqual("画像", result["ai_category"])
+        self.assertEqual(["video-1"], result["recommended_video_ids"])
+
+    def test_generation_can_attach_selected_images_after_candidate_fifty(self) -> None:
+        source = {
+            "images": [
+                {
+                    "id": f"media-{index}",
+                    "data": PNG_BYTES,
+                    "extension": ".png",
+                    "url": f"https://media.example.com/{index}.png",
+                    "alt": f"候補 {index}",
+                }
+                for index in range(1, 61)
+            ]
+        }
+
+        attachments = article_studio._codex_image_attachments(source, {"media-60"})
+
+        self.assertEqual(1, len(attachments))
+        self.assertEqual("media-60", attachments[0]["id"])
+
     def test_codex_video_responses_attach_media_only_to_posting_lines(self) -> None:
         generated = article_studio._validate_codex_result(
             {
@@ -765,6 +808,55 @@ class ArticleStudioTests(unittest.TestCase):
         )
         article_studio.build_article(payload, self.site_root)
 
+    def test_codex_mixed_media_article_keeps_body_images_and_videos(self) -> None:
+        generated = {
+            "title": "画像と動画のある記事",
+            "summary": "画像と動画の両方を紹介する記事。",
+            "category": "動画",
+            "tags": ["動画", "画像"],
+            "responses": [
+                {"text": "まずこれ", "style": "normal", "video_ids": ["source-video-1"]},
+                {"text": "写真もええやん", "style": "normal", "video_ids": []},
+                {"text": "もう一本", "style": "normal", "video_ids": ["source-video-2"]},
+            ],
+        }
+        base = make_payload()
+        base["images"].append({
+            "id": "image-b",
+            "name": "second.png",
+            "data_url": PNG_DATA_URL,
+            "alt": "二枚目の画像",
+            "orientation": "landscape",
+        })
+        base["blocks"] = [
+            {"id": "seed-post", "type": "post", "text": "仮レス", "style": "normal"},
+            {"id": "source-videos-1", "type": "videos", "video_ids": ["source-video-1", "source-video-2"]},
+            {"id": "source-images-1", "type": "images", "image_ids": ["image-a"]},
+            {"id": "source-images-2", "type": "images", "image_ids": ["image-b"]},
+        ]
+        base["videos"] = [
+            {
+                "id": f"source-video-{index}",
+                "kind": "direct",
+                "url": f"https://media.example.com/{index}.mp4",
+                "mime_type": "video/mp4",
+                "label": f"動画 {index}",
+            }
+            for index in range(1, 3)
+        ]
+
+        payload = article_studio.apply_codex_result(base, generated)
+
+        self.assertEqual(
+            [["image-a"], ["image-b"]],
+            [block["image_ids"] for block in payload["blocks"] if block["type"] == "images"],
+        )
+        self.assertEqual(
+            [["source-video-1"], ["source-video-2"]],
+            [block["video_ids"] for block in payload["blocks"] if block["type"] == "videos"],
+        )
+        article_studio.build_article(payload, self.site_root)
+
     def test_codex_video_placement_repairs_missing_and_duplicate_ids(self) -> None:
         generated = article_studio._validate_codex_result(
             {
@@ -791,7 +883,7 @@ class ArticleStudioTests(unittest.TestCase):
         self.assertEqual("video-1", generated["responses"][0]["video_ids"][0])
         self.assertTrue(all(len(response["video_ids"]) <= 2 for response in generated["responses"]))
 
-    def test_video_article_allows_extra_thumbnail_reference_images(self) -> None:
+    def test_video_article_requires_non_thumbnail_images_in_the_body(self) -> None:
         payload = make_payload()
         payload["images"].append({
             "id": "image-b",
@@ -810,6 +902,7 @@ class ArticleStudioTests(unittest.TestCase):
         payload["blocks"] = [
             {"id": "post-a", "type": "post", "text": "これ置いとく", "style": "normal"},
             {"id": "video-a", "type": "videos", "video_ids": ["source-video-1"]},
+            {"id": "images-b", "type": "images", "image_ids": ["image-b"]},
             {"id": "post-b", "type": "post", "text": "ええやん", "style": "large"},
         ]
 
