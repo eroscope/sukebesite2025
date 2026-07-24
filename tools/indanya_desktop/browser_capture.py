@@ -7,7 +7,7 @@ import os
 import re
 from pathlib import Path
 from typing import Any, Callable
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 
 from PIL import Image, ImageDraw, ImageFont
 from playwright.sync_api import sync_playwright
@@ -94,10 +94,16 @@ def _plausible_video_candidate(
     mime_type: str,
     source_url: str,
 ) -> bool:
-    if kind == "iframe":
-        return True
     if _media_url_key(url) == _media_url_key(source_url):
         return False
+    if kind == "iframe":
+        hostname = (urlparse(url).hostname or "").lower()
+        if any(term in hostname for term in (
+            "doubleclick", "adservice", "adnxs", "ladsp", "casalemedia",
+            "openx", "ad-stir", "googlesyndication",
+        )):
+            return False
+        return True
     parsed = urlparse(url)
     path = parsed.path.lower()
     if parsed.hostname == "video.twimg.com":
@@ -110,6 +116,40 @@ def _plausible_video_candidate(
     if re.search(r"\.(?:mp4|webm|m4v|mov)(?:$|/)", path):
         return True
     return mime_type.lower().startswith("video/")
+
+
+def _image_candidate_urls(raw: dict[str, Any]) -> list[str]:
+    values = list(raw.get("urls") or [])
+    link_url = str(raw.get("link_url") or "").strip()
+    if link_url and re.search(r"\.(?:jpe?g|png|gif|webp|avif)(?:[?#]|$)", link_url, re.I):
+        values.insert(0, link_url)
+    values.append(str(raw.get("url") or ""))
+    return list(dict.fromkeys(str(value or "").strip() for value in values if str(value or "").strip()))
+
+
+def _dmm_content_id(source_url: str) -> str:
+    parsed = urlparse(source_url)
+    query_id = str((parse_qs(parsed.query).get("id") or [""])[0]).lower()
+    if re.fullmatch(r"[a-z0-9]+", query_id):
+        return query_id
+    match = re.search(r"(?:cid|id)[=/]([a-z0-9]+)", source_url, re.I)
+    return match.group(1).lower() if match else ""
+
+
+def _redundant_dmm_player(
+    candidate_url: str,
+    kind: str,
+    source_url: str,
+    direct_video_urls: list[str],
+) -> bool:
+    if kind != "iframe" or "html5_player" not in candidate_url.lower():
+        return False
+    content_id = _dmm_content_id(source_url) or _dmm_content_id(candidate_url)
+    return bool(
+        content_id
+        and content_id in candidate_url.lower()
+        and any(content_id in url.lower() for url in direct_video_urls)
+    )
 
 
 def _x_video_asset_key(url: str) -> str:
@@ -522,24 +562,44 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
         for raw in raw_images:
             if len(images) >= MAX_BROWSER_IMAGES:
                 break
-            candidate_url = str(raw.get("url") or "").strip()
-            if not candidate_url or candidate_url in seen_urls:
+            candidate_urls = _image_candidate_urls(raw)
+            if not candidate_urls or all(url in seen_urls for url in candidate_urls):
                 continue
-            seen_urls.add(candidate_url)
-            try:
-                response = request_context.get(candidate_url, headers={"Referer": final_url}, timeout=30000, fail_on_status_code=False)
-                data = response.body() if response.ok else b""
-                content_type = str(response.headers.get("content-type") or "").split(";", 1)[0].lower()
-            except Exception:
+            best: tuple[int, int, int, str, bytes, str] | None = None
+            for candidate_url in candidate_urls:
+                if candidate_url in seen_urls:
+                    continue
+                try:
+                    response = request_context.get(
+                        candidate_url,
+                        headers={"Referer": final_url},
+                        timeout=30000,
+                        fail_on_status_code=False,
+                    )
+                    data = response.body() if response.ok else b""
+                    content_type = str(response.headers.get("content-type") or "").split(";", 1)[0].lower()
+                    if not data or len(data) > MAX_IMAGE_BYTES or not content_type.startswith("image/"):
+                        continue
+                    with Image.open(io.BytesIO(data)) as opened:
+                        actual_width, actual_height = opened.size
+                    if actual_width < 80 or actual_height < 80:
+                        continue
+                    score = actual_width * actual_height
+                    candidate = (score, len(data), actual_width, candidate_url, data, content_type)
+                    if best is None or candidate[:2] > best[:2]:
+                        best = candidate
+                except Exception:
+                    continue
+            seen_urls.update(candidate_urls)
+            if best is None:
                 continue
-            if not data or len(data) > MAX_IMAGE_BYTES or not content_type.startswith("image/"):
-                continue
+            _, _, width, candidate_url, data, content_type = best
+            with Image.open(io.BytesIO(data)) as opened:
+                width, height = opened.size
             digest = hashlib.sha256(data).hexdigest()
             if digest in seen_hashes:
                 continue
             seen_hashes.add(digest)
-            width = int(raw.get("natural_width") or (raw.get("rect") or {}).get("width") or 0)
-            height = int(raw.get("natural_height") or (raw.get("rect") or {}).get("height") or 0)
             images.append({
                 "id": f"media-{len(images) + 1}", "url": candidate_url, "data": data,
                 "extension": image_extension(content_type, candidate_url), "mime_type": content_type,
@@ -569,6 +629,12 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
 
         raw_videos.sort(key=_video_priority)
         videos: list[dict[str, Any]] = []
+        direct_video_urls = [
+            str(candidate_url or "")
+            for raw in raw_videos
+            if raw.get("kind") != "iframe"
+            for candidate_url in raw.get("urls") or []
+        ]
         seen_video_urls: set[str] = set()
         seen_x_video_assets: set[str] = set()
         isolated_frame_attempts = 0
@@ -581,6 +647,10 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
                     break
                 seen_video_urls.add(candidate_url)
                 kind = "iframe" if raw.get("kind") == "iframe" else "direct"
+                if is_dmm_source and _redundant_dmm_player(
+                    candidate_url, kind, final_url, direct_video_urls
+                ):
+                    continue
                 suffix = Path(candidate_url.split("?", 1)[0]).suffix.lower()
                 declared_mime = str(raw.get("mime_type") or "")
                 try:

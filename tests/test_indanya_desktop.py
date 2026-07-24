@@ -30,16 +30,60 @@ from indanya_desktop.workers import (  # noqa: E402
 )
 from indanya_desktop.browser_capture import (  # noqa: E402
     _find_x_media_urls,
+    _image_candidate_urls,
     _merge_snapshot,
     _plausible_video_candidate,
     _usable_final_url,
     _video_canvas_frame,
     _video_priority,
+    _redundant_dmm_player,
     _x_video_asset_key,
 )
 
 
 class SiteRegistryTests(unittest.TestCase):
+    def test_linked_full_size_image_is_considered_before_thumbnail(self) -> None:
+        urls = _image_candidate_urls({
+            "url": "https://awsimgsrc.dmm.co.jp/sample.jpg?w=120&h=90",
+            "urls": ["https://awsimgsrc.dmm.co.jp/sample.jpg?w=120&h=90"],
+            "link_url": "https://awsimgsrc.dmm.co.jp/sample-large.jpg",
+        })
+
+        self.assertEqual(
+            "https://awsimgsrc.dmm.co.jp/sample-large.jpg",
+            urls[0],
+        )
+        self.assertIn(
+            "https://awsimgsrc.dmm.co.jp/sample.jpg?w=120&h=90",
+            urls,
+        )
+
+    def test_dmm_iframe_is_removed_when_same_product_mp4_exists(self) -> None:
+        self.assertTrue(_redundant_dmm_player(
+            "https://www.dmm.co.jp/service/digitalapi/-/html5_player/=/cid=hsoda00069/",
+            "iframe",
+            "https://video.dmm.co.jp/av/content/?id=hsoda00069",
+            ["https://cc3001.dmm.co.jp/pv/path/hsoda00069mhb.mp4"],
+        ))
+        self.assertFalse(_redundant_dmm_player(
+            "https://player.example.com/embed/other",
+            "iframe",
+            "https://video.dmm.co.jp/av/content/?id=hsoda00069",
+            ["https://cc3001.dmm.co.jp/pv/path/hsoda00069mhb.mp4"],
+        ))
+        self.assertFalse(_plausible_video_candidate(
+            "https://video.dmm.co.jp/av/content/?id=hsoda00069",
+            "iframe",
+            "text/html",
+            "https://video.dmm.co.jp/av/content/?id=hsoda00069",
+        ))
+        self.assertFalse(_plausible_video_candidate(
+            "https://10201484.fls.doubleclick.net/activityi",
+            "iframe",
+            "text/html",
+            "https://video.dmm.co.jp/av/content/?id=hsoda00069",
+        ))
+
     def test_related_av_article_uses_its_existing_fanza_link(self) -> None:
         result = _resolve_fanza_promotion(
             {

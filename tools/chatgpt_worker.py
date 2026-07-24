@@ -293,10 +293,26 @@ EXTRACT_SCRIPT = r"""
 
   const images = [];
   for (const el of Array.from(document.images)) {
-    const src = abs(el.currentSrc || el.src || el.getAttribute('data-src') || el.getAttribute('data-original') || '');
+    const linkUrl = el.closest('a') ? abs(el.closest('a').href) : '';
+    const srcsetUrls = [el.srcset, el.getAttribute('data-srcset')]
+      .flatMap(value => String(value || '').split(','))
+      .map(value => abs(value.trim().split(/\s+/)[0]))
+      .filter(Boolean);
+    const urls = Array.from(new Set([
+      linkUrl && /\.(?:jpe?g|png|gif|webp|avif)(?:[?#]|$)/i.test(linkUrl) ? linkUrl : '',
+      ...srcsetUrls,
+      abs(el.getAttribute('data-original') || ''),
+      abs(el.getAttribute('data-large') || ''),
+      abs(el.getAttribute('data-full') || ''),
+      abs(el.getAttribute('data-src') || ''),
+      abs(el.currentSrc || ''),
+      abs(el.src || '')
+    ].filter(Boolean)));
+    const src = urls[0] || '';
     if (!src) continue;
     images.push({
       url: src,
+      urls,
       alt: clean(el.alt),
       title: clean(el.title),
       natural_width: Number(el.naturalWidth || 0),
@@ -305,7 +321,7 @@ EXTRACT_SCRIPT = r"""
       rect: rectData(el),
       context: nearestText(el),
       ancestors: ancestors(el),
-      link_url: el.closest('a') ? abs(el.closest('a').href) : ''
+      link_url: linkUrl
     });
   }
 
