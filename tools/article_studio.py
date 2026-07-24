@@ -3360,7 +3360,11 @@ def render_article(
     sidebar = _render_sidebar(site_root, metadata, blocks)
     has_x_embeds = any(block["type"] in {"x_embed", "x_timeline"} for block in blocks)
     complete_style = style + ARTICLE_DISCOVERY_STYLE + VIDEO_EMBED_STYLE + FANZA_PRODUCT_STYLE + (X_EMBED_STYLE if has_x_embeds else "")
-    style_markup = '<link rel="stylesheet" href="/preview.css">' if preview else f"<style>{complete_style}</style>"
+    related_style = f'<link rel="stylesheet" href="{page_root}assets/common/article-related.css">'
+    style_markup = (
+        f'<link rel="stylesheet" href="/preview.css">{related_style}'
+        if preview else f"<style>{complete_style}</style>{related_style}"
+    )
     media_count_label = f"動画{len(videos)}本" if videos else f"画像{len(images)}枚"
     x_widgets = (
         '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
@@ -3397,6 +3401,7 @@ def render_article(
 <div class="lightbox" id="lightbox" aria-hidden="true"><button class="lightbox-close" id="lightboxClose" aria-label="閉じる">×</button><img id="lightboxImage" alt="拡大画像"></div>
 <footer class="footer"><div class="footer-inner"><span>© 2026 淫談屋</span><span><a href="{page_root}about.html">運営者情報</a>　<a href="{page_root}contact.html">お問い合わせ</a>　<a href="{page_root}privacy.html">プライバシーポリシー</a></span></div></footer>
 <script>{script}</script>
+<script src="{page_root}assets/common/article-related.js" data-site-root="{page_root}"></script>
 {x_widgets}
 </body>
 </html>

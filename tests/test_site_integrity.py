@@ -100,6 +100,19 @@ class SiteIntegrityTests(unittest.TestCase):
             self.assertIn('action="search.html"', source)
             self.assertIn("assets/common/catalog.js", source)
 
+    def test_articles_load_related_content_assets(self) -> None:
+        self.assertTrue((ROOT / "assets" / "common" / "article-related.css").is_file())
+        script_path = ROOT / "assets" / "common" / "article-related.js"
+        self.assertTrue(script_path.is_file())
+        script = script_path.read_text(encoding="utf-8")
+        self.assertIn("この記事に近い記事", script)
+        self.assertIn("関連するおすすめAV記事", script)
+        self.assertIn("relationScore", script)
+        for path in sorted((ROOT / "articles").glob("*.html")):
+            source = path.read_text(encoding="utf-8")
+            self.assertIn("../assets/common/article-related.css", source, path.name)
+            self.assertIn("../assets/common/article-related.js", source, path.name)
+
 
 if __name__ == "__main__":
     unittest.main()

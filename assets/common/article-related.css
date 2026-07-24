@@ -1,0 +1,135 @@
+.article-related {
+  padding: 12px 28px 34px;
+  background: #fff;
+}
+
+.article-related-section,
+.article-related-tags {
+  margin-top: 30px;
+}
+
+.article-related h2 {
+  margin: 0 0 14px;
+  padding-bottom: 9px;
+  border-bottom: 2px solid #1a1917;
+  color: #111;
+  font-size: 21px;
+  line-height: 1.35;
+}
+
+.article-related-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 16px;
+}
+
+.article-related-card {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+  background: #fff;
+}
+
+.article-related-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  background: #eceae5;
+}
+
+.article-related-card-body {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 10px 2px 0;
+}
+
+.article-related-meta {
+  margin-bottom: 5px;
+  color: #777;
+  font-size: 11px;
+}
+
+.article-related-card strong {
+  display: -webkit-box;
+  overflow: hidden;
+  color: #111;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.article-related-summary {
+  display: -webkit-box;
+  overflow: hidden;
+  margin-top: 6px;
+  color: #666;
+  font-size: 12px;
+  line-height: 1.65;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.article-related-card:hover strong {
+  color: #c72d22;
+  text-decoration: underline;
+}
+
+.article-related-av h2 {
+  border-bottom-color: #c72d22;
+}
+
+.article-related-tags > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.article-related-tags a {
+  padding: 6px 9px;
+  border: 1px solid #d4d0c8;
+  color: #333;
+  font-size: 12px;
+  text-decoration: none;
+  background: #f7f6f2;
+}
+
+.article-related-tags a:hover {
+  border-color: #c72d22;
+  color: #c72d22;
+}
+
+@media (max-width: 720px) {
+  .article-related {
+    padding: 8px 14px 26px;
+  }
+
+  .article-related-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .article-related-card {
+    grid-template-columns: minmax(120px, 38%) 1fr;
+    grid-template-rows: 1fr;
+    gap: 11px;
+  }
+
+  .article-related-card img {
+    height: 100%;
+    min-height: 112px;
+    aspect-ratio: 4 / 3;
+  }
+
+  .article-related-card-body {
+    padding-top: 0;
+  }
+
+  .article-related-summary {
+    -webkit-line-clamp: 3;
+  }
+}
