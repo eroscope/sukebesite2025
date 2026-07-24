@@ -24,7 +24,7 @@ from article_studio import (
 )
 from indanya_desktop.publishing import publish_article, unpublish_article
 from indanya_desktop.sites import ManagedSite
-from indanya_desktop.browser_capture import capture_rendered_source
+from indanya_desktop.browser_capture import capture_rendered_source, open_x_login_session
 from indanya_desktop.automation import discover_candidates, mark_candidate_status
 
 
@@ -32,6 +32,23 @@ class WorkerSignals(QObject):
     progress = Signal(int, str)
     completed = Signal(dict)
     failed = Signal(str)
+
+
+class XLoginWorker(QRunnable):
+    def __init__(self) -> None:
+        super().__init__()
+        self.signals = WorkerSignals()
+
+    @Slot()
+    def run(self) -> None:
+        try:
+            open_x_login_session(
+                lambda value, message: self.signals.progress.emit(value, message)
+            )
+            self.signals.completed.emit({"status": "ready"})
+        except Exception as exc:
+            traceback.print_exc()
+            self.signals.failed.emit(str(exc) or exc.__class__.__name__)
 
 
 
@@ -244,6 +261,15 @@ def _capture_and_analyze_source(
             })
             if semantic_source.get("description"):
                 source["description"] = semantic_source["description"]
+        if (
+            source.get("source_type") == "x_profile"
+            and source.get("browser_capture")
+            and not source.get("x_authenticated")
+        ):
+            raise RuntimeError(
+                "Xプロフィールの投稿画像・動画をすべて確認するにはXログインが必要です。"
+                "「URLから作成」のXログインを一度行ってから、もう一度作成してください"
+            )
         if navigation_context:
             source["navigation_context"] = navigation_context
         if editorial_intent:

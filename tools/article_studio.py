@@ -948,7 +948,15 @@ def build_source_draft_payload(
     elif not videos and body_image_ids:
         media_blocks.append({"id": "source-images-1", "type": "images", "image_ids": [body_image_ids[0]]})
 
-    remaining_image_ids = body_image_ids[1:] if not videos else body_image_ids
+    media_image_ids = {
+        image_id
+        for block in media_blocks
+        for image_id in block.get("image_ids", [])
+    }
+    remaining_image_ids = [
+        image_id for image_id in body_image_ids
+        if image_id not in media_image_ids
+    ]
     for offset in range(0, len(remaining_image_ids), 2):
         media_blocks.append({
             "id": f"source-images-{offset + 2}",

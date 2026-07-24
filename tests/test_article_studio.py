@@ -549,6 +549,35 @@ class ArticleStudioTests(unittest.TestCase):
         self.assertEqual(["source-image-2"], body_ids)
         self.assertNotIn("source-image-1", body_ids)
 
+    def test_x_profile_places_gallery_images_after_timeline_cover(self) -> None:
+        source = article_studio.analyze_source_url(
+            "https://news.example.com/cosplay/story",
+            FakeSourceOpener(),
+        )
+        source.update({
+            "source_type": "x_profile",
+            "url": "https://x.com/Test_User",
+            "site_name": "X",
+            "x_info": {"username": "Test_User"},
+            "x_embed": {
+                "url": "https://x.com/Test_User",
+                "username": "Test_User",
+                "limit": 6,
+            },
+        })
+
+        draft = article_studio.build_source_draft_payload(
+            source,
+            ["media-2"],
+            thumbnail_image_id="media-1",
+        )
+
+        timeline = next(block for block in draft["blocks"] if block["type"] == "x_timeline")
+        gallery = next(block for block in draft["blocks"] if block["type"] == "images")
+        self.assertEqual(["source-image-1"], timeline["image_ids"])
+        self.assertEqual(["source-image-2"], gallery["image_ids"])
+        article_studio.build_article(draft, self.site_root, preview=True)
+
     def test_codex_title_normalization_uses_media_kind_and_image_count(self) -> None:
         self.assertEqual(
             article_studio._normalize_codex_title(

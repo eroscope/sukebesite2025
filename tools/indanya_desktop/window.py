@@ -91,6 +91,7 @@ from indanya_desktop.workers import (
     PublishArticleWorker,
     RefineDraftWorker,
     UnpublishArticleWorker,
+    XLoginWorker,
 )
 
 
@@ -524,6 +525,7 @@ class MainWindow(QMainWindow):
         self.registry = SiteRegistry(project_root)
         self.thread_pool = QThreadPool.globalInstance()
         self.active_worker: GenerateArticleWorker | None = None
+        self.x_login_worker: XLoginWorker | None = None
         self.refine_worker: RefineDraftWorker | None = None
         self.collect_worker: CollectCandidatesWorker | None = None
         self.batch_worker: BatchDraftWorker | None = None
@@ -724,6 +726,10 @@ class MainWindow(QMainWindow):
         self.content_mode_combo.addItem("X投稿を紹介", "x_post")
         self.content_mode_combo.addItem("通常ページ", "web")
         options.addWidget(self.content_mode_combo)
+        self.x_login_button = button("Xログイン", "secondary")
+        self.x_login_button.setToolTip("Xの投稿画像・動画を取得するためのログインを一度行います")
+        self.x_login_button.clicked.connect(self.open_x_login)
+        options.addWidget(self.x_login_button)
         options.addWidget(QLabel("掲載区分"))
         self.promotion_combo = QComboBox()
         self.promotion_combo.addItem("通常紹介", "organic")
@@ -769,6 +775,27 @@ class MainWindow(QMainWindow):
         status.addWidget(self.generate_result)
         layout.addWidget(panel(status))
         return self._page_shell(body)
+
+    def open_x_login(self) -> None:
+        self.x_login_button.setEnabled(False)
+        self.x_login_button.setText("ログイン待機中")
+        self.x_login_worker = XLoginWorker()
+        self.x_login_worker.signals.progress.connect(
+            lambda _value, message: self.generate_status.setText(message)
+        )
+        self.x_login_worker.signals.completed.connect(self._x_login_completed)
+        self.x_login_worker.signals.failed.connect(self._x_login_failed)
+        self.thread_pool.start(self.x_login_worker)
+
+    def _x_login_completed(self, _result: dict) -> None:
+        self.x_login_button.setEnabled(True)
+        self.x_login_button.setText("Xログイン")
+        self.generate_status.setText("Xログイン情報を保存しました。プロフィール記事を作成できます")
+
+    def _x_login_failed(self, message: str) -> None:
+        self.x_login_button.setEnabled(True)
+        self.x_login_button.setText("Xログイン")
+        self.generate_status.setText(f"Xログインに失敗しました: {message}")
 
     def _review_page(self) -> QWidget:
         body = QWidget()

@@ -3,6 +3,7 @@ from __future__ import annotations
 import base64
 import hashlib
 import io
+import os
 import re
 from pathlib import Path
 from typing import Any, Callable
@@ -18,6 +19,41 @@ from chatgpt_worker import EXTRACT_SCRIPT, auto_scroll, dismiss_common_overlays,
 ProgressCallback = Callable[[int, str], None]
 MAX_BROWSER_IMAGES = 32
 MAX_BROWSER_VIDEOS = 24
+MAX_X_SCROLL_STEPS = 24
+
+
+def x_browser_profile_path() -> Path:
+    local_app_data = os.environ.get("LOCALAPPDATA")
+    base = Path(local_app_data) if local_app_data else Path.home() / "AppData" / "Local"
+    path = base / "IndanyaStudio" / "x-browser-profile"
+    path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
+def open_x_login_session(progress: ProgressCallback = lambda _v, _m: None) -> None:
+    progress(10, "Xログイン用Chromeを開いています")
+    with sync_playwright() as playwright:
+        context = playwright.chromium.launch_persistent_context(
+            str(x_browser_profile_path()),
+            channel="chrome",
+            headless=False,
+            viewport={"width": 1280, "height": 850},
+            locale="ja-JP",
+            args=["--disable-blink-features=AutomationControlled"],
+        )
+        page = context.pages[0] if context.pages else context.new_page()
+        page.goto("https://x.com/home", wait_until="domcontentloaded", timeout=60000)
+        progress(50, "Xへログインし、終わったらChromeを閉じてください")
+        while context.pages:
+            try:
+                context.pages[0].wait_for_timeout(500)
+            except Exception:
+                break
+        try:
+            context.close()
+        except Exception:
+            pass
+    progress(100, "Xログイン情報を保存しました")
 
 
 def _usable_final_url(value: Any, fallback: str) -> str:
@@ -77,6 +113,111 @@ def _screenshot_bytes(page: Any) -> bytes:
 def _media_url_key(value: Any) -> str:
     parsed = urlparse(str(value or ""))
     return f"{parsed.netloc.lower()}{parsed.path}" if parsed.netloc and parsed.path else str(value or "")
+
+
+def _merge_snapshot(target: dict[str, Any], snapshot: dict[str, Any]) -> None:
+    for key in ("images", "videos", "links"):
+        existing = target.setdefault(key, [])
+        signatures = {
+            (
+                str(item.get("url") or ""),
+                tuple(str(value) for value in item.get("urls", [])),
+                str(item.get("text") or ""),
+            )
+            for item in existing
+            if isinstance(item, dict)
+        }
+        for item in snapshot.get(key) or []:
+            if not isinstance(item, dict):
+                continue
+            signature = (
+                str(item.get("url") or ""),
+                tuple(str(value) for value in item.get("urls", [])),
+                str(item.get("text") or ""),
+            )
+            if signature in signatures:
+                continue
+            signatures.add(signature)
+            existing.append(item)
+    for key in ("text_blocks",):
+        existing_text = target.setdefault(key, [])
+        known = {str(value) for value in existing_text}
+        for value in snapshot.get(key) or []:
+            text = str(value or "").strip()
+            if text and text not in known:
+                known.add(text)
+                existing_text.append(text)
+    body_text = str(snapshot.get("body_text") or "").strip()
+    if body_text and body_text not in str(target.get("body_text") or ""):
+        target["body_text"] = "\n".join(
+            value for value in (str(target.get("body_text") or "").strip(), body_text) if value
+        )
+    for key in ("title", "description", "final_url", "page"):
+        if not target.get(key) and snapshot.get(key):
+            target[key] = snapshot[key]
+
+
+def _reveal_x_media(page: Any) -> None:
+    try:
+        buttons = page.get_by_role(
+            "button",
+            name=re.compile(r"(?:センシティブ.*表示|表示する|Show|View)", re.I),
+        )
+        for index in range(min(buttons.count(), 12)):
+            button = buttons.nth(index)
+            if button.is_visible():
+                button.click(timeout=700)
+    except Exception:
+        pass
+
+
+def _collect_x_timeline(page: Any) -> tuple[dict[str, Any], dict[str, bytes]]:
+    collected: dict[str, Any] = {}
+    frames: dict[str, bytes] = {}
+    unchanged_rounds = 0
+    previous_count = -1
+    for _ in range(MAX_X_SCROLL_STEPS):
+        _reveal_x_media(page)
+        snapshot = page.evaluate(EXTRACT_SCRIPT)
+        _merge_snapshot(collected, snapshot)
+        frames.update(_capture_video_frames(page))
+        current_count = sum(
+            len(collected.get(key) or [])
+            for key in ("images", "videos", "links", "text_blocks")
+        )
+        unchanged_rounds = unchanged_rounds + 1 if current_count == previous_count else 0
+        previous_count = current_count
+        at_bottom = bool(page.evaluate(
+            "() => window.scrollY + window.innerHeight >= "
+            "Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) - 30"
+        ))
+        if unchanged_rounds >= 4 and at_bottom:
+            break
+        page.evaluate(
+            "() => window.scrollBy(0, Math.max(760, Math.floor(window.innerHeight * 0.82)))"
+        )
+        page.wait_for_timeout(550)
+    page.evaluate("() => window.scrollTo(0, 0)")
+    page.wait_for_timeout(250)
+    return collected, frames
+
+
+def _find_x_media_urls(value: Any, image_urls: set[str], video_urls: set[str]) -> None:
+    if isinstance(value, dict):
+        for nested in value.values():
+            _find_x_media_urls(nested, image_urls, video_urls)
+        return
+    if isinstance(value, list):
+        for nested in value:
+            _find_x_media_urls(nested, image_urls, video_urls)
+        return
+    if not isinstance(value, str) or not value.startswith("https://"):
+        return
+    normalized = value.replace("\\/", "/")
+    if "pbs.twimg.com/media/" in normalized:
+        image_urls.add(normalized)
+    elif "video.twimg.com/" in normalized and re.search(r"\.mp4(?:[?#]|$)", normalized, re.I):
+        video_urls.add(normalized)
 
 
 def _video_canvas_frame(video: Any) -> bytes:
@@ -208,19 +349,38 @@ def _capture_isolated_video_frame(context: Any, video_url: str, referer: str) ->
 
 def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m: None) -> dict[str, Any]:
     source_url = _validate_source_url(url)
+    source_hostname = (urlparse(source_url).hostname or "").lower()
+    is_x_source = source_hostname in {"x.com", "www.x.com", "twitter.com", "www.twitter.com"}
     network_videos: dict[str, dict[str, str]] = {}
+    network_x_images: set[str] = set()
+    network_x_videos: set[str] = set()
+    inspected_x_json = 0
     progress(10, "Chromeでページ全体を開いています")
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(
-            channel="chrome", headless=True, args=["--disable-blink-features=AutomationControlled"]
-        )
-        context = browser.new_context(
-            viewport={"width": 1365, "height": 900}, locale="ja-JP", ignore_https_errors=True,
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/136 Safari/537.36",
-        )
-        page = context.new_page()
+        browser = None
+        context_options = {
+            "viewport": {"width": 1365, "height": 900},
+            "locale": "ja-JP",
+            "ignore_https_errors": True,
+            "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/136 Safari/537.36",
+        }
+        if is_x_source:
+            context = playwright.chromium.launch_persistent_context(
+                str(x_browser_profile_path()),
+                channel="chrome",
+                headless=True,
+                args=["--disable-blink-features=AutomationControlled"],
+                **context_options,
+            )
+        else:
+            browser = playwright.chromium.launch(
+                channel="chrome", headless=True, args=["--disable-blink-features=AutomationControlled"]
+            )
+            context = browser.new_context(**context_options)
+        page = context.pages[0] if is_x_source and context.pages else context.new_page()
 
         def on_response(response: Any) -> None:
+            nonlocal inspected_x_json
             try:
                 content_type = str(response.headers.get("content-type") or "").lower()
                 response_url = str(response.url)
@@ -234,6 +394,17 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
                         "resource_type": str(response.request.resource_type or ""),
                         "content_type": content_type.split(";", 1)[0],
                     }
+                if (
+                    is_x_source
+                    and inspected_x_json < 40
+                    and ("json" in content_type or "/graphql/" in response_url)
+                    and ("x.com/" in response_url or "twitter.com/" in response_url)
+                ):
+                    inspected_x_json += 1
+                    try:
+                        _find_x_media_urls(response.json(), network_x_images, network_x_videos)
+                    except Exception:
+                        pass
             except Exception:
                 pass
 
@@ -244,10 +415,13 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
         except Exception:
             pass
         dismiss_common_overlays(page)
-        auto_scroll(page)
+        if is_x_source:
+            extracted, video_frames = _collect_x_timeline(page)
+        else:
+            auto_scroll(page)
+            extracted = page.evaluate(EXTRACT_SCRIPT)
+            video_frames = _capture_video_frames(page)
         progress(24, "遅れて表示される画像と動画を確認しています")
-        extracted = page.evaluate(EXTRACT_SCRIPT)
-        video_frames = _capture_video_frames(page)
         screenshot = _screenshot_bytes(page)
         # Chrome may expose chrome-error://chromewebdata for a blocked navigation.
         # Keep the requested URL so the caller can still use captured evidence.
@@ -257,6 +431,18 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
         seen_urls: set[str] = set()
         seen_hashes: set[str] = set()
         raw_images = list(extracted.get("images") or [])
+        raw_images.extend({
+            "url": image_url,
+            "alt": str(extracted.get("title") or "X投稿画像"),
+            "title": "X timeline media",
+            "natural_width": 0,
+            "natural_height": 0,
+            "visible": True,
+            "rect": {},
+            "context": "Xプロフィールの公開投稿で読み込まれた画像",
+            "ancestors": "X timeline network response",
+            "link_url": "",
+        } for image_url in sorted(network_x_images))
         for video in extracted.get("videos") or []:
             poster = str(video.get("poster") or "").strip()
             if poster:
@@ -312,6 +498,13 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
             "ancestors": f"network-frame:{details['frame_url']}",
             "mime_type": details["content_type"],
         } for network_url, details in sorted(network_videos.items()))
+        raw_videos.extend({
+            "kind": "network",
+            "urls": [video_url],
+            "context": "Xプロフィールの公開投稿で読み込まれた動画",
+            "ancestors": "X timeline network response",
+            "mime_type": "video/mp4",
+        } for video_url in sorted(network_x_videos))
 
         raw_videos.sort(key=_video_priority)
         videos: list[dict[str, Any]] = []
@@ -360,8 +553,17 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
                 "data": _sheet(video_frame_records), "kind": "video_contact_sheet",
             })
         text_blocks = [str(item.get("text") or "")[:1000] for item in (extracted.get("text_blocks") or []) if item.get("text")][:80]
+        x_authenticated = any(
+            str(cookie.get("name") or "") == "auth_token"
+            for cookie in (context.cookies("https://x.com") if is_x_source else [])
+        )
         context.close()
-        browser.close()
+        if browser is not None:
+            browser.close()
+    x_timeline_media_count = sum(
+        1 for item in images
+        if "pbs.twimg.com/media/" in str(item.get("url") or "")
+    ) + sum(1 for item in videos if item.get("kind") != "iframe")
     return {
         "source_type": "web", "url": final_url, "requested_url": source_url,
         "title": str(extracted.get("title") or "")[:180], "description": str(extracted.get("description") or "")[:500],
@@ -385,4 +587,6 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
         ][:200],
         "images": images, "videos": videos, "browser_attachments": attachments,
         "browser_capture": True, "page_dimensions": extracted.get("page") or {},
+        "x_authenticated": x_authenticated if is_x_source else False,
+        "x_timeline_media_count": x_timeline_media_count if is_x_source else 0,
     }

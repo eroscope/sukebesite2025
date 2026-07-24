@@ -24,7 +24,13 @@ from indanya_desktop.workers import (  # noqa: E402
     _mark_ready_to_publish,
     _select_article_images,
 )
-from indanya_desktop.browser_capture import _usable_final_url, _video_canvas_frame, _video_priority  # noqa: E402
+from indanya_desktop.browser_capture import (  # noqa: E402
+    _find_x_media_urls,
+    _merge_snapshot,
+    _usable_final_url,
+    _video_canvas_frame,
+    _video_priority,
+)
 
 
 class SiteRegistryTests(unittest.TestCase):
@@ -227,6 +233,8 @@ class SiteRegistryTests(unittest.TestCase):
             "images": [],
             "videos": [],
             "links": [],
+            "browser_capture": True,
+            "x_authenticated": True,
         }
         semantic_source = {
             **browser_source,
@@ -274,6 +282,35 @@ class SiteRegistryTests(unittest.TestCase):
         self.assertEqual("x_account", result["editorial_intent"]["content_mode"])
         self.assertNotIn("private_note", result["editorial_intent"])
 
+    def test_x_profile_without_login_stops_before_creating_incomplete_article(self) -> None:
+        profile_url = "https://x.com/Test_User"
+        browser_source = {
+            "source_type": "web",
+            "url": profile_url,
+            "title": "Test User (@Test_User) / X",
+            "description": "",
+            "site_name": "X",
+            "author": "",
+            "images": [],
+            "videos": [],
+            "links": [],
+            "browser_capture": True,
+            "x_authenticated": False,
+        }
+        semantic_source = {
+            **browser_source,
+            "source_type": "x_profile",
+            "x_info": {"username": "Test_User"},
+            "x_embed": {"author_name": "Test User", "text": "公開投稿"},
+        }
+
+        with (
+            patch("indanya_desktop.workers.capture_rendered_source", return_value=browser_source),
+            patch("indanya_desktop.workers.analyze_source_url", return_value=semantic_source),
+        ):
+            with self.assertRaisesRegex(RuntimeError, "Xログインが必要"):
+                _capture_and_analyze_source(ROOT, profile_url, object())
+
     def test_sponsored_metadata_is_disclosed_but_keeps_sales_note_private(self) -> None:
         payload = {"tags": ["SNS"], "blocks": []}
         source = {"source_type": "x_profile", "x_info": {"username": "Test_User"}}
@@ -302,6 +339,47 @@ class SiteRegistryTests(unittest.TestCase):
         ]
         ordered = sorted(items, key=_video_priority)
         self.assertEqual(["direct", "network", "iframe"], [item["kind"] for item in ordered])
+
+    def test_x_scroll_snapshots_keep_media_removed_from_later_dom(self) -> None:
+        collected: dict[str, object] = {}
+        _merge_snapshot(
+            collected,
+            {
+                "images": [{"url": "https://pbs.twimg.com/media/first.jpg"}],
+                "videos": [{"urls": ["https://video.twimg.com/first.mp4"]}],
+                "links": [{"url": "https://x.com/Test_User/status/1", "text": "投稿1"}],
+                "text_blocks": ["最初の投稿"],
+            },
+        )
+        _merge_snapshot(
+            collected,
+            {
+                "images": [{"url": "https://pbs.twimg.com/media/second.jpg"}],
+                "videos": [],
+                "links": [{"url": "https://x.com/Test_User/status/2", "text": "投稿2"}],
+                "text_blocks": ["次の投稿"],
+            },
+        )
+
+        self.assertEqual(2, len(collected["images"]))
+        self.assertEqual(1, len(collected["videos"]))
+        self.assertEqual(["最初の投稿", "次の投稿"], collected["text_blocks"])
+
+    def test_x_graphql_media_urls_are_collected(self) -> None:
+        images: set[str] = set()
+        videos: set[str] = set()
+        _find_x_media_urls(
+            {
+                "media": [
+                    {"url": "https://pbs.twimg.com/media/photo.jpg?format=jpg&name=large"},
+                    {"variants": [{"url": "https://video.twimg.com/ext_tw_video/clip/vid/720x1280/movie.mp4?tag=12"}]},
+                ],
+            },
+            images,
+            videos,
+        )
+        self.assertEqual(1, len(images))
+        self.assertEqual(1, len(videos))
 
     def test_browser_error_page_keeps_requested_url(self) -> None:
         fallback = "https://example.com/story"
