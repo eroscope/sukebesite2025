@@ -196,6 +196,57 @@ class PublishingTests(unittest.TestCase):
         self.assertIn('src="../assets/articles/large-video/video-01.mp4"', rendered)
         self.assertIn('type="video/mp4"', rendered)
 
+    def test_publish_drops_only_video_that_cannot_fit_size_limit(self) -> None:
+        payload = make_payload()
+        payload["rights_status"] = "confirmed"
+        payload["category"] = "動画"
+        payload["videos"] = [
+            {
+                "id": "video-too-large",
+                "kind": "direct",
+                "url": "https://media.example.com/too-large.mp4",
+                "mime_type": "video/mp4",
+                "label": "大容量動画",
+            },
+            {
+                "id": "video-usable",
+                "kind": "direct",
+                "url": "https://media.example.com/usable.mp4",
+                "mime_type": "video/mp4",
+                "label": "使用可能な動画",
+            },
+        ]
+        payload["blocks"].insert(
+            1,
+            {
+                "id": "videos-a",
+                "type": "videos",
+                "video_ids": ["video-too-large", "video-usable"],
+            },
+        )
+
+        def fake_download(video: dict[str, object], destination: Path) -> Path:
+            if video["id"] == "video-too-large":
+                raise RuntimeError("動画をGitHub Pagesの上限内まで小さくできませんでした")
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_bytes(b"usable-video")
+            return destination
+
+        with (
+            patch.object(publishing, "_repository_url", return_value=str(self.remote)),
+            patch.object(publishing, "_download_video", side_effect=fake_download),
+        ):
+            publishing.publish_article(payload, self.draft_root, self.site)
+
+        published = self._checkout("video-size-fallback")
+        rendered = (published / "articles" / "studio-check.html").read_text(encoding="utf-8")
+        self.assertNotIn("too-large.mp4", rendered)
+        self.assertIn("../assets/articles/studio-check/video-02.mp4", rendered)
+        saved = json.loads(
+            (self.draft_root / ".article-studio" / "drafts" / "studio-check.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(["video-usable"], [video["id"] for video in saved["videos"]])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -275,15 +275,47 @@ def _localize_videos(site_root: Path, payload: dict[str, Any], progress: Progres
         return
     slug = str(payload["slug"])
     article_path = site_root / "articles" / f"{slug}.html"
-    article_html = article_path.read_text(encoding="utf-8")
     asset_root = site_root / "assets" / "articles" / slug
     asset_root.mkdir(parents=True, exist_ok=True)
+    prepared: list[tuple[int, dict[str, Any], Path]] = []
+    skipped_ids: set[str] = set()
     for index, video in enumerate(direct_videos, start=1):
         mime_type = str(video.get("mime_type") or "video/mp4")
         extension = ".webm" if mime_type == "video/webm" else ".mp4"
         destination = asset_root / f"video-{index:02d}{extension}"
         progress(35 + round(index / len(direct_videos) * 30), f"動画 {index}/{len(direct_videos)} をサイト用に保存しています")
-        destination = _download_video(video, destination)
+        try:
+            destination = _download_video(video, destination)
+        except RuntimeError as exc:
+            message = str(exc)
+            if not any(term in message for term in ("大きすぎ", "750MB", "上限内まで小さく", "圧縮できません")):
+                raise
+            skipped_ids.add(str(video.get("id") or ""))
+            progress(35 + round(index / len(direct_videos) * 30), f"動画 {index} は容量超過のため外しました")
+            continue
+        prepared.append((index, video, destination))
+
+    if skipped_ids:
+        payload["videos"] = [
+            video for video in videos
+            if str(video.get("id") or "") not in skipped_ids
+        ]
+        filtered_blocks: list[dict[str, Any]] = []
+        for block in payload.get("blocks", []):
+            if not isinstance(block, dict) or block.get("type") != "videos":
+                filtered_blocks.append(block)
+                continue
+            kept_ids = [
+                video_id for video_id in block.get("video_ids", [])
+                if str(video_id) not in skipped_ids
+            ]
+            if kept_ids:
+                filtered_blocks.append({**block, "video_ids": kept_ids})
+        payload["blocks"] = filtered_blocks
+        add_built_article(payload, site_root)
+
+    article_html = article_path.read_text(encoding="utf-8")
+    for index, video, destination in prepared:
         remote = html.escape(str(video.get("url") or ""), quote=True)
         local_prefix = f"../assets/articles/{slug}/"
         local = f"{local_prefix}{destination.name}"
