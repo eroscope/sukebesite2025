@@ -545,6 +545,8 @@ class MainWindow(QMainWindow):
         self.publish_current_slug = ""
         self.publish_from_schedule = False
         self.review_publish_progress: dict[str, int] = {}
+        self.review_scroll_y = 0
+        self.review_outer_scroll_y = 0
         self.current_slug = ""
         self.preview_videos: dict[str, dict] = {}
         self.video_windows: list[VideoPlayerDialog] = []
@@ -565,7 +567,7 @@ class MainWindow(QMainWindow):
         self.scheduler_timer.timeout.connect(self._scheduler_tick)
         self.scheduler_timer.start()
         self._ensure_startup_launcher()
-        self.switch_page("review")
+        self.switch_page("dashboard")
         self.refresh_all()
         QTimer.singleShot(4_000, self._scheduler_tick)
 
@@ -587,7 +589,6 @@ class MainWindow(QMainWindow):
         body_layout.addWidget(self._build_topbar())
         self.stack = QStackedWidget()
         self.pages = {
-            "review": self._review_page(),
             "dashboard": self._dashboard_page(),
             "create": self._create_page(),
             "drafts": self._drafts_page(),
@@ -623,7 +624,7 @@ class MainWindow(QMainWindow):
         layout.addLayout(logo_row)
         layout.addSpacing(18)
         groups = [
-            ("編集部", [("review", "▦  公開前ボード"), ("dashboard", "·  ダッシュボード")]),
+            ("編集部", [("dashboard", "▦  ダッシュボード")]),
             ("制作", [("create", "＋  URLから作成"), ("editor", "T  記事編集")]),
             ("編集フロー", [("rights", "✓  許可管理"), ("publishing", "↑  公開管理")]),
             ("自動化", [("sources", "◎  情報源"), ("automation", "↻  自動巡回")]),
@@ -702,7 +703,59 @@ class MainWindow(QMainWindow):
         left.addWidget(go, 0, Qt.AlignmentFlag.AlignLeft)
         quick.addWidget(panel(left, True), 1)
         layout.addLayout(quick)
-        return self._page_shell(body)
+        layout.addSpacing(20)
+
+        head = QHBoxLayout()
+        head.addWidget(heading(
+            "記事の確認と公開",
+            "自動生成された記事をサイトと同じ見た目で確認し、公開・予約待機・消去を選びます。",
+        ), 1)
+        refresh = button("更新")
+        refresh.clicked.connect(self._refresh_review_board)
+        head.addWidget(refresh)
+        layout.addLayout(head)
+
+        filters = QHBoxLayout()
+        filters.addWidget(QLabel("表示"))
+        self.review_filter = QComboBox()
+        for label, value in (
+            ("すべて", "all"),
+            ("未判別", "unreviewed"),
+            ("予約待機", "queued"),
+            ("公開済み", "published"),
+            ("消去済み", "deleted"),
+            ("公開失敗", "failed"),
+        ):
+            self.review_filter.addItem(label, value)
+        self.review_filter.currentIndexChanged.connect(self._refresh_review_board)
+        filters.addWidget(self.review_filter)
+        filters.addWidget(QLabel("並び順"))
+        self.review_sort = QComboBox()
+        self.review_sort.addItem("新しい順", "newest")
+        self.review_sort.addItem("古い順", "oldest")
+        self.review_sort.addItem("待機順", "queue")
+        self.review_sort.currentIndexChanged.connect(self._refresh_review_board)
+        filters.addWidget(self.review_sort)
+        filters.addStretch()
+        self.review_queue_label = QLabel("予約待機 0件", objectName="success")
+        filters.addWidget(self.review_queue_label)
+        layout.addLayout(filters)
+
+        self.scheduler_note = QLabel("", objectName="muted")
+        layout.addWidget(self.scheduler_note)
+
+        self.review_view = QWebEngineView()
+        self.review_view.setMinimumHeight(620)
+        self.review_page = ReviewActionPage(self.review_view)
+        self.review_page.action_requested.connect(self._review_action)
+        self.review_view.setPage(self.review_page)
+        self.review_view.loadFinished.connect(self._restore_review_scroll)
+        self.review_view.settings().setAttribute(
+            QWebEngineSettings.WebAttribute.LocalContentCanAccessRemoteUrls, True
+        )
+        layout.addWidget(self.review_view, 1)
+        self.dashboard_scroll = self._page_shell(body)
+        return self.dashboard_scroll
 
     def _create_page(self) -> QWidget:
         body = QWidget()
@@ -1134,9 +1187,10 @@ class MainWindow(QMainWindow):
         return table
 
     def switch_page(self, name: str) -> None:
+        if name == "review":
+            name = "dashboard"
         self.stack.setCurrentWidget(self.pages[name])
         titles = {
-            "review": ("REVIEW", "公開前ボード"),
             "dashboard": ("OVERVIEW", "ダッシュボード"), "create": ("CREATE", "URLから記事を作成"),
             "drafts": ("ARTICLES", "記事一覧"), "editor": ("EDIT", "記事編集"),
             "rights": ("RIGHTS", "許可管理"), "publishing": ("PUBLISH", "公開管理"),
@@ -1147,7 +1201,7 @@ class MainWindow(QMainWindow):
         self.page_title.setText(titles[name][1])
         for key, nav in self.nav_buttons.items():
             nav.setChecked(key == name)
-        if name in {"review", "dashboard", "drafts", "rights", "publishing", "sites", "editor"}:
+        if name in {"dashboard", "drafts", "rights", "publishing", "sites", "editor"}:
             self.refresh_all()
 
     def refresh_all(self) -> None:
@@ -1199,9 +1253,30 @@ class MainWindow(QMainWindow):
         except (OSError, ValueError):
             return ""
 
+    def _restore_review_scroll(self, loaded: bool) -> None:
+        if not loaded or not hasattr(self, "review_view"):
+            return
+        scroll_y = max(0, int(self.review_scroll_y))
+        outer_scroll_y = max(0, int(self.review_outer_scroll_y))
+
+        def restore() -> None:
+            self.review_view.page().runJavaScript(
+                f"window.scrollTo({{top:{scroll_y},left:0,behavior:'instant'}});"
+            )
+            if hasattr(self, "dashboard_scroll"):
+                self.dashboard_scroll.verticalScrollBar().setValue(outer_scroll_y)
+
+        QTimer.singleShot(0, restore)
+
     def _refresh_review_board(self, drafts: list[dict] | None = None) -> None:
         if not hasattr(self, "review_view"):
             return
+        try:
+            self.review_scroll_y = max(0, int(self.review_page.scrollPosition().y()))
+        except (AttributeError, TypeError, ValueError):
+            pass
+        if hasattr(self, "dashboard_scroll"):
+            self.review_outer_scroll_y = self.dashboard_scroll.verticalScrollBar().value()
         drafts = drafts if isinstance(drafts, list) else list_drafts(self.site.root)
         positions = queue_position_map(self.site.root)
         selected_filter = str(self.review_filter.currentData() or "unreviewed")
@@ -1319,26 +1394,21 @@ class MainWindow(QMainWindow):
             if action == "edit":
                 self.edit_publish_article(slug)
             elif action == "publish":
-                self.review_filter.setCurrentIndex(self.review_filter.findData("all"))
                 self.start_publish(slug)
             elif action == "queue":
                 position = enqueue_article(self.site.root, slug)
-                self.review_filter.setCurrentIndex(self.review_filter.findData("all"))
                 self.scheduler_note.setText(f"予約待機 #{position} に追加しました。")
                 self.refresh_all()
             elif action == "dequeue":
                 remove_from_queue(self.site.root, slug)
-                self.review_filter.setCurrentIndex(self.review_filter.findData("all"))
                 self.scheduler_note.setText("予約待機から外しました。")
                 self.refresh_all()
             elif action == "delete":
                 soft_delete_article(self.site.root, slug)
-                self.review_filter.setCurrentIndex(self.review_filter.findData("all"))
                 self.scheduler_note.setText("記事を消去済みに移しました。")
                 self.refresh_all()
             elif action == "restore":
                 update_review_status(self.site.root, slug, "unreviewed")
-                self.review_filter.setCurrentIndex(self.review_filter.findData("all"))
                 self.scheduler_note.setText("未判別へ戻しました。")
                 self.refresh_all()
             elif action == "open":
