@@ -398,6 +398,7 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
     source_url = _validate_source_url(url)
     source_hostname = (urlparse(source_url).hostname or "").lower()
     is_x_source = source_hostname in {"x.com", "www.x.com", "twitter.com", "www.twitter.com"}
+    is_dmm_source = source_hostname == "dmm.co.jp" or source_hostname.endswith(".dmm.co.jp")
     network_videos: dict[str, dict[str, str]] = {}
     network_x_images: set[str] = set()
     network_x_videos: set[str] = set()
@@ -424,6 +425,15 @@ def capture_rendered_source(url: str, progress: ProgressCallback = lambda _v, _m
                 channel="chrome", headless=True, args=["--disable-blink-features=AutomationControlled"]
             )
             context = browser.new_context(**context_options)
+        if is_dmm_source:
+            context.add_cookies([{
+                "name": "age_check_done",
+                "value": "1",
+                "domain": ".dmm.co.jp",
+                "path": "/",
+                "secure": True,
+                "sameSite": "Lax",
+            }])
         page = context.pages[0] if is_x_source and context.pages else context.new_page()
 
         def on_response(response: Any) -> None:

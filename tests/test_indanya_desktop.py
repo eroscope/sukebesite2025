@@ -24,6 +24,8 @@ from indanya_desktop.workers import (  # noqa: E402
     _capture_for_manual_generation,
     _is_transient_generation_error,
     _mark_ready_to_publish,
+    _resolve_fanza_promotion,
+    save_fanza_settings,
     _select_article_images,
 )
 from indanya_desktop.browser_capture import (  # noqa: E402
@@ -38,6 +40,86 @@ from indanya_desktop.browser_capture import (  # noqa: E402
 
 
 class SiteRegistryTests(unittest.TestCase):
+    def test_related_av_article_uses_its_existing_fanza_link(self) -> None:
+        result = _resolve_fanza_promotion(
+            {
+                "url": "https://example.com/review",
+                "title": "新人AV女優のデビュー作を見た",
+                "links": [
+                    {
+                        "url": "https://al.dmm.co.jp/?lurl=https%3A%2F%2Fwww.dmm.co.jp%2Fdigital%2Fvideoa%2F-%2Fdetail%2F%3D%2Fcid%3Dabc001%2F&af_id=other",
+                        "text": "作品を見る",
+                    },
+                ],
+            },
+            {"content_mode": "auto", "promotion_type": "organic"},
+        )
+        self.assertIsNotNone(result)
+        self.assertEqual(
+            "https://www.dmm.co.jp/digital/videoa/-/detail/=/cid=abc001/",
+            result["url"],
+        )
+
+    def test_fanza_mode_falls_back_to_product_code_search(self) -> None:
+        result = _resolve_fanza_promotion(
+            {
+                "url": "https://example.com/review",
+                "title": "ABP-123のレビュー",
+                "links": [],
+            },
+            {"content_mode": "fanza_product", "promotion_type": "affiliate"},
+        )
+        self.assertIsNotNone(result)
+        self.assertIn("searchstr=ABP-123", result["url"])
+
+    def test_unrelated_article_does_not_get_a_fanza_link(self) -> None:
+        self.assertIsNone(_resolve_fanza_promotion(
+            {"url": "https://example.com/news", "title": "今日の天気", "links": []},
+            {"content_mode": "auto", "promotion_type": "organic"},
+        ))
+
+    def test_fanza_metadata_adds_disclosure_and_product_card(self) -> None:
+        payload = {"tags": ["動画"], "blocks": [{"id": "ad", "type": "ad", "text": "広告"}]}
+        _apply_editorial_metadata(
+            payload,
+            {
+                "url": "https://example.com/review",
+                "title": "ABP-123のレビュー",
+                "links": [{
+                    "url": "https://www.dmm.co.jp/digital/videoa/-/detail/=/cid=abp123/",
+                    "text": "作品",
+                }],
+            },
+            {"content_mode": "auto", "promotion_type": "organic"},
+        )
+        self.assertEqual("affiliate", payload["promotion_type"])
+        self.assertIn("FANZA", payload["tags"])
+        product = next(block for block in payload["blocks"] if block["type"] == "product_cta")
+        self.assertEqual(
+            "https://www.dmm.co.jp/digital/videoa/-/detail/=/cid=abp123/",
+            product["url"],
+        )
+        self.assertIn("アフィリエイト広告", payload["transparency_note"])
+
+    def test_saved_affiliate_id_rewrites_discovered_product_link(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            save_fanza_settings(root, "my-affiliate-001")
+            result = _resolve_fanza_promotion(
+                {
+                    "url": "https://example.com/review",
+                    "title": "AV作品レビュー",
+                    "links": [{
+                        "url": "https://www.dmm.co.jp/digital/videoa/-/detail/=/cid=abc001/",
+                        "text": "作品",
+                    }],
+                },
+                {"content_mode": "auto", "promotion_type": "organic"},
+                root,
+            )
+        self.assertIn("https://al.dmm.co.jp/", result["url"])
+        self.assertIn("af_id=my-affiliate-001", result["url"])
+
     def test_transient_generation_errors_are_deferred(self) -> None:
         self.assertTrue(_is_transient_generation_error("Codexの利用上限に達しました"))
         self.assertTrue(_is_transient_generation_error("You've hit your usage limit"))

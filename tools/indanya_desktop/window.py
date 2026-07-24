@@ -90,6 +90,8 @@ from indanya_desktop.workers import (
     GenerateArticleWorker,
     PublishArticleWorker,
     RefineDraftWorker,
+    load_fanza_settings,
+    save_fanza_settings,
     UnpublishArticleWorker,
     XLoginWorker,
 )
@@ -724,6 +726,7 @@ class MainWindow(QMainWindow):
         self.content_mode_combo.addItem("URLから自動判定", "auto")
         self.content_mode_combo.addItem("Xアカウントをおすすめ", "x_account")
         self.content_mode_combo.addItem("X投稿を紹介", "x_post")
+        self.content_mode_combo.addItem("FANZA作品をPR", "fanza_product")
         self.content_mode_combo.addItem("通常ページ", "web")
         options.addWidget(self.content_mode_combo)
         self.x_login_button = button("Xログイン（必要時のみ）", "secondary")
@@ -734,6 +737,7 @@ class MainWindow(QMainWindow):
         self.promotion_combo = QComboBox()
         self.promotion_combo.addItem("通常紹介", "organic")
         self.promotion_combo.addItem("PR紹介", "sponsored")
+        self.promotion_combo.addItem("アフィリエイト紹介", "affiliate")
         options.addWidget(self.promotion_combo)
         options.addWidget(QLabel("カテゴリー"))
         self.category_combo = QComboBox()
@@ -753,6 +757,12 @@ class MainWindow(QMainWindow):
         self.editorial_brief_input = QLineEdit()
         self.editorial_brief_input.setPlaceholderText("例：コスプレ写真の衣装と撮影の雰囲気を中心におすすめする")
         form.addWidget(self.editorial_brief_input)
+        form.addWidget(QLabel("FANZA誘導URL（任意）"))
+        self.fanza_url_input = QLineEdit()
+        self.fanza_url_input.setPlaceholderText(
+            "DMMアフィリエイトで作った商品リンク。空欄ならページ内リンクや作品情報から探します"
+        )
+        form.addWidget(self.fanza_url_input)
         form.addWidget(QLabel("依頼者・営業メモ（非公開）"))
         self.private_client_note_input = QLineEdit()
         self.private_client_note_input.setPlaceholderText("料金、連絡先、掲載条件など。記事本文やCodexには送りません")
@@ -1008,7 +1018,37 @@ class MainWindow(QMainWindow):
         details.addWidget(self.registry_path)
         details.addWidget(self.workspace_path)
         layout.addWidget(panel(details))
+        fanza = QVBoxLayout()
+        fanza.setContentsMargins(18, 16, 18, 16)
+        fanza.addWidget(QLabel("FANZAアフィリエイト", objectName="sectionTitle"))
+        fanza.addWidget(QLabel(
+            "自分のアフィリエイトIDを保存すると、自動記事のFANZA商品リンクへ反映します。",
+            objectName="muted",
+        ))
+        fanza_row = QHBoxLayout()
+        self.fanza_affiliate_id_input = QLineEdit()
+        self.fanza_affiliate_id_input.setPlaceholderText("例：あなたのアフィリエイトID")
+        self.fanza_affiliate_id_input.setText(
+            load_fanza_settings(self.site.root).get("affiliate_id", "")
+        )
+        fanza_row.addWidget(self.fanza_affiliate_id_input, 1)
+        save_fanza = button("保存", "primary")
+        save_fanza.clicked.connect(self.save_fanza_affiliate_settings)
+        fanza_row.addWidget(save_fanza)
+        fanza.addLayout(fanza_row)
+        layout.addWidget(panel(fanza))
         return self._page_shell(body)
+
+    def save_fanza_affiliate_settings(self) -> None:
+        try:
+            save_fanza_settings(
+                self.site.root,
+                self.fanza_affiliate_id_input.text(),
+            )
+        except ValueError as exc:
+            QMessageBox.warning(self, "FANZA設定を確認", str(exc))
+            return
+        QMessageBox.information(self, "FANZA設定", "アフィリエイトIDを保存しました。")
 
     def _sources_page(self) -> QWidget:
         body = QWidget()
@@ -1763,6 +1803,10 @@ class MainWindow(QMainWindow):
         self.site_link.setText(f"{self.site.name}を開く  ↗")
         self.site_link.setToolTip(self.site.public_url)
         self.side_site.setText(f"● {self.site.name}\n{self.site.provider}")
+        if hasattr(self, "fanza_affiliate_id_input"):
+            self.fanza_affiliate_id_input.setText(
+                load_fanza_settings(self.site.root).get("affiliate_id", "")
+            )
 
     def generate_article(self) -> None:
         url = self.source_url.text().strip()
@@ -1791,6 +1835,7 @@ class MainWindow(QMainWindow):
             "content_mode": content_mode,
             "promotion_type": str(self.promotion_combo.currentData()),
             "editorial_brief": self.editorial_brief_input.text().strip(),
+            "fanza_url": self.fanza_url_input.text().strip(),
             "private_note": self.private_client_note_input.text().strip(),
         }
         self.active_worker = GenerateArticleWorker(

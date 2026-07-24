@@ -1,13 +1,15 @@
 ﻿from __future__ import annotations
 
 import hashlib
+import json
+import re
 import socket
 import traceback
 import urllib.error
 import urllib.request
 from pathlib import Path
 from typing import Any
-from urllib.parse import urldefrag, urlparse
+from urllib.parse import parse_qs, quote, urldefrag, urlparse
 
 from PySide6.QtCore import QObject, QRunnable, Signal, Slot
 
@@ -387,7 +389,7 @@ class GenerateArticleWorker(QRunnable):
             if self.category != "auto":
                 generated["category"] = self.category
             payload = apply_codex_result(base, generated)
-            _apply_editorial_metadata(payload, source, self.editorial_intent)
+            _apply_editorial_metadata(payload, source, self.editorial_intent, self.site_root)
             _mark_ready_to_publish(payload)
             self.signals.progress.emit(88, "公開可能な記事として登録しています")
             slug = save_draft(payload, self.site_root)
@@ -471,7 +473,7 @@ def _generate_article_payload(
     if category != "auto":
         generated["category"] = category
     payload = apply_codex_result(base, generated)
-    _apply_editorial_metadata(payload, source, editorial_intent or {})
+    _apply_editorial_metadata(payload, source, editorial_intent or {}, site_root)
     return _mark_ready_to_publish(payload)
 
 
@@ -479,6 +481,7 @@ def _apply_editorial_metadata(
     payload: dict[str, Any],
     source: dict[str, Any],
     intent: dict[str, Any],
+    site_root: Path | None = None,
 ) -> None:
     content_mode = str(intent.get("content_mode") or "auto")
     promotion_type = str(intent.get("promotion_type") or "organic")
@@ -495,7 +498,25 @@ def _apply_editorial_metadata(
     if content_mode in {"x_account", "x_post"}:
         username = str((source.get("x_info") or {}).get("username") or "")
         payload["source_label"] = f"@{username}のX" if username else "X"
-    if promotion_type == "sponsored":
+    fanza = _resolve_fanza_promotion(source, intent, site_root)
+    if fanza:
+        payload["content_mode"] = "fanza_product"
+        payload["promotion_type"] = "affiliate"
+        payload["tags"] = list(dict.fromkeys(["PR", "FANZA", *payload.get("tags", [])]))[:8]
+        disclosure = "この記事にはFANZAのアフィリエイト広告が含まれます。"
+        existing = str(payload.get("transparency_note") or "")
+        payload["transparency_note"] = f"{disclosure} {existing}".strip()[:500]
+        product_block = {
+            "id": "fanza-product",
+            "type": "product_cta",
+            "url": fanza["url"],
+            "title": fanza["title"],
+            "text": "作品ページでサンプル、価格、配信内容を確認できます。",
+            "button_text": "FANZAで作品を見る",
+        }
+        insert_at = max(0, len(payload["blocks"]) - 1)
+        payload["blocks"].insert(insert_at, product_block)
+    elif promotion_type == "sponsored":
         payload["tags"] = list(dict.fromkeys(["PR", *payload.get("tags", [])]))[:8]
         disclosure = "この記事は紹介依頼に基づくPR記事です。"
         existing = str(payload.get("transparency_note") or "")
@@ -504,6 +525,133 @@ def _apply_editorial_metadata(
             0,
             {"id": "sponsored-disclosure", "type": "ad", "text": disclosure},
         )
+
+
+def _is_fanza_url(value: str) -> bool:
+    try:
+        hostname = (urlparse(_validate_source_url(value)).hostname or "").lower()
+    except (TypeError, ValueError):
+        return False
+    return (
+        hostname == "dmm.co.jp"
+        or hostname.endswith(".dmm.co.jp")
+        or hostname == "fanza.co.jp"
+        or hostname.endswith(".fanza.co.jp")
+    )
+
+
+def _fanza_search_url(query: str) -> str:
+    cleaned = " ".join(str(query or "").split())[:120]
+    return (
+        "https://www.dmm.co.jp/digital/videoa/-/list/search/=/?searchstr="
+        + quote(cleaned, safe="")
+    )
+
+
+def load_fanza_settings(site_root: Path) -> dict[str, str]:
+    path = site_root / ".article-studio" / "fanza.json"
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        value = {}
+    return {"affiliate_id": str(value.get("affiliate_id") or "").strip()}
+
+
+def save_fanza_settings(site_root: Path, affiliate_id: str) -> None:
+    value = affiliate_id.strip()
+    if value and not re.fullmatch(r"[A-Za-z0-9_-]{1,100}", value):
+        raise ValueError("FANZAアフィリエイトIDの形式を確認してください")
+    path = site_root / ".article-studio" / "fanza.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(".tmp")
+    temporary.write_text(
+        json.dumps({"affiliate_id": value}, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    temporary.replace(path)
+
+
+def _unwrap_external_affiliate_url(value: str) -> str:
+    validated = _validate_source_url(value)
+    parsed = urlparse(validated)
+    if parsed.hostname == "al.dmm.co.jp":
+        target = (parse_qs(parsed.query).get("lurl") or [""])[0]
+        if target and _is_fanza_url(target):
+            return _validate_source_url(target)
+        return ""
+    return validated
+
+
+def _with_fanza_affiliate_id(destination: str, affiliate_id: str) -> str:
+    if not affiliate_id or urlparse(destination).hostname == "al.dmm.co.jp":
+        return destination
+    return (
+        "https://al.dmm.co.jp/?lurl="
+        + quote(destination, safe="")
+        + "&af_id="
+        + quote(affiliate_id, safe="")
+        + "&ch=api"
+    )
+
+
+def _resolve_fanza_promotion(
+    source: dict[str, Any],
+    intent: dict[str, Any],
+    site_root: Path | None = None,
+) -> dict[str, str] | None:
+    explicit = str(intent.get("fanza_url") or "").strip()
+    explicit_affiliate = bool(explicit and urlparse(explicit).hostname == "al.dmm.co.jp")
+    if explicit:
+        if not _is_fanza_url(explicit):
+            raise RuntimeError("FANZA誘導URLにはDMMまたはFANZAのリンクを入力してください")
+        destination = _validate_source_url(explicit)
+    else:
+        source_urls = [
+            str(source.get("requested_url") or ""),
+            str(source.get("url") or ""),
+            *[
+                str(item.get("url") or "")
+                for item in source.get("links", [])
+                if isinstance(item, dict)
+            ],
+        ]
+        destination = next((url for url in source_urls if _is_fanza_url(url)), "")
+
+    text = " ".join(
+        str(source.get(key) or "")
+        for key in ("title", "description", "body_text", "ai_analysis_summary")
+    )
+    product_code = re.search(r"(?<![A-Z0-9])([A-Z]{2,12})[-_ ]?(\d{3,7})(?!\d)", text.upper())
+    content_mode = str(intent.get("content_mode") or "auto")
+    promotion_type = str(intent.get("promotion_type") or "organic")
+    fanza_signals = (
+        "FANZA", "DMM", "AV作品", "AV女優", "アダルトビデオ",
+        "デビュー作", "品番", "メーカー", "作品ページ",
+        "FANZA同人", "同人作品", "FANZAブックス", "成人向けコミック",
+        "成人向けゲーム", "アダルトゲーム",
+    )
+    is_related = bool(destination) or any(signal in text for signal in fanza_signals)
+    should_promote = (
+        content_mode == "fanza_product"
+        or promotion_type == "affiliate"
+        or (content_mode == "auto" and is_related)
+    )
+    if not should_promote:
+        return None
+    title = str(source.get("title") or source.get("description") or "FANZA作品").strip()[:180]
+    if not destination:
+        query = (
+            f"{product_code.group(1)}-{product_code.group(2)}"
+            if product_code else title
+        )
+        destination = _fanza_search_url(query)
+    if not explicit_affiliate:
+        destination = _unwrap_external_affiliate_url(destination)
+        if not destination:
+            destination = _fanza_search_url(title)
+        affiliate_id = load_fanza_settings(site_root)["affiliate_id"] if site_root else ""
+        destination = _with_fanza_affiliate_id(destination, affiliate_id)
+    return {"url": _validate_source_url(destination), "title": title}
 
 
 class CollectCandidatesWorker(QRunnable):

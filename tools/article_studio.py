@@ -157,6 +157,38 @@ X_EMBED_STYLE = r'''
 .x-timeline-shell a { color: #0f6eae; text-decoration: underline; }
 '''
 
+FANZA_PRODUCT_STYLE = r'''
+.fanza-product {
+  margin: 26px 0;
+  padding: 18px;
+  border: 2px solid #1a1a1a;
+  background: #fff;
+}
+.fanza-product-label {
+  margin-bottom: 8px;
+  color: #c72d22;
+  font-size: 12px;
+  font-weight: 800;
+}
+.fanza-product-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+.fanza-product-text { margin: 0 0 14px; color: #555; line-height: 1.7; }
+.fanza-product-button {
+  display: block;
+  padding: 13px 18px;
+  background: #17191c;
+  color: #fff !important;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+}
+.fanza-product-button:hover { background: #c72d22; }
+'''
+
 VIDEO_EMBED_STYLE = r'''
 .video-group {
   display: grid;
@@ -1152,6 +1184,7 @@ X記事の目的:
 - 素材から読み取れない内面、努力、人柄、ファン対応などを褒めるために作らない。見えている具体的な良さを話題にする。
 - x_accountではアカウント名または@usernameが分かるタイトルにする。確認できない本名、経歴、人気度、フォロワー数、実績、投稿頻度、性格、依頼関係は作らない。
 - editorial_intent.content_modeがx_postなら、指定された投稿の内容と添付素材を中心にする。アカウント全体を勝手に評価せず、その投稿の見どころと反応で記事を組む。
+- editorial_intent.content_modeがfanza_productなら、作品名、出演者、メーカー、品番、見どころなど元ページで確認できる作品情報を軸にする。単なる広告文や商品カタログにはせず、作品の具体的な場面や特徴に住民が自然に反応する5ch風記事にする。購入を強要する文、効果保証、未確認の内容は作らない。FANZAへの購入ボタンとPR表示はアプリ側で付ける。
 - editorial_intent.editorial_briefは編集者が希望する紹介角度であり、事実資料ではない。公開情報で裏付けられる範囲だけ反映する。
 - promotion_typeがsponsoredでも不自然な絶賛や効果保証を作らない。PR表示はアプリ側で付けるため、タイトルへ毎回PRと入れる必要はない。
 
@@ -2919,6 +2952,24 @@ def _validate_blocks(
         elif block_type == "ad":
             text = _optional_text(raw, "text", 240) or "関連広告枠"
             blocks.append({"type": "ad", "text": text})
+        elif block_type == "product_cta":
+            url = _require_text(raw, "url", 2048)
+            parsed = urlparse(_validate_source_url(url))
+            hostname = (parsed.hostname or "").lower()
+            if not (
+                hostname == "dmm.co.jp"
+                or hostname.endswith(".dmm.co.jp")
+                or hostname == "fanza.co.jp"
+                or hostname.endswith(".fanza.co.jp")
+            ):
+                raise ValidationError(f"block {index} product URL must point to DMM or FANZA")
+            blocks.append({
+                "type": "product_cta",
+                "url": url,
+                "title": _require_text(raw, "title", 180),
+                "text": _optional_text(raw, "text", 300),
+                "button_text": _optional_text(raw, "button_text", 80) or "FANZAで作品を見る",
+            })
         else:
             raise ValidationError(f"block {index} has an unknown type")
 
@@ -3203,6 +3254,16 @@ def render_article(
             rendered_blocks.append('<div class="separator"></div>')
         elif block["type"] == "ad":
             rendered_blocks.append(f'<div class="ad">PR<br>{html.escape(block["text"])}</div>')
+        elif block["type"] == "product_cta":
+            rendered_blocks.append(
+                '<aside class="fanza-product">'
+                '<div class="fanza-product-label">PR / FANZA</div>'
+                f'<p class="fanza-product-title">{html.escape(block["title"])}</p>'
+                f'<p class="fanza-product-text">{html.escape(block["text"])}</p>'
+                f'<a class="fanza-product-button" href="{html.escape(block["url"], quote=True)}" '
+                'target="_blank" rel="sponsored noopener noreferrer">'
+                f'{html.escape(block["button_text"])}</a></aside>'
+            )
 
     source_label = _optional_text(payload, "source_label", 120) or "元記事"
     transparency = _optional_text(payload, "transparency_note", 500)
@@ -3224,7 +3285,7 @@ def render_article(
     summary = str(metadata.get("summary", title))
     sidebar = _render_sidebar(site_root, metadata, blocks)
     has_x_embeds = any(block["type"] in {"x_embed", "x_timeline"} for block in blocks)
-    complete_style = style + ARTICLE_DISCOVERY_STYLE + VIDEO_EMBED_STYLE + (X_EMBED_STYLE if has_x_embeds else "")
+    complete_style = style + ARTICLE_DISCOVERY_STYLE + VIDEO_EMBED_STYLE + FANZA_PRODUCT_STYLE + (X_EMBED_STYLE if has_x_embeds else "")
     style_markup = '<link rel="stylesheet" href="/preview.css">' if preview else f"<style>{complete_style}</style>"
     media_count_label = f"動画{len(videos)}本" if videos else f"画像{len(images)}枚"
     x_widgets = (
@@ -3648,7 +3709,10 @@ class StudioHandler(BaseHTTPRequestHandler):
                 return
             if path == "/preview.css":
                 style, _ = _extract_sample_assets(self.studio_server.site_root)
-                self._send_bytes((style + ARTICLE_DISCOVERY_STYLE + X_EMBED_STYLE + VIDEO_EMBED_STYLE).encode("utf-8"), "text/css; charset=utf-8")
+                self._send_bytes(
+                    (style + ARTICLE_DISCOVERY_STYLE + X_EMBED_STYLE + VIDEO_EMBED_STYLE + FANZA_PRODUCT_STYLE).encode("utf-8"),
+                    "text/css; charset=utf-8",
+                )
                 return
             if path == "/desktop-preview.html":
                 preview_html = self.studio_server.desktop_preview_html

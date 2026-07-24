@@ -269,6 +269,21 @@ def make_payload() -> dict[str, object]:
 
 
 class ArticleStudioTests(unittest.TestCase):
+    def test_fanza_product_card_renders_a_sponsored_purchase_link(self) -> None:
+        payload = make_payload()
+        payload["blocks"].insert(-1, {
+            "id": "fanza-product",
+            "type": "product_cta",
+            "url": "https://al.dmm.co.jp/?lurl=product",
+            "title": "テスト作品",
+            "text": "サンプルと価格を確認できます。",
+            "button_text": "FANZAで作品を見る",
+        })
+        build = article_studio.build_article(payload, ROOT, preview=True)
+        self.assertIn('class="fanza-product"', build.article_html)
+        self.assertIn('href="https://al.dmm.co.jp/?lurl=product"', build.article_html)
+        self.assertIn('rel="sponsored noopener noreferrer"', build.article_html)
+
     def setUp(self) -> None:
         self.temporary = tempfile.TemporaryDirectory()
         self.site_root = Path(self.temporary.name)
