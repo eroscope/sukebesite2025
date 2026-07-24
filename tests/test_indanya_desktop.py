@@ -18,8 +18,10 @@ if str(TOOLS) not in os.sys.path:
 
 from indanya_desktop.sites import SiteRegistry  # noqa: E402
 from indanya_desktop.workers import (  # noqa: E402
+    XLoginRequiredError,
     _apply_editorial_metadata,
     _capture_and_analyze_source,
+    _capture_for_manual_generation,
     _is_transient_generation_error,
     _mark_ready_to_publish,
     _select_article_images,
@@ -312,6 +314,44 @@ class SiteRegistryTests(unittest.TestCase):
         ):
             with self.assertRaisesRegex(RuntimeError, "ログアウト状態では非表示"):
                 _capture_and_analyze_source(ROOT, profile_url, object())
+
+    def test_manual_x_generation_logs_in_once_and_retries_automatically(self) -> None:
+        completed = {"source_type": "x_profile", "x_authenticated": True}
+        progress: list[str] = []
+        with (
+            patch(
+                "indanya_desktop.workers._capture_and_analyze_source",
+                side_effect=[RuntimeError("unexpected")],
+            ),
+        ):
+            with self.assertRaisesRegex(RuntimeError, "unexpected"):
+                _capture_for_manual_generation(
+                    ROOT,
+                    "https://x.com/Test_User",
+                    object(),
+                    lambda _value, message: progress.append(message),
+                )
+
+        with (
+            patch(
+                "indanya_desktop.workers._capture_and_analyze_source",
+                side_effect=[
+                    XLoginRequiredError("login"),
+                    completed,
+                ],
+            ) as capture,
+            patch("indanya_desktop.workers.open_x_login_session") as login,
+        ):
+            result = _capture_for_manual_generation(
+                ROOT,
+                "https://x.com/Test_User",
+                object(),
+                lambda _value, message: progress.append(message),
+            )
+
+        self.assertIs(completed, result)
+        self.assertEqual(2, capture.call_count)
+        login.assert_called_once()
 
     def test_sponsored_metadata_is_disclosed_but_keeps_sales_note_private(self) -> None:
         payload = {"tags": ["SNS"], "blocks": []}

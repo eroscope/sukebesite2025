@@ -34,6 +34,10 @@ class WorkerSignals(QObject):
     failed = Signal(str)
 
 
+class XLoginRequiredError(RuntimeError):
+    pass
+
+
 class XLoginWorker(QRunnable):
     def __init__(self) -> None:
         super().__init__()
@@ -272,7 +276,7 @@ def _capture_and_analyze_source(
                 if isinstance(item, dict)
             )
         ):
-            raise RuntimeError(
+            raise XLoginRequiredError(
                 "このXプロフィールの投稿画像・動画はログアウト状態では非表示です。"
                 "「URLから作成」のXログインを一度行ってから、もう一度作成してください"
             )
@@ -347,11 +351,12 @@ class GenerateArticleWorker(QRunnable):
             status = runner.status()
             if not status.get("available"):
                 raise RuntimeError(status.get("message") or "Codexへ接続できません")
-            source = _capture_and_analyze_source(
+            progress = lambda value, message: self.signals.progress.emit(value, message)
+            source = _capture_for_manual_generation(
                 self.site_root,
                 self.source_url,
                 runner,
-                lambda value, message: self.signals.progress.emit(value, message),
+                progress,
                 self.editorial_intent,
             )
             selected_videos = list(source.get("recommended_video_ids") or [])[:MAX_SELECTED_SOURCE_VIDEOS]
@@ -392,6 +397,34 @@ class GenerateArticleWorker(QRunnable):
         except Exception as exc:
             traceback.print_exc()
             self.signals.failed.emit(str(exc) or exc.__class__.__name__)
+
+
+def _capture_for_manual_generation(
+    site_root: Path,
+    source_url: str,
+    runner: CodexRunner,
+    progress: Any,
+    editorial_intent: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    try:
+        return _capture_and_analyze_source(
+            site_root,
+            source_url,
+            runner,
+            progress,
+            editorial_intent,
+        )
+    except XLoginRequiredError:
+        progress(12, "投稿素材を表示するためXログインを開きます")
+        open_x_login_session(progress)
+        progress(18, "ログイン済みのXから投稿素材を取り直しています")
+        return _capture_and_analyze_source(
+            site_root,
+            source_url,
+            runner,
+            progress,
+            editorial_intent,
+        )
 
 
 def _generate_article_payload(
