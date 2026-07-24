@@ -556,6 +556,53 @@ def _is_fanza_url(value: str) -> bool:
     )
 
 
+def _is_fanza_product_url(value: str) -> bool:
+    if not _is_fanza_url(value):
+        return False
+    unwrapped = _unwrap_external_affiliate_url(value) or value
+    parsed = urlparse(unwrapped)
+    path = parsed.path.lower()
+    query = parse_qs(parsed.query)
+    return (
+        "/detail/" in path
+        or ("/content/" in path and bool(query.get("id")))
+        or bool(query.get("cid"))
+    )
+
+
+def _has_verified_fanza_evidence(source: dict[str, Any]) -> bool:
+    source_urls = [
+        str(source.get("requested_url") or ""),
+        str(source.get("url") or ""),
+        *[
+            str(item.get("url") or "")
+            for item in source.get("links", [])
+            if isinstance(item, dict)
+        ],
+    ]
+    if any(_is_fanza_product_url(url) for url in source_urls):
+        return True
+    if any(
+        _is_fanza_url(url)
+        and "/actress/" in urlparse(
+            _unwrap_external_affiliate_url(url) or url
+        ).path.lower()
+        for url in source_urls
+    ):
+        return True
+
+    source_text = " ".join(
+        str(source.get(key) or "")
+        for key in ("title", "description", "body_text")
+    ).upper()
+    ai_product_code = str(source.get("ai_fanza_product_code") or "").strip().upper()
+    if not ai_product_code:
+        return False
+    normalized_text = re.sub(r"[^A-Z0-9]", "", source_text)
+    normalized_code = re.sub(r"[^A-Z0-9]", "", ai_product_code)
+    return bool(normalized_code and normalized_code in normalized_text)
+
+
 def _fanza_search_url(query: str) -> str:
     cleaned = " ".join(str(query or "").split())[:120]
     return (
@@ -650,6 +697,8 @@ def _resolve_fanza_person_promotions(
     source: dict[str, Any],
     site_root: Path | None = None,
 ) -> list[dict[str, Any]]:
+    if not _has_verified_fanza_evidence(source):
+        return []
     raw_people = source.get("ai_fanza_people")
     if not isinstance(raw_people, list):
         return []
@@ -711,7 +760,10 @@ def _resolve_fanza_promotion(
                 if isinstance(item, dict)
             ],
         ]
-        destination = next((url for url in source_urls if _is_fanza_url(url)), "")
+        destination = next(
+            (url for url in source_urls if _is_fanza_product_url(url)),
+            "",
+        )
 
     text = " ".join(
         str(source.get(key) or "")
@@ -724,15 +776,23 @@ def _resolve_fanza_promotion(
     content_mode = str(intent.get("content_mode") or "auto")
     promotion_type = str(intent.get("promotion_type") or "organic")
     performer_name = str(source.get("ai_fanza_performer_name") or "").strip()
+    verified_evidence = _has_verified_fanza_evidence(source)
     specific_ai_match = (
-        ai_relevance in {"likely_product", "exact_product"}
+        verified_evidence
+        and ai_relevance in {"likely_product", "exact_product"}
         and bool(ai_query)
         and bool(performer_name or ai_product_code)
     )
     is_related = (
-        bool(destination)
-        or bool(product_code)
-        or bool(ai_product_code)
+        bool(explicit)
+        or (
+            verified_evidence
+            and (
+                bool(destination)
+                or bool(product_code)
+                or bool(ai_product_code)
+            )
+        )
         or specific_ai_match
     )
     should_promote = (

@@ -142,7 +142,10 @@ class SiteRegistryTests(unittest.TestCase):
                 "ai_fanza_relevance": "likely_product",
                 "ai_fanza_performer_name": "宮下玲奈",
                 "ai_fanza_search_query": "宮下玲奈",
-                "links": [],
+                "links": [{
+                    "url": "https://www.dmm.co.jp/digital/videoa/-/actress/=/id=12345/",
+                    "text": "宮下玲奈 出演者ページ",
+                }],
             },
             {"content_mode": "auto", "promotion_type": "organic"},
         )
@@ -255,7 +258,10 @@ class SiteRegistryTests(unittest.TestCase):
                         "reason": "画像のキャプションに名前がある",
                     },
                 ],
-                "links": [],
+                "links": [{
+                    "url": "https://www.dmm.co.jp/digital/videoa/-/actress/=/id=12345/",
+                    "text": "出演者ページ",
+                }],
             },
             {"content_mode": "auto", "promotion_type": "organic"},
         )
@@ -280,6 +286,51 @@ class SiteRegistryTests(unittest.TestCase):
         self.assertIn("%E5%AE%AE%E4%B8%8B%E7%8E%B2%E5%A5%88", products[0]["url"])
         self.assertIn("石川澪", products[1]["title"])
         self.assertNotIn("G%E3%82%AB%E3%83%83%E3%83%97", products[0]["url"])
+
+    def test_named_youtuber_does_not_get_a_fanza_promotion(self) -> None:
+        source = {
+            "url": "https://example.com/youtuber",
+            "title": "温泉系YouTuberちゃづりを紹介",
+            "description": "浴室で撮影したYouTube動画と写真を紹介する記事",
+            "ai_fanza_relevance": "likely_product",
+            "ai_fanza_performer_name": "ちゃづり",
+            "ai_fanza_search_query": "ちゃづり",
+            "ai_fanza_people": [{
+                "name": "ちゃづり",
+                "image_ids": ["media-a"],
+                "reason": "本文に名前がある",
+            }],
+            "links": [{
+                "url": "https://al.fanza.co.jp/?lurl=https%3A%2F%2Fwww.dmm.co.jp%2Fdigital%2F-%2Fwelcome-coupon%2F",
+                "text": "FANZAクーポン広告",
+            }],
+        }
+        payload = {
+            "tags": ["YouTuber"],
+            "images": [{"id": "source-image-1", "source_id": "media-a"}],
+            "blocks": [
+                {"id": "post-1", "type": "post", "text": "この人の動画"},
+                {"id": "images", "type": "images", "image_ids": ["source-image-1"]},
+                {"id": "ad", "type": "ad", "text": "広告"},
+            ],
+        }
+
+        self.assertIsNone(_resolve_fanza_promotion(
+            source,
+            {"content_mode": "auto", "promotion_type": "organic"},
+        ))
+        _apply_editorial_metadata(
+            payload,
+            source,
+            {"content_mode": "auto", "promotion_type": "organic"},
+        )
+
+        self.assertEqual("web", payload["content_mode"])
+        self.assertEqual("organic", payload["promotion_type"])
+        self.assertNotIn("FANZA", payload["tags"])
+        self.assertFalse(any(
+            block["type"] == "product_cta" for block in payload["blocks"]
+        ))
 
     def test_saved_affiliate_id_rewrites_discovered_product_link(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
