@@ -7,11 +7,12 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 from typing import Any
-from urllib.parse import urldefrag
+from urllib.parse import urldefrag, urlparse
 
 from PySide6.QtCore import QObject, QRunnable, Signal, Slot
 
 from article_studio import (
+    MAX_SELECTED_SOURCE_VIDEOS,
     MAX_VIDEO_PROXY_BYTES,
     CodexRunner,
     analyze_source_url,
@@ -44,7 +45,8 @@ def _mark_ready_to_publish(payload: dict[str, Any]) -> dict[str, Any]:
     return payload
 
 
-MAX_DESKTOP_SOURCE_IMAGES = 8
+MAX_DESKTOP_SOURCE_IMAGES = 10
+MAX_DESKTOP_SOURCE_IMAGE_BYTES = 72 * 1024 * 1024
 BAD_THUMBNAIL_TERMS = (
     "advert", "banner", "logo", "noimage", "ogp", "sns",
     "thumb", "thumbnail", "preview", "sample", "poster",
@@ -133,7 +135,7 @@ def _select_article_images(source: dict[str, Any]) -> dict[str, Any]:
             chosen = [thumbnail_id]
         return {
             "thumbnail_id": thumbnail_id,
-            "body_ids": chosen[:MAX_DESKTOP_SOURCE_IMAGES],
+            "body_ids": _fit_image_selection(chosen, by_id, reserved_ids=[thumbnail_id]),
         }
     for image_id in source.get("recommended_image_ids") or []:
         image_id = str(image_id)
@@ -150,11 +152,39 @@ def _select_article_images(source: dict[str, Any]) -> dict[str, Any]:
         if len(chosen) >= MAX_DESKTOP_SOURCE_IMAGES:
             break
     chosen.sort(key=lambda image_id: _image_quality_score(by_id[image_id]), reverse=True)
-    chosen = chosen[:MAX_DESKTOP_SOURCE_IMAGES]
+    chosen = _fit_image_selection(chosen, by_id)
     return {
         "thumbnail_id": chosen[0] if chosen else "",
         "body_ids": chosen,
     }
+
+
+def _fit_image_selection(
+    image_ids: list[str],
+    images_by_id: dict[str, dict[str, Any]],
+    reserved_ids: list[str] | None = None,
+) -> list[str]:
+    fitted: list[str] = []
+    reserved = set(reserved_ids or [])
+    total_bytes = sum(
+        len(images_by_id[image_id]["data"])
+        for image_id in reserved
+        if image_id in images_by_id and isinstance(images_by_id[image_id].get("data"), bytes)
+    )
+    maximum = max(0, MAX_DESKTOP_SOURCE_IMAGES - len(reserved))
+    for image_id in image_ids:
+        if image_id in reserved:
+            continue
+        item = images_by_id[image_id]
+        data = item.get("data")
+        byte_count = len(data) if isinstance(data, bytes) else 0
+        if fitted and byte_count and total_bytes + byte_count > MAX_DESKTOP_SOURCE_IMAGE_BYTES:
+            continue
+        fitted.append(image_id)
+        total_bytes += byte_count
+        if len(fitted) >= maximum:
+            break
+    return fitted
 
 
 def _capture_and_analyze_source(
@@ -162,6 +192,7 @@ def _capture_and_analyze_source(
     source_url: str,
     runner: CodexRunner,
     progress: Any = None,
+    editorial_intent: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     current_url = _validate_source_url(source_url)
     visited: set[str] = set()
@@ -175,6 +206,11 @@ def _capture_and_analyze_source(
         source_chain.append(current_url)
         if progress:
             progress(8 + depth * 8, "Chromeでページ全体とリンク先を確認しています")
+        hostname = (urlparse(current_url).hostname or "").lower()
+        is_x_source = hostname in {"x.com", "www.x.com", "twitter.com", "www.twitter.com"}
+        semantic_source: dict[str, Any] | None = None
+        if is_x_source:
+            semantic_source = analyze_source_url(current_url)
         try:
             source = capture_rendered_source(
                 current_url,
@@ -185,9 +221,41 @@ def _capture_and_analyze_source(
             traceback.print_exc()
             if progress:
                 progress(18 + depth * 8, "ブラウザ表示に失敗したためHTML解析で回収しています")
-            source = analyze_source_url(current_url)
+            source = semantic_source or analyze_source_url(current_url)
+        if semantic_source:
+            combined_images: list[dict[str, Any]] = []
+            seen_hashes: set[str] = set()
+            for item in [*(source.get("images") or []), *(semantic_source.get("images") or [])]:
+                if not isinstance(item, dict):
+                    continue
+                data = item.get("data")
+                digest = hashlib.sha256(data).hexdigest() if isinstance(data, bytes) else str(item.get("url") or "")
+                if not digest or digest in seen_hashes:
+                    continue
+                seen_hashes.add(digest)
+                combined_images.append({**item, "id": f"media-{len(combined_images) + 1}"})
+            source.update({
+                "source_type": semantic_source["source_type"],
+                "x_info": semantic_source.get("x_info", {}),
+                "x_embed": semantic_source.get("x_embed"),
+                "site_name": "X",
+                "author": str((semantic_source.get("x_embed") or {}).get("author_name") or ""),
+                "images": combined_images,
+            })
+            if semantic_source.get("description"):
+                source["description"] = semantic_source["description"]
         if navigation_context:
             source["navigation_context"] = navigation_context
+        if editorial_intent:
+            resolved_intent = dict(editorial_intent)
+            resolved_intent.pop("private_note", None)
+            if str(resolved_intent.get("content_mode") or "auto") == "auto":
+                resolved_intent["content_mode"] = (
+                    "x_account" if source.get("source_type") == "x_profile"
+                    else "x_post" if source.get("source_type") == "x_post"
+                    else "web"
+                )
+            source["editorial_intent"] = resolved_intent
         if progress:
             progress(30 + depth * 8, "Codexがページの役割と本編素材を判定しています")
         analysis = runner.analyze(source)
@@ -224,12 +292,20 @@ def _capture_and_analyze_source(
 
 
 class GenerateArticleWorker(QRunnable):
-    def __init__(self, site_root: Path, source_url: str, category: str, reply_count: str) -> None:
+    def __init__(
+        self,
+        site_root: Path,
+        source_url: str,
+        category: str,
+        reply_count: str,
+        editorial_intent: dict[str, Any] | None = None,
+    ) -> None:
         super().__init__()
         self.site_root = site_root
         self.source_url = source_url
         self.category = category
         self.reply_count = reply_count
+        self.editorial_intent = dict(editorial_intent or {})
         self.signals = WorkerSignals()
 
     @Slot()
@@ -244,8 +320,9 @@ class GenerateArticleWorker(QRunnable):
                 self.source_url,
                 runner,
                 lambda value, message: self.signals.progress.emit(value, message),
+                self.editorial_intent,
             )
-            selected_videos = list(source.get("recommended_video_ids") or [])
+            selected_videos = list(source.get("recommended_video_ids") or [])[:MAX_SELECTED_SOURCE_VIDEOS]
             image_selection = _select_article_images(source)
             thumbnail_id = str(image_selection["thumbnail_id"])
             body_image_ids = list(image_selection["body_ids"])
@@ -268,6 +345,7 @@ class GenerateArticleWorker(QRunnable):
             if self.category != "auto":
                 generated["category"] = self.category
             payload = apply_codex_result(base, generated)
+            _apply_editorial_metadata(payload, source, self.editorial_intent)
             _mark_ready_to_publish(payload)
             self.signals.progress.emit(88, "公開可能な記事として登録しています")
             slug = save_draft(payload, self.site_root)
@@ -284,13 +362,22 @@ class GenerateArticleWorker(QRunnable):
             self.signals.failed.emit(str(exc) or exc.__class__.__name__)
 
 
-def _generate_article_payload(site_root: Path, source_url: str, category: str, reply_count: str, progress: Any = None) -> dict[str, Any]:
+def _generate_article_payload(
+    site_root: Path,
+    source_url: str,
+    category: str,
+    reply_count: str,
+    progress: Any = None,
+    editorial_intent: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     runner = CodexRunner(site_root)
     status = runner.status()
     if not status.get("available"):
         raise RuntimeError(status.get("message") or "Codexへ接続できません")
-    source = _capture_and_analyze_source(site_root, source_url, runner, progress)
-    selected_videos = list(source.get("recommended_video_ids") or [])
+    source = _capture_and_analyze_source(
+        site_root, source_url, runner, progress, editorial_intent
+    )
+    selected_videos = list(source.get("recommended_video_ids") or [])[:MAX_SELECTED_SOURCE_VIDEOS]
     image_selection = _select_article_images(source)
     thumbnail_id = str(image_selection["thumbnail_id"])
     body_image_ids = list(image_selection["body_ids"])
@@ -314,7 +401,39 @@ def _generate_article_payload(site_root: Path, source_url: str, category: str, r
     if category != "auto":
         generated["category"] = category
     payload = apply_codex_result(base, generated)
+    _apply_editorial_metadata(payload, source, editorial_intent or {})
     return _mark_ready_to_publish(payload)
+
+
+def _apply_editorial_metadata(
+    payload: dict[str, Any],
+    source: dict[str, Any],
+    intent: dict[str, Any],
+) -> None:
+    content_mode = str(intent.get("content_mode") or "auto")
+    promotion_type = str(intent.get("promotion_type") or "organic")
+    if content_mode == "auto":
+        content_mode = (
+            "x_account" if source.get("source_type") == "x_profile"
+            else "x_post" if source.get("source_type") == "x_post"
+            else "web"
+        )
+    payload["content_mode"] = content_mode
+    payload["promotion_type"] = promotion_type
+    payload["editorial_brief"] = str(intent.get("editorial_brief") or "")[:1000]
+    payload["private_client_note"] = str(intent.get("private_note") or "")[:2000]
+    if content_mode in {"x_account", "x_post"}:
+        username = str((source.get("x_info") or {}).get("username") or "")
+        payload["source_label"] = f"@{username}のX" if username else "X"
+    if promotion_type == "sponsored":
+        payload["tags"] = list(dict.fromkeys(["PR", *payload.get("tags", [])]))[:8]
+        disclosure = "この記事は紹介依頼に基づくPR記事です。"
+        existing = str(payload.get("transparency_note") or "")
+        payload["transparency_note"] = f"{disclosure} {existing}".strip()[:500]
+        payload["blocks"].insert(
+            0,
+            {"id": "sponsored-disclosure", "type": "ad", "text": disclosure},
+        )
 
 
 class CollectCandidatesWorker(QRunnable):

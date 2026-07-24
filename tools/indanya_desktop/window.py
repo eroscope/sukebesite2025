@@ -717,6 +717,18 @@ class MainWindow(QMainWindow):
         row.addWidget(self.generate_button)
         form.addLayout(row)
         options = QHBoxLayout()
+        options.addWidget(QLabel("記事タイプ"))
+        self.content_mode_combo = QComboBox()
+        self.content_mode_combo.addItem("URLから自動判定", "auto")
+        self.content_mode_combo.addItem("Xアカウントをおすすめ", "x_account")
+        self.content_mode_combo.addItem("X投稿を紹介", "x_post")
+        self.content_mode_combo.addItem("通常ページ", "web")
+        options.addWidget(self.content_mode_combo)
+        options.addWidget(QLabel("掲載区分"))
+        self.promotion_combo = QComboBox()
+        self.promotion_combo.addItem("通常紹介", "organic")
+        self.promotion_combo.addItem("PR紹介", "sponsored")
+        options.addWidget(self.promotion_combo)
         options.addWidget(QLabel("カテゴリー"))
         self.category_combo = QComboBox()
         self.category_combo.addItem("自動判定", "auto")
@@ -731,6 +743,14 @@ class MainWindow(QMainWindow):
         options.addWidget(self.reply_combo)
         options.addStretch()
         form.addLayout(options)
+        form.addWidget(QLabel("紹介ポイント（任意）"))
+        self.editorial_brief_input = QLineEdit()
+        self.editorial_brief_input.setPlaceholderText("例：コスプレ写真の衣装と撮影の雰囲気を中心におすすめする")
+        form.addWidget(self.editorial_brief_input)
+        form.addWidget(QLabel("依頼者・営業メモ（非公開）"))
+        self.private_client_note_input = QLineEdit()
+        self.private_client_note_input.setPlaceholderText("料金、連絡先、掲載条件など。記事本文やCodexには送りません")
+        form.addWidget(self.private_client_note_input)
         layout.addWidget(panel(form, True))
         status = QVBoxLayout()
         status.setContentsMargins(20, 16, 20, 16)
@@ -1726,7 +1746,33 @@ class MainWindow(QMainWindow):
         self.generate_result.setText("")
         self.generate_progress.setValue(2)
         self.generate_percent.setText("2%")
-        self.active_worker = GenerateArticleWorker(self.site.root, url, str(self.category_combo.currentData()), str(self.reply_combo.currentData()))
+        content_mode = str(self.content_mode_combo.currentData())
+        is_x_url = bool(re.match(r"https?://(?:www\.)?(?:x\.com|twitter\.com)/", url, re.I))
+        if content_mode in {"x_account", "x_post"} and not is_x_url:
+            QMessageBox.warning(self, "X URLを確認", "Xアカウントまたは投稿のURLを入力してください。")
+            self.generate_button.setEnabled(True)
+            return
+        if content_mode == "x_account" and "/status/" in url:
+            QMessageBox.warning(self, "アカウントURLを確認", "おすすめ記事にはプロフィールURLを入力してください。")
+            self.generate_button.setEnabled(True)
+            return
+        if content_mode == "x_post" and "/status/" not in url:
+            QMessageBox.warning(self, "投稿URLを確認", "投稿紹介には /status/ を含む投稿URLを入力してください。")
+            self.generate_button.setEnabled(True)
+            return
+        editorial_intent = {
+            "content_mode": content_mode,
+            "promotion_type": str(self.promotion_combo.currentData()),
+            "editorial_brief": self.editorial_brief_input.text().strip(),
+            "private_note": self.private_client_note_input.text().strip(),
+        }
+        self.active_worker = GenerateArticleWorker(
+            self.site.root,
+            url,
+            str(self.category_combo.currentData()),
+            str(self.reply_combo.currentData()),
+            editorial_intent,
+        )
         self.active_worker.signals.progress.connect(self._generation_progress)
         self.active_worker.signals.completed.connect(self._generation_completed)
         self.active_worker.signals.failed.connect(self._generation_failed)

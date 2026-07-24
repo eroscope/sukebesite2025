@@ -58,9 +58,9 @@ MAX_X_SELECTED_POSTS = 6
 X_SESSION_SECONDS = 30 * 60
 MAX_SOURCE_PAGE_BYTES = 6 * 1024 * 1024
 MAX_SOURCE_IMAGES = 12
-MAX_SELECTED_SOURCE_IMAGES = 8
+MAX_SELECTED_SOURCE_IMAGES = 10
 MAX_SOURCE_VIDEOS = 8
-MAX_SELECTED_SOURCE_VIDEOS = 6
+MAX_SELECTED_SOURCE_VIDEOS = 5
 MAX_VIDEO_PROXY_BYTES = 160 * 1024 * 1024
 SOURCE_SESSION_SECONDS = 60 * 60
 CODEX_TIMEOUT_SECONDS = 12 * 60
@@ -1042,6 +1042,7 @@ def _codex_prompt(
         "description": source.get("description"),
         "excerpts": source.get("excerpts", [])[:8],
         "x_post_text": (source.get("x_embed") or {}).get("text") if isinstance(source.get("x_embed"), dict) else "",
+        "editorial_intent": source.get("editorial_intent", {}),
         "nearby_real_headlines_for_style_comparison": _source_headline_samples(source),
         "selected_image_context": [
             {
@@ -1134,6 +1135,17 @@ def _codex_prompt(
 - 誹謗中傷や差別語へ頼って刺激を作らない。成人向けの俗語や卑猥な語は、成人素材として確認でき、題材と話者に合う場合は遠慮せず使える。
 - categoryの希望がauto以外なら原則として従う。
 - JSONスキーマに必要なtitle、summary、category、tags、responsesを返し、Markdownや講評は付けない。
+
+X記事の目的:
+- editorial_intent.content_modeがx_accountなら、単発投稿の煽り記事ではなく、そのアカウントを読者へおすすめする紹介記事にする。プロフィール、公開投稿、添付画像、紹介ポイントから「どんな投稿が見られるか」「何が魅力か」が伝わるタイトルとレスにし、本文の公式タイムラインへ自然につなげる。
+- x_accountでも記事形式は最初から最後まで5ch風を守る。運営者が説明する紹介文、商品カタログ、取材記事、プレスリリースの口調にはしない。スレ主がアカウントや投稿を貼り、住民が画像、衣装、表情、撮り方、投稿内容など実際に確認できる部分へ自然に反応することで、結果として本人の良さが伝わる構成にする。
+- おすすめ記事は好意的なスレにするが、全員に宣伝係のような絶賛をさせない。「この衣装ええな」「こういう表情好き」「この写真かなり強い」など、その場で素材を見た人が口にする具体的で短い反応を中心にし、好みの違い、驚き、軽いツッコミも混ぜる。同じ褒め言葉や語尾を反復しない。
+- 「おすすめです」「魅力的です」「要チェックです」「フォローしたい」「フォローして損はない」「推せる」「今後に期待」のような広告文、勧誘、締めの定型句を使わない。フォロー、購入、登録、拡散などの行動を読者へ促さない。実際の5chレスとして自然な語彙と不揃いさを保つ。
+- 素材から読み取れない内面、努力、人柄、ファン対応などを褒めるために作らない。見えている具体的な良さを話題にする。
+- x_accountではアカウント名または@usernameが分かるタイトルにする。確認できない本名、経歴、人気度、フォロワー数、実績、投稿頻度、性格、依頼関係は作らない。
+- editorial_intent.content_modeがx_postなら、指定された投稿の内容と添付素材を中心にする。アカウント全体を勝手に評価せず、その投稿の見どころと反応で記事を組む。
+- editorial_intent.editorial_briefは編集者が希望する紹介角度であり、事実資料ではない。公開情報で裏付けられる範囲だけ反映する。
+- promotion_typeがsponsoredでも不自然な絶賛や効果保証を作らない。PR表示はアプリ側で付けるため、タイトルへ毎回PRと入れる必要はない。
 
 カテゴリー希望: {requested_category}
 レス数: {reply_count}

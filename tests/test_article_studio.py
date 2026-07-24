@@ -376,6 +376,28 @@ class ArticleStudioTests(unittest.TestCase):
         with self.assertRaisesRegex(ValidationError, "1 to 15"):
             article_studio.normalize_x_username("bad-name")
 
+    def test_x_account_prompt_uses_natural_reactions_without_follow_cta(self) -> None:
+        prompt = article_studio._codex_prompt(
+            {
+                "source_type": "x_profile",
+                "url": "https://x.com/Test_User",
+                "title": "Test User",
+                "editorial_intent": {
+                    "content_mode": "x_account",
+                    "promotion_type": "organic",
+                    "editorial_brief": "写真の雰囲気を中心に",
+                },
+                "images": [],
+                "videos": [],
+            },
+            {"category": "SNS", "reply_count": "5"},
+        )
+
+        self.assertIn("結果として本人の良さが伝わる", prompt)
+        self.assertIn("フォローして損はない", prompt)
+        self.assertIn("行動を読者へ促さない", prompt)
+        self.assertNotIn("private_note", prompt)
+
     def test_free_x_oembed_draft_needs_no_bearer_token(self) -> None:
         opener = FakeXOpener()
         canonical, username, post_id = article_studio.normalize_x_post_url(
@@ -702,8 +724,8 @@ class ArticleStudioTests(unittest.TestCase):
     def test_codex_video_placement_repairs_missing_and_duplicate_ids(self) -> None:
         generated = article_studio._validate_codex_result(
             {
-                "title": "動画6本まとめ",
-                "summary": "動画6本の記事。",
+                "title": "動画5本まとめ",
+                "summary": "動画5本の記事。",
                 "category": "動画",
                 "tags": ["動画"],
                 "responses": [
@@ -715,12 +737,12 @@ class ArticleStudioTests(unittest.TestCase):
                 ],
             },
             requested_count="5",
-            selected_media_count=6,
-            selected_video_ids=[f"video-{index}" for index in range(1, 7)],
+            selected_media_count=5,
+            selected_video_ids=[f"video-{index}" for index in range(1, 6)],
         )
 
         placed = [video_id for response in generated["responses"] for video_id in response["video_ids"]]
-        self.assertEqual(set(placed), {f"video-{index}" for index in range(1, 7)})
+        self.assertEqual(set(placed), {f"video-{index}" for index in range(1, 6)})
         self.assertEqual(len(placed), len(set(placed)))
         self.assertEqual("video-1", generated["responses"][0]["video_ids"][0])
         self.assertTrue(all(len(response["video_ids"]) <= 2 for response in generated["responses"]))

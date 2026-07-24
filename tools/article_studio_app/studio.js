@@ -238,9 +238,9 @@ function renderSourceImages() {
     checkbox.checked = state.sourceSelectedIds.has(image.id);
     checkbox.addEventListener("change", () => {
       if (checkbox.checked) {
-        if (state.sourceSelectedIds.size >= 8) {
+        if (state.sourceSelectedIds.size >= 10) {
           checkbox.checked = false;
-          showToast("画像は最大8枚まで選べます", "error");
+          showToast("画像は最大10枚まで選べます", "error");
           return;
         }
         state.sourceSelectedIds.add(image.id);
@@ -299,9 +299,9 @@ function renderSourceVideos() {
     checkbox.setAttribute("aria-label", `動画候補 ${index + 1}を使用`);
     checkbox.addEventListener("change", () => {
       if (checkbox.checked) {
-        if (state.sourceSelectedVideoIds.size >= 6) {
+        if (state.sourceSelectedVideoIds.size >= 5) {
           checkbox.checked = false;
-          showToast("動画は最大6本まで選べます", "error");
+          showToast("動画は最大5本まで選べます", "error");
           return;
         }
         state.sourceSelectedVideoIds.add(video.id);
@@ -1131,9 +1131,9 @@ function renderBlocks() {
         checkbox.disabled = assignedVideos.has(video.id) && assignedVideos.get(video.id) !== block.id;
         checkbox.addEventListener("change", () => {
           if (checkbox.checked) {
-            if (block.video_ids.length >= 6) {
+            if (block.video_ids.length >= 5) {
               checkbox.checked = false;
-              showToast("1ブロックは動画6本までです", "error");
+              showToast("1ブロックは動画5本までです", "error");
               return;
             }
             block.video_ids.push(video.id);
@@ -1852,9 +1852,9 @@ function bindEvents() {
   });
   elements.sourceSelectAllButton.addEventListener("click", () => {
     const visibleIds = Array.from(elements.sourceImageGrid.querySelectorAll(".source-image-choice"), (choice) => choice.dataset.imageId);
-    state.sourceSelectedIds = new Set(visibleIds.slice(0, 8));
+    state.sourceSelectedIds = new Set(visibleIds.slice(0, 10));
     const visibleVideoIds = Array.from(elements.sourceVideoGrid.querySelectorAll(".source-video-choice"), (choice) => choice.dataset.videoId);
-    state.sourceSelectedVideoIds = new Set(visibleVideoIds.slice(0, 6));
+    state.sourceSelectedVideoIds = new Set(visibleVideoIds.slice(0, 5));
     renderSourceImages();
   });
   elements.sourceClearImagesButton.addEventListener("click", () => {

@@ -18,6 +18,7 @@ if str(TOOLS) not in os.sys.path:
 
 from indanya_desktop.sites import SiteRegistry  # noqa: E402
 from indanya_desktop.workers import (  # noqa: E402
+    _apply_editorial_metadata,
     _capture_and_analyze_source,
     _is_transient_generation_error,
     _mark_ready_to_publish,
@@ -120,6 +121,36 @@ class SiteRegistryTests(unittest.TestCase):
             _select_article_images(source),
         )
 
+    def test_article_image_selection_uses_at_most_ten_images_total(self) -> None:
+        source = {
+            "recommended_thumbnail_ids": ["thumb"],
+            "recommended_body_image_ids": [f"body-{index}" for index in range(12)],
+            "images": [
+                {
+                    "id": "thumb",
+                    "data": b"thumbnail",
+                    "ai_recommended_use": "thumbnail",
+                    "ai_verdict": "article",
+                },
+                *[
+                    {
+                        "id": f"body-{index}",
+                        "data": bytes([index]) * 32,
+                        "ai_recommended_use": "body",
+                        "ai_verdict": "article",
+                        "ai_relevance_score": 100 - index,
+                    }
+                    for index in range(12)
+                ],
+            ],
+        }
+
+        selected = _select_article_images(source)
+
+        self.assertEqual("thumb", selected["thumbnail_id"])
+        self.assertEqual(9, len(selected["body_ids"]))
+        self.assertEqual(10, len({selected["thumbnail_id"], *selected["body_ids"]}))
+
     def test_gateway_follow_keeps_previous_link_intent(self) -> None:
         first_url = "https://example.com/entry"
         relay_url = "https://example.com/relay?id=123"
@@ -183,6 +214,85 @@ class SiteRegistryTests(unittest.TestCase):
 
         self.assertEqual(final_url, result["url"])
         self.assertEqual([first_url, relay_url, final_url], result["source_chain"])
+
+    def test_x_account_intent_reaches_codex_without_private_sales_note(self) -> None:
+        profile_url = "https://x.com/Test_User"
+        browser_source = {
+            "source_type": "web",
+            "url": profile_url,
+            "title": "Test User (@Test_User) / X",
+            "description": "",
+            "site_name": "X",
+            "author": "",
+            "images": [],
+            "videos": [],
+            "links": [],
+        }
+        semantic_source = {
+            **browser_source,
+            "source_type": "x_profile",
+            "description": "公開プロフィール",
+            "x_info": {"username": "Test_User"},
+            "x_embed": {"author_name": "Test User", "text": "公開投稿"},
+        }
+
+        class FakeRunner:
+            def analyze(self, source: dict[str, object]) -> dict[str, object]:
+                intent = source["editorial_intent"]
+                self_outer.assertEqual("x_account", intent["content_mode"])
+                self_outer.assertNotIn("private_note", intent)
+                return {
+                    "title": str(source["title"]),
+                    "description": str(source["description"]),
+                    "category": "SNS",
+                    "analysis_summary": "Xアカウント",
+                    "image_decisions": [],
+                    "video_decisions": [],
+                    "page_role": "article",
+                    "follow_url": "",
+                    "follow_reason": "",
+                }
+
+        self_outer = self
+        with (
+            patch("indanya_desktop.workers.capture_rendered_source", return_value=browser_source),
+            patch("indanya_desktop.workers.analyze_source_url", return_value=semantic_source),
+        ):
+            result = _capture_and_analyze_source(
+                ROOT,
+                profile_url,
+                FakeRunner(),
+                editorial_intent={
+                    "content_mode": "auto",
+                    "promotion_type": "organic",
+                    "editorial_brief": "衣装を中心に",
+                    "private_note": "料金と連絡先",
+                },
+            )
+
+        self.assertEqual("x_profile", result["source_type"])
+        self.assertEqual("x_account", result["editorial_intent"]["content_mode"])
+        self.assertNotIn("private_note", result["editorial_intent"])
+
+    def test_sponsored_metadata_is_disclosed_but_keeps_sales_note_private(self) -> None:
+        payload = {"tags": ["SNS"], "blocks": []}
+        source = {"source_type": "x_profile", "x_info": {"username": "Test_User"}}
+        _apply_editorial_metadata(
+            payload,
+            source,
+            {
+                "content_mode": "x_account",
+                "promotion_type": "sponsored",
+                "editorial_brief": "写真の雰囲気",
+                "private_note": "依頼者の連絡先",
+            },
+        )
+
+        self.assertEqual("x_account", payload["content_mode"])
+        self.assertEqual("@Test_UserのX", payload["source_label"])
+        self.assertEqual("依頼者の連絡先", payload["private_client_note"])
+        self.assertIn("PR", payload["tags"])
+        self.assertEqual("sponsored-disclosure", payload["blocks"][0]["id"])
 
     def test_browser_video_candidates_prioritize_media_before_iframes(self) -> None:
         items = [
