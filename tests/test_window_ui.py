@@ -25,6 +25,14 @@ class WindowUiTests(unittest.TestCase):
         self.assertNotIn("review_filter.setCurrentIndex", action_source)
         self.assertNotIn("review_sort.setCurrentIndex", action_source)
 
+    def test_review_status_changes_do_not_reorder_articles(self) -> None:
+        self.assertIn('payload.get("generated_at")', self.source)
+        self.assertIn("records.sort(key=lambda item: item[3], reverse=True)", self.source)
+        self.assertNotIn(
+            'records.sort(key=lambda item: (positions.get(item[0]["slug"], 1_000_000), item[0]["updated_at"]))',
+            self.source,
+        )
+
     def test_review_refresh_restores_inner_and_outer_scroll(self) -> None:
         self.assertIn("self.review_page.scrollPosition().y()", self.source)
         self.assertIn("self.dashboard_scroll.verticalScrollBar().value()", self.source)

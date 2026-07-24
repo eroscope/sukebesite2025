@@ -1298,11 +1298,19 @@ class MainWindow(QMainWindow):
                 status = "unreviewed"
             if selected_filter != "all" and status != selected_filter:
                 continue
-            records.append((draft, payload, status))
+            article_order_at = str(
+                payload.get("generated_at")
+                or payload.get("created_at")
+                or payload.get("published_at")
+                or draft["updated_at"]
+            )
+            records.append((draft, payload, status, article_order_at))
         if selected_sort == "oldest":
-            records.reverse()
+            records.sort(key=lambda item: item[3])
         elif selected_sort == "queue":
-            records.sort(key=lambda item: (positions.get(item[0]["slug"], 1_000_000), item[0]["updated_at"]))
+            records.sort(key=lambda item: (positions.get(item[0]["slug"], 1_000_000), item[3]))
+        else:
+            records.sort(key=lambda item: item[3], reverse=True)
 
         labels = {
             "queued": "予約待機",
@@ -1312,7 +1320,7 @@ class MainWindow(QMainWindow):
             "failed": "公開失敗",
         }
         cards = []
-        for draft, payload, status in records:
+        for draft, payload, status, _article_order_at in records:
             slug = str(draft["slug"])
             title = html.escape(str(payload.get("title") or slug))
             summary = html.escape(str(payload.get("summary") or ""))
