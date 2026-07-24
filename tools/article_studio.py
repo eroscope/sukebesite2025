@@ -1390,9 +1390,10 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
 
 FANZA関連判定:
 - 記事の主題、人物名、作品名、品番、衣装、行為、ジャンル、動画周辺文から、FANZA作品への関連度を判定する。
-- 特定の商品URLまたは品番が確認できる場合だけexact_product、出演者名と作品の手掛かりが強く一致する場合はlikely_product、露出・制服・水着・コスプレ・巨乳・痴女・人妻・素人などジャンルだけ対応する場合はrelated、成人向け商品と結びつかない場合はnoneにする。
-- fanza_search_queryにはFANZAで探すための短い語句を入れる。完全一致なら品番を優先し、出演者が分かるなら出演者名と作品語、ジャンル一致なら具体的なジャンル語を入れる。記事タイトル全文や「かわいすぎる」など検索ノイズは入れない。
-- 人物の顔だけから本名や出演作品を推測しない。ページ本文などで名前が確認できる場合だけ使う。
+- 特定の商品URLまたは品番が確認できる場合だけexact_product、ページ本文・画像周辺文・投稿者情報などから出演者名が確認でき、記事素材との対応も強い場合はlikely_productにする。ジャンルや体型だけしか分からない場合はrelatedにできるが、検索語とPRは作らない。成人向け商品と結びつかない場合はnoneにする。
+- 各画像について、同一人物の連続カットか、別人が混ざるか、名前を示す見出し・キャプション・リンク文が近くにあるかを確認する。記事の中心人物をページ上の根拠から特定できた場合だけfanza_performer_nameへ正式な出演者名を入れる。複数人で誰の画像か対応できない場合は空文字にする。
+- fanza_search_queryには、確認できた出演者名、作品名、品番のいずれかを使った実際に検索可能な短い語句だけを入れる。「Gカップ 爆乳 AV女優」「制服 巨乳」など体型・衣装・ジャンルを並べただけの語句は禁止し、特定情報がなければ空文字にする。
+- 人物の顔だけから本名や出演作品を推測しない。ページ本文、画像のalt・キャプション、投稿本文、作品情報などで名前が確認できる場合だけ使う。
 - fanza_product_codeはページ内で確認できた場合だけ返す。fanza_reasonには判定根拠を簡潔に書く。
 
 画像判定ルール:
@@ -1464,6 +1465,7 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
     fanza_relevance = str(value.get("fanza_relevance") or "none")
     if fanza_relevance not in {"none", "related", "likely_product", "exact_product"}:
         fanza_relevance = "none"
+    fanza_performer_name = _optional_text(value, "fanza_performer_name", 80)
     fanza_search_query = _optional_text(value, "fanza_search_query", 120)
     fanza_product_code = _optional_text(value, "fanza_product_code", 40)
     fanza_reason = _optional_text(value, "fanza_reason", 240)
@@ -1564,6 +1566,7 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
         "follow_reason": follow_reason,
         "analysis_summary": summary,
         "fanza_relevance": fanza_relevance,
+        "fanza_performer_name": fanza_performer_name,
         "fanza_search_query": fanza_search_query,
         "fanza_product_code": fanza_product_code,
         "fanza_reason": fanza_reason,
@@ -1582,6 +1585,7 @@ def apply_codex_analysis(source: dict[str, Any], analysis: dict[str, Any]) -> di
     result["ai_follow_reason"] = analysis.get("follow_reason", "")
     result["ai_analysis_summary"] = analysis["analysis_summary"]
     result["ai_fanza_relevance"] = analysis.get("fanza_relevance", "none")
+    result["ai_fanza_performer_name"] = analysis.get("fanza_performer_name", "")
     result["ai_fanza_search_query"] = analysis.get("fanza_search_query", "")
     result["ai_fanza_product_code"] = analysis.get("fanza_product_code", "")
     result["ai_fanza_reason"] = analysis.get("fanza_reason", "")

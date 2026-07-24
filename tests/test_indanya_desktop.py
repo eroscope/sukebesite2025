@@ -78,7 +78,7 @@ class SiteRegistryTests(unittest.TestCase):
             {"content_mode": "auto", "promotion_type": "organic"},
         ))
 
-    def test_exposure_article_gets_a_related_fanza_search_link(self) -> None:
+    def test_generic_genre_article_does_not_get_a_useless_fanza_search(self) -> None:
         result = _resolve_fanza_promotion(
             {
                 "url": "https://example.com/exposure",
@@ -88,10 +88,7 @@ class SiteRegistryTests(unittest.TestCase):
             },
             {"content_mode": "auto", "promotion_type": "organic"},
         )
-        self.assertIsNotNone(result)
-        self.assertEqual("related", result["match_level"])
-        self.assertIn("searchstr=%E9%9C%B2%E5%87%BA%20%E7%BE%9E%E6%81%A5", result["url"])
-        self.assertEqual("関連作品をFANZAで見る", result["button_text"])
+        self.assertIsNone(result)
 
     def test_codex_performer_match_creates_a_strong_related_link(self) -> None:
         result = _resolve_fanza_promotion(
@@ -99,6 +96,7 @@ class SiteRegistryTests(unittest.TestCase):
                 "url": "https://example.com/movie",
                 "title": "宮下玲奈が可愛すぎる",
                 "ai_fanza_relevance": "likely_product",
+                "ai_fanza_performer_name": "宮下玲奈",
                 "ai_fanza_search_query": "宮下玲奈",
                 "links": [],
             },
@@ -107,6 +105,8 @@ class SiteRegistryTests(unittest.TestCase):
         self.assertIsNotNone(result)
         self.assertEqual("strong", result["match_level"])
         self.assertIn("%E5%AE%AE%E4%B8%8B%E7%8E%B2%E5%A5%88", result["url"])
+        self.assertIn("宮下玲奈", result["title"])
+        self.assertIn("宮下玲奈", result["button_text"])
 
     def test_fanza_metadata_adds_disclosure_and_product_card(self) -> None:
         payload = {"tags": ["動画"], "blocks": [{"id": "ad", "type": "ad", "text": "広告"}]}
@@ -155,7 +155,7 @@ class SiteRegistryTests(unittest.TestCase):
             [block["type"] for block in payload["blocks"]],
         )
 
-    def test_genre_related_card_is_placed_near_the_article_end(self) -> None:
+    def test_genre_only_article_does_not_get_a_product_card(self) -> None:
         payload = {
             "tags": ["動画"],
             "blocks": [
@@ -175,7 +175,7 @@ class SiteRegistryTests(unittest.TestCase):
             {"content_mode": "auto", "promotion_type": "organic"},
         )
         self.assertEqual(
-            ["post", "videos", "post", "product_cta", "ad"],
+            ["post", "videos", "post", "ad"],
             [block["type"] for block in payload["blocks"]],
         )
 

@@ -26,6 +26,14 @@ class ReferenceCollector(HTMLParser):
 
 
 class SiteIntegrityTests(unittest.TestCase):
+    def test_article_template_stacks_images_without_black_frames(self) -> None:
+        template = (ROOT / "articles" / "pool-look-back.html").read_text(encoding="utf-8")
+        image_style = template[template.index(".image-group {"):template.index(".highlight {")]
+        self.assertIn("flex-direction:column", image_style)
+        self.assertIn("background:transparent", image_style)
+        self.assertIn("aspect-ratio:auto", image_style)
+        self.assertNotIn("grid-template-columns", image_style)
+
     def test_published_articles_and_images_exist(self) -> None:
         database = validate_database(
             json.loads((ROOT / "data" / "articles.json").read_text(encoding="utf-8"))
