@@ -53,6 +53,14 @@ BAD_THUMBNAIL_TERMS = (
 )
 
 
+def _is_transient_generation_error(message: str) -> bool:
+    lowered = message.lower()
+    return any(term in lowered for term in (
+        "利用上限", "usage limit", "rate limit", "時間切れ",
+        "timed out", "ログインを確認", "authentication",
+    ))
+
+
 def _image_quality_score(item: dict[str, Any]) -> int:
     text = " ".join(
         str(item.get(key) or "").lower()
@@ -352,6 +360,8 @@ class BatchDraftWorker(QRunnable):
         try:
             created: list[dict[str, Any]] = []
             failures: list[dict[str, str]] = []
+            paused_reason = ""
+            deferred_count = 0
             total = max(1, len(self.urls))
             for index, source_url in enumerate(self.urls, start=1):
                 base = int((index - 1) * 100 / total)
@@ -370,8 +380,22 @@ class BatchDraftWorker(QRunnable):
                 except Exception as exc:
                     traceback.print_exc()
                     message = str(exc) or exc.__class__.__name__
-                    mark_candidate_status(self.site_root, source_url, "failed")
+                    transient = _is_transient_generation_error(message)
+                    mark_candidate_status(
+                        self.site_root,
+                        source_url,
+                        "new" if transient else "failed",
+                        error=message,
+                    )
                     failures.append({"source_url": source_url, "message": message[:500]})
+                    if transient:
+                        paused_reason = message[:500]
+                        deferred_count = total - index + 1
+                        self.signals.progress.emit(
+                            min(99, base + span),
+                            f"{index}/{total} 一時停止。残りは次回の巡回で再試行します",
+                        )
+                        break
                     self.signals.progress.emit(
                         min(99, base + span),
                         f"{index}/{total} 生成失敗。次の候補へ進みます",
@@ -382,6 +406,8 @@ class BatchDraftWorker(QRunnable):
                 "items": created,
                 "failed_count": len(failures),
                 "failures": failures,
+                "paused_reason": paused_reason,
+                "deferred_count": deferred_count,
             })
         except Exception as exc:
             traceback.print_exc()

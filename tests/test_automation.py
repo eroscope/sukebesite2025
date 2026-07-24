@@ -26,6 +26,7 @@ from indanya_desktop.automation import (  # noqa: E402
     list_candidates,
     list_sources,
     load_automation_settings,
+    mark_candidate_status,
     queue_position_map,
     record_automation_run,
     remove_from_queue,
@@ -76,6 +77,32 @@ class AutomationTests(unittest.TestCase):
             self.assertEqual(1, len(discovered))
             self.assertEqual("https://example.com/archives/12345", discovered[0]["url"])
             self.assertEqual(discovered, list_candidates(root))
+
+    def test_candidate_error_is_saved_and_can_be_deferred(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            candidate_path = root / ".article-studio" / "candidates.json"
+            candidate_path.parent.mkdir(parents=True)
+            candidate_path.write_text(
+                json.dumps([{
+                    "url": "https://example.com/archives/12345",
+                    "title": "候補記事",
+                    "status": "new",
+                }]),
+                encoding="utf-8",
+            )
+
+            mark_candidate_status(
+                root,
+                "https://example.com/archives/12345",
+                "new",
+                error="Codexの利用上限に達しました",
+            )
+
+            candidate = list_candidates(root)[0]
+            self.assertEqual("new", candidate["status"])
+            self.assertEqual("Codexの利用上限に達しました", candidate["last_error"])
+            self.assertTrue(candidate["attempted_at"])
 
     def test_discover_deduplicates_existing_candidates(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

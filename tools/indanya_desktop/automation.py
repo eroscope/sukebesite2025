@@ -401,12 +401,23 @@ def save_candidates(site_root: Path, candidates: list[dict[str, Any]]) -> None:
     _write_json(_candidates_path(site_root), candidates)
 
 
-def mark_candidate_status(site_root: Path, url: str, status: str, slug: str = "") -> None:
+def mark_candidate_status(
+    site_root: Path,
+    url: str,
+    status: str,
+    slug: str = "",
+    error: str = "",
+) -> None:
     target = normalize_candidate_url(url)
     candidates = list_candidates(site_root)
     for candidate in candidates:
         if normalize_candidate_url(str(candidate.get("url") or "")) == target:
             candidate["status"] = status
+            candidate["attempted_at"] = datetime.now(JST).isoformat(timespec="seconds")
+            if error:
+                candidate["last_error"] = error[:500]
+            elif status == "drafted":
+                candidate.pop("last_error", None)
             if slug:
                 candidate["draft_slug"] = slug
     save_candidates(site_root, candidates)

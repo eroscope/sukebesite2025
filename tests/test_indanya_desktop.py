@@ -19,6 +19,7 @@ if str(TOOLS) not in os.sys.path:
 from indanya_desktop.sites import SiteRegistry  # noqa: E402
 from indanya_desktop.workers import (  # noqa: E402
     _capture_and_analyze_source,
+    _is_transient_generation_error,
     _mark_ready_to_publish,
     _select_article_images,
 )
@@ -26,6 +27,11 @@ from indanya_desktop.browser_capture import _usable_final_url, _video_canvas_fra
 
 
 class SiteRegistryTests(unittest.TestCase):
+    def test_transient_generation_errors_are_deferred(self) -> None:
+        self.assertTrue(_is_transient_generation_error("Codexの利用上限に達しました"))
+        self.assertTrue(_is_transient_generation_error("You've hit your usage limit"))
+        self.assertFalse(_is_transient_generation_error("本文画像が見つかりません"))
+
     def test_generated_desktop_articles_start_publishable(self) -> None:
         payload = {
             "rights_status": "unconfirmed",

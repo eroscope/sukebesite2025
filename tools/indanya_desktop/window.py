@@ -1279,6 +1279,21 @@ class MainWindow(QMainWindow):
             f"自動巡回 {crawl_state}　" + "　｜　".join(crawl_parts)
             + f"\n予約投稿 {publish_state}　" + "　｜　".join(publish_parts)
         )
+        last_result = settings.get("last_crawl_result")
+        if isinstance(last_result, dict) and last_result:
+            self.automation_scheduler_note.setText(str(last_result.get("message") or ""))
+        elif not self.automation_scheduler_note.text():
+            self.automation_scheduler_note.setText("まだ巡回結果はありません。")
+
+    def _record_crawl_result(self, status: str, message: str, **counts: int) -> None:
+        settings = load_automation_settings(self.site.root)
+        settings["last_crawl_result"] = {
+            "status": status,
+            "message": f"{time.strftime('%Y-%m-%d %H:%M')}　{message}",
+            **counts,
+        }
+        save_automation_settings(self.site.root, settings)
+        self._load_scheduler_controls()
 
     def open_automation_settings(self) -> None:
         dialog = AutomationSettingsDialog(
@@ -1589,6 +1604,13 @@ class MainWindow(QMainWindow):
         self.scheduled_collect = False
         self.scheduled_crawl_run = {}
         self.scheduler_note.setText("自動巡回完了。今回、新しく記事にする候補はありませんでした。")
+        self._record_crawl_result(
+            "completed",
+            f"巡回完了：候補 {result.get('count', 0)}件／新しく作る記事なし",
+            candidate_count=int(result.get("count") or 0),
+            created_count=0,
+            failed_count=0,
+        )
         QTimer.singleShot(500, self._scheduler_tick)
 
     def create_auto_drafts(self) -> None:
@@ -1624,7 +1646,12 @@ class MainWindow(QMainWindow):
         self.batch_worker = None
         self.auto_progress.setValue(100)
         failed = int(result.get("failed_count") or 0)
-        suffix = f"（失敗 {failed}件）" if failed else ""
+        deferred = int(result.get("deferred_count") or 0)
+        paused_reason = str(result.get("paused_reason") or "")
+        if paused_reason:
+            suffix = f"（一時停止・次回へ {deferred}件）"
+        else:
+            suffix = f"（失敗 {failed}件）" if failed else ""
         self.auto_note.setText(f"{result.get('count', 0)}件の記事を作成しました。{suffix}")
         was_scheduled = self.scheduled_collect
         self.scheduled_collect = False
@@ -1634,6 +1661,21 @@ class MainWindow(QMainWindow):
             self.scheduler_note.setText(
                 f"自動巡回完了。確認待ちへ {result.get('count', 0)}件追加しました。{suffix}"
             )
+            if paused_reason:
+                self._record_crawl_result(
+                    "paused",
+                    f"巡回は実行済み：記事生成を一時停止。{paused_reason}",
+                    created_count=int(result.get("count") or 0),
+                    failed_count=failed,
+                    deferred_count=deferred,
+                )
+            else:
+                self._record_crawl_result(
+                    "completed" if not failed else "partial",
+                    f"巡回完了：記事 {result.get('count', 0)}件作成／失敗 {failed}件",
+                    created_count=int(result.get("count") or 0),
+                    failed_count=failed,
+                )
             QTimer.singleShot(500, self._scheduler_tick)
 
     def _auto_failed(self, message: str) -> None:
@@ -1651,6 +1693,12 @@ class MainWindow(QMainWindow):
         self.auto_note.setText(f"自動処理失敗: {message}")
         if was_scheduled:
             self.scheduler_note.setText("自動巡回でエラーが発生しました。次の巡回時刻に再開します。")
+            self._record_crawl_result(
+                "failed",
+                f"巡回失敗：{message}。次の時刻に再試行します",
+                created_count=0,
+                failed_count=1,
+            )
 
     def clean_auto_candidates(self) -> None:
         candidates = [item for item in list_candidates(self.site.root) if item.get("status") == "new"]
