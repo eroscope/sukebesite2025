@@ -78,6 +78,36 @@ class SiteRegistryTests(unittest.TestCase):
             {"content_mode": "auto", "promotion_type": "organic"},
         ))
 
+    def test_exposure_article_gets_a_related_fanza_search_link(self) -> None:
+        result = _resolve_fanza_promotion(
+            {
+                "url": "https://example.com/exposure",
+                "title": "露出系の動画が攻めすぎ",
+                "description": "野外露出の短い動画を紹介",
+                "links": [],
+            },
+            {"content_mode": "auto", "promotion_type": "organic"},
+        )
+        self.assertIsNotNone(result)
+        self.assertEqual("related", result["match_level"])
+        self.assertIn("searchstr=%E9%9C%B2%E5%87%BA%20%E7%BE%9E%E6%81%A5", result["url"])
+        self.assertEqual("関連作品をFANZAで見る", result["button_text"])
+
+    def test_codex_performer_match_creates_a_strong_related_link(self) -> None:
+        result = _resolve_fanza_promotion(
+            {
+                "url": "https://example.com/movie",
+                "title": "宮下玲奈が可愛すぎる",
+                "ai_fanza_relevance": "likely_product",
+                "ai_fanza_search_query": "宮下玲奈",
+                "links": [],
+            },
+            {"content_mode": "auto", "promotion_type": "organic"},
+        )
+        self.assertIsNotNone(result)
+        self.assertEqual("strong", result["match_level"])
+        self.assertIn("%E5%AE%AE%E4%B8%8B%E7%8E%B2%E5%A5%88", result["url"])
+
     def test_fanza_metadata_adds_disclosure_and_product_card(self) -> None:
         payload = {"tags": ["動画"], "blocks": [{"id": "ad", "type": "ad", "text": "広告"}]}
         _apply_editorial_metadata(
@@ -100,6 +130,54 @@ class SiteRegistryTests(unittest.TestCase):
             product["url"],
         )
         self.assertIn("アフィリエイト広告", payload["transparency_note"])
+
+    def test_exact_product_card_is_placed_after_the_first_media(self) -> None:
+        payload = {
+            "tags": ["動画"],
+            "blocks": [
+                {"id": "post-1", "type": "post", "text": "これ"},
+                {"id": "videos", "type": "videos", "video_ids": ["video-1"]},
+                {"id": "post-2", "type": "post", "text": "強い"},
+                {"id": "ad", "type": "ad", "text": "広告"},
+            ],
+        }
+        _apply_editorial_metadata(
+            payload,
+            {
+                "url": "https://video.dmm.co.jp/av/content/?id=midv00461",
+                "title": "MIDV-461",
+                "links": [],
+            },
+            {"content_mode": "auto", "promotion_type": "organic"},
+        )
+        self.assertEqual(
+            ["post", "videos", "product_cta", "post", "ad"],
+            [block["type"] for block in payload["blocks"]],
+        )
+
+    def test_genre_related_card_is_placed_near_the_article_end(self) -> None:
+        payload = {
+            "tags": ["動画"],
+            "blocks": [
+                {"id": "post-1", "type": "post", "text": "これ"},
+                {"id": "videos", "type": "videos", "video_ids": ["video-1"]},
+                {"id": "post-2", "type": "post", "text": "強い"},
+                {"id": "ad", "type": "ad", "text": "広告"},
+            ],
+        }
+        _apply_editorial_metadata(
+            payload,
+            {
+                "url": "https://example.com/exposure",
+                "title": "露出系の動画",
+                "links": [],
+            },
+            {"content_mode": "auto", "promotion_type": "organic"},
+        )
+        self.assertEqual(
+            ["post", "videos", "post", "product_cta", "ad"],
+            [block["type"] for block in payload["blocks"]],
+        )
 
     def test_saved_affiliate_id_rewrites_discovered_product_link(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

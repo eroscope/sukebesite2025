@@ -1382,6 +1382,13 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
 - ページから回収した動画・埋め込み候補を、記事本編か広告・導線・無関係か判定する。
 - 記事画像だけを後工程の初期選択候補にするため、厳しめに分類する。
 
+FANZA関連判定:
+- 記事の主題、人物名、作品名、品番、衣装、行為、ジャンル、動画周辺文から、FANZA作品への関連度を判定する。
+- 特定の商品URLまたは品番が確認できる場合だけexact_product、出演者名と作品の手掛かりが強く一致する場合はlikely_product、露出・制服・水着・コスプレ・巨乳・痴女・人妻・素人などジャンルだけ対応する場合はrelated、成人向け商品と結びつかない場合はnoneにする。
+- fanza_search_queryにはFANZAで探すための短い語句を入れる。完全一致なら品番を優先し、出演者が分かるなら出演者名と作品語、ジャンル一致なら具体的なジャンル語を入れる。記事タイトル全文や「かわいすぎる」など検索ノイズは入れない。
+- 人物の顔だけから本名や出演作品を推測しない。ページ本文などで名前が確認できる場合だけ使う。
+- fanza_product_codeはページ内で確認できた場合だけ返す。fanza_reasonには判定根拠を簡潔に書く。
+
 画像判定ルール:
 - roleは固定分類ではなく自由記述である。「一覧用サムネイル」「本文の主画像」「同一人物の追加カット」「関連記事カード」「広告」などは例にすぎない。これらに当てはまらない役割を発見したら、そのページに合う名前を自分で付ける。
 - recommended_useは画像の意味を分類する欄ではなく、理解した後の配置指示だけを表す。thumbnailは一覧用、bodyは本文用、thumbnail_and_bodyは両方、excludeは不採用である。
@@ -1448,6 +1455,12 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
         follow_url = ""
         follow_reason = "候補一覧にないリンクが返されたため追跡を中止しました"
     summary = _require_text(value, "analysis_summary", 500)
+    fanza_relevance = str(value.get("fanza_relevance") or "none")
+    if fanza_relevance not in {"none", "related", "likely_product", "exact_product"}:
+        fanza_relevance = "none"
+    fanza_search_query = _optional_text(value, "fanza_search_query", 120)
+    fanza_product_code = _optional_text(value, "fanza_product_code", 40)
+    fanza_reason = _optional_text(value, "fanza_reason", 240)
     if category not in {"SNS", "画像", "動画", "話題"}:
         raise ValidationError("Codexが未対応のカテゴリーを返しました")
     available = {
@@ -1544,6 +1557,10 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
         "follow_url": follow_url,
         "follow_reason": follow_reason,
         "analysis_summary": summary,
+        "fanza_relevance": fanza_relevance,
+        "fanza_search_query": fanza_search_query,
+        "fanza_product_code": fanza_product_code,
+        "fanza_reason": fanza_reason,
         "image_decisions": list(decisions.values()),
         "video_decisions": list(video_decisions.values()),
     }
@@ -1558,6 +1575,10 @@ def apply_codex_analysis(source: dict[str, Any], analysis: dict[str, Any]) -> di
     result["ai_follow_url"] = analysis.get("follow_url", "")
     result["ai_follow_reason"] = analysis.get("follow_reason", "")
     result["ai_analysis_summary"] = analysis["analysis_summary"]
+    result["ai_fanza_relevance"] = analysis.get("fanza_relevance", "none")
+    result["ai_fanza_search_query"] = analysis.get("fanza_search_query", "")
+    result["ai_fanza_product_code"] = analysis.get("fanza_product_code", "")
+    result["ai_fanza_reason"] = analysis.get("fanza_reason", "")
     result["analysis_method"] = "codex_vision"
     decisions = {item["image_id"]: item for item in analysis["image_decisions"]}
     images: list[dict[str, Any]] = []

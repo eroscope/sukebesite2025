@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "additionalProperties": false,
-  "required": ["title", "description", "category", "page_role", "follow_url", "follow_reason", "analysis_summary", "image_decisions", "video_decisions"],
+  "required": ["title", "description", "category", "page_role", "follow_url", "follow_reason", "analysis_summary", "fanza_relevance", "fanza_search_query", "fanza_product_code", "fanza_reason", "image_decisions", "video_decisions"],
   "properties": {
     "title": {
       "type": "string",
@@ -34,6 +34,22 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 500
+    },
+    "fanza_relevance": {
+      "type": "string",
+      "enum": ["none", "related", "likely_product", "exact_product"]
+    },
+    "fanza_search_query": {
+      "type": "string",
+      "maxLength": 120
+    },
+    "fanza_product_code": {
+      "type": "string",
+      "maxLength": 40
+    },
+    "fanza_reason": {
+      "type": "string",
+      "maxLength": 240
     },
     "image_decisions": {
       "type": "array",

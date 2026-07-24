@@ -511,10 +511,10 @@ def _apply_editorial_metadata(
             "type": "product_cta",
             "url": fanza["url"],
             "title": fanza["title"],
-            "text": "作品ページでサンプル、価格、配信内容を確認できます。",
-            "button_text": "FANZAで作品を見る",
+            "text": fanza["text"],
+            "button_text": fanza["button_text"],
         }
-        insert_at = max(0, len(payload["blocks"]) - 1)
+        insert_at = _fanza_insert_index(payload["blocks"], fanza["match_level"])
         payload["blocks"].insert(insert_at, product_block)
     elif promotion_type == "sponsored":
         payload["tags"] = list(dict.fromkeys(["PR", *payload.get("tags", [])]))[:8]
@@ -594,6 +594,43 @@ def _with_fanza_affiliate_id(destination: str, affiliate_id: str) -> str:
     )
 
 
+def _fanza_topic_query(text: str) -> str:
+    topic_groups = (
+        (("露出", "羞恥", "野外露出"), "露出 羞恥"),
+        (("制服", "JK", "女子校生"), "制服 コスプレ"),
+        (("コスプレ", "レイヤー"), "コスプレ"),
+        (("競泳", "スク水", "水泳部"), "競泳水着"),
+        (("水着", "ビキニ"), "水着 ビキニ"),
+        (("巨乳", "爆乳", "デカ乳"), "巨乳"),
+        (("美尻", "デカ尻", "尻"), "美尻"),
+        (("痴女",), "痴女"),
+        (("人妻", "若妻"), "人妻"),
+        (("素人", "一般人"), "素人"),
+        (("マッサージ", "エステ"), "マッサージ"),
+        (("ナンパ",), "ナンパ"),
+        (("盗撮", "隠し撮り"), "盗撮"),
+        (("ハメ撮り",), "ハメ撮り"),
+        (("ギャル",), "ギャル"),
+        (("熟女",), "熟女"),
+    )
+    return next(
+        (query for keywords, query in topic_groups if any(keyword in text for keyword in keywords)),
+        "",
+    )
+
+
+def _fanza_insert_index(blocks: list[dict[str, Any]], match_level: str) -> int:
+    if match_level in {"exact", "strong"}:
+        for index, block in enumerate(blocks):
+            if block.get("type") in {"images", "videos", "x_embed", "x_timeline"}:
+                return index + 1
+        return max(1, len(blocks) // 2)
+    for index in range(len(blocks) - 1, -1, -1):
+        if blocks[index].get("type") != "ad":
+            return index + 1
+    return len(blocks)
+
+
 def _resolve_fanza_promotion(
     source: dict[str, Any],
     intent: dict[str, Any],
@@ -622,6 +659,10 @@ def _resolve_fanza_promotion(
         for key in ("title", "description", "body_text", "ai_analysis_summary")
     )
     product_code = re.search(r"(?<![A-Z0-9])([A-Z]{2,12})[-_ ]?(\d{3,7})(?!\d)", text.upper())
+    ai_product_code = str(source.get("ai_fanza_product_code") or "").strip()
+    ai_query = str(source.get("ai_fanza_search_query") or "").strip()
+    ai_relevance = str(source.get("ai_fanza_relevance") or "none")
+    topic_query = _fanza_topic_query(text)
     content_mode = str(intent.get("content_mode") or "auto")
     promotion_type = str(intent.get("promotion_type") or "organic")
     fanza_signals = (
@@ -630,28 +671,74 @@ def _resolve_fanza_promotion(
         "FANZA同人", "同人作品", "FANZAブックス", "成人向けコミック",
         "成人向けゲーム", "アダルトゲーム",
     )
-    is_related = bool(destination) or any(signal in text for signal in fanza_signals)
+    is_related = (
+        bool(destination)
+        or any(signal in text for signal in fanza_signals)
+        or ai_relevance in {"related", "likely_product", "exact_product"}
+        or bool(topic_query)
+    )
     should_promote = (
         content_mode == "fanza_product"
         or promotion_type == "affiliate"
-        or (content_mode == "auto" and is_related)
+        or (
+            content_mode in {"auto", "web", "x_account", "x_post"}
+            and is_related
+        )
     )
     if not should_promote:
         return None
     title = str(source.get("title") or source.get("description") or "FANZA作品").strip()[:180]
+    code_query = (
+        f"{product_code.group(1)}-{product_code.group(2)}"
+        if product_code else ai_product_code
+    )
+    search_query = code_query or ai_query or topic_query or title
     if not destination:
-        query = (
-            f"{product_code.group(1)}-{product_code.group(2)}"
-            if product_code else title
-        )
-        destination = _fanza_search_url(query)
+        destination = _fanza_search_url(search_query)
+    destination_parts = urlparse(_unwrap_external_affiliate_url(destination) or destination)
+    destination_product_hint = (
+        "/detail/" in destination_parts.path.lower()
+        or "/content/" in destination_parts.path.lower()
+        or "cid=" in destination_parts.query.lower()
+        or "id=" in destination_parts.query.lower()
+    )
     if not explicit_affiliate:
         destination = _unwrap_external_affiliate_url(destination)
         if not destination:
             destination = _fanza_search_url(title)
         affiliate_id = load_fanza_settings(site_root)["affiliate_id"] if site_root else ""
         destination = _with_fanza_affiliate_id(destination, affiliate_id)
-    return {"url": _validate_source_url(destination), "title": title}
+    source_path = urlparse(str(source.get("url") or "")).path.lower()
+    exact_destination = any(
+        marker in source_path for marker in ("/detail/", "/content/")
+    ) or destination_product_hint
+    match_level = (
+        "exact"
+        if explicit or exact_destination or bool(code_query) or ai_relevance == "exact_product"
+        else "strong" if ai_relevance == "likely_product" or bool(ai_query)
+        else "related"
+    )
+    display_query = search_query if match_level != "exact" else title
+    card_title = (
+        title
+        if match_level == "exact"
+        else f"{display_query}の関連作品をFANZAで探す"
+    )
+    return {
+        "url": _validate_source_url(destination),
+        "title": card_title[:180],
+        "text": (
+            "作品ページでサンプル、価格、配信内容を確認できます。"
+            if match_level == "exact"
+            else "この記事の内容に近い作品をFANZAで確認できます。"
+        ),
+        "button_text": (
+            "FANZAでこの作品を見る"
+            if match_level == "exact"
+            else "関連作品をFANZAで見る"
+        ),
+        "match_level": match_level,
+    }
 
 
 class CollectCandidatesWorker(QRunnable):
