@@ -60,7 +60,7 @@
 
   const isFanzaArticle = item => {
     const tags = (item.tags || []).map(normalize);
-    if (!tags.includes(normalize("FANZA"))) return false;
+    if (tags.includes(normalize("FANZA")) || tags.includes(normalize("PR"))) return true;
     try {
       const host = new URL(item.source_url || "").hostname.toLocaleLowerCase("ja");
       return host === "dmm.co.jp" ||
@@ -70,6 +70,21 @@
     } catch {
       return false;
     }
+  };
+
+  const genericTags = new Set([
+    "画像", "動画", "sns", "fanza", "pr", "成人向け", "まとめ", "グラビア",
+    "水着", "制服", "コスプレ", "お姉さん", "5chまとめ",
+  ].map(normalize));
+
+  const sameSubjectScore = (current, candidate) => {
+    const currentSpecific = new Set(
+      (current.tags || []).map(normalize).filter(tag => tag && !genericTags.has(tag))
+    );
+    return (candidate.tags || [])
+      .map(normalize)
+      .filter(tag => currentSpecific.has(tag))
+      .length;
   };
 
   const card = item => {
@@ -135,6 +150,52 @@
     return shell;
   };
 
+  const enhanceSidebar = (published, current) => {
+    const sidebar = document.querySelector(".sidebar");
+    if (!sidebar) return;
+    const popular = [...published]
+      .filter(item => !isCurrent(item))
+      .sort((left, right) =>
+        Number(right.comments || 0) - Number(left.comments || 0) ||
+        Date.parse(right.published_at) - Date.parse(left.published_at)
+      )
+      .slice(0, 6);
+    const firstBox = sidebar.querySelector(".sidebox");
+    const firstBody = firstBox?.querySelector(".sidebody");
+    if (firstBody) {
+      firstBody.classList.add("article-side-links");
+      firstBody.replaceChildren(...popular.map(item => {
+        const link = document.createElement("a");
+        link.href = toRootUrl(item.url);
+        const image = document.createElement("img");
+        image.src = toRootUrl(item.thumbnail);
+        image.alt = "";
+        image.loading = "lazy";
+        const copy = document.createElement("span");
+        const title = document.createElement("strong");
+        title.textContent = item.title;
+        const meta = document.createElement("small");
+        meta.textContent = `${item.category} / ${item.comments}コメント`;
+        copy.append(title, meta);
+        link.append(image, copy);
+        return link;
+      }));
+    }
+
+    const navigation = document.createElement("section");
+    navigation.className = "sidebox article-side-nav";
+    navigation.innerHTML = `
+      <h2 class="side-title">記事を探す</h2>
+      <div class="sidebody">
+        <a href="${toRootUrl("latest.html")}">新着記事</a>
+        <a href="${toRootUrl("popular.html")}">人気記事</a>
+        <a href="${toRootUrl("categories.html")}">カテゴリ一覧</a>
+        <a href="${toRootUrl("fanza.html")}">FANZA作品</a>
+        <a href="${toRootUrl("random.html")}">ランダム記事</a>
+      </div>`;
+    sidebar.append(navigation);
+  };
+
   fetch(toRootUrl("data/articles.json"), { cache: "no-store" })
     .then(response => {
       if (!response.ok) throw new Error(`articles: ${response.status}`);
@@ -150,35 +211,52 @@
       if (!current) return;
 
       const others = published.filter(item => !isCurrent(item));
-      const avArticles = [...others]
-        .filter(isFanzaArticle)
-        .map(item => ({ item, score: relationScore(current, item) }))
-        .sort((left, right) => right.score - left.score)
-        .slice(0, 4)
+      enhanceSidebar(published, current);
+
+      const sameSubject = [...others]
+        .map(item => ({ item, score: sameSubjectScore(current, item) }))
+        .filter(entry => entry.score > 0)
+        .sort((left, right) => right.score - left.score || relationScore(current, right.item) - relationScore(current, left.item))
+        .slice(0, 6)
         .map(entry => entry.item);
 
-      const used = new Set(avArticles.map(item => item.slug || item.url));
+      const avArticles = [...others]
+        .filter(isFanzaArticle)
+        .filter(item => !sameSubject.includes(item))
+        .map(item => ({ item, score: relationScore(current, item) }))
+        .sort((left, right) => right.score - left.score)
+        .slice(0, 6)
+        .map(entry => entry.item);
+
+      const used = new Set([...sameSubject, ...avArticles].map(item => item.slug || item.url));
       const related = [...others]
         .filter(item => !used.has(item.slug || item.url))
         .map(item => ({ item, score: relationScore(current, item) }))
         .filter(entry => entry.score > 0)
         .sort((left, right) => right.score - left.score)
-        .slice(0, 4)
+        .slice(0, 6)
         .map(entry => entry.item);
       related.forEach(item => used.add(item.slug || item.url));
       const recommended = [...others]
         .filter(item => !used.has(item.slug || item.url))
         .map((item, index) => ({ item, score: popularityScore(item, index) }))
         .sort((left, right) => right.score - left.score)
-        .slice(0, 4)
+        .slice(0, 6)
         .map(entry => entry.item);
+      recommended.forEach(item => used.add(item.slug || item.url));
+      const newest = [...others]
+        .filter(item => !used.has(item.slug || item.url))
+        .sort((left, right) => Date.parse(right.published_at) - Date.parse(left.published_at))
+        .slice(0, 6);
 
       const discovery = document.createElement("div");
       discovery.className = "article-related";
       [
+        section("同じ人物・テーマの記事", sameSubject),
         section("この記事に近い記事", related),
         section("おすすめ記事", recommended),
         section("関連するおすすめAV記事", avArticles, "article-related-av"),
+        section("新着記事", newest),
         tagSection(current),
       ].forEach(node => {
         if (node) discovery.append(node);

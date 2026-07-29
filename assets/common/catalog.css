@@ -70,10 +70,10 @@ img { display:block; width:100%; }
 .sidebox { margin-bottom:17px; background:#fff; border:1px solid #c9c6bd; }
 .side-title { margin:0; padding:9px 11px; background:var(--ink); color:#fff; font-family:"Yu Mincho","Hiragino Mincho ProN",serif; font-size:15px; }
 .sidebody { padding:10px; }
-.rank-with-thumb { display:grid; grid-template-columns:24px 64px 1fr; gap:8px; align-items:center; padding:9px 0; border-bottom:1px dotted #bbb; }
+.rank-with-thumb { display:grid; grid-template-columns:72px 1fr; gap:10px; align-items:center; padding:9px 0; border-bottom:1px dotted #bbb; }
 .rank-with-thumb:last-child { border-bottom:0; }
-.rank-with-thumb img { width:64px; aspect-ratio:4/3; object-fit:cover; background:#111; }
-.rank-num { width:23px; height:23px; display:grid; place-items:center; border:1px solid var(--ink); background:#e1ded6; font-size:9px; font-weight:900; }
+.rank-with-thumb img { width:72px; aspect-ratio:4/3; object-fit:cover; background:#111; }
+.rank-num { display:none; }
 .rank-with-thumb b { display:block; font-size:10px; line-height:1.45; }
 .rank-with-thumb span { display:block; margin-top:2px; color:#888; font-size:8px; }
 .tag-cloud { display:flex; flex-wrap:wrap; gap:8px; }
@@ -87,6 +87,18 @@ img { display:block; width:100%; }
 .info-section p { max-width:760px; margin:0 0 10px; font-size:13px; }
 .info-section a { text-decoration:underline; }
 .info-section .contact-button { display:inline-block; padding:11px 16px; background:var(--ink); color:#fff; font-weight:900; text-decoration:none; }
+.catalog-pagination { display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:6px; margin:32px 0 8px; }
+.catalog-pagination a { display:grid; min-width:40px; height:40px; padding:0 12px; place-items:center; border:1px solid #cfcac0; background:#fff; color:#171510; font-size:13px; font-weight:800; }
+.catalog-pagination a.active,.catalog-pagination a:hover { border-color:#171510; background:#171510; color:#fff; }
+.catalog-hub { display:grid; gap:38px; }
+.catalog-feature-section { min-width:0; }
+.catalog-feature-section > header { display:flex; justify-content:space-between; align-items:end; gap:16px; margin-bottom:14px; padding-bottom:10px; border-bottom:2px solid #171510; }
+.catalog-feature-section > header > a { font-size:11px; font-weight:900; text-decoration:underline; }
+.catalog-feature-section h2 { margin:0; font-size:24px; }
+.catalog-feature-section header p { margin:4px 0 0; color:#77736a; font-size:12px; }
+.catalog-feature-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px 14px; }
+.catalog-feature-grid .post-card { min-width:0; }
+.catalog-feature-grid .card-body p { display:none; }
 .footer { background:#171717; color:#ddd; border-top:4px solid var(--gold); }
 .footer-inner { width:min(var(--max),calc(100% - 30px)); margin:auto; padding:27px 0; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:11px; }
 .age-page { min-height:100vh; display:grid; place-items:center; padding:24px; background:#171717; }
@@ -121,4 +133,9 @@ img { display:block; width:100%; }
   .age-shell { padding:34px 20px; }
   .age-shell h1 { font-size:28px; }
   .age-actions { grid-template-columns:1fr; }
+  .catalog-feature-grid { grid-template-columns:1fr 1fr; }
+  .catalog-feature-section h2 { font-size:20px; }
+  .catalog-feature-section .card-body { padding:9px; }
+  .catalog-feature-section .card-body h2 { font-size:13px; }
+  .catalog-pagination a { min-width:36px; height:38px; padding:0 9px; }
 }
