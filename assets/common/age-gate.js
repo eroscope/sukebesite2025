@@ -6,6 +6,21 @@
   const storageKey = "indanya-age-confirmed";
   const maxAge = 30 * 24 * 60 * 60 * 1000;
 
+  function ensureBrandIcons() {
+    if (document.head.querySelector('link[rel~="icon"]')) return;
+    [
+      ["icon", `${siteRoot}assets/common/favicon.ico`, ""],
+      ["icon", `${siteRoot}assets/common/favicon.png`, "image/png"],
+      ["apple-touch-icon", `${siteRoot}assets/common/apple-touch-icon.png`, ""],
+    ].forEach(([rel, href, type]) => {
+      const link = document.createElement("link");
+      link.rel = rel;
+      link.href = href;
+      if (type) link.type = type;
+      document.head.append(link);
+    });
+  }
+
   function enhanceSiteShell() {
     const nav = document.querySelector(".nav-inner");
     if (nav) {
@@ -39,6 +54,7 @@
     }
   }
 
+  ensureBrandIcons();
   enhanceSiteShell();
 
   const localPreview =

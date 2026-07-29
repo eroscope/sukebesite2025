@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://eroscope.github.io/sukebesite2025/sitemap.xml
