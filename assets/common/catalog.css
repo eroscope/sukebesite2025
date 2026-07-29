@@ -86,8 +86,21 @@ img { display:block; width:100%; }
 .info-section h2 { margin:0 0 8px; font-size:20px; }
 .info-section p { max-width:760px; margin:0 0 10px; font-size:13px; }
 .info-section a { text-decoration:underline; }
+.info-section .contact-button { display:inline-block; padding:11px 16px; background:var(--ink); color:#fff; font-weight:900; text-decoration:none; }
 .footer { background:#171717; color:#ddd; border-top:4px solid var(--gold); }
 .footer-inner { width:min(var(--max),calc(100% - 30px)); margin:auto; padding:27px 0; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:11px; }
+.age-page { min-height:100vh; display:grid; place-items:center; padding:24px; background:#171717; }
+.age-shell { width:min(620px,calc(100vw - 48px)); padding:46px 42px; border-top:5px solid var(--gold); background:#fff; text-align:center; }
+.age-logo { width:min(310px,80%); margin:0 auto 24px; }
+.age-kicker { margin:0 0 6px; color:var(--red); font-size:11px; font-weight:900; }
+.age-shell h1 { margin:0 0 16px; font-family:"Yu Mincho","Hiragino Mincho ProN",serif; font-size:34px; }
+.age-shell > p { margin:0 auto 24px; max-width:500px; font-size:14px; }
+.age-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.age-actions button,.age-actions a { min-height:50px; display:grid; place-items:center; padding:10px 14px; border:1px solid var(--ink); font:inherit; font-size:13px; font-weight:900; cursor:pointer; }
+.age-actions button { background:var(--ink); color:#fff; }
+.age-actions a { background:#fff; color:var(--ink); }
+.age-shell .age-note { margin:15px 0 0; color:var(--muted); font-size:10px; }
+.age-links { display:flex; justify-content:center; flex-wrap:wrap; gap:7px 16px; margin-top:28px; padding-top:18px; border-top:1px solid var(--line); font-size:10px; text-decoration:underline; }
 @media(max-width:850px) {
   .catalog-layout { grid-template-columns:1fr; }
   .sidebar { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
@@ -104,4 +117,8 @@ img { display:block; width:100%; }
   .page-heading p { margin-top:5px; }
   .catalog-grid,.sidebar { grid-template-columns:1fr; }
   .site-search button { padding:0 16px; }
+  .age-page { padding:12px; }
+  .age-shell { padding:34px 20px; }
+  .age-shell h1 { font-size:28px; }
+  .age-actions { grid-template-columns:1fr; }
 }

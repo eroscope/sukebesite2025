@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow">
+<meta name="description" content="淫談屋は18歳以上の方を対象とした成人向けサイトです。">
+<title>年齢確認｜淫談屋</title>
+<link rel="stylesheet" href="assets/common/catalog.css">
+</head>
+<body class="age-page">
+<main class="age-shell">
+  <img class="age-logo" src="assets/common/indanya-logo.png" alt="淫談屋">
+  <p class="age-kicker">AGE VERIFICATION</p>
+  <h1>18歳以上ですか？</h1>
+  <p>この先には成人向けの画像・動画・広告を含むコンテンツがあります。18歳未満の方は閲覧できません。</p>
+  <div class="age-actions">
+    <button id="ageEnter" type="button">18歳以上なので入る</button>
+    <a href="https://www.google.com/" rel="nofollow">18歳未満なので退出する</a>
+  </div>
+  <p class="age-note">「入る」を押すと、年齢確認結果をこのブラウザに30日間保存します。</p>
+  <nav class="age-links" aria-label="サイト情報">
+    <a href="about.html">運営者情報</a>
+    <a href="privacy.html">プライバシーポリシー</a>
+    <a href="advertising.html">広告について</a>
+    <a href="contact.html">お問い合わせ</a>
+  </nav>
+</main>
+<script>
+(() => {
+  "use strict";
+  document.getElementById("ageEnter").addEventListener("click", () => {
+    try {
+      localStorage.setItem("indanya-age-confirmed", String(Date.now()));
+    } catch {
+      // The visitor can continue even when browser storage is disabled.
+    }
+    const requested = new URLSearchParams(location.search).get("return") || "";
+    let destination = new URL("index.html", location.href);
+    try {
+      const candidate = new URL(requested);
+      const siteRoot = new URL("./", location.href).pathname;
+      if (candidate.origin === location.origin && candidate.pathname.startsWith(siteRoot)) {
+        destination = candidate;
+      }
+    } catch {
+      // Keep the home page fallback.
+    }
+    location.replace(destination.href);
+  });
+})();
+</script>
+</body>
+</html>
