@@ -6,6 +6,15 @@
   const storageKey = "indanya-age-confirmed";
   const maxAge = 30 * 24 * 60 * 60 * 1000;
 
+  function startAnalytics() {
+    if (document.querySelector('script[data-indanya-analytics]')) return;
+    const analytics = document.createElement("script");
+    analytics.src = `${siteRoot}assets/common/analytics.js?v=20260803`;
+    analytics.dataset.indanyaAnalytics = "true";
+    analytics.defer = true;
+    document.head.append(analytics);
+  }
+
   function ensureBrandIcons() {
     if (document.head.querySelector('link[rel~="icon"]')) return;
     [
@@ -71,7 +80,10 @@
 
   try {
     const confirmedAt = Number(localStorage.getItem(storageKey) || 0);
-    if (confirmedAt > 0 && Date.now() - confirmedAt < maxAge) return;
+    if (confirmedAt > 0 && Date.now() - confirmedAt < maxAge) {
+      startAnalytics();
+      return;
+    }
   } catch {
     // Continue to the age check when storage is unavailable.
   }
