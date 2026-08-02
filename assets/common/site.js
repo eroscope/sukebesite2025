@@ -186,9 +186,18 @@
   }
 
   const featureRotationDays = 3;
+  const adultFeaturePattern =
+    /成人|18禁|AV|エロ|ヌード|裸|乳|胸|尻|セックス|オナ|パンツ|下着|ランジェリー|水着|コスプレ|風俗|痴漢|露出|巨乳|爆乳|乳首|おっぱい|自慰|フェラ|3P|NTR/i;
+
+  function isAdultFeatureCandidate(article) {
+    return adultFeaturePattern.test(
+      [article.title, article.summary, article.category, ...(article.tags || [])].join(" ")
+    );
+  }
 
   function selectFeaturedArticle(articles) {
-    const candidates = articles.slice(0, 12);
+    const adultCandidates = articles.filter(isAdultFeatureCandidate);
+    const candidates = (adultCandidates.length ? adultCandidates : articles).slice(0, 12);
     if (candidates.length <= 1) return candidates[0];
 
     const rotation = Math.floor(
