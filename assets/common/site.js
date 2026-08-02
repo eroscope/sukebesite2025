@@ -185,8 +185,25 @@
     return shell;
   }
 
+  const featureRotationDays = 3;
+
+  function selectFeaturedArticle(articles) {
+    const candidates = articles.slice(0, 12);
+    if (candidates.length <= 1) return candidates[0];
+
+    const rotation = Math.floor(
+      Date.now() / (featureRotationDays * 24 * 60 * 60 * 1000)
+    );
+    const candidateKey = candidates.map(article => article.slug).join("|");
+    let offset = 0;
+    for (let index = 0; index < candidateKey.length; index += 1) {
+      offset = (offset * 31 + candidateKey.charCodeAt(index)) >>> 0;
+    }
+    return candidates[(offset + rotation) % candidates.length];
+  }
+
   function render(articles) {
-    const featured = articles.find(article => article.featured === true) || articles[0];
+    const featured = selectFeaturedArticle(articles);
     const breakingLink = document.getElementById("breakingLink");
     const featureThumbLink = document.getElementById("featureThumbLink");
     const featureImage = document.getElementById("featureImage");
