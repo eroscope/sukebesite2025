@@ -62,6 +62,13 @@
     new URLSearchParams(location.search).get("preview") === "1";
   if (localPreview) return;
 
+  // Keep the public URL crawlable while preserving the age check for visitors.
+  const crawler =
+    /Googlebot|Google-InspectionTool|bingbot|DuckDuckBot|Baiduspider|YandexBot/i.test(
+      navigator.userAgent
+    );
+  if (crawler) return;
+
   try {
     const confirmedAt = Number(localStorage.getItem(storageKey) || 0);
     if (confirmedAt > 0 && Date.now() - confirmedAt < maxAge) return;
