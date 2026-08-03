@@ -233,6 +233,7 @@
     featureTitleLink.textContent = featured.title;
     featureSummary.textContent =
       featured.summary || `${featured.images_used || 1}枚の素材をレスの流れでまとめています。`;
+    document.documentElement.classList.add("home-ready");
 
     function selectArticles(mode) {
       if (mode === "popular") {
