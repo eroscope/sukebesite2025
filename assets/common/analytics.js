@@ -40,13 +40,36 @@
     }
   }
 
+  function visitorId() {
+    const key = "indanya-analytics-visitor";
+    try {
+      let value = localStorage.getItem(key);
+      if (!value) {
+        value = `${Date.now().toString(36)}-${crypto.getRandomValues(new Uint32Array(3)).join("")}`;
+        localStorage.setItem(key, value);
+      }
+      return value;
+    } catch {
+      return sessionId();
+    }
+  }
+
+  function deviceType() {
+    const value = navigator.userAgent || "";
+    if (/iPad|Tablet|Android(?!.*Mobile)/i.test(value)) return "タブレット";
+    if (/Mobile|Android|iPhone|iPod/i.test(value)) return "スマホ";
+    return "パソコン";
+  }
+
   function send(eventType, extra = {}) {
     const payload = {
       action: "analytics_event",
       token: collectorToken,
       event_type: eventType,
       site: `${location.hostname}${location.pathname.split("/").slice(0, 2).join("/")}`,
+      visitor_id: visitorId(),
       session_id: sessionId(),
+      device_type: deviceType(),
       page_path: location.pathname,
       article_slug: articleSlug,
       article_title: articleTitle,
