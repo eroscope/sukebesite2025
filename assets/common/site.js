@@ -276,6 +276,24 @@
     document.documentElement.dataset.articlesLoaded = "true";
   }
 
+  function renderEmpty() {
+    const articleGrid = document.getElementById("articleGrid");
+    const popularArticles = document.getElementById("popularArticles");
+    if (articleGrid) {
+      const empty = document.createElement("div");
+      empty.className = "empty-state";
+      empty.innerHTML = "<h2>作品記事を準備中です</h2><p>公開可能な商品記事から順に追加します。</p>";
+      articleGrid.replaceChildren(empty);
+    }
+    if (popularArticles) {
+      const note = document.createElement("p");
+      note.textContent = "記事公開後に表示されます。";
+      popularArticles.replaceChildren(note);
+    }
+    document.documentElement.classList.add("home-ready");
+    document.documentElement.dataset.articlesLoaded = "empty";
+  }
+
   fetch("data/articles.json", { cache: "no-cache" })
     .then(response => {
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -286,8 +304,8 @@
       const published = data
         .filter(isValidArticle)
         .sort((left, right) => Date.parse(right.published_at) - Date.parse(left.published_at));
-      if (!published.length) throw new Error("公開記事がありません");
-      render(published);
+      if (published.length) render(published);
+      else renderEmpty();
     })
     .catch(error => {
       document.documentElement.dataset.articlesLoaded = "fallback";
