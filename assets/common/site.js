@@ -282,7 +282,11 @@
     if (articleGrid) {
       const empty = document.createElement("div");
       empty.className = "empty-state";
-      empty.innerHTML = "<h2>作品記事を準備中です</h2><p>公開可能な商品記事から順に追加します。</p>";
+      const heading = document.createElement("h2");
+      heading.textContent = "作品記事を準備中です";
+      const description = document.createElement("p");
+      description.textContent = "公開可能な商品記事から順に追加します。";
+      empty.append(heading, description);
       articleGrid.replaceChildren(empty);
     }
     if (popularArticles) {
