@@ -54,11 +54,54 @@
     }
   }
 
+  function shortHash(value) {
+    let h1 = 0xdeadbeef;
+    let h2 = 0x41c6ce57;
+    const text = String(value || "");
+    for (let index = 0; index < text.length; index += 1) {
+      const code = text.charCodeAt(index);
+      h1 = Math.imul(h1 ^ code, 2654435761);
+      h2 = Math.imul(h2 ^ code, 1597334677);
+    }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return `${(h2 >>> 0).toString(36)}${(h1 >>> 0).toString(36)}`;
+  }
+
   function deviceType() {
     const value = navigator.userAgent || "";
     if (/iPad|Tablet|Android(?!.*Mobile)/i.test(value)) return "タブレット";
     if (/Mobile|Android|iPhone|iPod/i.test(value)) return "スマホ";
     return "パソコン";
+  }
+
+  function deviceId() {
+    const values = [
+      navigator.platform || "",
+      navigator.language || "",
+      Array.isArray(navigator.languages) ? navigator.languages.join(",") : "",
+      Intl.DateTimeFormat().resolvedOptions().timeZone || "",
+      String(new Date().getTimezoneOffset()),
+      `${screen.width}x${screen.height}`,
+      `${screen.availWidth}x${screen.availHeight}`,
+      String(screen.colorDepth || ""),
+      String(devicePixelRatio || ""),
+      String(navigator.hardwareConcurrency || ""),
+      String(navigator.deviceMemory || ""),
+      String(navigator.maxTouchPoints || 0),
+      deviceType(),
+    ];
+    return shortHash(values.join("|"));
+  }
+
+  function browserFamily() {
+    const value = navigator.userAgent || "";
+    if (/Edg\//.test(value)) return "Edge";
+    if (/OPR\//.test(value)) return "Opera";
+    if (/Firefox\//.test(value)) return "Firefox";
+    if (/Chrome\//.test(value)) return "Chrome";
+    if (/Safari\//.test(value)) return "Safari";
+    return "unknown";
   }
 
   function send(eventType, extra = {}) {
@@ -68,8 +111,10 @@
       event_type: eventType,
       site: `${location.hostname}${location.pathname.split("/").slice(0, 2).join("/")}`,
       visitor_id: visitorId(),
+      device_id: deviceId(),
       session_id: sessionId(),
       device_type: deviceType(),
+      browser_family: browserFamily(),
       page_path: location.pathname,
       article_slug: articleSlug,
       article_title: articleTitle,

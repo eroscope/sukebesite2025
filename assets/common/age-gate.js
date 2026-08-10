@@ -9,7 +9,7 @@
   function startAnalytics() {
     if (document.querySelector('script[data-indanya-analytics]')) return;
     const analytics = document.createElement("script");
-    analytics.src = `${siteRoot}assets/common/analytics.js?v=20260803`;
+    analytics.src = `${siteRoot}assets/common/analytics.js?v=20260811`;
     analytics.dataset.indanyaAnalytics = "true";
     analytics.defer = true;
     document.head.append(analytics);
