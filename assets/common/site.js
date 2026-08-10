@@ -227,6 +227,7 @@
 
     [breakingLink, featureThumbLink, featureTitleLink, featureReadMore].forEach(link => setLink(link, featured));
     breakingLink.textContent = featured.title;
+    featureImage.removeAttribute("style");
     featureImage.src = featured.thumbnail;
     featureImage.alt = featured.title;
     featureBadge.textContent = `${featured.category} / ${featured.images_used || 1}枚`;
