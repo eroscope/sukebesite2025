@@ -7,6 +7,39 @@
   const category = document.body.dataset.articleCategory || pageCategory();
   const articleTitle = cleanTitle(document.title);
   const viewedPromotions = new WeakSet();
+  const ownerStorageKey = "indanya-analytics-owner-token";
+
+  function ownerToken() {
+    try {
+      const url = new URL(location.href);
+      const registration = String(url.searchParams.get("indanya_owner") || "").trim();
+      if (registration === "clear") {
+        localStorage.removeItem(ownerStorageKey);
+        url.searchParams.delete("indanya_owner");
+        history.replaceState(null, "", url.href);
+      } else if (/^[A-Za-z0-9_-]{24,}$/.test(registration)) {
+        localStorage.setItem(ownerStorageKey, registration);
+        url.searchParams.delete("indanya_owner");
+        history.replaceState(null, "", url.href);
+        showOwnerRegistrationNotice();
+      }
+      return String(localStorage.getItem(ownerStorageKey) || "");
+    } catch {
+      return "";
+    }
+  }
+
+  function showOwnerRegistrationNotice() {
+    const notice = document.createElement("div");
+    notice.textContent = "このブラウザを編集者として登録しました";
+    notice.style.cssText = "position:fixed;right:14px;bottom:14px;z-index:2147483647;padding:10px 14px;background:#171510;color:#fff;font:700 13px/1.4 sans-serif;box-shadow:0 3px 14px #0005";
+    const display = () => {
+      document.body.append(notice);
+      window.setTimeout(() => notice.remove(), 5000);
+    };
+    if (document.body) display();
+    else document.addEventListener("DOMContentLoaded", display, { once: true });
+  }
 
   function pageSlug() {
     const match = location.pathname.match(/\/articles\/([a-z0-9-]+)\.html$/i);
@@ -108,6 +141,7 @@
     const payload = {
       action: "analytics_event",
       token: collectorToken,
+      owner_token: ownerToken(),
       event_type: eventType,
       site: `${location.hostname}${location.pathname.split("/").slice(0, 2).join("/")}`,
       visitor_id: visitorId(),
