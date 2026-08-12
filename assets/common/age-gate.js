@@ -9,7 +9,7 @@
   function startAnalytics() {
     if (document.querySelector('script[data-indanya-analytics]')) return;
     const analytics = document.createElement("script");
-    analytics.src = `${siteRoot}assets/common/site-events.js?v=20260812-events2`;
+    analytics.src = `${siteRoot}assets/common/site-events.js?v=20260813-events1`;
     analytics.dataset.indanyaAnalytics = "true";
     analytics.defer = true;
     document.head.append(analytics);
