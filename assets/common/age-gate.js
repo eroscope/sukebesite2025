@@ -7,12 +7,19 @@
   const maxAge = 30 * 24 * 60 * 60 * 1000;
 
   function startAnalytics() {
-    if (document.querySelector('script[data-indanya-analytics]')) return;
-    const analytics = document.createElement("script");
-    analytics.src = `${siteRoot}assets/common/site-events.js?v=20260813-events1`;
-    analytics.dataset.indanyaAnalytics = "true";
-    analytics.defer = true;
-    document.head.append(analytics);
+    if (document.querySelector('script[data-indanya-ga4]')) return;
+    const config = document.createElement("script");
+    config.src = `${siteRoot}assets/common/analytics-config.js`;
+    config.defer = true;
+    config.dataset.indanyaGa4 = "config";
+    config.addEventListener("load", () => {
+      const analytics = document.createElement("script");
+      analytics.src = `${siteRoot}assets/common/ga4.js`;
+      analytics.defer = true;
+      analytics.dataset.indanyaGa4 = "true";
+      document.head.append(analytics);
+    }, { once: true });
+    document.head.append(config);
   }
 
   function ensureBrandIcons() {
