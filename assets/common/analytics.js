@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const endpoint = "https://script.google.com/macros/s/AKfycbzQ6S__9SWCcX1rrC63dJm6OxUhH2tjqLWgf4819tZQPCyL34DKCEqGwfyWz1h5ZYrZNg/exec";
+  const endpoint = "https://script.google.com/macros/s/AKfycbw6Pbf2tWjvYIObv-FUkAkKi_bRiAXZcu_j_6WrTw2Vhilz98rJ6T0DCPxY-p5rasM/exec";
   const collectorToken = "indanya-analytics-20260803-v1";
   const articleSlug = document.body.dataset.articleSlug || pageSlug();
   const category = document.body.dataset.articleCategory || pageCategory();
