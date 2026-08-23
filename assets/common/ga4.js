@@ -7,6 +7,7 @@
 
   const ownerStorageKey = "indanya-ga4-owner-v2";
   const ownerParameter = "indanya_owner";
+  const visitWindowMs = 30 * 60 * 1000;
 
   async function sha256(value) {
     if (!window.crypto?.subtle || typeof TextEncoder === "undefined") return "";
@@ -92,12 +93,26 @@
     return isOwner ? `owner_${name}` : name;
   }
 
+  function beginArticleVisit() {
+    if (!isArticle) return false;
+    const key = `indanya-ga4-visit-v3:${isOwner ? "owner" : "external"}`;
+    try {
+      const previous = Number(localStorage.getItem(key) || 0);
+      const now = Date.now();
+      if (Number.isFinite(previous) && now - previous < visitWindowMs) return false;
+      localStorage.setItem(key, String(now));
+      return true;
+    } catch {
+      return true;
+    }
+  }
+
   function commonDetails() {
     return {
       article_slug: articleSlug,
       article_title: articleTitle,
       content_group: articleCategory || "未分類",
-      tracking_version: String(config.trackingVersion || "2"),
+      tracking_version: String(config.trackingVersion || "3"),
       transport_type: "beacon",
     };
   }
@@ -126,7 +141,10 @@
   }
 
   gtag("event", eventName("page_view"), commonDetails());
-  if (isArticle) gtag("event", eventName("article_view"), commonDetails());
+  if (isArticle) {
+    gtag("event", eventName("article_view"), commonDetails());
+    if (beginArticleVisit()) gtag("event", eventName("article_visit"), commonDetails());
+  }
 
   const observer = "IntersectionObserver" in window
     ? new IntersectionObserver(entries => {
