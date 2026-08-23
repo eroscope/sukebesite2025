@@ -60,6 +60,7 @@
 
   const isOwner = await ownerBrowser();
   const isArticle = /\/articles\/[^/]+\.html$/i.test(location.pathname);
+  document.documentElement.dataset.indanyaAnalytics = isOwner ? "owner-v2" : "external-v2";
   const articleSlug = document.body.dataset.articleSlug
     || location.pathname.replace(/^.*\//, "").replace(/\.html$/, "")
     || "home";

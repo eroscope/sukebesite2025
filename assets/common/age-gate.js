@@ -5,16 +5,20 @@
   const siteRoot = script?.dataset.siteRoot || "";
   const storageKey = "indanya-age-confirmed";
   const maxAge = 30 * 24 * 60 * 60 * 1000;
+  const analyticsLoaderVersion = "2";
 
   function startAnalytics() {
     if (document.querySelector('script[data-indanya-ga4]')) return;
     const config = document.createElement("script");
-    config.src = `${siteRoot}assets/common/analytics-config.js`;
+    config.src = `${siteRoot}assets/common/analytics-config.js?v=${analyticsLoaderVersion}`;
     config.defer = true;
     config.dataset.indanyaGa4 = "config";
     config.addEventListener("load", () => {
       const analytics = document.createElement("script");
-      analytics.src = `${siteRoot}assets/common/ga4.js`;
+      const trackerVersion = encodeURIComponent(
+        String(window.INDANYA_GA4?.trackingVersion || analyticsLoaderVersion)
+      );
+      analytics.src = `${siteRoot}assets/common/ga4.js?v=${trackerVersion}`;
       analytics.defer = true;
       analytics.dataset.indanyaGa4 = "true";
       document.head.append(analytics);
