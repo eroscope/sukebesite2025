@@ -47,7 +47,7 @@
           gtag("event", "pr_impression", details(entry.target));
           observer.unobserve(entry.target);
         }
-      }, { threshold: 0.35 })
+      }, { threshold: 0.01 })
     : null;
 
   if (observer) document.querySelectorAll(".fanza-product").forEach(item => observer.observe(item));
