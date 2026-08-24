@@ -232,8 +232,8 @@
   ],
   "counts": {
     "people": 146,
-    "works": 214,
-    "topics": 657
+    "works": 215,
+    "topics": 658
   },
   "people": [
     {
@@ -1340,6 +1340,10 @@
     },
     {
       "code": "OFJE-558",
+      "articles": 1
+    },
+    {
+      "code": "OFJE-628",
       "articles": 1
     },
     {
@@ -2790,7 +2794,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 21
+      "articles": 22
     },
     {
       "name": "リブニット",
@@ -3018,7 +3022,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "公式商品紹介",
@@ -4278,7 +4282,7 @@
     },
     {
       "name": "騎乗位",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "高齢者",
@@ -4302,6 +4306,10 @@
     },
     {
       "name": "黒ランジェリー",
+      "articles": 1
+    },
+    {
+      "name": "黒レース",
       "articles": 1
     },
     {
