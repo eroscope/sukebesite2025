@@ -5,6 +5,7 @@
   const root = script?.dataset.siteRoot || "../";
   const article = document.querySelector(".article");
   if (!article) return;
+  const hasStaticDiscovery = Boolean(article.querySelector(".article-static-discovery"));
 
   const normalize = value =>
     String(value || "")
@@ -252,8 +253,8 @@
       const discovery = document.createElement("div");
       discovery.className = "article-related";
       [
-        section("同じ人物・テーマの記事", sameSubject),
-        section("この記事に近い記事", related),
+        hasStaticDiscovery ? null : section("同じ人物・テーマの記事", sameSubject),
+        hasStaticDiscovery ? null : section("この記事に近い記事", related),
         section("おすすめ記事", recommended),
         section("関連するおすすめAV記事", avArticles, "article-related-av"),
         section("新着記事", newest),

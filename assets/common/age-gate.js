@@ -45,6 +45,9 @@
     const nav = document.querySelector(".nav-inner");
     if (nav) {
       [
+        ["people.html", "人物"],
+        ["works.html", "作品"],
+        ["topics.html", "ジャンル"],
         ["categories.html", "カテゴリ"],
         ["fanza.html", "FANZA"],
       ].forEach(([path, label]) => {

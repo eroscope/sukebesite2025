@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://eroscope.github.io/sukebesite2025/sitemap.xml
+Sitemap: https://eroscope.github.io/sukebesite2025/sitemap-images.xml
+Sitemap: https://eroscope.github.io/sukebesite2025/sitemap-videos.xml
