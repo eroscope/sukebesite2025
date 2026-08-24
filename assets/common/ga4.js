@@ -69,17 +69,25 @@
 
   async function collectorRequest(payload) {
     if (!siteKey || !collectorBase) throw new Error("collector-not-configured");
-    const response = await fetch(`${collectorBase}/events`, {
-      method: "POST",
-      mode: "cors",
-      cache: "no-store",
-      keepalive: true,
-      headers: { "Content-Type": "application/json", "X-Indanya-Site": siteKey },
-      body: JSON.stringify(payload),
-    });
-    const result = await response.json();
-    if (!response.ok || !result?.ok) throw new Error(result?.error || `collector-${response.status}`);
-    return result;
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 45000);
+    try {
+      const response = await fetch(`${collectorBase}/events`, {
+        method: "POST",
+        mode: "cors",
+        cache: "no-store",
+        keepalive: true,
+        targetAddressSpace: "local",
+        signal: controller.signal,
+        headers: { "Content-Type": "application/json", "X-Indanya-Site": siteKey },
+        body: JSON.stringify(payload),
+      });
+      const result = await response.json();
+      if (!response.ok || !result?.ok) throw new Error(result?.error || `collector-${response.status}`);
+      return result;
+    } finally {
+      window.clearTimeout(timeout);
+    }
   }
 
   async function registerLocalCollector(ownerToken) {
@@ -226,7 +234,7 @@
       article_slug: articleSlug,
       article_title: articleTitle,
       content_group: articleCategory || "未分類",
-      tracking_version: String(config.trackingVersion || "6"),
+      tracking_version: String(config.trackingVersion || "7"),
       transport_type: "beacon",
     };
   }
