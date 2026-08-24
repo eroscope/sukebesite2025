@@ -233,8 +233,8 @@
   ],
   "counts": {
     "people": 146,
-    "works": 216,
-    "topics": 660
+    "works": 217,
+    "topics": 662
   },
   "people": [
     {
@@ -1512,6 +1512,10 @@
       "articles": 1
     },
     {
+      "code": "SNOS-201",
+      "articles": 1
+    },
+    {
       "code": "SNOS-232",
       "articles": 1
     },
@@ -2194,6 +2198,10 @@
       "articles": 1
     },
     {
+      "name": "ウィスパー",
+      "articles": 1
+    },
+    {
       "name": "エステ",
       "articles": 1
     },
@@ -2783,7 +2791,7 @@
     },
     {
       "name": "メンズエステ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ヤンネ",
@@ -2799,7 +2807,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 22
+      "articles": 23
     },
     {
       "name": "リブニット",
@@ -3059,6 +3067,10 @@
     },
     {
       "name": "出版社",
+      "articles": 1
+    },
+    {
+      "name": "初美なのか",
       "articles": 1
     },
     {
