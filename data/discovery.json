@@ -179,6 +179,7 @@
     "topics/topic-cb1b67b257cc.html",
     "topics/topic-cd9b636b3770.html",
     "topics/topic-cde29f0f9c7e.html",
+    "topics/topic-cec82fb864d9.html",
     "topics/topic-crystal-vr.html",
     "topics/topic-d0f68617ec6d.html",
     "topics/topic-d36caa93b02a.html",
@@ -231,8 +232,8 @@
   ],
   "counts": {
     "people": 146,
-    "works": 213,
-    "topics": 656
+    "works": 214,
+    "topics": 657
   },
   "people": [
     {
@@ -1019,6 +1020,10 @@
     },
     {
       "code": "HUNTC-647",
+      "articles": 1
+    },
+    {
+      "code": "IPOK-015",
       "articles": 1
     },
     {
@@ -3009,7 +3014,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "公式サンプル動画",
@@ -3873,7 +3878,7 @@
     },
     {
       "name": "立ちバック",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "立場逆転",
@@ -3938,6 +3943,10 @@
     {
       "name": "美女",
       "articles": 2
+    },
+    {
+      "name": "美女3人",
+      "articles": 1
     },
     {
       "name": "美容師",
