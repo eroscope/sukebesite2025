@@ -142,6 +142,7 @@
     "topics/topic-987379fc4da4.html",
     "topics/topic-9a2ecb8463a8.html",
     "topics/topic-9b328f765a9c.html",
+    "topics/topic-9b342d8c4ccc.html",
     "topics/topic-9b9b691dccc0.html",
     "topics/topic-9be373a67afd.html",
     "topics/topic-9c3aa8eee095.html",
@@ -229,8 +230,8 @@
   ],
   "counts": {
     "people": 146,
-    "works": 211,
-    "topics": 653
+    "works": 212,
+    "topics": 655
   },
   "people": [
     {
@@ -853,6 +854,10 @@
     },
     {
       "code": "BIBIVR-151",
+      "articles": 1
+    },
+    {
+      "code": "BIGC-007",
       "articles": 1
     },
     {
@@ -2462,6 +2467,10 @@
       "articles": 1
     },
     {
+      "name": "トイレ",
+      "articles": 1
+    },
+    {
       "name": "ドッキリ",
       "articles": 1
     },
@@ -2687,7 +2696,7 @@
     },
     {
       "name": "ホテル",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "ホラー",
@@ -2995,7 +3004,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "公式商品紹介",
@@ -3615,7 +3624,7 @@
     },
     {
       "name": "洗面所",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "浴室",
@@ -3819,6 +3828,10 @@
     },
     {
       "name": "磯山さやか",
+      "articles": 1
+    },
+    {
+      "name": "社長夫人",
       "articles": 1
     },
     {
