@@ -224,8 +224,8 @@
   ],
   "counts": {
     "people": 144,
-    "works": 205,
-    "topics": 643
+    "works": 206,
+    "topics": 644
   },
   "people": [
     {
@@ -976,6 +976,10 @@
     },
     {
       "code": "HNVR-158",
+      "articles": 1
+    },
+    {
+      "code": "HNVR-173",
       "articles": 1
     },
     {
@@ -1974,7 +1978,7 @@
     },
     {
       "name": "VR",
-      "articles": 56
+      "articles": 57
     },
     {
       "name": "VR CHANNEL 005",
@@ -2466,7 +2470,7 @@
     },
     {
       "name": "ハーレム",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "バコバコバスツアー",
@@ -2950,7 +2954,7 @@
     },
     {
       "name": "公式紹介画像",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "共同廊下",
@@ -3701,6 +3705,10 @@
       "articles": 1
     },
     {
+      "name": "相席居酒屋",
+      "articles": 1
+    },
+    {
       "name": "相部屋",
       "articles": 5
     },
@@ -4034,7 +4042,7 @@
     },
     {
       "name": "逆3P",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "逆NTR",
