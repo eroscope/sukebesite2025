@@ -6,6 +6,7 @@
   if (!/^G-[A-Z0-9]+$/i.test(measurementId)) return;
 
   // Some generated article pages load this script before <body> starts.
+  document.documentElement.dataset.indanyaAnalyticsStatus = "waiting-body";
   if (!document.body) {
     await new Promise(resolve => {
       if (document.readyState === "loading") {
@@ -16,6 +17,7 @@
     });
   }
   if (!document.body) return;
+  document.documentElement.dataset.indanyaAnalyticsStatus = "body-ready";
 
   const ownerStorageKey = "indanya-ga4-owner-v2";
   const ownerParameter = "indanya_owner";
@@ -74,6 +76,7 @@
   const isOwner = await ownerBrowser();
   const isArticle = /\/articles\/[^/]+\.html$/i.test(location.pathname);
   document.documentElement.dataset.indanyaAnalytics = isOwner ? "owner-v2" : "external-v2";
+  document.documentElement.dataset.indanyaAnalyticsStatus = "identity-ready";
   const articleSlug = document.body.dataset.articleSlug
     || location.pathname.replace(/^.*\//, "").replace(/\.html$/, "")
     || "home";
@@ -93,6 +96,12 @@
   const script = document.createElement("script");
   script.async = true;
   script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
+  script.addEventListener("load", () => {
+    document.documentElement.dataset.indanyaAnalyticsStatus = "gtag-loaded";
+  }, { once: true });
+  script.addEventListener("error", () => {
+    document.documentElement.dataset.indanyaAnalyticsStatus = "gtag-blocked";
+  }, { once: true });
   document.head.append(script);
 
   window.dataLayer = window.dataLayer || [];
@@ -157,6 +166,7 @@
     gtag("event", eventName("article_view"), commonDetails());
     if (beginArticleVisit()) gtag("event", eventName("article_visit"), commonDetails());
   }
+  document.documentElement.dataset.indanyaAnalyticsStatus = "events-queued";
 
   const observer = "IntersectionObserver" in window
     ? new IntersectionObserver(entries => {
@@ -193,4 +203,7 @@
       event_timeout: 1000,
     });
   }, { capture: true });
-})();
+})().catch(error => {
+  document.documentElement.dataset.indanyaAnalyticsStatus = "error";
+  document.documentElement.dataset.indanyaAnalyticsError = String(error?.name || "Error");
+});

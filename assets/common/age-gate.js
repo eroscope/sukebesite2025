@@ -5,7 +5,7 @@
   const siteRoot = script?.dataset.siteRoot || "";
   const storageKey = "indanya-age-confirmed";
   const maxAge = 30 * 24 * 60 * 60 * 1000;
-  const analyticsLoaderVersion = "4";
+  const analyticsLoaderVersion = "5";
 
   function startAnalytics() {
     if (document.querySelector('script[data-indanya-ga4]')) return;
