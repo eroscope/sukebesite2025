@@ -18,6 +18,7 @@
     "people/person-5fc9e30aedc2.html",
     "people/person-6a33f574374c.html",
     "people/person-6d838e6009c3.html",
+    "people/person-7496a897d663.html",
     "people/person-87b1b5f5efa7.html",
     "people/person-8ebb9422553f.html",
     "people/person-8efaaa5de975.html",
@@ -230,8 +231,8 @@
   ],
   "counts": {
     "people": 146,
-    "works": 212,
-    "topics": 655
+    "works": 213,
+    "topics": 656
   },
   "people": [
     {
@@ -736,7 +737,7 @@
     },
     {
       "name": "花咲澪",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "花守夏歩",
@@ -1054,6 +1055,10 @@
     },
     {
       "code": "IPZZ-778",
+      "articles": 1
+    },
+    {
+      "code": "IPZZ-826",
       "articles": 1
     },
     {
@@ -2171,6 +2176,10 @@
       "articles": 1
     },
     {
+      "name": "インタビュー",
+      "articles": 1
+    },
+    {
       "name": "エステ",
       "articles": 1
     },
@@ -2832,7 +2841,7 @@
     },
     {
       "name": "下着",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "不倫",
@@ -4052,7 +4061,7 @@
     },
     {
       "name": "裸体",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "複数プレイ",
