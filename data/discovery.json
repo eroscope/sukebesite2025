@@ -223,8 +223,8 @@
     "works.html"
   ],
   "counts": {
-    "people": 143,
-    "works": 203,
+    "people": 144,
+    "works": 204,
     "topics": 639
   },
   "people": [
@@ -722,6 +722,10 @@
     },
     {
       "name": "花咲澪",
+      "articles": 1
+    },
+    {
+      "name": "花守夏歩",
       "articles": 1
     },
     {
@@ -1607,6 +1611,10 @@
       "articles": 1
     },
     {
+      "code": "VRKM-1823",
+      "articles": 1
+    },
+    {
       "code": "XVT-071",
       "articles": 1
     },
@@ -1666,7 +1674,7 @@
     },
     {
       "name": "8K VR",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "8KVR",
@@ -2754,7 +2762,7 @@
     },
     {
       "name": "下着",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "不倫",
@@ -2954,7 +2962,7 @@
     },
     {
       "name": "制服",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "制服衣装",
@@ -4106,7 +4114,7 @@
     },
     {
       "name": "顔面特化",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "風俗",
