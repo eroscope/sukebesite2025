@@ -51,6 +51,7 @@
     "topics/topic-0e6797903b11.html",
     "topics/topic-0ee23712d012.html",
     "topics/topic-110186b4822a.html",
+    "topics/topic-1647288711c1.html",
     "topics/topic-178a484f3547.html",
     "topics/topic-17ff3fea9409.html",
     "topics/topic-19735dbc9e80.html",
@@ -169,6 +170,7 @@
     "topics/topic-b89d8be7513d.html",
     "topics/topic-bb69fdc44886.html",
     "topics/topic-bbf72a1513be.html",
+    "topics/topic-be9e5cbc0419.html",
     "topics/topic-c79d6ca8cec1.html",
     "topics/topic-c85a37f5a170.html",
     "topics/topic-c9b8d32f2216.html",
@@ -227,7 +229,7 @@
   ],
   "counts": {
     "people": 144,
-    "works": 209,
+    "works": 210,
     "topics": 648
   },
   "people": [
@@ -955,6 +957,10 @@
     },
     {
       "code": "H-113HR00012",
+      "articles": 1
+    },
+    {
+      "code": "HMN-831",
       "articles": 1
     },
     {
@@ -1913,7 +1919,7 @@
     },
     {
       "name": "NTR",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "OL",
@@ -2241,7 +2247,7 @@
     },
     {
       "name": "キメセク",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "キャラクタークリエイト",
@@ -2973,7 +2979,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "公式サンプル動画",
@@ -4009,7 +4015,7 @@
     },
     {
       "name": "複数人",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "複数人プレイ",
@@ -4201,7 +4207,7 @@
     },
     {
       "name": "香水じゅん",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "馬乗り",
