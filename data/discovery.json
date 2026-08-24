@@ -85,6 +85,7 @@
     "topics/topic-42eab7d23db3.html",
     "topics/topic-437075f9018d.html",
     "topics/topic-45cec0322496.html",
+    "topics/topic-473c318725f8.html",
     "topics/topic-4a3fad303d05.html",
     "topics/topic-4c5fc72da2ff.html",
     "topics/topic-4e72b30797c6.html",
@@ -130,6 +131,7 @@
     "topics/topic-8bfcb96c6a53.html",
     "topics/topic-8c49bb441227.html",
     "topics/topic-8c77219f9a06.html",
+    "topics/topic-8ebb9422553f.html",
     "topics/topic-8k-vr.html",
     "topics/topic-8k.html",
     "topics/topic-8kvr.html",
@@ -224,8 +226,8 @@
   ],
   "counts": {
     "people": 144,
-    "works": 207,
-    "topics": 646
+    "works": 208,
+    "topics": 647
   },
   "people": [
     {
@@ -1611,6 +1613,10 @@
       "articles": 1
     },
     {
+      "code": "URVRSP-561",
+      "articles": 1
+    },
+    {
       "code": "URVRSP-566",
       "articles": 1
     },
@@ -1682,7 +1688,7 @@
     },
     {
       "name": "8K",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "8K VR",
@@ -1990,7 +1996,7 @@
     },
     {
       "name": "VR",
-      "articles": 58
+      "articles": 59
     },
     {
       "name": "VR CHANNEL 005",
@@ -2713,6 +2719,10 @@
       "articles": 7
     },
     {
+      "name": "メガネ",
+      "articles": 1
+    },
+    {
       "name": "メンエス",
       "articles": 1
     },
@@ -2966,7 +2976,7 @@
     },
     {
       "name": "公式紹介画像",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "共同廊下",
@@ -3206,7 +3216,7 @@
     },
     {
       "name": "家庭教師",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "密室",
@@ -4066,7 +4076,7 @@
     },
     {
       "name": "逢沢みゆ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "遺作",
