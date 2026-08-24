@@ -77,7 +77,7 @@
         mode: "cors",
         cache: "no-store",
         keepalive: true,
-        targetAddressSpace: "local",
+        targetAddressSpace: "loopback",
         signal: controller.signal,
         headers: { "Content-Type": "application/json", "X-Indanya-Site": siteKey },
         body: JSON.stringify(payload),
@@ -234,7 +234,7 @@
       article_slug: articleSlug,
       article_title: articleTitle,
       content_group: articleCategory || "未分類",
-      tracking_version: String(config.trackingVersion || "7"),
+      tracking_version: String(config.trackingVersion || "8"),
       transport_type: "beacon",
     };
   }
