@@ -5,6 +5,18 @@
   const measurementId = String(config.measurementId || "").trim();
   if (!/^G-[A-Z0-9]+$/i.test(measurementId)) return;
 
+  // Some generated article pages load this script before <body> starts.
+  if (!document.body) {
+    await new Promise(resolve => {
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", resolve, { once: true });
+      } else {
+        resolve();
+      }
+    });
+  }
+  if (!document.body) return;
+
   const ownerStorageKey = "indanya-ga4-owner-v2";
   const ownerParameter = "indanya_owner";
   const visitWindowMs = 30 * 60 * 1000;
