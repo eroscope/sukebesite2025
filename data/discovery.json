@@ -166,6 +166,7 @@
     "topics/topic-av.html",
     "topics/topic-av.html",
     "topics/topic-av.html",
+    "topics/topic-av.html",
     "topics/topic-b0d4c6c28a4b.html",
     "topics/topic-b1a702141e22.html",
     "topics/topic-b426cff04d6b.html",
@@ -1755,7 +1756,7 @@
     },
     {
       "name": "50％OFF",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "54人",
@@ -1811,7 +1812,7 @@
     },
     {
       "name": "AVセール",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "AVデビュー",
@@ -1819,7 +1820,7 @@
     },
     {
       "name": "AV作品",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "AV初出演",
@@ -3851,7 +3852,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "画像ギャラリー",
