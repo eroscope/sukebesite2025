@@ -236,7 +236,7 @@
   "counts": {
     "people": 147,
     "works": 219,
-    "topics": 668
+    "topics": 672
   },
   "people": [
     {
@@ -1888,6 +1888,10 @@
       "articles": 3
     },
     {
+      "name": "GIF",
+      "articles": 1
+    },
+    {
       "name": "Grok",
       "articles": 1
     },
@@ -3024,6 +3028,10 @@
       "articles": 1
     },
     {
+      "name": "健康的",
+      "articles": 1
+    },
+    {
       "name": "元アイドル",
       "articles": 2
     },
@@ -3708,6 +3716,10 @@
       "articles": 1
     },
     {
+      "name": "海辺",
+      "articles": 1
+    },
+    {
       "name": "混浴",
       "articles": 4
     },
@@ -4073,6 +4085,10 @@
     },
     {
       "name": "胡桃さくら",
+      "articles": 1
+    },
+    {
+      "name": "胸",
       "articles": 1
     },
     {
