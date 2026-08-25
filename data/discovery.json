@@ -181,6 +181,7 @@
     "topics/topic-be9e5cbc0419.html",
     "topics/topic-c79d6ca8cec1.html",
     "topics/topic-c85a37f5a170.html",
+    "topics/topic-c967cee050d5.html",
     "topics/topic-c9b8d32f2216.html",
     "topics/topic-cb1b67b257cc.html",
     "topics/topic-cd9b636b3770.html",
@@ -204,6 +205,7 @@
     "topics/topic-e871a34a6e7e.html",
     "topics/topic-ee7e3a59c1a9.html",
     "topics/topic-ef05d333e3af.html",
+    "topics/topic-f1423036e503.html",
     "topics/topic-f500c702a477.html",
     "topics/topic-f65c255c513f.html",
     "topics/topic-f6d4b64ad1d4.html",
@@ -239,7 +241,7 @@
   "counts": {
     "people": 150,
     "works": 219,
-    "topics": 681
+    "topics": 683
   },
   "people": [
     {
@@ -2256,7 +2258,7 @@
     },
     {
       "name": "エロ漫画",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "エロ画像",
@@ -2804,6 +2806,10 @@
     },
     {
       "name": "ポップアップショップ",
+      "articles": 1
+    },
+    {
+      "name": "ポリコレ",
       "articles": 1
     },
     {
@@ -3540,7 +3546,7 @@
     },
     {
       "name": "掲示板まとめ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "撮影会",
@@ -4180,6 +4186,10 @@
     },
     {
       "name": "表情",
+      "articles": 1
+    },
+    {
+      "name": "表現論",
       "articles": 1
     },
     {
