@@ -261,7 +261,7 @@
   "counts": {
     "people": 158,
     "works": 227,
-    "topics": 749
+    "topics": 753
   },
   "people": [
     {
@@ -1885,6 +1885,10 @@
       "articles": 1
     },
     {
+      "name": "AIチャット",
+      "articles": 1
+    },
+    {
       "name": "AI疑惑",
       "articles": 1
     },
@@ -2485,6 +2489,10 @@
       "articles": 1
     },
     {
+      "name": "クラウディア",
+      "articles": 1
+    },
+    {
       "name": "クンニリングス",
       "articles": 1
     },
@@ -2514,7 +2522,7 @@
     },
     {
       "name": "ゲーム",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "ゲームイラスト",
@@ -3078,6 +3086,14 @@
     },
     {
       "name": "ヤンマガ",
+      "articles": 1
+    },
+    {
+      "name": "ライザ",
+      "articles": 1
+    },
+    {
+      "name": "ライザのアトリエ",
       "articles": 1
     },
     {
