@@ -142,6 +142,7 @@
     "topics/topic-84e02d8d7d24.html",
     "topics/topic-84fda3a3860c.html",
     "topics/topic-86b19c9ac1d9.html",
+    "topics/topic-8731d1fd5ecc.html",
     "topics/topic-89e4949f9542.html",
     "topics/topic-89f5704bc74e.html",
     "topics/topic-8b2689c619bd.html",
@@ -264,7 +265,7 @@
   "counts": {
     "people": 159,
     "works": 227,
-    "topics": 757
+    "topics": 759
   },
   "people": [
     {
@@ -2692,6 +2693,10 @@
       "articles": 1
     },
     {
+      "name": "タンクトップ",
+      "articles": 1
+    },
+    {
       "name": "ダスッ！",
       "articles": 1
     },
@@ -3208,6 +3213,10 @@
       "articles": 1
     },
     {
+      "name": "中川安奈",
+      "articles": 1
+    },
+    {
       "name": "丸最レア",
       "articles": 1
     },
@@ -3581,7 +3590,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "女子大生",
@@ -3857,7 +3866,7 @@
     },
     {
       "name": "放送キャプチャ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "教室",
