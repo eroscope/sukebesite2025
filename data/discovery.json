@@ -263,9 +263,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 159,
+    "people": 160,
     "works": 227,
-    "topics": 765
+    "topics": 766
   },
   "people": [
     {
@@ -662,6 +662,10 @@
     },
     {
       "name": "橋本環奈",
+      "articles": 1
+    },
+    {
+      "name": "江波りゅう",
       "articles": 1
     },
     {
@@ -3530,7 +3534,7 @@
     },
     {
       "name": "和室",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "和装",
@@ -3810,7 +3814,7 @@
     },
     {
       "name": "性行為",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "性行為画像",
@@ -4314,6 +4318,10 @@
     },
     {
       "name": "着せ替え",
+      "articles": 1
+    },
+    {
+      "name": "着物",
       "articles": 1
     },
     {
