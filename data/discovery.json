@@ -258,9 +258,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 157,
+    "people": 158,
     "works": 227,
-    "topics": 746
+    "topics": 747
   },
   "people": [
     {
@@ -725,6 +725,10 @@
     },
     {
       "name": "皆川らん",
+      "articles": 1
+    },
+    {
+      "name": "真城はあと",
       "articles": 1
     },
     {
@@ -4013,7 +4017,7 @@
     },
     {
       "name": "水着",
-      "articles": 30
+      "articles": 31
     },
     {
       "name": "水着グラビア",
@@ -4186,6 +4190,10 @@
     {
       "name": "白シャツ",
       "articles": 2
+    },
+    {
+      "name": "白ビキニ",
+      "articles": 1
     },
     {
       "name": "白石なみ",
