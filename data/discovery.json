@@ -126,6 +126,7 @@
     "topics/topic-81a5663bf989.html",
     "topics/topic-828860e753a8.html",
     "topics/topic-843a2b7c59e8.html",
+    "topics/topic-84e02d8d7d24.html",
     "topics/topic-84fda3a3860c.html",
     "topics/topic-86b19c9ac1d9.html",
     "topics/topic-89e4949f9542.html",
@@ -235,7 +236,7 @@
   "counts": {
     "people": 147,
     "works": 219,
-    "topics": 667
+    "topics": 668
   },
   "people": [
     {
@@ -2824,7 +2825,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 24
+      "articles": 25
     },
     {
       "name": "リブニット",
@@ -3668,7 +3669,7 @@
     },
     {
       "name": "水着",
-      "articles": 24
+      "articles": 25
     },
     {
       "name": "水着グラビア",
@@ -3804,7 +3805,7 @@
     },
     {
       "name": "画像ギャラリー",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "画像集",
@@ -4288,6 +4289,10 @@
     },
     {
       "name": "音琴るい",
+      "articles": 1
+    },
+    {
+      "name": "音音ねお",
       "articles": 1
     },
     {
