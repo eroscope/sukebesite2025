@@ -245,8 +245,8 @@
     "works.html"
   ],
   "counts": {
-    "people": 153,
-    "works": 220,
+    "people": 154,
+    "works": 221,
     "topics": 716
   },
   "people": [
@@ -548,6 +548,10 @@
     },
     {
       "name": "月野かすみ",
+      "articles": 1
+    },
+    {
+      "name": "朝妃りお",
       "articles": 1
     },
     {
@@ -1445,6 +1449,10 @@
       "articles": 1
     },
     {
+      "code": "PXVR-433",
+      "articles": 1
+    },
+    {
       "code": "ROE-476",
       "articles": 1
     },
@@ -2108,7 +2116,7 @@
     },
     {
       "name": "VR",
-      "articles": 62
+      "articles": 63
     },
     {
       "name": "VR CHANNEL 005",
@@ -3208,7 +3216,7 @@
     },
     {
       "name": "公式紹介画像",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "共同廊下",
