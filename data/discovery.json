@@ -247,7 +247,7 @@
   "counts": {
     "people": 152,
     "works": 219,
-    "topics": 704
+    "topics": 708
   },
   "people": [
     {
@@ -2243,6 +2243,10 @@
       "articles": 1
     },
     {
+      "name": "イベント",
+      "articles": 1
+    },
+    {
       "name": "イベント展示",
       "articles": 1
     },
@@ -2623,6 +2627,10 @@
       "articles": 1
     },
     {
+      "name": "ニーハイ",
+      "articles": 1
+    },
+    {
       "name": "ヌード",
       "articles": 6
     },
@@ -2736,6 +2744,10 @@
     },
     {
       "name": "ヒップ",
+      "articles": 1
+    },
+    {
+      "name": "ヒール",
       "articles": 1
     },
     {
@@ -2980,7 +2992,7 @@
     },
     {
       "name": "下着",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "不倫",
@@ -3241,6 +3253,10 @@
     {
       "name": "口淫",
       "articles": 2
+    },
+    {
+      "name": "台湾",
+      "articles": 1
     },
     {
       "name": "合コン",
