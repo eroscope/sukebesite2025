@@ -255,9 +255,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 155,
+    "people": 156,
     "works": 227,
-    "topics": 729
+    "topics": 730
   },
   "people": [
     {
@@ -314,6 +314,10 @@
     },
     {
       "name": "エル・花撫・マイヤー",
+      "articles": 1
+    },
+    {
+      "name": "ジヨンちゃん",
       "articles": 1
     },
     {
@@ -2542,6 +2546,10 @@
     },
     {
       "name": "スクワット",
+      "articles": 1
+    },
+    {
+      "name": "スタイル",
       "articles": 1
     },
     {
