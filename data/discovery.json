@@ -214,6 +214,7 @@
     "topics/topic-de92f995f049.html",
     "topics/topic-deff1678ad25.html",
     "topics/topic-e16d9671dc56.html",
+    "topics/topic-e18b1ea15d9c.html",
     "topics/topic-e2a6d2606a0a.html",
     "topics/topic-e383833e382f.html",
     "topics/topic-e424954ac043.html",
@@ -259,9 +260,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 158,
+    "people": 159,
     "works": 227,
-    "topics": 753
+    "topics": 754
   },
   "people": [
     {
@@ -655,6 +656,10 @@
     {
       "name": "榊原萌",
       "articles": 3
+    },
+    {
+      "name": "橋本環奈",
+      "articles": 1
     },
     {
       "name": "河北彩伽",
@@ -2350,7 +2355,7 @@
     },
     {
       "name": "イベント",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "イベント展示",
@@ -4478,7 +4483,7 @@
     },
     {
       "name": "胸元",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "胸露出",
@@ -4790,6 +4795,10 @@
     },
     {
       "name": "麻里梨夏",
+      "articles": 1
+    },
+    {
+      "name": "黄色いドレス",
       "articles": 1
     },
     {
