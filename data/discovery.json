@@ -255,7 +255,7 @@
     "works.html"
   ],
   "counts": {
-    "people": 156,
+    "people": 157,
     "works": 227,
     "topics": 734
   },
@@ -378,6 +378,10 @@
     },
     {
       "name": "佐伯里桜",
+      "articles": 1
+    },
+    {
+      "name": "佐知子",
       "articles": 1
     },
     {
@@ -1902,7 +1906,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "Animates",
