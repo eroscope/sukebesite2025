@@ -234,7 +234,7 @@
     "works.html"
   ],
   "counts": {
-    "people": 147,
+    "people": 148,
     "works": 219,
     "topics": 672
   },
@@ -353,6 +353,10 @@
     },
     {
       "name": "依本しおり",
+      "articles": 1
+    },
+    {
+      "name": "倉木華",
       "articles": 1
     },
     {
@@ -2433,7 +2437,7 @@
     },
     {
       "name": "セックス",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "セックス画像",
@@ -3813,7 +3817,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "画像ギャラリー",
