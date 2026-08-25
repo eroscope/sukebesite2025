@@ -248,8 +248,8 @@
   ],
   "counts": {
     "people": 154,
-    "works": 221,
-    "topics": 717
+    "works": 222,
+    "topics": 718
   },
   "people": [
     {
@@ -502,7 +502,7 @@
     },
     {
       "name": "彩月七緒",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "恋川こもも",
@@ -1219,6 +1219,10 @@
       "articles": 1
     },
     {
+      "code": "JUVR-303",
+      "articles": 1
+    },
+    {
       "code": "KAVR-412",
       "articles": 1
     },
@@ -1802,7 +1806,7 @@
     },
     {
       "name": "8K",
-      "articles": 22
+      "articles": 23
     },
     {
       "name": "8K VR",
@@ -2013,6 +2017,10 @@
       "articles": 9
     },
     {
+      "name": "MadonnaVR",
+      "articles": 1
+    },
+    {
       "name": "Mina",
       "articles": 1
     },
@@ -2118,7 +2126,7 @@
     },
     {
       "name": "VR",
-      "articles": 63
+      "articles": 64
     },
     {
       "name": "VR CHANNEL 005",
