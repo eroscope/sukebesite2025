@@ -234,9 +234,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 148,
+    "people": 149,
     "works": 219,
-    "topics": 672
+    "topics": 675
   },
   "people": [
     {
@@ -289,6 +289,10 @@
     },
     {
       "name": "エル・花撫・マイヤー",
+      "articles": 1
+    },
+    {
+      "name": "ソフィーティア",
       "articles": 1
     },
     {
@@ -2364,6 +2368,10 @@
       "articles": 1
     },
     {
+      "name": "ゲームキャラ",
+      "articles": 1
+    },
+    {
       "name": "ゲームキャラクター",
       "articles": 1
     },
@@ -2457,6 +2465,10 @@
     },
     {
       "name": "セーラー風衣装",
+      "articles": 1
+    },
+    {
+      "name": "ソウルキャリバー",
       "articles": 1
     },
     {
@@ -3624,6 +3636,10 @@
       "articles": 1
     },
     {
+      "name": "格闘ゲーム",
+      "articles": 1
+    },
+    {
       "name": "桃乃木かな",
       "articles": 1
     },
@@ -3817,7 +3833,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "画像ギャラリー",
