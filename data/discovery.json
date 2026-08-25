@@ -2,6 +2,7 @@
   "version": "20260825-2",
   "generated_files": [
     "people.html",
+    "people/person-01b978367f05.html",
     "people/person-0979d915b26e.html",
     "people/person-0b5c5c5ef71f.html",
     "people/person-1bf8c0e47455.html",
@@ -233,8 +234,8 @@
   ],
   "counts": {
     "people": 146,
-    "works": 218,
-    "topics": 665
+    "works": 219,
+    "topics": 666
   },
   "people": [
     {
@@ -743,7 +744,7 @@
     },
     {
       "name": "花守夏歩",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "葵いぶき",
@@ -905,6 +906,10 @@
     },
     {
       "code": "CRVR-412",
+      "articles": 1
+    },
+    {
+      "code": "CRVR-419",
       "articles": 1
     },
     {
@@ -1751,7 +1756,7 @@
     },
     {
       "name": "8KVR",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "8頭身",
@@ -2051,7 +2056,7 @@
     },
     {
       "name": "VR",
-      "articles": 61
+      "articles": 62
     },
     {
       "name": "VR CHANNEL 005",
@@ -2471,6 +2476,10 @@
     },
     {
       "name": "ダンス",
+      "articles": 1
+    },
+    {
+      "name": "チアガール",
       "articles": 1
     },
     {
