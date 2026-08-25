@@ -188,6 +188,7 @@
     "topics/topic-cde29f0f9c7e.html",
     "topics/topic-cec82fb864d9.html",
     "topics/topic-crystal-vr.html",
+    "topics/topic-d0a50a9ec866.html",
     "topics/topic-d0f68617ec6d.html",
     "topics/topic-d36caa93b02a.html",
     "topics/topic-d57207655b68.html",
@@ -241,7 +242,7 @@
   "counts": {
     "people": 150,
     "works": 219,
-    "topics": 685
+    "topics": 690
   },
   "people": [
     {
@@ -2121,6 +2122,10 @@
       "articles": 1
     },
     {
+      "name": "あやかしランブル！",
+      "articles": 1
+    },
+    {
       "name": "えむっ娘ラボ",
       "articles": 1
     },
@@ -2250,7 +2255,7 @@
     },
     {
       "name": "エロゲー",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "エロ同人誌",
@@ -2493,6 +2498,10 @@
       "articles": 1
     },
     {
+      "name": "ソシャゲコラボ",
+      "articles": 1
+    },
+    {
       "name": "ソファSEX",
       "articles": 1
     },
@@ -2598,6 +2607,14 @@
     },
     {
       "name": "ネコ耳",
+      "articles": 1
+    },
+    {
+      "name": "ノラとと",
+      "articles": 1
+    },
+    {
+      "name": "ノラと皇女と野良猫ハート",
       "articles": 1
     },
     {
@@ -4054,6 +4071,10 @@
     },
     {
       "name": "絵柄の進化",
+      "articles": 1
+    },
+    {
+      "name": "続編",
       "articles": 1
     },
     {
