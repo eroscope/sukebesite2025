@@ -233,9 +233,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 146,
+    "people": 147,
     "works": 219,
-    "topics": 666
+    "topics": 667
   },
   "people": [
     {
@@ -808,6 +808,10 @@
     },
     {
       "name": "音無鈴",
+      "articles": 1
+    },
+    {
+      "name": "音音ねお",
       "articles": 1
     },
     {
@@ -2820,7 +2824,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 23
+      "articles": 24
     },
     {
       "name": "リブニット",
@@ -3487,6 +3491,10 @@
       "articles": 1
     },
     {
+      "name": "撮影会",
+      "articles": 1
+    },
+    {
       "name": "撮影現場",
       "articles": 1
     },
@@ -3660,7 +3668,7 @@
     },
     {
       "name": "水着",
-      "articles": 23
+      "articles": 24
     },
     {
       "name": "水着グラビア",
