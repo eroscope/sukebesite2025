@@ -237,7 +237,7 @@
   "counts": {
     "people": 150,
     "works": 219,
-    "topics": 676
+    "topics": 677
   },
   "people": [
     {
@@ -814,7 +814,7 @@
     },
     {
       "name": "青空ひかり",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "青葉はる",
@@ -1826,7 +1826,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "Animates",
@@ -2310,6 +2310,10 @@
     },
     {
       "name": "カフェ",
+      "articles": 1
+    },
+    {
+      "name": "カレーオフ会",
       "articles": 1
     },
     {
