@@ -245,7 +245,7 @@
   "counts": {
     "people": 151,
     "works": 219,
-    "topics": 698
+    "topics": 701
   },
   "people": [
     {
@@ -2353,6 +2353,10 @@
       "articles": 2
     },
     {
+      "name": "キャミソール",
+      "articles": 1
+    },
+    {
       "name": "キャラクタークリエイト",
       "articles": 1
     },
@@ -2386,6 +2390,10 @@
     },
     {
       "name": "グレタ・トゥーンベリ",
+      "articles": 1
+    },
+    {
+      "name": "グレー髪",
       "articles": 1
     },
     {
@@ -4502,6 +4510,10 @@
     },
     {
       "name": "麻里梨夏",
+      "articles": 1
+    },
+    {
+      "name": "黒ギャル",
       "articles": 1
     },
     {
