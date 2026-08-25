@@ -247,7 +247,7 @@
   "counts": {
     "people": 152,
     "works": 220,
-    "topics": 709
+    "topics": 712
   },
   "people": [
     {
@@ -2655,6 +2655,10 @@
       "articles": 1
     },
     {
+      "name": "ネットの反応",
+      "articles": 1
+    },
+    {
       "name": "ノラとと",
       "articles": 1
     },
@@ -3719,6 +3723,10 @@
       "articles": 1
     },
     {
+      "name": "服装",
+      "articles": 1
+    },
+    {
       "name": "未亡人",
       "articles": 1
     },
@@ -4260,10 +4268,14 @@
     },
     {
       "name": "胸元",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "胸露出",
+      "articles": 1
+    },
+    {
+      "name": "脚",
       "articles": 1
     },
     {
