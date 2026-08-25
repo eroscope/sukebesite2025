@@ -192,6 +192,7 @@
     "topics/topic-bb69fdc44886.html",
     "topics/topic-bbf72a1513be.html",
     "topics/topic-be9e5cbc0419.html",
+    "topics/topic-c3eb5feb0b13.html",
     "topics/topic-c79d6ca8cec1.html",
     "topics/topic-c85a37f5a170.html",
     "topics/topic-c967cee050d5.html",
@@ -212,6 +213,7 @@
     "topics/topic-de92f995f049.html",
     "topics/topic-deff1678ad25.html",
     "topics/topic-e16d9671dc56.html",
+    "topics/topic-e2a6d2606a0a.html",
     "topics/topic-e383833e382f.html",
     "topics/topic-e424954ac043.html",
     "topics/topic-e440de03ac01.html",
@@ -258,7 +260,7 @@
   "counts": {
     "people": 157,
     "works": 227,
-    "topics": 739
+    "topics": 741
   },
   "people": [
     {
@@ -2554,6 +2556,10 @@
       "articles": 1
     },
     {
+      "name": "ショートパンツ",
+      "articles": 1
+    },
+    {
       "name": "スイカ割り",
       "articles": 1
     },
@@ -2712,6 +2718,10 @@
     {
       "name": "ドラマ",
       "articles": 2
+    },
+    {
+      "name": "ドルフィンパンツ",
+      "articles": 1
     },
     {
       "name": "ドレス",
@@ -3659,7 +3669,7 @@
     },
     {
       "name": "尻",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "屋外ロケ",
@@ -4427,7 +4437,7 @@
     },
     {
       "name": "脚",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "腰振りダンス",
@@ -4587,7 +4597,7 @@
     },
     {
       "name": "部屋着",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "酩酊",
