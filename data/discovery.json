@@ -83,6 +83,7 @@
     "topics/topic-383f688ec1c4.html",
     "topics/topic-38e8334f0533.html",
     "topics/topic-3b2ce5591771.html",
+    "topics/topic-3cc515a34ee3.html",
     "topics/topic-3dbb0d7317d1.html",
     "topics/topic-3dce044148e5.html",
     "topics/topic-3dvr.html",
@@ -160,6 +161,7 @@
     "topics/topic-9be373a67afd.html",
     "topics/topic-9c3aa8eee095.html",
     "topics/topic-9de5bab4f2e7.html",
+    "topics/topic-9dec44a3aaa7.html",
     "topics/topic-a04d5bfd17ef.html",
     "topics/topic-a1708ab4d3ce.html",
     "topics/topic-a3744f95b338.html",
@@ -254,7 +256,7 @@
   "counts": {
     "people": 154,
     "works": 223,
-    "topics": 724
+    "topics": 726
   },
   "people": [
     {
@@ -2134,6 +2136,10 @@
       "articles": 2
     },
     {
+      "name": "THE KING OF FIGHTERS",
+      "articles": 1
+    },
+    {
       "name": "Tバック",
       "articles": 1
     },
@@ -2455,7 +2461,7 @@
     },
     {
       "name": "ゲーム",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ゲームイラスト",
@@ -2835,7 +2841,7 @@
     },
     {
       "name": "フィギュア",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "フェチ",
@@ -3030,6 +3036,10 @@
       "articles": 1
     },
     {
+      "name": "ワンダーフェスティバル",
+      "articles": 1
+    },
+    {
       "name": "ワンルーム",
       "articles": 1
     },
@@ -3063,7 +3073,7 @@
     },
     {
       "name": "不知火舞",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "中丸未来",
