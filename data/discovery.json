@@ -265,7 +265,7 @@
   "counts": {
     "people": 159,
     "works": 227,
-    "topics": 759
+    "topics": 762
   },
   "people": [
     {
@@ -3193,6 +3193,10 @@
       "articles": 23
     },
     {
+      "name": "下着のライン",
+      "articles": 1
+    },
+    {
       "name": "不倫",
       "articles": 3
     },
@@ -3545,6 +3549,10 @@
       "articles": 1
     },
     {
+      "name": "増田陽名",
+      "articles": 1
+    },
+    {
       "name": "売り子",
       "articles": 1
     },
@@ -3590,7 +3598,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "女子大生",
@@ -3866,7 +3874,7 @@
     },
     {
       "name": "放送キャプチャ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "教室",
@@ -4238,6 +4246,10 @@
     },
     {
       "name": "白ビキニ",
+      "articles": 1
+    },
+    {
+      "name": "白ピタパン",
       "articles": 1
     },
     {
