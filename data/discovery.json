@@ -247,7 +247,7 @@
   "counts": {
     "people": 152,
     "works": 220,
-    "topics": 712
+    "topics": 715
   },
   "people": [
     {
@@ -2947,6 +2947,10 @@
       "articles": 1
     },
     {
+      "name": "ラッキースケベ",
+      "articles": 1
+    },
+    {
       "name": "ランジェリー",
       "articles": 25
     },
@@ -3799,6 +3803,10 @@
       "articles": 1
     },
     {
+      "name": "椅子",
+      "articles": 1
+    },
+    {
       "name": "椿りか",
       "articles": 1
     },
@@ -4584,6 +4592,10 @@
     },
     {
       "name": "黒レース",
+      "articles": 1
+    },
+    {
+      "name": "黒服",
       "articles": 1
     },
     {
