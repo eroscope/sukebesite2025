@@ -260,7 +260,7 @@
   "counts": {
     "people": 157,
     "works": 227,
-    "topics": 742
+    "topics": 745
   },
   "people": [
     {
@@ -2532,6 +2532,10 @@
       "articles": 3
     },
     {
+      "name": "ゴブリンスレイヤー",
+      "articles": 1
+    },
+    {
       "name": "ゴルフウェア",
       "articles": 1
     },
@@ -2908,6 +2912,10 @@
       "articles": 2
     },
     {
+      "name": "フェイスレス・ドロップアウト",
+      "articles": 1
+    },
+    {
       "name": "フェチ",
       "articles": 13
     },
@@ -3093,6 +3101,10 @@
     },
     {
       "name": "ルーズソックス",
+      "articles": 1
+    },
+    {
+      "name": "レイプ描写",
       "articles": 1
     },
     {
@@ -4061,7 +4073,7 @@
     },
     {
       "name": "漫画",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "漫画画像",
