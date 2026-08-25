@@ -109,6 +109,7 @@
     "topics/topic-5b592521cfcd.html",
     "topics/topic-5df792d395a0.html",
     "topics/topic-5e0721bebbe4.html",
+    "topics/topic-612e72ff9af8.html",
     "topics/topic-616794ab0faa.html",
     "topics/topic-6178b11f2bab.html",
     "topics/topic-6188fdb6e5de.html",
@@ -253,7 +254,7 @@
   "counts": {
     "people": 154,
     "works": 223,
-    "topics": 720
+    "topics": 724
   },
   "people": [
     {
@@ -2301,6 +2302,10 @@
       "articles": 1
     },
     {
+      "name": "インナー",
+      "articles": 1
+    },
+    {
       "name": "ウィスパー",
       "articles": 1
     },
@@ -2702,6 +2707,10 @@
     },
     {
       "name": "ノラと皇女と野良猫ハート",
+      "articles": 1
+    },
+    {
+      "name": "ノースリーブ",
       "articles": 1
     },
     {
@@ -3434,7 +3443,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "女子大生",
@@ -3706,6 +3715,10 @@
     },
     {
       "name": "支援センター",
+      "articles": 1
+    },
+    {
+      "name": "放送キャプチャ",
       "articles": 1
     },
     {
@@ -4034,7 +4047,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "画像ギャラリー",
@@ -4451,6 +4464,10 @@
     {
       "name": "超接写",
       "articles": 2
+    },
+    {
+      "name": "足立夏保",
+      "articles": 1
     },
     {
       "name": "車内プレイ",
