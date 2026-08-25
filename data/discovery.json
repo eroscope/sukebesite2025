@@ -257,7 +257,7 @@
   "counts": {
     "people": 156,
     "works": 227,
-    "topics": 731
+    "topics": 734
   },
   "people": [
     {
@@ -2285,6 +2285,10 @@
       "articles": 5
     },
     {
+      "name": "アイドルマスター",
+      "articles": 1
+    },
+    {
       "name": "アイドル候補生",
       "articles": 1
     },
@@ -2490,7 +2494,7 @@
     },
     {
       "name": "ゲーム",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ゲームイラスト",
@@ -2531,6 +2535,10 @@
     {
       "name": "サンプル動画",
       "articles": 3
+    },
+    {
+      "name": "シャニマス",
+      "articles": 1
     },
     {
       "name": "スイカ割り",
@@ -3010,6 +3018,10 @@
     },
     {
       "name": "メガネ",
+      "articles": 1
+    },
+    {
+      "name": "メロディアルサマー",
       "articles": 1
     },
     {
@@ -3958,7 +3970,7 @@
     },
     {
       "name": "水着",
-      "articles": 29
+      "articles": 30
     },
     {
       "name": "水着グラビア",
