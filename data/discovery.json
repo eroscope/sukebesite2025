@@ -247,7 +247,7 @@
   "counts": {
     "people": 152,
     "works": 219,
-    "topics": 701
+    "topics": 704
   },
   "people": [
     {
@@ -2999,6 +2999,10 @@
       "articles": 15
     },
     {
+      "name": "中国",
+      "articles": 1
+    },
+    {
       "name": "丸最レア",
       "articles": 1
     },
@@ -3312,6 +3316,10 @@
     },
     {
       "name": "夏目玲香",
+      "articles": 1
+    },
+    {
+      "name": "夜の街",
       "articles": 1
     },
     {
@@ -4068,6 +4076,10 @@
     },
     {
       "name": "空見みあ",
+      "articles": 1
+    },
+    {
+      "name": "立ちんぼ",
       "articles": 1
     },
     {
