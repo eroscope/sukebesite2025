@@ -282,9 +282,9 @@
     "works/work-892oero-006.html"
   ],
   "counts": {
-    "people": 180,
+    "people": 181,
     "works": 248,
-    "topics": 826
+    "topics": 828
   },
   "people": [
     {
@@ -661,6 +661,10 @@
     },
     {
       "name": "木村絵里子",
+      "articles": 1
+    },
+    {
+      "name": "本郷柚巴",
       "articles": 1
     },
     {
@@ -2304,6 +2308,10 @@
       "articles": 1
     },
     {
+      "name": "NMB48",
+      "articles": 1
+    },
+    {
       "name": "NTR",
       "articles": 3
     },
@@ -2445,6 +2453,10 @@
     },
     {
       "name": "いいなり温泉旅行",
+      "articles": 1
+    },
+    {
+      "name": "うさ耳",
       "articles": 1
     },
     {
@@ -4425,7 +4437,7 @@
     },
     {
       "name": "水着",
-      "articles": 37
+      "articles": 38
     },
     {
       "name": "水着グラビア",
