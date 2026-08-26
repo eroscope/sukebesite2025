@@ -285,9 +285,9 @@
     "works/work-892oero-006.html"
   ],
   "counts": {
-    "people": 182,
+    "people": 183,
     "works": 248,
-    "topics": 843
+    "topics": 845
   },
   "people": [
     {
@@ -940,6 +940,10 @@
     },
     {
       "name": "蓮実クレア",
+      "articles": 1
+    },
+    {
+      "name": "藤田シオン",
       "articles": 1
     },
     {
@@ -2045,6 +2049,10 @@
     {
       "name": "4P",
       "articles": 2
+    },
+    {
+      "name": "50kg→84kg",
+      "articles": 1
     },
     {
       "name": "50％OFF",
@@ -3211,6 +3219,10 @@
       "articles": 2
     },
     {
+      "name": "ビフォーアフター",
+      "articles": 1
+    },
+    {
       "name": "ビール",
       "articles": 1
     },
@@ -3440,7 +3452,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 34
+      "articles": 35
     },
     {
       "name": "リブニット",
