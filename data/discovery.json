@@ -291,8 +291,8 @@
   ],
   "counts": {
     "people": 187,
-    "works": 251,
-    "topics": 863
+    "works": 252,
+    "topics": 866
   },
   "people": [
     {
@@ -1678,6 +1678,10 @@
       "articles": 1
     },
     {
+      "code": "OFJE-624",
+      "articles": 1
+    },
+    {
       "code": "OFJE-628",
       "articles": 1
     },
@@ -2860,6 +2864,10 @@
       "articles": 4
     },
     {
+      "name": "コンプリート",
+      "articles": 1
+    },
+    {
       "name": "ゴブリンスレイヤー",
       "articles": 1
     },
@@ -3493,7 +3501,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 37
+      "articles": 38
     },
     {
       "name": "リブニット",
@@ -3797,7 +3805,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 33
+      "articles": 34
     },
     {
       "name": "公式商品紹介",
@@ -4224,6 +4232,10 @@
       "articles": 3
     },
     {
+      "name": "引退記念",
+      "articles": 1
+    },
+    {
       "name": "弥生みづき",
       "articles": 1
     },
@@ -4321,7 +4333,7 @@
     },
     {
       "name": "拘束",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "挟射",
@@ -4449,6 +4461,10 @@
     },
     {
       "name": "未亡人",
+      "articles": 1
+    },
+    {
+      "name": "未歩なな",
       "articles": 1
     },
     {
@@ -4593,7 +4609,7 @@
     },
     {
       "name": "水着",
-      "articles": 38
+      "articles": 39
     },
     {
       "name": "水着グラビア",
@@ -5181,7 +5197,7 @@
     },
     {
       "name": "複数人プレイ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "複数出演",
