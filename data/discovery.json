@@ -266,9 +266,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 168,
+    "people": 169,
     "works": 235,
-    "topics": 779
+    "topics": 780
   },
   "people": [
     {
@@ -329,6 +329,10 @@
     },
     {
       "name": "ジヨンちゃん",
+      "articles": 1
+    },
+    {
+      "name": "スナックママ",
       "articles": 1
     },
     {
@@ -2281,7 +2285,7 @@
     },
     {
       "name": "VR",
-      "articles": 68
+      "articles": 69
     },
     {
       "name": "VR CHANNEL 005",
@@ -3405,6 +3409,10 @@
     },
     {
       "name": "佐藤愛瑠",
+      "articles": 1
+    },
+    {
+      "name": "佐野秋帆",
       "articles": 1
     },
     {
@@ -4545,7 +4553,7 @@
     },
     {
       "name": "網タイツ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "総集編",
@@ -4957,7 +4965,7 @@
     },
     {
       "name": "騎乗位",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "高齢者",
