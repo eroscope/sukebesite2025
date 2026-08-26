@@ -287,9 +287,9 @@
     "works/work-892oero-006.html"
   ],
   "counts": {
-    "people": 184,
+    "people": 185,
     "works": 248,
-    "topics": 851
+    "topics": 852
   },
   "people": [
     {
@@ -935,6 +935,10 @@
     {
       "name": "花守夏歩",
       "articles": 2
+    },
+    {
+      "name": "菜那セシル",
+      "articles": 1
     },
     {
       "name": "葵いぶき",
@@ -3458,7 +3462,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 35
+      "articles": 36
     },
     {
       "name": "リブニット",
@@ -3774,6 +3778,10 @@
     },
     {
       "name": "共同生活",
+      "articles": 1
+    },
+    {
+      "name": "写真集",
       "articles": 1
     },
     {
