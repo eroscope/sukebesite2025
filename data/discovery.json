@@ -276,8 +276,8 @@
   ],
   "counts": {
     "people": 179,
-    "works": 246,
-    "topics": 806
+    "works": 247,
+    "topics": 807
   },
   "people": [
     {
@@ -1232,6 +1232,10 @@
     },
     {
       "code": "HUNTC-515",
+      "articles": 1
+    },
+    {
+      "code": "HUNTC-563",
       "articles": 1
     },
     {
@@ -3377,6 +3381,10 @@
       "articles": 1
     },
     {
+      "name": "ロッカー",
+      "articles": 1
+    },
+    {
       "name": "ワンダーフェスティバル",
       "articles": 1
     },
@@ -3614,7 +3622,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 30
+      "articles": 31
     },
     {
       "name": "公式商品紹介",
@@ -3654,7 +3662,7 @@
     },
     {
       "name": "制服",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "制服衣装",
@@ -4914,7 +4922,7 @@
     },
     {
       "name": "複数人",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "複数人プレイ",
