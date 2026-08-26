@@ -264,9 +264,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 161,
-    "works": 230,
-    "topics": 771
+    "people": 162,
+    "works": 231,
+    "topics": 772
   },
   "people": [
     {
@@ -786,6 +786,10 @@
       "articles": 1
     },
     {
+      "name": "篠崎沙帆",
+      "articles": 1
+    },
+    {
       "name": "純白彩永",
       "articles": 2
     },
@@ -1193,6 +1197,10 @@
     },
     {
       "code": "IPZZ-842",
+      "articles": 1
+    },
+    {
+      "code": "IPZZ-849",
       "articles": 1
     },
     {
@@ -1939,7 +1947,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "AV作品",
@@ -2143,7 +2151,7 @@
     },
     {
       "name": "OL",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "OLスーツ",
@@ -3427,7 +3435,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 21
+      "articles": 22
     },
     {
       "name": "公式商品紹介",
@@ -4231,6 +4239,10 @@
     },
     {
       "name": "町銭湯",
+      "articles": 1
+    },
+    {
+      "name": "画像11枚",
       "articles": 1
     },
     {
