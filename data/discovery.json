@@ -204,6 +204,7 @@
     "topics/topic-c79d6ca8cec1.html",
     "topics/topic-c85a37f5a170.html",
     "topics/topic-c967cee050d5.html",
+    "topics/topic-c968ce1187c8.html",
     "topics/topic-c9b8d32f2216.html",
     "topics/topic-cb1b67b257cc.html",
     "topics/topic-cd9b636b3770.html",
@@ -268,8 +269,8 @@
     "works.html"
   ],
   "counts": {
-    "people": 169,
-    "works": 236,
+    "people": 170,
+    "works": 237,
     "topics": 785
   },
   "people": [
@@ -886,6 +887,10 @@
       "articles": 1
     },
     {
+      "name": "西田カリナ",
+      "articles": 1
+    },
+    {
       "name": "谷村凪咲",
       "articles": 2
     },
@@ -1385,6 +1390,10 @@
     },
     {
       "code": "MFYD-101",
+      "articles": 1
+    },
+    {
+      "code": "MFYD-124",
       "articles": 1
     },
     {
@@ -2279,7 +2288,7 @@
     },
     {
       "name": "TAMEIKE",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "THE KING OF FIGHTERS",
@@ -4295,7 +4304,7 @@
     },
     {
       "name": "濃厚キス",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "炎上",
