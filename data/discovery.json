@@ -286,7 +286,7 @@
   "counts": {
     "people": 182,
     "works": 248,
-    "topics": 837
+    "topics": 841
   },
   "people": [
     {
@@ -2526,6 +2526,10 @@
       "articles": 1
     },
     {
+      "name": "ぴたぴた衣装",
+      "articles": 1
+    },
+    {
       "name": "ふみ、たわわ。",
       "articles": 1
     },
@@ -2738,6 +2742,10 @@
       "articles": 4
     },
     {
+      "name": "ギャルインフルエンサー",
+      "articles": 1
+    },
+    {
       "name": "ギャル幼馴染",
       "articles": 1
     },
@@ -2771,6 +2779,10 @@
     },
     {
       "name": "グレタ・トゥーンベリ",
+      "articles": 1
+    },
+    {
+      "name": "グレーのロンパース",
       "articles": 1
     },
     {
@@ -3483,6 +3495,10 @@
     },
     {
       "name": "一般漫画",
+      "articles": 1
+    },
+    {
+      "name": "七井瑞稀",
       "articles": 1
     },
     {
