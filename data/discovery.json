@@ -277,7 +277,7 @@
   "counts": {
     "people": 179,
     "works": 247,
-    "topics": 807
+    "topics": 812
   },
   "people": [
     {
@@ -2477,6 +2477,10 @@
       "articles": 2
     },
     {
+      "name": "すみれ",
+      "articles": 1
+    },
+    {
       "name": "てーきゅう",
       "articles": 1
     },
@@ -3130,6 +3134,10 @@
     },
     {
       "name": "ビール",
+      "articles": 1
+    },
+    {
+      "name": "ピアノ教師",
       "articles": 1
     },
     {
@@ -4293,6 +4301,10 @@
       "articles": 1
     },
     {
+      "name": "森あやみ",
+      "articles": 1
+    },
+    {
       "name": "森山みなみ",
       "articles": 1
     },
@@ -4498,6 +4510,10 @@
     },
     {
       "name": "画像22枚",
+      "articles": 1
+    },
+    {
+      "name": "画像32枚",
       "articles": 1
     },
     {
@@ -4714,6 +4730,10 @@
     },
     {
       "name": "素人ナンパ",
+      "articles": 1
+    },
+    {
+      "name": "素人作品",
       "articles": 1
     },
     {
