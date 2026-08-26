@@ -292,7 +292,7 @@
   "counts": {
     "people": 187,
     "works": 251,
-    "topics": 859
+    "topics": 863
   },
   "people": [
     {
@@ -2916,6 +2916,10 @@
       "articles": 1
     },
     {
+      "name": "ステージ",
+      "articles": 1
+    },
+    {
       "name": "ストレッチ",
       "articles": 1
     },
@@ -3601,6 +3605,10 @@
     },
     {
       "name": "中国",
+      "articles": 1
+    },
+    {
+      "name": "中国人女性",
       "articles": 1
     },
     {
@@ -5280,6 +5288,10 @@
       "articles": 2
     },
     {
+      "name": "配信",
+      "articles": 1
+    },
+    {
       "name": "酩酊",
       "articles": 1
     },
@@ -5453,6 +5465,10 @@
     },
     {
       "name": "黄色いドレス",
+      "articles": 1
+    },
+    {
+      "name": "黒い衣装",
       "articles": 1
     },
     {
