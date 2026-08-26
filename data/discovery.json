@@ -270,9 +270,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 174,
+    "people": 175,
     "works": 240,
-    "topics": 791
+    "topics": 792
   },
   "people": [
     {
@@ -701,6 +701,10 @@
     },
     {
       "name": "橋本環奈",
+      "articles": 1
+    },
+    {
+      "name": "武田玲奈",
       "articles": 1
     },
     {
@@ -3061,7 +3065,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "ビビアン",
@@ -4269,7 +4273,7 @@
     },
     {
       "name": "水着",
-      "articles": 35
+      "articles": 36
     },
     {
       "name": "水着グラビア",
@@ -4617,6 +4621,10 @@
     },
     {
       "name": "結婚生活",
+      "articles": 1
+    },
+    {
+      "name": "結婚発表",
       "articles": 1
     },
     {
