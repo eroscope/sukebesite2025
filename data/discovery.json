@@ -267,8 +267,8 @@
   ],
   "counts": {
     "people": 169,
-    "works": 235,
-    "topics": 780
+    "works": 236,
+    "topics": 782
   },
   "people": [
     {
@@ -1483,6 +1483,10 @@
     },
     {
       "code": "MISM-457",
+      "articles": 1
+    },
+    {
+      "code": "MKMP-731",
       "articles": 1
     },
     {
@@ -2861,7 +2865,7 @@
     },
     {
       "name": "ナース",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "ニット",
@@ -3497,7 +3501,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 23
+      "articles": 24
     },
     {
       "name": "公式商品紹介",
@@ -3882,6 +3886,10 @@
     {
       "name": "幼馴染",
       "articles": 2
+    },
+    {
+      "name": "弥生みづき",
+      "articles": 1
     },
     {
       "name": "彩月七緒",
@@ -4361,6 +4369,10 @@
     },
     {
       "name": "病院",
+      "articles": 1
+    },
+    {
+      "name": "病院シチュ",
       "articles": 1
     },
     {
