@@ -18,6 +18,7 @@
     "people/person-513e9a89694e.html",
     "people/person-5938e1add918.html",
     "people/person-5fc9e30aedc2.html",
+    "people/person-63f3b4145307.html",
     "people/person-6a33f574374c.html",
     "people/person-6d838e6009c3.html",
     "people/person-7496a897d663.html",
@@ -275,8 +276,8 @@
   ],
   "counts": {
     "people": 179,
-    "works": 245,
-    "topics": 804
+    "works": 246,
+    "topics": 806
   },
   "people": [
     {
@@ -685,7 +686,7 @@
     },
     {
       "name": "桃園怜奈",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "梅田みなみ",
@@ -1123,6 +1124,10 @@
     },
     {
       "code": "DASS-937",
+      "articles": 1
+    },
+    {
+      "code": "DASS-950",
       "articles": 1
     },
     {
@@ -3333,7 +3338,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 32
+      "articles": 33
     },
     {
       "name": "リブニット",
@@ -3409,7 +3414,7 @@
     },
     {
       "name": "不倫",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "不知火舞",
@@ -3609,7 +3614,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 29
+      "articles": 30
     },
     {
       "name": "公式商品紹介",
@@ -4684,6 +4689,10 @@
       "articles": 2
     },
     {
+      "name": "箱ヘル",
+      "articles": 1
+    },
+    {
       "name": "精子",
       "articles": 1
     },
@@ -4769,6 +4778,10 @@
     },
     {
       "name": "美肌",
+      "articles": 1
+    },
+    {
+      "name": "美魔女ママ友",
       "articles": 1
     },
     {
