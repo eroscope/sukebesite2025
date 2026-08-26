@@ -203,6 +203,7 @@
     "topics/topic-b426cff04d6b.html",
     "topics/topic-b4cfc5a67172.html",
     "topics/topic-b4da067dd417.html",
+    "topics/topic-b54c4d3524c7.html",
     "topics/topic-b601a90b3d71.html",
     "topics/topic-b62b6f9bda9f.html",
     "topics/topic-b84b61e7e757.html",
@@ -290,7 +291,7 @@
   "counts": {
     "people": 185,
     "works": 249,
-    "topics": 857
+    "topics": 858
   },
   "people": [
     {
@@ -2839,7 +2840,7 @@
     },
     {
       "name": "コミケ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ゴブリンスレイヤー",
@@ -5335,7 +5336,7 @@
     },
     {
       "name": "青い衣装",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "青姦",
@@ -5440,6 +5441,10 @@
     {
       "name": "黒ストッキング",
       "articles": 2
+    },
+    {
+      "name": "黒タイツ",
+      "articles": 1
     },
     {
       "name": "黒ビキニ",
