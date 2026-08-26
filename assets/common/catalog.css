@@ -87,6 +87,16 @@ img { display:block; width:100%; }
 .info-section p { max-width:760px; margin:0 0 10px; font-size:13px; }
 .info-section a { text-decoration:underline; }
 .info-section .contact-button { display:inline-block; padding:11px 16px; background:var(--ink); color:#fff; font-weight:900; text-decoration:none; }
+.partner-kit { display:grid; grid-template-columns:180px minmax(0,1fr); max-width:860px; margin-top:14px; border:1px solid #c9c6bd; background:#fff; }
+.partner-kit dt,.partner-kit dd { margin:0; padding:10px 12px; border-bottom:1px solid #dedbd2; font-size:12px; }
+.partner-kit dt { background:#e9e6de; font-weight:900; }
+.partner-kit dd { min-width:0; overflow-wrap:anywhere; }
+.partner-kit dt:last-of-type,.partner-kit dd:last-of-type { border-bottom:0; }
+.partner-code { max-width:860px; margin:12px 0; padding:14px; overflow:auto; border:1px solid #c9c6bd; background:#fff; color:#292720; font:12px/1.65 Consolas,"Courier New",monospace; white-space:pre-wrap; overflow-wrap:anywhere; }
+.partner-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+.partner-actions button { min-height:42px; padding:9px 14px; border:1px solid var(--ink); background:#fff; color:var(--ink); font:inherit; font-size:12px; font-weight:900; cursor:pointer; }
+.partner-actions button:hover { background:var(--ink); color:#fff; }
+.partner-logo { width:min(310px,100%); margin:16px 0; padding:12px; border:1px solid #c9c6bd; background:#fff; }
 .catalog-pagination { display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:6px; margin:32px 0 8px; }
 .catalog-pagination a { display:grid; min-width:40px; height:40px; padding:0 12px; place-items:center; border:1px solid #cfcac0; background:#fff; color:#171510; font-size:13px; font-weight:800; }
 .catalog-pagination a.active,.catalog-pagination a:hover { border-color:#171510; background:#171510; color:#fff; }
@@ -127,6 +137,9 @@ img { display:block; width:100%; }
   .page-heading { display:block; }
   .page-heading h1 { font-size:25px; }
   .page-heading p { margin-top:5px; }
+  .partner-kit { grid-template-columns:1fr; }
+  .partner-kit dt { border-bottom:0; padding-bottom:3px; }
+  .partner-kit dd { padding-top:3px; }
   .catalog-grid,.sidebar { grid-template-columns:1fr; }
   .site-search button { padding:0 16px; }
   .age-page { padding:12px; }
