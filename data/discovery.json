@@ -196,6 +196,7 @@
     "topics/topic-av.html",
     "topics/topic-av.html",
     "topics/topic-av.html",
+    "topics/topic-b010a4c2d907.html",
     "topics/topic-b03ff91d92e0.html",
     "topics/topic-b0d4c6c28a4b.html",
     "topics/topic-b1a702141e22.html",
@@ -288,7 +289,7 @@
   "counts": {
     "people": 184,
     "works": 248,
-    "topics": 849
+    "topics": 851
   },
   "people": [
     {
@@ -2113,7 +2114,7 @@
     },
     {
       "name": "ASMR",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ATTACKERS",
@@ -3856,6 +3857,10 @@
       "articles": 1
     },
     {
+      "name": "同人音声",
+      "articles": 1
+    },
+    {
       "name": "同居",
       "articles": 1
     },
@@ -3929,7 +3934,7 @@
     },
     {
       "name": "声優",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "売り子",
@@ -5305,6 +5310,10 @@
     },
     {
       "name": "韓国語配信",
+      "articles": 1
+    },
+    {
+      "name": "音声作品",
       "articles": 1
     },
     {
