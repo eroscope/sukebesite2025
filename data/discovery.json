@@ -264,9 +264,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 166,
-    "works": 233,
-    "topics": 776
+    "people": 167,
+    "works": 234,
+    "topics": 777
   },
   "people": [
     {
@@ -355,6 +355,10 @@
     },
     {
       "name": "中山ふみか",
+      "articles": 1
+    },
+    {
+      "name": "久遠美緒",
       "articles": 1
     },
     {
@@ -1249,6 +1253,10 @@
     },
     {
       "code": "JUR-071",
+      "articles": 1
+    },
+    {
+      "code": "JUR-075",
       "articles": 1
     },
     {
@@ -3123,7 +3131,7 @@
     },
     {
       "name": "マドンナ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "マネージャー",
@@ -3948,6 +3956,10 @@
     {
       "name": "接吻",
       "articles": 4
+    },
+    {
+      "name": "接吻性交",
+      "articles": 1
     },
     {
       "name": "掲示板まとめ",
