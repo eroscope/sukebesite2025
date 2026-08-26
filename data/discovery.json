@@ -290,7 +290,7 @@
   "counts": {
     "people": 185,
     "works": 248,
-    "topics": 853
+    "topics": 855
   },
   "people": [
     {
@@ -2087,7 +2087,7 @@
     },
     {
       "name": "8K VR",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "8KVR",
@@ -2427,6 +2427,10 @@
     },
     {
       "name": "Tバック",
+      "articles": 1
+    },
+    {
+      "name": "UnfinishedVR",
       "articles": 1
     },
     {
@@ -3755,7 +3759,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "公式サンプル動画",
@@ -4239,6 +4243,10 @@
     },
     {
       "name": "成人向け",
+      "articles": 1
+    },
+    {
+      "name": "成人向けVR",
       "articles": 1
     },
     {
@@ -4947,7 +4955,7 @@
     },
     {
       "name": "総集編",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "罵倒",
