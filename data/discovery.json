@@ -291,8 +291,8 @@
   ],
   "counts": {
     "people": 188,
-    "works": 252,
-    "topics": 866
+    "works": 253,
+    "topics": 868
   },
   "people": [
     {
@@ -1782,6 +1782,10 @@
       "articles": 1
     },
     {
+      "code": "SDDE-769",
+      "articles": 1
+    },
+    {
       "code": "SDJS-345",
       "articles": 1
     },
@@ -2438,6 +2442,10 @@
     {
       "name": "SODstar",
       "articles": 2
+    },
+    {
+      "name": "SODクリエイト",
+      "articles": 1
     },
     {
       "name": "SOD女子社員",
@@ -3613,7 +3621,7 @@
     },
     {
       "name": "中出し",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "中国",
@@ -3809,7 +3817,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 34
+      "articles": 35
     },
     {
       "name": "公式商品紹介",
@@ -4445,6 +4453,10 @@
     },
     {
       "name": "昼呑み",
+      "articles": 1
+    },
+    {
+      "name": "時間停止",
       "articles": 1
     },
     {
@@ -5201,7 +5213,7 @@
     },
     {
       "name": "複数人プレイ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "複数出演",
