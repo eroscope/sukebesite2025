@@ -274,9 +274,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 177,
-    "works": 243,
-    "topics": 799
+    "people": 178,
+    "works": 244,
+    "topics": 801
   },
   "people": [
     {
@@ -741,6 +741,10 @@
     },
     {
       "name": "浜辺美波",
+      "articles": 1
+    },
+    {
+      "name": "海老咲あお",
       "articles": 1
     },
     {
@@ -1575,6 +1579,10 @@
     },
     {
       "code": "NHVR-227",
+      "articles": 1
+    },
+    {
+      "code": "NIMA-078",
       "articles": 1
     },
     {
@@ -3169,7 +3177,7 @@
     },
     {
       "name": "ベッドシーン",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ベッド上",
@@ -3589,7 +3597,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 27
+      "articles": 28
     },
     {
       "name": "公式商品紹介",
@@ -3897,6 +3905,10 @@
     },
     {
       "name": "実写動画",
+      "articles": 1
+    },
+    {
+      "name": "実写版",
       "articles": 1
     },
     {
@@ -4382,6 +4394,10 @@
     {
       "name": "漫画",
       "articles": 4
+    },
+    {
+      "name": "漫画演出",
+      "articles": 1
     },
     {
       "name": "漫画画像",
