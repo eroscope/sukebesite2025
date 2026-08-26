@@ -65,6 +65,7 @@
     "topics/topic-110186b4822a.html",
     "topics/topic-1647288711c1.html",
     "topics/topic-17.html",
+    "topics/topic-17198cf6e2b3.html",
     "topics/topic-178a484f3547.html",
     "topics/topic-17ff3fea9409.html",
     "topics/topic-19735dbc9e80.html",
@@ -240,6 +241,7 @@
     "topics/topic-e53e94c377da.html",
     "topics/topic-e55126756e03.html",
     "topics/topic-e871a34a6e7e.html",
+    "topics/topic-ee5c9d2cf8b2.html",
     "topics/topic-ee7e3a59c1a9.html",
     "topics/topic-eecd7740d9de.html",
     "topics/topic-ef05d333e3af.html",
@@ -284,7 +286,7 @@
   "counts": {
     "people": 182,
     "works": 248,
-    "topics": 832
+    "topics": 833
   },
   "people": [
     {
@@ -2409,7 +2411,7 @@
     },
     {
       "name": "VR",
-      "articles": 71
+      "articles": 72
     },
     {
       "name": "VR CHANNEL 005",
@@ -2613,7 +2615,7 @@
     },
     {
       "name": "エステ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "エスワン",
@@ -3629,7 +3631,7 @@
     },
     {
       "name": "作品紹介",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "佳苗るか",
@@ -4097,6 +4099,10 @@
     },
     {
       "name": "山田ゆり",
+      "articles": 1
+    },
+    {
+      "name": "川越にこ",
       "articles": 1
     },
     {
