@@ -43,6 +43,7 @@
     "people/person-df4a10e38d0b.html",
     "people/person-e5c60fa51860.html",
     "people/person-e714d8df7815.html",
+    "people/person-ea65df2aa4d6.html",
     "people/person-edded4fab735.html",
     "people/person-ee7e3a59c1a9.html",
     "people/person-fb23e7155faf.html",
@@ -161,6 +162,7 @@
     "topics/topic-9382af5ea57b.html",
     "topics/topic-93f835c72780.html",
     "topics/topic-974a698e2fe9.html",
+    "topics/topic-978473dda66d.html",
     "topics/topic-987379fc4da4.html",
     "topics/topic-9a2ecb8463a8.html",
     "topics/topic-9a36f427a8c8.html",
@@ -271,7 +273,7 @@
   ],
   "counts": {
     "people": 177,
-    "works": 241,
+    "works": 242,
     "topics": 793
   },
   "people": [
@@ -313,7 +315,7 @@
     },
     {
       "name": "めぐり",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "やんやん",
@@ -1331,6 +1333,10 @@
     },
     {
       "code": "JUR-186",
+      "articles": 1
+    },
+    {
+      "code": "JUR-687",
       "articles": 1
     },
     {
@@ -3453,7 +3459,7 @@
     },
     {
       "name": "人妻",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "人妻モデル",
@@ -3573,7 +3579,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 26
+      "articles": 27
     },
     {
       "name": "公式商品紹介",
@@ -3909,7 +3915,7 @@
     },
     {
       "name": "寝取り",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "寝室",
