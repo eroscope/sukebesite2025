@@ -277,7 +277,7 @@
   "counts": {
     "people": 179,
     "works": 247,
-    "topics": 812
+    "topics": 815
   },
   "people": [
     {
@@ -2657,6 +2657,10 @@
       "articles": 1
     },
     {
+      "name": "カルバン・クライン",
+      "articles": 1
+    },
+    {
       "name": "カレーオフ会",
       "articles": 1
     },
@@ -3145,6 +3149,10 @@
       "articles": 1
     },
     {
+      "name": "ファッション",
+      "articles": 1
+    },
+    {
       "name": "ファンサ",
       "articles": 1
     },
@@ -3422,7 +3430,7 @@
     },
     {
       "name": "下着",
-      "articles": 24
+      "articles": 25
     },
     {
       "name": "下着のライン",
@@ -4966,6 +4974,10 @@
     },
     {
       "name": "見せつけ",
+      "articles": 1
+    },
+    {
+      "name": "見せブラ",
       "articles": 1
     },
     {
