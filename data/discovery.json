@@ -286,7 +286,7 @@
   "counts": {
     "people": 182,
     "works": 248,
-    "topics": 833
+    "topics": 837
   },
   "people": [
     {
@@ -2795,7 +2795,7 @@
     },
     {
       "name": "ゲーム画像",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "コミケ",
@@ -3307,6 +3307,10 @@
     },
     {
       "name": "ホラー",
+      "articles": 1
+    },
+    {
+      "name": "ホラーゲーム",
       "articles": 1
     },
     {
@@ -3962,6 +3966,10 @@
       "articles": 1
     },
     {
+      "name": "女性幽霊",
+      "articles": 1
+    },
+    {
       "name": "女性画像",
       "articles": 2
     },
@@ -4552,6 +4560,10 @@
     {
       "name": "濃厚キス",
       "articles": 2
+    },
+    {
+      "name": "濡れ透け",
+      "articles": 1
     },
     {
       "name": "炎上",
@@ -5216,6 +5228,10 @@
     {
       "name": "雨宮ひびき",
       "articles": 2
+    },
+    {
+      "name": "零",
+      "articles": 1
     },
     {
       "name": "電車",
