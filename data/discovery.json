@@ -101,6 +101,7 @@
     "topics/topic-3fe20114f34d.html",
     "topics/topic-3p.html",
     "topics/topic-3p.html",
+    "topics/topic-403ce6a9e7dc.html",
     "topics/topic-413a5d423268.html",
     "topics/topic-42b682502372.html",
     "topics/topic-42eab7d23db3.html",
@@ -273,10 +274,12 @@
     "topics/topic-sodstar.html",
     "topics/topic-tameike.html",
     "topics/topic-vr.html",
-    "works.html"
+    "works.html",
+    "works/work-857omg-035.html",
+    "works/work-892oero-006.html"
   ],
   "counts": {
-    "people": 179,
+    "people": 180,
     "works": 247,
     "topics": 817
   },
@@ -627,6 +630,10 @@
     },
     {
       "name": "星野みき",
+      "articles": 1
+    },
+    {
+      "name": "月城レミ",
       "articles": 1
     },
     {
@@ -1025,11 +1032,11 @@
     },
     {
       "code": "857OMG-035",
-      "articles": 1
+      "articles": 2
     },
     {
       "code": "892OERO-006",
-      "articles": 1
+      "articles": 2
     },
     {
       "code": "ABF-375",
@@ -3071,7 +3078,7 @@
     },
     {
       "name": "バニー",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "バニーガーデン2",
@@ -3127,7 +3134,7 @@
     },
     {
       "name": "ヒップ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ヒール",
@@ -3363,7 +3370,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 33
+      "articles": 34
     },
     {
       "name": "リブニット",
@@ -4383,7 +4390,7 @@
     },
     {
       "name": "水着",
-      "articles": 36
+      "articles": 37
     },
     {
       "name": "水着グラビア",
