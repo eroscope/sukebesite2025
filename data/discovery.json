@@ -270,7 +270,7 @@
   ],
   "counts": {
     "people": 170,
-    "works": 237,
+    "works": 238,
     "topics": 785
   },
   "people": [
@@ -1350,6 +1350,10 @@
     },
     {
       "code": "KAVR-500",
+      "articles": 1
+    },
+    {
+      "code": "KWBD-422",
       "articles": 1
     },
     {
@@ -3516,7 +3520,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 24
+      "articles": 25
     },
     {
       "name": "公式商品紹介",
@@ -3556,7 +3560,7 @@
     },
     {
       "name": "制服",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "制服衣装",
@@ -4760,7 +4764,7 @@
     },
     {
       "name": "複数人",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "複数人プレイ",
