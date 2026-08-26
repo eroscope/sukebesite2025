@@ -270,9 +270,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 173,
+    "people": 174,
     "works": 240,
-    "topics": 790
+    "topics": 791
   },
   "people": [
     {
@@ -473,6 +473,10 @@
     },
     {
       "name": "大槻ひびき",
+      "articles": 1
+    },
+    {
+      "name": "天川そら",
       "articles": 1
     },
     {
@@ -2769,7 +2773,7 @@
     },
     {
       "name": "セックス",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "セックス画像",
@@ -3341,7 +3345,7 @@
     },
     {
       "name": "下着",
-      "articles": 23
+      "articles": 24
     },
     {
       "name": "下着のライン",
@@ -3653,6 +3657,10 @@
     },
     {
       "name": "同期",
+      "articles": 1
+    },
+    {
+      "name": "同期女子社員",
       "articles": 1
     },
     {
