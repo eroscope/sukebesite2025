@@ -78,6 +78,7 @@
     "topics/topic-26ae114588d9.html",
     "topics/topic-287aa1efabef.html",
     "topics/topic-29f8f0215964.html",
+    "topics/topic-2e494f665ea0.html",
     "topics/topic-2f91f5be8277.html",
     "topics/topic-2fc8c5de1ca2.html",
     "topics/topic-3081d7739206.html",
@@ -269,8 +270,8 @@
     "works.html"
   ],
   "counts": {
-    "people": 170,
-    "works": 238,
+    "people": 172,
+    "works": 239,
     "topics": 785
   },
   "people": [
@@ -581,6 +582,10 @@
     {
       "name": "新木希空",
       "articles": 2
+    },
+    {
+      "name": "新村あかり",
+      "articles": 1
     },
     {
       "name": "日下部加奈",
@@ -943,6 +948,10 @@
       "articles": 1
     },
     {
+      "name": "響つかさ",
+      "articles": 1
+    },
+    {
       "name": "高城なぎさ",
       "articles": 1
     },
@@ -1134,6 +1143,10 @@
     },
     {
       "code": "FPRE-177",
+      "articles": 1
+    },
+    {
+      "code": "GVH-855",
       "articles": 1
     },
     {
@@ -2972,7 +2985,7 @@
     },
     {
       "name": "バニーガール",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "バニーナース",
@@ -3516,7 +3529,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "公式サンプル動画",
@@ -4768,7 +4781,7 @@
     },
     {
       "name": "複数人プレイ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "複数出演",
