@@ -271,8 +271,8 @@
   ],
   "counts": {
     "people": 173,
-    "works": 239,
-    "topics": 788
+    "works": 240,
+    "topics": 790
   },
   "people": [
     {
@@ -1527,6 +1527,10 @@
     },
     {
       "code": "MUKD-573",
+      "articles": 1
+    },
+    {
+      "code": "MURIKURI-010",
       "articles": 1
     },
     {
@@ -2964,6 +2968,10 @@
       "articles": 8
     },
     {
+      "name": "バイブ拘束",
+      "articles": 1
+    },
+    {
       "name": "バコバコバスツアー",
       "articles": 1
     },
@@ -3581,7 +3589,7 @@
     },
     {
       "name": "制服",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "制服衣装",
@@ -3901,7 +3909,7 @@
     },
     {
       "name": "尻",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "屋外ロケ",
@@ -4734,6 +4742,10 @@
     {
       "name": "自撮り",
       "articles": 4
+    },
+    {
+      "name": "自転車置き場",
+      "articles": 1
     },
     {
       "name": "舌責め",
