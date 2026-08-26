@@ -282,9 +282,9 @@
     "works/work-892oero-006.html"
   ],
   "counts": {
-    "people": 181,
+    "people": 182,
     "works": 248,
-    "topics": 828
+    "topics": 831
   },
   "people": [
     {
@@ -389,6 +389,10 @@
     },
     {
       "name": "九野ひなの",
+      "articles": 1
+    },
+    {
+      "name": "井口裕香",
       "articles": 1
     },
     {
@@ -2489,7 +2493,7 @@
     },
     {
       "name": "お尻",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "お泊まり",
@@ -2828,6 +2832,10 @@
       "articles": 1
     },
     {
+      "name": "ジム",
+      "articles": 1
+    },
+    {
       "name": "スイカ割り",
       "articles": 1
     },
@@ -2997,6 +3005,10 @@
     },
     {
       "name": "トイレ",
+      "articles": 1
+    },
+    {
+      "name": "トレーニング",
       "articles": 1
     },
     {
@@ -3861,6 +3873,10 @@
     },
     {
       "name": "増田陽名",
+      "articles": 1
+    },
+    {
+      "name": "声優",
       "articles": 1
     },
     {
