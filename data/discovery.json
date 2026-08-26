@@ -274,9 +274,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 178,
-    "works": 244,
-    "topics": 801
+    "people": 179,
+    "works": 245,
+    "topics": 804
   },
   "people": [
     {
@@ -593,6 +593,10 @@
     },
     {
       "name": "新井リマ",
+      "articles": 1
+    },
+    {
+      "name": "新川空",
       "articles": 1
     },
     {
@@ -1938,6 +1942,10 @@
       "articles": 1
     },
     {
+      "code": "START-621",
+      "articles": 1
+    },
+    {
       "code": "TIKB-220",
       "articles": 1
     },
@@ -2409,6 +2417,10 @@
     },
     {
       "name": "あやかしランブル！",
+      "articles": 1
+    },
+    {
+      "name": "いいなり温泉旅行",
       "articles": 1
     },
     {
@@ -3597,7 +3609,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 28
+      "articles": 29
     },
     {
       "name": "公式商品紹介",
@@ -4168,6 +4180,10 @@
       "articles": 1
     },
     {
+      "name": "旅館",
+      "articles": 1
+    },
+    {
       "name": "日向由奈",
       "articles": 1
     },
@@ -4356,6 +4372,10 @@
       "articles": 3
     },
     {
+      "name": "浴衣",
+      "articles": 1
+    },
+    {
       "name": "海外AV女優",
       "articles": 1
     },
@@ -4377,7 +4397,7 @@
     },
     {
       "name": "温泉",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "温泉旅行",
@@ -4881,7 +4901,7 @@
     },
     {
       "name": "複数人",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "複数人プレイ",
