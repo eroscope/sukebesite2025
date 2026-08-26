@@ -283,7 +283,7 @@
   "counts": {
     "people": 180,
     "works": 248,
-    "topics": 820
+    "topics": 822
   },
   "people": [
     {
@@ -2036,7 +2036,7 @@
     },
     {
       "name": "50％OFF",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "52歳",
@@ -2887,6 +2887,10 @@
       "articles": 1
     },
     {
+      "name": "セール",
+      "articles": 1
+    },
+    {
       "name": "ソウルキャリバー",
       "articles": 1
     },
@@ -3116,6 +3120,10 @@
     },
     {
       "name": "パイズリ男優オーディション",
+      "articles": 1
+    },
+    {
+      "name": "パッケージ",
       "articles": 1
     },
     {
