@@ -226,6 +226,7 @@
     "topics/topic-d9041f832b92.html",
     "topics/topic-das.html",
     "topics/topic-dc4380d53d28.html",
+    "topics/topic-dd327884d8c9.html",
     "topics/topic-de92f995f049.html",
     "topics/topic-deff1678ad25.html",
     "topics/topic-e16d9671dc56.html",
@@ -255,6 +256,7 @@
     "topics/topic-fb1216f6e0ec.html",
     "topics/topic-fb9d4a0a9dcb.html",
     "topics/topic-fc917e94f5f9.html",
+    "topics/topic-fe643b80ac5c.html",
     "topics/topic-fitch.html",
     "topics/topic-ideapocket.html",
     "topics/topic-kawaii.html",
@@ -281,7 +283,7 @@
   "counts": {
     "people": 180,
     "works": 248,
-    "topics": 818
+    "topics": 820
   },
   "people": [
     {
@@ -2705,6 +2707,10 @@
       "articles": 1
     },
     {
+      "name": "キャラクター",
+      "articles": 1
+    },
+    {
       "name": "キャラクタークリエイト",
       "articles": 1
     },
@@ -2770,7 +2776,7 @@
     },
     {
       "name": "ゲーム画像",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "コミケ",
@@ -2886,6 +2892,10 @@
     },
     {
       "name": "ソクミル",
+      "articles": 1
+    },
+    {
+      "name": "ソシャゲ",
       "articles": 1
     },
     {
@@ -3126,7 +3136,7 @@
     },
     {
       "name": "パンツ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "パンティ",
@@ -3446,7 +3456,7 @@
     },
     {
       "name": "下着",
-      "articles": 26
+      "articles": 27
     },
     {
       "name": "下着のライン",
