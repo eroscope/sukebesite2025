@@ -265,8 +265,8 @@
   ],
   "counts": {
     "people": 161,
-    "works": 227,
-    "topics": 769
+    "works": 228,
+    "topics": 770
   },
   "people": [
     {
@@ -1472,6 +1472,10 @@
       "articles": 1
     },
     {
+      "code": "OFJE-623",
+      "articles": 1
+    },
+    {
       "code": "OFJE-628",
       "articles": 1
     },
@@ -2535,7 +2539,7 @@
     },
     {
       "name": "グラビアアイドル",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "グラマラスボディ",
@@ -2599,7 +2603,7 @@
     },
     {
       "name": "サンプル動画",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "シャニマス",
@@ -3147,7 +3151,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 29
+      "articles": 30
     },
     {
       "name": "リブニット",
@@ -4099,7 +4103,7 @@
     },
     {
       "name": "水着",
-      "articles": 34
+      "articles": 35
     },
     {
       "name": "水着グラビア",
@@ -4624,6 +4628,10 @@
     {
       "name": "複数人プレイ",
       "articles": 2
+    },
+    {
+      "name": "複数出演",
+      "articles": 1
     },
     {
       "name": "複数女性",
