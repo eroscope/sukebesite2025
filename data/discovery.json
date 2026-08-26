@@ -264,9 +264,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 164,
+    "people": 165,
     "works": 233,
-    "topics": 775
+    "topics": 776
   },
   "people": [
     {
@@ -760,6 +760,10 @@
     {
       "name": "石川澪",
       "articles": 3
+    },
+    {
+      "name": "石田佳蓮",
+      "articles": 1
     },
     {
       "name": "神宮寺ナオ",
@@ -1919,7 +1923,7 @@
     },
     {
       "name": "8KVR",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "8頭身",
@@ -2791,6 +2795,10 @@
     },
     {
       "name": "デリバリーヘルス",
+      "articles": 1
+    },
+    {
+      "name": "デリヘル",
       "articles": 1
     },
     {
