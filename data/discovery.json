@@ -265,7 +265,7 @@
   "counts": {
     "people": 161,
     "works": 227,
-    "topics": 766
+    "topics": 769
   },
   "people": [
     {
@@ -1949,6 +1949,10 @@
       "articles": 1
     },
     {
+      "name": "B.L.T.",
+      "articles": 1
+    },
+    {
       "name": "BEST",
       "articles": 1
     },
@@ -2014,6 +2018,10 @@
     },
     {
       "name": "FANZA独占",
+      "articles": 1
+    },
+    {
+      "name": "FRUITS ZIPPER",
       "articles": 1
     },
     {
@@ -4053,6 +4061,10 @@
       "articles": 1
     },
     {
+      "name": "櫻井優衣",
+      "articles": 1
+    },
+    {
       "name": "正常位",
       "articles": 1
     },
@@ -4086,7 +4098,7 @@
     },
     {
       "name": "水着",
-      "articles": 32
+      "articles": 33
     },
     {
       "name": "水着グラビア",
