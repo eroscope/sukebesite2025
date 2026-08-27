@@ -73,6 +73,7 @@
     "topics/topic-1ae9cdbfb377.html",
     "topics/topic-1e403857b0e9.html",
     "topics/topic-1f65bfa6c12b.html",
+    "topics/topic-1fdbd8b413bd.html",
     "topics/topic-20.html",
     "topics/topic-202e70a44f7a.html",
     "topics/topic-214f1d402588.html",
@@ -174,7 +175,6 @@
     "topics/topic-9382af5ea57b.html",
     "topics/topic-974a698e2fe9.html",
     "topics/topic-978473dda66d.html",
-    "topics/topic-987379fc4da4.html",
     "topics/topic-9a2ecb8463a8.html",
     "topics/topic-9a36f427a8c8.html",
     "topics/topic-9b328f765a9c.html",
@@ -302,7 +302,7 @@
   "counts": {
     "people": 196,
     "works": 254,
-    "topics": 911
+    "topics": 914
   },
   "people": [
     {
@@ -3619,7 +3619,7 @@
     },
     {
       "name": "ライブ配信",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ラウンジ嬢",
@@ -3636,6 +3636,10 @@
     {
       "name": "ランジェリー",
       "articles": 41
+    },
+    {
+      "name": "リアクション",
+      "articles": 1
     },
     {
       "name": "リブニット",
@@ -4259,6 +4263,10 @@
     },
     {
       "name": "妹設定",
+      "articles": 1
+    },
+    {
+      "name": "姉妹",
       "articles": 1
     },
     {
@@ -5328,6 +5336,10 @@
     {
       "name": "胸元",
       "articles": 13
+    },
+    {
+      "name": "胸見せ",
+      "articles": 1
     },
     {
       "name": "胸露出",
