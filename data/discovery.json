@@ -300,9 +300,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 194,
+    "people": 195,
     "works": 254,
-    "topics": 887
+    "topics": 890
   },
   "people": [
     {
@@ -315,6 +315,10 @@
     },
     {
       "name": "えなこ",
+      "articles": 1
+    },
+    {
+      "name": "かさだまゆ",
       "articles": 1
     },
     {
@@ -3454,6 +3458,14 @@
       "articles": 1
     },
     {
+      "name": "ベーシスト",
+      "articles": 1
+    },
+    {
+      "name": "ベース演奏",
+      "articles": 1
+    },
+    {
       "name": "ホテル",
       "articles": 7
     },
@@ -4786,6 +4798,10 @@
       "articles": 1
     },
     {
+      "name": "演奏動画",
+      "articles": 1
+    },
+    {
       "name": "漫画",
       "articles": 4
     },
@@ -5231,7 +5247,7 @@
     },
     {
       "name": "胸元",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "胸露出",
