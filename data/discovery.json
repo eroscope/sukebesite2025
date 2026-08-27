@@ -215,7 +215,6 @@
     "topics/topic-b89d8be7513d.html",
     "topics/topic-bb69fdc44886.html",
     "topics/topic-bbf72a1513be.html",
-    "topics/topic-c3eb5feb0b13.html",
     "topics/topic-c79d6ca8cec1.html",
     "topics/topic-c85a37f5a170.html",
     "topics/topic-c967cee050d5.html",
@@ -250,6 +249,7 @@
     "topics/topic-e3cd37ffc466.html",
     "topics/topic-e424954ac043.html",
     "topics/topic-e440de03ac01.html",
+    "topics/topic-e481339cc9aa.html",
     "topics/topic-e53e94c377da.html",
     "topics/topic-e55126756e03.html",
     "topics/topic-e871a34a6e7e.html",
@@ -301,8 +301,8 @@
   ],
   "counts": {
     "people": 196,
-    "works": 254,
-    "topics": 918
+    "works": 255,
+    "topics": 920
   },
   "people": [
     {
@@ -1145,6 +1145,10 @@
     },
     {
       "code": "AJVR-324",
+      "articles": 1
+    },
+    {
+      "code": "BABD-026",
       "articles": 1
     },
     {
@@ -2963,6 +2967,10 @@
     },
     {
       "name": "ゴルフウェア",
+      "articles": 2
+    },
+    {
+      "name": "ゴルフコーチ",
       "articles": 1
     },
     {
@@ -3971,7 +3979,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 36
+      "articles": 37
     },
     {
       "name": "公式商品紹介",
@@ -4411,6 +4419,10 @@
     },
     {
       "name": "年下彼女",
+      "articles": 1
+    },
+    {
+      "name": "幸村泉希",
       "articles": 1
     },
     {
