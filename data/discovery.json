@@ -302,7 +302,7 @@
   "counts": {
     "people": 196,
     "works": 254,
-    "topics": 902
+    "topics": 903
   },
   "people": [
     {
@@ -3359,7 +3359,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "ビビアン",
@@ -3431,7 +3431,7 @@
     },
     {
       "name": "プール",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ヘアヌード",
@@ -3887,6 +3887,10 @@
     },
     {
       "name": "側転",
+      "articles": 1
+    },
+    {
+      "name": "元AKB48",
       "articles": 1
     },
     {
@@ -4759,7 +4763,7 @@
     },
     {
       "name": "水着",
-      "articles": 45
+      "articles": 46
     },
     {
       "name": "水着グラビア",
@@ -4943,7 +4947,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 25
+      "articles": 26
     },
     {
       "name": "画像ギャラリー",
