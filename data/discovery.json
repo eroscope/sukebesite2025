@@ -302,7 +302,7 @@
   "counts": {
     "people": 196,
     "works": 254,
-    "topics": 917
+    "topics": 918
   },
   "people": [
     {
@@ -2134,6 +2134,10 @@
       "articles": 1
     },
     {
+      "name": "3人組",
+      "articles": 1
+    },
+    {
       "name": "4K",
       "articles": 6
     },
@@ -3375,7 +3379,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "ビビアン",
@@ -4807,7 +4811,7 @@
     },
     {
       "name": "水着",
-      "articles": 46
+      "articles": 47
     },
     {
       "name": "水着グラビア",
