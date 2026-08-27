@@ -209,7 +209,6 @@
     "topics/topic-b426cff04d6b.html",
     "topics/topic-b4cfc5a67172.html",
     "topics/topic-b4da067dd417.html",
-    "topics/topic-b54c4d3524c7.html",
     "topics/topic-b601a90b3d71.html",
     "topics/topic-b62b6f9bda9f.html",
     "topics/topic-b84b61e7e757.html",
@@ -241,6 +240,7 @@
     "topics/topic-dd327884d8c9.html",
     "topics/topic-de92f995f049.html",
     "topics/topic-deff1678ad25.html",
+    "topics/topic-e042c2ead2f0.html",
     "topics/topic-e16d9671dc56.html",
     "topics/topic-e18b1ea15d9c.html",
     "topics/topic-e1d3de16ea1d.html",
@@ -302,7 +302,7 @@
   "counts": {
     "people": 196,
     "works": 254,
-    "topics": 907
+    "topics": 911
   },
   "people": [
     {
@@ -2726,6 +2726,10 @@
       "articles": 2
     },
     {
+      "name": "インスタ",
+      "articles": 1
+    },
+    {
       "name": "インタビュー",
       "articles": 1
     },
@@ -3106,6 +3110,10 @@
       "articles": 1
     },
     {
+      "name": "タトゥー",
+      "articles": 1
+    },
+    {
       "name": "タンクトップ",
       "articles": 1
     },
@@ -3371,7 +3379,7 @@
     },
     {
       "name": "ビフォーアフター",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ビール",
@@ -3699,6 +3707,10 @@
     },
     {
       "name": "七瀬アリス",
+      "articles": 1
+    },
+    {
+      "name": "上半身裸",
       "articles": 1
     },
     {
@@ -5156,6 +5168,10 @@
     {
       "name": "筆おろし",
       "articles": 2
+    },
+    {
+      "name": "筋肉",
+      "articles": 1
     },
     {
       "name": "箱ヘル",
