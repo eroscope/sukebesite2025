@@ -140,7 +140,6 @@
     "topics/topic-699303adec9c.html",
     "topics/topic-6a0b30d36103.html",
     "topics/topic-6a5a9a6c1012.html",
-    "topics/topic-6d1d803fccd8.html",
     "topics/topic-6eac69881e67.html",
     "topics/topic-6f0b069faec6.html",
     "topics/topic-6fb93ec6c83f.html",
@@ -149,6 +148,7 @@
     "topics/topic-73773dcb8f71.html",
     "topics/topic-771bd1d57220.html",
     "topics/topic-77bf3dd73ea1.html",
+    "topics/topic-795d25e718e1.html",
     "topics/topic-7aa488f78e72.html",
     "topics/topic-7bf35e1b0bf7.html",
     "topics/topic-8075af292874.html",
@@ -302,7 +302,7 @@
   "counts": {
     "people": 197,
     "works": 256,
-    "topics": 923
+    "topics": 926
   },
   "people": [
     {
@@ -3038,6 +3038,10 @@
       "articles": 1
     },
     {
+      "name": "ステージ動画",
+      "articles": 1
+    },
+    {
       "name": "ストレッチ",
       "articles": 1
     },
@@ -3147,7 +3151,7 @@
     },
     {
       "name": "ダンス",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "チアガール",
@@ -4167,6 +4171,10 @@
     },
     {
       "name": "地上波ギリギリ",
+      "articles": 1
+    },
+    {
+      "name": "地下アイドル",
       "articles": 1
     },
     {
@@ -5379,7 +5387,7 @@
     },
     {
       "name": "胸元",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "胸見せ",
@@ -5443,6 +5451,10 @@
     },
     {
       "name": "街頭インタビュー",
+      "articles": 1
+    },
+    {
+      "name": "衣装",
       "articles": 1
     },
     {
