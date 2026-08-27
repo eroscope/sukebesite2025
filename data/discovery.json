@@ -302,7 +302,7 @@
   "counts": {
     "people": 196,
     "works": 254,
-    "topics": 916
+    "topics": 917
   },
   "people": [
     {
@@ -3386,6 +3386,10 @@
       "articles": 2
     },
     {
+      "name": "ビリヤード",
+      "articles": 1
+    },
+    {
       "name": "ビール",
       "articles": 1
     },
@@ -3731,7 +3735,7 @@
     },
     {
       "name": "下着",
-      "articles": 30
+      "articles": 31
     },
     {
       "name": "下着のライン",
@@ -5343,7 +5347,7 @@
     },
     {
       "name": "胸元",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "胸見せ",
