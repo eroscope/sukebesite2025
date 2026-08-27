@@ -297,9 +297,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 190,
+    "people": 191,
     "works": 253,
-    "topics": 879
+    "topics": 880
   },
   "people": [
     {
@@ -743,6 +743,10 @@
       "articles": 2
     },
     {
+      "name": "桃萌愛",
+      "articles": 1
+    },
+    {
       "name": "梅田みなみ",
       "articles": 1
     },
@@ -1098,11 +1102,11 @@
     },
     {
       "code": "857OMG-035",
-      "articles": 3
+      "articles": 4
     },
     {
       "code": "892OERO-006",
-      "articles": 3
+      "articles": 4
     },
     {
       "code": "ABF-375",
@@ -2903,6 +2907,10 @@
       "articles": 1
     },
     {
+      "name": "ゴルフ",
+      "articles": 1
+    },
+    {
       "name": "ゴルフウェア",
       "articles": 1
     },
@@ -3276,7 +3284,7 @@
     },
     {
       "name": "パンチラ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "パンツ",
@@ -3296,7 +3304,7 @@
     },
     {
       "name": "ヒップ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ヒール",
@@ -3552,7 +3560,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 40
+      "articles": 41
     },
     {
       "name": "リブニット",
@@ -4672,7 +4680,7 @@
     },
     {
       "name": "水着",
-      "articles": 42
+      "articles": 43
     },
     {
       "name": "水着グラビア",
