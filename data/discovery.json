@@ -299,7 +299,7 @@
   "counts": {
     "people": 190,
     "works": 253,
-    "topics": 875
+    "topics": 879
   },
   "people": [
     {
@@ -2511,6 +2511,10 @@
       "articles": 1
     },
     {
+      "name": "figma",
+      "articles": 1
+    },
+    {
       "name": "kawaii",
       "articles": 1
     },
@@ -3227,6 +3231,10 @@
       "articles": 5
     },
     {
+      "name": "バニーガーデン",
+      "articles": 1
+    },
+    {
       "name": "バニーガーデン2",
       "articles": 1
     },
@@ -3273,6 +3281,10 @@
     {
       "name": "パンツ",
       "articles": 2
+    },
+    {
+      "name": "パンツ交換",
+      "articles": 1
     },
     {
       "name": "パンティ",
@@ -3328,7 +3340,7 @@
     },
     {
       "name": "フィギュア",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "フェイスレス・ドロップアウト",
@@ -5200,6 +5212,10 @@
     },
     {
       "name": "航空機内",
+      "articles": 1
+    },
+    {
+      "name": "花奈",
       "articles": 1
     },
     {
