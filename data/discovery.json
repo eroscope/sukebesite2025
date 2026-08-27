@@ -302,7 +302,7 @@
   "counts": {
     "people": 196,
     "works": 256,
-    "topics": 921
+    "topics": 923
   },
   "people": [
     {
@@ -2290,6 +2290,10 @@
       "articles": 1
     },
     {
+      "name": "DVD",
+      "articles": 1
+    },
+    {
       "name": "DVD画像",
       "articles": 1
     },
@@ -3391,7 +3395,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 21
+      "articles": 22
     },
     {
       "name": "ビビアン",
@@ -3663,7 +3667,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 41
+      "articles": 42
     },
     {
       "name": "リアクション",
@@ -4399,7 +4403,7 @@
     },
     {
       "name": "尻",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "屋外ロケ",
@@ -4831,7 +4835,7 @@
     },
     {
       "name": "水着",
-      "articles": 47
+      "articles": 48
     },
     {
       "name": "水着グラビア",
@@ -5507,6 +5511,10 @@
     },
     {
       "name": "調教",
+      "articles": 1
+    },
+    {
+      "name": "谷碧",
       "articles": 1
     },
     {
