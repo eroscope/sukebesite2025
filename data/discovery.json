@@ -300,9 +300,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 197,
-    "works": 256,
-    "topics": 926
+    "people": 198,
+    "works": 257,
+    "topics": 928
   },
   "people": [
     {
@@ -831,6 +831,10 @@
     },
     {
       "name": "海老咲あお",
+      "articles": 1
+    },
+    {
+      "name": "涼乃愛",
       "articles": 1
     },
     {
@@ -1437,6 +1441,10 @@
     },
     {
       "code": "IPZZ-932",
+      "articles": 1
+    },
+    {
+      "code": "IPZZ-987",
       "articles": 1
     },
     {
@@ -2231,7 +2239,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "AV作品",
@@ -3499,7 +3507,7 @@
     },
     {
       "name": "ベッド",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "ベッドシーン",
@@ -3999,7 +4007,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 37
+      "articles": 38
     },
     {
       "name": "公式商品紹介",
@@ -4416,6 +4424,10 @@
     {
       "name": "尻",
       "articles": 6
+    },
+    {
+      "name": "居酒屋",
+      "articles": 1
     },
     {
       "name": "屋外ロケ",
@@ -5603,6 +5615,10 @@
     },
     {
       "name": "配信",
+      "articles": 1
+    },
+    {
+      "name": "酒飲み",
       "articles": 1
     },
     {
