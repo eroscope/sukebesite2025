@@ -299,8 +299,8 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 193,
-    "works": 253,
+    "people": 194,
+    "works": 254,
     "topics": 886
   },
   "people": [
@@ -1029,6 +1029,10 @@
       "articles": 2
     },
     {
+      "name": "鈴の家りん",
+      "articles": 1
+    },
+    {
       "name": "鈴木希",
       "articles": 1
     },
@@ -1284,6 +1288,10 @@
     },
     {
       "code": "H-113HR00012",
+      "articles": 1
+    },
+    {
+      "code": "HMN-811",
       "articles": 1
     },
     {
@@ -3518,7 +3526,7 @@
     },
     {
       "name": "メイド",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "メガネ",
@@ -3882,7 +3890,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 35
+      "articles": 36
     },
     {
       "name": "公式商品紹介",
