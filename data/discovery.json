@@ -302,7 +302,7 @@
   "counts": {
     "people": 196,
     "works": 254,
-    "topics": 896
+    "topics": 900
   },
   "people": [
     {
@@ -2642,6 +2642,10 @@
       "articles": 1
     },
     {
+      "name": "ねぐりえ",
+      "articles": 1
+    },
+    {
       "name": "ひむろっく",
       "articles": 1
     },
@@ -2755,7 +2759,7 @@
     },
     {
       "name": "エロ漫画",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "エロ画像",
@@ -3411,6 +3415,10 @@
     },
     {
       "name": "フリーハンド魂",
+      "articles": 1
+    },
+    {
+      "name": "フルカラー",
       "articles": 1
     },
     {
@@ -4118,6 +4126,10 @@
       "articles": 1
     },
     {
+      "name": "売上ランキング",
+      "articles": 1
+    },
+    {
       "name": "変形水着",
       "articles": 1
     },
@@ -4419,6 +4431,10 @@
     },
     {
       "name": "成人向けゲーム",
+      "articles": 1
+    },
+    {
+      "name": "成人向けコミックス",
       "articles": 1
     },
     {
@@ -4855,7 +4871,7 @@
     },
     {
       "name": "熟女",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "爆乳",
