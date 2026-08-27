@@ -300,7 +300,7 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 195,
+    "people": 196,
     "works": 254,
     "topics": 890
   },
@@ -387,6 +387,10 @@
     },
     {
       "name": "マリア・バレンタイン",
+      "articles": 1
+    },
+    {
+      "name": "ミス中央大学",
       "articles": 1
     },
     {
@@ -3343,7 +3347,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "ビビアン",
@@ -4723,7 +4727,7 @@
     },
     {
       "name": "水着",
-      "articles": 43
+      "articles": 44
     },
     {
       "name": "水着グラビア",
