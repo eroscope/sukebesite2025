@@ -302,7 +302,7 @@
   "counts": {
     "people": 198,
     "works": 257,
-    "topics": 929
+    "topics": 931
   },
   "people": [
     {
@@ -3486,6 +3486,10 @@
       "articles": 1
     },
     {
+      "name": "プリ尻",
+      "articles": 1
+    },
+    {
       "name": "プール",
       "articles": 3
     },
@@ -4863,7 +4867,7 @@
     },
     {
       "name": "水着",
-      "articles": 49
+      "articles": 50
     },
     {
       "name": "水着グラビア",
@@ -5459,6 +5463,10 @@
     },
     {
       "name": "葵いぶき",
+      "articles": 1
+    },
+    {
+      "name": "蓮あおば",
       "articles": 1
     },
     {
