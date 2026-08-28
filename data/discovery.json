@@ -303,7 +303,7 @@
   "counts": {
     "people": 200,
     "works": 259,
-    "topics": 962
+    "topics": 968
   },
   "people": [
     {
@@ -2371,6 +2371,10 @@
       "articles": 1
     },
     {
+      "name": "GIF動画あり",
+      "articles": 1
+    },
+    {
       "name": "Grok",
       "articles": 1
     },
@@ -2464,6 +2468,10 @@
     },
     {
       "name": "M男",
+      "articles": 1
+    },
+    {
+      "name": "NHK大阪",
       "articles": 1
     },
     {
@@ -2723,6 +2731,10 @@
       "articles": 1
     },
     {
+      "name": "びわ湖",
+      "articles": 1
+    },
+    {
       "name": "ぴたぴた衣装",
       "articles": 1
     },
@@ -2933,6 +2945,10 @@
     {
       "name": "キメセク",
       "articles": 2
+    },
+    {
+      "name": "キャスター",
+      "articles": 1
     },
     {
       "name": "キャミソール",
@@ -4291,6 +4307,10 @@
       "articles": 1
     },
     {
+      "name": "垂水千佳",
+      "articles": 1
+    },
+    {
       "name": "堀未央奈",
       "articles": 1
     },
@@ -5369,6 +5389,10 @@
     {
       "name": "競泳水着",
       "articles": 7
+    },
+    {
+      "name": "竹生島",
+      "articles": 1
     },
     {
       "name": "筆おろし",
