@@ -301,9 +301,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 199,
+    "people": 200,
     "works": 259,
-    "topics": 949
+    "topics": 951
   },
   "people": [
     {
@@ -400,6 +400,10 @@
     },
     {
       "name": "レンタル彼女",
+      "articles": 1
+    },
+    {
+      "name": "ローラ",
       "articles": 1
     },
     {
@@ -5539,6 +5543,10 @@
       "articles": 1
     },
     {
+      "name": "華道",
+      "articles": 1
+    },
+    {
       "name": "葬式",
       "articles": 1
     },
@@ -5928,6 +5936,10 @@
     },
     {
       "name": "黒レース",
+      "articles": 1
+    },
+    {
+      "name": "黒ワンピース",
       "articles": 1
     },
     {
