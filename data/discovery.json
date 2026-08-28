@@ -2,6 +2,7 @@
   "version": "20260825-2",
   "generated_files": [
     "people.html",
+    "people/person-009176ed9cb6.html",
     "people/person-01b978367f05.html",
     "people/person-071c6f8e47cc.html",
     "people/person-0979d915b26e.html",
@@ -303,8 +304,8 @@
   ],
   "counts": {
     "people": 200,
-    "works": 260,
-    "topics": 971
+    "works": 261,
+    "topics": 973
   },
   "people": [
     {
@@ -525,7 +526,7 @@
     },
     {
       "name": "古東まりこ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "同棲彼女",
@@ -1159,6 +1160,10 @@
     },
     {
       "code": "ADN-766",
+      "articles": 1
+    },
+    {
+      "code": "ADN-800",
       "articles": 1
     },
     {
@@ -4125,7 +4130,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 39
+      "articles": 40
     },
     {
       "name": "公式商品紹介",
@@ -4461,6 +4466,10 @@
     },
     {
       "name": "姉弟設定",
+      "articles": 1
+    },
+    {
+      "name": "娘の彼氏",
       "articles": 1
     },
     {
@@ -5562,6 +5571,10 @@
     {
       "name": "職場",
       "articles": 2
+    },
+    {
+      "name": "背徳",
+      "articles": 1
     },
     {
       "name": "胡桃さくら",
