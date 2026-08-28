@@ -306,8 +306,8 @@
   ],
   "counts": {
     "people": 206,
-    "works": 263,
-    "topics": 983
+    "works": 264,
+    "topics": 984
   },
   "people": [
     {
@@ -664,7 +664,7 @@
     },
     {
       "name": "彩月七緒",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "恋川こもも",
@@ -1758,6 +1758,10 @@
     },
     {
       "code": "MKMP-731",
+      "articles": 1
+    },
+    {
+      "code": "MNGS-071",
       "articles": 1
     },
     {
@@ -3932,7 +3936,7 @@
     },
     {
       "name": "不倫",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "不倫調査員",
@@ -4095,6 +4099,10 @@
       "articles": 1
     },
     {
+      "name": "保母",
+      "articles": 1
+    },
+    {
       "name": "保育園風俗",
       "articles": 1
     },
@@ -4172,7 +4180,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "公式サンプル動画",
@@ -4312,7 +4320,7 @@
     },
     {
       "name": "同棲",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "同棲報告",
