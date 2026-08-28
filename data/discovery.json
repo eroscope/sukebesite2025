@@ -303,9 +303,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 200,
+    "people": 201,
     "works": 261,
-    "topics": 973
+    "topics": 974
   },
   "people": [
     {
@@ -799,6 +799,10 @@
     {
       "name": "榊原萌",
       "articles": 3
+    },
+    {
+      "name": "横野すみれ",
+      "articles": 1
     },
     {
       "name": "橋本環奈",
@@ -3790,7 +3794,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 44
+      "articles": 45
     },
     {
       "name": "リアクション",
@@ -4082,6 +4086,10 @@
     },
     {
       "name": "元AKB48",
+      "articles": 1
+    },
+    {
+      "name": "元NMB48",
       "articles": 1
     },
     {
@@ -5030,7 +5038,7 @@
     },
     {
       "name": "水着",
-      "articles": 52
+      "articles": 53
     },
     {
       "name": "水着グラビア",
@@ -5222,7 +5230,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 28
+      "articles": 29
     },
     {
       "name": "画像ギャラリー",
