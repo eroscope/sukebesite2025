@@ -303,7 +303,7 @@
   "counts": {
     "people": 200,
     "works": 259,
-    "topics": 954
+    "topics": 959
   },
   "people": [
     {
@@ -2591,11 +2591,19 @@
       "articles": 1
     },
     {
+      "name": "VRゲーム",
+      "articles": 1
+    },
+    {
       "name": "VR作品",
       "articles": 1
     },
     {
       "name": "VR動画",
+      "articles": 1
+    },
+    {
+      "name": "Venus Returns",
       "articles": 1
     },
     {
@@ -3019,6 +3027,10 @@
       "articles": 1
     },
     {
+      "name": "ゲーム動画",
+      "articles": 1
+    },
+    {
       "name": "ゲーム画像",
       "articles": 3
     },
@@ -3121,6 +3133,10 @@
     {
       "name": "スーツ",
       "articles": 5
+    },
+    {
+      "name": "スーパーリアル麻雀VR",
+      "articles": 1
     },
     {
       "name": "セクシーラウンジ",
@@ -5517,6 +5533,10 @@
     {
       "name": "脚",
       "articles": 2
+    },
+    {
+      "name": "脱衣麻雀",
+      "articles": 1
     },
     {
       "name": "腰振りダンス",
