@@ -305,7 +305,7 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 204,
+    "people": 205,
     "works": 263,
     "topics": 981
   },
@@ -552,6 +552,10 @@
     },
     {
       "name": "夢乃あいか",
+      "articles": 1
+    },
+    {
+      "name": "大原優乃",
       "articles": 1
     },
     {
@@ -4612,7 +4616,7 @@
     },
     {
       "name": "尻",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "居酒屋",
@@ -5076,7 +5080,7 @@
     },
     {
       "name": "水着",
-      "articles": 54
+      "articles": 55
     },
     {
       "name": "水着グラビア",
@@ -5272,7 +5276,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 29
+      "articles": 30
     },
     {
       "name": "画像ギャラリー",
