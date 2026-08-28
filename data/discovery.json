@@ -10,6 +10,7 @@
     "people/person-213207dd268f.html",
     "people/person-236dc419b29a.html",
     "people/person-27b34ab347a7.html",
+    "people/person-295be3bfe6df.html",
     "people/person-2a3db560d61a.html",
     "people/person-2d8b79755a1c.html",
     "people/person-361acebed5bc.html",
@@ -302,7 +303,7 @@
   ],
   "counts": {
     "people": 200,
-    "works": 259,
+    "works": 260,
     "topics": 969
   },
   "people": [
@@ -740,7 +741,7 @@
     },
     {
       "name": "林芽依",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "柊もみじ",
@@ -1454,6 +1455,10 @@
     },
     {
       "code": "IPZZ-932",
+      "articles": 1
+    },
+    {
+      "code": "IPZZ-948",
       "articles": 1
     },
     {
@@ -4108,7 +4113,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 15
+      "articles": 16
     },
     {
       "name": "公式サンプル動画",
