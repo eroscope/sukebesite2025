@@ -87,7 +87,6 @@
     "topics/topic-29d79cbdb69a.html",
     "topics/topic-29f8f0215964.html",
     "topics/topic-2e494f665ea0.html",
-    "topics/topic-2f91f5be8277.html",
     "topics/topic-2fc8c5de1ca2.html",
     "topics/topic-3081d7739206.html",
     "topics/topic-3189b4418993.html",
@@ -273,6 +272,7 @@
     "topics/topic-fb9d4a0a9dcb.html",
     "topics/topic-fc917e94f5f9.html",
     "topics/topic-fe643b80ac5c.html",
+    "topics/topic-ffc18ca99215.html",
     "topics/topic-fitch.html",
     "topics/topic-ideapocket.html",
     "topics/topic-instagram.html",
@@ -303,7 +303,7 @@
   "counts": {
     "people": 200,
     "works": 259,
-    "topics": 951
+    "topics": 953
   },
   "people": [
     {
@@ -2752,7 +2752,7 @@
     },
     {
       "name": "アニメ・漫画",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "アヘ顔",
@@ -2896,6 +2896,10 @@
     },
     {
       "name": "カレーオフ会",
+      "articles": 1
+    },
+    {
+      "name": "ガンダム",
       "articles": 1
     },
     {
@@ -3340,6 +3344,10 @@
     },
     {
       "name": "ハイレグ",
+      "articles": 1
+    },
+    {
+      "name": "ハマーン・カーン",
       "articles": 1
     },
     {
@@ -3824,7 +3832,7 @@
     },
     {
       "name": "下着",
-      "articles": 31
+      "articles": 32
     },
     {
       "name": "下着のライン",
