@@ -129,6 +129,7 @@
     "topics/topic-5c88029735ed.html",
     "topics/topic-5df792d395a0.html",
     "topics/topic-5e0721bebbe4.html",
+    "topics/topic-5ef5727d4453.html",
     "topics/topic-612e72ff9af8.html",
     "topics/topic-616794ab0faa.html",
     "topics/topic-6178b11f2bab.html",
@@ -263,7 +264,6 @@
     "topics/topic-f500c702a477.html",
     "topics/topic-f62b608f9969.html",
     "topics/topic-f65c255c513f.html",
-    "topics/topic-f6d4b64ad1d4.html",
     "topics/topic-f713282a59b5.html",
     "topics/topic-f7e9cf65c854.html",
     "topics/topic-f7f4f3529b7b.html",
@@ -304,7 +304,7 @@
   "counts": {
     "people": 200,
     "works": 260,
-    "topics": 969
+    "topics": 971
   },
   "people": [
     {
@@ -2796,6 +2796,10 @@
       "articles": 1
     },
     {
+      "name": "アンドロイド",
+      "articles": 1
+    },
+    {
       "name": "イカセ",
       "articles": 1
     },
@@ -3825,7 +3829,7 @@
     },
     {
       "name": "レースクイーン",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ロッカー",
@@ -3905,6 +3909,10 @@
     },
     {
       "name": "中国人女性",
+      "articles": 1
+    },
+    {
+      "name": "中国美女",
       "articles": 1
     },
     {
