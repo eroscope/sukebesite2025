@@ -303,7 +303,7 @@
   "counts": {
     "people": 199,
     "works": 258,
-    "topics": 933
+    "topics": 938
   },
   "people": [
     {
@@ -2355,6 +2355,10 @@
       "articles": 3
     },
     {
+      "name": "GAMES STORE",
+      "articles": 1
+    },
+    {
       "name": "GIF",
       "articles": 1
     },
@@ -2588,6 +2592,10 @@
     },
     {
       "name": "figma",
+      "articles": 1
+    },
+    {
+      "name": "iOS",
       "articles": 1
     },
     {
@@ -2976,6 +2984,10 @@
     },
     {
       "name": "ゲームキャラクター",
+      "articles": 1
+    },
+    {
+      "name": "ゲームニュース",
       "articles": 1
     },
     {
@@ -4559,6 +4571,10 @@
       "articles": 1
     },
     {
+      "name": "成人向けソシャゲ",
+      "articles": 1
+    },
+    {
       "name": "成人向け漫画",
       "articles": 2
     },
@@ -5644,6 +5660,10 @@
     },
     {
       "name": "配信",
+      "articles": 1
+    },
+    {
+      "name": "配信開始",
       "articles": 1
     },
     {
