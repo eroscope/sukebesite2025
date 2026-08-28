@@ -215,6 +215,7 @@
     "topics/topic-b89d8be7513d.html",
     "topics/topic-bb69fdc44886.html",
     "topics/topic-bbf72a1513be.html",
+    "topics/topic-bf20d27fdec8.html",
     "topics/topic-c79d6ca8cec1.html",
     "topics/topic-c85a37f5a170.html",
     "topics/topic-c967cee050d5.html",
@@ -243,7 +244,6 @@
     "topics/topic-e16d9671dc56.html",
     "topics/topic-e18b1ea15d9c.html",
     "topics/topic-e1d3de16ea1d.html",
-    "topics/topic-e2a6d2606a0a.html",
     "topics/topic-e383833e382f.html",
     "topics/topic-e3c843a27e8c.html",
     "topics/topic-e3cd37ffc466.html",
@@ -303,7 +303,7 @@
   "counts": {
     "people": 200,
     "works": 259,
-    "topics": 968
+    "topics": 969
   },
   "people": [
     {
@@ -3112,7 +3112,7 @@
     },
     {
       "name": "スカート",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "スクワット",
@@ -3228,7 +3228,7 @@
     },
     {
       "name": "タイツ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "タトゥー",
@@ -3432,7 +3432,7 @@
     },
     {
       "name": "バニーガール",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "バニーナース",
@@ -4340,6 +4340,10 @@
     },
     {
       "name": "夜の街",
+      "articles": 1
+    },
+    {
+      "name": "大きなお尻",
       "articles": 1
     },
     {
