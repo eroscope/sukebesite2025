@@ -303,7 +303,7 @@
   "counts": {
     "people": 200,
     "works": 259,
-    "topics": 959
+    "topics": 960
   },
   "people": [
     {
@@ -2188,7 +2188,7 @@
     },
     {
       "name": "50％OFF",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "52歳",
@@ -2252,7 +2252,7 @@
     },
     {
       "name": "AVセール",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "AVデビュー",
@@ -3992,6 +3992,10 @@
     },
     {
       "name": "体液",
+      "articles": 1
+    },
+    {
+      "name": "作品パッケージ",
       "articles": 1
     },
     {
