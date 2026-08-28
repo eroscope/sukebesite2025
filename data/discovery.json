@@ -303,7 +303,7 @@
   "counts": {
     "people": 200,
     "works": 259,
-    "topics": 960
+    "topics": 962
   },
   "people": [
     {
@@ -2976,7 +2976,7 @@
     },
     {
       "name": "グラドル",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "グラビアアイドル",
@@ -4055,6 +4055,10 @@
       "articles": 1
     },
     {
+      "name": "元TBS",
+      "articles": 1
+    },
+    {
       "name": "元アイドル",
       "articles": 2
     },
@@ -4531,6 +4535,10 @@
       "articles": 1
     },
     {
+      "name": "山本里菜",
+      "articles": 1
+    },
+    {
       "name": "山田ゆり",
       "articles": 1
     },
@@ -4976,7 +4984,7 @@
     },
     {
       "name": "水着",
-      "articles": 51
+      "articles": 52
     },
     {
       "name": "水着グラビア",
