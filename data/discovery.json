@@ -64,7 +64,6 @@
     "topics/topic-0eb07ae3effa.html",
     "topics/topic-0ee23712d012.html",
     "topics/topic-110186b4822a.html",
-    "topics/topic-1102589b2046.html",
     "topics/topic-1647288711c1.html",
     "topics/topic-17.html",
     "topics/topic-17198cf6e2b3.html",
@@ -139,6 +138,7 @@
     "topics/topic-647b618e55ca.html",
     "topics/topic-6519a02013ee.html",
     "topics/topic-66605fef266d.html",
+    "topics/topic-66ea6e1db1a8.html",
     "topics/topic-6a0b30d36103.html",
     "topics/topic-6a5a9a6c1012.html",
     "topics/topic-6eac69881e67.html",
@@ -301,8 +301,8 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 198,
-    "works": 257,
+    "people": 199,
+    "works": 258,
     "topics": 933
   },
   "people": [
@@ -987,6 +987,10 @@
       "articles": 1
     },
     {
+      "name": "花咲ゆら",
+      "articles": 1
+    },
+    {
       "name": "花咲澪",
       "articles": 2
     },
@@ -1178,6 +1182,10 @@
     },
     {
       "code": "BIGC-007",
+      "articles": 1
+    },
+    {
+      "code": "CAWB-033",
       "articles": 1
     },
     {
@@ -2588,7 +2596,7 @@
     },
     {
       "name": "kawaii*",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "unfinished",
@@ -4012,7 +4020,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "公式サンプル動画",
@@ -5524,7 +5532,7 @@
     },
     {
       "name": "複数人プレイ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "複数出演",
@@ -5760,7 +5768,7 @@
     },
     {
       "name": "顔射",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "顔面接写",
