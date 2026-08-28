@@ -257,8 +257,8 @@
     "topics/topic-e53e94c377da.html",
     "topics/topic-e55126756e03.html",
     "topics/topic-e871a34a6e7e.html",
+    "topics/topic-ebd7df226cea.html",
     "topics/topic-ee5c9d2cf8b2.html",
-    "topics/topic-ee7e3a59c1a9.html",
     "topics/topic-eecd7740d9de.html",
     "topics/topic-ef05d333e3af.html",
     "topics/topic-f1423036e503.html",
@@ -306,7 +306,7 @@
   "counts": {
     "people": 202,
     "works": 261,
-    "topics": 977
+    "topics": 978
   },
   "people": [
     {
@@ -3166,6 +3166,10 @@
       "articles": 1
     },
     {
+      "name": "スポーツ女子",
+      "articles": 1
+    },
+    {
       "name": "スレンダー",
       "articles": 2
     },
@@ -3539,7 +3543,7 @@
     },
     {
       "name": "ビリヤード",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ビール",
@@ -5283,7 +5287,7 @@
     },
     {
       "name": "白シャツ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "白スカート",
