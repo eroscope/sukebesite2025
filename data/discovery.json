@@ -309,9 +309,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 213,
+    "people": 214,
     "works": 271,
-    "topics": 1029
+    "topics": 1030
   },
   "people": [
     {
@@ -560,6 +560,10 @@
     },
     {
       "name": "善場まみ",
+      "articles": 1
+    },
+    {
+      "name": "嗣永桃子",
       "articles": 1
     },
     {
@@ -2904,6 +2908,10 @@
     },
     {
       "name": "みらい・みう",
+      "articles": 1
+    },
+    {
+      "name": "ももち",
       "articles": 1
     },
     {
@@ -5288,7 +5296,7 @@
     },
     {
       "name": "水着",
-      "articles": 64
+      "articles": 65
     },
     {
       "name": "水着グラビア",
@@ -5492,7 +5500,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 33
+      "articles": 34
     },
     {
       "name": "画像ギャラリー",
