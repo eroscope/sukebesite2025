@@ -311,7 +311,7 @@
   "counts": {
     "people": 211,
     "works": 269,
-    "topics": 1025
+    "topics": 1028
   },
   "people": [
     {
@@ -3215,6 +3215,10 @@
       "articles": 1
     },
     {
+      "name": "ゴスロリ",
+      "articles": 1
+    },
+    {
       "name": "ゴブリンスレイヤー",
       "articles": 1
     },
@@ -4371,6 +4375,10 @@
       "articles": 1
     },
     {
+      "name": "制服風",
+      "articles": 1
+    },
+    {
       "name": "制服風衣装",
       "articles": 1
     },
@@ -4628,6 +4636,10 @@
     },
     {
       "name": "女性",
+      "articles": 1
+    },
+    {
+      "name": "女性2人",
       "articles": 1
     },
     {
