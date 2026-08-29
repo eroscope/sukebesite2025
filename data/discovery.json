@@ -308,7 +308,7 @@
   "counts": {
     "people": 207,
     "works": 265,
-    "topics": 995
+    "topics": 999
   },
   "people": [
     {
@@ -2574,6 +2574,10 @@
     {
       "name": "PREMIUM",
       "articles": 2
+    },
+    {
+      "name": "PR写真",
+      "articles": 1
     },
     {
       "name": "PtoMセックス",
@@ -4928,6 +4932,10 @@
       "articles": 1
     },
     {
+      "name": "新高湯温泉",
+      "articles": 1
+    },
+    {
       "name": "旅館",
       "articles": 1
     },
@@ -5209,7 +5217,7 @@
     },
     {
       "name": "温泉",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "温泉AV",
@@ -5426,6 +5434,10 @@
     {
       "name": "相部屋",
       "articles": 5
+    },
+    {
+      "name": "看板",
+      "articles": 1
     },
     {
       "name": "看病",
@@ -6029,6 +6041,10 @@
     },
     {
       "name": "電車",
+      "articles": 1
+    },
+    {
+      "name": "露天風呂",
       "articles": 1
     },
     {
