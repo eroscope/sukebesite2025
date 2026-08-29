@@ -128,6 +128,7 @@
     "topics/topic-4p.html",
     "topics/topic-50-off.html",
     "topics/topic-5097a838c32c.html",
+    "topics/topic-536c40f98792.html",
     "topics/topic-545b57cf435b.html",
     "topics/topic-55258bc4d97a.html",
     "topics/topic-56fd6f27e8b6.html",
@@ -168,7 +169,6 @@
     "topics/topic-86b19c9ac1d9.html",
     "topics/topic-8731d1fd5ecc.html",
     "topics/topic-89e4949f9542.html",
-    "topics/topic-89f5704bc74e.html",
     "topics/topic-8b2689c619bd.html",
     "topics/topic-8bb1bf8a8e8e.html",
     "topics/topic-8bfcb96c6a53.html",
@@ -223,6 +223,7 @@
     "topics/topic-bbf72a1513be.html",
     "topics/topic-bf20d27fdec8.html",
     "topics/topic-bf56a156e7b1.html",
+    "topics/topic-c411f881be34.html",
     "topics/topic-c79d6ca8cec1.html",
     "topics/topic-c85a37f5a170.html",
     "topics/topic-c967cee050d5.html",
@@ -240,7 +241,6 @@
     "topics/topic-d36caa93b02a.html",
     "topics/topic-d57207655b68.html",
     "topics/topic-d7b0db6974a0.html",
-    "topics/topic-d9041f832b92.html",
     "topics/topic-das.html",
     "topics/topic-dc4380d53d28.html",
     "topics/topic-dc6e89c8f5da.html",
@@ -311,7 +311,7 @@
   "counts": {
     "people": 210,
     "works": 268,
-    "topics": 1018
+    "topics": 1019
   },
   "people": [
     {
@@ -3340,7 +3340,7 @@
     },
     {
       "name": "セール",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ソウルキャリバー",
@@ -3348,7 +3348,7 @@
     },
     {
       "name": "ソクミル",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ソシャゲ",
@@ -4531,6 +4531,10 @@
       "articles": 1
     },
     {
+      "name": "夏休みBIGセール",
+      "articles": 1
+    },
+    {
       "name": "夏目玲香",
       "articles": 1
     },
@@ -5668,7 +5672,7 @@
     },
     {
       "name": "素人AV",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "素人ナンパ",
