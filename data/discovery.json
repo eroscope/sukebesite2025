@@ -71,7 +71,6 @@
     "topics/topic-101806f57c32.html",
     "topics/topic-110186b4822a.html",
     "topics/topic-1647288711c1.html",
-    "topics/topic-17.html",
     "topics/topic-17198cf6e2b3.html",
     "topics/topic-178a484f3547.html",
     "topics/topic-17ff3fea9409.html",
@@ -135,6 +134,7 @@
     "topics/topic-5e0721bebbe4.html",
     "topics/topic-5ef5727d4453.html",
     "topics/topic-612e72ff9af8.html",
+    "topics/topic-614189b3887e.html",
     "topics/topic-616794ab0faa.html",
     "topics/topic-6178b11f2bab.html",
     "topics/topic-6188fdb6e5de.html",
@@ -308,7 +308,7 @@
   "counts": {
     "people": 207,
     "works": 265,
-    "topics": 999
+    "topics": 1001
   },
   "people": [
     {
@@ -2860,6 +2860,10 @@
       "articles": 2
     },
     {
+      "name": "アニメ",
+      "articles": 1
+    },
+    {
       "name": "アニメ・漫画",
       "articles": 2
     },
@@ -3045,7 +3049,7 @@
     },
     {
       "name": "キャラクター",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "キャラクタークリエイト",
@@ -4069,6 +4073,10 @@
     },
     {
       "name": "井上もも",
+      "articles": 1
+    },
+    {
+      "name": "京アニ",
       "articles": 1
     },
     {
@@ -5145,7 +5153,7 @@
     },
     {
       "name": "水着",
-      "articles": 56
+      "articles": 57
     },
     {
       "name": "水着グラビア",
