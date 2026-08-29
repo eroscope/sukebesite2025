@@ -226,7 +226,6 @@
     "topics/topic-c411f881be34.html",
     "topics/topic-c79d6ca8cec1.html",
     "topics/topic-c85a37f5a170.html",
-    "topics/topic-c967cee050d5.html",
     "topics/topic-c968ce1187c8.html",
     "topics/topic-c9b8d32f2216.html",
     "topics/topic-ca.html",
@@ -248,6 +247,7 @@
     "topics/topic-de92f995f049.html",
     "topics/topic-deff1678ad25.html",
     "topics/topic-dlsite.html",
+    "topics/topic-dvd.html",
     "topics/topic-e042c2ead2f0.html",
     "topics/topic-e16d9671dc56.html",
     "topics/topic-e18b1ea15d9c.html",
@@ -309,7 +309,7 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 212,
+    "people": 213,
     "works": 271,
     "topics": 1029
   },
@@ -936,6 +936,10 @@
     },
     {
       "name": "皆川らん",
+      "articles": 1
+    },
+    {
+      "name": "真中つぐ",
       "articles": 1
     },
     {
@@ -2444,7 +2448,7 @@
     },
     {
       "name": "DVD",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "DVD画像",
@@ -5488,7 +5492,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 32
+      "articles": 33
     },
     {
       "name": "画像ギャラリー",
@@ -5760,7 +5764,7 @@
     },
     {
       "name": "網タイツ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "総集編",
