@@ -130,7 +130,6 @@
     "topics/topic-55258bc4d97a.html",
     "topics/topic-56fd6f27e8b6.html",
     "topics/topic-5b592521cfcd.html",
-    "topics/topic-5c88029735ed.html",
     "topics/topic-5df792d395a0.html",
     "topics/topic-5e0721bebbe4.html",
     "topics/topic-5ef5727d4453.html",
@@ -171,7 +170,6 @@
     "topics/topic-8b2689c619bd.html",
     "topics/topic-8bb1bf8a8e8e.html",
     "topics/topic-8bfcb96c6a53.html",
-    "topics/topic-8c49bb441227.html",
     "topics/topic-8c77219f9a06.html",
     "topics/topic-8ebb9422553f.html",
     "topics/topic-8k-vr.html",
@@ -223,6 +221,7 @@
     "topics/topic-bb69fdc44886.html",
     "topics/topic-bbf72a1513be.html",
     "topics/topic-bf20d27fdec8.html",
+    "topics/topic-bf56a156e7b1.html",
     "topics/topic-c79d6ca8cec1.html",
     "topics/topic-c85a37f5a170.html",
     "topics/topic-c967cee050d5.html",
@@ -247,6 +246,7 @@
     "topics/topic-dd327884d8c9.html",
     "topics/topic-de92f995f049.html",
     "topics/topic-deff1678ad25.html",
+    "topics/topic-dlsite.html",
     "topics/topic-e042c2ead2f0.html",
     "topics/topic-e16d9671dc56.html",
     "topics/topic-e18b1ea15d9c.html",
@@ -309,7 +309,7 @@
   "counts": {
     "people": 209,
     "works": 266,
-    "topics": 1007
+    "topics": 1010
   },
   "people": [
     {
@@ -2229,6 +2229,10 @@
       "articles": 2
     },
     {
+      "name": "3D同人エロゲ",
+      "articles": 1
+    },
+    {
       "name": "3P",
       "articles": 10
     },
@@ -2390,7 +2394,7 @@
     },
     {
       "name": "DLsite",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "DOCUMENT SEX",
@@ -2781,6 +2785,10 @@
       "articles": 3
     },
     {
+      "name": "お仕置きLesson",
+      "articles": 1
+    },
+    {
       "name": "お天気お姉さん",
       "articles": 1
     },
@@ -3154,7 +3162,7 @@
     },
     {
       "name": "ゲーム動画",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ゲーム画像",
@@ -3918,6 +3926,10 @@
     },
     {
       "name": "リメイク",
+      "articles": 1
+    },
+    {
+      "name": "リョナ",
       "articles": 1
     },
     {
