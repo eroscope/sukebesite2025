@@ -169,6 +169,7 @@
     "topics/topic-8731d1fd5ecc.html",
     "topics/topic-89e4949f9542.html",
     "topics/topic-8b2689c619bd.html",
+    "topics/topic-8b43ace97b73.html",
     "topics/topic-8bb1bf8a8e8e.html",
     "topics/topic-8bfcb96c6a53.html",
     "topics/topic-8c77219f9a06.html",
@@ -230,7 +231,6 @@
     "topics/topic-c9b8d32f2216.html",
     "topics/topic-ca.html",
     "topics/topic-cb1b67b257cc.html",
-    "topics/topic-ccb8c7242126.html",
     "topics/topic-cd9b636b3770.html",
     "topics/topic-cde29f0f9c7e.html",
     "topics/topic-cec82fb864d9.html",
@@ -309,9 +309,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 214,
+    "people": 215,
     "works": 271,
-    "topics": 1030
+    "topics": 1033
   },
   "people": [
     {
@@ -396,6 +396,10 @@
     },
     {
       "name": "ソフィーティア",
+      "articles": 1
+    },
+    {
+      "name": "パス",
       "articles": 1
     },
     {
@@ -3216,7 +3220,7 @@
     },
     {
       "name": "ゲームキャラクター",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ゲームニュース",
@@ -3727,6 +3731,10 @@
       "articles": 1
     },
     {
+      "name": "ピースウォーカー",
+      "articles": 1
+    },
+    {
       "name": "ファッション",
       "articles": 1
     },
@@ -3928,6 +3936,10 @@
     },
     {
       "name": "メガネ",
+      "articles": 1
+    },
+    {
+      "name": "メタルギアソリッド",
       "articles": 1
     },
     {
@@ -6324,6 +6336,10 @@
     },
     {
       "name": "高齢者",
+      "articles": 1
+    },
+    {
+      "name": "鬱展開",
       "articles": 1
     },
     {
