@@ -184,7 +184,6 @@
     "topics/topic-9a2ecb8463a8.html",
     "topics/topic-9a36f427a8c8.html",
     "topics/topic-9b328f765a9c.html",
-    "topics/topic-9b342d8c4ccc.html",
     "topics/topic-9b72f355cddc.html",
     "topics/topic-9b9b691dccc0.html",
     "topics/topic-9be373a67afd.html",
@@ -287,6 +286,7 @@
     "topics/topic-kawaii.html",
     "topics/topic-madonna.html",
     "topics/topic-mgs.html",
+    "topics/topic-moodyz-diva.html",
     "topics/topic-moodyz.html",
     "topics/topic-nikke.html",
     "topics/topic-ntr.html",
@@ -309,8 +309,8 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 209,
-    "works": 267,
+    "people": 210,
+    "works": 268,
     "topics": 1017
   },
   "people": [
@@ -425,6 +425,10 @@
     {
       "name": "七沢みあ",
       "articles": 2
+    },
+    {
+      "name": "七海まの",
+      "articles": 1
     },
     {
       "name": "三枝れい",
@@ -1741,6 +1745,10 @@
       "articles": 1
     },
     {
+      "code": "MIDA-757",
+      "articles": 1
+    },
+    {
       "code": "MIDA-796",
       "articles": 1
     },
@@ -2548,7 +2556,7 @@
     },
     {
       "name": "MOODYZ DIVA",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "Madonna",
@@ -4292,7 +4300,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 42
+      "articles": 43
     },
     {
       "name": "公式商品紹介",
