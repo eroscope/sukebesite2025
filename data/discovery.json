@@ -309,9 +309,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 210,
+    "people": 211,
     "works": 269,
-    "topics": 1024
+    "topics": 1025
   },
   "people": [
     {
@@ -460,6 +460,10 @@
     },
     {
       "name": "仲村みう",
+      "articles": 1
+    },
+    {
+      "name": "伊原六花",
       "articles": 1
     },
     {
@@ -3488,7 +3492,7 @@
     },
     {
       "name": "ニット",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ニューハーフ",
@@ -3997,6 +4001,10 @@
     {
       "name": "レースクイーン",
       "articles": 3
+    },
+    {
+      "name": "ロケ番組",
+      "articles": 1
     },
     {
       "name": "ロッカー",
@@ -5452,7 +5460,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 31
+      "articles": 32
     },
     {
       "name": "画像ギャラリー",
