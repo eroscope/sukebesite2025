@@ -305,9 +305,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 206,
+    "people": 207,
     "works": 264,
-    "topics": 985
+    "topics": 988
   },
   "people": [
     {
@@ -709,6 +709,10 @@
     {
       "name": "早坂奏音",
       "articles": 2
+    },
+    {
+      "name": "旭萌花",
+      "articles": 1
     },
     {
       "name": "明里つむぎ",
@@ -1150,7 +1154,7 @@
     },
     {
       "code": "259LUXU-1894",
-      "articles": 3
+      "articles": 4
     },
     {
       "code": "300MIUM-1293",
@@ -1178,15 +1182,15 @@
     },
     {
       "code": "857OMG-035",
-      "articles": 5
+      "articles": 6
     },
     {
       "code": "892OERO-006",
-      "articles": 5
+      "articles": 6
     },
     {
       "code": "ABF-375",
-      "articles": 3
+      "articles": 4
     },
     {
       "code": "ADN-766",
@@ -2407,6 +2411,10 @@
       "articles": 1
     },
     {
+      "name": "FLASH",
+      "articles": 1
+    },
+    {
       "name": "FRUITS ZIPPER",
       "articles": 1
     },
@@ -2453,6 +2461,10 @@
     {
       "name": "Instagram",
       "articles": 3
+    },
+    {
+      "name": "I’mew",
+      "articles": 1
     },
     {
       "name": "Iカップ",
@@ -2700,6 +2712,10 @@
     },
     {
       "name": "yuki",
+      "articles": 1
+    },
+    {
+      "name": "あいみゅう",
       "articles": 1
     },
     {
@@ -3840,7 +3856,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 46
+      "articles": 47
     },
     {
       "name": "リアクション",
@@ -5100,7 +5116,7 @@
     },
     {
       "name": "水着",
-      "articles": 55
+      "articles": 56
     },
     {
       "name": "水着グラビア",
