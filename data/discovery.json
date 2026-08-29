@@ -30,6 +30,7 @@
     "people/person-8ebb9422553f.html",
     "people/person-8ec7eeabe763.html",
     "people/person-8efaaa5de975.html",
+    "people/person-922e61084667.html",
     "people/person-93f83543950d.html",
     "people/person-9da0bab509f9.html",
     "people/person-a4891aa58898.html",
@@ -118,7 +119,6 @@
     "topics/topic-45cec0322496.html",
     "topics/topic-473c318725f8.html",
     "topics/topic-4a3fad303d05.html",
-    "topics/topic-4b086df348af.html",
     "topics/topic-4c5fc72da2ff.html",
     "topics/topic-4e72b30797c6.html",
     "topics/topic-4ff5a70a51f2.html",
@@ -278,6 +278,7 @@
     "topics/topic-fe643b80ac5c.html",
     "topics/topic-ffc18ca99215.html",
     "topics/topic-fitch.html",
+    "topics/topic-i-mew.html",
     "topics/topic-ideapocket.html",
     "topics/topic-instagram.html",
     "topics/topic-kawaii.html",
@@ -712,7 +713,7 @@
     },
     {
       "name": "旭萌花",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "明里つむぎ",
@@ -2464,7 +2465,7 @@
     },
     {
       "name": "I’mew",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "Iカップ",
@@ -3856,7 +3857,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 47
+      "articles": 48
     },
     {
       "name": "リアクション",
