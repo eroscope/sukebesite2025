@@ -285,12 +285,12 @@
     "topics/topic-instagram.html",
     "topics/topic-kawaii.html",
     "topics/topic-madonna.html",
+    "topics/topic-madonnavr.html",
     "topics/topic-mgs.html",
     "topics/topic-moodyz-diva.html",
     "topics/topic-moodyz.html",
     "topics/topic-nikke.html",
     "topics/topic-ntr.html",
-    "topics/topic-ol.html",
     "topics/topic-ol.html",
     "topics/topic-oppai.html",
     "topics/topic-premium.html",
@@ -311,7 +311,7 @@
   "counts": {
     "people": 210,
     "works": 269,
-    "topics": 1022
+    "topics": 1024
   },
   "people": [
     {
@@ -2308,7 +2308,7 @@
     },
     {
       "name": "8K",
-      "articles": 23
+      "articles": 24
     },
     {
       "name": "8K VR",
@@ -2568,7 +2568,7 @@
     },
     {
       "name": "MadonnaVR",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "Mina",
@@ -2712,7 +2712,7 @@
     },
     {
       "name": "VR",
-      "articles": 75
+      "articles": 76
     },
     {
       "name": "VR CHANNEL 005",
@@ -4159,6 +4159,10 @@
       "articles": 1
     },
     {
+      "name": "人妻保育士",
+      "articles": 1
+    },
+    {
       "name": "人妻秘書",
       "articles": 1
     },
@@ -4304,7 +4308,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "公式サンプル動画",
@@ -5148,6 +5152,10 @@
     },
     {
       "name": "桃乃木かな",
+      "articles": 1
+    },
+    {
+      "name": "桃園怜奈",
       "articles": 1
     },
     {
