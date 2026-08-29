@@ -311,7 +311,7 @@
   "counts": {
     "people": 209,
     "works": 267,
-    "topics": 1016
+    "topics": 1017
   },
   "people": [
     {
@@ -2979,6 +2979,10 @@
       "articles": 2
     },
     {
+      "name": "エロコスプレイヤー",
+      "articles": 1
+    },
+    {
       "name": "エロ同人誌",
       "articles": 1
     },
@@ -3928,7 +3932,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 48
+      "articles": 49
     },
     {
       "name": "リアクション",
@@ -3976,7 +3980,7 @@
     },
     {
       "name": "レースクイーン",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ロッカー",
@@ -5212,7 +5216,7 @@
     },
     {
       "name": "水着",
-      "articles": 63
+      "articles": 64
     },
     {
       "name": "水着グラビア",
