@@ -307,9 +307,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 208,
+    "people": 209,
     "works": 266,
-    "topics": 1005
+    "topics": 1007
   },
   "people": [
     {
@@ -658,6 +658,10 @@
     },
     {
       "name": "川越にこ",
+      "articles": 1
+    },
+    {
+      "name": "希望みう",
       "articles": 1
     },
     {
@@ -1160,7 +1164,7 @@
     },
     {
       "code": "259LUXU-1894",
-      "articles": 4
+      "articles": 5
     },
     {
       "code": "300MIUM-1293",
@@ -1188,11 +1192,11 @@
     },
     {
       "code": "857OMG-035",
-      "articles": 6
+      "articles": 7
     },
     {
       "code": "892OERO-006",
-      "articles": 6
+      "articles": 7
     },
     {
       "code": "ABF-375",
@@ -2330,7 +2334,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "AV作品",
@@ -2839,6 +2843,10 @@
     {
       "name": "ぶっかけ",
       "articles": 4
+    },
+    {
+      "name": "みらい・みう",
+      "articles": 1
     },
     {
       "name": "るか",
@@ -3519,6 +3527,10 @@
     {
       "name": "バスツアー",
       "articles": 4
+    },
+    {
+      "name": "バスト104cm",
+      "articles": 1
     },
     {
       "name": "バック",
@@ -5166,7 +5178,7 @@
     },
     {
       "name": "水着",
-      "articles": 59
+      "articles": 60
     },
     {
       "name": "水着グラビア",
