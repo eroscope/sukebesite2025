@@ -139,7 +139,6 @@
     "topics/topic-612e72ff9af8.html",
     "topics/topic-614189b3887e.html",
     "topics/topic-616794ab0faa.html",
-    "topics/topic-6178b11f2bab.html",
     "topics/topic-6188fdb6e5de.html",
     "topics/topic-62ac794272dd.html",
     "topics/topic-6314aa46097f.html",
@@ -223,6 +222,7 @@
     "topics/topic-bbf72a1513be.html",
     "topics/topic-bf20d27fdec8.html",
     "topics/topic-bf56a156e7b1.html",
+    "topics/topic-c3eb5feb0b13.html",
     "topics/topic-c411f881be34.html",
     "topics/topic-c79d6ca8cec1.html",
     "topics/topic-c85a37f5a170.html",
@@ -311,7 +311,7 @@
   "counts": {
     "people": 210,
     "works": 268,
-    "topics": 1019
+    "topics": 1020
   },
   "people": [
     {
@@ -3940,7 +3940,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 49
+      "articles": 50
     },
     {
       "name": "リアクション",
@@ -4036,7 +4036,7 @@
     },
     {
       "name": "下着",
-      "articles": 36
+      "articles": 37
     },
     {
       "name": "下着のライン",
@@ -4620,7 +4620,7 @@
     },
     {
       "name": "女性画像",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "女捜査官",
@@ -5048,6 +5048,10 @@
     },
     {
       "name": "時間停止",
+      "articles": 1
+    },
+    {
+      "name": "暑さ対策",
       "articles": 1
     },
     {
@@ -6056,7 +6060,7 @@
     },
     {
       "name": "部屋着",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "配信",
