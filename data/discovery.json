@@ -311,7 +311,7 @@
   "counts": {
     "people": 209,
     "works": 267,
-    "topics": 1015
+    "topics": 1016
   },
   "people": [
     {
@@ -5212,7 +5212,7 @@
     },
     {
       "name": "水着",
-      "articles": 62
+      "articles": 63
     },
     {
       "name": "水着グラビア",
@@ -5632,6 +5632,10 @@
     },
     {
       "name": "箱ヘル",
+      "articles": 1
+    },
+    {
+      "name": "篠崎愛",
       "articles": 1
     },
     {
