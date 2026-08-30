@@ -314,7 +314,7 @@
   "counts": {
     "people": 219,
     "works": 273,
-    "topics": 1062
+    "topics": 1064
   },
   "people": [
     {
@@ -2791,7 +2791,7 @@
     },
     {
       "name": "VR",
-      "articles": 78
+      "articles": 79
     },
     {
       "name": "VR CHANNEL 005",
@@ -5602,6 +5602,10 @@
       "articles": 1
     },
     {
+      "name": "画像13枚",
+      "articles": 1
+    },
+    {
       "name": "画像15枚",
       "articles": 1
     },
@@ -6103,6 +6107,10 @@
     },
     {
       "name": "蓮あおば",
+      "articles": 1
+    },
+    {
+      "name": "蓮実クレア",
       "articles": 1
     },
     {
