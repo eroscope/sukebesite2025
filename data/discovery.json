@@ -312,7 +312,7 @@
   "counts": {
     "people": 216,
     "works": 272,
-    "topics": 1056
+    "topics": 1058
   },
   "people": [
     {
@@ -2412,6 +2412,10 @@
       "articles": 13
     },
     {
+      "name": "AVパッケージ",
+      "articles": 1
+    },
+    {
       "name": "AV作品",
       "articles": 2
     },
@@ -2421,7 +2425,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "AV画像",
@@ -5605,7 +5609,7 @@
     },
     {
       "name": "画像ギャラリー",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "画像スレ",
@@ -5833,6 +5837,10 @@
     },
     {
       "name": "精液",
+      "articles": 1
+    },
+    {
+      "name": "純白彩永",
       "articles": 1
     },
     {
