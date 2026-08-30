@@ -313,7 +313,7 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 221,
+    "people": 222,
     "works": 275,
     "topics": 1090
   },
@@ -928,6 +928,10 @@
     },
     {
       "name": "無無田",
+      "articles": 1
+    },
+    {
+      "name": "玉木璃子",
       "articles": 1
     },
     {
@@ -2520,7 +2524,7 @@
     },
     {
       "name": "DVD",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "DVD画像",
@@ -4152,7 +4156,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 57
+      "articles": 58
     },
     {
       "name": "リアクション",
@@ -5532,7 +5536,7 @@
     },
     {
       "name": "水着",
-      "articles": 77
+      "articles": 78
     },
     {
       "name": "水着グラビア",
