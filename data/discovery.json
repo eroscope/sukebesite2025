@@ -19,6 +19,7 @@
     "people/person-2e86716aab10.html",
     "people/person-361acebed5bc.html",
     "people/person-38f56991c304.html",
+    "people/person-3a94e9ef70a3.html",
     "people/person-40b15a51b4b3.html",
     "people/person-4501c278da8f.html",
     "people/person-513e9a89694e.html",
@@ -122,7 +123,6 @@
     "topics/topic-42eab7d23db3.html",
     "topics/topic-437075f9018d.html",
     "topics/topic-45cec0322496.html",
-    "topics/topic-473c318725f8.html",
     "topics/topic-4a3fad303d05.html",
     "topics/topic-4c5fc72da2ff.html",
     "topics/topic-4e72b30797c6.html",
@@ -158,6 +158,7 @@
     "topics/topic-710b57e0cad1.html",
     "topics/topic-71d84a4e08e8.html",
     "topics/topic-73773dcb8f71.html",
+    "topics/topic-7617e3b447bc.html",
     "topics/topic-771bd1d57220.html",
     "topics/topic-77bf3dd73ea1.html",
     "topics/topic-795d25e718e1.html",
@@ -185,7 +186,6 @@
     "topics/topic-909a4929400c.html",
     "topics/topic-9382af5ea57b.html",
     "topics/topic-974a698e2fe9.html",
-    "topics/topic-978473dda66d.html",
     "topics/topic-9a2ecb8463a8.html",
     "topics/topic-9a36f427a8c8.html",
     "topics/topic-9b328f765a9c.html",
@@ -224,6 +224,7 @@
     "topics/topic-b89d8be7513d.html",
     "topics/topic-bb69fdc44886.html",
     "topics/topic-bbf72a1513be.html",
+    "topics/topic-bd64b0c8f1f4.html",
     "topics/topic-bf20d27fdec8.html",
     "topics/topic-bf56a156e7b1.html",
     "topics/topic-c3eb5feb0b13.html",
@@ -313,8 +314,8 @@
   ],
   "counts": {
     "people": 220,
-    "works": 273,
-    "topics": 1071
+    "works": 274,
+    "topics": 1072
   },
   "people": [
     {
@@ -803,7 +804,7 @@
     },
     {
       "name": "柊もみじ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "柏木こなつ",
@@ -1369,6 +1370,10 @@
     },
     {
       "code": "DASS-937",
+      "articles": 1
+    },
+    {
+      "code": "DASS-949",
       "articles": 1
     },
     {
@@ -3623,7 +3628,7 @@
     },
     {
       "name": "ニューハーフ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ニーソックス",
@@ -3866,6 +3871,10 @@
       "articles": 5
     },
     {
+      "name": "フリル衣装",
+      "articles": 1
+    },
+    {
       "name": "フリーハンド魂",
       "articles": 1
     },
@@ -3959,7 +3968,7 @@
     },
     {
       "name": "ボンデージ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ボンバーガール",
@@ -4267,7 +4276,7 @@
     },
     {
       "name": "乱交",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "乳房",
@@ -4743,7 +4752,7 @@
     },
     {
       "name": "大人数",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "大学サークル",
