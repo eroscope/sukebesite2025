@@ -311,7 +311,7 @@
   "counts": {
     "people": 216,
     "works": 271,
-    "topics": 1048
+    "topics": 1051
   },
   "people": [
     {
@@ -2659,6 +2659,10 @@
       "articles": 1
     },
     {
+      "name": "Pan Piano",
+      "articles": 1
+    },
+    {
       "name": "PtoMセックス",
       "articles": 1
     },
@@ -2772,6 +2776,10 @@
     },
     {
       "name": "W女上司",
+      "articles": 1
+    },
+    {
+      "name": "YouTube",
       "articles": 1
     },
     {
@@ -3168,6 +3176,10 @@
     },
     {
       "name": "キャラクタークリエイト",
+      "articles": 1
+    },
+    {
+      "name": "ギター",
       "articles": 1
     },
     {
@@ -3736,7 +3748,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 25
+      "articles": 26
     },
     {
       "name": "ビビアン",
