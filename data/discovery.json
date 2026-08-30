@@ -315,7 +315,7 @@
   "counts": {
     "people": 222,
     "works": 275,
-    "topics": 1090
+    "topics": 1094
   },
   "people": [
     {
@@ -2919,6 +2919,10 @@
       "articles": 1
     },
     {
+      "name": "おしり探偵",
+      "articles": 1
+    },
+    {
       "name": "おっぱい",
       "articles": 11
     },
@@ -4155,6 +4159,10 @@
       "articles": 1
     },
     {
+      "name": "ラブドール",
+      "articles": 1
+    },
+    {
       "name": "ランジェリー",
       "articles": 58
     },
@@ -4784,6 +4792,10 @@
     },
     {
       "name": "売上ランキング",
+      "articles": 1
+    },
+    {
+      "name": "変形",
       "articles": 1
     },
     {
@@ -5684,6 +5696,10 @@
     },
     {
       "name": "玩具責め",
+      "articles": 1
+    },
+    {
+      "name": "珍画像",
       "articles": 1
     },
     {
