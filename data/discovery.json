@@ -314,8 +314,8 @@
   ],
   "counts": {
     "people": 222,
-    "works": 275,
-    "topics": 1097
+    "works": 276,
+    "topics": 1099
   },
   "people": [
     {
@@ -2101,6 +2101,10 @@
       "articles": 1
     },
     {
+      "code": "SNOS-177",
+      "articles": 1
+    },
+    {
       "code": "SNOS-178",
       "articles": 1
     },
@@ -2460,7 +2464,7 @@
     },
     {
       "name": "AV作品",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "AV初出演",
@@ -3264,6 +3268,10 @@
     },
     {
       "name": "キャスター",
+      "articles": 1
+    },
+    {
+      "name": "キャビンアテンダント",
       "articles": 1
     },
     {
@@ -4600,7 +4608,7 @@
     },
     {
       "name": "制服",
-      "articles": 21
+      "articles": 22
     },
     {
       "name": "制服衣装",
@@ -5508,6 +5516,10 @@
     },
     {
       "name": "横向き",
+      "articles": 1
+    },
+    {
+      "name": "機内",
       "articles": 1
     },
     {
