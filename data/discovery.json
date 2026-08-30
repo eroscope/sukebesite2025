@@ -52,6 +52,7 @@
     "people/person-df9cc108d456.html",
     "people/person-e5c60fa51860.html",
     "people/person-e714d8df7815.html",
+    "people/person-e796e68b08f6.html",
     "people/person-ea65df2aa4d6.html",
     "people/person-ecea1599b55a.html",
     "people/person-edded4fab735.html",
@@ -310,8 +311,8 @@
   ],
   "counts": {
     "people": 216,
-    "works": 271,
-    "topics": 1054
+    "works": 272,
+    "topics": 1056
   },
   "people": [
     {
@@ -700,7 +701,7 @@
     },
     {
       "name": "愛才りあ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "新ありな",
@@ -1474,6 +1475,10 @@
     },
     {
       "code": "HUNTC-647",
+      "articles": 1
+    },
+    {
+      "code": "IPOK-014",
       "articles": 1
     },
     {
@@ -2271,7 +2276,15 @@
       "articles": 1
     },
     {
+      "name": "12タイトル12時間",
+      "articles": 1
+    },
+    {
       "name": "18時間",
+      "articles": 1
+    },
+    {
+      "name": "1周年記念ベスト",
       "articles": 1
     },
     {
@@ -2964,7 +2977,7 @@
     },
     {
       "name": "アイデアポケット",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "アイドルマスター",
