@@ -311,7 +311,7 @@
   "counts": {
     "people": 215,
     "works": 271,
-    "topics": 1040
+    "topics": 1041
   },
   "people": [
     {
@@ -460,7 +460,7 @@
     },
     {
       "name": "井口裕香",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "仲村みう",
@@ -4012,7 +4012,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 51
+      "articles": 52
     },
     {
       "name": "リアクション",
@@ -5332,7 +5332,7 @@
     },
     {
       "name": "水着",
-      "articles": 67
+      "articles": 68
     },
     {
       "name": "水着グラビア",
@@ -6020,6 +6020,10 @@
     },
     {
       "name": "表現論",
+      "articles": 1
+    },
+    {
+      "name": "表紙",
       "articles": 1
     },
     {
