@@ -311,7 +311,7 @@
   "counts": {
     "people": 215,
     "works": 271,
-    "topics": 1034
+    "topics": 1040
   },
   "people": [
     {
@@ -2911,11 +2911,27 @@
       "articles": 5
     },
     {
+      "name": "みちょぱ",
+      "articles": 1
+    },
+    {
       "name": "みらい・みう",
       "articles": 1
     },
     {
+      "name": "めるる",
+      "articles": 1
+    },
+    {
       "name": "ももち",
+      "articles": 1
+    },
+    {
+      "name": "ゆうちゃみ",
+      "articles": 1
+    },
+    {
+      "name": "ゆきぽよ",
       "articles": 1
     },
     {
@@ -3160,6 +3176,10 @@
     },
     {
       "name": "ギャル幼馴染",
+      "articles": 1
+    },
+    {
+      "name": "ギャル芸能人",
       "articles": 1
     },
     {
@@ -5312,7 +5332,7 @@
     },
     {
       "name": "水着",
-      "articles": 66
+      "articles": 67
     },
     {
       "name": "水着グラビア",
@@ -5976,6 +5996,10 @@
     },
     {
       "name": "蓮あおば",
+      "articles": 1
+    },
+    {
+      "name": "藤田ニコル",
       "articles": 1
     },
     {
