@@ -314,8 +314,8 @@
   ],
   "counts": {
     "people": 220,
-    "works": 274,
-    "topics": 1077
+    "works": 275,
+    "topics": 1079
   },
   "people": [
     {
@@ -1052,7 +1052,7 @@
     },
     {
       "name": "美園和花",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "美谷朱音",
@@ -1270,6 +1270,10 @@
     },
     {
       "code": "ADN-800",
+      "articles": 1
+    },
+    {
+      "code": "ADN-802",
       "articles": 1
     },
     {
@@ -4419,6 +4423,10 @@
       "articles": 1
     },
     {
+      "name": "保育園の先生",
+      "articles": 1
+    },
+    {
       "name": "保育園風俗",
       "articles": 1
     },
@@ -4500,7 +4508,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 44
+      "articles": 45
     },
     {
       "name": "公式商品紹介",
@@ -4945,6 +4953,10 @@
     {
       "name": "家庭教師",
       "articles": 2
+    },
+    {
+      "name": "密会不倫",
+      "articles": 1
     },
     {
       "name": "密室",
