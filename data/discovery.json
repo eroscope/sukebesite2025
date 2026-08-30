@@ -104,7 +104,6 @@
     "topics/topic-339b5a30e0a5.html",
     "topics/topic-3630070a6df4.html",
     "topics/topic-3690dc8db605.html",
-    "topics/topic-382b0f502734.html",
     "topics/topic-383f688ec1c4.html",
     "topics/topic-38e8334f0533.html",
     "topics/topic-3ad6d9ebca93.html",
@@ -205,6 +204,7 @@
     "topics/topic-ac9d2eb7082c.html",
     "topics/topic-aecaac86ab2c.html",
     "topics/topic-ai.html",
+    "topics/topic-ani.html",
     "topics/topic-animates.html",
     "topics/topic-asmr.html",
     "topics/topic-av.html",
@@ -315,7 +315,7 @@
   "counts": {
     "people": 220,
     "works": 274,
-    "topics": 1074
+    "topics": 1077
   },
   "people": [
     {
@@ -2323,6 +2323,10 @@
       "articles": 2
     },
     {
+      "name": "3Dキャラクター",
+      "articles": 1
+    },
+    {
       "name": "3D同人エロゲ",
       "articles": 1
     },
@@ -2408,7 +2412,7 @@
     },
     {
       "name": "AIコンパニオン",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "AIチャット",
@@ -2460,7 +2464,7 @@
     },
     {
       "name": "Ani",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "Animates",
@@ -2568,7 +2572,7 @@
     },
     {
       "name": "Grok",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "Gカップ",
@@ -3132,6 +3136,10 @@
     },
     {
       "name": "オイルマッサージ",
+      "articles": 1
+    },
+    {
+      "name": "オクトーバーフェスト",
       "articles": 1
     },
     {
@@ -5244,6 +5252,10 @@
     },
     {
       "name": "新村あかり",
+      "articles": 1
+    },
+    {
+      "name": "新衣装",
       "articles": 1
     },
     {
