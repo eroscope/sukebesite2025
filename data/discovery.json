@@ -311,7 +311,7 @@
   "counts": {
     "people": 216,
     "works": 271,
-    "topics": 1052
+    "topics": 1054
   },
   "people": [
     {
@@ -2632,7 +2632,7 @@
     },
     {
       "name": "NTR",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "OL",
@@ -3072,7 +3072,7 @@
     },
     {
       "name": "エロ漫画",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "エロ画像",
@@ -4499,6 +4499,10 @@
       "articles": 1
     },
     {
+      "name": "匿名掲示板",
+      "articles": 1
+    },
+    {
       "name": "十束るう",
       "articles": 1
     },
@@ -4536,6 +4540,10 @@
     },
     {
       "name": "合宿",
+      "articles": 1
+    },
+    {
+      "name": "同人誌",
       "articles": 1
     },
     {
