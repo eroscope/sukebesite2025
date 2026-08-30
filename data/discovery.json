@@ -311,7 +311,7 @@
   "counts": {
     "people": 215,
     "works": 271,
-    "topics": 1041
+    "topics": 1044
   },
   "people": [
     {
@@ -3951,6 +3951,10 @@
       "articles": 11
     },
     {
+      "name": "メイドコスプレ",
+      "articles": 1
+    },
+    {
       "name": "メイド風衣装",
       "articles": 1
     },
@@ -4649,6 +4653,10 @@
     {
       "name": "大槻ひびき",
       "articles": 2
+    },
+    {
+      "name": "大胆衣装",
+      "articles": 1
     },
     {
       "name": "天宮花南",
@@ -6156,6 +6164,10 @@
     },
     {
       "name": "逆ナンパ",
+      "articles": 1
+    },
+    {
+      "name": "逆メイド",
       "articles": 1
     },
     {
