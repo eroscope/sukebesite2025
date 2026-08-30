@@ -313,7 +313,7 @@
   "counts": {
     "people": 216,
     "works": 272,
-    "topics": 1059
+    "topics": 1061
   },
   "people": [
     {
@@ -2870,7 +2870,7 @@
     },
     {
       "name": "おっぱい",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "おっぱいパブ",
@@ -3206,6 +3206,10 @@
     },
     {
       "name": "ギャップ",
+      "articles": 1
+    },
+    {
+      "name": "ギャラリー検証",
       "articles": 1
     },
     {
@@ -5018,6 +5022,10 @@
     },
     {
       "name": "性行為画像",
+      "articles": 1
+    },
+    {
+      "name": "悠木碧",
       "articles": 1
     },
     {
