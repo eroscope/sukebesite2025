@@ -146,6 +146,7 @@
     "topics/topic-62ac794272dd.html",
     "topics/topic-6314aa46097f.html",
     "topics/topic-647b618e55ca.html",
+    "topics/topic-647bd4613bab.html",
     "topics/topic-66605fef266d.html",
     "topics/topic-66ea6e1db1a8.html",
     "topics/topic-6a0b30d36103.html",
@@ -213,7 +214,6 @@
     "topics/topic-b010a4c2d907.html",
     "topics/topic-b03ff91d92e0.html",
     "topics/topic-b0d4c6c28a4b.html",
-    "topics/topic-b1a702141e22.html",
     "topics/topic-b242f222724f.html",
     "topics/topic-b426cff04d6b.html",
     "topics/topic-b4cfc5a67172.html",
@@ -314,7 +314,7 @@
   "counts": {
     "people": 219,
     "works": 273,
-    "topics": 1061
+    "topics": 1062
   },
   "people": [
     {
@@ -3051,7 +3051,7 @@
     },
     {
       "name": "イベント",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "イベント展示",
@@ -3667,7 +3667,7 @@
     },
     {
       "name": "ハイレグ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ハマーン・カーン",
@@ -4483,7 +4483,7 @@
     },
     {
       "name": "写真集",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "凰華りん",
@@ -5314,6 +5314,10 @@
       "articles": 1
     },
     {
+      "name": "林田百加",
+      "articles": 1
+    },
+    {
       "name": "柊もみじ",
       "articles": 1
     },
@@ -5427,7 +5431,7 @@
     },
     {
       "name": "水着",
-      "articles": 72
+      "articles": 73
     },
     {
       "name": "水着グラビア",
