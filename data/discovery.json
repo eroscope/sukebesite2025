@@ -313,9 +313,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 220,
+    "people": 221,
     "works": 275,
-    "topics": 1082
+    "topics": 1084
   },
   "people": [
     {
@@ -784,6 +784,10 @@
     },
     {
       "name": "木村絵里子",
+      "articles": 1
+    },
+    {
+      "name": "本田望結",
       "articles": 1
     },
     {
@@ -4107,6 +4111,10 @@
       "articles": 1
     },
     {
+      "name": "モデル",
+      "articles": 1
+    },
+    {
       "name": "ヤンネ",
       "articles": 1
     },
@@ -6604,6 +6612,10 @@
     },
     {
       "name": "黒タイツ",
+      "articles": 1
+    },
+    {
+      "name": "黒トップス",
       "articles": 1
     },
     {
