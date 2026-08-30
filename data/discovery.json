@@ -154,6 +154,7 @@
     "topics/topic-6eac69881e67.html",
     "topics/topic-6f0b069faec6.html",
     "topics/topic-6fb93ec6c83f.html",
+    "topics/topic-70092af8e575.html",
     "topics/topic-710b57e0cad1.html",
     "topics/topic-71d84a4e08e8.html",
     "topics/topic-73773dcb8f71.html",
@@ -192,7 +193,6 @@
     "topics/topic-9b9b691dccc0.html",
     "topics/topic-9be373a67afd.html",
     "topics/topic-9c3aa8eee095.html",
-    "topics/topic-9de5bab4f2e7.html",
     "topics/topic-9dec44a3aaa7.html",
     "topics/topic-a04d5bfd17ef.html",
     "topics/topic-a1708ab4d3ce.html",
@@ -314,7 +314,7 @@
   "counts": {
     "people": 219,
     "works": 273,
-    "topics": 1064
+    "topics": 1068
   },
   "people": [
     {
@@ -3019,7 +3019,7 @@
     },
     {
       "name": "アニメ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "アニメ・漫画",
@@ -3164,6 +3164,10 @@
     {
       "name": "カップル",
       "articles": 2
+    },
+    {
+      "name": "カナン様はあくまでチョロい",
+      "articles": 1
     },
     {
       "name": "カフェ",
@@ -4110,6 +4114,10 @@
       "articles": 1
     },
     {
+      "name": "リリム・ゼブル",
+      "articles": 1
+    },
+    {
       "name": "リング",
       "articles": 1
     },
@@ -4275,6 +4283,10 @@
     },
     {
       "name": "乳首洗脳",
+      "articles": 1
+    },
+    {
+      "name": "乳首解禁",
       "articles": 1
     },
     {
@@ -4479,6 +4491,10 @@
     },
     {
       "name": "共同生活",
+      "articles": 1
+    },
+    {
+      "name": "円盤",
       "articles": 1
     },
     {
