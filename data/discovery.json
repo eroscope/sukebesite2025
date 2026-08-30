@@ -151,7 +151,6 @@
     "topics/topic-66ea6e1db1a8.html",
     "topics/topic-6a0b30d36103.html",
     "topics/topic-6a5a9a6c1012.html",
-    "topics/topic-6eac69881e67.html",
     "topics/topic-6f0b069faec6.html",
     "topics/topic-6fb93ec6c83f.html",
     "topics/topic-70092af8e575.html",
@@ -183,7 +182,6 @@
     "topics/topic-8kvr.html",
     "topics/topic-909a4929400c.html",
     "topics/topic-9382af5ea57b.html",
-    "topics/topic-974a698e2fe9.html",
     "topics/topic-9a2ecb8463a8.html",
     "topics/topic-9a36f427a8c8.html",
     "topics/topic-9b72f355cddc.html",
@@ -306,6 +304,8 @@
     "topics/topic-sodstar.html",
     "topics/topic-tameike.html",
     "topics/topic-vr.html",
+    "topics/topic-vr.html",
+    "topics/topic-vr.html",
     "works.html",
     "works/work-259luxu-1894.html",
     "works/work-857omg-035.html",
@@ -315,7 +315,7 @@
   "counts": {
     "people": 222,
     "works": 275,
-    "topics": 1096
+    "topics": 1097
   },
   "people": [
     {
@@ -2799,6 +2799,10 @@
       "articles": 1
     },
     {
+      "name": "Steam",
+      "articles": 1
+    },
+    {
       "name": "TAMEIKE",
       "articles": 3
     },
@@ -2828,7 +2832,7 @@
     },
     {
       "name": "VRゲーム",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "VR作品",
@@ -3376,7 +3380,7 @@
     },
     {
       "name": "ゲーム画像",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "コミケ",
@@ -3492,7 +3496,7 @@
     },
     {
       "name": "スーパーリアル麻雀VR",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "セクシーラウンジ",
@@ -6192,7 +6196,7 @@
     },
     {
       "name": "脱衣麻雀",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "腰振りダンス",
