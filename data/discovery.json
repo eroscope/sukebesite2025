@@ -188,7 +188,6 @@
     "topics/topic-974a698e2fe9.html",
     "topics/topic-9a2ecb8463a8.html",
     "topics/topic-9a36f427a8c8.html",
-    "topics/topic-9b328f765a9c.html",
     "topics/topic-9b72f355cddc.html",
     "topics/topic-9b9b691dccc0.html",
     "topics/topic-9be373a67afd.html",
@@ -205,6 +204,8 @@
     "topics/topic-ab67c0ff4bc5.html",
     "topics/topic-ac9d2eb7082c.html",
     "topics/topic-aecaac86ab2c.html",
+    "topics/topic-ai.html",
+    "topics/topic-animates.html",
     "topics/topic-asmr.html",
     "topics/topic-av.html",
     "topics/topic-av.html",
@@ -213,7 +214,6 @@
     "topics/topic-av.html",
     "topics/topic-b010a4c2d907.html",
     "topics/topic-b03ff91d92e0.html",
-    "topics/topic-b0d4c6c28a4b.html",
     "topics/topic-b242f222724f.html",
     "topics/topic-b426cff04d6b.html",
     "topics/topic-b4cfc5a67172.html",
@@ -260,7 +260,6 @@
     "topics/topic-e3c843a27e8c.html",
     "topics/topic-e3cd37ffc466.html",
     "topics/topic-e424954ac043.html",
-    "topics/topic-e440de03ac01.html",
     "topics/topic-e481339cc9aa.html",
     "topics/topic-e53e94c377da.html",
     "topics/topic-e55126756e03.html",
@@ -284,6 +283,7 @@
     "topics/topic-fe643b80ac5c.html",
     "topics/topic-ffc18ca99215.html",
     "topics/topic-fitch.html",
+    "topics/topic-grok.html",
     "topics/topic-i-mew.html",
     "topics/topic-ideapocket.html",
     "topics/topic-instagram.html",
@@ -315,7 +315,7 @@
   "counts": {
     "people": 220,
     "works": 274,
-    "topics": 1072
+    "topics": 1074
   },
   "people": [
     {
@@ -2408,7 +2408,7 @@
     },
     {
       "name": "AIコンパニオン",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "AIチャット",
@@ -2459,8 +2459,12 @@
       "articles": 1
     },
     {
-      "name": "Animates",
+      "name": "Ani",
       "articles": 1
+    },
+    {
+      "name": "Animates",
+      "articles": 2
     },
     {
       "name": "B.L.T.",
@@ -2564,7 +2568,7 @@
     },
     {
       "name": "Grok",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "Gカップ",
@@ -3336,6 +3340,10 @@
     },
     {
       "name": "コンプリート",
+      "articles": 1
+    },
+    {
+      "name": "ゴシックロリータ",
       "articles": 1
     },
     {
