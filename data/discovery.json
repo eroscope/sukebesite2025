@@ -312,9 +312,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 219,
+    "people": 220,
     "works": 273,
-    "topics": 1068
+    "topics": 1070
   },
   "people": [
     {
@@ -867,6 +867,10 @@
     },
     {
       "name": "武田玲奈",
+      "articles": 1
+    },
+    {
+      "name": "比嘉愛未",
       "articles": 1
     },
     {
@@ -4782,6 +4786,10 @@
       "articles": 1
     },
     {
+      "name": "女優",
+      "articles": 1
+    },
+    {
       "name": "女子2人組",
       "articles": 1
     },
@@ -6055,7 +6063,7 @@
     },
     {
       "name": "胸元",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "胸見せ",
@@ -6383,6 +6391,10 @@
     },
     {
       "name": "集団輪●",
+      "articles": 1
+    },
+    {
+      "name": "雑誌",
       "articles": 1
     },
     {
