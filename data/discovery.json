@@ -311,7 +311,7 @@
   "counts": {
     "people": 215,
     "works": 271,
-    "topics": 1033
+    "topics": 1034
   },
   "people": [
     {
@@ -2740,7 +2740,7 @@
     },
     {
       "name": "VR",
-      "articles": 76
+      "articles": 77
     },
     {
       "name": "VR CHANNEL 005",
@@ -3116,7 +3116,7 @@
     },
     {
       "name": "キス",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "キス音",
@@ -4568,6 +4568,10 @@
     },
     {
       "name": "垂水千佳",
+      "articles": 1
+    },
+    {
+      "name": "堀北桃愛",
       "articles": 1
     },
     {
