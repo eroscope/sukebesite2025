@@ -315,7 +315,7 @@
   "counts": {
     "people": 226,
     "works": 280,
-    "topics": 1112
+    "topics": 1114
   },
   "people": [
     {
@@ -4228,7 +4228,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 60
+      "articles": 61
     },
     {
       "name": "リアクション",
@@ -4728,6 +4728,10 @@
     },
     {
       "name": "卒業式",
+      "articles": 1
+    },
+    {
+      "name": "南ゆい",
       "articles": 1
     },
     {
@@ -5261,6 +5265,10 @@
     {
       "name": "成人向け漫画",
       "articles": 2
+    },
+    {
+      "name": "成人向け雑誌",
+      "articles": 1
     },
     {
       "name": "成人向け音声",
