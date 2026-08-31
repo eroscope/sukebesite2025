@@ -315,7 +315,7 @@
   "counts": {
     "people": 228,
     "works": 281,
-    "topics": 1130
+    "topics": 1132
   },
   "people": [
     {
@@ -2479,6 +2479,10 @@
       "articles": 1
     },
     {
+      "name": "AI動画",
+      "articles": 1
+    },
+    {
       "name": "AI疑惑",
       "articles": 1
     },
@@ -4324,6 +4328,10 @@
     },
     {
       "name": "ロッカー",
+      "articles": 1
+    },
+    {
+      "name": "ローカルAI",
       "articles": 1
     },
     {
@@ -6460,7 +6468,7 @@
     },
     {
       "name": "裸体",
-      "articles": 33
+      "articles": 34
     },
     {
       "name": "裸身",
