@@ -313,9 +313,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 228,
+    "people": 229,
     "works": 281,
-    "topics": 1132
+    "topics": 1133
   },
   "people": [
     {
@@ -432,6 +432,10 @@
     },
     {
       "name": "ローラ",
+      "articles": 1
+    },
+    {
+      "name": "一ノ瀬瑠菜",
       "articles": 1
     },
     {
@@ -3948,7 +3952,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 29
+      "articles": 30
     },
     {
       "name": "ビビアン",
@@ -4736,7 +4740,7 @@
     },
     {
       "name": "制服風衣装",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "前かがみ",
@@ -5708,7 +5712,7 @@
     },
     {
       "name": "水着",
-      "articles": 79
+      "articles": 80
     },
     {
       "name": "水着グラビア",
@@ -6544,6 +6548,10 @@
     },
     {
       "name": "赤いリボン",
+      "articles": 1
+    },
+    {
+      "name": "赤いワンピース水着",
       "articles": 1
     },
     {
