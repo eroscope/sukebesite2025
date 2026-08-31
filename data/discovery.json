@@ -313,9 +313,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 225,
-    "works": 276,
-    "topics": 1111
+    "people": 226,
+    "works": 280,
+    "topics": 1112
   },
   "people": [
     {
@@ -552,6 +552,10 @@
     },
     {
       "name": "千葉優花",
+      "articles": 1
+    },
+    {
+      "name": "南ゆい",
       "articles": 1
     },
     {
@@ -1233,6 +1237,10 @@
       "articles": 1
     },
     {
+      "code": "259LUXU-1892",
+      "articles": 1
+    },
+    {
       "code": "259LUXU-1894",
       "articles": 6
     },
@@ -1257,11 +1265,19 @@
       "articles": 1
     },
     {
+      "code": "300MIUM-1368",
+      "articles": 1
+    },
+    {
       "code": "300MIUM-1371",
       "articles": 1
     },
     {
       "code": "300MIUM-1385",
+      "articles": 1
+    },
+    {
+      "code": "812MMC-029",
       "articles": 1
     },
     {
@@ -1279,6 +1295,10 @@
     {
       "code": "ABF-375",
       "articles": 5
+    },
+    {
+      "code": "ABF-379",
+      "articles": 1
     },
     {
       "code": "ACHJ-083",
@@ -2644,7 +2664,7 @@
     },
     {
       "name": "Jカップ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "KMP",
@@ -2993,6 +3013,10 @@
     {
       "name": "くぱぁ",
       "articles": 2
+    },
+    {
+      "name": "こおりちゃん",
+      "articles": 1
     },
     {
       "name": "すみれ",
@@ -4204,7 +4228,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 59
+      "articles": 60
     },
     {
       "name": "リアクション",
