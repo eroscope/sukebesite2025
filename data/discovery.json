@@ -109,7 +109,6 @@
     "topics/topic-3690dc8db605.html",
     "topics/topic-383f688ec1c4.html",
     "topics/topic-38e8334f0533.html",
-    "topics/topic-3ad6d9ebca93.html",
     "topics/topic-3b2ce5591771.html",
     "topics/topic-3cc515a34ee3.html",
     "topics/topic-3dbb0d7317d1.html",
@@ -212,6 +211,7 @@
     "topics/topic-av.html",
     "topics/topic-b010a4c2d907.html",
     "topics/topic-b03ff91d92e0.html",
+    "topics/topic-b1a702141e22.html",
     "topics/topic-b242f222724f.html",
     "topics/topic-b426cff04d6b.html",
     "topics/topic-b4cfc5a67172.html",
@@ -225,6 +225,7 @@
     "topics/topic-bd64b0c8f1f4.html",
     "topics/topic-bf20d27fdec8.html",
     "topics/topic-bf56a156e7b1.html",
+    "topics/topic-c23ddf4b8f73.html",
     "topics/topic-c3eb5feb0b13.html",
     "topics/topic-c411f881be34.html",
     "topics/topic-c79d6ca8cec1.html",
@@ -275,7 +276,6 @@
     "topics/topic-f8d4c83a4941.html",
     "topics/topic-fanza.html",
     "topics/topic-fb1216f6e0ec.html",
-    "topics/topic-fb9d4a0a9dcb.html",
     "topics/topic-fc917e94f5f9.html",
     "topics/topic-fe643b80ac5c.html",
     "topics/topic-ffc18ca99215.html",
@@ -315,7 +315,7 @@
   "counts": {
     "people": 228,
     "works": 281,
-    "topics": 1128
+    "topics": 1130
   },
   "people": [
     {
@@ -2779,6 +2779,10 @@
       "articles": 1
     },
     {
+      "name": "PV",
+      "articles": 1
+    },
+    {
       "name": "Pan Piano",
       "articles": 1
     },
@@ -3132,7 +3136,7 @@
     },
     {
       "name": "アニメ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "アニメ・漫画",
@@ -3648,7 +3652,7 @@
     },
     {
       "name": "ゾンビのあふれた世界で俺だけが襲われない",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "タイツ",
@@ -5304,7 +5308,7 @@
     },
     {
       "name": "成人向け漫画",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "成人向け雑誌",
@@ -5340,6 +5344,10 @@
     },
     {
       "name": "投稿画像",
+      "articles": 1
+    },
+    {
+      "name": "抱かせろ",
       "articles": 1
     },
     {
