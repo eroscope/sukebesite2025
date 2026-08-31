@@ -315,7 +315,7 @@
   "counts": {
     "people": 228,
     "works": 281,
-    "topics": 1125
+    "topics": 1128
   },
   "people": [
     {
@@ -2659,6 +2659,10 @@
       "articles": 9
     },
     {
+      "name": "IF STORY",
+      "articles": 1
+    },
+    {
       "name": "Instagram",
       "articles": 4
     },
@@ -3220,7 +3224,7 @@
     },
     {
       "name": "エロ漫画",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "エロ画像",
@@ -3641,6 +3645,10 @@
     {
       "name": "ソープランド",
       "articles": 2
+    },
+    {
+      "name": "ゾンビのあふれた世界で俺だけが襲われない",
+      "articles": 1
     },
     {
       "name": "タイツ",
@@ -4796,7 +4804,7 @@
     },
     {
       "name": "同人誌",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "同人音声",
@@ -5472,6 +5480,10 @@
     },
     {
       "name": "昼呑み",
+      "articles": 1
+    },
+    {
+      "name": "時子",
       "articles": 1
     },
     {
