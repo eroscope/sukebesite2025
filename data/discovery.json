@@ -315,7 +315,7 @@
   "counts": {
     "people": 228,
     "works": 281,
-    "topics": 1120
+    "topics": 1123
   },
   "people": [
     {
@@ -3503,6 +3503,10 @@
       "articles": 2
     },
     {
+      "name": "ショートヘア",
+      "articles": 1
+    },
+    {
       "name": "ジム",
       "articles": 1
     },
@@ -4355,6 +4359,10 @@
       "articles": 4
     },
     {
+      "name": "上戸彩",
+      "articles": 1
+    },
+    {
       "name": "下乳",
       "articles": 2
     },
@@ -4972,7 +4980,7 @@
     },
     {
       "name": "女優",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "女子2人組",
@@ -6557,6 +6565,10 @@
     {
       "name": "逢沢みゆ",
       "articles": 3
+    },
+    {
+      "name": "過去写真",
+      "articles": 1
     },
     {
       "name": "遺作",
