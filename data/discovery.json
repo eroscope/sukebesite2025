@@ -314,8 +314,8 @@
   ],
   "counts": {
     "people": 229,
-    "works": 281,
-    "topics": 1133
+    "works": 282,
+    "topics": 1134
   },
   "people": [
     {
@@ -2006,6 +2006,10 @@
     },
     {
       "code": "PRED-854",
+      "articles": 1
+    },
+    {
+      "code": "PRED-867",
       "articles": 1
     },
     {
@@ -4419,6 +4423,10 @@
       "articles": 22
     },
     {
+      "name": "中出しレ×プ設定",
+      "articles": 1
+    },
+    {
       "name": "中国",
       "articles": 3
     },
@@ -4676,7 +4684,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 45
+      "articles": 46
     },
     {
       "name": "公式商品紹介",
@@ -5156,7 +5164,7 @@
     },
     {
       "name": "寝取られ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "寝取り",
@@ -5228,7 +5236,7 @@
     },
     {
       "name": "幸村泉希",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "幼馴染",
