@@ -315,7 +315,7 @@
   "counts": {
     "people": 227,
     "works": 281,
-    "topics": 1118
+    "topics": 1119
   },
   "people": [
     {
@@ -2512,7 +2512,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "AV画像",
@@ -4267,6 +4267,10 @@
       "articles": 1
     },
     {
+      "name": "ルックス",
+      "articles": 1
+    },
+    {
       "name": "ルーズソックス",
       "articles": 1
     },
@@ -4728,7 +4732,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "十束るう",
