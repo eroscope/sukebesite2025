@@ -315,7 +315,7 @@
   "counts": {
     "people": 224,
     "works": 276,
-    "topics": 1104
+    "topics": 1107
   },
   "people": [
     {
@@ -2408,7 +2408,7 @@
     },
     {
       "name": "8K",
-      "articles": 25
+      "articles": 26
     },
     {
       "name": "8K VR",
@@ -2840,7 +2840,7 @@
     },
     {
       "name": "VR",
-      "articles": 80
+      "articles": 81
     },
     {
       "name": "VR CHANNEL 005",
@@ -4443,6 +4443,10 @@
       "articles": 1
     },
     {
+      "name": "佐々木あき",
+      "articles": 1
+    },
+    {
       "name": "佐々木若葉",
       "articles": 1
     },
@@ -4543,6 +4547,10 @@
       "articles": 2
     },
     {
+      "name": "元カノ",
+      "articles": 1
+    },
+    {
       "name": "元バスガイド",
       "articles": 1
     },
@@ -4588,7 +4596,7 @@
     },
     {
       "name": "公式紹介画像",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "共同廊下",
@@ -4600,6 +4608,10 @@
     },
     {
       "name": "円盤",
+      "articles": 1
+    },
+    {
+      "name": "再会",
       "articles": 1
     },
     {
