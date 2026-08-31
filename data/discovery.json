@@ -313,9 +313,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 224,
+    "people": 225,
     "works": 276,
-    "topics": 1108
+    "topics": 1111
   },
   "people": [
     {
@@ -416,6 +416,10 @@
     },
     {
       "name": "ミス中央大学",
+      "articles": 1
+    },
+    {
+      "name": "ヤクねこ",
       "articles": 1
     },
     {
@@ -3963,6 +3967,10 @@
       "articles": 1
     },
     {
+      "name": "ブラジャー",
+      "articles": 1
+    },
+    {
       "name": "プリケツ",
       "articles": 1
     },
@@ -4152,6 +4160,10 @@
     },
     {
       "name": "モデル",
+      "articles": 1
+    },
+    {
+      "name": "ヤニねこ",
       "articles": 1
     },
     {
@@ -5704,7 +5716,7 @@
     },
     {
       "name": "漫画",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "漫画演出",
@@ -5745,6 +5757,10 @@
     {
       "name": "爆乳",
       "articles": 7
+    },
+    {
+      "name": "猫耳",
+      "articles": 1
     },
     {
       "name": "王様ゲーム",
