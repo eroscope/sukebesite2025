@@ -264,7 +264,6 @@
     "topics/topic-ebd7df226cea.html",
     "topics/topic-ee5c9d2cf8b2.html",
     "topics/topic-eecd7740d9de.html",
-    "topics/topic-ef05d333e3af.html",
     "topics/topic-f1423036e503.html",
     "topics/topic-f4b53d5ab084.html",
     "topics/topic-f62b608f9969.html",
@@ -291,6 +290,7 @@
     "topics/topic-moodyz-diva.html",
     "topics/topic-moodyz.html",
     "topics/topic-nikke.html",
+    "topics/topic-nmb48.html",
     "topics/topic-nmb48.html",
     "topics/topic-ntr.html",
     "topics/topic-ol.html",
@@ -2740,7 +2740,7 @@
     },
     {
       "name": "NMB48",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "NTR",
@@ -5668,7 +5668,7 @@
     },
     {
       "name": "水着グラビア",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "水着コスプレ",
@@ -5884,7 +5884,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 36
+      "articles": 37
     },
     {
       "name": "画像ギャラリー",
