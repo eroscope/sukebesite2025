@@ -315,7 +315,7 @@
   "counts": {
     "people": 222,
     "works": 276,
-    "topics": 1099
+    "topics": 1100
   },
   "people": [
     {
@@ -4180,7 +4180,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 58
+      "articles": 59
     },
     {
       "name": "リアクション",
@@ -5568,7 +5568,7 @@
     },
     {
       "name": "水着",
-      "articles": 78
+      "articles": 79
     },
     {
       "name": "水着グラビア",
@@ -5784,7 +5784,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 35
+      "articles": 36
     },
     {
       "name": "画像ギャラリー",
@@ -6616,6 +6616,10 @@
     },
     {
       "name": "風俗店",
+      "articles": 1
+    },
+    {
+      "name": "風愛ことり",
       "articles": 1
     },
     {
