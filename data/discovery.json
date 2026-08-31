@@ -313,9 +313,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 226,
+    "people": 227,
     "works": 281,
-    "topics": 1115
+    "topics": 1118
   },
   "people": [
     {
@@ -604,6 +604,10 @@
     },
     {
       "name": "天川そら",
+      "articles": 1
+    },
+    {
+      "name": "天木じゅん",
       "articles": 1
     },
     {
@@ -3180,6 +3184,10 @@
     },
     {
       "name": "ウィスパー",
+      "articles": 1
+    },
+    {
+      "name": "ウエディングドレス",
       "articles": 1
     },
     {
@@ -6083,6 +6091,10 @@
       "articles": 8
     },
     {
+      "name": "競輪",
+      "articles": 1
+    },
+    {
       "name": "竹生島",
       "articles": 1
     },
@@ -6136,6 +6148,10 @@
     },
     {
       "name": "経理部員",
+      "articles": 1
+    },
+    {
+      "name": "結婚",
       "articles": 1
     },
     {
