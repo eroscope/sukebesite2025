@@ -314,8 +314,8 @@
   ],
   "counts": {
     "people": 226,
-    "works": 280,
-    "topics": 1114
+    "works": 281,
+    "topics": 1115
   },
   "people": [
     {
@@ -488,7 +488,7 @@
     },
     {
       "name": "伊藤舞雪",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "佐々木あき",
@@ -1342,6 +1342,10 @@
     },
     {
       "code": "BIGC-007",
+      "articles": 1
+    },
+    {
+      "code": "CAWB-006",
       "articles": 1
     },
     {
@@ -3236,7 +3240,7 @@
     },
     {
       "name": "オナサポ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "オナニーサポート",
@@ -3476,7 +3480,7 @@
     },
     {
       "name": "サンプル動画",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "シャニマス",
@@ -6604,6 +6608,10 @@
     },
     {
       "name": "陽向葵ゅか",
+      "articles": 1
+    },
+    {
+      "name": "隣部屋",
       "articles": 1
     },
     {
