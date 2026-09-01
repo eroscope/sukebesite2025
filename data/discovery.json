@@ -181,6 +181,7 @@
     "topics/topic-545b57cf435b.html",
     "topics/topic-55258bc4d97a.html",
     "topics/topic-56fd6f27e8b6.html",
+    "topics/topic-5905586d5b3b.html",
     "topics/topic-596bd4059266.html",
     "topics/topic-5a57ba84695f.html",
     "topics/topic-5b3ab36e05cb.html",
@@ -318,6 +319,7 @@
     "topics/topic-bbd6edfddc76.html",
     "topics/topic-bbf72a1513be.html",
     "topics/topic-bc1a2abb16e0.html",
+    "topics/topic-bcbb5cf07fb9.html",
     "topics/topic-bd64b0c8f1f4.html",
     "topics/topic-be9e5cbc0419.html",
     "topics/topic-bf20d27fdec8.html",
@@ -446,7 +448,7 @@
   ],
   "counts": {
     "people": 260,
-    "works": 214,
+    "works": 215,
     "topics": 1396
   },
   "people": [
@@ -2089,6 +2091,10 @@
       "articles": 1
     },
     {
+      "code": "NHDTC-217",
+      "articles": 1
+    },
+    {
       "code": "NIMA-078",
       "articles": 1
     },
@@ -2788,7 +2794,7 @@
     },
     {
       "name": "M男",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "NHK大阪",
@@ -5172,7 +5178,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "公式サンプル動画",
@@ -7712,7 +7718,7 @@
     },
     {
       "name": "電車",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "露出",
