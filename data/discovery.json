@@ -321,6 +321,7 @@
     "topics/topic-bf56a156e7b1.html",
     "topics/topic-c23ddf4b8f73.html",
     "topics/topic-c3eb5feb0b13.html",
+    "topics/topic-c411c94a4696.html",
     "topics/topic-c411f881be34.html",
     "topics/topic-c53794778a50.html",
     "topics/topic-c79d6ca8cec1.html",
@@ -441,7 +442,7 @@
   "counts": {
     "people": 259,
     "works": 212,
-    "topics": 1382
+    "topics": 1383
   },
   "people": [
     {
@@ -2966,7 +2967,7 @@
     },
     {
       "name": "YouTuber",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ZOZOTOWN",
@@ -2995,6 +2996,10 @@
     {
       "name": "kawaii*",
       "articles": 7
+    },
+    {
+      "name": "pan piano",
+      "articles": 1
     },
     {
       "name": "rina_re2",
@@ -4434,7 +4439,7 @@
     },
     {
       "name": "ポケモン",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ポップアップショップ",
