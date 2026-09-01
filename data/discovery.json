@@ -434,7 +434,7 @@
   "counts": {
     "people": 253,
     "works": 211,
-    "topics": 1359
+    "topics": 1362
   },
   "people": [
     {
@@ -2318,6 +2318,10 @@
       "articles": 1
     },
     {
+      "name": "24時間テレビ",
+      "articles": 1
+    },
+    {
       "name": "3DVR",
       "articles": 2
     },
@@ -2603,7 +2607,7 @@
     },
     {
       "name": "GIF",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "GIF動画あり",
@@ -5435,7 +5439,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "女子大生",
@@ -6266,6 +6270,10 @@
       "articles": 2
     },
     {
+      "name": "河出奈都美",
+      "articles": 1
+    },
+    {
       "name": "河北りょう",
       "articles": 1
     },
@@ -7020,6 +7028,10 @@
     {
       "name": "胸元",
       "articles": 30
+    },
+    {
+      "name": "胸揺れ",
+      "articles": 1
     },
     {
       "name": "胸見せ",
