@@ -423,6 +423,7 @@
     "topics/topic-vr.html",
     "topics/topic-vr.html",
     "topics/topic-vtuber.html",
+    "topics/topic-youtuber.html",
     "works.html",
     "works/work-259luxu-1894.html",
     "works/work-857omg-035.html",
@@ -430,9 +431,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 250,
+    "people": 251,
     "works": 210,
-    "topics": 1346
+    "topics": 1348
   },
   "people": [
     {
@@ -481,6 +482,10 @@
     },
     {
       "name": "とろ角煮",
+      "articles": 1
+    },
+    {
+      "name": "のら",
       "articles": 1
     },
     {
@@ -2905,7 +2910,7 @@
     },
     {
       "name": "YouTuber",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ZOZOTOWN",
@@ -4325,6 +4330,10 @@
     },
     {
       "name": "ボンバーガール",
+      "articles": 1
+    },
+    {
+      "name": "ポケモン",
       "articles": 1
     },
     {
@@ -6738,6 +6747,10 @@
     {
       "name": "筆おろし",
       "articles": 2
+    },
+    {
+      "name": "筋トレ",
+      "articles": 1
     },
     {
       "name": "筋肉",
