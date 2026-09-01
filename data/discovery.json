@@ -435,9 +435,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 255,
+    "people": 256,
     "works": 211,
-    "topics": 1373
+    "topics": 1375
   },
   "people": [
     {
@@ -854,6 +854,10 @@
     },
     {
       "name": "山崎あみ",
+      "articles": 1
+    },
+    {
+      "name": "山田さち",
       "articles": 1
     },
     {
@@ -2482,7 +2486,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "AVパッケージ",
@@ -4957,6 +4961,10 @@
       "articles": 1
     },
     {
+      "name": "作品画像",
+      "articles": 1
+    },
+    {
       "name": "作品紹介",
       "articles": 3
     },
@@ -5735,6 +5743,10 @@
     {
       "name": "幼馴染",
       "articles": 3
+    },
+    {
+      "name": "引っ越し密着",
+      "articles": 1
     },
     {
       "name": "引退記念",
@@ -6898,7 +6910,7 @@
     },
     {
       "name": "素人AV",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "素人ナンパ",
