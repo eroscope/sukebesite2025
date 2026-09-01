@@ -434,7 +434,7 @@
   "counts": {
     "people": 253,
     "works": 211,
-    "topics": 1354
+    "topics": 1356
   },
   "people": [
     {
@@ -2603,7 +2603,7 @@
     },
     {
       "name": "GIF",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "GIF動画あり",
@@ -2643,7 +2643,7 @@
     },
     {
       "name": "Instagram",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "I’mew",
@@ -4190,6 +4190,10 @@
       "articles": 1
     },
     {
+      "name": "ピンクトップス",
+      "articles": 1
+    },
+    {
       "name": "ピンク水着",
       "articles": 1
     },
@@ -4866,6 +4870,10 @@
       "articles": 1
     },
     {
+      "name": "住田紗里",
+      "articles": 1
+    },
+    {
       "name": "佐々木あき",
       "articles": 1
     },
@@ -5419,7 +5427,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "女子大生",
