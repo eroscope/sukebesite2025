@@ -437,7 +437,7 @@
   "counts": {
     "people": 255,
     "works": 211,
-    "topics": 1369
+    "topics": 1371
   },
   "people": [
     {
@@ -3026,7 +3026,7 @@
     },
     {
       "name": "おっぱい",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "おっぱいパブ",
@@ -3350,7 +3350,7 @@
     },
     {
       "name": "エロ漫画",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "エロ画像",
@@ -6434,7 +6434,11 @@
     },
     {
       "name": "漫画",
-      "articles": 8
+      "articles": 9
+    },
+    {
+      "name": "漫画コマ",
+      "articles": 1
     },
     {
       "name": "漫画サンプル",
@@ -7067,6 +7071,10 @@
     {
       "name": "胸元",
       "articles": 30
+    },
+    {
+      "name": "胸出し",
+      "articles": 1
     },
     {
       "name": "胸揺れ",
