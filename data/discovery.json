@@ -297,6 +297,7 @@
     "topics/topic-b0edc46013e7.html",
     "topics/topic-b1a702141e22.html",
     "topics/topic-b242f222724f.html",
+    "topics/topic-b3572870fb59.html",
     "topics/topic-b3ef159cd12f.html",
     "topics/topic-b426cff04d6b.html",
     "topics/topic-b4cfc5a67172.html",
@@ -437,8 +438,8 @@
   ],
   "counts": {
     "people": 256,
-    "works": 211,
-    "topics": 1377
+    "works": 212,
+    "topics": 1379
   },
   "people": [
     {
@@ -2028,6 +2029,10 @@
       "articles": 1
     },
     {
+      "code": "MMLB-003",
+      "articles": 1
+    },
+    {
       "code": "MNGS-071",
       "articles": 1
     },
@@ -3027,6 +3032,10 @@
     },
     {
       "name": "おしり探偵",
+      "articles": 1
+    },
+    {
+      "name": "おじさん、あそぼ",
       "articles": 1
     },
     {
@@ -5099,7 +5108,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "公式サンプル動画",
@@ -6199,7 +6208,7 @@
     },
     {
       "name": "桃太郎映像出版",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "桃色カンパネラ",
@@ -7199,6 +7208,10 @@
     },
     {
       "name": "若林有子",
+      "articles": 1
+    },
+    {
+      "name": "若桃",
       "articles": 1
     },
     {
