@@ -439,7 +439,7 @@
   "counts": {
     "people": 258,
     "works": 212,
-    "topics": 1380
+    "topics": 1381
   },
   "people": [
     {
@@ -4236,7 +4236,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 36
+      "articles": 37
     },
     {
       "name": "ビビアン",
@@ -6328,7 +6328,7 @@
     },
     {
       "name": "水着",
-      "articles": 99
+      "articles": 100
     },
     {
       "name": "水着グラビア",
@@ -6716,6 +6716,10 @@
     },
     {
       "name": "白衣",
+      "articles": 1
+    },
+    {
+      "name": "白黒ボーダー",
       "articles": 1
     },
     {
