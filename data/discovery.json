@@ -220,6 +220,7 @@
     "topics/topic-771bd1d57220.html",
     "topics/topic-77bf3dd73ea1.html",
     "topics/topic-795d25e718e1.html",
+    "topics/topic-797df32f29ec.html",
     "topics/topic-7a439a1175ee.html",
     "topics/topic-7aa488f78e72.html",
     "topics/topic-7b24795e07de.html",
@@ -267,6 +268,7 @@
     "topics/topic-9bac8d678814.html",
     "topics/topic-9be373a67afd.html",
     "topics/topic-9c3aa8eee095.html",
+    "topics/topic-9cd14905fb69.html",
     "topics/topic-9de5bab4f2e7.html",
     "topics/topic-9dec44a3aaa7.html",
     "topics/topic-a04d5bfd17ef.html",
@@ -439,12 +441,13 @@
     "works/work-259luxu-1894.html",
     "works/work-857omg-035.html",
     "works/work-892oero-006.html",
+    "works/work-892oero-010.html",
     "works/work-abf-375.html"
   ],
   "counts": {
     "people": 259,
     "works": 214,
-    "topics": 1390
+    "topics": 1391
   },
   "people": [
     {
@@ -1571,7 +1574,7 @@
     },
     {
       "code": "892OERO-010",
-      "articles": 1
+      "articles": 2
     },
     {
       "code": "ABF-375",
@@ -3025,7 +3028,7 @@
     },
     {
       "name": "あいさん",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "あいみゅう",
@@ -4389,7 +4392,7 @@
     },
     {
       "name": "ベッド",
-      "articles": 21
+      "articles": 22
     },
     {
       "name": "ベッドシーン",
@@ -4421,6 +4424,10 @@
     },
     {
       "name": "ベース演奏",
+      "articles": 1
+    },
+    {
+      "name": "ペットショップ店員",
       "articles": 1
     },
     {
@@ -7457,7 +7464,7 @@
     },
     {
       "name": "赤いリボン",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "赤いワンピース水着",
