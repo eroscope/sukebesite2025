@@ -433,9 +433,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 253,
+    "people": 254,
     "works": 211,
-    "topics": 1363
+    "topics": 1366
   },
   "people": [
     {
@@ -1132,6 +1132,10 @@
     },
     {
       "name": "渡部ほの",
+      "articles": 1
+    },
+    {
+      "name": "温泉回",
       "articles": 1
     },
     {
@@ -2697,6 +2701,10 @@
     {
       "name": "MGS",
       "articles": 9
+    },
+    {
+      "name": "MIU",
+      "articles": 1
     },
     {
       "name": "MOODYZ",
@@ -4511,6 +4519,10 @@
       "articles": 1
     },
     {
+      "name": "ヤングマガジン",
+      "articles": 1
+    },
+    {
       "name": "ヤンネ",
       "articles": 1
     },
@@ -6031,6 +6043,10 @@
       "articles": 1
     },
     {
+      "name": "暴力万歳",
+      "articles": 1
+    },
+    {
       "name": "月乃ことね",
       "articles": 1
     },
@@ -6404,7 +6420,7 @@
     },
     {
       "name": "漫画",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "漫画サンプル",
