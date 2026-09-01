@@ -398,6 +398,7 @@
     "topics/topic-fe643b80ac5c.html",
     "topics/topic-ffc18ca99215.html",
     "topics/topic-fitch.html",
+    "topics/topic-flash.html",
     "topics/topic-gif.html",
     "topics/topic-grok.html",
     "topics/topic-i-mew.html",
@@ -437,7 +438,7 @@
   "counts": {
     "people": 256,
     "works": 211,
-    "topics": 1375
+    "topics": 1377
   },
   "people": [
     {
@@ -2606,7 +2607,7 @@
     },
     {
       "name": "FLASH",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "FRUITS ZIPPER",
@@ -3505,6 +3506,10 @@
       "articles": 1
     },
     {
+      "name": "キンタロー",
+      "articles": 1
+    },
+    {
       "name": "ギター",
       "articles": 1
     },
@@ -3839,6 +3844,10 @@
     {
       "name": "セフレ",
       "articles": 2
+    },
+    {
+      "name": "セミヌード",
+      "articles": 1
     },
     {
       "name": "センタービレッジ",
@@ -5130,7 +5139,7 @@
     },
     {
       "name": "写真集",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "凰華りん",
