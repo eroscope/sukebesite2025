@@ -431,9 +431,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 251,
+    "people": 252,
     "works": 210,
-    "topics": 1348
+    "topics": 1350
   },
   "people": [
     {
@@ -538,6 +538,10 @@
     },
     {
       "name": "ソフィーティア",
+      "articles": 1
+    },
+    {
+      "name": "デビュー作",
       "articles": 1
     },
     {
@@ -3970,7 +3974,7 @@
     },
     {
       "name": "ヌード",
-      "articles": 32
+      "articles": 33
     },
     {
       "name": "ヌードルストッパー",
@@ -5581,6 +5585,10 @@
       "articles": 1
     },
     {
+      "name": "小松空",
+      "articles": 1
+    },
+    {
       "name": "小池里奈",
       "articles": 1
     },
@@ -6254,7 +6262,7 @@
     },
     {
       "name": "浴室",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "浴槽",
@@ -6839,6 +6847,10 @@
     {
       "name": "総集編",
       "articles": 4
+    },
+    {
+      "name": "縄跳び",
+      "articles": 1
     },
     {
       "name": "縦動画",
