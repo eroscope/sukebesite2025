@@ -134,6 +134,7 @@
     "topics/topic-323450745cc2.html",
     "topics/topic-339b5a30e0a5.html",
     "topics/topic-346644279855.html",
+    "topics/topic-362ffbb1d222.html",
     "topics/topic-3630070a6df4.html",
     "topics/topic-3690dc8db605.html",
     "topics/topic-37fd56e46ccf.html",
@@ -345,6 +346,7 @@
     "topics/topic-d36e7a03fcec.html",
     "topics/topic-d57207655b68.html",
     "topics/topic-d7b0db6974a0.html",
+    "topics/topic-d8f933e9ab9e.html",
     "topics/topic-d9041f832b92.html",
     "topics/topic-da2a872c803c.html",
     "topics/topic-das.html",
@@ -442,7 +444,7 @@
   "counts": {
     "people": 259,
     "works": 212,
-    "topics": 1385
+    "topics": 1386
   },
   "people": [
     {
@@ -3395,7 +3397,7 @@
     },
     {
       "name": "オイルマッサージ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "オクトーバーフェスト",
@@ -4555,7 +4557,7 @@
     },
     {
       "name": "メンズエステ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "モザイク比較",
@@ -5195,7 +5197,7 @@
     },
     {
       "name": "初体験",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "初美なのか",
@@ -5251,7 +5253,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "十束るう",
@@ -5895,6 +5897,10 @@
     },
     {
       "name": "成人向けソシャゲ",
+      "articles": 1
+    },
+    {
+      "name": "成人向け体験談",
       "articles": 1
     },
     {
