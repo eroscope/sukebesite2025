@@ -409,6 +409,7 @@
     "topics/topic-ffc18ca99215.html",
     "topics/topic-fitch.html",
     "topics/topic-flash.html",
+    "topics/topic-friday.html",
     "topics/topic-gif.html",
     "topics/topic-grok.html",
     "topics/topic-i-mew.html",
@@ -449,7 +450,7 @@
   "counts": {
     "people": 260,
     "works": 215,
-    "topics": 1396
+    "topics": 1397
   },
   "people": [
     {
@@ -2654,7 +2655,7 @@
     },
     {
       "name": "FRIDAY",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "FRUITS ZIPPER",
@@ -4781,6 +4782,10 @@
       "articles": 1
     },
     {
+      "name": "七海りお",
+      "articles": 1
+    },
+    {
       "name": "七海那美",
       "articles": 1
     },
@@ -6410,7 +6415,7 @@
     },
     {
       "name": "水着",
-      "articles": 101
+      "articles": 102
     },
     {
       "name": "水着グラビア",
