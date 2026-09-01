@@ -274,6 +274,7 @@
     "topics/topic-a389c389eddc.html",
     "topics/topic-a4bee2b7440b.html",
     "topics/topic-a4fef6b7ddc8.html",
+    "topics/topic-a539d32496c9.html",
     "topics/topic-a6577e51aa03.html",
     "topics/topic-a6730f134ba7.html",
     "topics/topic-a808e1aede8c.html",
@@ -440,7 +441,7 @@
   "counts": {
     "people": 259,
     "works": 212,
-    "topics": 1381
+    "topics": 1382
   },
   "people": [
     {
@@ -5056,6 +5057,10 @@
       "articles": 1
     },
     {
+      "name": "優香",
+      "articles": 1
+    },
+    {
       "name": "元AKB48",
       "articles": 1
     },
@@ -6333,7 +6338,7 @@
     },
     {
       "name": "水着",
-      "articles": 100
+      "articles": 101
     },
     {
       "name": "水着グラビア",
@@ -6697,7 +6702,7 @@
     },
     {
       "name": "白ビキニ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "白ピタパン",
