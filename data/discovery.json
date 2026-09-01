@@ -395,6 +395,7 @@
     "topics/topic-fe643b80ac5c.html",
     "topics/topic-ffc18ca99215.html",
     "topics/topic-fitch.html",
+    "topics/topic-gif.html",
     "topics/topic-grok.html",
     "topics/topic-i-mew.html",
     "topics/topic-ideapocket.html",
@@ -433,7 +434,7 @@
   "counts": {
     "people": 252,
     "works": 210,
-    "topics": 1350
+    "topics": 1352
   },
   "people": [
     {
@@ -2594,7 +2595,7 @@
     },
     {
       "name": "GIF",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "GIF動画あり",
@@ -3118,6 +3119,10 @@
     },
     {
       "name": "みらい・みう",
+      "articles": 1
+    },
+    {
+      "name": "みんなのKEIBA",
       "articles": 1
     },
     {
@@ -4006,7 +4011,7 @@
     },
     {
       "name": "ノースリーブ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "ノーパン風",
@@ -5398,7 +5403,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "女子大生",
@@ -6677,6 +6682,10 @@
       "articles": 1
     },
     {
+      "name": "石渡花菜",
+      "articles": 1
+    },
+    {
       "name": "研修合宿",
       "articles": 1
     },
@@ -6978,7 +6987,7 @@
     },
     {
       "name": "胸元",
-      "articles": 29
+      "articles": 30
     },
     {
       "name": "胸見せ",
