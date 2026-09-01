@@ -434,7 +434,7 @@
   "counts": {
     "people": 253,
     "works": 211,
-    "topics": 1356
+    "topics": 1359
   },
   "people": [
     {
@@ -3178,6 +3178,10 @@
       "articles": 1
     },
     {
+      "name": "アイキャッチ",
+      "articles": 1
+    },
+    {
       "name": "アイデアポケット",
       "articles": 6
     },
@@ -3735,6 +3739,10 @@
     },
     {
       "name": "ステージ動画",
+      "articles": 1
+    },
+    {
+      "name": "ステージ衣装",
       "articles": 1
     },
     {
@@ -7143,6 +7151,10 @@
     },
     {
       "name": "衣装",
+      "articles": 1
+    },
+    {
+      "name": "衣装トラブル",
       "articles": 1
     },
     {
