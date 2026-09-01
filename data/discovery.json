@@ -437,7 +437,7 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 257,
+    "people": 258,
     "works": 212,
     "topics": 1380
   },
@@ -816,6 +816,10 @@
     },
     {
       "name": "宮沢ゆかり",
+      "articles": 1
+    },
+    {
+      "name": "小岩井ことり",
       "articles": 1
     },
     {
@@ -5416,7 +5420,7 @@
     },
     {
       "name": "声優",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "売り子",
@@ -6396,7 +6400,7 @@
     },
     {
       "name": "浴衣",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "海パン",
@@ -7116,7 +7120,7 @@
     },
     {
       "name": "胸元",
-      "articles": 30
+      "articles": 31
     },
     {
       "name": "胸出し",
@@ -7176,7 +7180,7 @@
     },
     {
       "name": "自撮り",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "自撮り動画",
@@ -7636,7 +7640,7 @@
     },
     {
       "name": "青い衣装",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "青姦",
