@@ -437,7 +437,7 @@
   "counts": {
     "people": 255,
     "works": 211,
-    "topics": 1371
+    "topics": 1373
   },
   "people": [
     {
@@ -2490,7 +2490,7 @@
     },
     {
       "name": "AV作品",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "AV初出演",
@@ -3715,6 +3715,10 @@
     {
       "name": "ジム",
       "articles": 2
+    },
+    {
+      "name": "ジャケット比較",
+      "articles": 1
     },
     {
       "name": "ジャケット画像",
@@ -5127,6 +5131,10 @@
     {
       "name": "出張",
       "articles": 4
+    },
+    {
+      "name": "出演者ランキング",
+      "articles": 1
     },
     {
       "name": "出版社",
