@@ -445,9 +445,9 @@
     "works/work-abf-375.html"
   ],
   "counts": {
-    "people": 259,
+    "people": 260,
     "works": 214,
-    "topics": 1394
+    "topics": 1396
   },
   "people": [
     {
@@ -612,6 +612,10 @@
     },
     {
       "name": "七海まの",
+      "articles": 1
+    },
+    {
+      "name": "七海りお",
       "articles": 1
     },
     {
@@ -2641,6 +2645,10 @@
     {
       "name": "FLASH",
       "articles": 2
+    },
+    {
+      "name": "FRIDAY",
+      "articles": 1
     },
     {
       "name": "FRUITS ZIPPER",
@@ -6412,6 +6420,10 @@
     },
     {
       "name": "水着画像",
+      "articles": 1
+    },
+    {
+      "name": "水色衣装",
       "articles": 1
     },
     {
