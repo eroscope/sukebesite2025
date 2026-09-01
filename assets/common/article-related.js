@@ -59,20 +59,6 @@
     (item.featured ? 30 : 0) +
     Math.max(0, 20 - index);
 
-  const isFanzaArticle = item => {
-    const tags = (item.tags || []).map(normalize);
-    if (tags.includes(normalize("FANZA")) || tags.includes(normalize("PR"))) return true;
-    try {
-      const host = new URL(item.source_url || "").hostname.toLocaleLowerCase("ja");
-      return host === "dmm.co.jp" ||
-        host.endsWith(".dmm.co.jp") ||
-        host === "fanza.co.jp" ||
-        host.endsWith(".fanza.co.jp");
-    } catch {
-      return false;
-    }
-  };
-
   const genericTags = new Set([
     "画像", "動画", "sns", "fanza", "pr", "成人向け", "まとめ", "グラビア",
     "水着", "制服", "コスプレ", "お姉さん", "5chまとめ",
@@ -221,15 +207,7 @@
         .slice(0, 6)
         .map(entry => entry.item);
 
-      const avArticles = [...others]
-        .filter(isFanzaArticle)
-        .filter(item => !sameSubject.includes(item))
-        .map(item => ({ item, score: relationScore(current, item) }))
-        .sort((left, right) => right.score - left.score)
-        .slice(0, 6)
-        .map(entry => entry.item);
-
-      const used = new Set([...sameSubject, ...avArticles].map(item => item.slug || item.url));
+      const used = new Set(sameSubject.map(item => item.slug || item.url));
       const related = [...others]
         .filter(item => !used.has(item.slug || item.url))
         .map(item => ({ item, score: relationScore(current, item) }))
@@ -240,15 +218,15 @@
       related.forEach(item => used.add(item.slug || item.url));
       const recommended = [...others]
         .filter(item => !used.has(item.slug || item.url))
-        .map((item, index) => ({ item, score: popularityScore(item, index) }))
+        .map((item, index) => ({
+          item,
+          relation: relationScore(current, item),
+          score: relationScore(current, item) * 3 + popularityScore(item, index),
+        }))
+        .filter(entry => entry.relation > 0)
         .sort((left, right) => right.score - left.score)
         .slice(0, 6)
         .map(entry => entry.item);
-      recommended.forEach(item => used.add(item.slug || item.url));
-      const newest = [...others]
-        .filter(item => !used.has(item.slug || item.url))
-        .sort((left, right) => Date.parse(right.published_at) - Date.parse(left.published_at))
-        .slice(0, 6);
 
       const discovery = document.createElement("div");
       discovery.className = "article-related";
@@ -256,8 +234,6 @@
         hasStaticDiscovery ? null : section("同じ人物・テーマの記事", sameSubject),
         hasStaticDiscovery ? null : section("この記事に近い記事", related),
         section("おすすめ記事", recommended),
-        section("関連するおすすめAV記事", avArticles, "article-related-av"),
-        section("新着記事", newest),
         tagSection(current),
       ].forEach(node => {
         if (node) discovery.append(node);

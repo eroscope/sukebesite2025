@@ -185,7 +185,7 @@
     return shell;
   }
 
-  const featureRotationDays = 3;
+  const featureRotationDays = 1;
   const adultFeaturePattern =
     /成人|18禁|AV|エロ|ヌード|裸|乳|胸|尻|セックス|オナ|パンツ|下着|ランジェリー|水着|コスプレ|風俗|痴漢|露出|巨乳|爆乳|乳首|おっぱい|自慰|フェラ|3P|NTR/i;
 
@@ -195,9 +195,32 @@
     );
   }
 
+  function articleImageCount(article) {
+    if (Number.isFinite(Number(article.body_images_used))) {
+      return Math.max(0, Number(article.body_images_used));
+    }
+    return Math.max(0, Number(article.images_used || 0));
+  }
+
   function selectFeaturedArticle(articles) {
-    const adultCandidates = articles.filter(isAdultFeatureCandidate);
-    const candidates = (adultCandidates.length ? adultCandidates : articles).slice(0, 12);
+    const latestSlugs = new Set(articles.slice(0, 8).map(article => article.slug));
+    const older = articles.filter(article => !latestSlugs.has(article.slug));
+    const adultCandidates = articles.filter(isAdultFeatureCandidate)
+      .filter(article => !latestSlugs.has(article.slug));
+    const source = adultCandidates.length ? adultCandidates : older;
+    const fallback = articles.filter(article => article.slug !== articles[0]?.slug);
+    const candidates = [...(source.length ? source : fallback)]
+      .sort((left, right) => {
+        const score = article =>
+          (article.featured ? 1000 : 0) +
+          Number(article.comments || 0) * 12 +
+          Number(article.videos_used || 0) * 18 +
+          Math.min(30, articleImageCount(article)) * 2;
+        return score(right) - score(left) ||
+          Date.parse(right.published_at) - Date.parse(left.published_at);
+      })
+      .slice(0, 12);
+    if (!candidates.length) return articles[0];
     if (candidates.length <= 1) return candidates[0];
 
     const rotation = Math.floor(
@@ -230,20 +253,26 @@
     featureImage.removeAttribute("style");
     featureImage.src = featured.thumbnail;
     featureImage.alt = featured.title;
-    featureBadge.textContent = `${featured.category} / ${featured.images_used || 1}枚`;
+    const featuredImageCount = articleImageCount(featured);
+    featureBadge.textContent = featuredImageCount
+      ? `${featured.category} / ${featuredImageCount}枚`
+      : featured.category;
     featureTitleLink.textContent = featured.title;
     featureSummary.textContent =
-      featured.summary || `${featured.images_used || 1}枚の素材をレスの流れでまとめています。`;
+      featured.summary || (featuredImageCount
+        ? `${featuredImageCount}枚の素材をレスの流れでまとめています。`
+        : "動画をレスの流れでまとめています。");
     document.documentElement.classList.add("home-ready");
 
     function selectArticles(mode) {
+      const withoutFeatured = articles.filter(article => article.slug !== featured.slug);
       if (mode === "popular") {
-        return [...articles].sort((left, right) =>
+        return [...withoutFeatured].sort((left, right) =>
           right.comments - left.comments || Date.parse(right.published_at) - Date.parse(left.published_at)
         );
       }
-      if (mode === "random") return [...articles].sort(() => Math.random() - 0.5);
-      return [...articles];
+      if (mode === "random") return [...withoutFeatured].sort(() => Math.random() - 0.5);
+      return withoutFeatured;
     }
 
     function showMode(mode) {

@@ -180,13 +180,12 @@ img { display:block; width:100%; }
 }
 .feature-grid {
   display:grid;
-  grid-template-columns:minmax(0,1.14fr) minmax(0,.86fr);
+  grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);
   align-items:start;
 }
 .feature-thumb {
   position:relative;
   display:block;
-  min-width:0;
   aspect-ratio:3 / 2;
   min-height:0;
   overflow:hidden;
@@ -211,9 +210,7 @@ img { display:block; width:100%; }
   letter-spacing:0;
 }
 .feature-copy {
-  padding:20px 24px;
-  box-sizing:border-box;
-  min-width:0;
+  padding:28px 25px 24px;
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -225,21 +222,16 @@ img { display:block; width:100%; }
   letter-spacing:0;
 }
 .feature-copy h1 {
-  margin:8px 0 10px;
-  font-size:24px;
-  line-height:1.32;
+  margin:10px 0 13px;
+  font-size:42px;
+  line-height:1.42;
   letter-spacing:0;
-  overflow-wrap:anywhere;
 }
 .feature-copy p {
-  margin:0 0 14px;
+  margin:0 0 18px;
   color:#555149;
   font-size:13px;
-  line-height:1.7;
-  display:-webkit-box;
-  overflow:hidden;
-  -webkit-box-orient:vertical;
-  -webkit-line-clamp:2;
+  line-height:1.8;
 }
 .read-more {
   align-self:flex-start;
@@ -464,7 +456,7 @@ img { display:block; width:100%; }
 }
 @media(max-width:700px) {
   .feature-grid { grid-template-columns:1fr; }
-  .feature-thumb { min-height:0; }
+  .feature-thumb { min-height:390px; }
   .feature-copy { padding:20px 18px 22px; }
 }
 @media(max-width:620px) {
@@ -479,7 +471,7 @@ img { display:block; width:100%; }
   .breaking { grid-template-columns:1fr; gap:7px; }
   .card-grid { grid-template-columns:1fr; }
   .feature-thumb { min-height:0; }
-  .feature-copy h1 { font-size:23px; }
+  .feature-copy h1 { font-size:27px; }
   .sidebar { grid-template-columns:1fr; }
   .site-search button { padding:0 16px; }
 }
@@ -487,7 +479,7 @@ img { display:block; width:100%; }
 <link rel="icon" href="assets/common/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="assets/common/favicon.png" sizes="512x512">
 <link rel="apple-touch-icon" href="assets/common/apple-touch-icon.png">
-<script src="assets/common/age-gate.js?v=analytics-v8" data-site-root="" defer></script>
+<script src="assets/common/age-gate.js?v=20260812-events" data-site-root="" defer></script>
 <!-- INDANYA_HOME_DISCOVERY_START -->
 <link rel="alternate" type="application/rss+xml" title="淫談屋 新着記事" href="https://eroscope.github.io/sukebesite2025/feed.xml">
 <link rel="stylesheet" href="assets/common/article-discovery.css?v=20260825-2">
@@ -539,7 +531,7 @@ img { display:block; width:100%; }
             <span class="feature-badge" id="featureBadge">準備中</span>
           </a>
           <div class="feature-copy">
-            <small>TODAY'S PICK</small>
+            <small>注目記事</small>
             <h1><a id="featureTitleLink" href="fanza.html">FANZA作品の記事を準備しています</a></h1>
             <p id="featureSummary">公式の商品情報と利用可能なパッケージ画像だけを使い、独自のレス形式で紹介します。</p>
             <a class="read-more" id="featureReadMore" href="editorial.html">編集方針を見る →</a>
@@ -598,6 +590,6 @@ img { display:block; width:100%; }
     <span><a href="about.html">運営者情報</a>　<a href="advertising.html">広告について</a>　<a href="contact.html">お問い合わせ</a>　<a href="privacy.html">プライバシーポリシー</a></span>
   </div>
 </footer>
-<script src="assets/common/site.js?v=20260811" defer></script>
+<script src="assets/common/site.js?v=20260828" defer></script>
 </body>
 </html>

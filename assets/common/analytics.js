@@ -159,14 +159,24 @@
       })(),
       ...extra,
     };
+    const body = JSON.stringify(payload);
     try {
       fetch(endpoint, {
         method: "POST",
-        mode: "no-cors",
+        mode: "cors",
         keepalive: true,
         headers: { "Content-Type": "text/plain;charset=UTF-8" },
-        body: JSON.stringify(payload),
-      }).catch(() => {});
+        body,
+      }).catch(() => {
+        try {
+          navigator.sendBeacon(
+            endpoint,
+            new Blob([body], { type: "text/plain;charset=UTF-8" })
+          );
+        } catch {
+          // Analytics must never interfere with reading an article or opening a PR link.
+        }
+      });
     } catch {
       // Analytics must never interfere with reading an article or opening a PR link.
     }
