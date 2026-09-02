@@ -349,6 +349,7 @@
     "topics/topic-d36caa93b02a.html",
     "topics/topic-d36e7a03fcec.html",
     "topics/topic-d57207655b68.html",
+    "topics/topic-d77f81e2b6d3.html",
     "topics/topic-d7b0db6974a0.html",
     "topics/topic-d8f933e9ab9e.html",
     "topics/topic-d9041f832b92.html",
@@ -400,6 +401,7 @@
     "topics/topic-f7e9cf65c854.html",
     "topics/topic-f7f4f3529b7b.html",
     "topics/topic-f8d4c83a4941.html",
+    "topics/topic-f95663eb069c.html",
     "topics/topic-fa18c6a2f594.html",
     "topics/topic-fanza.html",
     "topics/topic-fb1216f6e0ec.html",
@@ -450,7 +452,7 @@
   "counts": {
     "people": 260,
     "works": 215,
-    "topics": 1398
+    "topics": 1401
   },
   "people": [
     {
@@ -2766,6 +2768,10 @@
       "articles": 1
     },
     {
+      "name": "MLW Rena",
+      "articles": 1
+    },
+    {
       "name": "MOODYZ",
       "articles": 27
     },
@@ -2996,6 +3002,10 @@
     {
       "name": "YouTuber",
       "articles": 3
+    },
+    {
+      "name": "YourDoll",
+      "articles": 1
     },
     {
       "name": "ZOZOTOWN",
@@ -4302,6 +4312,10 @@
       "articles": 1
     },
     {
+      "name": "ピンクボーダー",
+      "articles": 1
+    },
+    {
       "name": "ピンク水着",
       "articles": 1
     },
@@ -4659,7 +4673,7 @@
     },
     {
       "name": "ラブドール",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ラブホ",
@@ -6639,7 +6653,7 @@
     },
     {
       "name": "猫耳",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "王様ゲーム",
