@@ -450,7 +450,7 @@
   "counts": {
     "people": 260,
     "works": 215,
-    "topics": 1397
+    "topics": 1398
   },
   "people": [
     {
@@ -4275,7 +4275,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 37
+      "articles": 38
     },
     {
       "name": "ビビアン",
@@ -4667,7 +4667,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 68
+      "articles": 69
     },
     {
       "name": "リアクション",
@@ -5718,6 +5718,10 @@
       "articles": 2
     },
     {
+      "name": "宮川みやび",
+      "articles": 1
+    },
+    {
       "name": "家出少女設定",
       "articles": 1
     },
@@ -6415,7 +6419,7 @@
     },
     {
       "name": "水着",
-      "articles": 102
+      "articles": 103
     },
     {
       "name": "水着グラビア",
