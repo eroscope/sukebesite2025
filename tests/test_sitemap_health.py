@@ -91,6 +91,26 @@ class SitemapHealthTests(unittest.TestCase):
         self.assertEqual(2, report["sitemaps"]["sitemap.xml"]["url_count"])
         self.assertEqual(200, report["sample_article"]["http_status"])
 
+    def test_public_validation_rejects_an_older_sitemap_with_extra_urls(self) -> None:
+        expected = validate_local_sitemaps(self.root, self.public_url)
+        responses = {
+            self.public_url + "sitemap.xml": sitemap_xml(
+                [self.public_url, self.article_url, self.public_url + "articles/old.html"]
+            ),
+            self.public_url + "sitemap-images.xml": sitemap_xml([self.article_url]),
+            self.public_url + "sitemap-videos.xml": sitemap_xml([]),
+            self.public_url + "robots.txt": (self.root / "robots.txt").read_bytes(),
+            self.article_url: b"<!doctype html><title>one</title>",
+        }
+
+        def request(url: str, _timeout: float) -> tuple[int, bytes]:
+            return 200, responses[url]
+
+        with patch("indanya_desktop.sitemap_health._request_bytes", side_effect=request):
+            report = check_public_sitemaps(self.public_url, expected)
+        self.assertEqual("pending", report["status"])
+        self.assertIn("公開先は3件、今回生成は2件", " / ".join(report["errors"]))
+
 
 if __name__ == "__main__":
     unittest.main()

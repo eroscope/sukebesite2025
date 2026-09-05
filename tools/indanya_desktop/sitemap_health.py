@@ -200,10 +200,9 @@ def check_public_sitemaps(
                 raise RuntimeError(f"HTTP {status}")
             locations, _root_tag = _parse_sitemap_bytes(payload, name)
             locations_by_name[name] = locations
-            expected_count = int(
-                (expected_sitemaps.get(name) or {}).get("url_count") or 0
-            )
-            if expected_count and len(locations) < expected_count:
+            expected_row = expected_sitemaps.get(name)
+            expected_count = int((expected_row or {}).get("url_count") or 0)
+            if isinstance(expected_row, dict) and len(locations) != expected_count:
                 raise RuntimeError(
                     f"公開先は{len(locations)}件、今回生成は{expected_count}件で未反映です"
                 )
