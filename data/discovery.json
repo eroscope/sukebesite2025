@@ -121,6 +121,7 @@
     "topics/topic-287aa1efabef.html",
     "topics/topic-29d79cbdb69a.html",
     "topics/topic-29f8f0215964.html",
+    "topics/topic-2a70c43e87b3.html",
     "topics/topic-2e494f665ea0.html",
     "topics/topic-2ec2be9eab78.html",
     "topics/topic-2f91f5be8277.html",
@@ -445,7 +446,7 @@
   "counts": {
     "people": 259,
     "works": 209,
-    "topics": 1400
+    "topics": 1402
   },
   "people": [
     {
@@ -5341,6 +5342,10 @@
       "articles": 1
     },
     {
+      "name": "同人漫画",
+      "articles": 1
+    },
+    {
       "name": "同人誌",
       "articles": 2
     },
@@ -5626,7 +5631,7 @@
     },
     {
       "name": "姉妹",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "姉弟設定",
@@ -6390,7 +6395,7 @@
     },
     {
       "name": "水着",
-      "articles": 103
+      "articles": 104
     },
     {
       "name": "水着グラビア",
@@ -6467,6 +6472,10 @@
     {
       "name": "浴衣",
       "articles": 5
+    },
+    {
+      "name": "海",
+      "articles": 1
     },
     {
       "name": "海パン",
