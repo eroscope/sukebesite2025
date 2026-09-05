@@ -1626,32 +1626,43 @@ def _codex_article_overlap_chunks(
     chunk_size: int = 72,
 ) -> list[str]:
     """Return long copied passages using the same threshold as publish policy."""
-    authored = _normalized_article_overlap_text("\n".join([
-        str(article.get("summary") or ""),
-        *[
-            str(item.get("text") or "")
-            for item in (article.get("responses") or [])
-            if isinstance(item, dict)
-        ],
-    ]))
-    source_text = _normalized_article_overlap_text("\n".join([
-        str(source.get("_copyright_reference_text") or ""),
-        str(source.get("body_text") or ""),
-        *[str(item) for item in (source.get("text_blocks") or [])],
-        *[str(item) for item in (source.get("excerpts") or [])],
-        str(source.get("description") or ""),
-    ]))
-    if not authored or not source_text or len(authored) < chunk_size:
+    authored_segments = [
+        normalized
+        for value in [
+            article.get("summary"),
+            *[
+                item.get("text")
+                for item in (article.get("responses") or [])
+                if isinstance(item, dict)
+            ],
+        ]
+        if (normalized := _normalized_article_overlap_text(value))
+    ]
+    source_segments = [
+        normalized
+        for value in [
+            source.get("_copyright_reference_text"),
+            source.get("body_text"),
+            *(source.get("text_blocks") or []),
+            *(source.get("excerpts") or []),
+            source.get("description"),
+        ]
+        if (normalized := _normalized_article_overlap_text(value))
+    ]
+    if not authored_segments or not source_segments:
         return []
     matches: list[str] = []
-    for start in range(0, len(authored) - chunk_size + 1, 12):
-        chunk = authored[start:start + chunk_size]
-        if chunk not in source_text:
+    for authored in authored_segments:
+        if len(authored) < chunk_size:
             continue
-        if not any(chunk in existing or existing in chunk for existing in matches):
-            matches.append(chunk)
-        if len(matches) >= 6:
-            break
+        for start in range(0, len(authored) - chunk_size + 1, 12):
+            chunk = authored[start:start + chunk_size]
+            if not any(chunk in source_text for source_text in source_segments):
+                continue
+            if not any(chunk in existing or existing in chunk for existing in matches):
+                matches.append(chunk)
+            if len(matches) >= 6:
+                return matches
     return matches
 
 

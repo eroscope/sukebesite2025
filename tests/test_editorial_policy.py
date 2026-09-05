@@ -128,6 +128,22 @@ class EditorialPolicyTests(unittest.TestCase):
         self.assertFalse(decision.allowed)
         self.assertIn("長く一致", decision.message)
 
+    def test_separate_short_segments_do_not_create_false_overlap_at_boundaries(self) -> None:
+        first = "甲" * 48
+        second = "乙" * 48
+        independent = "丙" * 48
+        source = adult_source(body_text=first, text_blocks=[second])
+        payload = adult_payload()
+        payload["summary"] = first
+        payload["blocks"] = [
+            {"type": "post", "text": second},
+            {"type": "post", "text": independent},
+        ]
+
+        decision = check_originality(source, payload)
+
+        self.assertTrue(decision.allowed, decision.message)
+
     def test_approved_generated_article_records_policy_audit(self) -> None:
         payload = adult_payload()
         approve_generated_article(adult_source(), payload)

@@ -655,31 +655,54 @@ def _article_authored_text(payload: dict[str, Any]) -> str:
     return _text(payload.get("summary"), *responses)
 
 
+def _normalized_overlap_segments(values: Iterable[Any]) -> list[str]:
+    return [
+        normalized
+        for value in values
+        if (normalized := _normalize_for_overlap(str(value or "")))
+    ]
+
+
 def check_originality(source: dict[str, Any], payload: dict[str, Any]) -> PolicyDecision:
     reasons: list[str] = []
-    authored = _normalize_for_overlap(_article_authored_text(payload))
-    source_text = _normalize_for_overlap(_text(
+    blocks = payload.get("blocks") or []
+    authored_segments = _normalized_overlap_segments([
+        payload.get("summary"),
+        *[
+            block.get("text")
+            for block in blocks
+            if isinstance(block, dict) and block.get("type") == "post"
+        ],
+    ])
+    source_segments = _normalized_overlap_segments([
         source.get("_copyright_reference_text"),
         source.get("body_text"),
         *(source.get("text_blocks") or []),
         *(source.get("excerpts") or []),
         source.get("description"),
-    ))
+    ])
+    authored_length = sum(len(segment) for segment in authored_segments)
 
-    if len(authored) < 120:
+    if authored_length < 120:
         reasons.append("独自に書かれた本文量が不足しています")
     if not str(payload.get("source_url") or source.get("url") or "").startswith(("http://", "https://")):
         reasons.append("参照元URLがありません")
 
     # Exact long passages are rejected. Names and short factual phrases can still
     # match, while copied paragraphs cannot pass this check.
-    if source_text and authored:
+    if source_segments and authored_segments:
         chunk_size = 72
-        for start in range(0, max(1, len(authored) - chunk_size + 1), 12):
-            chunk = authored[start:start + chunk_size]
-            if len(chunk) == chunk_size and chunk in source_text:
-                reasons.append("元ページと長く一致する文章があります")
+        copied = False
+        for authored in authored_segments:
+            for start in range(0, max(1, len(authored) - chunk_size + 1), 12):
+                chunk = authored[start:start + chunk_size]
+                if len(chunk) == chunk_size and any(chunk in source_text for source_text in source_segments):
+                    copied = True
+                    break
+            if copied:
                 break
+        if copied:
+            reasons.append("元ページと長く一致する文章があります")
 
     return PolicyDecision(not reasons, tuple(dict.fromkeys(reasons)))
 

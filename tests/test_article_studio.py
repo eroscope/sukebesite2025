@@ -1777,6 +1777,22 @@ class ArticleStudioTests(unittest.TestCase):
             {"body_text": copied}, result["article"]
         ))
 
+    def test_codex_overlap_does_not_join_unrelated_text_boundaries(self) -> None:
+        first = "甲" * 48
+        second = "乙" * 48
+        article = {
+            "summary": first,
+            "responses": [
+                {"text": second},
+                {"text": "丙" * 48},
+            ],
+        }
+
+        self.assertEqual([], article_studio._codex_article_overlap_chunks(
+            {"body_text": first, "text_blocks": [second]},
+            article,
+        ))
+
     def test_codex_article_generation_is_pinned_to_luna_high(self) -> None:
         self.assertEqual("gpt-5.6-luna", article_studio.CODEX_ARTICLE_MODEL)
         self.assertEqual("high", article_studio.CODEX_ARTICLE_REASONING_EFFORT)
