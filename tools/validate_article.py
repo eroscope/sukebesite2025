@@ -26,6 +26,7 @@ ALLOWED_FIELDS = {
     "thumbnail",
     "source_url",
     "images_used",
+    "body_images_used",
     "summary",
     "search_text",
     "tags",
@@ -137,6 +138,18 @@ def validate_metadata(metadata: dict[str, Any]) -> dict[str, Any]:
     images_used = metadata["images_used"]
     if isinstance(images_used, bool) or not isinstance(images_used, int) or images_used < 1:
         raise ValidationError("images_used must be a positive integer")
+
+    if "body_images_used" in metadata:
+        body_images_used = metadata["body_images_used"]
+        if (
+            isinstance(body_images_used, bool)
+            or not isinstance(body_images_used, int)
+            or body_images_used < 0
+            or body_images_used > images_used
+        ):
+            raise ValidationError(
+                "body_images_used must be a non-negative integer no larger than images_used"
+            )
 
     if "summary" in metadata:
         summary = metadata["summary"]

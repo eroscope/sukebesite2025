@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Indanya ChatGPT Bridge",
-    "version": "1.0.0",
-    "description": "PC上のPlaywrightワーカーへ記事解析・下書き・公開処理を依頼する"
+    "version": "2.1.0",
+    "description": "淫談屋の記事取得、下書き作成、品質比較をPCワーカーへ依頼する。サイト公開は行わない"
   },
   "servers": [
     {
@@ -14,7 +14,8 @@
     "/macros/s/AKfycbziQQz8KKzgYzrm4qpcErujVEHe1y4RC9qq4ChhpmqgN5sMHSkp1ECteOrf6xK9RyKWiA/exec": {
       "post": {
         "operationId": "indanyaAction",
-        "summary": "淫談屋の記事解析・下書き・公開処理を実行する",
+        "x-openai-isConsequential": false,
+        "summary": "淫談屋の記事取得、下書き作成、品質比較を実行する",
         "requestBody": {
           "required": true,
           "content": {
@@ -27,11 +28,98 @@
         },
         "responses": {
           "200": {
-            "description": "ジョブの状態または完了結果",
+            "description": "ジョブ状態または処理結果",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "job_id": {
+                      "type": "string"
+                    },
+                    "job_type": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "progress": {
+                      "type": "number"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "job": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "ok": {
+                          "type": "boolean"
+                        },
+                        "job_id": {
+                          "type": "string"
+                        },
+                        "job_type": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "string"
+                        },
+                        "payload": {
+                          "type": "object",
+                          "properties": {
+                            "task": {
+                              "type": "object",
+                              "properties": {
+                                "task_id": {
+                                  "type": "string"
+                                },
+                                "source": {
+                                  "type": "object",
+                                  "additionalProperties": true
+                                },
+                                "options": {
+                                  "type": "object",
+                                  "additionalProperties": true
+                                },
+                                "codex_reference": {
+                                  "type": "object",
+                                  "additionalProperties": true
+                                },
+                                "rules": {
+                                  "type": "object",
+                                  "additionalProperties": true
+                                }
+                              },
+                              "additionalProperties": true
+                            }
+                          },
+                          "additionalProperties": true
+                        }
+                      },
+                      "additionalProperties": true
+                    },
+                    "result": {
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "candidate": {
+                          "$ref": "#/components/schemas/ArticleCandidate"
+                        }
+                      },
+                      "additionalProperties": true
+                    }
+                  },
                   "additionalProperties": true
                 }
               }
@@ -48,11 +136,20 @@
         "properties": {
           "action": {
             "type": "string",
-            "enum": ["health", "capture_article", "get_job", "create_draft", "publish_article"]
+            "enum": [
+              "health",
+              "capture_article",
+              "get_job",
+              "create_draft",
+              "claim_shadow_review",
+              "submit_shadow_review"
+            ]
           },
           "client_key": {
             "type": "string",
-            "enum": ["V_HDntDXDk5UmtljnKiTI3n2-grJuLvX"]
+            "enum": [
+              "V_HDntDXDk5UmtljnKiTI3n2-grJuLvX"
+            ]
           },
           "url": {
             "type": "string",
@@ -60,11 +157,11 @@
           },
           "job_id": {
             "type": "string",
-            "description": "状態確認するジョブID"
+            "description": "状態確認または品質比較を返すジョブID"
           },
           "capture_job_id": {
             "type": "string",
-            "description": "元となる記事解析ジョブID"
+            "description": "元になる記事解析ジョブID"
           },
           "wait_seconds": {
             "type": "integer",
@@ -72,42 +169,170 @@
             "maximum": 35,
             "default": 35
           },
-          "rights_confirmed": {
-            "type": "boolean",
-            "description": "画像・動画の利用許可を確認済みの場合だけtrue"
-          },
           "article": {
             "$ref": "#/components/schemas/ArticleDraft"
+          },
+          "candidate": {
+            "$ref": "#/components/schemas/ArticleCandidate"
           }
         },
-        "required": ["action", "client_key"]
+        "required": [
+          "action",
+          "client_key"
+        ]
       },
       "ArticleDraft": {
         "type": "object",
         "properties": {
-          "title": {"type": "string"},
-          "slug": {"type": "string"},
-          "category": {"type": "string"},
-          "summary": {"type": "string"},
-          "tags": {"type": "array", "items": {"type": "string"}},
-          "comments": {"type": "integer"},
-          "featured": {"type": "boolean"},
-          "thumbnail_id": {"type": "string"},
+          "title": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "comments": {
+            "type": "integer"
+          },
+          "featured": {
+            "type": "boolean"
+          },
+          "thumbnail_id": {
+            "type": "string"
+          },
           "responses": {
             "type": "array",
             "items": {
               "type": "object",
               "properties": {
-                "text": {"type": "string"},
-                "image_ids": {"type": "array", "items": {"type": "string"}},
-                "video_ids": {"type": "array", "items": {"type": "string"}},
-                "style": {"type": "string", "enum": ["normal", "large", "highlight"]}
+                "text": {
+                  "type": "string"
+                },
+                "image_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "video_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "style": {
+                  "type": "string",
+                  "enum": [
+                    "normal",
+                    "large",
+                    "highlight"
+                  ]
+                }
               },
-              "required": ["text", "image_ids", "video_ids"]
+              "required": [
+                "text",
+                "image_ids",
+                "video_ids"
+              ]
+            }
+          },
+          "excluded_media": {
+            "type": "array",
+            "description": "本文へ採用しない全素材と、その具体的な除外理由",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "reason": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "reason"
+              ]
             }
           }
         },
-        "required": ["title", "slug", "category", "summary", "responses", "thumbnail_id"]
+        "required": [
+          "title",
+          "slug",
+          "category",
+          "summary",
+          "responses",
+          "thumbnail_id",
+          "excluded_media"
+        ]
+      },
+      "ArticleCandidate": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "responses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                },
+                "style": {
+                  "type": "string",
+                  "enum": [
+                    "normal",
+                    "large",
+                    "highlight"
+                  ]
+                },
+                "video_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "text",
+                "style",
+                "video_ids"
+              ]
+            }
+          }
+        },
+        "required": [
+          "title",
+          "summary",
+          "category",
+          "tags",
+          "responses"
+        ]
       }
     }
   }

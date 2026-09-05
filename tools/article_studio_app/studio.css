@@ -179,6 +179,21 @@ a:focus-visible { outline: 3px solid rgba(19, 127, 120, .24); outline-offset: 2p
 .fallback-upload input { width: 100%; }
 .fallback-upload img { width: 140px; height: 100px; margin-top: 10px; object-fit: cover; border: 1px solid var(--line); }
 .video-list { display: grid; gap: 9px; }
+.fanza-embed-box {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  background: #fbfbfa;
+}
+.fanza-embed-box textarea {
+  min-height: 82px;
+  resize: vertical;
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  font-size: 11px;
+}
+.fanza-embed-box .secondary-button { justify-self: start; }
 .video-item { display: grid; grid-template-columns: 110px minmax(0, 1fr) 32px; gap: 9px; align-items: center; padding: 8px; border: 1px solid var(--line); background: #f8f9f9; }
 .video-item video { width: 110px; height: 92px; display: block; background: #101214; object-fit: contain; }
 .video-item .source-video-placeholder { min-height: 92px; padding: 8px; }
@@ -216,6 +231,11 @@ a:focus-visible { outline: 3px solid rgba(19, 127, 120, .24); outline-offset: 2p
 .draft-mini > em { color: var(--teal); font-style: normal; }
 
 .draft-summary-bar { display: flex; gap: 1px; margin-bottom: 16px; border: 1px solid var(--line-strong); background: var(--line); }
+.draft-searchbar { display: grid; gap: 6px; margin-bottom: 12px; }
+.draft-searchbar > label { color: var(--muted); font-size: 10px; font-weight: 800; }
+.draft-searchbar > div { display: grid; grid-template-columns: minmax(0, 560px) 38px; gap: 6px; }
+.draft-searchbar input { width: 100%; height: 38px; padding: 8px 11px; border: 1px solid var(--line-strong); border-radius: 4px; background: #fff; font-size: 12px; }
+.draft-searchbar input:focus { border-color: var(--teal); outline: 2px solid rgba(22, 141, 132, .14); }
 .draft-summary-bar div { min-width: 130px; display: grid; gap: 3px; padding: 14px 18px; background: var(--surface); }
 .draft-summary-bar strong { font-size: 20px; }
 .draft-summary-bar span { color: var(--muted); font-size: 10px; }

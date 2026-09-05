@@ -3,3 +3,9 @@ __pycache__/
 .article-studio/
 build/
 dist/
+build-*/
+dist-*/
+.affiliate-audit-*/
+.affiliate-clean-*/
+outputs/
+setup/*.gs

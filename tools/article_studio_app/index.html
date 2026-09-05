@@ -133,6 +133,10 @@
 
         <section class="app-view drafts-view" id="draftsView" hidden>
           <div class="view-heading"><div><h2>記事下書き</h2><p>生成した記事と手動保存した記事をまとめて管理します。</p></div><button class="primary-button" type="button" data-view-jump="source">＋ URLから作成</button></div>
+          <div class="draft-searchbar">
+            <label for="draftSearchInput">記事を検索</label>
+            <div><input id="draftSearchInput" type="search" autocomplete="off" placeholder="タイトル・元URL・記事ID"><button id="draftSearchClearButton" class="icon-button" type="button" title="検索を消去" aria-label="検索を消去">×</button></div>
+          </div>
           <div class="draft-summary-bar"><div><strong id="draftTotalCount">0</strong><span>すべて</span></div><div><strong id="draftRightsCount">0</strong><span>許可未確認</span></div><div><strong id="publishedCount">0</strong><span>公開記事</span></div></div>
           <div class="draft-table" id="draftsList"></div>
         </section>
@@ -184,6 +188,10 @@
                 <input id="imageInput" type="file" accept="image/avif,image/gif,image/jpeg,image/png,image/webp" multiple hidden>
                 <div class="image-list" id="imageList"></div>
                 <div class="section-rule"><span>動画</span><strong id="videoCount">0 / 6</strong></div>
+                <div class="fanza-embed-box">
+                  <label class="field field-wide"><span>FANZA公式埋め込みコード</span><textarea id="fanzaEmbedInput" rows="4" placeholder="FANZAの共有ボタン/無料動画ブログパーツで発行したiframeコードを貼り付け"></textarea></label>
+                  <button class="secondary-button" id="addFanzaEmbedButton" type="button">公式動画を追加</button>
+                </div>
                 <div class="video-list" id="videoList"></div>
               </div>
             </section>

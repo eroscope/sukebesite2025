@@ -7,6 +7,29 @@
   if (!article) return;
   const hasStaticDiscovery = Boolean(article.querySelector(".article-static-discovery"));
 
+  article.addEventListener("click", event => {
+    const openButton = event.target.closest("[data-person-candidates-open]");
+    if (openButton) {
+      const dialog = document.getElementById(openButton.dataset.personCandidatesOpen || "");
+      if (dialog instanceof HTMLDialogElement) {
+        if (typeof dialog.showModal === "function") dialog.showModal();
+        else dialog.setAttribute("open", "");
+      }
+      return;
+    }
+    const closeButton = event.target.closest("[data-person-candidates-close]");
+    if (closeButton) {
+      const dialog = closeButton.closest("dialog");
+      if (dialog instanceof HTMLDialogElement) dialog.close();
+    }
+  });
+
+  article.querySelectorAll(".person-candidate-dialog").forEach(dialog => {
+    dialog.addEventListener("click", event => {
+      if (event.target === dialog) dialog.close();
+    });
+  });
+
   const normalize = value =>
     String(value || "")
       .toLocaleLowerCase("ja")

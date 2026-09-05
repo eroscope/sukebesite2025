@@ -35,15 +35,20 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="淫談屋 記事編集室")
     parser.add_argument("--site-root", type=Path, default=default_site_root())
     parser.add_argument("--screenshot", type=Path, help="画面確認用PNGを保存して終了")
+    parser.add_argument("--page", default="dashboard", help=argparse.SUPPRESS)
     parser.add_argument("--background", action="store_true", help="自動処理用に最小化して起動")
     parser.add_argument("--video-smoke", type=Path, help=argparse.SUPPRESS)
     args = parser.parse_args()
+    if args.screenshot:
+        os.environ["INDANYA_SCREENSHOT_MODE"] = "1"
 
     QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
     app = QApplication(sys.argv[:1])
     app.setApplicationName("淫談屋 記事編集室")
     app.setOrganizationName("Indanya")
     window = MainWindow(args.site_root)
+    if args.page in window.pages:
+        window.switch_page(args.page)
     status = CodexRunner(window.site.root).status()
     window.codex_state.setText(
         f"Codex: 接続済み ({status.get('version', '')})" if status.get("available") else f"Codex: {status.get('message', '未接続')}"

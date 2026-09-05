@@ -35,7 +35,7 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["text", "style", "video_ids"],
+        "required": ["text", "style", "image_ids", "video_ids"],
         "properties": {
           "text": {
             "type": "string",
@@ -45,6 +45,15 @@
           "style": {
             "type": "string",
             "enum": ["normal", "large", "highlight"]
+          },
+          "image_ids": {
+            "type": "array",
+            "maxItems": 3,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120
+            }
           },
           "video_ids": {
             "type": "array",

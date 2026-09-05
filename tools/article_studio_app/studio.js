@@ -60,6 +60,31 @@ function newVideoBlock(videoIds = []) {
   return { id: uid("videos"), type: "videos", video_ids: videoIds.slice() };
 }
 
+function isOfficialFanzaEmbedUrl(value) {
+  try {
+    const url = new URL(value, window.location.href);
+    const host = url.hostname.toLowerCase();
+    return url.protocol === "https:" && (
+      host === "dmm.co.jp" ||
+      host.endsWith(".dmm.co.jp") ||
+      host === "fanza.co.jp" ||
+      host.endsWith(".fanza.co.jp")
+    );
+  } catch (_error) {
+    return false;
+  }
+}
+
+function extractFanzaEmbedSrc(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  if (isOfficialFanzaEmbedUrl(raw)) return raw;
+  const doc = new DOMParser().parseFromString(raw, "text/html");
+  const iframe = doc.querySelector("iframe[src]");
+  const src = iframe?.getAttribute("src")?.trim() || "";
+  return isOfficialFanzaEmbedUrl(src) ? src : "";
+}
+
 function resetState() {
   state.images = [];
   state.videos = [];
@@ -238,11 +263,6 @@ function renderSourceImages() {
     checkbox.checked = state.sourceSelectedIds.has(image.id);
     checkbox.addEventListener("change", () => {
       if (checkbox.checked) {
-        if (state.sourceSelectedIds.size >= 50) {
-          checkbox.checked = false;
-          showToast("画像は最大50枚まで選べます", "error");
-          return;
-        }
         state.sourceSelectedIds.add(image.id);
       } else {
         state.sourceSelectedIds.delete(image.id);
@@ -299,11 +319,6 @@ function renderSourceVideos() {
     checkbox.setAttribute("aria-label", `動画候補 ${index + 1}を使用`);
     checkbox.addEventListener("change", () => {
       if (checkbox.checked) {
-        if (state.sourceSelectedVideoIds.size >= 10) {
-          checkbox.checked = false;
-          showToast("動画は最大10本まで選べます", "error");
-          return;
-        }
         state.sourceSelectedVideoIds.add(video.id);
       } else {
         state.sourceSelectedVideoIds.delete(video.id);
@@ -599,6 +614,11 @@ function draftMiniCard(draft) {
 
 function renderDraftViews(drafts) {
   state.drafts = Array.isArray(drafts) ? drafts : [];
+  const draftQuery = String(elements.draftSearchInput?.value || "").trim().toLocaleLowerCase("ja-JP");
+  const visibleDrafts = draftQuery
+    ? state.drafts.filter((draft) => [draft.title, draft.source_url, draft.slug]
+      .some((value) => String(value || "").toLocaleLowerCase("ja-JP").includes(draftQuery)))
+    : state.drafts;
   elements.draftNavCount.textContent = String(state.drafts.length);
   elements.rightsNavCount.textContent = String(state.drafts.filter((draft) => draft.rights_status !== "confirmed").length);
   elements.draftTotalCount.textContent = String(state.drafts.length);
@@ -621,7 +641,7 @@ function renderDraftViews(drafts) {
     head.append(cell);
   });
   elements.draftsList.append(head);
-  state.drafts.forEach((draft) => {
+  visibleDrafts.forEach((draft) => {
     const row = document.createElement("div");
     row.className = "draft-row";
     const titleCell = document.createElement("div");
@@ -653,10 +673,10 @@ function renderDraftViews(drafts) {
     row.append(titleCell, status, rights, images, updated, open);
     elements.draftsList.append(row);
   });
-  if (!state.drafts.length) {
+  if (!visibleDrafts.length) {
     const empty = document.createElement("div");
     empty.className = "draft-empty";
-    empty.textContent = "URLから最初の記事を作成してください";
+    empty.textContent = state.drafts.length ? "一致する記事はありません" : "URLから最初の記事を作成してください";
     elements.draftsList.append(empty);
   }
   renderRightsView();
@@ -1018,6 +1038,36 @@ function renderVideos() {
     item.append(preview, fields, remove);
     elements.videoList.append(item);
   });
+}
+
+function addFanzaOfficialEmbed() {
+  const source = elements.fanzaEmbedInput?.value || "";
+  const src = extractFanzaEmbedSrc(source);
+  if (!src) {
+    showToast("FANZA/DMM公式のiframe埋め込みコードかURLを貼ってください", "error");
+    elements.fanzaEmbedInput?.focus();
+    return;
+  }
+  if (state.videos.some((video) => video.url === src)) {
+    showToast("この公式動画はすでに追加されています", "error");
+    return;
+  }
+  const video = {
+    id: uid("fanza-video"),
+    kind: "iframe",
+    url: src,
+    mime_type: "text/html",
+    label: `FANZA公式サンプル動画 ${state.videos.length + 1}`,
+    rights_basis: "fanza_official_embed",
+    rights_source_url: src,
+  };
+  state.videos.push(video);
+  state.blocks.push(newVideoBlock([video.id]));
+  if (elements.fanzaEmbedInput) elements.fanzaEmbedInput.value = "";
+  renderVideos();
+  renderBlocks();
+  markDirty();
+  showToast("FANZA公式サンプル動画を追加しました", "success");
 }
 
 function blockLabel(type) {
@@ -1816,7 +1866,7 @@ function cacheElements() {
     "categoryInput", "categoryList", "summaryInput", "publishedAtInput", "statusInput", "commentsInput",
     "posterNameInput", "tagsInput", "featuredInput", "fictionalInput", "replaceField", "replaceInput",
     "sourceUrlInput", "sourceLabelInput", "transparencyInput", "imageCount", "uploadButton", "imageInput",
-    "imageList", "videoCount", "videoList", "autoArrangeButton", "blockList", "desktopPreviewButton", "mobilePreviewButton",
+    "imageList", "videoCount", "fanzaEmbedInput", "addFanzaEmbedButton", "videoList", "autoArrangeButton", "blockList", "desktopPreviewButton", "mobilePreviewButton",
     "refreshPreviewButton", "previewStage", "previewFrame", "previewEmpty", "adultConfirmed",
     "rightsConfirmed", "privacyConfirmed", "sourceConfirmed", "saveDraftButton", "downloadPackageButton",
     "addToSiteButton", "confirmDialog", "confirmMessage", "xImportButton", "xImportDialog", "xCloseButton",
@@ -1833,7 +1883,7 @@ function cacheElements() {
     "sourceToneInput", "sourceCategoryInput", "sourceReplyCountInput", "sourceGenerateButton",
     "codexStatus", "codexStatusTitle", "codexStatusDetail", "generationJob", "generationJobTitle",
     "generationJobProgress", "generationProgressBar", "generationJobMessage", "generationRetryButton",
-    "recentDrafts", "draftsList", "draftTotalCount", "draftRightsCount", "publishedCount",
+    "recentDrafts", "draftsList", "draftTotalCount", "draftRightsCount", "publishedCount", "draftSearchInput", "draftSearchClearButton",
     "rightsNavCount", "rightsList", "rightsUnconfirmedCount", "rightsRequestedCount",
     "rightsConfirmedCount", "rightsRejectedCount", "editorArticleTitle",
   ].forEach((id) => {
@@ -1852,9 +1902,9 @@ function bindEvents() {
   });
   elements.sourceSelectAllButton.addEventListener("click", () => {
     const visibleIds = Array.from(elements.sourceImageGrid.querySelectorAll(".source-image-choice"), (choice) => choice.dataset.imageId);
-    state.sourceSelectedIds = new Set(visibleIds.slice(0, 50));
+    state.sourceSelectedIds = new Set(visibleIds);
     const visibleVideoIds = Array.from(elements.sourceVideoGrid.querySelectorAll(".source-video-choice"), (choice) => choice.dataset.videoId);
-    state.sourceSelectedVideoIds = new Set(visibleVideoIds.slice(0, 10));
+    state.sourceSelectedVideoIds = new Set(visibleVideoIds);
     renderSourceImages();
   });
   elements.sourceClearImagesButton.addEventListener("click", () => {
@@ -1869,6 +1919,12 @@ function bindEvents() {
   elements.sourceFallbackInput.addEventListener("change", selectSourceFallback);
   elements.sourceGenerateButton.addEventListener("click", buildSourceDraft);
   elements.generationRetryButton.addEventListener("click", buildSourceDraft);
+  elements.draftSearchInput.addEventListener("input", () => renderDraftViews(state.drafts));
+  elements.draftSearchClearButton.addEventListener("click", () => {
+    elements.draftSearchInput.value = "";
+    renderDraftViews(state.drafts);
+    elements.draftSearchInput.focus();
+  });
   document.querySelectorAll("[data-view]").forEach((button) => {
     button.addEventListener("click", () => showView(button.dataset.view));
   });
@@ -1891,6 +1947,7 @@ function bindEvents() {
   elements.xBuildButton.addEventListener("click", buildXDraft);
   elements.uploadButton.addEventListener("click", () => elements.imageInput.click());
   elements.imageInput.addEventListener("change", () => addImages(elements.imageInput.files));
+  elements.addFanzaEmbedButton.addEventListener("click", addFanzaOfficialEmbed);
   elements.autoArrangeButton.addEventListener("click", autoArrange);
   document.querySelectorAll("[data-add-block]").forEach((button) => {
     button.addEventListener("click", () => addBlock(button.dataset.addBlock));
@@ -1911,7 +1968,8 @@ function bindEvents() {
   document.querySelectorAll("input, textarea, select").forEach((control) => {
     if (![elements.draftSelect, elements.imageInput, elements.xUsernameInput, elements.xTokenInput,
       elements.xPostUrlsInput, elements.xCoverInput, elements.sourceAnalyzerInput, elements.sourceFallbackInput,
-      elements.sourceToneInput, elements.sourceCategoryInput, elements.sourceReplyCountInput].includes(control)) {
+      elements.sourceToneInput, elements.sourceCategoryInput, elements.sourceReplyCountInput,
+      elements.draftSearchInput].includes(control)) {
       control.addEventListener("input", markDirty);
       control.addEventListener("change", markDirty);
     }

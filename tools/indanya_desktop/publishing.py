@@ -8,16 +8,33 @@ import json
 import os
 import re
 import shutil
+import stat
 import subprocess
 import tempfile
 import urllib.request
+from contextlib import contextmanager
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import urljoin, urlparse
 
 from article_studio import JST, add_built_article, save_draft, _validate_source_url
+from indanya_desktop.analytics import ANALYTICS_VERSION
 from indanya_desktop.sites import ManagedSite
+from indanya_desktop.editorial_policy import require_publishable_article
+from indanya_desktop.site_discovery import refresh_site_discovery
+from indanya_desktop.sitemap_health import (
+    combined_sitemap_health,
+    save_sitemap_health,
+    validate_local_sitemaps,
+    wait_for_public_sitemaps,
+)
+from indanya_desktop.fanza_affiliate import (
+    load_fanza_settings,
+    normalize_fanza_affiliate_id,
+    rewrite_published_fanza_links,
+    save_fanza_settings,
+)
 
 
 ProgressCallback = Callable[[int, str], None]
@@ -26,6 +43,45 @@ MAX_PUBLISH_VIDEO_BYTES = 95 * 1024 * 1024
 TARGET_PUBLISH_VIDEO_BYTES = 88 * 1024 * 1024
 MAX_SOURCE_VIDEO_BYTES = 750 * 1024 * 1024
 MAX_PUBLISH_POSTER_BYTES = 12 * 1024 * 1024
+SITEMAP_STATIC_PAGES = (
+    "",
+    "latest.html",
+    "popular.html",
+    "categories.html",
+    "fanza.html",
+    "tags.html",
+    "about.html",
+    "editorial.html",
+    "privacy.html",
+    "contact.html",
+    "partners.html",
+)
+
+
+@contextmanager
+def _temporary_render_template(repository: Path, draft_root: Path):
+    target = repository / "articles" / "pool-look-back.html"
+    created = False
+    if not target.is_file():
+        source = draft_root / "articles" / "pool-look-back.html"
+        if not source.is_file():
+            raise RuntimeError("記事生成テンプレートが見つかりません")
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+        created = True
+    try:
+        yield
+    finally:
+        if created:
+            target.unlink(missing_ok=True)
+
+
+def _write_search_files(
+    repository: Path,
+    public_url: str,
+    articles: list[dict[str, Any]],
+) -> None:
+    refresh_site_discovery(repository, public_url, articles)
 
 
 def _run_git(
@@ -103,9 +159,13 @@ def _git_environment(site: ManagedSite, temporary_root: Path) -> tuple[dict[str,
 
 def _published_payload(payload: dict[str, Any]) -> dict[str, Any]:
     published = copy.deepcopy(payload)
+    now = datetime.now(JST).isoformat(timespec="seconds")
     published["status"] = "published"
     published["editorial_status"] = "published"
-    published["published_at"] = datetime.now(JST).isoformat(timespec="seconds")
+    published["review_status"] = "published"
+    published["review_status_at"] = now
+    published.pop("review_message", None)
+    published["published_at"] = now
     published["adult_confirmed"] = True
     published["rights_confirmed"] = True
     published["privacy_confirmed"] = True
@@ -268,6 +328,10 @@ def _localize_video_poster(
 ) -> str:
     poster_data = str(video.get("poster_data_url") or "").strip()
     poster_url = str(video.get("poster") or "").strip()
+    if poster_data and html.escape(poster_data, quote=True) not in article_html:
+        poster_data = ""
+    if poster_url and html.escape(poster_url, quote=True) not in article_html:
+        poster_url = ""
     data_match = re.fullmatch(
         r"data:image/(jpeg|png|webp);base64,([A-Za-z0-9+/=\s]+)",
         poster_data,
@@ -406,6 +470,280 @@ def _clone_site(
     return destination, branch
 
 
+def _extend_sparse_checkout_if_enabled(
+    repository: Path,
+    slug: str,
+    *,
+    git_env: dict[str, str] | None = None,
+    secrets: tuple[str, ...] = (),
+) -> None:
+    try:
+        _run_git(
+            [
+                "sparse-checkout", "add",
+                "/index.html", "/articles/*.html",
+                f"/articles/{slug}.html", f"/assets/articles/{slug}/",
+                "/people.html", "/works.html", "/topics.html",
+                "/people/", "/works/", "/topics/",
+                "/data/discovery.json", "/feed.xml",
+                "/sitemap-images.xml", "/sitemap-videos.xml",
+                "/assets/common/article-discovery.css",
+                "/assets/common/indanya-logo.png", "/assets/common/favicon.ico",
+                "/assets/common/analytics-config.js", "/assets/common/ga4.js",
+                "/assets/common/age-gate.js", "/privacy.html", "/partners.html",
+            ],
+            cwd=repository,
+            env=git_env,
+            secrets=secrets,
+        )
+    except RuntimeError as exc:
+        if "no sparse-checkout" not in str(exc).lower():
+            raise
+
+
+def _prepare_cached_site(
+    site: ManagedSite,
+    cache_root: Path,
+    slug: str,
+    progress: ProgressCallback,
+    git_env: dict[str, str] | None = None,
+    secrets: tuple[str, ...] = (),
+) -> tuple[Path, str]:
+    cache_root = cache_root.resolve()
+    cache_root.parent.mkdir(parents=True, exist_ok=True)
+    repository = cache_root
+    git_dir = repository / ".git"
+    def remove_cache() -> None:
+        def make_writable(function: Any, path: str, _error: Any) -> None:
+            os.chmod(path, stat.S_IWRITE)
+            function(path)
+
+        shutil.rmtree(repository, onerror=make_writable)
+
+    if git_dir.is_dir():
+        changed = _run_git(
+            ["status", "--porcelain"], cwd=repository, env=git_env, secrets=secrets
+        )
+        if changed:
+            remove_cache()
+    if not git_dir.is_dir():
+        progress(7, "初回用の軽量な公開キャッシュを準備しています")
+        _run_git(
+            [
+                "clone", "--depth", "1", "--filter=blob:none", "--sparse",
+                "--no-checkout", _repository_url(site), str(repository),
+            ],
+            timeout=300,
+            env=git_env,
+            secrets=secrets,
+        )
+        _run_git(
+            [
+                "sparse-checkout", "set", "--no-cone",
+                "/data/articles.json", "/data/discovery.json",
+                "/sitemap.xml", "/sitemap-images.xml", "/sitemap-videos.xml",
+                "/feed.xml", "/robots.txt", "/index.html",
+                "/articles/*.html", "/articles/pool-look-back.html",
+                f"/articles/{slug}.html", f"/assets/articles/{slug}/",
+                "/people.html", "/works.html", "/topics.html",
+                "/people/", "/works/", "/topics/",
+                "/assets/common/article-discovery.css",
+                "/assets/common/indanya-logo.png", "/assets/common/favicon.ico",
+                "/assets/common/analytics-config.js", "/assets/common/ga4.js",
+                "/assets/common/age-gate.js", "/privacy.html", "/partners.html",
+            ],
+            cwd=repository,
+            env=git_env,
+            secrets=secrets,
+        )
+        _run_git(["checkout"], cwd=repository, env=git_env, secrets=secrets)
+    else:
+        progress(7, "公開サイトの差分だけを取得しています")
+        _extend_sparse_checkout_if_enabled(
+            repository,
+            slug,
+            git_env=git_env,
+            secrets=secrets,
+        )
+        _run_git(
+            ["pull", "--ff-only"], cwd=repository, env=git_env, secrets=secrets
+        )
+    (repository / "articles").mkdir(parents=True, exist_ok=True)
+    (repository / "assets" / "articles").mkdir(parents=True, exist_ok=True)
+    branch = _run_git(
+        ["branch", "--show-current"], cwd=repository, env=git_env, secrets=secrets
+    ) or "main"
+    return repository, branch
+
+
+def publish_ga4_config(
+    site_root: Path,
+    site: ManagedSite,
+    progress: ProgressCallback = lambda _value, _message: None,
+) -> None:
+    """Publish only the shared GA4 configuration and tracking files."""
+    with tempfile.TemporaryDirectory(prefix="indanya-ga4-") as temporary:
+        git_env, secrets = _git_environment(site, Path(temporary))
+        repository, branch = _prepare_cached_site(
+            site,
+            site_root / ".article-studio" / "publish-cache" / site.site_id,
+            "pool-look-back",
+            progress,
+            git_env,
+            secrets,
+        )
+        for relative in (
+            "assets/common/analytics-config.js",
+            "assets/common/ga4.js",
+            "assets/common/age-gate.js",
+            "privacy.html",
+        ):
+            source = site_root / relative
+            destination = repository / relative
+            if not source.is_file():
+                raise RuntimeError(f"GA4公開ファイルが見つかりません: {relative}")
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, destination)
+        age_gate_pattern = re.compile(
+            r'(?P<path>(?:\.\./)?assets/common/age-gate\.js)(?:\?v=[^"\']*)?'
+        )
+        for html_path in list(repository.glob("*.html")) + list((repository / "articles").glob("*.html")):
+            source = html_path.read_text(encoding="utf-8")
+            updated = age_gate_pattern.sub(
+                rf"\g<path>?v=analytics-v{ANALYTICS_VERSION}", source
+            )
+            if updated != source:
+                html_path.write_text(updated, encoding="utf-8", newline="")
+        progress(60, "GA4設定を公開サイトへ反映しています")
+        _run_git(
+            [
+                "add", "--",
+                "assets/common/analytics-config.js", "assets/common/ga4.js",
+                "assets/common/age-gate.js", "privacy.html",
+                "*.html", "articles/*.html",
+            ],
+            cwd=repository,
+            env=git_env,
+            secrets=secrets,
+        )
+        if _run_git(["status", "--porcelain"], cwd=repository, env=git_env, secrets=secrets):
+            _run_git(
+                ["-c", "user.name=Indanya Studio", "-c", "user.email=studio@localhost", "commit", "-m", "Configure GA4 analytics"],
+                cwd=repository,
+                env=git_env,
+                secrets=secrets,
+            )
+            _push_with_remote_retry(repository, branch, git_env=git_env, secrets=secrets)
+    progress(100, "GA4設定の公開が完了しました")
+
+
+def publish_fanza_affiliate_update(
+    site_root: Path,
+    site: ManagedSite,
+    affiliate_id_or_link: str,
+    progress: ProgressCallback = lambda _value, _message: None,
+) -> dict[str, int]:
+    """Replace every published FANZA button with the site's current account ID."""
+    affiliate_id = normalize_fanza_affiliate_id(affiliate_id_or_link)
+    progress(5, "ローカルの公開記事をあなたの広告リンクへ更新しています")
+    local_stats = rewrite_published_fanza_links(site_root, affiliate_id)
+
+    with tempfile.TemporaryDirectory(prefix="indanya-fanza-links-") as temporary:
+        git_env, secrets = _git_environment(site, Path(temporary))
+        repository, branch = _prepare_cached_site(
+            site,
+            site_root / ".article-studio" / "publish-cache" / site.site_id,
+            "pool-look-back",
+            lambda value, message: progress(min(40, 8 + value * 32 // 100), message),
+            git_env,
+            secrets,
+        )
+        progress(42, "公開済みの記事ページを取得しています")
+        try:
+            _run_git(
+                ["sparse-checkout", "add", "/articles/*.html"],
+                cwd=repository,
+                env=git_env,
+                secrets=secrets,
+            )
+        except RuntimeError as exc:
+            if "no sparse-checkout" not in str(exc).lower():
+                raise
+
+        progress(58, "公開済みPRをあなたの広告リンクへ差し替えています")
+        remote_stats = rewrite_published_fanza_links(repository, affiliate_id)
+        _run_git(
+            ["add", "--", "articles"],
+            cwd=repository,
+            env=git_env,
+            secrets=secrets,
+        )
+        changed = _run_git(
+            ["status", "--porcelain"], cwd=repository, env=git_env, secrets=secrets
+        )
+        if changed:
+            _run_git(
+                [
+                    "-c", "user.name=Indanya Studio",
+                    "-c", "user.email=studio@localhost",
+                    "commit", "-m", "Apply FANZA affiliate links",
+                ],
+                cwd=repository,
+                env=git_env,
+                secrets=secrets,
+            )
+            progress(82, "更新した広告リンクをGitHubへ送信しています")
+            _push_with_remote_retry(
+                repository,
+                branch,
+                git_env=git_env,
+                secrets=secrets,
+            )
+    progress(100, "既存記事と今後の記事へアフィリエイトIDを適用しました")
+    return {
+        "local_files": local_stats["changed_files"],
+        "local_links": local_stats["changed_links"],
+        "published_files": remote_stats["changed_files"],
+        "published_links": remote_stats["changed_links"],
+    }
+
+
+def _push_with_remote_retry(
+    repository: Path,
+    branch: str,
+    *,
+    git_env: dict[str, str] | None = None,
+    secrets: tuple[str, ...] = (),
+) -> None:
+    try:
+        _run_git(
+            ["push", "origin", branch],
+            cwd=repository,
+            timeout=300,
+            env=git_env,
+            secrets=secrets,
+        )
+        return
+    except RuntimeError as exc:
+        message = str(exc).lower()
+        if "fetch first" not in message and "non-fast-forward" not in message:
+            raise
+    _run_git(
+        ["pull", "--rebase", "origin", branch],
+        cwd=repository,
+        timeout=300,
+        env=git_env,
+        secrets=secrets,
+    )
+    _run_git(
+        ["push", "origin", branch],
+        cwd=repository,
+        timeout=300,
+        env=git_env,
+        secrets=secrets,
+    )
+
+
 def publish_article(
     payload: dict[str, Any],
     draft_root: Path,
@@ -414,19 +752,60 @@ def publish_article(
 ) -> dict[str, Any]:
     if str(payload.get("rights_status") or "") != "confirmed" or payload.get("rights_confirmed") is not True:
         raise RuntimeError("許可管理を「許可済み」にしてから公開してください")
+    affiliate_id = load_fanza_settings(draft_root).get("affiliate_id", "")
+    has_fanza_promotion = any(
+        isinstance(block, dict) and block.get("type") == "product_cta"
+        for block in payload.get("blocks", [])
+    ) if isinstance(payload.get("blocks"), list) else False
+    if has_fanza_promotion and not affiliate_id:
+        raise RuntimeError(
+            "FANZAアフィリエイトIDが未設定です。設定画面で一度保存してから公開してください"
+        )
+    require_publishable_article(payload)
     slug = str(payload.get("slug") or "")
     if not SLUG_PATTERN.fullmatch(slug):
         raise RuntimeError("記事スラッグが不正です")
 
     with tempfile.TemporaryDirectory(prefix="indanya-publish-") as temporary:
         git_env, secrets = _git_environment(site, Path(temporary))
-        repository, branch = _clone_site(site, Path(temporary) / "site", progress, git_env, secrets)
+        repository, branch = _prepare_cached_site(
+            site,
+            draft_root / ".article-studio" / "publish-cache" / site.site_id,
+            slug,
+            progress,
+            git_env,
+            secrets,
+        )
         published = _published_payload(payload)
         progress(28, "記事と画像をサイトへ組み込んでいます")
-        result = add_built_article(published, repository)
+        if affiliate_id:
+            save_fanza_settings(repository, affiliate_id)
+        with _temporary_render_template(repository, draft_root):
+            result = add_built_article(published, repository)
         _localize_videos(repository, published, progress)
+        build_state = repository / ".article-studio"
+        if build_state.is_dir():
+            shutil.rmtree(build_state)
+        articles = json.loads(
+            (repository / "data" / "articles.json").read_text(encoding="utf-8")
+        )
+        _write_search_files(repository, site.public_url, articles)
+        progress(68, "サイトマップに全公開記事が入っているか検査しています")
+        local_sitemap_health = validate_local_sitemaps(
+            repository,
+            site.public_url,
+        )
+        save_sitemap_health(
+            draft_root,
+            combined_sitemap_health(local_sitemap_health, None),
+        )
         progress(72, "公開内容を最終確認しています")
-        _run_git(["add", "--", f"articles/{slug}.html", f"assets/articles/{slug}", "data/articles.json"], cwd=repository, env=git_env, secrets=secrets)
+        _run_git(
+            ["add", "-A", "--", "."],
+            cwd=repository,
+            env=git_env,
+            secrets=secrets,
+        )
         changed = _run_git(["status", "--porcelain"], cwd=repository, env=git_env, secrets=secrets)
         if changed:
             _run_git(
@@ -436,16 +815,40 @@ def publish_article(
                 secrets=secrets,
             )
             progress(86, "GitHubへ記事を送信しています")
-            _run_git(["push", "origin", branch], cwd=repository, timeout=300, env=git_env, secrets=secrets)
+            _push_with_remote_retry(
+                repository,
+                branch,
+                git_env=git_env,
+                secrets=secrets,
+            )
 
+    public_sitemap_health = wait_for_public_sitemaps(
+        site.public_url,
+        local_sitemap_health,
+        progress=progress,
+    )
+    sitemap_health = combined_sitemap_health(
+        local_sitemap_health,
+        public_sitemap_health,
+    )
+    save_sitemap_health(draft_root, sitemap_health)
     public_url = urljoin(site.public_url.rstrip("/") + "/", str(result["url"]))
     published["published_url"] = public_url
     published["published_site_id"] = site.site_id
     published["published_site_name"] = site.name
     published["published_at"] = datetime.now(JST).isoformat(timespec="seconds")
     save_draft(published, draft_root)
-    progress(100, "公開が完了しました")
-    return {"slug": slug, "title": published.get("title", ""), "url": public_url, "status": "published"}
+    if sitemap_health.get("status") == "healthy":
+        progress(100, "公開とGoogle入口の反映確認が完了しました")
+    else:
+        progress(100, "記事は公開済みです。サイトマップは公開反映を継続確認します")
+    return {
+        "slug": slug,
+        "title": published.get("title", ""),
+        "url": public_url,
+        "status": "published",
+        "sitemap_health": sitemap_health,
+    }
 
 
 def unpublish_article(
@@ -459,7 +862,14 @@ def unpublish_article(
         raise RuntimeError("記事スラッグが不正です")
     with tempfile.TemporaryDirectory(prefix="indanya-unpublish-") as temporary:
         git_env, secrets = _git_environment(site, Path(temporary))
-        repository, branch = _clone_site(site, Path(temporary) / "site", progress, git_env, secrets)
+        repository, branch = _prepare_cached_site(
+            site,
+            draft_root / ".article-studio" / "publish-cache" / site.site_id,
+            slug,
+            progress,
+            git_env,
+            secrets,
+        )
         article_path = repository / "articles" / f"{slug}.html"
         asset_path = repository / "assets" / "articles" / slug
         data_path = repository / "data" / "articles.json"
@@ -475,7 +885,17 @@ def unpublish_article(
         if asset_path.exists():
             shutil.rmtree(asset_path)
         data_path.write_text(json.dumps(remaining, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="")
-        _run_git(["add", "-A", "--", f"articles/{slug}.html", f"assets/articles/{slug}", "data/articles.json"], cwd=repository, env=git_env, secrets=secrets)
+        _write_search_files(repository, site.public_url, remaining)
+        local_sitemap_health = validate_local_sitemaps(
+            repository,
+            site.public_url,
+        )
+        _run_git(
+            ["add", "-A", "--", "."],
+            cwd=repository,
+            env=git_env,
+            secrets=secrets,
+        )
         _run_git(
             ["-c", "user.name=Indanya Studio", "-c", "user.email=studio@localhost", "commit", "-m", f"Unpublish {slug}"],
             cwd=repository,
@@ -483,8 +903,22 @@ def unpublish_article(
             secrets=secrets,
         )
         progress(82, "GitHubへ変更を送信しています")
-        _run_git(["push", "origin", branch], cwd=repository, timeout=300, env=git_env, secrets=secrets)
+        _push_with_remote_retry(
+            repository,
+            branch,
+            git_env=git_env,
+            secrets=secrets,
+        )
 
+    public_sitemap_health = wait_for_public_sitemaps(
+        site.public_url,
+        local_sitemap_health,
+        progress=progress,
+    )
+    save_sitemap_health(
+        draft_root,
+        combined_sitemap_health(local_sitemap_health, public_sitemap_health),
+    )
     draft = copy.deepcopy(payload)
     draft["status"] = "draft"
     draft["editorial_status"] = "draft"

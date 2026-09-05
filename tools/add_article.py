@@ -26,6 +26,9 @@ from validate_article import (
 
 IMAGE_EXTENSIONS = {".avif", ".gif", ".jpeg", ".jpg", ".png", ".webp"}
 IMAGE_NAME_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
+VIDEO_POSTER_NAME_PATTERN = re.compile(
+    r"^video-poster-[0-9]{2}\.(?:jpe?g|png|webp)$", re.IGNORECASE
+)
 ReplaceFunction = Callable[[str | os.PathLike[str], str | os.PathLike[str]], None]
 
 
@@ -38,6 +41,7 @@ class ArticleHTMLNormalizer(HTMLParser):
         self.image_names = image_names
         self.output: list[str] = []
         self.article_image_references: list[str] = []
+        self.auxiliary_image_references: list[str] = []
 
     def _normalize_image_source(self, source: str) -> str:
         if "\\" in source or "?" in source or "#" in source:
@@ -68,6 +72,44 @@ class ArticleHTMLNormalizer(HTMLParser):
         self.article_image_references.append(name)
         return f"../assets/articles/{self.slug}/{name}"
 
+    def _normalize_fanza_thumbnail(self, source: str) -> str:
+        parsed = urlparse(source)
+        if not parsed.scheme and not parsed.netloc:
+            normalized = self._normalize_image_source(source)
+            # The product card may repeat the same official package image as a
+            # small purchase thumbnail; it is not another body-image placement.
+            self.auxiliary_image_references.append(
+                self.article_image_references.pop()
+            )
+            return normalized
+        hostname = (parsed.hostname or "").lower()
+        trusted = (
+            hostname == "dmm.co.jp"
+            or hostname.endswith(".dmm.co.jp")
+            or hostname == "dmm.com"
+            or hostname.endswith(".dmm.com")
+        )
+        if parsed.scheme != "https" or not trusted or parsed.username or parsed.password:
+            raise ValidationError(f"untrusted FANZA thumbnail source: {source}")
+        return source
+
+    def _normalize_video_poster(self, source: str) -> str:
+        parsed = urlparse(source)
+        if parsed.scheme or parsed.netloc:
+            if (
+                parsed.scheme != "https"
+                or not parsed.netloc
+                or parsed.username
+                or parsed.password
+            ):
+                raise ValidationError(f"unsafe video poster source: {source}")
+            return source
+        normalized = self._normalize_image_source(source)
+        self.auxiliary_image_references.append(
+            self.article_image_references.pop()
+        )
+        return normalized
+
     def _render_tag(self, tag: str, attrs: list[tuple[str, str | None]], closed: bool) -> str:
         rendered: list[str] = [f"<{tag}"]
         for key, value in attrs:
@@ -78,16 +120,35 @@ class ArticleHTMLNormalizer(HTMLParser):
         return "".join(rendered)
 
     def _normalize_attrs(self, tag: str, attrs: list[tuple[str, str | None]]) -> list[tuple[str, str | None]]:
-        if tag.lower() != "img":
+        normalized_tag = tag.lower()
+        if normalized_tag not in {"img", "video"}:
             return attrs
 
+        classes = set(
+            next(
+                (
+                    (value or "").split()
+                    for key, value in attrs
+                    if key.lower() == "class"
+                ),
+                [],
+            )
+        )
         normalized: list[tuple[str, str | None]] = []
         found_source = False
         for key, value in attrs:
-            if key.lower() == "src":
+            if normalized_tag == "video" and key.lower() == "poster":
+                if value is None:
+                    raise ValidationError("video poster must have a value")
+                value = self._normalize_video_poster(value)
+            elif normalized_tag == "img" and key.lower() == "src":
                 if found_source or value is None:
                     raise ValidationError("each img element must have one src attribute")
-                value = self._normalize_image_source(value)
+                value = (
+                    self._normalize_fanza_thumbnail(value)
+                    if classes & {"fanza-product-thumb", "side-ad-link-thumb"}
+                    else self._normalize_image_source(value)
+                )
                 found_source = True
             normalized.append((key, value))
         return normalized
@@ -156,10 +217,11 @@ def normalize_article_html(
     references = parser.article_image_references
     if len(references) != len(set(references)):
         raise ValidationError("article HTML must not repeat an article image")
+    all_references = set(references) | set(parser.auxiliary_image_references)
     allowed_unreferenced_images = allowed_unreferenced_images or set()
-    if set(references) | allowed_unreferenced_images != image_names:
-        missing = sorted(image_names - set(references) - allowed_unreferenced_images)
-        extra = sorted(set(references) - image_names)
+    if all_references | allowed_unreferenced_images != image_names:
+        missing = sorted(image_names - all_references - allowed_unreferenced_images)
+        extra = sorted(all_references - image_names)
         details = []
         if missing:
             details.append(f"missing references: {', '.join(missing)}")
@@ -173,7 +235,7 @@ def load_database(path: Path) -> list[dict[str, object]]:
     if not path.exists():
         return []
     try:
-        articles = json.loads(path.read_text(encoding="utf-8"))
+        articles = json.loads(path.read_text(encoding="utf-8-sig"))
     except json.JSONDecodeError as exc:
         raise ValidationError(f"data/articles.json is not valid JSON: {exc}") from exc
     return validate_database(articles)
@@ -260,10 +322,14 @@ def add_article(
         images_path = package_images if package_images.is_dir() else destination_images
     source_images = collect_images(images_path)
     image_names = {image.name for image in source_images}
+    content_images = [
+        image for image in source_images
+        if not VIDEO_POSTER_NAME_PATTERN.fullmatch(image.name)
+    ]
 
-    if len(source_images) != metadata["images_used"]:
+    if len(content_images) != metadata["images_used"]:
         raise ValidationError(
-            f"images_used is {metadata['images_used']}, but {len(source_images)} image files were found"
+            f"images_used is {metadata['images_used']}, but {len(content_images)} article image files were found"
         )
     thumbnail_name = Path(str(metadata["thumbnail"])).name
     if thumbnail_name not in image_names:

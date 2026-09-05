@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "subject_name",
+    "subject_role",
+    "status",
+    "confidence",
+    "profiles",
+    "evidence",
+    "reason"
+  ],
+  "properties": {
+    "subject_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "subject_role": {
+      "type": "string",
+      "maxLength": 80
+    },
+    "status": {
+      "type": "string",
+      "enum": ["verified", "ambiguous", "not_found"]
+    },
+    "confidence": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "profiles": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["service", "url", "display_name", "thumbnail_url"],
+        "properties": {
+          "service": {
+            "type": "string",
+            "enum": ["x", "tiktok", "instagram", "youtube", "myfans", "fantia"]
+          },
+          "url": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "display_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "thumbnail_url": {
+            "type": "string",
+            "maxLength": 2048
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["url", "kind", "claim"],
+        "properties": {
+          "url": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "official_profile",
+              "official_hub",
+              "independent_directory",
+              "published_article"
+            ]
+          },
+          "claim": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          }
+        }
+      }
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 400
+    }
+  }
+}

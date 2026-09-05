@@ -3,3 +3,6 @@ PySide6>=6.8
 PyInstaller>=6.10
 playwright>=1.61
 imageio-ffmpeg>=0.6
+tzdata>=2026.1
+google-analytics-data>=0.23
+google-auth>=2.56

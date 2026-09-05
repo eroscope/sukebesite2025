@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Run the local Indanya article authoring studio."""
 
 from __future__ import annotations
@@ -41,6 +41,28 @@ if str(TOOLS_ROOT) not in sys.path:
 
 from add_article import ValidationError, add_article  # noqa: E402
 from validate_article import validate_metadata  # noqa: E402
+from indanya_desktop.analytics import ANALYTICS_VERSION  # noqa: E402
+from indanya_desktop.affiliate_opportunities import (  # noqa: E402
+    detect_affiliate_opportunities,
+)
+from indanya_desktop.fanza_affiliate import (  # noqa: E402
+    FanzaAffiliateConfigurationError,
+    bind_payload_fanza_affiliate_links,
+    canonicalize_payload_fanza_links,
+    load_fanza_settings,
+    unwrap_fanza_affiliate_url,
+)
+from indanya_desktop.official_work_registry import (  # noqa: E402
+    enrich_analysis_official_work,
+)
+from indanya_desktop.related_links import (  # noqa: E402
+    ensure_related_footer,
+    is_empty_related_ad,
+    sanitize_related_destinations,
+)
+from indanya_desktop.social_profiles import (  # noqa: E402
+    validate_social_verification,
+)
 
 
 SITE_ROOT = TOOLS_ROOT.parent
@@ -49,21 +71,32 @@ DRAFT_ROOT = SITE_ROOT / ".article-studio" / "drafts"
 JOB_ROOT = SITE_ROOT / ".article-studio" / "jobs"
 CODEX_SCHEMA_PATH = TOOLS_ROOT / "article_studio_codex_schema.json"
 CODEX_ANALYSIS_SCHEMA_PATH = TOOLS_ROOT / "article_studio_codex_analysis_schema.json"
+SOCIAL_PROFILE_VERIFICATION_SCHEMA_PATH = TOOLS_ROOT / "social_profile_verification_schema.json"
+X_TREND_TEMPLATE_SCHEMA_PATH = TOOLS_ROOT / "x_trend_templates_schema.json"
+CODEX_COMBINED_SCHEMA_NAME = "codex-analysis-and-article-schema.json"
+CODEX_ANALYSIS_CACHE_VERSION = "2026-09-01-person-identity-2"
+_DRAFT_PAYLOAD_CACHE: dict[Path, tuple[int, int, dict[str, Any]]] = {}
+_DRAFT_PAYLOAD_CACHE_LOCK = threading.Lock()
 MAX_REQUEST_BYTES = 110 * 1024 * 1024
 MAX_IMAGE_BYTES = 12 * 1024 * 1024
-MAX_TOTAL_IMAGE_BYTES = 100 * 1024 * 1024
-MAX_IMAGES = 50
 MAX_X_POSTS = 20
 MAX_X_SELECTED_POSTS = 6
 X_SESSION_SECONDS = 30 * 60
 MAX_SOURCE_PAGE_BYTES = 6 * 1024 * 1024
-MAX_SOURCE_IMAGES = 50
-MAX_SELECTED_SOURCE_IMAGES = 50
-MAX_SOURCE_VIDEOS = 20
-MAX_SELECTED_SOURCE_VIDEOS = 10
+MAX_SOURCE_IMAGES = 36
 MAX_VIDEO_PROXY_BYTES = 160 * 1024 * 1024
 SOURCE_SESSION_SECONDS = 60 * 60
 CODEX_TIMEOUT_SECONDS = 12 * 60
+CODEX_ARTICLE_MODEL = "gpt-5.6-luna"
+CODEX_ARTICLE_REASONING_EFFORT = "high"
+CODEX_ANALYSIS_IMAGE_BATCH = 30
+CODEX_ANALYSIS_VIDEO_BATCH = 12
+CODEX_GENERATION_IMAGE_SAMPLE = 16
+CODEX_GENERATION_VIDEO_SAMPLE = 12
+CODEX_DIRECT_IMAGE_LIMIT = 6
+CODEX_CONTACT_SHEET_ITEMS = 12
+CODEX_CONTACT_SHEET_COLUMNS = 3
+CODEX_CONTACT_SHEET_CELL = (420, 330)
 RIGHTS_STATUSES = {"unconfirmed", "requested", "confirmed", "rejected"}
 SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 ANCHOR_PATTERN = re.compile(r"&gt;&gt;([0-9]+)")
@@ -72,6 +105,17 @@ X_POST_ID_PATTERN = re.compile(r"^[0-9]{1,19}$")
 ALLOWED_IMAGE_EXTENSIONS = {".avif", ".gif", ".jpeg", ".jpg", ".png", ".webp"}
 X_MEDIA_HOSTS = {"pbs.twimg.com"}
 JST = ZoneInfo("Asia/Tokyo")
+
+
+def _is_dmm_fanza_host(hostname: str) -> bool:
+    return (
+        hostname == "dmm.co.jp"
+        or hostname.endswith(".dmm.co.jp")
+        or hostname == "dmm.com"
+        or hostname.endswith(".dmm.com")
+        or hostname == "fanza.co.jp"
+        or hostname.endswith(".fanza.co.jp")
+    )
 
 ARTICLE_DISCOVERY_STYLE = r'''
 .site-search {
@@ -165,11 +209,34 @@ FANZA_PRODUCT_STYLE = r'''
   border-left: 4px solid #c72d22;
   background: #f7f7f5;
 }
+.fanza-product-media {
+  display: grid;
+  grid-template-columns: minmax(120px, 220px) 1fr;
+  gap: 18px;
+  align-items: center;
+}
+.fanza-product-media.no-thumb { display: block; }
+.fanza-product-thumb {
+  display: block;
+  width: 100%;
+  max-height: 260px;
+  object-fit: contain;
+  background: #fff;
+}
 .fanza-product-label {
   margin-bottom: 8px;
   color: #c72d22;
   font-size: 12px;
   font-weight: 800;
+}
+.fanza-product-audit {
+  margin: -2px 0 10px;
+  padding: 7px 9px;
+  border: 1px solid #d8d5ce;
+  color: #555;
+  font-size: 11px;
+  line-height: 1.5;
+  background: #fff;
 }
 .fanza-product-title {
   margin: 0 0 8px;
@@ -188,6 +255,72 @@ FANZA_PRODUCT_STYLE = r'''
   text-decoration: none;
 }
 .fanza-product-button:hover { background: #c72d22; }
+.fanza-product-button.is-disabled {
+  background: #6b6b68;
+  cursor: not-allowed;
+}
+.article-destination {
+  margin: 26px 0;
+  padding: 18px;
+  border: 0;
+  border-left: 4px solid #14877d;
+  background: #f7f7f5;
+}
+.article-destination .fanza-product-label { color: #0b746c; }
+.article-destination-button {
+  display: block;
+  padding: 13px 18px;
+  background: #17191c;
+  color: #fff !important;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+}
+.article-destination-button:hover { background: #14877d; }
+.side-ad.side-ad-link {
+  display: block;
+  min-height: 0;
+  padding: 13px 14px;
+  border: 0;
+  border-left: 3px solid #c72d22;
+  background: #f7f7f5;
+  color: #17191c;
+  text-align: left;
+  text-decoration: none;
+}
+.side-ad-link-thumb {
+  display: block;
+  width: 100%;
+  max-height: 220px;
+  margin-bottom: 10px;
+  object-fit: contain;
+  background: #fff;
+}
+.side-ad-link:hover { background: #ececea; }
+.side-ad-link-label {
+  display: block;
+  margin-bottom: 5px;
+  color: #c72d22;
+  font-size: 10px;
+  font-weight: 800;
+}
+.side-ad-link-title {
+  display: block;
+  color: #17191c;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.55;
+}
+.side-ad-link-action {
+  display: block;
+  margin-top: 8px;
+  color: #555;
+  font-size: 11px;
+}
+@media (max-width: 620px) {
+  .fanza-product-media { grid-template-columns: 1fr; }
+  .fanza-product-thumb { max-height: 320px; }
+}
 '''
 
 VIDEO_EMBED_STYLE = r'''
@@ -207,6 +340,9 @@ VIDEO_EMBED_STYLE = r'''
   max-height: 82vh;
   display: block;
   background: #0f1011;
+}
+iframe.article-video {
+  border: 0;
 }
 .video-caption {
   padding: 8px 10px;
@@ -284,6 +420,9 @@ class ImageAsset:
     orientation: str
     data: bytes
     data_url: str
+    related_thumbnail_only: bool = False
+    thumbnail_owner_url: str = ""
+    rights_basis: str = ""
 
 
 @dataclass(frozen=True)
@@ -299,14 +438,34 @@ class _SourcePageParser(HTMLParser):
 
     TEXT_TAGS = {"title", "h1", "h2", "h3", "p", "figcaption"}
     IGNORED_TAGS = {"script", "style", "noscript", "svg", "nav", "footer", "form"}
+    VOID_TAGS = {
+        "area", "base", "br", "col", "embed", "hr", "img", "input", "link",
+        "meta", "param", "source", "track", "wbr",
+    }
+    ARTICLE_BODY_HINTS = (
+        "article-body", "article-content", "article__body", "article__content",
+        "blog-entry-body", "content-body", "entry-body", "entry-content",
+        "entry_body", "entry_text", "main-article-content", "post-body",
+        "post-content", "post-text", "post_body", "post_text", "single-post-content",
+        "story-body",
+    )
+    EXCLUDED_MEDIA_HINTS = (
+        "above-content", "ad-area", "advert", "affiliate", "breadcrumb", "comment",
+        "feedly", "footer", "header", "mobile-ad", "mobile_ad", "navigation",
+        "player-link", "popular", "ranking", "recommend", "related", "share",
+        "sidebar", "social", "under-entry", "widget",
+    )
 
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.metadata: dict[str, str] = {}
         self.canonical_url = ""
         self.text_items: list[tuple[str, str]] = []
+        self.article_text_items: list[tuple[str, str]] = []
         self.images: list[dict[str, Any]] = []
         self.videos: list[dict[str, Any]] = []
+        self.affiliate_resources: list[dict[str, str]] = []
+        self._context_stack: list[dict[str, Any]] = []
         self._active_video: dict[str, Any] | None = None
         self._ignored_depth = 0
         self._capture_tag = ""
@@ -315,19 +474,29 @@ class _SourcePageParser(HTMLParser):
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         tag = tag.lower()
         attributes = {str(key).lower(): str(value or "") for key, value in attrs}
+        self._context_stack.append(self._context_entry(tag, attributes))
+        if tag in {"script", "iframe"} and attributes.get("src", "").strip():
+            self.affiliate_resources.append({
+                "kind": tag,
+                "url": attributes["src"].strip(),
+            })
         if tag in self.IGNORED_TAGS:
             self._ignored_depth += 1
             return
         if self._ignored_depth:
+            if tag in self.VOID_TAGS:
+                self._pop_context(tag)
             return
         if tag == "meta":
             key = (attributes.get("property") or attributes.get("name") or "").strip().lower()
             value = attributes.get("content", "").strip()
             if key and value and key not in self.metadata:
                 self.metadata[key] = value
+            self._pop_context(tag)
             return
         if tag == "link" and "canonical" in attributes.get("rel", "").lower():
             self.canonical_url = attributes.get("href", "").strip()
+            self._pop_context(tag)
             return
         if tag == "img":
             source = (
@@ -350,7 +519,9 @@ class _SourcePageParser(HTMLParser):
                     "height": _safe_int(attributes.get("height")),
                     "html_class": attributes.get("class", "").strip(),
                     "html_id": attributes.get("id", "").strip(),
+                    **self._media_context(),
                 })
+            self._pop_context(tag)
             return
         if tag == "video":
             self._active_video = {
@@ -363,6 +534,7 @@ class _SourcePageParser(HTMLParser):
                 "html_class": attributes.get("class", "").strip(),
                 "html_id": attributes.get("id", "").strip(),
                 "title": attributes.get("title", "").strip(),
+                **self._media_context(),
             }
             return
         if tag == "source" and self._active_video is not None:
@@ -371,6 +543,7 @@ class _SourcePageParser(HTMLParser):
             if source and not self._active_video.get("url"):
                 self._active_video["url"] = source
                 self._active_video["mime_type"] = mime_type
+            self._pop_context(tag)
             return
         if tag == "iframe":
             source = attributes.get("src", "").strip()
@@ -385,32 +558,89 @@ class _SourcePageParser(HTMLParser):
                     "html_class": attributes.get("class", "").strip(),
                     "html_id": attributes.get("id", "").strip(),
                     "title": attributes.get("title", "").strip(),
+                    **self._media_context(),
                 })
             return
         if tag in self.TEXT_TAGS and not self._capture_tag:
             self._capture_tag = tag
             self._capture_parts = []
+        if tag in self.VOID_TAGS:
+            self._pop_context(tag)
 
     def handle_endtag(self, tag: str) -> None:
         tag = tag.lower()
         if tag in self.IGNORED_TAGS and self._ignored_depth:
             self._ignored_depth -= 1
+            self._pop_context(tag)
+            return
+        if self._ignored_depth:
+            self._pop_context(tag)
             return
         if tag == "video" and self._active_video is not None:
             if self._active_video.get("url"):
                 self.videos.append(self._active_video)
             self._active_video = None
-            return
         if tag == self._capture_tag:
             value = _clean_space("".join(self._capture_parts))
             if value:
                 self.text_items.append((tag, value))
+                if self._media_context()["inside_article"]:
+                    self.article_text_items.append((tag, value))
             self._capture_tag = ""
             self._capture_parts = []
+        self._pop_context(tag)
 
     def handle_data(self, data: str) -> None:
         if not self._ignored_depth and self._capture_tag:
             self._capture_parts.append(data)
+
+    @classmethod
+    def _context_entry(cls, tag: str, attributes: dict[str, str]) -> dict[str, Any]:
+        html_id = attributes.get("id", "").strip().lower()
+        html_class = attributes.get("class", "").strip().lower()
+        itemprop = attributes.get("itemprop", "").strip().lower()
+        label = " ".join(value for value in (html_id, html_class, itemprop) if value)
+        body_hint = any(hint in label for hint in cls.ARTICLE_BODY_HINTS)
+        if re.fullmatch(r"e\d+", html_id) and "content" in re.split(r"\s+", html_class):
+            body_hint = True
+        if itemprop == "articlebody":
+            body_hint = True
+        context_tokens = [
+            token.replace("_", "-")
+            for token in re.split(r"\s+", label)
+            if token
+        ]
+        excluded = tag not in {"html", "body"} and any(
+            token == hint
+            or token.startswith(f"{hint}-")
+            or token.endswith(f"-{hint}")
+            for token in context_tokens
+            for hint in cls.EXCLUDED_MEDIA_HINTS
+        )
+        return {
+            "tag": tag,
+            "label": _trim_text(label, 240),
+            "article_body": body_hint,
+            "excluded": excluded,
+        }
+
+    def _media_context(self) -> dict[str, Any]:
+        in_article_body = any(bool(item["article_body"]) for item in self._context_stack)
+        excluded = any(bool(item["excluded"]) for item in self._context_stack)
+        context = " > ".join(
+            f"{item['tag']}#{item['label']}" if item["label"] else str(item["tag"])
+            for item in self._context_stack[-8:]
+        )
+        return {
+            "inside_article": bool(in_article_body and not excluded),
+            "source_context": _trim_text(context, 600),
+        }
+
+    def _pop_context(self, tag: str) -> None:
+        for index in range(len(self._context_stack) - 1, -1, -1):
+            if self._context_stack[index]["tag"] == tag:
+                del self._context_stack[index:]
+                return
 
 
 def _safe_int(value: Any) -> int:
@@ -621,6 +851,8 @@ def _source_image_candidate_score(item: dict[str, Any]) -> int:
     width = _safe_int(item.get("width"))
     height = _safe_int(item.get("height"))
     score = 0
+    if item.get("inside_article"):
+        score += 180
     if item.get("source_hint") == "metadata":
         score += 35
     if "i.imgur.com" in url:
@@ -662,7 +894,7 @@ def _candidate_image_urls(parser: _SourcePageParser, base_url: str) -> list[dict
             })
     candidates.extend(parser.images)
     unique: list[dict[str, Any]] = []
-    seen: set[str] = set()
+    seen: dict[str, dict[str, Any]] = {}
     for item in candidates:
         absolute = urljoin(base_url, str(item.get("url") or ""))
         try:
@@ -673,11 +905,29 @@ def _candidate_image_urls(parser: _SourcePageParser, base_url: str) -> list[dict
         if any(word in lowered for word in ("favicon", "sprite", "spacer", "tracking", "pixel.gif", "logo")):
             continue
         if absolute in seen:
+            existing = seen[absolute]
+            if item.get("inside_article"):
+                existing["inside_article"] = True
+                existing["source_context"] = item.get("source_context", "")
             continue
-        seen.add(absolute)
-        unique.append({**item, "url": absolute})
+        normalized = {**item, "url": absolute}
+        seen[absolute] = normalized
+        unique.append(normalized)
     unique.sort(key=_source_image_candidate_score, reverse=True)
-    return unique[:MAX_SOURCE_IMAGES * 4]
+    article_images = [item for item in unique if item.get("inside_article")]
+    if article_images:
+        article_urls = {str(item.get("url") or "") for item in article_images}
+        metadata_images = [
+            item for item in unique
+            if item.get("source_hint") == "metadata" and str(item.get("url") or "") not in article_urls
+        ]
+        unique = article_images + metadata_images
+    elif any(item.get("inside_article") for item in parser.videos):
+        # Video-led articles often have no body <img>. In that case the page
+        # thumbnail is useful, but filling the gap with sidebar images wastes
+        # vision budget and can make an unrelated thumbnail look like content.
+        unique = [item for item in unique if item.get("source_hint") == "metadata"]
+    return unique
 
 
 def _candidate_videos(parser: _SourcePageParser, base_url: str) -> list[dict[str, Any]]:
@@ -723,9 +973,14 @@ def _candidate_videos(parser: _SourcePageParser, base_url: str) -> list[dict[str
             "html_class": _trim_text(str(item.get("html_class") or ""), 160),
             "html_id": _trim_text(str(item.get("html_id") or ""), 120),
             "title": _trim_text(str(item.get("title") or ""), 180),
+            "inside_article": bool(item.get("inside_article")),
+            "source_context": _trim_text(str(item.get("source_context") or ""), 600),
         })
-        if len(candidates) >= MAX_SOURCE_VIDEOS:
-            break
+    article_videos = [item for item in candidates if item.get("inside_article")]
+    if article_videos:
+        candidates = article_videos
+        for index, item in enumerate(candidates, start=1):
+            item["id"] = f"video-{index}"
     return candidates
 
 
@@ -771,7 +1026,8 @@ def analyze_source_url(url_value: str, opener: Any = None) -> dict[str, Any]:
 
     excerpts: list[str] = []
     seen_text: set[str] = set()
-    for tag, text_value in parser.text_items:
+    source_text_items = parser.article_text_items or parser.text_items
+    for tag, text_value in source_text_items:
         cleaned = _trim_text(text_value, 260)
         if tag == "title" or len(cleaned) < 24 or cleaned in seen_text or cleaned == title or _is_source_boilerplate(cleaned):
             continue
@@ -815,6 +1071,9 @@ def analyze_source_url(url_value: str, opener: Any = None) -> dict[str, Any]:
             "height": height,
             "html_class": _trim_text(str(candidate.get("html_class") or ""), 160),
             "html_id": _trim_text(str(candidate.get("html_id") or ""), 120),
+            "inside_article": bool(candidate.get("inside_article")),
+            "source_context": _trim_text(str(candidate.get("source_context") or ""), 600),
+            "source_hint": _trim_text(str(candidate.get("source_hint") or ""), 80),
             "source_score": _source_image_candidate_score(candidate),
         })
         if len(downloaded_images) >= MAX_SOURCE_IMAGES:
@@ -822,7 +1081,7 @@ def analyze_source_url(url_value: str, opener: Any = None) -> dict[str, Any]:
 
     videos = _candidate_videos(parser, final_url)
 
-    return {
+    result = {
         "source_type": source_type,
         "url": canonical,
         "requested_url": requested_url,
@@ -836,6 +1095,16 @@ def analyze_source_url(url_value: str, opener: Any = None) -> dict[str, Any]:
         "x_embed": x_embed,
         "x_info": x_info,
     }
+    result["affiliate_opportunities"] = detect_affiliate_opportunities({
+        **result,
+        "affiliate_resources": parser.affiliate_resources,
+    })
+    return result
+
+
+def _source_identity_url(source: dict[str, Any]) -> str:
+    requested = str(source.get("requested_url") or "").strip()
+    return requested if requested.startswith(("http://", "https://")) else str(source["url"])
 
 
 def _source_slug(source: dict[str, Any]) -> str:
@@ -845,16 +1114,17 @@ def _source_slug(source: dict[str, Any]) -> str:
     if source["source_type"] == "x_profile":
         username = str(source["x_info"]["username"]).lower().replace("_", "-")
         return f"x-{username}-profile"
-    host = (urlparse(str(source["url"])).hostname or "page").removeprefix("www.")
+    identity_url = _source_identity_url(source)
+    host = (urlparse(identity_url).hostname or "page").removeprefix("www.")
     host_slug = re.sub(r"[^a-z0-9]+", "-", host.lower()).strip("-")[:36] or "page"
-    digest = hashlib.sha256(str(source["url"]).encode("utf-8")).hexdigest()[:8]
+    digest = hashlib.sha256(identity_url.encode("utf-8")).hexdigest()[:8]
     return f"url-{host_slug}-{digest}"
 
 
 def _response_blocks(source: dict[str, Any]) -> list[dict[str, Any]]:
     title = str(source["title"])
     description = _trim_text(str(source.get("description") or ""), 300)
-    excerpts = [str(value) for value in source.get("excerpts", []) if isinstance(value, str)]
+    excerpts = [str(value) for value in (source.get("excerpts") or []) if isinstance(value, str)]
     responses = [f"『{title}』が公開されていて、ちょっと気になる。"]
     if description:
         responses.append(f"元ページでは「{_trim_text(description, 260)}」と紹介されている。")
@@ -880,15 +1150,15 @@ def build_source_draft_payload(
     selected_video_ids: Any = None,
     thumbnail_image_id: str | None = None,
 ) -> dict[str, Any]:
-    available = {item["id"]: item for item in source.get("images", []) if isinstance(item, dict)}
-    if not isinstance(selected_image_ids, list) or len(selected_image_ids) > MAX_SELECTED_SOURCE_IMAGES:
-        raise ValidationError(f"画像は最大{MAX_SELECTED_SOURCE_IMAGES}枚まで選べます")
+    available = {item["id"]: item for item in (source.get("images") or []) if isinstance(item, dict)}
+    if not isinstance(selected_image_ids, list):
+        raise ValidationError("画像の選択内容が不正です")
     if len(selected_image_ids) != len(set(selected_image_ids)) or any(item not in available for item in selected_image_ids):
         raise ValidationError("選択した画像が無効です")
-    available_videos = {item["id"]: item for item in source.get("videos", []) if isinstance(item, dict)}
+    available_videos = {item["id"]: item for item in (source.get("videos") or []) if isinstance(item, dict)}
     selected_video_ids = [] if selected_video_ids is None else selected_video_ids
-    if not isinstance(selected_video_ids, list) or len(selected_video_ids) > MAX_SELECTED_SOURCE_VIDEOS:
-        raise ValidationError(f"動画は最大{MAX_SELECTED_SOURCE_VIDEOS}本まで選べます")
+    if not isinstance(selected_video_ids, list):
+        raise ValidationError("動画の選択内容が不正です")
     if len(selected_video_ids) != len(set(selected_video_ids)) or any(item not in available_videos for item in selected_video_ids):
         raise ValidationError("選択した動画が無効です")
     if thumbnail_image_id is not None and thumbnail_image_id not in available:
@@ -910,6 +1180,14 @@ def build_source_draft_payload(
             "data_url": f"data:{item['mime_type']};base64,{base64.b64encode(item['data']).decode('ascii')}",
             "alt": str(item.get("alt") or source["title"])[:180],
             "orientation": item.get("orientation", "landscape"),
+            "source_url": str(item.get("rights_source_url") or item.get("url") or "")[:2048],
+            "rights_basis": str(item.get("rights_basis") or "")[:80],
+            "embedded_status_url": str(item.get("embedded_status_url") or "")[:2048],
+            "owner_name": str(item.get("owner_name") or "")[:120],
+            "owner_profile_url": str(item.get("owner_profile_url") or "")[:2048],
+            "ai_content_group": str(item.get("ai_content_group") or "")[:120],
+            "ai_role": str(item.get("ai_role") or "")[:80],
+            "ai_reason": str(item.get("ai_reason") or "")[:500],
         })
         if image_id in selected_image_ids:
             body_image_ids.append(payload_image_id)
@@ -928,6 +1206,7 @@ def build_source_draft_payload(
         frame_data = item.get("frame_data") if isinstance(item.get("frame_data"), bytes) else b""
         videos.append({
             "id": f"source-video-{index}",
+            "source_id": video_id,
             "kind": "iframe" if item.get("kind") == "iframe" else "direct",
             "url": str(item.get("url") or "")[:2048],
             "referer": str(source.get("url") or "")[:2048],
@@ -938,12 +1217,13 @@ def build_source_draft_payload(
                 if frame_data else ""
             ),
             "label": _trim_text(str(item.get("title") or f"元記事の動画 {index}"), 180),
+            "rights_basis": str(item.get("rights_basis") or "")[:80],
+            "rights_source_url": str(item.get("rights_source_url") or item.get("url") or "")[:2048],
             "width": _safe_int(item.get("width")),
             "height": _safe_int(item.get("height")),
         })
 
     responses = _response_blocks(source)
-    blocks: list[dict[str, Any]] = [responses[0]]
     first_image_id = (
         payload_ids_by_source.get(thumbnail_image_id or "")
         or images[0]["id"]
@@ -951,12 +1231,6 @@ def build_source_draft_payload(
     thumbnail_only = bool(thumbnail_image_id) and thumbnail_image_id not in selected_image_ids
     x_embed = source.get("x_embed") if isinstance(source.get("x_embed"), dict) else None
     media_blocks: list[dict[str, Any]] = []
-    if videos:
-        media_blocks.append({
-            "id": "source-videos-1",
-            "type": "videos",
-            "video_ids": [video["id"] for video in videos],
-        })
     if source["source_type"] == "x_post" and x_embed:
         media_blocks.append({
             "id": f"x-post-{x_embed['id']}",
@@ -979,8 +1253,27 @@ def build_source_draft_payload(
             "limit": x_embed["limit"],
             "image_ids": [first_image_id],
         })
-    elif body_image_ids:
-        media_blocks.append({"id": "source-images-1", "type": "images", "image_ids": [body_image_ids[0]]})
+    else:
+        media_blocks.append({
+            "id": "source-lead-image",
+            "type": "images",
+            "image_ids": [first_image_id],
+            "lead": True,
+        })
+
+    # FANZA product articles use a fixed material order at the article head:
+    # package thumbnail, official sample video, then official image gallery.
+    fanza_product = (
+        source.get("source_type") == "fanza_product"
+        or str(source.get("media_rights_profile") or "").startswith("fanza_")
+    )
+    if videos:
+        media_blocks.append({
+            "id": "source-videos-1",
+            "type": "videos",
+            "video_ids": [video["id"] for video in videos],
+            "lead": True,
+        })
 
     media_image_ids = {
         image_id
@@ -991,13 +1284,27 @@ def build_source_draft_payload(
         image_id for image_id in body_image_ids
         if image_id not in media_image_ids
     ]
+    if fanza_product and remaining_image_ids:
+        # FANZA product pages often have more than four official sample
+        # images. The saved article schema permits four per gallery block.
+        for offset in range(0, len(remaining_image_ids), 4):
+            media_blocks.append({
+                "id": f"source-fanza-gallery-{offset // 4 + 1}",
+                "type": "images",
+                "image_ids": remaining_image_ids[offset:offset + 4],
+                "lead": True,
+            })
+        remaining_image_ids = []
     for offset in range(0, len(remaining_image_ids), 2):
         media_blocks.append({
             "id": f"source-images-{offset + 2}",
             "type": "images",
             "image_ids": remaining_image_ids[offset:offset + 2],
         })
-    response_index = 1
+    lead_blocks = [block for block in media_blocks if block.get("lead")]
+    media_blocks = [block for block in media_blocks if not block.get("lead")]
+    blocks: list[dict[str, Any]] = [*lead_blocks]
+    response_index = 0
     for media_block in media_blocks:
         blocks.append(media_block)
         if response_index < len(responses):
@@ -1015,6 +1322,9 @@ def build_source_draft_payload(
     if source_type.startswith("x_"):
         tags.extend(["X", str(source["x_info"]["username"])])
     now = datetime.now(JST)
+    identity_url = _source_identity_url(source)
+    identity_host = (urlparse(identity_url).hostname or "").removeprefix("www.")
+    is_gateway_source = identity_url != str(source["url"])
     return {
         "title": _trim_text(title, 180),
         "slug": _source_slug(source),
@@ -1030,8 +1340,9 @@ def build_source_draft_payload(
         "featured": False,
         "fictional_responses": True,
         "replace_existing": False,
-        "source_url": str(source["url"]),
-        "source_label": str(source["site_name"]),
+        "source_url": identity_url,
+        "source_label": identity_host if is_gateway_source and identity_host else str(source["site_name"]),
+        "resolved_source_url": str(source["url"]),
         "transparency_note": "元ページの公開情報をもとに編集用のレスとして再構成した下書きです。公開前に内容と画像利用許可を確認してください。",
         "thumbnail_id": first_image_id,
         "thumbnail_only": thumbnail_only,
@@ -1048,7 +1359,7 @@ def build_source_draft_payload(
 def _source_headline_samples(source: dict[str, Any], limit: int = 16) -> list[str]:
     samples: list[str] = []
     source_title = _clean_space(str(source.get("title") or ""))
-    for raw in source.get("text_blocks", []) or source.get("excerpts", []):
+    for raw in (source.get("text_blocks") or source.get("excerpts") or []):
         text = _clean_space(str(raw or ""))
         if (
             text == source_title
@@ -1071,20 +1382,43 @@ def _codex_prompt(
     source: dict[str, Any],
     options: dict[str, Any],
     attachments: list[dict[str, Any]] | None = None,
+    *,
+    nested_article: bool = False,
 ) -> str:
     requested_count = options.get("reply_count", "auto")
     reply_count = int(requested_count) if str(requested_count) in {"5", "8", "10"} else 8
     requested_category = str(options.get("category") or "auto")
+    output_instruction = (
+        "最終JSONのarticleオブジェクトに必要なtitle、summary、category、tags、responsesを"
+        "入れ、Markdownや講評は付けない。"
+        if nested_article
+        else "JSONスキーマに必要なtitle、summary、category、tags、responsesを返し、"
+        "Markdownや講評は付けない。"
+    )
+    generation_image_ids = {
+        str(image_id)
+        for image_id in options.get("generation_image_ids", options.get("selected_image_ids", []))
+        if isinstance(image_id, str)
+    }
+    editorial_intent = source.get("editorial_intent", {})
+    fanza_product_mode = (
+        isinstance(editorial_intent, dict)
+        and editorial_intent.get("content_mode") == "fanza_product"
+    )
     source_facts = {
         "source_type": source.get("source_type"),
         "url": source.get("url"),
         "site_name": source.get("site_name"),
         "author": source.get("author"),
         "title": source.get("title"),
-        "description": source.get("description"),
-        "excerpts": source.get("excerpts", [])[:8],
+        "description": "" if fanza_product_mode else source.get("description"),
+        "excerpts": [] if fanza_product_mode else source.get("excerpts", [])[:8],
         "x_post_text": (source.get("x_embed") or {}).get("text") if isinstance(source.get("x_embed"), dict) else "",
-        "editorial_intent": source.get("editorial_intent", {}),
+        "editorial_intent": editorial_intent,
+        "fanza_rights_mode": (
+            "official product page, exact package image, and exact official product-introduction images only"
+            if fanza_product_mode else ""
+        ),
         "nearby_real_headlines_for_style_comparison": _source_headline_samples(source),
         "selected_image_context": [
             {
@@ -1093,25 +1427,27 @@ def _codex_prompt(
                 "relation_to_other_media": item.get("ai_relation"),
                 "analysis_reason": item.get("ai_reason"),
             }
-            for item in source.get("images", [])
-            if isinstance(item, dict) and str(item.get("id")) in {
-                str(image_id) for image_id in options.get("selected_image_ids", [])
-            }
+            for item in (source.get("images") or [])
+            if isinstance(item, dict) and str(item.get("id")) in generation_image_ids
         ],
     }
-    image_manifest = [
-        {
-            "attachment_number": index,
+    attachment_numbers: dict[str, int] = {}
+    image_manifest = []
+    for item in attachments or []:
+        filename = str(item["filename"])
+        if filename not in attachment_numbers:
+            attachment_numbers[filename] = len(attachment_numbers) + 1
+        image_manifest.append({
+            "attachment_number": attachment_numbers[filename],
             "image_id": item["id"],
-            "filename": item["filename"],
+            "filename": filename,
+            "contact_sheet_cell": item.get("contact_sheet_cell"),
             "page_alt": item.get("alt", ""),
             "codex_analysis": item.get("ai_reason", ""),
-        }
-        for index, item in enumerate(attachments or [], start=1)
-    ]
+        })
     selected_video_ids = {
         str(video_id)
-        for video_id in options.get("selected_video_ids", [])
+        for video_id in options.get("generation_video_ids", options.get("selected_video_ids", []))
         if isinstance(video_id, str)
     }
     video_manifest = [
@@ -1125,11 +1461,11 @@ def _codex_prompt(
             "title": item.get("title"),
             "codex_analysis": item.get("ai_reason", ""),
         }
-        for item in source.get("videos", [])
+        for item in (source.get("videos") or [])
         if isinstance(item, dict) and str(item.get("id")) in selected_video_ids
     ]
-    body_image_count = 0 if video_manifest else len(image_manifest)
-    selected_media_count = body_image_count + len(video_manifest)
+    body_image_count = len(options.get("selected_image_ids", []))
+    selected_media_count = body_image_count + len(options.get("selected_video_ids", []))
     return f"""あなたは成人向け匿名掲示板まとめサイト『淫談屋』の編集責任者です。
 語句のテンプレートを埋めるのではなく、元ページと視覚資料を読み、その題材なら人が実際にどうスレを立て、各自が何に反応するかを考えて記事を作ってください。
 添付されたvideo-frames.jpgがある場合は、各マスのvideo IDと動画一覧を対応させ、映像内で実際に確認できる内容をタイトルとレスの判断材料にしてください。ページ周辺の広告や関連記事より、採用素材そのものを記事の中心にします。
@@ -1168,15 +1504,19 @@ def _codex_prompt(
 - 成人同士の性的内容へ反応するレスでは、実際の匿名掲示板で使われる率直な身体語や性行為の語を自然に使える。全員が上品な言い換えをする状態や、見えている性的内容を「これ」「雰囲気」「距離感」だけで済ませる状態を避ける。
 - 率直さは保ちつつ、同じレス内で露骨な部位語、体液表現、侮辱語を重ねない。対象を貶めるだけの発言ではなく、見た人が実際に書きそうな軽い驚き、好み、ツッコミとして成立させる。
 - 同じ形容、名詞、感想、語尾を複数人で反復しない。ただし人間らしい軽い被りまで不自然に排除する必要はない。
+- image_idsは、そのレスが具体的に扱っている添付画像のIDだけを入れる。画像を見ずに順番を推測して割り当てず、レスの内容と画像が一致しないなら空配列にする。同じ画像を複数レスへ重複割り当てしない。
 - video_idsはそのレスで投稿される動画を表す。動画を付けたレスは感想ではなく投稿側の発言として自然にし、動画の分け方は会話の流れから判断する。配置の帳尻より文章の自然さを優先してよい。
 - 記事の中心は採用された画像・動画の中身である。元サイトの広告量、関連記事、サイドバー、運営姿勢、素材選別の是非を話題にしない。元ページ自体がそれを論じる記事の場合だけ例外とする。
 - 見た目から年齢を推測しない。元資料に年齢の明記がないなら、若く見える、年齢不明、成人確認などをタイトルやレスの話題にせず、確認できる視覚内容だけを扱う。
 
 編集上の境界:
 - 元ページの文章を長くコピーしない。画像や本文にない特徴、本人の感情や経歴、個人情報、犯罪事実を作らない。
+- 元ページの見出し、導入、コメント、並び順を言い換えただけで再現しない。採用素材を自分で見たうえで、独自のタイトル、短い要約、レス同士の会話、素材の再配置として組み直す。媒体名と元URLは別途表示されるため、出典の事実は隠さない。
+- summaryと各レスには、元ページの本文、見出し、コメントから連続24文字以上をそのまま移さない。固有名詞や短い事実表現を除き、元文の語順を保った言い換えも避け、添付素材を見た別人の反応として一から書く。
+- 出力直前にsummaryと全レスを元ページの文章と照合し、一致する長い一節が一つでもあれば、その一節を削るだけで済ませずレス全体を独自の言葉へ書き直す。
 - 誹謗中傷や差別語へ頼って刺激を作らない。成人向けの俗語や卑猥な語は、成人素材として確認でき、題材と話者に合う場合は遠慮せず使える。
 - categoryの希望がauto以外なら原則として従う。
-- JSONスキーマに必要なtitle、summary、category、tags、responsesを返し、Markdownや講評は付けない。
+- {output_instruction}
 
 X記事の目的:
 - editorial_intent.content_modeがx_accountなら、単発投稿の煽り記事ではなく、そのアカウントを読者へおすすめする紹介記事にする。プロフィール、公開投稿、添付画像、紹介ポイントから「どんな投稿が見られるか」「何が魅力か」が伝わるタイトルとレスにし、本文の公式タイムラインへ自然につなげる。
@@ -1187,6 +1527,10 @@ X記事の目的:
 - x_accountではアカウント名または@usernameが分かるタイトルにする。確認できない本名、経歴、人気度、フォロワー数、実績、投稿頻度、性格、依頼関係は作らない。
 - editorial_intent.content_modeがx_postなら、指定された投稿の内容と添付素材を中心にする。アカウント全体を勝手に評価せず、その投稿の見どころと反応で記事を組む。
 - editorial_intent.content_modeがfanza_productなら、作品名、出演者、メーカー、品番、見どころなど元ページで確認できる作品情報を軸にする。単なる広告文や商品カタログにはせず、作品の具体的な場面や特徴に住民が自然に反応する5ch風記事にする。購入を強要する文、効果保証、未確認の内容は作らない。FANZAへの購入ボタンとPR表示はアプリ側で付ける。
+- fanza_productでは、権利確認済みの商品パッケージと、同じ商品IDのFANZA公式商品紹介画像が添付される。パッケージだけで記事を組まず、紹介画像で実際に確認できる衣装、場所、構図、登場人数、場面の違いを具体的に拾い、読者が作品内容を判断できるようにする。画像から確認できない行為の順番、出演者の感情、視聴体験は作らない。
+- fanza_productのレスで個別画像に言及するときは、必ず対応するimage_idsを付ける。パッケージの文字やレイアウトへの反応を商品紹介画像へ割り当てたり、別場面の説明を直後へ置いたりしない。
+- FANZAの商品紹介文、ユーザーレビュー、レビュー点数を引用・要約・言い換え再利用しない。「見た」「抜いた」「本編では」など実際に視聴したと誤認させる体験談も書かない。
+- fanza_productでも記事形式は5ch風を保つ。スレ主が作品ページとパッケージを貼り、住民が作品名、パッケージ、確認できる出演者・メーカー・ジャンルへ不揃いに反応する。全員を購入へ誘導する宣伝係にしない。
 - editorial_intent.editorial_briefは編集者が希望する紹介角度であり、事実資料ではない。公開情報で裏付けられる範囲だけ反映する。
 - promotion_typeがsponsoredでも不自然な絶賛や効果保証を作らない。PR表示はアプリ側で付けるため、タイトルへ毎回PRと入れる必要はない。
 
@@ -1221,11 +1565,18 @@ def _codex_refinement_prompt(
     ]
     source_facts = {
         "url": source.get("url"),
+        "canonical_product_url": source.get("canonical_product_url"),
+        "fanza_product_id": source.get("fanza_product_id"),
         "page_title": source.get("title"),
         "description": source.get("description"),
         "excerpts": source.get("excerpts", [])[:5],
         "nearby_real_headlines_for_style_comparison": _source_headline_samples(source),
         "selected_video_ids": selected_video_ids,
+        "selected_official_image_urls": [
+            str(item.get("rights_source_url") or item.get("url") or "")
+            for item in (source.get("images") or [])
+            if isinstance(item, dict)
+        ],
     }
     return f"""あなたは匿名掲示板の実ログと創作された「5ch風」の違いを見分ける最終編集者です。
 下書きを規則へ機械的に合わせず、元資料に対する複数人の書き込みとして自然かを点検し、必要ならタイトルもレスも構成から書き直してください。
@@ -1265,6 +1616,78 @@ title、summary、category、tags、responsesを{reply_count}本で指定スキ�
 """
 
 
+def _normalized_article_overlap_text(value: Any) -> str:
+    return re.sub(r"\s+", "", str(value or "")).casefold()
+
+
+def _codex_article_overlap_chunks(
+    source: dict[str, Any],
+    article: dict[str, Any],
+    chunk_size: int = 72,
+) -> list[str]:
+    """Return long copied passages using the same threshold as publish policy."""
+    authored = _normalized_article_overlap_text("\n".join([
+        str(article.get("summary") or ""),
+        *[
+            str(item.get("text") or "")
+            for item in (article.get("responses") or [])
+            if isinstance(item, dict)
+        ],
+    ]))
+    source_text = _normalized_article_overlap_text("\n".join([
+        str(source.get("_copyright_reference_text") or ""),
+        str(source.get("body_text") or ""),
+        *[str(item) for item in (source.get("text_blocks") or [])],
+        *[str(item) for item in (source.get("excerpts") or [])],
+        str(source.get("description") or ""),
+    ]))
+    if not authored or not source_text or len(authored) < chunk_size:
+        return []
+    matches: list[str] = []
+    for start in range(0, len(authored) - chunk_size + 1, 12):
+        chunk = authored[start:start + chunk_size]
+        if chunk not in source_text:
+            continue
+        if not any(chunk in existing or existing in chunk for existing in matches):
+            matches.append(chunk)
+        if len(matches) >= 6:
+            break
+    return matches
+
+
+def _codex_originality_repair_prompt(
+    source: dict[str, Any],
+    options: dict[str, Any],
+    draft: dict[str, Any],
+    overlaps: list[str],
+) -> str:
+    requested_count = options.get("reply_count", "auto")
+    reply_count = (
+        int(requested_count)
+        if str(requested_count) in {"5", "8", "10"}
+        else len(draft.get("responses") or [])
+    )
+    return f"""あなたは成人向け匿名掲示板まとめ記事の最終編集者です。
+下書きが、参照ページの文章を長く再利用しているため独自性検査で不合格になりました。
+画像・動画の判定は完了済みなので、事実関係と素材IDを保ちつつ、文章だけを一から書き直してください。
+
+必須:
+- title、summary、各responsesのtextを、別の編集者と別々の掲示板利用者が素材を見て書いた自然な日本語へ再構成する。
+- 下記の一致箇所と同じ語順を使わず、元ページの導入、コメント、見出しを要約・逐語言い換えしない。
+- summaryとレスに、参照文から連続24文字以上を再利用しない。
+- 画像・動画から確認できない人物情報、経歴、感情、出来事を追加しない。
+- responsesは{reply_count}本を維持し、既存のimage_idsとvideo_idsだけを使う。存在しないIDを作らない。
+- 指定スキーマのJSONだけを返し、説明やMarkdownを付けない。
+
+記事の題材: {json.dumps(str(source.get("title") or ""), ensure_ascii=False)}
+再利用禁止になった一致箇所:
+{json.dumps(overlaps, ensure_ascii=False, indent=2)}
+
+書き直す下書き:
+{json.dumps(draft, ensure_ascii=False, indent=2)}
+"""
+
+
 def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, Any]]) -> str:
     navigation = source.get("navigation_context", {})
     has_navigation_context = isinstance(navigation, dict) and bool(navigation)
@@ -1280,7 +1703,7 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
         "text_candidates": source.get("excerpts", [])[:8],
         "rendered_body_text": str(source.get("body_text") or "")[:body_limit],
         "rendered_text_blocks": [
-            str(item)[:350] for item in source.get("text_blocks", [])[:block_limit]
+            str(item)[:350] for item in (source.get("text_blocks") or [])[:block_limit]
         ],
         "browser_capture": bool(source.get("browser_capture")),
         "page_dimensions": source.get("page_dimensions", {}),
@@ -1293,7 +1716,7 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
         ),
         "navigation_context": source.get("navigation_context", {}),
     }
-    raw_links = [item for item in source.get("links", []) if isinstance(item, dict)]
+    raw_links = [item for item in (source.get("links") or []) if isinstance(item, dict)]
     navigation_text = " ".join(
         str(navigation.get(key) or "")
         for key in ("from_title", "followed_link_text", "follow_reason")
@@ -1341,13 +1764,23 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
             "declared_height": item.get("height", 0), "visible": item.get("browser_visible"),
             "page_rect": item.get("browser_rect", {}), "surrounding_text": str(item.get("browser_context", ""))[:220],
             "dom_ancestors": str(item.get("browser_ancestors", ""))[:180], "link_target": item.get("browser_link_url", ""),
+            "thumbnail_only_candidate": bool(item.get("thumbnail_only_candidate")),
         }
-        for item in source.get("images", []) if isinstance(item, dict)
+        for item in (source.get("images") or []) if isinstance(item, dict)
     ]
-    evidence = [
-        {"attachment_number": index, "id": item.get("id"), "filename": item.get("filename"), "kind": item.get("kind", "candidate")}
-        for index, item in enumerate(attachments, start=1)
-    ]
+    attachment_numbers: dict[str, int] = {}
+    evidence = []
+    for item in attachments:
+        filename = str(item.get("filename") or "")
+        if filename not in attachment_numbers:
+            attachment_numbers[filename] = len(attachment_numbers) + 1
+        evidence.append({
+            "attachment_number": attachment_numbers[filename],
+            "id": item.get("id"),
+            "filename": filename,
+            "kind": item.get("kind", "candidate"),
+            "contact_sheet_cell": item.get("contact_sheet_cell"),
+        })
     video_manifest = [
         {
             "video_id": item.get("id"),
@@ -1363,7 +1796,7 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
             "surrounding_text": str(item.get("browser_context", ""))[:220],
             "dom_ancestors": str(item.get("browser_ancestors", ""))[:180],
         }
-        for item in source.get("videos", [])
+        for item in (source.get("videos") or [])
         if isinstance(item, dict)
     ]
     return f"""あなたは、URL先を実ブラウザで調査して記事素材を決めるCodex編集責任者です。
@@ -1385,10 +1818,57 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
 - page_roleがarticle、index、unclearならfollow_urlを空文字にする。gateway以外では追跡を要求しない。
 
 目的:
+- 淫談屋は成人向け専用サイトであり、一般コンテンツを混在させない。ページ本編が成人向けかを、文章、画像、動画、商品区分、ページの主目的を総合して最初に判定する。
+- 性的な行為・露出・裸体・成人向け作品・成人向け配信・成人向けグラビア・明確に性的鑑賞を主目的とする画像や動画はadult_content=trueにできる。
+- 一般ニュース、通常の芸能情報、スポーツ、一般YouTube、商品機能が中心の水着レビュー、模型・玩具、一般アニメ、普通のSNS近況などは、女性や水着が写るだけでは成人向けにしない。一方、成人モデル・グラビア・コスプレイヤーの身体や性的魅力を見せることが本編の主目的で、露出度、ポーズ、画像構成、本文からそれが具体的に確認できる水着・下着・グラビア・コスプレはadult_content=trueにできる。
+- 判断が割れる場合はページ全体の主目的を見る。成人向け要素が本編ではなく広告や関連記事にしかない場合はadult_content=falseにする。adult_reasonには本編のどの要素から判断したかを書く。
+- 衣装名や刺激的な見出しだけで決めず、本編画像・動画の構図、露出、ポーズ、ページの主目的を確認する。裸体や性行為がなくても、成人モデルの身体的・性的魅力を鑑賞させるグラビアが本編の中心なら対象にする。普通のファッション、競技水着、日常写真は対象外にする。
+- 一般コンテンツと成人向けコンテンツが同じページにある場合、成人向け部分が記事本編の明確な主目的でなければadult_content=falseにする。迷う場合、素材不足の場合、広告だけが成人向けの場合もfalseにする。
+- 未成年を示す明記、盗撮、無断撮影、実在人物の流出をうたう素材など、審査上の危険性が高い題材は記事化しない。フィクションや成人作品だと元ページで明確に確認できない限りadult_content=falseにする。
 - ページの本編素材が何を扱い、何を見せる記事かを自然な日本語のtitleとdescriptionにまとめる。descriptionには広告、関連記事、UIの説明を混ぜず、それらの判別結果はanalysis_summaryだけに書く。
 - 各画像がそのページ内で実際に何をしているかを、ページ固有の言葉で把握する。その理解をもとにサムネイル・本文・両方・除外のどこで使うか決める。
 - ページから回収した動画・埋め込み候補を、記事本編か広告・導線・無関係か判定する。
 - 記事画像だけを後工程の初期選択候補にするため、厳しめに分類する。
+
+記事の主役判定:
+- main_subjectには、広告や関連記事ではなく記事本編が中心に扱う人物・団体・作品・商品・話題を1件だけ入れる。
+- 実名・活動名が本文、見出し、投稿者名、画像キャプションなどで確認できる場合だけnameへ入れ、不明なら空文字にする。顔や外見から名前を推測しない。
+- kindはperson/group/work/product/topic/unknownから選ぶ。roleには「コスプレイヤー」「TikToker」「AV女優」「漫画家」など、ページ上で確認できる立場だけを書く。
+- is_public_creatorは、本人が公開アカウントや公式ページを持つ活動者として確認できる人物・団体だけtrueにする。匿名の素人、作品内だけの架空人物、名前不明の人物はfalseにする。
+- reasonには、主役名・種別・立場を判断したページ上の根拠を書く。主役が複数で1人に絞れない場合はkind=groupとし、確認できる団体名がなければnameを空文字にする。
+
+作品・商品の公式ページ確認:
+- main_subject.kindがworkまたはproductで、作品名・商品名を確認できた場合だけofficial_workを調査する。
+- 画面内リンクに作品そのものの公式ページがあればそれを優先する。見当たらない場合は同じ1回の処理内でWeb検索を使い、出版社・制作者の公式作品ページ、次に作品名が完全一致する正規販売ページを探す。
+- status=verifiedにできるのは、ページタイトル・作品名・商品名がmain_subject.nameと一致し、そのURLがその作品単体の詳細ページだと確認できた場合だけである。
+- 出版社や販売サイトのトップ、検索結果、ランキング、カテゴリ、タグ、関連記事、まとめ記事、紹介ブログは公式作品ページとして返さない。
+- 作品名が似ているだけ、版やシリーズを区別できない、同名作品が複数ある、検索結果の抜粋しか確認できない場合はambiguousにし、url、provider、thumbnail_urlを空文字にする。
+- 見つからなければnot_found、主役が人物・話題など作品や商品でなければnot_applicableにする。verified以外ではurlを必ず空文字にする。
+- reasonには、どの表示から作品名とURLが一致したと確認したかを書く。thumbnail_urlは同じ公式作品ページのOGPまたは公式パッケージ画像を直接確認できた場合だけ入れ、記事画像や別作品画像を代用しない。
+
+本人アカウント判定:
+- 記事の中心人物がインフルエンサー、TikToker、YouTuber、配信者、コスプレイヤー、モデル、グラビアアイドルなどで、ページ情報またはリンク一覧に本人のSNSだと確認できるURLがある場合、social_profilesへ入れる。
+- nameはページ本文・投稿者名・見出し・リンク周辺文で確認できた人物名、serviceはx/tiktok/instagram/youtube/myfans/fantia、urlは提示された現在URLまたはリンク一覧に実在するURLを一字も変えずに返す。
+- 記事の中心人物に対応するものだけis_main_subject=trueにする。複数人物の記事では、各人物との対応がページ上で確認できる公式アカウントもis_main_subject=falseで入れる。アカウントと人物の対応が不明なら入れない。
+- X/Twitterのintent、share、search、home、compose、ログイン、共有ボタン、サイト運営者のSNS、記事を共有するためのリンクは本人アカウントではない。TikTokやInstagramも共有・検索・ログイン導線を除外する。
+- 名前からユーザー名を推測したり、画像の顔だけで人物を特定したり、候補一覧にないURLを作ったりしない。確認できなければ空配列を返す。
+
+人物と画像の対応判定:
+- identified_peopleには、見出し、画像直前の説明、alt/caption、リンク文、作品の出演者表記、公式ページのうち独立した2種類以上の根拠が同じ名前を示す公開活動者だけを入れる。
+- confidenceは表示名の正確さを表す。95未満の人物はidentified_peopleにもmedia_person_attributionsにも入れない。人数を埋めるために推測せず、分からない人物は未特定のままにする。
+- evidence_typesは実際に使った根拠だけをheadline/caption/alt/link_text/official_profile/official_page/product_credit/source_metadataから2種類以上選ぶ。似た顔、体型、衣装、雰囲気は根拠に含めない。
+- media_person_attributionsには、どの画像・動画に誰が写るかを対応付ける。image_idsとvideo_idsは候補一覧のIDを一字も変えずに使い、少なくともどちらか一方を入れる。
+- 1人を特集する記事でも、全画像を自動的に同一人物とみなさない。記事見出しと各画像のalt/captionまたは直前の説明が同じ人物名を示す画像だけ対応付ける。
+- 各画像・動画の画面内に表示される投稿者名、チャンネル名、透かし、@ハンドルを必ず読む。確認できた文字列はimage_decisionsまたはvideo_decisionsのvisible_creator_handleへそのまま入れ、主役または根拠付きの別人物と一致するかをsubject_matchで判定する。
+- visible_creator_handleが主役の確認済み公式ハンドルと異なり、その別ハンドルの人物が本編の共演者・別の特集対象だとページ上で確認できない場合はsubject_match=mismatch、verdict=unrelated、recommended_use=excludeにする。その素材をtitle、description、レスの根拠に使わない。
+- 記事タイトルが主役名を示していても、関連記事・おすすめ欄・次の記事から混入した別ハンドルの素材を主役本人だと扱わない。ハンドル不一致は、顔や衣装が似ているという理由では覆せない。
+- 複数人物のまとめでは、画像ごとの隣接説明や作品出演者表記がない画像を顔だけで振り分けない。1枚に複数人が写り、全員を根拠付きで確認できる場合は同じimage_idを複数人物へ割り当ててよい。
+- グラビアアイドル、コスプレイヤー、配信者をAV女優と推定しない。FANZA出演は作品ページまたは出演者表記で別に確認する。
+- 名前が書かれていない画像や動画も人物調査の対象から外さない。画像内の透かし・ロゴ・文字、ファイル名、リンク先、元ページから本編までの遷移履歴、動画の代表フレーム、同じ画像を掲載するWebページを検索し、候補名を調べる。
+- 無記名素材で95以上まで裏取りできなかった場合は、person_identity_candidatesへ素材ごとに最大3人を確率順で返す。候補がなければcandidatesを空配列にしてunresolved_reasonへ不足した根拠を書く。
+- person_identity_candidatesのconfidenceは推測の強さではなく、素材とその候補が同一人物である確からしさを1～94で付ける。顔や体型が似るだけなら40以下、透かしや画像検索結果が一致しても公式情報まで結べなければ94以下にする。
+- evidence_urlsには実際に調査したページだけを入れ、URLやアカウントを作らない。検索結果の一覧URLではなく、候補名と素材の関係を確認した掲載ページを優先する。
+- 95以上の確定人物は従来どおりidentified_peopleとmedia_person_attributionsへ入れ、person_identity_candidatesで確定扱いにしない。
 
 FANZA関連判定:
 - 記事の主題、人物名、作品名、品番、衣装、行為、ジャンル、動画周辺文から、FANZA作品への関連度を判定する。
@@ -1400,7 +1880,12 @@ FANZA関連判定:
 - 人物の顔だけから本名や出演作品を推測しない。ページ本文、画像のalt・キャプション、投稿本文、作品情報などで名前が確認できる場合だけ使う。
 - fanza_peopleには、ページ上の根拠からFANZA出演者であることと名前を確認でき、どの画像がその人物かまで対応できた人物だけを入れる。nameは正式な出演者名、image_idsはその人物が写る画像ID、reasonはFANZA出演の根拠と名前・画像を対応付けた根拠にする。同じ人物の画像は1件へまとめ、複数人の記事では人物ごとに分ける。
 - 名前だけ確認できても画像との対応が不明ならfanza_peopleへ入れない。顔だけの照合、体型、衣装、雰囲気から人物名を推測しない。対応できた人物がいなければ空配列を返す。
+- fanza_image_productsは名前にimageとあるが、画像と動画の両方について、その素材自体が特定のAV作品の場面・パッケージ・公式サンプルだとページ上の根拠から確認できる場合だけ返す。作品ごとにproduct_title、product_code、product_url、対応する全image_ids、全video_ids、対応根拠をまとめる。同じ作品を複数項目へ分けない。
+- 作品Aの画像・動画と作品Bの画像・動画が混在する場合は、人物や雰囲気で一括りにせず作品ごとに分ける。素人投稿、X投稿、一般コスプレ、出典不明素材は、見た目がAV風でもfanza_image_productsへ入れない。
+- product_urlは画面内リンク候補または現在ページURLに存在する、その作品の商品詳細URLだけを一字も変えずに使う。商品URLがなくても品番が本文や周辺文で確認できるならproduct_codeへ入れられる。URLも品番も確認できない作品は登録しない。
+- fanza_image_productsに入れた素材へ別の関連作品を割り当てない。後工程は、その作品に対応する画像または動画の直後へ同じ作品のPRを置く。対応しない素材の近くへ置かない。
 - fanza_product_codeはページ内で確認できた場合だけ返す。fanza_reasonには判定根拠を簡潔に書く。
+- 特定作品へ結び付かない場合はFANZA商品を推測して薦めない。サイト内の関連記事を後工程で選ぶため、fanza_recommendation_queriesは常に空配列にする。
 
 画像判定ルール:
 - roleは固定分類ではなく自由記述である。「一覧用サムネイル」「本文の主画像」「同一人物の追加カット」「関連記事カード」「広告」などは例にすぎない。これらに当てはまらない役割を発見したら、そのページに合う名前を自分で付ける。
@@ -1422,9 +1907,11 @@ FANZA関連判定:
 - relevance_scoreは記事との直接的な関連度を0から100で付ける。
 - image_idは画像一覧にある値を一字も変えずに返す。
 - 画像一覧にある全画像についてimage_decisionsを1件ずつ返す。
+- visible_creator_handleは画像内で実際に読めた投稿者名・@ハンドルだけを入れ、見えなければ空文字にする。subject_matchは主役または根拠付きの特集人物と一致すればmatched、明確に別人ならmismatch、判断不能ならunknownにする。
 - 動画はタグ種別だけで決めない。direct動画でも広告の場合があり、iframeでも記事本編の場合がある。URLのドメイン、パス、HTMLのclass/id/title、ページ本文との一致から判断する。
 - videoタグ内のMP4、投稿本文と同じ場所にあるプレイヤー、記事タイトルと一致する動画はarticle候補。ライブチャット広告、ランキング、ブログパーツ、別サイト誘導はadvertisementかnavigationにする。
 - 動画一覧にある全候補についてvideo_decisionsを1件ずつ返し、video_idを一字も変えない。
+- 動画のポスター、代表フレーム、プレイヤー内に投稿者名・@ハンドル・作品名が見える場合もvisible_creator_handleとsubject_matchを同じ基準で返す。
 - ページに素材が見えているのに候補一覧へ存在しない場合は、analysis_summaryへ「回収漏れ」と対象を明記し、無関係候補で代用しない。
 - Markdown、HTML、前置き、解説を返さず、指定スキーマのJSONだけを返す。
 
@@ -1458,7 +1945,7 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
     follow_reason = _optional_text(value, "follow_reason", 300)
     available_links = {
         str(item.get("url") or "")
-        for item in source.get("links", [])
+        for item in (source.get("links") or [])
         if isinstance(item, dict) and item.get("url")
     }
     if page_role != "gateway":
@@ -1468,6 +1955,279 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
         follow_url = ""
         follow_reason = "候補一覧にないリンクが返されたため追跡を中止しました"
     summary = _require_text(value, "analysis_summary", 500)
+    adult_content = value.get("adult_content") is True
+    adult_reason = _require_text(value, "adult_reason", 300)
+    raw_main_subject = value.get("main_subject")
+    if not isinstance(raw_main_subject, dict):
+        raw_main_subject = {
+            "name": "",
+            "kind": "unknown",
+            "role": "",
+            "is_public_creator": False,
+            "reason": "主役判定が返されませんでした",
+        }
+    main_subject_kind = str(raw_main_subject.get("kind") or "unknown")
+    if main_subject_kind not in {"person", "group", "work", "product", "topic", "unknown"}:
+        main_subject_kind = "unknown"
+    main_subject = {
+        "name": _trim_text(str(raw_main_subject.get("name") or ""), 80),
+        "kind": main_subject_kind,
+        "role": _trim_text(str(raw_main_subject.get("role") or ""), 80),
+        "is_public_creator": raw_main_subject.get("is_public_creator") is True,
+        "reason": _trim_text(
+            str(raw_main_subject.get("reason") or "主役を特定できませんでした"),
+            240,
+        ),
+    }
+    if main_subject["kind"] not in {"person", "group"}:
+        main_subject["is_public_creator"] = False
+
+    raw_official_work = value.get("official_work")
+    if not isinstance(raw_official_work, dict):
+        raw_official_work = {
+            "status": "not_applicable",
+            "title": "",
+            "url": "",
+            "provider": "",
+            "reason": "公式作品ページの判定が返されませんでした",
+            "thumbnail_url": "",
+        }
+    official_status = str(raw_official_work.get("status") or "not_applicable")
+    if official_status not in {"verified", "ambiguous", "not_found", "not_applicable"}:
+        official_status = "not_found"
+    official_work = {
+        "status": official_status,
+        "title": "",
+        "url": "",
+        "provider": "",
+        "reason": _trim_text(
+            str(raw_official_work.get("reason") or "公式作品ページを確認できませんでした"),
+            300,
+        ),
+        "thumbnail_url": "",
+    }
+    named_work = (
+        main_subject["kind"] in {"work", "product"}
+        and bool(main_subject["name"])
+    )
+    if not named_work:
+        official_work["status"] = "not_applicable"
+    elif official_status == "verified":
+        official_title = _trim_text(str(raw_official_work.get("title") or ""), 180)
+        official_url = str(raw_official_work.get("url") or "").strip()
+        official_provider = _trim_text(str(raw_official_work.get("provider") or ""), 80)
+        blocked_hosts = {
+            "google.com", "www.google.com", "bing.com", "www.bing.com",
+            "search.yahoo.co.jp", "duckduckgo.com", "www.duckduckgo.com",
+        }
+        try:
+            parsed_official = urlparse(_validate_source_url(official_url))
+        except (TypeError, ValueError):
+            parsed_official = urlparse("")
+        official_host = (parsed_official.hostname or "").casefold()
+        path_parts = {
+            part.casefold() for part in parsed_official.path.split("/") if part
+        }
+        query_keys = {key.casefold() for key in parse_qs(parsed_official.query)}
+        generic_route = bool(
+            path_parts.intersection({
+                "search", "ranking", "rank", "category", "categories",
+                "tag", "tags", "author", "authors", "list", "results",
+            })
+            or query_keys.intersection({"q", "query", "keyword", "search", "searchstr"})
+            or parsed_official.path in {"", "/"}
+        )
+
+        def work_key(raw: Any) -> str:
+            return re.sub(r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "", str(raw or "").casefold())
+
+        subject_key = work_key(main_subject["name"])
+        title_key = work_key(official_title)
+        if subject_key and title_key and (subject_key in title_key or title_key in subject_key):
+            title_matches = True
+        else:
+            subject_pairs = {
+                subject_key[index:index + 2]
+                for index in range(max(0, len(subject_key) - 1))
+            }
+            title_pairs = {
+                title_key[index:index + 2]
+                for index in range(max(0, len(title_key) - 1))
+            }
+            title_matches = len(subject_pairs.intersection(title_pairs)) >= min(
+                6, max(3, len(subject_pairs) // 3)
+            )
+        if (
+            parsed_official.scheme == "https"
+            and official_host
+            and official_host not in blocked_hosts
+            and not generic_route
+            and official_title
+            and official_provider
+            and official_work["reason"]
+            and title_matches
+        ):
+            official_work.update({
+                "title": official_title,
+                "url": official_url,
+                "provider": official_provider,
+            })
+            thumbnail_url = str(raw_official_work.get("thumbnail_url") or "").strip()
+            if thumbnail_url:
+                try:
+                    parsed_thumbnail = urlparse(_validate_source_url(thumbnail_url))
+                except (TypeError, ValueError):
+                    parsed_thumbnail = urlparse("")
+                if parsed_thumbnail.scheme == "https" and parsed_thumbnail.hostname:
+                    official_work["thumbnail_url"] = thumbnail_url
+        else:
+            official_work["status"] = "ambiguous"
+            official_work["reason"] = (
+                "作品名が一致する単体の公式・正規販売ページとして検証できませんでした"
+            )
+    elif official_status == "not_applicable":
+        official_work["status"] = "not_found"
+    evidence_urls = {
+        str(source.get(key) or "").strip()
+        for key in (
+            "requested_url",
+            "url",
+            "canonical_url",
+            "profile_url",
+            "author_url",
+            "creator_url",
+        )
+        if str(source.get(key) or "").strip()
+    } | available_links
+    service_hosts = {
+        "x": {"x.com", "www.x.com", "twitter.com", "www.twitter.com"},
+        "tiktok": {"tiktok.com", "www.tiktok.com", "m.tiktok.com"},
+        "instagram": {"instagram.com", "www.instagram.com"},
+        "youtube": {"youtube.com", "www.youtube.com", "m.youtube.com", "youtu.be"},
+        "myfans": {"myfans.jp", "www.myfans.jp"},
+        "fantia": {"fantia.jp", "www.fantia.jp"},
+    }
+    blocked_x_routes = {
+        "compose", "explore", "home", "i", "intent", "login", "messages",
+        "notifications", "search", "settings", "share", "signup",
+    }
+    allowed_identity_evidence = {
+        "headline", "caption", "alt", "link_text", "official_profile",
+        "official_page", "product_credit", "source_metadata",
+    }
+    identified_people: list[dict[str, Any]] = []
+    identified_names: set[str] = set()
+    raw_identified_people = value.get("identified_people", [])
+    if not isinstance(raw_identified_people, list):
+        raise ValidationError("Codexの人物特定結果が不正です")
+    for item in raw_identified_people:
+        if not isinstance(item, dict):
+            continue
+        name = _trim_text(str(item.get("name") or ""), 80)
+        normalized_name = re.sub(r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "", name.casefold())
+        try:
+            confidence = max(0, min(100, int(item.get("confidence") or 0)))
+        except (TypeError, ValueError):
+            confidence = 0
+        evidence_types = list(dict.fromkeys(
+            str(evidence or "").casefold()
+            for evidence in item.get("evidence_types") or []
+            if str(evidence or "").casefold() in allowed_identity_evidence
+        ))
+        reason = _trim_text(str(item.get("reason") or ""), 300)
+        if (
+            not name
+            or not normalized_name
+            or normalized_name in identified_names
+            or confidence < 95
+            or len(evidence_types) < 2
+            or not reason
+        ):
+            continue
+        identified_names.add(normalized_name)
+        identified_people.append({
+            "name": name,
+            "role": _trim_text(str(item.get("role") or ""), 80),
+            "is_public_creator": item.get("is_public_creator") is True,
+            "confidence": confidence,
+            "evidence_types": evidence_types,
+            "reason": reason,
+        })
+    social_profiles: list[dict[str, Any]] = []
+    seen_social: set[tuple[str, str]] = set()
+    raw_social_profiles = value.get("social_profiles", [])
+    if not isinstance(raw_social_profiles, list):
+        raise ValidationError("Codexの本人SNS対応が不正です")
+    for item in raw_social_profiles:
+        if not isinstance(item, dict):
+            continue
+        name = _trim_text(str(item.get("name") or ""), 80)
+        is_main_subject = item.get("is_main_subject") is True
+        normalized_name = re.sub(r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "", name.casefold())
+        service = str(item.get("service") or "").casefold()
+        url = str(item.get("url") or "").strip()
+        reason = _trim_text(str(item.get("reason") or ""), 240)
+        if (
+            not name
+            or service not in service_hosts
+            or url not in evidence_urls
+            or not reason
+            or (
+                not is_main_subject
+                and normalized_name not in identified_names
+            )
+        ):
+            continue
+        try:
+            parsed_social = urlparse(_validate_source_url(url))
+        except (TypeError, ValueError):
+            continue
+        if (parsed_social.hostname or "").casefold() not in service_hosts[service]:
+            continue
+        path_parts = [part for part in parsed_social.path.split("/") if part]
+        if service == "x" and (
+            not path_parts or path_parts[0].casefold() in blocked_x_routes
+        ):
+            continue
+        key = (service, url)
+        if key in seen_social:
+            continue
+        seen_social.add(key)
+        profile = {
+            "name": name,
+            "service": service,
+            "url": url,
+            "is_main_subject": is_main_subject,
+            "reason": reason,
+        }
+        thumbnail_url = str(item.get("thumbnail_url") or "").strip()
+        if thumbnail_url:
+            try:
+                profile["thumbnail_url"] = _validate_source_url(thumbnail_url)
+            except (TypeError, ValueError):
+                pass
+        social_profiles.append(profile)
+
+    def normalized_visible_handle(value: str) -> str:
+        raw = str(value or "").strip()
+        if not raw:
+            return ""
+        explicit = re.search(r"@([A-Za-z0-9_.-]{2,})", raw)
+        if explicit:
+            raw = explicit.group(1)
+        elif raw.startswith(("https://", "http://")):
+            parsed = urlparse(raw)
+            parts = [part for part in parsed.path.split("/") if part]
+            raw = parts[0].lstrip("@") if parts else ""
+        return re.sub(r"[^a-z0-9_.-]", "", raw.casefold().lstrip("@"))
+
+    main_subject_handles = {
+        normalized_visible_handle(str(profile.get("url") or ""))
+        for profile in social_profiles
+        if profile.get("is_main_subject") is True
+    }
+    main_subject_handles.discard("")
+    has_multiple_identified_people = len(identified_people) > 1
     fanza_relevance = str(value.get("fanza_relevance") or "none")
     if fanza_relevance not in {"none", "related", "likely_product", "exact_product"}:
         fanza_relevance = "none"
@@ -1475,11 +2235,19 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
     fanza_search_query = _optional_text(value, "fanza_search_query", 120)
     fanza_product_code = _optional_text(value, "fanza_product_code", 40)
     fanza_reason = _optional_text(value, "fanza_reason", 240)
+    raw_recommendation_queries = value.get("fanza_recommendation_queries", [])
+    if not isinstance(raw_recommendation_queries, list):
+        raise ValidationError("CodexのFANZA推薦調査語が不正です")
+    fanza_recommendation_queries = list(dict.fromkeys(
+        _trim_text(str(query), 80)
+        for query in raw_recommendation_queries
+        if _trim_text(str(query), 80)
+    ))[:4]
     if category not in {"SNS", "画像", "動画", "話題"}:
         raise ValidationError("Codexが未対応のカテゴリーを返しました")
     available = {
         str(item.get("id")): item
-        for item in source.get("images", [])
+        for item in (source.get("images") or [])
         if isinstance(item, dict) and item.get("id")
     }
     fanza_people: list[dict[str, Any]] = []
@@ -1512,6 +2280,197 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
             "image_ids": image_ids,
             "reason": reason,
         })
+    available_videos = {
+        str(item.get("id")): item
+        for item in (source.get("videos") or [])
+        if isinstance(item, dict) and item.get("id")
+    }
+    media_person_attributions: list[dict[str, Any]] = []
+    raw_attributions = value.get("media_person_attributions", [])
+    if not isinstance(raw_attributions, list):
+        raise ValidationError("Codexの人物と素材の対応が不正です")
+    for item in raw_attributions:
+        if not isinstance(item, dict):
+            continue
+        person_name = _trim_text(str(item.get("person_name") or ""), 80)
+        person_key = re.sub(
+            r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "", person_name.casefold()
+        )
+        try:
+            confidence = max(0, min(100, int(item.get("confidence") or 0)))
+        except (TypeError, ValueError):
+            confidence = 0
+        evidence_types = list(dict.fromkeys(
+            str(evidence or "").casefold()
+            for evidence in item.get("evidence_types") or []
+            if str(evidence or "").casefold() in allowed_identity_evidence
+        ))
+        image_ids = list(dict.fromkeys(
+            str(image_id)
+            for image_id in item.get("image_ids") or []
+            if str(image_id) in available
+        ))
+        video_ids_for_person = list(dict.fromkeys(
+            str(video_id)
+            for video_id in item.get("video_ids") or []
+            if str(video_id) in available_videos
+        ))
+        reason = _trim_text(str(item.get("reason") or ""), 300)
+        if (
+            person_key not in identified_names
+            or confidence < 95
+            or len(evidence_types) < 2
+            or not (image_ids or video_ids_for_person)
+            or not reason
+        ):
+            continue
+        media_person_attributions.append({
+            "person_name": person_name,
+            "image_ids": image_ids,
+            "video_ids": video_ids_for_person,
+            "confidence": confidence,
+            "evidence_types": evidence_types,
+            "reason": reason,
+        })
+    candidate_evidence = {
+        "headline", "caption", "alt", "link_text", "source_metadata",
+        "watermark_ocr", "filename_clue", "web_search_result",
+        "reverse_image_result", "video_frame_match",
+    }
+    person_identity_candidates: list[dict[str, Any]] = []
+    raw_candidate_groups = value.get("person_identity_candidates", [])
+    if not isinstance(raw_candidate_groups, list):
+        raise ValidationError("Codexの人物候補ランキングが不正です")
+    seen_candidate_media: set[tuple[str, str]] = set()
+    for group in raw_candidate_groups:
+        if not isinstance(group, dict):
+            continue
+        media_type = str(group.get("media_type") or "").casefold()
+        media_id = _trim_text(str(group.get("media_id") or ""), 40)
+        if (
+            media_type == "image" and media_id not in available
+            or media_type == "video" and media_id not in available_videos
+            or media_type not in {"image", "video"}
+            or (media_type, media_id) in seen_candidate_media
+        ):
+            continue
+        seen_candidate_media.add((media_type, media_id))
+        candidates: list[dict[str, Any]] = []
+        seen_candidate_names: set[str] = set()
+        for raw_candidate in (group.get("candidates") or [])[:3]:
+            if not isinstance(raw_candidate, dict):
+                continue
+            name = _trim_text(str(raw_candidate.get("name") or ""), 80)
+            name_key = re.sub(
+                r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "", name.casefold()
+            )
+            try:
+                confidence = max(
+                    1, min(94, int(raw_candidate.get("confidence") or 0))
+                )
+            except (TypeError, ValueError):
+                confidence = 0
+            evidence_types = list(dict.fromkeys(
+                str(evidence or "").casefold()
+                for evidence in raw_candidate.get("evidence_types") or []
+                if str(evidence or "").casefold() in candidate_evidence
+            ))
+            reason = _trim_text(str(raw_candidate.get("reason") or ""), 300)
+            evidence_urls: list[str] = []
+            for raw_url in (raw_candidate.get("evidence_urls") or [])[:4]:
+                try:
+                    parsed_url = _validate_source_url(str(raw_url or ""))
+                except (TypeError, ValueError):
+                    continue
+                if urlparse(parsed_url).scheme == "https":
+                    evidence_urls.append(parsed_url)
+            if (
+                not name_key
+                or name_key in seen_candidate_names
+                or not confidence
+                or not evidence_types
+                or not reason
+            ):
+                continue
+            seen_candidate_names.add(name_key)
+            candidates.append({
+                "name": name,
+                "role": _trim_text(str(raw_candidate.get("role") or ""), 80),
+                "confidence": confidence,
+                "evidence_types": evidence_types,
+                "evidence_urls": list(dict.fromkeys(evidence_urls)),
+                "reason": reason,
+            })
+        candidates.sort(key=lambda item: int(item["confidence"]), reverse=True)
+        unresolved_reason = _trim_text(
+            str(group.get("unresolved_reason") or ""), 300
+        )
+        if candidates or unresolved_reason:
+            person_identity_candidates.append({
+                "media_type": media_type,
+                "media_id": media_id,
+                "candidates": candidates,
+                "unresolved_reason": unresolved_reason,
+            })
+    fanza_image_products: list[dict[str, Any]] = []
+    claimed_product_images: set[str] = set()
+    claimed_product_videos: set[str] = set()
+    seen_products: set[str] = set()
+    source_product_urls = {
+        str(source.get("url") or ""),
+        str(source.get("requested_url") or ""),
+        *available_links,
+    }
+    raw_image_products = value.get("fanza_image_products", [])
+    if not isinstance(raw_image_products, list):
+        raise ValidationError("CodexのFANZA作品画像対応が不正です")
+    for item in raw_image_products:
+        if not isinstance(item, dict):
+            continue
+        product_title = _trim_text(str(item.get("product_title") or ""), 180)
+        product_code = _trim_text(str(item.get("product_code") or ""), 40)
+        product_url = _trim_text(str(item.get("product_url") or ""), 2048)
+        reason = _trim_text(str(item.get("reason") or ""), 300)
+        raw_image_ids = item.get("image_ids")
+        raw_video_ids = item.get("video_ids", [])
+        if (
+            not reason
+            or not isinstance(raw_image_ids, list)
+            or not isinstance(raw_video_ids, list)
+        ):
+            continue
+        if product_url not in source_product_urls:
+            product_url = ""
+        if not product_url and not product_code:
+            continue
+        image_ids = list(dict.fromkeys(
+            str(image_id)
+            for image_id in raw_image_ids
+            if str(image_id) in available and str(image_id) not in claimed_product_images
+        ))
+        video_ids = list(dict.fromkeys(
+            str(video_id)
+            for video_id in raw_video_ids
+            if str(video_id) in available_videos
+            and str(video_id) not in claimed_product_videos
+        ))
+        product_key = (
+            re.sub(r"[^a-z0-9]", "", product_code.casefold())
+            or product_url.casefold()
+        )
+        if not (image_ids or video_ids) or not product_key or product_key in seen_products:
+            continue
+        seen_products.add(product_key)
+        claimed_product_images.update(image_ids)
+        claimed_product_videos.update(video_ids)
+        fanza_image_products.append({
+            "product_title": product_title,
+            "product_code": product_code,
+            "product_url": product_url,
+            "image_ids": image_ids,
+            "video_ids": video_ids,
+            "reason": reason,
+        })
     raw_decisions = value.get("image_decisions")
     if not isinstance(raw_decisions, list):
         raise ValidationError("Codexの画像判定が不正です")
@@ -1536,6 +2495,31 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
         except (TypeError, ValueError):
             score = 0
         reason = _trim_text(str(item.get("reason") or "判定理由なし"), 160)
+        visible_creator_handle = _trim_text(
+            str(item.get("visible_creator_handle") or ""), 80
+        )
+        subject_match = str(item.get("subject_match") or "unknown")
+        if subject_match not in {"matched", "mismatch", "unknown"}:
+            subject_match = "unknown"
+        normalized_handle = normalized_visible_handle(visible_creator_handle)
+        explicit_handle = bool(re.search(r"@[A-Za-z0-9_.-]{2,}", visible_creator_handle))
+        if (
+            main_subject.get("kind") == "person"
+            and not has_multiple_identified_people
+            and main_subject_handles
+            and explicit_handle
+            and normalized_handle
+            and normalized_handle not in main_subject_handles
+        ):
+            subject_match = "mismatch"
+            reason = _trim_text(
+                f"画面内ハンドル{visible_creator_handle}が主役の確認済み公式ハンドルと一致しないため除外。{reason}",
+                160,
+            )
+        if subject_match == "mismatch":
+            verdict = "unrelated"
+            recommended_use = "exclude"
+            score = 0
         decisions[image_id] = {
             "image_id": image_id,
             "verdict": verdict,
@@ -1543,6 +2527,8 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
             "recommended_use": recommended_use,
             "content_group": _trim_text(str(item.get("content_group") or ""), 80),
             "relation": _trim_text(str(item.get("relation") or ""), 160),
+            "visible_creator_handle": visible_creator_handle,
+            "subject_match": subject_match,
             "relevance_score": score,
             "reason": reason,
         }
@@ -1554,14 +2540,11 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
             "recommended_use": "exclude",
             "content_group": "",
             "relation": "",
+            "visible_creator_handle": "",
+            "subject_match": "unknown",
             "relevance_score": 0,
             "reason": "Codexが判定を返しませんでした",
         })
-    available_videos = {
-        str(item.get("id")): item
-        for item in source.get("videos", [])
-        if isinstance(item, dict) and item.get("id")
-    }
     raw_video_decisions = value.get("video_decisions")
     if not isinstance(raw_video_decisions, list):
         raise ValidationError("Codexの動画判定が不正です")
@@ -1580,9 +2563,31 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
             score = max(0, min(100, int(item.get("relevance_score", 0))))
         except (TypeError, ValueError):
             score = 0
+        visible_creator_handle = _trim_text(
+            str(item.get("visible_creator_handle") or ""), 80
+        )
+        subject_match = str(item.get("subject_match") or "unknown")
+        if subject_match not in {"matched", "mismatch", "unknown"}:
+            subject_match = "unknown"
+        normalized_handle = normalized_visible_handle(visible_creator_handle)
+        explicit_handle = bool(re.search(r"@[A-Za-z0-9_.-]{2,}", visible_creator_handle))
+        if (
+            main_subject.get("kind") == "person"
+            and not has_multiple_identified_people
+            and main_subject_handles
+            and explicit_handle
+            and normalized_handle
+            and normalized_handle not in main_subject_handles
+        ):
+            subject_match = "mismatch"
+        if subject_match == "mismatch":
+            verdict = "unrelated"
+            score = 0
         video_decisions[video_id] = {
             "video_id": video_id,
             "verdict": verdict,
+            "visible_creator_handle": visible_creator_handle,
+            "subject_match": subject_match,
             "relevance_score": score,
             "reason": _trim_text(str(item.get("reason") or "判定理由なし"), 160),
         }
@@ -1590,6 +2595,8 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
         video_decisions.setdefault(video_id, {
             "video_id": video_id,
             "verdict": "unclear",
+            "visible_creator_handle": "",
+            "subject_match": "unknown",
             "relevance_score": 0,
             "reason": "Codexが判定を返しませんでした",
         })
@@ -1601,12 +2608,22 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
         "follow_url": follow_url,
         "follow_reason": follow_reason,
         "analysis_summary": summary,
+        "adult_content": adult_content,
+        "adult_reason": adult_reason,
+        "main_subject": main_subject,
+        "official_work": official_work,
+        "social_profiles": social_profiles,
+        "identified_people": identified_people,
+        "media_person_attributions": media_person_attributions,
+        "person_identity_candidates": person_identity_candidates,
         "fanza_relevance": fanza_relevance,
         "fanza_performer_name": fanza_performer_name,
         "fanza_search_query": fanza_search_query,
         "fanza_product_code": fanza_product_code,
         "fanza_reason": fanza_reason,
         "fanza_people": fanza_people,
+        "fanza_image_products": fanza_image_products,
+        "fanza_recommendation_queries": [],
         "image_decisions": list(decisions.values()),
         "video_decisions": list(video_decisions.values()),
     }
@@ -1621,19 +2638,78 @@ def apply_codex_analysis(source: dict[str, Any], analysis: dict[str, Any]) -> di
     result["ai_follow_url"] = analysis.get("follow_url", "")
     result["ai_follow_reason"] = analysis.get("follow_reason", "")
     result["ai_analysis_summary"] = analysis["analysis_summary"]
-    result["ai_fanza_relevance"] = analysis.get("fanza_relevance", "none")
-    result["ai_fanza_performer_name"] = analysis.get("fanza_performer_name", "")
+    result["ai_adult_content"] = analysis.get("adult_content") is True
+    result["ai_adult_reason"] = analysis.get("adult_reason", "")
+    result["ai_main_subject"] = analysis.get("main_subject", {})
+    result["ai_official_work"] = analysis.get("official_work", {})
+    official_work = analysis.get("official_work")
+    result["verified_work_destinations"] = []
+    if isinstance(official_work, dict) and official_work.get("status") == "verified":
+        result["verified_work_destinations"] = [{
+            "url": str(official_work.get("url") or ""),
+            "title": str(official_work.get("title") or ""),
+            "provider": str(official_work.get("provider") or ""),
+            "reason": str(official_work.get("reason") or ""),
+            "thumbnail_url": str(official_work.get("thumbnail_url") or ""),
+            "confidence": 95,
+        }]
+    subject = analysis.get("main_subject")
+    result["official_work_required"] = bool(
+        isinstance(subject, dict)
+        and subject.get("kind") in {"work", "product"}
+        and str(subject.get("name") or "").strip()
+    )
+    result["ai_social_profiles"] = analysis.get("social_profiles", [])
+    result["ai_identified_people"] = analysis.get("identified_people", [])
+    result["ai_media_person_attributions"] = analysis.get(
+        "media_person_attributions", []
+    )
+    result["ai_person_identity_candidates"] = analysis.get(
+        "person_identity_candidates", []
+    )
+    official_fanza_people = [
+        dict(item) for item in (source.get("fanza_people") or [])
+        if isinstance(item, dict) and str(item.get("name") or "").strip()
+    ]
+    analyzed_fanza_people = [
+        dict(item) for item in (analysis.get("fanza_people") or [])
+        if isinstance(item, dict) and str(item.get("name") or "").strip()
+    ]
+    if str(source.get("source_type") or "") == "fanza_product" and official_fanza_people:
+        merged_fanza_people = official_fanza_people
+    else:
+        people_by_name: dict[str, dict[str, Any]] = {}
+        for item in [*official_fanza_people, *analyzed_fanza_people]:
+            key = str(item.get("name") or "").strip().casefold()
+            if key and key not in people_by_name:
+                people_by_name[key] = item
+        merged_fanza_people = list(people_by_name.values())
+    official_performer_name = str(source.get("fanza_performer_name") or "").strip()
+    result["ai_fanza_relevance"] = (
+        "exact_product"
+        if str(source.get("source_type") or "") == "fanza_product"
+        else analysis.get("fanza_relevance", "none")
+    )
+    result["ai_fanza_performer_name"] = (
+        official_performer_name
+        or str(analysis.get("fanza_performer_name") or "").strip()
+    )
     result["ai_fanza_search_query"] = analysis.get("fanza_search_query", "")
-    result["ai_fanza_product_code"] = analysis.get("fanza_product_code", "")
+    result["ai_fanza_product_code"] = (
+        str(source.get("fanza_maker_code") or source.get("fanza_distribution_code") or "").strip()
+        or analysis.get("fanza_product_code", "")
+    )
     result["ai_fanza_reason"] = analysis.get("fanza_reason", "")
-    result["ai_fanza_people"] = analysis.get("fanza_people", [])
+    result["ai_fanza_people"] = merged_fanza_people
+    result["ai_fanza_image_products"] = analysis.get("fanza_image_products", [])
+    result["ai_fanza_recommendation_queries"] = analysis.get("fanza_recommendation_queries", [])
     result["analysis_method"] = "codex_vision"
     decisions = {item["image_id"]: item for item in analysis["image_decisions"]}
     images: list[dict[str, Any]] = []
     recommended: list[str] = []
     recommended_thumbnails: list[str] = []
     recommended_body: list[str] = []
-    for image in source.get("images", []):
+    for image in (source.get("images") or []):
         if not isinstance(image, dict):
             continue
         decision = decisions.get(str(image.get("id")), {})
@@ -1656,17 +2732,17 @@ def apply_codex_analysis(source: dict[str, Any], analysis: dict[str, Any]) -> di
             recommended_thumbnails.append(str(enriched["id"]))
         if enriched["ai_recommended_use"] in {"body", "thumbnail_and_body"}:
             recommended_body.append(str(enriched["id"]))
-        if enriched["ai_recommended"] and len(recommended) < MAX_SELECTED_SOURCE_IMAGES:
+        if enriched["ai_recommended"]:
             recommended.append(str(enriched["id"]))
         images.append(enriched)
     result["images"] = images
     result["recommended_image_ids"] = recommended
     result["recommended_thumbnail_ids"] = recommended_thumbnails
     result["recommended_body_image_ids"] = recommended_body
-    video_decisions = {item["video_id"]: item for item in analysis.get("video_decisions", [])}
+    video_decisions = {item["video_id"]: item for item in (analysis.get("video_decisions") or [])}
     videos: list[dict[str, Any]] = []
     recommended_videos: list[str] = []
-    for video in source.get("videos", []):
+    for video in (source.get("videos") or []):
         if not isinstance(video, dict):
             continue
         decision = video_decisions.get(str(video.get("id")), {})
@@ -1679,7 +2755,7 @@ def apply_codex_analysis(source: dict[str, Any], analysis: dict[str, Any]) -> di
         enriched["ai_recommended"] = (
             enriched["ai_verdict"] == "article" and enriched["ai_relevance_score"] >= 55
         )
-        if enriched["ai_recommended"] and len(recommended_videos) < MAX_SELECTED_SOURCE_VIDEOS:
+        if enriched["ai_recommended"]:
             recommended_videos.append(str(enriched["id"]))
         videos.append(enriched)
     result["videos"] = videos
@@ -1691,13 +2767,17 @@ def _codex_image_attachments(
     source: dict[str, Any],
     selected_image_ids: set[str] | None = None,
 ) -> list[dict[str, Any]]:
-    attachments: list[dict[str, Any]] = []
+    selected: list[tuple[int, dict[str, Any]]] = []
     for index, item in enumerate(source.get("images", []), start=1):
         if not isinstance(item, dict) or not isinstance(item.get("data"), bytes):
             continue
         image_id = str(item.get("id") or f"media-{index}")
         if selected_image_ids is not None and image_id not in selected_image_ids:
             continue
+        selected.append((index, item))
+
+    def individual(index: int, item: dict[str, Any]) -> dict[str, Any]:
+        image_id = str(item.get("id") or f"media-{index}")
         original_extension = str(item.get("extension") or ".jpg")
         filename = f"attachment-{index:02d}-{re.sub(r'[^a-zA-Z0-9-]', '-', image_id)}{original_extension}"
         data = item["data"]
@@ -1714,7 +2794,7 @@ def _codex_image_attachments(
                 filename = f"attachment-{index:02d}-{re.sub(r'[^a-zA-Z0-9-]', '-', image_id)}.jpg"
         except (ImportError, OSError, ValueError):
             pass
-        attachments.append({
+        return {
             "id": image_id,
             "filename": filename,
             "data": data,
@@ -1723,9 +2803,80 @@ def _codex_image_attachments(
             "width": int(item.get("width") or 0),
             "height": int(item.get("height") or 0),
             "ai_reason": str(item.get("ai_reason") or ""),
-        })
-        if len(attachments) >= MAX_SELECTED_SOURCE_IMAGES:
-            break
+        }
+
+    if len(selected) <= CODEX_DIRECT_IMAGE_LIMIT:
+        return [individual(index, item) for index, item in selected]
+
+    attachments: list[dict[str, Any]] = [individual(*selected[0])]
+    try:
+        from PIL import Image as PillowImage
+        from PIL import ImageDraw, ImageOps
+    except ImportError:
+        return [individual(index, item) for index, item in selected]
+
+    remaining = selected[1:]
+    for sheet_number, start in enumerate(
+        range(0, len(remaining), CODEX_CONTACT_SHEET_ITEMS), start=1
+    ):
+        group = remaining[start:start + CODEX_CONTACT_SHEET_ITEMS]
+        rows = (
+            len(group) + CODEX_CONTACT_SHEET_COLUMNS - 1
+        ) // CODEX_CONTACT_SHEET_COLUMNS
+        cell_width, cell_height = CODEX_CONTACT_SHEET_CELL
+        sheet = PillowImage.new(
+            "RGB",
+            (cell_width * CODEX_CONTACT_SHEET_COLUMNS, cell_height * rows),
+            "white",
+        )
+        draw = ImageDraw.Draw(sheet)
+        group_ids = [
+            str(item.get("id") or f"media-{index}")
+            for index, item in group
+        ]
+        for cell_number, (index, item) in enumerate(group, start=1):
+            column = (cell_number - 1) % CODEX_CONTACT_SHEET_COLUMNS
+            row = (cell_number - 1) // CODEX_CONTACT_SHEET_COLUMNS
+            x = column * cell_width
+            y = row * cell_height
+            image_id = str(item.get("id") or f"media-{index}")
+            label = f"{image_id} ({start + cell_number + 1}/{len(selected)})"
+            try:
+                with PillowImage.open(io.BytesIO(item["data"])) as opened:
+                    image = ImageOps.exif_transpose(opened).convert("RGB")
+                    fitted = ImageOps.contain(
+                        image,
+                        (cell_width - 16, cell_height - 42),
+                    )
+                    image_x = x + (cell_width - fitted.width) // 2
+                    image_y = y + 34 + (cell_height - 42 - fitted.height) // 2
+                    sheet.paste(fitted, (image_x, image_y))
+            except (OSError, ValueError):
+                draw.text((x + 8, y + 42), "image decode failed", fill="red")
+            draw.rectangle(
+                (x, y, x + cell_width - 1, y + cell_height - 1),
+                outline="#777777",
+            )
+            draw.text((x + 8, y + 8), label[:56], fill="black")
+        buffer = io.BytesIO()
+        sheet.save(buffer, format="JPEG", quality=88, optimize=True)
+        sheet_data = buffer.getvalue()
+        filename = f"attachment-contact-sheet-{sheet_number:02d}.jpg"
+        for cell_number, (index, item) in enumerate(group, start=1):
+            image_id = str(item.get("id") or f"media-{index}")
+            attachments.append({
+                "id": image_id,
+                "filename": filename,
+                "data": sheet_data,
+                "url": str(item.get("url") or ""),
+                "alt": str(item.get("alt") or ""),
+                "width": int(item.get("width") or 0),
+                "height": int(item.get("height") or 0),
+                "ai_reason": str(item.get("ai_reason") or ""),
+                "kind": "contact_sheet",
+                "media_ids": group_ids,
+                "contact_sheet_cell": cell_number,
+            })
     return attachments
 
 
@@ -1735,7 +2886,7 @@ def _codex_visual_attachments(
 ) -> list[dict[str, Any]]:
     context = [
         item
-        for item in source.get("browser_attachments", [])
+        for item in (source.get("browser_attachments") or [])
         if isinstance(item, dict) and isinstance(item.get("data"), bytes)
     ]
     combined: list[dict[str, Any]] = []
@@ -1755,15 +2906,204 @@ def _codex_generation_attachments(
 ) -> list[dict[str, Any]]:
     video_evidence = [
         item
-        for item in source.get("browser_attachments", [])
+        for item in (source.get("browser_attachments") or [])
         if isinstance(item, dict)
-        and item.get("id") == "video-frame-sheet"
+        and str(item.get("id") or "").startswith("video-frame")
         and isinstance(item.get("data"), bytes)
     ]
     return _codex_visual_attachments({"browser_attachments": video_evidence}, content_attachments)
 
 
-def _recent_draft_language(site_root: Path, limit: int = 12) -> list[dict[str, Any]]:
+def _analysis_attachments_for_chunk(
+    source: dict[str, Any],
+    *,
+    include_page: bool,
+) -> list[dict[str, Any]]:
+    media_ids = {
+        str(item.get("id"))
+        for kind in ("images", "videos")
+        for item in (source.get(kind) or [])
+        if isinstance(item, dict) and item.get("id")
+    }
+    attachments: list[dict[str, Any]] = []
+    covered_image_ids: set[str] = set()
+    for item in (source.get("browser_attachments") or []):
+        if not isinstance(item, dict) or not isinstance(item.get("data"), bytes):
+            continue
+        kind = str(item.get("kind") or "")
+        if kind == "full_page":
+            if include_page:
+                attachments.append(item)
+            continue
+        attachment_media_ids = {
+            str(media_id) for media_id in item.get("media_ids", [])
+            if isinstance(media_id, str)
+        }
+        if attachment_media_ids and attachment_media_ids.intersection(media_ids):
+            attachments.append(item)
+            if kind == "contact_sheet":
+                covered_image_ids.update(attachment_media_ids)
+    missing_image_ids = {
+        str(item.get("id"))
+        for item in (source.get("images") or [])
+        if isinstance(item, dict) and item.get("id")
+    } - covered_image_ids
+    if missing_image_ids:
+        attachments.extend(_codex_image_attachments(source, missing_image_ids))
+    return attachments
+
+
+def _merge_codex_analyses(analyses: list[dict[str, Any]]) -> dict[str, Any]:
+    if not analyses:
+        raise ValidationError("Codex analysis returned no results")
+    merged = {**analyses[0]}
+    merged["image_decisions"] = [
+        item
+        for analysis in analyses
+        for item in (analysis.get("image_decisions") or [])
+        if isinstance(item, dict)
+    ]
+    merged["video_decisions"] = [
+        item
+        for analysis in analyses
+        for item in (analysis.get("video_decisions") or [])
+        if isinstance(item, dict)
+    ]
+    relevance_rank = {"none": 0, "related": 1, "likely_product": 2, "exact_product": 3}
+    best_fanza = max(
+        analyses,
+        key=lambda item: relevance_rank.get(str(item.get("fanza_relevance") or "none"), 0),
+    )
+    for key in (
+        "fanza_relevance", "fanza_performer_name", "fanza_search_query",
+        "fanza_product_code", "fanza_reason",
+    ):
+        merged[key] = best_fanza.get(key, merged.get(key, ""))
+    people_by_name: dict[str, dict[str, Any]] = {}
+    for analysis in analyses:
+        for person in (analysis.get("fanza_people") or []):
+            if not isinstance(person, dict):
+                continue
+            name = str(person.get("name") or "").strip()
+            if not name:
+                continue
+            key = name.casefold()
+            existing = people_by_name.setdefault(key, {
+                "name": name,
+                "image_ids": [],
+                "reason": str(person.get("reason") or ""),
+            })
+            existing["image_ids"] = list(dict.fromkeys([
+                *existing["image_ids"],
+                *[
+                    str(image_id) for image_id in person.get("image_ids", [])
+                    if isinstance(image_id, str)
+                ],
+            ]))
+    merged["fanza_people"] = list(people_by_name.values())
+    social_by_url: dict[str, dict[str, Any]] = {}
+    for analysis in analyses:
+        for profile in (analysis.get("social_profiles") or []):
+            if not isinstance(profile, dict):
+                continue
+            url = str(profile.get("url") or "").strip()
+            if url and url not in social_by_url:
+                social_by_url[url] = profile
+    merged["social_profiles"] = list(social_by_url.values())
+    products_by_key: dict[str, dict[str, Any]] = {}
+    claimed_product_images: set[str] = set()
+    claimed_product_videos: set[str] = set()
+    for analysis in analyses:
+        for product in (analysis.get("fanza_image_products") or []):
+            if not isinstance(product, dict):
+                continue
+            product_code = str(product.get("product_code") or "").strip()
+            product_url = str(product.get("product_url") or "").strip()
+            key = re.sub(r"[^a-z0-9]", "", product_code.casefold()) or product_url.casefold()
+            if not key:
+                continue
+            existing = products_by_key.setdefault(key, {
+                "product_title": str(product.get("product_title") or ""),
+                "product_code": product_code,
+                "product_url": product_url,
+                "image_ids": [],
+                "video_ids": [],
+                "reason": str(product.get("reason") or ""),
+            })
+            new_image_ids = [
+                str(image_id)
+                for image_id in product.get("image_ids", [])
+                if isinstance(image_id, str) and image_id not in claimed_product_images
+            ]
+            existing["image_ids"] = list(dict.fromkeys([
+                *existing["image_ids"], *new_image_ids,
+            ]))
+            claimed_product_images.update(new_image_ids)
+            new_video_ids = [
+                str(video_id)
+                for video_id in product.get("video_ids", [])
+                if isinstance(video_id, str) and video_id not in claimed_product_videos
+            ]
+            existing["video_ids"] = list(dict.fromkeys([
+                *existing["video_ids"], *new_video_ids,
+            ]))
+            claimed_product_videos.update(new_video_ids)
+    merged["fanza_image_products"] = [
+        product for product in products_by_key.values()
+        if product["image_ids"] or product["video_ids"]
+    ]
+    merged["fanza_recommendation_queries"] = []
+    return merged
+
+
+def _representative_image_ids(source: dict[str, Any], selected_ids: list[str]) -> set[str]:
+    if len(selected_ids) <= CODEX_GENERATION_IMAGE_SAMPLE:
+        return set(selected_ids)
+    images = {
+        str(item.get("id")): item
+        for item in (source.get("images") or [])
+        if isinstance(item, dict) and item.get("id")
+    }
+    ranked = sorted(
+        selected_ids,
+        key=lambda image_id: (
+            int(images.get(image_id, {}).get("ai_relevance_score") or 0),
+            images.get(image_id, {}).get("ai_recommended_use") in {"thumbnail", "thumbnail_and_body"},
+        ),
+        reverse=True,
+    )
+    chosen = ranked[:CODEX_GENERATION_IMAGE_SAMPLE // 2]
+    remaining = [image_id for image_id in selected_ids if image_id not in chosen]
+    slots = CODEX_GENERATION_IMAGE_SAMPLE - len(chosen)
+    if remaining and slots:
+        step = len(remaining) / slots
+        chosen.extend(remaining[min(int(index * step), len(remaining) - 1)] for index in range(slots))
+    return set(chosen)
+
+
+def _representative_video_ids(source: dict[str, Any], selected_ids: list[str]) -> set[str]:
+    if len(selected_ids) <= CODEX_GENERATION_VIDEO_SAMPLE:
+        return set(selected_ids)
+    videos = {
+        str(item.get("id")): item
+        for item in (source.get("videos") or [])
+        if isinstance(item, dict) and item.get("id")
+    }
+    ranked = sorted(
+        selected_ids,
+        key=lambda video_id: int(videos.get(video_id, {}).get("ai_relevance_score") or 0),
+        reverse=True,
+    )
+    chosen = ranked[:CODEX_GENERATION_VIDEO_SAMPLE // 2]
+    remaining = [video_id for video_id in selected_ids if video_id not in chosen]
+    slots = CODEX_GENERATION_VIDEO_SAMPLE - len(chosen)
+    if remaining and slots:
+        step = len(remaining) / slots
+        chosen.extend(remaining[min(int(index * step), len(remaining) - 1)] for index in range(slots))
+    return set(chosen)
+
+
+def _recent_draft_language(site_root: Path, limit: int = 6) -> list[dict[str, Any]]:
     draft_root = site_root / ".article-studio" / "drafts"
     if not draft_root.exists():
         return []
@@ -1816,6 +3156,7 @@ def _validate_codex_result(
     value: Any,
     requested_count: Any = "auto",
     selected_media_count: int | None = None,
+    selected_image_ids: list[str] | None = None,
     selected_video_ids: list[str] | None = None,
 ) -> dict[str, Any]:
     if not isinstance(value, dict):
@@ -1837,6 +3178,8 @@ def _validate_codex_result(
     raw_responses = value.get("responses")
     if not isinstance(raw_responses, list) or not 3 <= len(raw_responses) <= 12:
         raise ValidationError("Codexのレス数が不正です")
+    ordered_image_ids = list(dict.fromkeys(selected_image_ids or []))
+    available_image_ids = set(ordered_image_ids)
     ordered_video_ids = list(dict.fromkeys(selected_video_ids or []))
     available_video_ids = set(ordered_video_ids)
     responses: list[dict[str, Any]] = []
@@ -1847,12 +3190,19 @@ def _validate_codex_result(
         style = str(item.get("style") or "normal")
         if style not in {"normal", "large", "highlight"}:
             style = "normal"
+        response_image_ids = item.get("image_ids")
+        if not isinstance(response_image_ids, list):
+            response_image_ids = []
         response_video_ids = item.get("video_ids")
         if not isinstance(response_video_ids, list):
             response_video_ids = []
         responses.append({
             "text": text,
             "style": style,
+            "image_ids": [
+                image_id for image_id in response_image_ids
+                if isinstance(image_id, str) and image_id in available_image_ids
+            ][:3],
             "video_ids": [
                 video_id for video_id in response_video_ids
                 if isinstance(video_id, str) and video_id in available_video_ids
@@ -1862,6 +3212,15 @@ def _validate_codex_result(
     responses = responses[:count]
     if len(responses) < min(3, count):
         raise ValidationError("Codexが必要なレス数を返しませんでした")
+    seen_image_ids: set[str] = set()
+    for response in responses:
+        unique_image_ids: list[str] = []
+        for image_id in response["image_ids"]:
+            if image_id in seen_image_ids:
+                continue
+            seen_image_ids.add(image_id)
+            unique_image_ids.append(image_id)
+        response["image_ids"] = unique_image_ids
     seen_video_ids: set[str] = set()
     for response in responses:
         unique_video_ids: list[str] = []
@@ -1872,40 +3231,101 @@ def _validate_codex_result(
             unique_video_ids.append(video_id)
         response["video_ids"] = unique_video_ids
 
-    if ordered_video_ids:
-        first_video_id = ordered_video_ids[0]
-        for response in responses:
-            if response is not responses[0] and first_video_id in response["video_ids"]:
-                response["video_ids"].remove(first_video_id)
-        if first_video_id not in responses[0]["video_ids"]:
-            if len(responses[0]["video_ids"]) >= 2:
-                responses[0]["video_ids"].pop()
-            responses[0]["video_ids"].insert(0, first_video_id)
-
-        used_video_ids = {
-            video_id for response in responses for video_id in response["video_ids"]
-        }
-        missing_video_ids = [video_id for video_id in ordered_video_ids if video_id not in used_video_ids]
-        posting_texts = ("次これも置いとく", "あとこれ", "最後これも")
-        for video_id in missing_video_ids:
-            candidates = [response for response in responses if response["video_ids"] and len(response["video_ids"]) < 2]
-            if not candidates:
-                candidates = [response for response in responses if not response["video_ids"]]
-            if not candidates:
-                raise ValidationError("動画を配置できるレスが不足しています")
-            target = candidates[0]
-            if not target["video_ids"] and target is not responses[0]:
-                target["text"] = posting_texts[min(responses.index(target) - 1, len(posting_texts) - 1)]
-            target["video_ids"].append(video_id)
     return {"title": title, "summary": summary, "category": category, "tags": tags, "responses": responses}
+
+
+NON_TOPIC_ARTICLE_TAGS = {
+    "pr",
+    "pr記事",
+    "fanza",
+    "dmm",
+    "広告",
+    "アフィリエイト",
+    "成人向け",
+    "成人向け作品",
+    "成人向け画像",
+    "成人向け動画",
+    "成人動画",
+    "アダルト",
+    "アダルト作品",
+    "アダルト画像",
+    "アダルト動画",
+    "18禁",
+    "r18",
+    "r-18",
+}
+NORMALIZED_NON_TOPIC_ARTICLE_TAGS = {
+    re.sub(r"[\s_-]+", "", tag).casefold()
+    for tag in NON_TOPIC_ARTICLE_TAGS
+}
+
+
+def clean_article_topic_tags(values: Any, *, limit: int = 8) -> list[str]:
+    if not isinstance(values, list):
+        return []
+    tags: list[str] = []
+    seen: set[str] = set()
+    for value in values:
+        if not isinstance(value, str):
+            continue
+        tag = value.strip().lstrip("#").strip()
+        key = re.sub(r"[\s_-]+", "", tag).casefold()
+        if not tag or key in NORMALIZED_NON_TOPIC_ARTICLE_TAGS:
+            continue
+        if key in seen:
+            continue
+        seen.add(key)
+        tags.append(tag[:40])
+        if len(tags) >= limit:
+            break
+    return tags
+
+
+def normalize_article_title_label(value: Any) -> str:
+    title = _trim_text(str(value or ""), 180)
+    match = re.match(r"^\s*【([^】]{1,50})】\s*(.*)$", title)
+    if not match:
+        normalized = title
+    else:
+        label, remainder = match.groups()
+        has_image = bool(re.search(r"画像(?:\s*\d+\s*枚?)?", label))
+        has_video = bool(re.search(r"動画(?:\s*\d+\s*本?)?", label))
+        has_gif = bool(re.search(r"GIF(?:\s*\d+\s*本?)?", label, re.IGNORECASE))
+        if not (has_image or has_video or has_gif):
+            normalized = title
+        else:
+            residue = re.sub(r"画像(?:\s*\d+\s*枚?)?", "", label)
+            residue = re.sub(r"動画(?:\s*\d+\s*本?)?", "", residue)
+            residue = re.sub(
+                r"GIF(?:\s*\d+\s*本?)?", "", residue, flags=re.IGNORECASE
+            )
+            extra_labels = [
+                re.sub(r"^[\s:：,，、-]+|[\s:：,，、-]+$", "", item)
+                for item in re.split(r"[＋+＆&・/／|]+", residue)
+            ]
+            clean_labels = [
+                *(["画像"] if has_image else []),
+                *(["動画"] if has_video else []),
+                *(["GIF"] if has_gif else []),
+                *[item for item in extra_labels if item],
+            ]
+            clean_label = "＋".join(dict.fromkeys(clean_labels))
+            normalized = f"【{clean_label}】{remainder.strip()}"
+    normalized = re.sub(
+        r"(画像|動画|GIF)\s*\d+\s*(?:枚|本)",
+        lambda match: match.group(1).upper() if match.group(1).casefold() == "gif" else match.group(1),
+        normalized,
+        flags=re.IGNORECASE,
+    )
+    return _trim_text(normalized, 180)
 
 
 def apply_codex_result(base_payload: dict[str, Any], generated: dict[str, Any]) -> dict[str, Any]:
     payload = {**base_payload}
-    payload["title"] = generated["title"]
+    payload["title"] = normalize_article_title_label(generated["title"])
     payload["summary"] = generated["summary"]
     payload["category"] = generated["category"]
-    payload["tags"] = generated["tags"]
+    payload["tags"] = clean_article_topic_tags(generated.get("tags"))
     payload["comments"] = len(generated["responses"])
     payload["generation_method"] = "codex"
     payload["generated_at"] = datetime.now(JST).isoformat(timespec="seconds")
@@ -1915,6 +3335,20 @@ def apply_codex_result(base_payload: dict[str, Any], generated: dict[str, Any]) 
         for block in base_payload.get("blocks", [])
         if isinstance(block, dict) and block.get("type") in {"images", "videos", "x_embed", "x_timeline"}
     ]
+    lead_media = [block for block in media_blocks if block.get("lead")]
+    media_blocks = [block for block in media_blocks if not block.get("lead")]
+    lead_image_ids = {
+        str(image_id)
+        for block in lead_media
+        for image_id in block.get("image_ids", [])
+        if isinstance(image_id, str)
+    }
+    lead_video_ids = {
+        str(video_id)
+        for block in lead_media
+        for video_id in block.get("video_ids", [])
+        if isinstance(video_id, str)
+    }
     base_video_ids = {
         str(video.get("id"))
         for video in base_payload.get("videos", [])
@@ -1929,7 +3363,57 @@ def apply_codex_result(base_payload: dict[str, Any], generated: dict[str, Any]) 
         }
         for index, item in enumerate(generated["responses"], start=1)
     ]
-    blocks: list[dict[str, Any]] = []
+    if any(
+        item.get("image_ids") or item.get("video_ids")
+        for item in generated["responses"]
+    ):
+        image_ids = [
+            str(image.get("id")) for image in base_payload.get("images", [])
+            if isinstance(image, dict) and image.get("id")
+        ]
+        video_ids = [
+            str(video.get("id")) for video in base_payload.get("videos", [])
+            if isinstance(video, dict) and video.get("id")
+        ]
+        assigned_images: set[str] = set(lead_image_ids)
+        assigned_videos: set[str] = set(lead_video_ids)
+        blocks: list[dict[str, Any]] = [*lead_media]
+        embeds = [block for block in media_blocks if block.get("type") in {"x_embed", "x_timeline"}]
+        for index, (response, generated_response) in enumerate(zip(response_blocks, generated["responses"]), start=1):
+            blocks.append(response)
+            attached_images = [
+                image_id for image_id in generated_response.get("image_ids", [])
+                if image_id in image_ids and image_id not in assigned_images
+            ]
+            if attached_images:
+                blocks.append({"id": f"codex-images-{index}", "type": "images", "image_ids": attached_images})
+                assigned_images.update(attached_images)
+            attached_videos = [
+                video_id for video_id in generated_response.get("video_ids", [])
+                if video_id in video_ids and video_id not in assigned_videos
+            ]
+            if attached_videos:
+                blocks.append({"id": f"codex-videos-{index}", "type": "videos", "video_ids": attached_videos})
+                assigned_videos.update(attached_videos)
+            if index == 1:
+                blocks.extend(embeds)
+        remaining_images = [image_id for image_id in image_ids if image_id not in assigned_images]
+        remaining_videos = [video_id for video_id in video_ids if video_id not in assigned_videos]
+        if remaining_images or remaining_videos:
+            blocks.append({"id": "codex-gallery-separator", "type": "separator"})
+        for index, image_id in enumerate(remaining_images, start=1):
+            blocks.append({"id": f"codex-gallery-image-{index}", "type": "images", "image_ids": [image_id]})
+        for index in range(0, len(remaining_videos), 2):
+            blocks.append({
+                "id": f"codex-gallery-videos-{index // 2 + 1}",
+                "type": "videos",
+                "video_ids": remaining_videos[index:index + 2],
+            })
+        blocks.append({"id": "codex-ad", "type": "ad", "text": "記事内容に合う関連広告枠"})
+        payload["blocks"] = blocks
+        payload["media_alignment_checked"] = True
+        return payload
+    blocks: list[dict[str, Any]] = [*lead_media]
     if base_video_ids:
         non_video_media = [
             block
@@ -1937,19 +3421,48 @@ def apply_codex_result(base_payload: dict[str, Any], generated: dict[str, Any]) 
             if block.get("type") in {"images", "x_embed", "x_timeline"}
         ]
         media_index = 0
+        assigned_video_ids = {
+            str(video_id)
+            for generated_response in generated["responses"]
+            for video_id in generated_response.get("video_ids", [])
+            if isinstance(video_id, str)
+        } | lead_video_ids
+        remaining_video_ids = [
+            str(video.get("id"))
+            for video in base_payload.get("videos", [])
+            if isinstance(video, dict)
+            and video.get("id")
+            and str(video.get("id")) not in assigned_video_ids
+        ]
         for index, (response, generated_response) in enumerate(zip(response_blocks, generated["responses"]), start=1):
             blocks.append(response)
-            attached_video_ids = generated_response.get("video_ids", [])
+            attached_video_ids = [
+                video_id for video_id in generated_response.get("video_ids", [])
+                if video_id not in lead_video_ids
+            ]
             if attached_video_ids:
                 blocks.append({
                     "id": f"codex-videos-{index}",
                     "type": "videos",
                     "video_ids": attached_video_ids[:],
                 })
+            elif remaining_video_ids:
+                blocks.append({
+                    "id": f"codex-videos-unassigned-{index}",
+                    "type": "videos",
+                    "video_ids": remaining_video_ids[:2],
+                })
+                del remaining_video_ids[:2]
             if media_index < len(non_video_media):
                 blocks.append(non_video_media[media_index])
                 media_index += 1
         blocks.extend(non_video_media[media_index:])
+        for index in range(0, len(remaining_video_ids), 2):
+            blocks.append({
+                "id": f"codex-videos-remaining-{index // 2 + 1}",
+                "type": "videos",
+                "video_ids": remaining_video_ids[index:index + 2],
+            })
     else:
         response_index = 0
         if response_blocks:
@@ -1963,7 +3476,165 @@ def apply_codex_result(base_payload: dict[str, Any], generated: dict[str, Any]) 
         blocks.extend(response_blocks[response_index:])
     blocks.append({"id": "codex-ad", "type": "ad", "text": "記事内容に合う関連広告枠"})
     payload["blocks"] = blocks
+    # The app places every selected media item after the replies are assembled.
+    # Editorial metadata (including content_mode) is applied by the caller later.
+    payload["media_alignment_checked"] = True
     return payload
+
+
+def _codex_analysis_cache_key(
+    prompt: str,
+    attachments: list[dict[str, Any]],
+) -> str:
+    digest = hashlib.sha256()
+    digest.update(CODEX_ANALYSIS_CACHE_VERSION.encode("ascii"))
+    digest.update(b"\0")
+    digest.update(prompt.encode("utf-8"))
+    for attachment in attachments:
+        digest.update(b"\0")
+        digest.update(str(attachment.get("id") or "").encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(str(attachment.get("filename") or "").encode("utf-8"))
+        data = attachment.get("data")
+        if isinstance(data, bytes):
+            digest.update(hashlib.sha256(data).digest())
+    return digest.hexdigest()
+
+
+def _read_codex_analysis_cache(
+    site_root: Path,
+    cache_key: str,
+) -> dict[str, Any] | None:
+    path = site_root / ".article-studio" / "analysis-cache" / f"{cache_key}.json"
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    if (
+        not isinstance(value, dict)
+        or value.get("version") != CODEX_ANALYSIS_CACHE_VERSION
+        or not isinstance(value.get("analysis"), dict)
+    ):
+        return None
+    return value["analysis"]
+
+
+def _write_codex_analysis_cache(
+    site_root: Path,
+    cache_key: str,
+    analysis: dict[str, Any],
+) -> None:
+    root = site_root / ".article-studio" / "analysis-cache"
+    root.mkdir(parents=True, exist_ok=True)
+    path = root / f"{cache_key}.json"
+    temporary = path.with_suffix(".tmp")
+    temporary.write_text(
+        json.dumps({
+            "version": CODEX_ANALYSIS_CACHE_VERSION,
+            "analysis": analysis,
+        }, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    temporary.replace(path)
+
+
+def _combined_codex_schema_path(site_root: Path) -> Path:
+    """Build the one-pass schema from the two checked-in source schemas."""
+    try:
+        analysis_schema = json.loads(CODEX_ANALYSIS_SCHEMA_PATH.read_text(encoding="utf-8"))
+        article_schema = json.loads(CODEX_SCHEMA_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValidationError("Codex出力スキーマを準備できません") from exc
+    if not isinstance(analysis_schema, dict) or not isinstance(article_schema, dict):
+        raise ValidationError("Codex出力スキーマが不正です")
+    combined = json.loads(json.dumps(analysis_schema))
+    combined.setdefault("required", []).append("article")
+    article_schema.pop("$schema", None)
+    combined.setdefault("properties", {})["article"] = article_schema
+    path = site_root / ".article-studio" / CODEX_COMBINED_SCHEMA_NAME
+    path.parent.mkdir(parents=True, exist_ok=True)
+    serialized = json.dumps(combined, ensure_ascii=False, indent=2) + "\n"
+    try:
+        current = path.read_text(encoding="utf-8")
+    except OSError:
+        current = ""
+    if current != serialized:
+        temporary = path.with_name(f".{path.name}.{secrets.token_hex(4)}.tmp")
+        temporary.write_text(serialized, encoding="utf-8")
+        temporary.replace(path)
+    return path
+
+
+def _validate_x_trend_template_result(value: Any) -> dict[str, Any]:
+    if not isinstance(value, dict):
+        raise ValidationError("X流行テンプレの結果が正しくありません")
+    observations = value.get("observations")
+    templates = value.get("templates")
+    if not isinstance(observations, list) or not isinstance(templates, list):
+        raise ValidationError("X流行テンプレの項目が不足しています")
+
+    clean_observations: list[dict[str, str]] = []
+    for item in observations[:8]:
+        if not isinstance(item, dict):
+            continue
+        label = _clean_space(item.get("label"))[:30]
+        finding = _clean_space(item.get("finding"))[:180]
+        confidence = str(item.get("confidence") or "").lower()
+        if label and finding and confidence in {"high", "medium", "low"}:
+            clean_observations.append({
+                "label": label,
+                "finding": finding,
+                "confidence": confidence,
+            })
+    if len(clean_observations) < 3:
+        raise ValidationError("X流行の観察結果が不足しています")
+
+    clean_templates: list[dict[str, Any]] = []
+    seen_ids: set[str] = set()
+    for item in templates[:16]:
+        if not isinstance(item, dict):
+            continue
+        template_id = str(item.get("template_id") or "").strip().lower()
+        if not re.fullmatch(r"[a-z0-9_-]{3,32}", template_id) or template_id in seen_ids:
+            continue
+        media_kinds = list(dict.fromkeys(
+            str(kind) for kind in (item.get("media_kinds") or [])
+            if str(kind) in {"video", "images", "none"}
+        ))
+        name = _clean_space(item.get("name"))[:30]
+        hook_style = _clean_space(item.get("hook_style"))[:120]
+        body_style = _clean_space(item.get("body_style"))[:160]
+        ending_style = _clean_space(item.get("ending_style"))[:100]
+        tone = _clean_space(item.get("tone"))[:60]
+        avoid = [
+            _clean_space(entry)[:60]
+            for entry in (item.get("avoid") or [])[:8]
+            if _clean_space(entry)
+        ]
+        try:
+            length_target = max(25, min(180, int(item.get("length_target") or 80)))
+        except (TypeError, ValueError):
+            length_target = 80
+        combined = " ".join((name, hook_style, body_style, ending_style, tone, *avoid))
+        if re.search(r"https?://|(?:^|\s)@[A-Za-z0-9_]+|(?:^|\s)#[^\s]+", combined):
+            continue
+        if not all((name, media_kinds, hook_style, body_style, ending_style, tone, avoid)):
+            continue
+        seen_ids.add(template_id)
+        clean_templates.append({
+            "template_id": template_id,
+            "name": name,
+            "media_kinds": media_kinds,
+            "hook_style": hook_style,
+            "body_style": body_style,
+            "ending_style": ending_style,
+            "tone": tone,
+            "length_target": length_target,
+            "avoid": avoid,
+        })
+    if len(clean_templates) < 8:
+        raise ValidationError("使えるX投稿テンプレが8本未満です")
+    return {"observations": clean_observations, "templates": clean_templates}
 
 
 class CodexRunner:
@@ -2017,6 +3688,72 @@ class CodexRunner:
         }
         return dict(self._status)
 
+    def compose_x_trend_templates(self, samples: list[dict[str, Any]]) -> dict[str, Any]:
+        compact_samples = []
+        for item in samples[:40]:
+            if not isinstance(item, dict):
+                continue
+            compact_samples.append({
+                "text": _trim_text(_clean_space(item.get("text")), 420),
+                "likes": max(0, int(item.get("likes") or 0)),
+                "reposts": max(0, int(item.get("reposts") or 0)),
+                "replies": max(0, int(item.get("replies") or 0)),
+                "views": max(0, int(item.get("views") or 0)),
+                "media_kind": str(item.get("media_kind") or "none"),
+            })
+        if len(compact_samples) < 3:
+            raise ValidationError("Codexが傾向を判断できるX投稿が3件未満です")
+        prompt = f"""あなたは淫談屋のX運用を担当する編集者です。
+以下は、X上で現在高い反応を得ている成人による成人向け投稿だけを、
+アプリ側で年齢・反応数・危険語により選別した観測データです。
+
+目的:
+- 投稿内容や固有表現を転載せず、反応を得ている「書き出し・視点・間・締め方」だけを抽象化する。
+- 後段の通常ChatGPTが個別記事に合わせて文章を書くための、構造テンプレを8～16本作る。
+- video、images、noneの媒体差を考慮し、同じ煽りや同じ語尾ばかりにならないよう十分に散らす。
+
+厳守:
+- 観測文の言い回し、固有名詞、ユーザー名、URL、ハッシュタグをテンプレへ写さない。
+- テンプレ自体を完成投稿文にしない。hook_style等は日本語の編集指示として書く。
+- 未成年、年齢不明を未成年風に扱う表現、盗撮、流出、不同意、違法性を売りにする型を作らない。
+- 人気・数字・人物名など、個別記事で確認できない事実を要求しない。
+- ニュース見出し、広告、記事要約に見える型を避け、友人へ見せる短い反応の型にする。
+- observationsも個別投稿を特定できない抽象的な傾向だけを書く。
+- 指定JSONスキーマだけを返し、説明やMarkdownを付けない。
+
+観測データ:
+{json.dumps(compact_samples, ensure_ascii=False)}"""
+        value = self._execute(
+            prompt,
+            X_TREND_TEMPLATE_SCHEMA_PATH,
+            run_prefix="x-trends-",
+        )
+        return _validate_x_trend_template_result(value)
+
+    def _build_command(
+        self,
+        schema_path: Path,
+        output_path: Path,
+        *,
+        web_search: bool = False,
+        reasoning_effort: str = CODEX_ARTICLE_REASONING_EFFORT,
+    ) -> list[str]:
+        if not self.executable:
+            raise ValidationError("Codex CLIが見つかりません")
+        command = [
+            str(self.executable), "exec",
+            "--model", CODEX_ARTICLE_MODEL,
+            "--config", f'model_reasoning_effort="{reasoning_effort}"',
+            "--ephemeral", "--ignore-rules",
+            "--sandbox", "read-only", "--skip-git-repo-check",
+            "--output-schema", str(schema_path),
+            "--output-last-message", str(output_path),
+            "--color", "never", "--cd", str(self.site_root), "-",
+        ]
+        if web_search:
+            command[2:2] = ["--enable", "standalone_web_search"]
+        return command
+
     def _execute(
         self,
         prompt: str,
@@ -2024,6 +3761,8 @@ class CodexRunner:
         *,
         attachments: list[dict[str, Any]] | None = None,
         run_prefix: str = "run-",
+        web_search: bool = False,
+        reasoning_effort: str = CODEX_ARTICLE_REASONING_EFFORT,
     ) -> Any:
         status = self.status()
         if not status["available"] or not self.executable:
@@ -2035,15 +3774,19 @@ class CodexRunner:
         with tempfile.TemporaryDirectory(prefix=run_prefix, dir=work_root) as temporary:
             temporary_root = Path(temporary)
             output_path = temporary_root / "result.json"
-            command = [
-                str(self.executable), "exec", "--ephemeral", "--ignore-rules",
-                "--sandbox", "read-only", "--skip-git-repo-check",
-                "--output-schema", str(schema_path),
-                "--output-last-message", str(output_path),
-                "--color", "never", "--cd", str(self.site_root), "-",
-            ]
+            command = self._build_command(
+                schema_path,
+                output_path,
+                web_search=web_search,
+                reasoning_effort=reasoning_effort,
+            )
+            seen_attachment_names: set[str] = set()
             for attachment in attachments or []:
-                image_path = temporary_root / str(attachment["filename"])
+                filename = str(attachment["filename"])
+                if filename in seen_attachment_names:
+                    continue
+                seen_attachment_names.add(filename)
+                image_path = temporary_root / filename
                 image_path.write_bytes(attachment["data"])
                 command[2:2] = ["--image", str(image_path)]
             environment = os.environ.copy()
@@ -2068,7 +3811,16 @@ class CodexRunner:
                 raise ValidationError(f"Codexを起動できません: {exc}") from exc
             if completed.returncode != 0:
                 raw_detail = completed.stderr or completed.stdout or "unknown error"
-                detail = _trim_text(raw_detail[-4000:], 1000)
+                error_position = max(
+                    raw_detail.rfind("ERROR:"),
+                    raw_detail.rfind('"type": "error"'),
+                )
+                useful_detail = (
+                    raw_detail[error_position:]
+                    if error_position >= 0
+                    else raw_detail[-2000:]
+                )
+                detail = _trim_text(useful_detail, 1000)
                 lowered_detail = raw_detail.lower()
                 if "rate limit" in lowered_detail or "usage limit" in lowered_detail:
                     raise ValidationError("Codexの利用上限に達しました。時間を置いて再実行してください")
@@ -2084,36 +3836,227 @@ class CodexRunner:
                 raise ValidationError("Codexの結果を読み込めませんでした") from exc
 
     def analyze(self, source: dict[str, Any]) -> dict[str, Any]:
-        browser_attachments = [
-            item for item in source.get("browser_attachments", [])
-            if isinstance(item, dict) and isinstance(item.get("data"), bytes)
-        ]
-        attachments = browser_attachments or _codex_image_attachments(source)
-        value = self._execute(
-            _codex_analysis_prompt(source, attachments),
-            CODEX_ANALYSIS_SCHEMA_PATH,
-            attachments=attachments,
-            run_prefix="analysis-",
+        images = [item for item in (source.get("images") or []) if isinstance(item, dict)]
+        videos = [item for item in (source.get("videos") or []) if isinstance(item, dict)]
+        batch_count = max(
+            1,
+            (len(images) + CODEX_ANALYSIS_IMAGE_BATCH - 1) // CODEX_ANALYSIS_IMAGE_BATCH,
+            (len(videos) + CODEX_ANALYSIS_VIDEO_BATCH - 1) // CODEX_ANALYSIS_VIDEO_BATCH,
         )
-        return _validate_codex_analysis(value, source)
+        analyses: list[dict[str, Any]] = []
+        for index in range(batch_count):
+            chunk = {
+                **source,
+                "images": images[
+                    index * CODEX_ANALYSIS_IMAGE_BATCH:
+                    (index + 1) * CODEX_ANALYSIS_IMAGE_BATCH
+                ],
+                "videos": videos[
+                    index * CODEX_ANALYSIS_VIDEO_BATCH:
+                    (index + 1) * CODEX_ANALYSIS_VIDEO_BATCH
+                ],
+            }
+            attachments = _analysis_attachments_for_chunk(chunk, include_page=index == 0)
+            prompt = _codex_analysis_prompt(chunk, attachments)
+            cache_key = _codex_analysis_cache_key(prompt, attachments)
+            cached = _read_codex_analysis_cache(self.site_root, cache_key)
+            if cached is not None:
+                try:
+                    analyses.append(enrich_analysis_official_work(
+                        self.site_root,
+                        _validate_codex_analysis(cached, chunk),
+                    ))
+                    continue
+                except ValidationError:
+                    pass
+            value = self._execute(
+                prompt,
+                CODEX_ANALYSIS_SCHEMA_PATH,
+                attachments=attachments,
+                run_prefix=f"analysis-{index + 1}-",
+            )
+            validated = enrich_analysis_official_work(
+                self.site_root,
+                _validate_codex_analysis(value, chunk),
+            )
+            _write_codex_analysis_cache(self.site_root, cache_key, validated)
+            analyses.append(validated)
+        return _merge_codex_analyses(analyses)
+
+    def verify_social_profile(self, subject: dict[str, Any]) -> dict[str, Any]:
+        name = _trim_text(str(subject.get("name") or ""), 80)
+        role = _trim_text(str(subject.get("role") or ""), 80)
+        subject_reason = _trim_text(str(subject.get("reason") or ""), 240)
+        if not name:
+            raise ValidationError("公式アカウントを調べる人物名がありません")
+        prompt = f"""あなたは記事で紹介する実在の公開活動者について、本人の公式SNSを照合する調査担当です。
+Web検索を使い、次の人物だけを調べてください。
+
+人物名: {name}
+活動区分: {role or '不明'}
+記事内の根拠: {subject_reason or '人物名のみ確認済み'}
+
+調査目的:
+- 本人の公式X、TikTok、Instagram、YouTube、MyFans、Fantiaプロフィールを特定する。
+- 同姓同名、転載アカウント、ファンアカウント、まとめサイト運営者を除外する。
+- 記事で紹介した人物とプロフィールが同一人物だと検証する。
+
+必須条件:
+- 推測でユーザー名やURLを作らない。
+- status=verifiedにするには、公式プロフィールまたは本人の公式リンク集を含む根拠と、別ドメインの独立した根拠の最低2系統を確認する。
+- 検索結果の見出しだけでなく、人物名・活動区分・プロフィールURLの対応を確認する。
+- 根拠が1系統だけ、候補が複数、別人の可能性が残る場合はambiguousにする。
+- 確認できなければnot_foundにする。verified以外ではprofilesを空配列にする。
+- evidenceには実際に確認したページURL、種類、何を確認できたかを書く。
+- thumbnail_urlには、確認できた場合だけ、そのプロフィールページ自身のアイコンまたはOGP画像URLを書く。記事画像やAV場面画像を代用しない。
+- subject_nameは「{name}」を一字も変えずに返す。
+- 指定JSONスキーマだけを返し、説明やMarkdownを付けない。
+"""
+        value = self._execute(
+            prompt,
+            SOCIAL_PROFILE_VERIFICATION_SCHEMA_PATH,
+            run_prefix="social-profile-",
+            web_search=True,
+            reasoning_effort="low",
+        )
+        try:
+            return validate_social_verification(value, name, role)
+        except ValueError as exc:
+            raise ValidationError(str(exc)) from exc
+
+    def compose(self, source: dict[str, Any], options: dict[str, Any]) -> dict[str, Any]:
+        """Classify every candidate and write the final article in one Codex call."""
+        image_ids = list(dict.fromkeys(
+            str(item.get("id"))
+            for item in (source.get("images") or [])
+            if isinstance(item, dict) and item.get("id")
+        ))
+        video_ids = list(dict.fromkeys(
+            str(item.get("id"))
+            for item in (source.get("videos") or [])
+            if isinstance(item, dict) and item.get("id")
+        ))
+        prompt_options = {
+            **options,
+            "selected_image_ids": image_ids,
+            "selected_video_ids": video_ids,
+            "generation_image_ids": image_ids,
+            "generation_video_ids": video_ids,
+            "recent_language": _recent_draft_language(self.site_root),
+        }
+        evidence = _analysis_attachments_for_chunk(source, include_page=True)
+        representative_ids = _representative_image_ids(source, image_ids)
+        content_attachments = _codex_image_attachments(source, representative_ids)
+        attachments: list[dict[str, Any]] = []
+        seen_filenames: set[str] = set()
+        for item in [*evidence, *content_attachments]:
+            filename = str(item.get("filename") or "")
+            if not filename or filename in seen_filenames:
+                continue
+            seen_filenames.add(filename)
+            attachments.append(item)
+
+        analysis_prompt = _codex_analysis_prompt(source, evidence)
+        article_prompt = _codex_prompt(
+            source,
+            prompt_options,
+            content_attachments,
+            nested_article=True,
+        )
+        learning_context = str(options.get("site_learning_context") or "").strip()
+        prompt = f"""{analysis_prompt}
+
+{learning_context}
+
+=== 同じ1回の実行で作る完成記事 ===
+{article_prompt}
+
+解析後、同じ回答内でタイトルと全レスを編集者として読み直してください。
+画像・動画の内容と文章が一致するか、会話が不自然でないか、同じ語尾や定型句を
+繰り返していないかを内部で修正し、推敲後の完成稿だけを返してください。
+最終JSONは解析項目をすべてトップレベルに置き、完成記事をarticleへ入れます。
+articleでは、image_decisionsとvideo_decisionsでarticleと判定したIDだけを使います。
+adult_content=falseまたはpage_roleがarticle以外でもarticleは省略しません。
+Markdown、説明、途中案は返さず、指定スキーマのJSONだけを返してください。
+"""
+        value = self._execute(
+            prompt,
+            _combined_codex_schema_path(self.site_root),
+            attachments=attachments,
+            run_prefix="compose-",
+            web_search=True,
+        )
+        analysis = enrich_analysis_official_work(
+            self.site_root,
+            _validate_codex_analysis(value, source),
+        )
+        raw_article = value.get("article") if isinstance(value, dict) else None
+        article = _validate_codex_result(
+            raw_article,
+            prompt_options.get("reply_count", "auto"),
+            selected_media_count=len(image_ids) + len(video_ids),
+            selected_image_ids=image_ids,
+            selected_video_ids=video_ids,
+        )
+        overlap_chunks = _codex_article_overlap_chunks(source, article)
+        if overlap_chunks:
+            repaired_value = self._execute(
+                _codex_originality_repair_prompt(
+                    source,
+                    prompt_options,
+                    article,
+                    overlap_chunks,
+                ),
+                CODEX_SCHEMA_PATH,
+                attachments=[],
+                run_prefix="originality-",
+            )
+            article = _validate_codex_result(
+                repaired_value,
+                prompt_options.get("reply_count", "auto"),
+                selected_media_count=len(image_ids) + len(video_ids),
+                selected_image_ids=image_ids,
+                selected_video_ids=video_ids,
+            )
+            if _codex_article_overlap_chunks(source, article):
+                raise ValidationError(
+                    "Codexの文章修正後も元ページと長く一致する箇所が残りました"
+                )
+        return {"analysis": analysis, "article": article}
 
     def generate(self, source: dict[str, Any], options: dict[str, Any]) -> dict[str, Any]:
         prompt_options = {
             **options,
             "recent_language": _recent_draft_language(self.site_root),
         }
-        selected_ids = {
+        selected_ids = list(dict.fromkeys(
             str(image_id)
             for image_id in prompt_options.get("selected_image_ids", [])
             if isinstance(image_id, str)
-        }
-        content_attachments = _codex_image_attachments(source, selected_ids)
-        visual_attachments = _codex_generation_attachments(source, content_attachments)
+        ))
+        representative_ids = _representative_image_ids(source, selected_ids)
+        content_attachments = _codex_image_attachments(source, representative_ids)
         selected_video_ids = list(dict.fromkeys(
             str(video_id)
             for video_id in prompt_options.get("selected_video_ids", [])
             if isinstance(video_id, str)
         ))
+        representative_video_ids = _representative_video_ids(source, selected_video_ids)
+        prompt_options["generation_image_ids"] = list(representative_ids)
+        prompt_options["generation_video_ids"] = list(representative_video_ids)
+        visual_source = {
+            **source,
+            "browser_attachments": [
+                item
+                for item in (source.get("browser_attachments") or [])
+                if isinstance(item, dict)
+                and (
+                    not item.get("media_ids")
+                    or set(item.get("media_ids", [])).intersection(representative_video_ids)
+                )
+            ],
+        }
+        visual_attachments = _codex_generation_attachments(visual_source, content_attachments)
         selected_video_count = len(selected_video_ids)
         value = self._execute(
             _codex_prompt(source, prompt_options, content_attachments),
@@ -2124,27 +4067,42 @@ class CodexRunner:
         result = _validate_codex_result(
             value,
             prompt_options.get("reply_count", "auto"),
-            selected_media_count=selected_video_count + len(content_attachments),
+            selected_media_count=selected_video_count + len(selected_ids),
+            selected_image_ids=selected_ids,
             selected_video_ids=selected_video_ids,
         )
         refined_value = self._execute(
             _codex_refinement_prompt(source, prompt_options, result),
             CODEX_SCHEMA_PATH,
-            attachments=visual_attachments,
+            attachments=[],
             run_prefix="refine-",
         )
         result = _validate_codex_result(
             refined_value,
             prompt_options.get("reply_count", "auto"),
-            selected_media_count=selected_video_count + len(content_attachments),
+            selected_media_count=selected_video_count + len(selected_ids),
+            selected_image_ids=selected_ids,
             selected_video_ids=selected_video_ids,
         )
+        payload_image_ids = {
+            source_image_id: f"source-image-{index}"
+            for index, source_image_id in enumerate(selected_ids, start=1)
+        }
         payload_video_ids = {
             source_video_id: f"source-video-{index}"
             for index, source_video_id in enumerate(selected_video_ids, start=1)
         }
         for response in result["responses"]:
-            response["video_ids"] = [payload_video_ids[video_id] for video_id in response["video_ids"]]
+            response["image_ids"] = [
+                payload_image_ids[image_id]
+                for image_id in response["image_ids"]
+                if image_id in payload_image_ids
+            ]
+            response["video_ids"] = [
+                payload_video_ids[video_id]
+                for video_id in response["video_ids"]
+                if video_id in payload_video_ids
+            ]
         return result
 
     def refine_existing(
@@ -2160,8 +4118,13 @@ class CodexRunner:
                 responses.append({
                     "text": str(block.get("text") or ""),
                     "style": str(block.get("style") or "normal"),
+                    "image_ids": [],
                     "video_ids": [],
                 })
+            elif block.get("type") == "images" and responses:
+                responses[-1]["image_ids"].extend(
+                    str(image_id) for image_id in block.get("image_ids", []) if isinstance(image_id, str)
+                )
             elif block.get("type") == "videos" and responses:
                 responses[-1]["video_ids"].extend(
                     str(video_id) for video_id in block.get("video_ids", []) if isinstance(video_id, str)
@@ -2170,6 +4133,10 @@ class CodexRunner:
             raise ValidationError("推敲できるレスが不足しています")
         selected_video_ids = [
             str(item.get("id")) for item in payload.get("videos", [])
+            if isinstance(item, dict) and item.get("id")
+        ]
+        selected_image_ids = [
+            str(item.get("id")) for item in payload.get("images", [])
             if isinstance(item, dict) and item.get("id")
         ]
         draft = {
@@ -2197,19 +4164,21 @@ class CodexRunner:
             visual_attachments = _codex_generation_attachments(source_context, [])
         options = {
             "reply_count": "auto",
+            "selected_image_ids": selected_image_ids,
             "selected_video_ids": selected_video_ids,
             "recent_language": _recent_draft_language(self.site_root),
         }
         refined_value = self._execute(
             _codex_refinement_prompt(source, options, draft),
             CODEX_SCHEMA_PATH,
-            attachments=visual_attachments,
+            attachments=[],
             run_prefix="refine-existing-",
         )
         return _validate_codex_result(
             refined_value,
             "auto",
             selected_media_count=len(selected_video_ids) + len(payload.get("images", [])),
+            selected_image_ids=selected_image_ids,
             selected_video_ids=selected_video_ids,
         )
 
@@ -2811,8 +4780,8 @@ def _validate_magic(extension: str, data: bytes) -> bool:
 
 
 def _decode_images(raw_images: Any) -> tuple[ImageAsset, ...]:
-    if not isinstance(raw_images, list) or not 1 <= len(raw_images) <= MAX_IMAGES:
-        raise ValidationError(f"images must contain 1 to {MAX_IMAGES} files")
+    if not isinstance(raw_images, list) or not raw_images:
+        raise ValidationError("images must contain at least one file")
 
     assets: list[ImageAsset] = []
     seen_ids: set[str] = set()
@@ -2845,8 +4814,6 @@ def _decode_images(raw_images: Any) -> tuple[ImageAsset, ...]:
             raise ValidationError(f"image {index} content does not match {extension}")
 
         total_bytes += len(data)
-        if total_bytes > MAX_TOTAL_IMAGE_BYTES:
-            raise ValidationError("total image size must be smaller than 100 MB")
 
         alt = _require_text(raw, "alt", 180)
         orientation = raw.get("orientation", "portrait")
@@ -2862,6 +4829,9 @@ def _decode_images(raw_images: Any) -> tuple[ImageAsset, ...]:
                 orientation=orientation,
                 data=data,
                 data_url=f"data:{mime_type};base64,{base64.b64encode(data).decode('ascii')}",
+                related_thumbnail_only=raw.get("related_thumbnail_only") is True,
+                thumbnail_owner_url=_optional_text(raw, "thumbnail_owner_url", 2048),
+                rights_basis=_optional_text(raw, "rights_basis", 80),
             )
         )
     return tuple(assets)
@@ -2870,8 +4840,8 @@ def _decode_images(raw_images: Any) -> tuple[ImageAsset, ...]:
 def _validate_videos(raw_videos: Any) -> list[dict[str, Any]]:
     if raw_videos is None:
         return []
-    if not isinstance(raw_videos, list) or len(raw_videos) > MAX_SELECTED_SOURCE_VIDEOS:
-        raise ValidationError(f"videos must contain 0 to {MAX_SELECTED_SOURCE_VIDEOS} items")
+    if not isinstance(raw_videos, list):
+        raise ValidationError("videos must be a list")
     videos: list[dict[str, Any]] = []
     seen_ids: set[str] = set()
     for index, raw in enumerate(raw_videos, start=1):
@@ -2900,6 +4870,11 @@ def _validate_videos(raw_videos: Any) -> list[dict[str, Any]]:
         mime_type = _optional_text(raw, "mime_type", 80) or ("text/html" if kind == "iframe" else "video/mp4")
         if kind == "direct" and mime_type not in {"video/mp4", "video/webm"}:
             raise ValidationError(f"video {index} type is unsupported")
+        rights_basis = _optional_text(raw, "rights_basis", 80)
+        if rights_basis in {"fanza_official_embed", "fanza_free_video_tool_embed"}:
+            parsed_video = urlparse(video_url)
+            if kind != "iframe" or parsed_video.scheme != "https" or not _is_dmm_fanza_host((parsed_video.hostname or "").lower()):
+                raise ValidationError(f"video {index} must be an official FANZA/DMM iframe embed")
         label = _optional_text(raw, "label", 180) or f"元記事の動画 {index}"
         videos.append({
             "id": video_id,
@@ -2908,8 +4883,11 @@ def _validate_videos(raw_videos: Any) -> list[dict[str, Any]]:
             "referer": _validate_source_url(_optional_text(raw, "referer", 2048)) if raw.get("referer") else "",
             "poster": poster_url,
             "poster_data_url": poster_data_url,
+            "poster_filename": f"video-poster-{index:02d}.jpg" if poster_data_url else "",
             "mime_type": mime_type,
             "label": label,
+            "rights_basis": rights_basis,
+            "rights_source_url": _validate_source_url(_optional_text(raw, "rights_source_url", 2048)) if raw.get("rights_source_url") else "",
             "width": _safe_int(raw.get("width")),
             "height": _safe_int(raw.get("height")),
         })
@@ -2926,8 +4904,13 @@ def _validate_blocks(
         raise ValidationError("blocks must contain 1 to 120 items")
 
     image_ids = {image.image_id for image in images}
+    image_map = {image.image_id: image for image in images}
+    related_thumbnail_image_ids = {
+        image.image_id for image in images if image.related_thumbnail_only
+    }
     video_ids = {str(video["id"]) for video in videos or []}
     used_images: list[str] = []
+    used_related_thumbnail_images: set[str] = set()
     used_videos: list[str] = []
     post_count = 0
     blocks: list[dict[str, Any]] = []
@@ -2948,14 +4931,14 @@ def _validate_blocks(
                 raise ValidationError(f"block {index} must contain 1 to 4 images")
             if any(not isinstance(item, str) or item not in image_ids for item in selected):
                 raise ValidationError(f"block {index} references an unknown image")
+            if any(item in related_thumbnail_image_ids for item in selected):
+                raise ValidationError(f"block {index} cannot place a related-card thumbnail in the article body")
             used_images.extend(selected)
             blocks.append({"type": "images", "image_ids": selected[:]})
         elif block_type == "videos":
             selected = raw.get("video_ids")
-            if not isinstance(selected, list) or not 1 <= len(selected) <= MAX_SELECTED_SOURCE_VIDEOS:
-                raise ValidationError(
-                    f"block {index} must contain 1 to {MAX_SELECTED_SOURCE_VIDEOS} videos"
-                )
+            if not isinstance(selected, list) or not selected:
+                raise ValidationError(f"block {index} must contain at least one video")
             if any(not isinstance(item, str) or item not in video_ids for item in selected):
                 raise ValidationError(f"block {index} references an unknown video")
             used_videos.extend(selected)
@@ -2987,6 +4970,8 @@ def _validate_blocks(
                 raise ValidationError(f"block {index} can own at most one cover image")
             if any(not isinstance(item, str) or item not in image_ids for item in selected):
                 raise ValidationError(f"block {index} references an unknown cover image")
+            if any(item in related_thumbnail_image_ids for item in selected):
+                raise ValidationError(f"block {index} cannot use a related-card thumbnail as its cover")
             used_images.extend(selected)
             blocks.append({
                 "type": "x_embed",
@@ -3013,6 +4998,8 @@ def _validate_blocks(
                 raise ValidationError(f"block {index} can own at most one cover image")
             if any(not isinstance(item, str) or item not in image_ids for item in selected):
                 raise ValidationError(f"block {index} references an unknown cover image")
+            if any(item in related_thumbnail_image_ids for item in selected):
+                raise ValidationError(f"block {index} cannot use a related-card thumbnail as its cover")
             used_images.extend(selected)
             blocks.append({
                 "type": "x_timeline",
@@ -3030,19 +5017,147 @@ def _validate_blocks(
             url = _require_text(raw, "url", 2048)
             parsed = urlparse(_validate_source_url(url))
             hostname = (parsed.hostname or "").lower()
-            if not (
-                hostname == "dmm.co.jp"
-                or hostname.endswith(".dmm.co.jp")
-                or hostname == "fanza.co.jp"
-                or hostname.endswith(".fanza.co.jp")
-            ):
+            if not _is_dmm_fanza_host(hostname):
                 raise ValidationError(f"block {index} product URL must point to DMM or FANZA")
+            thumbnail_image_id = _optional_text(raw, "thumbnail_image_id", 80)
+            if thumbnail_image_id and thumbnail_image_id not in image_ids:
+                thumbnail_image_id = ""
+            thumbnail_url = _optional_text(raw, "thumbnail_url", 2048)
+            if thumbnail_url:
+                try:
+                    thumbnail_host = (
+                        urlparse(_validate_source_url(thumbnail_url)).hostname or ""
+                    ).lower()
+                except (TypeError, ValueError):
+                    thumbnail_host = ""
+                if not _is_dmm_fanza_host(thumbnail_host):
+                    thumbnail_url = ""
+            thumbnail_source_kind = _optional_text(raw, "thumbnail_source_kind", 40)
+            thumbnail_owner_url = _optional_text(raw, "thumbnail_owner_url", 2048)
+            if thumbnail_owner_url:
+                try:
+                    owner_host = (
+                        urlparse(_validate_source_url(thumbnail_owner_url)).hostname or ""
+                    ).lower()
+                except (TypeError, ValueError):
+                    owner_host = ""
+                if not _is_dmm_fanza_host(owner_host):
+                    thumbnail_owner_url = ""
+            if thumbnail_source_kind == "fanza_package" and (
+                thumbnail_url or thumbnail_image_id
+            ):
+                thumbnail_owner_url = thumbnail_owner_url or url
+                owner_product_id = _draft_fanza_product_id(thumbnail_owner_url)
+                destination_product_id = _draft_fanza_product_id(url)
+                if (
+                    owner_product_id
+                    and destination_product_id
+                    and owner_product_id != destination_product_id
+                ):
+                    raise ValidationError(
+                        f"block {index} package thumbnail does not match its FANZA product"
+                    )
+            else:
+                thumbnail_source_kind = ""
+                thumbnail_owner_url = ""
+            if thumbnail_image_id in related_thumbnail_image_ids:
+                used_related_thumbnail_images.add(thumbnail_image_id)
             blocks.append({
+                "id": _optional_text(raw, "id", 80),
                 "type": "product_cta",
                 "url": url,
                 "title": _require_text(raw, "title", 180),
                 "text": _optional_text(raw, "text", 300),
                 "button_text": _optional_text(raw, "button_text", 80) or "FANZAで作品を見る",
+                "thumbnail_image_id": thumbnail_image_id,
+                "thumbnail_url": thumbnail_url,
+                "thumbnail_source_kind": thumbnail_source_kind,
+                "thumbnail_owner_url": thumbnail_owner_url,
+                "placement_label": _optional_text(raw, "placement_label", 60) or "この記事の商品",
+                "match_type": _optional_text(raw, "match_type", 40) or "exact_article",
+                "match_evidence": _optional_text(raw, "match_evidence", 300),
+                "match_confidence": max(0, min(100, _safe_int(raw.get("match_confidence")))),
+                "affiliate_status": _optional_text(raw, "affiliate_status", 20),
+                "affiliate_destination": _optional_text(raw, "affiliate_destination", 2048),
+            })
+        elif block_type == "related_link":
+            url = _validate_source_url(_require_text(raw, "url", 2048))
+            thumbnail_image_id = _optional_text(raw, "thumbnail_image_id", 80)
+            if thumbnail_image_id and thumbnail_image_id not in image_ids:
+                thumbnail_image_id = ""
+            link_kind = _optional_text(raw, "link_kind", 40) or "related"
+            thumbnail_url = _optional_text(raw, "thumbnail_url", 2048)
+            if thumbnail_url:
+                try:
+                    thumbnail_url = _validate_source_url(thumbnail_url)
+                except (TypeError, ValueError):
+                    thumbnail_url = ""
+            thumbnail_source_kind = _optional_text(raw, "thumbnail_source_kind", 40)
+            thumbnail_owner_url = _optional_text(raw, "thumbnail_owner_url", 2048)
+            if thumbnail_owner_url:
+                try:
+                    thumbnail_owner_url = _validate_source_url(thumbnail_owner_url)
+                except (TypeError, ValueError):
+                    thumbnail_owner_url = ""
+            if link_kind in {"official_profile", "official_content"}:
+                # A social/profile card must visually identify its destination,
+                # never reuse an unrelated image from the article body.
+                local_thumbnail = image_map.get(thumbnail_image_id)
+                valid_local_thumbnail = bool(
+                    local_thumbnail
+                    and local_thumbnail.related_thumbnail_only
+                    and local_thumbnail.thumbnail_owner_url.rstrip("/")
+                    == thumbnail_owner_url.rstrip("/")
+                )
+                valid_profile_thumbnail = (
+                    thumbnail_source_kind == "profile"
+                    and thumbnail_owner_url.rstrip("/") == url.rstrip("/")
+                    and bool(thumbnail_url or valid_local_thumbnail)
+                )
+                valid_official_hub_thumbnail = (
+                    thumbnail_source_kind == "official_hub_profile"
+                    and bool(thumbnail_owner_url)
+                    and bool(thumbnail_url or valid_local_thumbnail)
+                )
+                valid_identity_fallback = (
+                    thumbnail_source_kind == "official_identity_fallback"
+                    and thumbnail_owner_url.rstrip("/") == url.rstrip("/")
+                    and valid_local_thumbnail
+                )
+                if not (
+                    valid_profile_thumbnail
+                    or valid_official_hub_thumbnail
+                    or valid_identity_fallback
+                ):
+                    thumbnail_image_id = ""
+                    thumbnail_url = ""
+                    thumbnail_source_kind = ""
+                    thumbnail_owner_url = ""
+            if thumbnail_image_id in related_thumbnail_image_ids:
+                used_related_thumbnail_images.add(thumbnail_image_id)
+            affiliate_network = _optional_text(raw, "affiliate_network", 30).casefold()
+            if affiliate_network not in {"", "fanza"}:
+                affiliate_network = ""
+            blocks.append({
+                "id": _optional_text(raw, "id", 80) or f"related-link-{index}",
+                "type": "related_link",
+                "url": url,
+                "title": _require_text(raw, "title", 180),
+                "text": _optional_text(raw, "text", 300),
+                "button_text": _optional_text(raw, "button_text", 80) or "関連ページを見る",
+                "thumbnail_image_id": thumbnail_image_id,
+                "thumbnail_url": thumbnail_url,
+                "thumbnail_source_kind": thumbnail_source_kind,
+                "thumbnail_owner_url": thumbnail_owner_url,
+                "placement_label": _optional_text(raw, "placement_label", 60) or "関連ページ",
+                "provider": _optional_text(raw, "provider", 40),
+                "link_kind": link_kind,
+                "match_evidence": _optional_text(raw, "match_evidence", 300),
+                "match_confidence": max(0, min(100, _safe_int(raw.get("match_confidence")))),
+                "affiliate_network": affiliate_network,
+                "affiliate_eligible": bool(raw.get("affiliate_eligible")),
+                "affiliate_status": _optional_text(raw, "affiliate_status", 20),
+                "affiliate_destination": _optional_text(raw, "affiliate_destination", 2048),
             })
         else:
             raise ValidationError(f"block {index} has an unknown type")
@@ -3054,7 +5169,12 @@ def _validate_blocks(
     optional_image_ids = (
         {thumbnail_only_image_id} if thumbnail_only_image_id in image_ids else set()
     )
-    missing = sorted(image_ids - set(used_images) - optional_image_ids)
+    missing = sorted(
+        image_ids
+        - set(used_images)
+        - used_related_thumbnail_images
+        - optional_image_ids
+    )
     if missing:
         raise ValidationError("all images must be placed: " + ", ".join(missing))
     if len(used_videos) != len(set(used_videos)):
@@ -3069,7 +5189,7 @@ def _load_database(site_root: Path) -> list[dict[str, Any]]:
     path = site_root / "data" / "articles.json"
     if not path.exists():
         return []
-    value = json.loads(path.read_text(encoding="utf-8"))
+    value = json.loads(path.read_text(encoding="utf-8-sig"))
     return value if isinstance(value, list) else []
 
 
@@ -3125,7 +5245,16 @@ def _make_metadata(payload: dict[str, Any], images: tuple[ImageAsset, ...], site
         "url": f"articles/{slug}.html",
         "thumbnail": f"assets/articles/{slug}/{thumbnail.filename}",
         "source_url": source_url,
+        # images_used is the package file count used by add_article integrity
+        # checks. body_images_used is the public editorial-media count.
         "images_used": len(images),
+        "body_images_used": len({
+            str(image_id)
+            for block in payload.get("blocks") or []
+            if isinstance(block, dict)
+            and block.get("type") in {"images", "x_embed", "x_timeline"}
+            for image_id in block.get("image_ids") or []
+        }),
         "featured": bool(payload.get("featured", False)),
     }
     if summary:
@@ -3166,7 +5295,357 @@ def _post_datetime(base: datetime, number: int, slug: str) -> tuple[str, str]:
     return stamp, post_id
 
 
-def _render_sidebar(site_root: Path, metadata: dict[str, Any], blocks: list[dict[str, Any]]) -> str:
+def _related_thumbnail_source(
+    block: dict[str, Any],
+    image_map: dict[str, ImageAsset],
+    *,
+    preview: bool,
+) -> str:
+    thumbnail_url = str(block.get("thumbnail_url") or "").strip()
+    if thumbnail_url and str(block.get("thumbnail_source_kind") or "") in {
+        "fanza_package", "profile", "official_hub_profile",
+        "official_identity_fallback", "official_page", "fanza_performer_sample",
+    }:
+        return thumbnail_url
+    thumbnail_image_id = str(block.get("thumbnail_image_id") or "")
+    if thumbnail_image_id in image_map:
+        image = image_map[thumbnail_image_id]
+        return image.data_url if preview else f"images/{image.filename}"
+    return thumbnail_url
+
+
+def _render_product_cta_block(
+    block: dict[str, Any],
+    image_map: dict[str, ImageAsset],
+    *,
+    preview: bool,
+) -> str:
+    thumbnail_source = _related_thumbnail_source(
+        block, image_map, preview=preview
+    )
+    thumbnail = (
+        f'<img class="fanza-product-thumb" '
+        f'src="{html.escape(thumbnail_source, quote=True)}" '
+        f'alt="{html.escape(str(block.get("title") or ""), quote=True)}" '
+        'loading="lazy" referrerpolicy="no-referrer">'
+        if thumbnail_source else ""
+    )
+    placement_label = str(block.get("placement_label") or "この記事の商品")
+    match_type = str(block.get("match_type") or "exact_article")
+    match_evidence = str(block.get("match_evidence") or "")
+    match_confidence = max(0, min(100, int(block.get("match_confidence") or 0)))
+    audit = (
+        '<div class="fanza-product-audit">'
+        f'配置: {html.escape(placement_label)} / 一致度: {match_confidence}%'
+        f'{" / 根拠: " + html.escape(match_evidence) if match_evidence else ""}'
+        '</div>'
+        if preview else ""
+    )
+    affiliate_status = str(block.get("affiliate_status") or "")
+    affiliate_unavailable = affiliate_status != "configured"
+    disabled_text = (
+        "商品URLを確認できないため、このPRは公開できません"
+        if affiliate_status == "invalid"
+        else "設定画面でアフィリエイトIDを保存すると自動反映されます"
+    )
+    product_action = (
+        '<span class="fanza-product-button is-disabled">'
+        f'{html.escape(disabled_text)}</span>'
+        if affiliate_unavailable
+        else (
+            f'<a class="fanza-product-button" href="{html.escape(str(block.get("url") or ""), quote=True)}" '
+            'target="_blank" rel="sponsored noopener noreferrer">'
+            f'{html.escape(str(block.get("button_text") or "FANZAで作品を見る"))}</a>'
+        )
+    )
+    content = (
+        '<div class="fanza-product-content">'
+        f'<div class="fanza-product-label">{html.escape(placement_label)} / PR</div>'
+        f'{audit}'
+        f'<p class="fanza-product-title">{html.escape(str(block.get("title") or ""))}</p>'
+        f'<p class="fanza-product-text">{html.escape(str(block.get("text") or ""))}</p>'
+        f'{product_action}</div>'
+    )
+    product_block_id = str(block.get("id") or "fanza-product")
+    return (
+        f'<aside class="fanza-product" data-pr-id="{html.escape(product_block_id, quote=True)}" '
+        f'data-pr-kind="{html.escape(match_type, quote=True)}" '
+        f'data-pr-confidence="{match_confidence}" '
+        f'data-pr-evidence="{html.escape(match_evidence, quote=True)}">'
+        f'<div class="fanza-product-media{" no-thumb" if not thumbnail else ""}">'
+        f'{thumbnail}{content}</div></aside>'
+    )
+
+
+def _render_related_link_block(
+    block: dict[str, Any],
+    image_map: dict[str, ImageAsset],
+    *,
+    preview: bool,
+) -> str:
+    thumbnail_source = _related_thumbnail_source(
+        block, image_map, preview=preview
+    )
+    thumbnail = (
+        f'<img class="fanza-product-thumb" '
+        f'src="{html.escape(thumbnail_source, quote=True)}" '
+        f'alt="{html.escape(str(block.get("title") or ""), quote=True)}" loading="lazy">'
+        if thumbnail_source else ""
+    )
+    label = str(block.get("placement_label") or "関連ページ")
+    link_kind = str(block.get("link_kind") or "related")
+    evidence = str(block.get("match_evidence") or "")
+    confidence = max(0, min(100, int(block.get("match_confidence") or 0)))
+    affiliate_status = str(block.get("affiliate_status") or "")
+    is_affiliate = affiliate_status == "configured"
+    label_suffix = " / PR" if is_affiliate else ""
+    audit = (
+        '<div class="fanza-product-audit">'
+        f'種別: {html.escape(link_kind)} / 確度: {confidence}%'
+        f'{" / 根拠: " + html.escape(evidence) if evidence else ""}'
+        '</div>'
+        if preview else ""
+    )
+    button_classes = "article-destination-button"
+    aside_classes = "article-destination"
+    data_attributes = (
+        f'data-link-kind="{html.escape(link_kind, quote=True)}" '
+        f'data-link-confidence="{confidence}"'
+    )
+    rel = "noopener noreferrer"
+    if is_affiliate:
+        button_classes += " fanza-product-button"
+        aside_classes += " fanza-product"
+        rel = "sponsored noopener noreferrer"
+        data_attributes += (
+            f' data-pr-id="{html.escape(str(block.get("id") or "related-pr"), quote=True)}"'
+            f' data-pr-kind="{html.escape(link_kind, quote=True)}"'
+            f' data-pr-confidence="{confidence}"'
+            f' data-pr-evidence="{html.escape(evidence, quote=True)}"'
+        )
+    action = (
+        '<span class="article-destination-button">リンクを確認できません</span>'
+        if affiliate_status == "invalid"
+        else (
+            f'<a class="{button_classes}" href="{html.escape(str(block.get("url") or ""), quote=True)}" '
+            f'target="_blank" rel="{rel}">{html.escape(str(block.get("button_text") or "関連ページを見る"))}</a>'
+        )
+    )
+    return (
+        f'<aside class="{aside_classes}" {data_attributes}>'
+        f'<div class="fanza-product-media{" no-thumb" if not thumbnail else ""}">'
+        f'{thumbnail}<div class="fanza-product-content">'
+        f'<div class="fanza-product-label">{html.escape(label)}{label_suffix}</div>'
+        f'{audit}<p class="fanza-product-title">{html.escape(str(block.get("title") or "関連ページ"))}</p>'
+        f'<p class="fanza-product-text">{html.escape(str(block.get("text") or ""))}</p>'
+        f'{action}</div></div></aside>'
+    )
+
+
+def _render_sidebar_related_section(
+    recommendation: dict[str, Any] | None,
+    image_map: dict[str, ImageAsset] | None = None,
+    *,
+    preview: bool = False,
+) -> str:
+    if recommendation is None:
+        return ""
+    is_affiliate = str(recommendation.get("affiliate_status") or "") == "configured"
+    section_title = "PR" if is_affiliate else "関連リンク"
+    label = str(
+        recommendation.get("placement_label")
+        or ("この記事の商品" if recommendation.get("type") == "product_cta" else "関連記事から探す")
+    )
+    title = str(recommendation.get("title") or "関連ページを見る")
+    link_kind = str(
+        recommendation.get("link_kind")
+        or recommendation.get("match_type")
+        or "related"
+    )
+    confidence = max(0, min(100, int(recommendation.get("match_confidence") or 0)))
+    rel = "sponsored noopener noreferrer" if is_affiliate else "noopener noreferrer"
+    promotion_class = " fanza-product" if is_affiliate else ""
+    button_class = " fanza-product-button" if is_affiliate else ""
+    data_attributes = (
+        f' data-pr-id="{html.escape(str(recommendation.get("id") or "sidebar-related"), quote=True)}"'
+        f' data-pr-kind="{html.escape(link_kind, quote=True)}"'
+        f' data-pr-confidence="{confidence}"'
+        if is_affiliate else ""
+    )
+    thumbnail_source = _related_thumbnail_source(
+        recommendation, image_map or {}, preview=preview
+    )
+    thumbnail = (
+        f'<img class="side-ad-link-thumb" '
+        f'src="{html.escape(thumbnail_source, quote=True)}" '
+        f'alt="{html.escape(title, quote=True)}" loading="lazy" '
+        'referrerpolicy="no-referrer">'
+        if thumbnail_source else ""
+    )
+    return (
+        f'<section class="sidebox{promotion_class}"{data_attributes}>'
+        f'<h2 class="side-title">{html.escape(section_title)}</h2><div class="sidebody">'
+        f'<a class="side-ad side-ad-link{button_class}" '
+        f'href="{html.escape(str(recommendation.get("url") or ""), quote=True)}" '
+        f'target="_blank" rel="{rel}">'
+        f'{thumbnail}'
+        f'<span class="side-ad-link-label">{html.escape(label)}</span>'
+        f'<span class="side-ad-link-title">{html.escape(title)}</span>'
+        '<span class="side-ad-link-action">内容を確認する →</span>'
+        '</a></div></section>'
+    )
+
+
+def _render_person_discovery_rail(
+    payload: dict[str, Any],
+    blocks: list[dict[str, Any]],
+    image_map: dict[str, ImageAsset],
+    *,
+    preview: bool,
+) -> str:
+    def safe_confidence(value: Any) -> int:
+        try:
+            return max(0, min(100, int(value)))
+        except (TypeError, ValueError):
+            return 0
+
+    verified_people = {
+        re.sub(r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "", str(item.get("name") or "").casefold()): item
+        for item in payload.get("identified_people") or []
+        if isinstance(item, dict)
+        and safe_confidence(item.get("confidence")) >= 95
+        and str(item.get("name") or "").strip()
+    }
+    for item in payload.get("fanza_people") or []:
+        if not isinstance(item, dict) or not str(item.get("name") or "").strip():
+            continue
+        name = str(item["name"]).strip()
+        key = re.sub(r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "", name.casefold())
+        verified_people.setdefault(key, {
+            "name": name,
+            "role": "AV出演者",
+            "confidence": 100,
+        })
+    if not verified_people:
+        return ""
+    profile_blocks = {
+        str(block.get("url") or "").rstrip("/"): block
+        for block in blocks
+        if isinstance(block, dict)
+        and block.get("type") == "related_link"
+        and str(block.get("link_kind") or "") in {
+            "official_profile", "official_content", "verified_person_search",
+        }
+        and str(block.get("url") or "").strip()
+    }
+    service_labels = {
+        "x": "X",
+        "instagram": "Instagram",
+        "tiktok": "TikTok",
+        "youtube": "YouTube",
+        "myfans": "MyFans",
+        "fantia": "Fantia",
+        "fanza": "FANZA出演作",
+    }
+    grouped: dict[str, dict[str, Any]] = {}
+    for profile in payload.get("verified_social_profiles") or []:
+        if not isinstance(profile, dict) or safe_confidence(profile.get("confidence")) < 95:
+            continue
+        name = str(profile.get("name") or profile.get("display_name") or "").strip()
+        key = re.sub(r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "", name.casefold())
+        if key not in verified_people:
+            continue
+        service = str(profile.get("service") or "").casefold()
+        url = str(profile.get("url") or "").strip()
+        if service not in service_labels or not url:
+            continue
+        group = grouped.setdefault(key, {
+            "name": verified_people[key].get("name") or name,
+            "role": verified_people[key].get("role") or profile.get("role") or "",
+            "profiles": [],
+            "thumbnail": "",
+        })
+        block = profile_blocks.get(url.rstrip("/"))
+        if block and not group["thumbnail"]:
+            group["thumbnail"] = _related_thumbnail_source(
+                block, image_map, preview=preview
+            )
+        group["profiles"].append((service, url))
+
+    for block in blocks:
+        if (
+            not isinstance(block, dict)
+            or block.get("type") != "related_link"
+            or block.get("link_kind") != "verified_person_search"
+        ):
+            continue
+        name = str(block.get("person_name") or "").strip()
+        if not name:
+            name = re.sub(
+                r"の出演作品(?:一覧)?$", "", str(block.get("title") or "")
+            ).strip()
+        key = re.sub(r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "", name.casefold())
+        url = str(block.get("url") or "").strip()
+        if key not in verified_people or not url:
+            continue
+        group = grouped.setdefault(key, {
+            "name": verified_people[key].get("name") or name,
+            "role": verified_people[key].get("role") or "AV出演者",
+            "profiles": [],
+            "thumbnail": "",
+        })
+        if not group["thumbnail"]:
+            group["thumbnail"] = _related_thumbnail_source(
+                block, image_map, preview=preview
+            )
+        destination = ("fanza", url)
+        if destination not in group["profiles"]:
+            group["profiles"].append(destination)
+
+    cards: list[str] = []
+    for group in grouped.values():
+        links = "".join(
+            f'<a href="{html.escape(url, quote=True)}" target="_blank" '
+            f'rel="noopener noreferrer">{html.escape(service_labels[service])}</a>'
+            for service, url in group["profiles"]
+        )
+        if not links:
+            continue
+        thumbnail = (
+            f'<img src="{html.escape(group["thumbnail"], quote=True)}" '
+            f'alt="{html.escape(str(group["name"]), quote=True)}の公式プロフィール画像" loading="lazy">'
+            if group["thumbnail"] else '<div class="person-discovery-placeholder" aria-hidden="true">公式</div>'
+        )
+        role = (
+            f'<span>{html.escape(str(group["role"]))}</span>'
+            if str(group["role"]).strip() else ""
+        )
+        cards.append(
+            '<article class="person-discovery-card">'
+            f'{thumbnail}<div class="person-discovery-body">'
+            f'<strong>{html.escape(str(group["name"]))}</strong>{role}'
+            f'<div class="person-discovery-links">{links}</div>'
+            '</div></article>'
+        )
+    if not cards:
+        return ""
+    return (
+        '<section class="person-discovery" aria-label="登場人物の公式リンク">'
+        '<div class="person-discovery-head"><span>登場人物</span>'
+        '<h2>気になった人の公式ページ</h2></div>'
+        f'<div class="person-discovery-rail">{"".join(cards)}</div></section>'
+    )
+
+
+def _render_sidebar(
+    site_root: Path,
+    metadata: dict[str, Any],
+    blocks: list[dict[str, Any]],
+    image_map: dict[str, ImageAsset],
+    *,
+    preview: bool,
+    suppress_person_destinations: bool = False,
+) -> str:
     articles = [item for item in _load_database(site_root) if item.get("status") == "published"]
     articles = [item for item in articles if item.get("slug") != metadata["slug"]]
     if metadata["status"] == "published":
@@ -3190,14 +5669,33 @@ def _render_sidebar(site_root: Path, metadata: dict[str, Any], blocks: list[dict
             '<div class="rank"><span class="rank-num">新</span><div>'
             f'<a href="#">{html.escape(comment[:34])}</a><span>{number:02d}:00</span></div></div>'
         )
+
+    recommendation = next((
+        block for block in reversed(blocks)
+        if block.get("type") == "related_link"
+        and str(block.get("link_kind") or "") in {
+            "inferred_topic_search",
+            "inferred_topic_product",
+            "person_search",
+            "verified_person_search",
+        }
+        and not (
+            suppress_person_destinations
+            and str(block.get("link_kind") or "") in {
+                "person_search", "verified_person_search",
+            }
+        )
+    ), None)
+    related_section = _render_sidebar_related_section(
+        recommendation, image_map, preview=preview
+    )
     return (
         '<aside class="sidebar">'
         '<section class="sidebox"><h2 class="side-title">今日の人気記事</h2>'
         f'<div class="sidebody">{"".join(ranks)}</div></section>'
         '<section class="sidebox"><h2 class="side-title">最新コメント</h2>'
         f'<div class="sidebody">{"".join(latest)}</div></section>'
-        '<section class="sidebox"><h2 class="side-title">PR</h2>'
-        '<div class="sidebody"><div class="side-ad">関連広告枠</div></div></section>'
+        f'{related_section}'
         '</aside>'
     )
 
@@ -3219,10 +5717,133 @@ def render_article(
     normalized_time = base_time_value[:-1] + "+00:00" if base_time_value.endswith("Z") else base_time_value
     base_time = datetime.fromisoformat(normalized_time)
     poster_name = _optional_text(payload, "poster_name", 80) or "風吹けば名無し"
+    person_rail = _render_person_discovery_rail(
+        payload, blocks, image_map, preview=preview
+    )
 
     rendered_blocks: list[str] = []
     post_number = 0
     image_number = 0
+    body_display_image_count = sum(
+        len(block.get("image_ids") or [])
+        for block in blocks
+        if isinstance(block, dict) and block.get("type") in {"images", "x_embed", "x_timeline"}
+    )
+    people_by_image: dict[str, list[str]] = {}
+    people_by_video: dict[str, list[str]] = {}
+    for attribution in payload.get("media_person_attributions") or []:
+        if not isinstance(attribution, dict) or _safe_int(attribution.get("confidence")) < 95:
+            continue
+        person_name = str(attribution.get("person_name") or "").strip()
+        if not person_name:
+            continue
+        for image_id in attribution.get("image_ids") or []:
+            people_by_image.setdefault(str(image_id), []).append(person_name)
+        for video_id in attribution.get("video_ids") or []:
+            people_by_video.setdefault(str(video_id), []).append(person_name)
+
+    candidate_groups: dict[tuple[str, str], dict[str, Any]] = {}
+    for group in payload.get("person_identity_candidates") or []:
+        if not isinstance(group, dict):
+            continue
+        media_type = str(group.get("media_type") or "").casefold()
+        media_id = str(group.get("media_id") or "")
+        candidates = [
+            item for item in group.get("candidates") or []
+            if isinstance(item, dict)
+            and str(item.get("name") or "").strip()
+            and 1 <= _safe_int(item.get("confidence")) <= 94
+        ][:3]
+        if media_type in {"image", "video"} and media_id and candidates:
+            candidate_groups[(media_type, media_id)] = {**group, "candidates": candidates}
+
+    identity_dialogs: list[str] = []
+    rendered_identity_dialogs: set[str] = set()
+    evidence_labels = {
+        "headline": "記事見出し",
+        "caption": "画像説明",
+        "alt": "画像代替文",
+        "link_text": "リンク文",
+        "source_metadata": "ページ情報",
+        "watermark_ocr": "透かし・文字",
+        "filename_clue": "ファイル名",
+        "web_search_result": "ウェブ照合",
+        "reverse_image_result": "同一画像の照合",
+        "video_frame_match": "動画フレーム照合",
+    }
+
+    def render_person_identity(media_type: str, media_id: str) -> str:
+        verified_names = list(dict.fromkeys(
+            people_by_image.get(media_id, [])
+            if media_type == "image"
+            else people_by_video.get(media_id, [])
+        ))
+        if verified_names:
+            return (
+                '<div class="image-person-label image-person-verified">'
+                f'<strong>{html.escape(" / ".join(verified_names))}</strong></div>'
+            )
+
+        group = candidate_groups.get((media_type, media_id))
+        candidates = group.get("candidates", []) if group else []
+        if not candidates:
+            return ""
+        top = candidates[0]
+        dialog_id = "person-candidates-" + hashlib.sha1(
+            f"{media_type}:{media_id}".encode("utf-8")
+        ).hexdigest()[:12]
+        if dialog_id not in rendered_identity_dialogs:
+            rendered_identity_dialogs.add(dialog_id)
+            candidate_items: list[str] = []
+            for rank, candidate in enumerate(candidates, start=1):
+                evidence_types = [
+                    evidence_labels.get(str(value), str(value))
+                    for value in candidate.get("evidence_types") or []
+                    if str(value).strip()
+                ]
+                evidence_copy = (
+                    '<p class="person-candidate-evidence">根拠: '
+                    f'{html.escape("・".join(evidence_types))}</p>'
+                    if evidence_types else ""
+                )
+                evidence_links = "".join(
+                    '<a href="{}" target="_blank" rel="noopener noreferrer">根拠ページ{}</a>'.format(
+                        html.escape(str(url), quote=True), link_index
+                    )
+                    for link_index, url in enumerate(
+                        candidate.get("evidence_urls") or [], start=1
+                    )
+                    if str(url).startswith("https://")
+                )
+                role = str(candidate.get("role") or "").strip()
+                role_markup = f'<span>{html.escape(role)}</span>' if role else ""
+                candidate_items.append(
+                    '<li class="person-candidate-row">'
+                    f'<span class="person-candidate-rank">{rank}</span>'
+                    '<div class="person-candidate-copy">'
+                    f'<div><strong>{html.escape(str(candidate["name"]))}</strong>{role_markup}'
+                    f'<b>{_safe_int(candidate.get("confidence"))}%</b></div>'
+                    f'<p>{html.escape(str(candidate.get("reason") or ""))}</p>'
+                    f'{evidence_copy}'
+                    f'<div class="person-candidate-links">{evidence_links}</div>'
+                    '</div></li>'
+                )
+            media_label = "画像" if media_type == "image" else "動画"
+            identity_dialogs.append(
+                f'<dialog class="person-candidate-dialog" id="{dialog_id}">'
+                '<div class="person-candidate-dialog-head">'
+                f'<div><span>{media_label}の人物候補</span><strong>特定候補ランキング</strong></div>'
+                '<button type="button" data-person-candidates-close>閉じる</button></div>'
+                '<p class="person-candidate-notice">95%未満のため確定表示にはしていません。根拠を確認できます。</p>'
+                f'<ol>{"".join(candidate_items)}</ol>'
+                '</dialog>'
+            )
+        return (
+            f'<button type="button" class="image-person-label image-person-candidate" '
+            f'data-person-candidates-open="{dialog_id}" aria-haspopup="dialog">'
+            f'<strong>推定：{html.escape(str(top["name"]))}</strong>'
+            f'<span>特定確率 {_safe_int(top.get("confidence"))}%</span></button>'
+        )
 
     def render_image_group(selected_ids: list[str]) -> str:
         nonlocal image_number
@@ -3232,10 +5853,13 @@ def render_article(
         for image in selected:
             image_number += 1
             source = image.data_url if preview else f"images/{image.filename}"
+            person_label = render_person_identity("image", image.image_id)
             cards.append(
+                '<div class="image-person-entry">'
                 f'<div class="image-card {image.orientation}"><img class="zoomable" '
                 f'src="{html.escape(source, quote=True)}" alt="{html.escape(image.alt, quote=True)}">'
-                f'<span class="image-count">{image_number} / {len(images)}</span></div>'
+                f'<span class="image-count">{image_number} / {body_display_image_count}</span></div>'
+                f'{person_label}</div>'
             )
         return (
             f'<div class="{group_class}">{"".join(cards)}</div>'
@@ -3253,9 +5877,13 @@ def render_article(
             source = html.escape(playable_url, quote=True)
             label = html.escape(str(video["label"]))
             if video["kind"] == "iframe":
+                frame_width = int(video.get("width") or 720)
+                frame_height = int(video.get("height") or 480)
                 player = (
                     f'<iframe class="article-video" src="{source}" title="{label}" loading="lazy" '
-                    'sandbox="allow-scripts allow-same-origin allow-presentation" allowfullscreen></iframe>'
+                    f'style="aspect-ratio: {frame_width} / {frame_height}; height: auto;" scrolling="no" '
+                    'sandbox="allow-scripts allow-same-origin allow-presentation allow-popups" '
+                    'allow="fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>'
                 )
             elif preview:
                 poster_url = str(video.get("poster_data_url") or "")
@@ -3271,7 +5899,12 @@ def render_article(
                 )
             else:
                 mime_type = html.escape(str(video["mime_type"]), quote=True)
-                poster_source = str(video.get("poster_data_url") or "")
+                poster_filename = str(video.get("poster_filename") or "")
+                poster_source = (
+                    f"images/{poster_filename}"
+                    if poster_filename
+                    else str(video.get("poster") or "")
+                )
                 poster_attribute = (
                     f' poster="{html.escape(poster_source, quote=True)}"' if poster_source else ""
                 )
@@ -3279,7 +5912,11 @@ def render_article(
                     f'<video class="article-video" controls playsinline preload="metadata"{poster_attribute}>'
                     f'<source src="{source}" type="{mime_type}">動画を再生できません。</video>'
                 )
-            cards.append(f'<div class="video-card">{player}<div class="video-caption">{label}</div></div>')
+            person_label = render_person_identity("video", str(video_id))
+            cards.append(
+                f'<div class="video-card">{player}<div class="video-caption">{label}</div>'
+                f'{person_label}</div>'
+            )
         return f'<div class="video-group">{"".join(cards)}</div>'
 
     for block in blocks:
@@ -3327,45 +5964,69 @@ def render_article(
         elif block["type"] == "separator":
             rendered_blocks.append('<div class="separator"></div>')
         elif block["type"] == "ad":
-            rendered_blocks.append(f'<div class="ad">PR<br>{html.escape(block["text"])}</div>')
+            if not is_empty_related_ad(block):
+                rendered_blocks.append(f'<div class="ad">PR<br>{html.escape(block["text"])}</div>')
         elif block["type"] == "product_cta":
             rendered_blocks.append(
-                '<aside class="fanza-product">'
-                '<div class="fanza-product-label">PR / FANZA</div>'
-                f'<p class="fanza-product-title">{html.escape(block["title"])}</p>'
-                f'<p class="fanza-product-text">{html.escape(block["text"])}</p>'
-                f'<a class="fanza-product-button" href="{html.escape(block["url"], quote=True)}" '
-                'target="_blank" rel="sponsored noopener noreferrer">'
-                f'{html.escape(block["button_text"])}</a></aside>'
+                _render_product_cta_block(block, image_map, preview=preview)
             )
+        elif block["type"] == "related_link":
+            is_grouped_profile = bool(person_rail) and str(
+                block.get("link_kind") or ""
+            ) in {"official_profile", "official_content", "verified_person_search"}
+            if not is_grouped_profile:
+                rendered_blocks.append(
+                    _render_related_link_block(block, image_map, preview=preview)
+                )
 
-    source_label = _optional_text(payload, "source_label", 120) or "元記事"
+    if identity_dialogs:
+        rendered_blocks.extend(identity_dialogs)
+
+    if person_rail:
+        rendered_blocks.append(person_rail)
+
     transparency = _optional_text(payload, "transparency_note", 500)
     if bool(payload.get("fictional_responses", True)):
         fixed_note = "レス本文は記事構成のための再構成です。"
-        transparency = f"{transparency} {fixed_note}".strip()
-    source = (
-        '<div class="source">元記事：'
-        f'<a href="{html.escape(str(metadata["source_url"]), quote=True)}" target="_blank" rel="noopener">'
-        f'{html.escape(source_label)}</a>'
-        f'{"<br>※" + html.escape(transparency) if transparency else ""}</div>'
-    )
-    rendered_blocks.append(source)
+        if "再構成" not in transparency:
+            transparency = f"{transparency} {fixed_note}".strip()
+    # Keep source_url in private draft metadata for duplicate detection,
+    # auditing and media downloads. The public article must not expose the
+    # scraped page or look like a repost with a mandatory source footer.
+    if transparency:
+        rendered_blocks.append(
+            f'<div class="editorial-note">※{html.escape(transparency)}</div>'
+        )
 
     logo_source = "/site/assets/common/indanya-logo.png" if preview else "../assets/common/indanya-logo.png"
     home_href = "/site/index.html" if preview else "../index.html"
     page_root = "/site/" if preview else "../"
     title = str(metadata["title"])
     summary = str(metadata.get("summary", title))
-    sidebar = _render_sidebar(site_root, metadata, blocks)
+    sidebar = _render_sidebar(
+        site_root,
+        metadata,
+        blocks,
+        image_map,
+        preview=preview,
+        suppress_person_destinations=bool(person_rail),
+    )
     has_x_embeds = any(block["type"] in {"x_embed", "x_timeline"} for block in blocks)
     complete_style = style + ARTICLE_DISCOVERY_STYLE + VIDEO_EMBED_STYLE + FANZA_PRODUCT_STYLE + (X_EMBED_STYLE if has_x_embeds else "")
-    related_style = f'<link rel="stylesheet" href="{page_root}assets/common/article-related.css">'
+    asset_version = f"analytics-v{ANALYTICS_VERSION}"
+    related_style = (
+        f'<link rel="stylesheet" '
+        f'href="{page_root}assets/common/article-related.css?v={asset_version}">'
+    )
     style_markup = (
         f'<link rel="stylesheet" href="/preview.css">{related_style}'
         if preview else f"<style>{complete_style}</style>{related_style}"
     )
-    media_count_label = f"動画{len(videos)}本" if videos else f"画像{len(images)}枚"
+    media_count_label = (
+        "画像＋動画" if images and videos
+        else "動画" if videos
+        else "画像"
+    )
     x_widgets = (
         '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
         if has_x_embeds and not preview else ""
@@ -3376,11 +6037,15 @@ def render_article(
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="{html.escape(summary, quote=True)}">
+<link rel="icon" href="{page_root}assets/common/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="{page_root}assets/common/favicon.png" sizes="512x512">
+<link rel="apple-touch-icon" href="{page_root}assets/common/apple-touch-icon.png">
 <title>{html.escape(title)}｜淫談屋</title>
 {style_markup}
+<script src="{page_root}assets/common/age-gate.js?v={asset_version}" data-site-root="{page_root}" defer></script>
 </head>
-<body>
-<div class="topbar">PRを含む場合は記事内に表示します</div>
+<body data-article-slug="{html.escape(str(metadata["slug"]), quote=True)}" data-article-category="{html.escape(str(metadata["category"]), quote=True)}">
+<div class="topbar">当サイトはアフィリエイト広告を利用しています。PRは記事内に表示します</div>
 <header class="site-header"><div class="header-inner">
   <a class="logo" href="{home_href}"><img src="{logo_source}" alt="淫談屋"></a>
   <div class="header-copy">ネットに流れる大人向け画像・話題を、<br>余計な解説を入れずレス形式でサッと読む。</div>
@@ -3399,9 +6064,9 @@ def render_article(
   </article>{sidebar}</div>
 </main>
 <div class="lightbox" id="lightbox" aria-hidden="true"><button class="lightbox-close" id="lightboxClose" aria-label="閉じる">×</button><img id="lightboxImage" alt="拡大画像"></div>
-<footer class="footer"><div class="footer-inner"><span>© 2026 淫談屋</span><span><a href="{page_root}about.html">運営者情報</a>　<a href="{page_root}contact.html">お問い合わせ</a>　<a href="{page_root}privacy.html">プライバシーポリシー</a></span></div></footer>
+<footer class="footer"><div class="footer-inner"><span>© 2026 淫談屋</span><span><a href="{page_root}about.html">運営者情報</a>　<a href="{page_root}advertising.html">広告について</a>　<a href="{page_root}contact.html">お問い合わせ</a>　<a href="{page_root}privacy.html">プライバシーポリシー</a></span></div></footer>
 <script>{script}</script>
-<script src="{page_root}assets/common/article-related.js" data-site-root="{page_root}"></script>
+<script src="{page_root}assets/common/article-related.js?v={asset_version}" data-site-root="{page_root}"></script>
 {x_widgets}
 </body>
 </html>
@@ -3411,6 +6076,33 @@ def render_article(
 def build_article(payload: dict[str, Any], site_root: Path = SITE_ROOT, *, preview: bool = False) -> ArticleBuild:
     if not isinstance(payload, dict):
         raise ValidationError("article payload must be an object")
+    payload = sanitize_related_destinations(
+        canonicalize_payload_fanza_links(_sanitize_legacy_product_ctas(payload))
+    )
+    ensure_related_footer(payload)
+    affiliate_id = load_fanza_settings(site_root).get("affiliate_id", "")
+    try:
+        payload = bind_payload_fanza_affiliate_links(
+            payload,
+            affiliate_id,
+            require_configured=not preview,
+        )
+    except FanzaAffiliateConfigurationError as exc:
+        raise ValidationError(str(exc)) from exc
+    if any(
+        isinstance(block, dict)
+        and block.get("type") == "related_link"
+        and block.get("affiliate_status") == "configured"
+        for block in payload.get("blocks", [])
+    ):
+        disclosure = "この記事にはFANZAのアフィリエイト広告が含まれます。"
+        existing = str(payload.get("transparency_note") or "")
+        if disclosure not in existing:
+            payload = {
+                **payload,
+                "transparency_note": f"{disclosure} {existing}".strip()[:500],
+                "promotion_type": "affiliate",
+            }
     images = _decode_images(payload.get("images"))
     videos = _validate_videos(payload.get("videos"))
     thumbnail_only_image_id = (
@@ -3421,8 +6113,19 @@ def build_article(payload: dict[str, Any], site_root: Path = SITE_ROOT, *, previ
     blocks = _validate_blocks(payload.get("blocks"), images, videos, thumbnail_only_image_id)
     metadata = _make_metadata(payload, images, site_root)
     article_html = render_article(site_root, payload, metadata, images, videos, blocks, preview=preview)
+    packaged_images = images
+    if not preview:
+        thumbnail_filename = Path(str(metadata["thumbnail"])).name
+        packaged_images = tuple(
+            image for image in images
+            if image.filename == thumbnail_filename
+            or f"images/{image.filename}" in article_html
+        )
+        if len(packaged_images) != len(images):
+            metadata["images_used"] = len(packaged_images)
+            metadata = validate_metadata(metadata)
     normalized_payload = {**payload, "videos": videos, "blocks": blocks}
-    return ArticleBuild(metadata, article_html, images, normalized_payload)
+    return ArticleBuild(metadata, article_html, packaged_images, normalized_payload)
 
 
 def _write_package(build: ArticleBuild, root: Path) -> tuple[Path, Path, Path]:
@@ -3434,6 +6137,15 @@ def _write_package(build: ArticleBuild, root: Path) -> tuple[Path, Path, Path]:
     html_path.write_text(build.article_html, encoding="utf-8")
     for image in build.images:
         (images_path / image.filename).write_bytes(image.data)
+    for video in build.payload.get("videos", []):
+        if not isinstance(video, dict):
+            continue
+        poster_data_url = str(video.get("poster_data_url") or "")
+        poster_filename = str(video.get("poster_filename") or "")
+        if poster_data_url and poster_filename:
+            (images_path / poster_filename).write_bytes(
+                base64.b64decode(poster_data_url.split(",", 1)[1], validate=True)
+            )
     return metadata_path, html_path, images_path
 
 
@@ -3472,10 +6184,115 @@ def make_package(payload: dict[str, Any], site_root: Path = SITE_ROOT) -> tuple[
         archive.writestr("article.html", build.article_html)
         for image in build.images:
             archive.writestr(f"images/{image.filename}", image.data)
+        for video in build.payload.get("videos", []):
+            if not isinstance(video, dict):
+                continue
+            poster_data_url = str(video.get("poster_data_url") or "")
+            poster_filename = str(video.get("poster_filename") or "")
+            if poster_data_url and poster_filename:
+                archive.writestr(
+                    f"images/{poster_filename}",
+                    base64.b64decode(
+                        poster_data_url.split(",", 1)[1], validate=True
+                    ),
+                )
     return f"{build.metadata['slug']}.zip", buffer.getvalue()
 
 
+def _draft_fanza_product_id(value: str) -> str:
+    value = unwrap_fanza_affiliate_url(value) or str(value or "")
+    try:
+        parsed = urlparse(str(value or ""))
+    except ValueError:
+        return ""
+    query = parse_qs(parsed.query)
+    product_id = str((query.get("id") or query.get("cid") or [""])[0]).strip()
+    if not product_id:
+        match = re.search(r"(?:^|/)cid[=/]([^/?#]+)", parsed.path, re.IGNORECASE)
+        if match:
+            product_id = match.group(1)
+    if not product_id:
+        match = re.search(r"/(?:product|detail)/([^/?#]+)", parsed.path, re.IGNORECASE)
+        if match:
+            product_id = match.group(1)
+    return re.sub(r"[^a-z0-9]", "", unquote(product_id).casefold())
+
+
+def _sanitize_legacy_product_ctas(payload: dict[str, Any]) -> dict[str, Any]:
+    blocks = payload.get("blocks")
+    if not isinstance(blocks, list) or not any(
+        isinstance(block, dict)
+        and block.get("type") == "product_cta"
+        and not block.get("match_type")
+        for block in blocks
+    ):
+        return payload
+
+    source_product_id = _draft_fanza_product_id(str(payload.get("source_url") or ""))
+    sanitized: list[dict[str, Any]] = []
+    source_exact: dict[str, Any] | None = None
+    for block in blocks:
+        if not isinstance(block, dict) or block.get("type") != "product_cta":
+            sanitized.append(block)
+            continue
+        if block.get("match_type"):
+            sanitized.append(block)
+            continue
+        block_product_id = _draft_fanza_product_id(str(block.get("url") or ""))
+        if source_exact is not None or not (
+            source_product_id and block_product_id == source_product_id
+        ):
+            continue
+        source_exact = {
+            **block,
+            "placement_label": "この記事の商品",
+            "match_type": "exact_article",
+            "match_evidence": "記事元URLとFANZA商品詳細URLの品番が一致",
+            "match_confidence": 100,
+        }
+
+    if source_exact is None:
+        return {**payload, "blocks": sanitized}
+
+    target_index = next((
+        index for index, block in enumerate(sanitized)
+        if isinstance(block, dict) and block.get("type") == "videos"
+    ), -1)
+    media_word = "動画"
+    if target_index < 0:
+        target_index = next((
+            index for index, block in enumerate(sanitized)
+            if isinstance(block, dict) and block.get("type") == "images"
+        ), -1)
+        media_word = "画像"
+    source_exact.update({
+        "placement_label": f"この{media_word}の商品" if target_index >= 0 else "この記事の商品",
+        "match_type": (
+            "exact_video" if media_word == "動画" and target_index >= 0
+            else "exact_image" if target_index >= 0
+            else "exact_article"
+        ),
+        "text": (
+            f"上の{media_word}と同じFANZA作品です。"
+            "作品ページでサンプル、出演者、配信内容を確認できます。"
+            if target_index >= 0
+            else str(source_exact.get("text") or "")
+        ),
+    })
+    insert_at = target_index + 1 if target_index >= 0 else next((
+        index for index, block in enumerate(sanitized)
+        if isinstance(block, dict) and block.get("type") == "ad"
+    ), len(sanitized))
+    sanitized.insert(insert_at, source_exact)
+    return {**payload, "blocks": sanitized}
+
+
 def save_draft(payload: dict[str, Any], site_root: Path = SITE_ROOT) -> str:
+    payload = {**payload, "title": normalize_article_title_label(payload.get("title"))}
+    payload = sanitize_related_destinations(
+        canonicalize_payload_fanza_links(_sanitize_legacy_product_ctas(payload))
+    )
+    ensure_related_footer(payload)
     slug = _require_text(payload, "slug", 100)
     if not SLUG_PATTERN.fullmatch(slug):
         raise ValidationError("a valid slug is required to save a draft")
@@ -3485,7 +6302,32 @@ def save_draft(payload: dict[str, Any], site_root: Path = SITE_ROOT) -> str:
     temporary = draft_root / f".{slug}.{secrets.token_hex(4)}.tmp"
     temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     temporary.replace(destination)
+    with _DRAFT_PAYLOAD_CACHE_LOCK:
+        _DRAFT_PAYLOAD_CACHE.pop(destination.resolve(), None)
     return slug
+
+
+def load_draft_payload(slug: str, site_root: Path = SITE_ROOT) -> dict[str, Any]:
+    if not SLUG_PATTERN.fullmatch(slug):
+        raise ValidationError("invalid draft slug")
+    path = (site_root / ".article-studio" / "drafts" / f"{slug}.json").resolve()
+    stat = path.stat()
+    signature = (stat.st_mtime_ns, stat.st_size)
+    with _DRAFT_PAYLOAD_CACHE_LOCK:
+        cached = _DRAFT_PAYLOAD_CACHE.get(path)
+        if cached and cached[:2] == signature:
+            return cached[2]
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValidationError("draft payload must be an object")
+    payload = sanitize_related_destinations(
+        canonicalize_payload_fanza_links(_sanitize_legacy_product_ctas(payload))
+    )
+    payload["title"] = normalize_article_title_label(payload.get("title"))
+    ensure_related_footer(payload)
+    with _DRAFT_PAYLOAD_CACHE_LOCK:
+        _DRAFT_PAYLOAD_CACHE[path] = (signature[0], signature[1], payload)
+    return payload
 
 
 def list_drafts(site_root: Path = SITE_ROOT) -> list[dict[str, Any]]:
@@ -3494,9 +6336,13 @@ def list_drafts(site_root: Path = SITE_ROOT) -> list[dict[str, Any]]:
         return []
     drafts = []
     for path in sorted(draft_root.glob("*.json"), key=lambda item: item.stat().st_mtime, reverse=True):
+        # Repair backups sometimes live beside drafts and deliberately include
+        # suffixes such as ".before-source-fix". They are not article records.
+        if not SLUG_PATTERN.fullmatch(path.stem):
+            continue
         try:
-            payload = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
+            payload = load_draft_payload(path.stem, site_root)
+        except (OSError, json.JSONDecodeError, ValidationError):
             payload = {}
         drafts.append({
             "slug": path.stem,
@@ -3520,8 +6366,14 @@ def list_drafts(site_root: Path = SITE_ROOT) -> list[dict[str, Any]]:
             "tags": [
                 str(tag)[:40] for tag in payload.get("tags", []) if isinstance(tag, str)
             ][:12] if isinstance(payload.get("tags"), list) else [],
-            "image_count": len(payload.get("images", [])) if isinstance(payload.get("images"), list) else 0,
+            "image_count": sum(
+                1
+                for image in payload.get("images", [])
+                if isinstance(image, dict) and image.get("related_thumbnail_only") is not True
+            ) if isinstance(payload.get("images"), list) else 0,
             "video_count": len(payload.get("videos", [])) if isinstance(payload.get("videos"), list) else 0,
+            "affiliate_opportunities": payload.get("affiliate_opportunities", [])
+            if isinstance(payload.get("affiliate_opportunities"), list) else [],
             "updated_at": datetime.fromtimestamp(path.stat().st_mtime, JST).isoformat(),
             "size": path.stat().st_size,
         })
@@ -3771,7 +6623,7 @@ class StudioHandler(BaseHTTPRequestHandler):
                 session_id, media_id = reference.split("/", 1)
                 source = self.studio_server.get_source_session(session_id)
                 media = next((
-                    item for item in source.get("images", [])
+                    item for item in (source.get("images") or [])
                     if isinstance(item, dict) and item.get("id") == media_id
                 ), None)
                 if not media or not isinstance(media.get("data"), bytes):
@@ -3828,7 +6680,13 @@ class StudioHandler(BaseHTTPRequestHandler):
                 self._send_json(result, HTTPStatus.CREATED)
             elif self.path == "/api/source/analyze":
                 source = analyze_source_url(payload.get("url", ""), self.studio_server.url_opener)
-                source = apply_codex_analysis(source, self.studio_server.codex_runner.analyze(source))
+                analysis = self.studio_server.codex_runner.analyze(source)
+                if analysis.get("adult_content") is not True:
+                    reason = str(analysis.get("adult_reason") or "一般向けの内容です")
+                    raise ValidationError(
+                        f"成人向けでないため記事を作成しませんでした: {reason}"
+                    )
+                source = apply_codex_analysis(source, analysis)
                 session_id = self.studio_server.store_source_session(source)
                 public_images = [{
                     "id": item["id"],
@@ -3841,7 +6699,7 @@ class StudioHandler(BaseHTTPRequestHandler):
                     "ai_reason": item.get("ai_reason", ""),
                     "ai_recommended": bool(item.get("ai_recommended")),
                     "preview_url": f"/api/source/media/{quote(session_id)}/{quote(str(item['id']))}",
-                } for item in source.get("images", []) if isinstance(item, dict)]
+                } for item in (source.get("images") or []) if isinstance(item, dict)]
                 public_videos = [{
                     "id": item["id"],
                     "kind": item.get("kind", "direct"),
@@ -3859,7 +6717,7 @@ class StudioHandler(BaseHTTPRequestHandler):
                         f"/api/video-proxy?url={quote(str(item.get('url') or ''), safe='')}"
                         f"&referer={quote(str(source.get('url') or ''), safe='')}"
                     ) if item.get("kind") != "iframe" else item.get("url", ""),
-                } for item in source.get("videos", []) if isinstance(item, dict)]
+                } for item in (source.get("videos") or []) if isinstance(item, dict)]
                 self._send_json({
                     "session_id": session_id,
                     "source": {

@@ -2,6 +2,7 @@ const INDANYA_CLIENT_KEY = "V_HDntDXDk5UmtljnKiTI3n2-grJuLvX";
 const INDANYA_WORKER_KEY = "AeugyJTkfhQW7HnUeyXROo9EcCJyNcSt";
 const INDANYA_JOB_FOLDER = "INDANYA_CHATGPT_JOBS";
 const INDANYA_MAX_WAIT_SECONDS = 35;
+const INDANYA_PC_JOB_TYPES = ["capture", "draft", "publish"];
 
 function jsonResponse(data) {
   return ContentService
@@ -13,7 +14,7 @@ function doGet() {
   return jsonResponse({
     ok: true,
     service: "indanya-chatgpt-bridge",
-    version: "1.0.0",
+    version: "2.0.0",
     message: "ready"
   });
 }
@@ -26,7 +27,12 @@ function doPost(e) {
     const action = String(body.action || "").trim();
 
     if (action === "health") {
-      return jsonResponse({ ok: true, service: "indanya-chatgpt-bridge", message: "ready" });
+      return jsonResponse({
+        ok: true,
+        service: "indanya-chatgpt-bridge",
+        version: "2.0.0",
+        message: "ready"
+      });
     }
 
     if (action.indexOf("worker_") === 0) {
@@ -45,25 +51,15 @@ function doPost(e) {
       return jsonResponse(waitForJob(job.id, body.wait_seconds));
     }
 
-    if (action === "create_draft") {
+    if (action === "create_draft" || action === "publish_article") {
       if (!body.capture_job_id || !body.article) {
         throw new Error("capture_job_idとarticleが必要です");
       }
-      const job = createJob("draft", {
-        capture_job_id: String(body.capture_job_id),
-        article: body.article
-      });
-      return jsonResponse(waitForJob(job.id, body.wait_seconds));
-    }
-
-    if (action === "publish_article") {
-      if (!body.capture_job_id || !body.article) {
-        throw new Error("capture_job_idとarticleが必要です");
-      }
-      const job = createJob("publish", {
+      const isPublish = action === "publish_article";
+      const job = createJob(isPublish ? "publish" : "draft", {
         capture_job_id: String(body.capture_job_id),
         article: body.article,
-        rights_confirmed: body.rights_confirmed === true
+        rights_confirmed: isPublish && body.rights_confirmed === true
       });
       return jsonResponse(waitForJob(job.id, body.wait_seconds));
     }
@@ -72,6 +68,28 @@ function doPost(e) {
       const jobId = String(body.job_id || "").trim();
       if (!jobId) throw new Error("job_idが必要です");
       return jsonResponse(publicJob(readJob(jobId)));
+    }
+
+    if (action === "claim_shadow_review") {
+      return jsonResponse(claimNextJob("chatgpt", ["shadow_review"]));
+    }
+
+    if (action === "submit_shadow_review") {
+      const job = readJob(String(body.job_id || ""));
+      if (job.type !== "shadow_review") {
+        throw new Error("指定されたジョブは品質比較用ではありません");
+      }
+      if (!body.candidate || typeof body.candidate !== "object") {
+        throw new Error("candidateが必要です");
+      }
+      job.status = "completed";
+      job.progress = 100;
+      job.message = "ChatGPT比較案を受信しました";
+      job.result = { candidate: body.candidate };
+      job.updated_at = nowIso();
+      job.completed_at = nowIso();
+      saveJob(job);
+      return jsonResponse(publicJob(job));
     }
 
     throw new Error("未対応のactionです: " + action);
@@ -85,7 +103,27 @@ function doPost(e) {
 
 function handleWorkerAction(action, body) {
   if (action === "worker_claim") {
-    return claimNextJob(String(body.worker_name || "windows-pc"));
+    return claimNextJob(
+      String(body.worker_name || "windows-pc"),
+      INDANYA_PC_JOB_TYPES
+    );
+  }
+
+  if (action === "worker_enqueue_shadow") {
+    if (!body.task || typeof body.task !== "object") {
+      throw new Error("比較用taskが必要です");
+    }
+    const job = createJob("shadow_review", { task: body.task });
+    return {
+      ok: true,
+      job_id: job.id,
+      status: job.status,
+      message: "ChatGPT品質比較へ追加しました"
+    };
+  }
+
+  if (action === "worker_get_job") {
+    return publicJob(readJob(String(body.job_id || "")));
   }
 
   if (action === "worker_progress") {
@@ -142,7 +180,7 @@ function createJob(type, payload) {
     type: type,
     status: "queued",
     progress: 0,
-    message: "PCの処理待ち",
+    message: type === "shadow_review" ? "ChatGPTの比較待ち" : "PCの処理待ち",
     payload: payload,
     result: null,
     error: "",
@@ -161,7 +199,6 @@ function waitForJob(jobId, requestedSeconds) {
   );
   const deadline = Date.now() + seconds * 1000;
   let job = readJob(jobId);
-
   while (Date.now() < deadline && job.status !== "completed" && job.status !== "failed") {
     Utilities.sleep(1000);
     job = readJob(jobId);
@@ -177,6 +214,9 @@ function publicJob(job) {
     status: job.status,
     progress: Number(job.progress || 0),
     message: String(job.message || ""),
+    payload: job.status === "processing" && job.type === "shadow_review"
+      ? (job.payload || {})
+      : undefined,
     result: job.status === "completed" ? (job.result || {}) : null,
     error: job.status === "failed" ? String(job.error || "") : "",
     created_at: job.created_at,
@@ -184,42 +224,47 @@ function publicJob(job) {
   };
 }
 
-function claimNextJob(workerName) {
+function claimNextJob(workerName, allowedTypes) {
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
     const folder = getJobFolder();
     const files = folder.getFiles();
     let selected = null;
-
     while (files.hasNext()) {
       const file = files.next();
       if (!/\.json$/i.test(file.getName())) continue;
       try {
         const job = JSON.parse(file.getBlob().getDataAsString("UTF-8"));
         if (job.status !== "queued") continue;
+        if (allowedTypes.indexOf(job.type) < 0) continue;
         if (!selected || String(job.created_at) < String(selected.created_at)) {
           selected = job;
         }
       } catch (ignore) {
-        // 壊れたファイルは無視
+        // Broken job files are skipped.
       }
     }
-
-    if (!selected) {
-      return { ok: true, job: null };
-    }
-
+    if (!selected) return { ok: true, job: null };
     selected.status = "processing";
     selected.progress = 1;
-    selected.message = "PCが処理を開始しました";
+    selected.message = selected.type === "shadow_review"
+      ? "ChatGPTが比較案を作成中"
+      : "PCが処理を開始しました";
     selected.worker_name = workerName;
     selected.updated_at = nowIso();
     saveJob(selected);
-    return { ok: true, job: selected };
+    return { ok: true, job: publicJob(selected) };
   } finally {
     lock.releaseLock();
   }
+}
+
+// Run this once in the Apps Script editor after replacing the script.
+// It opens the Drive permission prompt required by the persistent queue.
+function authorizeIndanyaBridge() {
+  const folder = getJobFolder();
+  return "ready: " + folder.getName();
 }
 
 function getJobFolder() {
@@ -232,7 +277,6 @@ function getJobFolder() {
       properties.deleteProperty("INDANYA_JOB_FOLDER_ID");
     }
   }
-
   const folders = DriveApp.getFoldersByName(INDANYA_JOB_FOLDER);
   const folder = folders.hasNext() ? folders.next() : DriveApp.createFolder(INDANYA_JOB_FOLDER);
   properties.setProperty("INDANYA_JOB_FOLDER_ID", folder.getId());

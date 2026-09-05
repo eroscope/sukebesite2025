@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "title": "アニメ『ゾンビのあふれた世界で俺だけが襲われない』",
+      "aliases": [
+        "ゾンビのあふれた世界で俺だけが襲われない",
+        "TVアニメ ゾンビのあふれた世界で俺だけが襲われない"
+      ],
+      "url": "https://zom-ore.com/",
+      "provider": "アニメ『ゾンビのあふれた世界で俺だけが襲われない』公式サイト",
+      "reason": "作品専用の公式サイトで作品名と2027年1月のAT-X放送情報を確認",
+      "thumbnail_url": "",
+      "verified_by": "editor_verified_web_search"
+    },
+    {
+      "title": "ゾンビのあふれた世界で俺だけが襲われない 時子 IF STORY",
+      "aliases": [
+        "ゾンビのあふれた世界で俺だけが襲われない 時子 IF STORY"
+      ],
+      "url": "https://comic-ragchew.jp/comics/zombietokiko/",
+      "provider": "COMICらぐちゅう／フロンティアワークス",
+      "reason": "出版社公式作品ページで作品名と時子IFの単行本情報を確認",
+      "thumbnail_url": "",
+      "verified_by": "editor_verified_web_search"
+    }
+  ]
+}

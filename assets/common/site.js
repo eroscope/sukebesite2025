@@ -254,14 +254,10 @@
     featureImage.src = featured.thumbnail;
     featureImage.alt = featured.title;
     const featuredImageCount = articleImageCount(featured);
-    featureBadge.textContent = featuredImageCount
-      ? `${featured.category} / ${featuredImageCount}枚`
-      : featured.category;
+    featureBadge.textContent = featured.category;
     featureTitleLink.textContent = featured.title;
     featureSummary.textContent =
-      featured.summary || (featuredImageCount
-        ? `${featuredImageCount}枚の素材をレスの流れでまとめています。`
-        : "動画をレスの流れでまとめています。");
+      featured.summary || "画像や動画をレスの流れで紹介しています。";
     document.documentElement.classList.add("home-ready");
 
     function selectArticles(mode) {
