@@ -361,7 +361,9 @@ def load_x_trend_state(site_root: Path) -> dict[str, Any]:
         dict(item) for item in (raw.get("viral_reply_candidates") or [])
         if isinstance(item, dict)
         and item.get("url")
-        and _viral_reply_text_allowed(str(item.get("text") or ""))
+        and _viral_reply_text_allowed(
+            str(item.get("topic") or item.get("text") or "")
+        )
     ]
     return {
         "version": 1,

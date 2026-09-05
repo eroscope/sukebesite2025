@@ -427,6 +427,27 @@ class SocialXTests(unittest.TestCase):
 
         self.assertIsNone(prepare_x_viral_reply(self.root))
 
+    def test_trend_state_keeps_topic_only_viral_candidates(self) -> None:
+        state_path = self.root / ".article-studio" / "x-trend-templates.json"
+        state_path.parent.mkdir(parents=True, exist_ok=True)
+        state_path.write_text(json.dumps({
+            **self.trend_state(),
+            "viral_reply_candidates": [{
+                "url": "https://x.com/gravure_creator/status/1234567890123456789",
+                "topic": "水着グラビアの新作イラストを公開しました",
+                "likes": 2000,
+                "views": 180000,
+            }],
+        }, ensure_ascii=False), encoding="utf-8")
+
+        saved = load_x_trend_state(self.root)
+
+        self.assertEqual(1, len(saved["viral_reply_candidates"]))
+        self.assertEqual(
+            "水着グラビアの新作イラストを公開しました",
+            saved["viral_reply_candidates"][0]["topic"],
+        )
+
     def test_failed_daily_refresh_keeps_previous_codex_templates(self) -> None:
         state_path = self.root / ".article-studio" / "x-trend-templates.json"
         state_path.parent.mkdir(parents=True, exist_ok=True)
