@@ -12,6 +12,7 @@ if str(TOOLS) not in os.sys.path:
     os.sys.path.insert(0, str(TOOLS))
 
 from indanya_desktop.editorial_policy import (  # noqa: E402
+    _fanza_product_image_urls,
     FANZA_MEDIA_PROFILE,
     POLICY_VERSION,
     approve_generated_article,
@@ -243,6 +244,20 @@ class EditorialPolicyTests(unittest.TestCase):
         )
         self.assertEqual("d_773789", fanza_image_product_id(doujin_package))
         self.assertTrue(is_fanza_package_image({"url": doujin_package}, "d_773789"))
+
+    def test_doujin_image_urls_use_official_comic_paths_and_padded_samples(self) -> None:
+        package_urls = _fanza_product_image_urls("d_432488", "pl")
+        sample_urls = _fanza_product_image_urls("d_432488", "jp-1")
+        self.assertEqual(
+            "https://doujin-assets.dmm.co.jp/digital/comic/"
+            "d_432488/d_432488pl.jpg",
+            package_urls[0],
+        )
+        self.assertEqual(
+            "https://doujin-assets.dmm.co.jp/digital/comic/"
+            "d_432488/d_432488jp-001.jpg",
+            sample_urls[0],
+        )
 
     def test_restriction_rejects_another_products_package(self) -> None:
         source = adult_source(images=[{

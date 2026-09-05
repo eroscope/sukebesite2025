@@ -183,39 +183,56 @@ def _download_fanza_product_image(
     alt: str,
     rights_basis: str,
 ) -> dict[str, Any] | None:
-    url = (
+    for url in _fanza_product_image_urls(product_id, suffix):
+        request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        try:
+            with urllib.request.urlopen(request, timeout=20) as response:
+                data = response.read(12 * 1024 * 1024 + 1)
+                content_type = str(response.headers.get("Content-Type") or "").lower()
+                final_url = str(response.geturl() or url)
+        except (OSError, urllib.error.URLError, TimeoutError):
+            continue
+        if (
+            not data
+            or len(data) > 12 * 1024 * 1024
+            or not content_type.startswith("image/")
+            or fanza_image_product_id(final_url) != product_id
+        ):
+            continue
+        return {
+            "id": image_id,
+            "url": final_url,
+            "rights_source_url": final_url,
+            "alt": alt,
+            "extension": ".jpg",
+            "mime_type": "image/jpeg",
+            "data": data,
+            "width": 0,
+            "height": 0,
+            "orientation": "portrait",
+            "rights_basis": rights_basis,
+            "product_id": product_id,
+        }
+    return None
+
+
+def _fanza_product_image_urls(product_id: str, suffix: str) -> list[str]:
+    urls: list[str] = []
+    if product_id.startswith("d_"):
+        doujin_suffix = suffix
+        sample = re.fullmatch(r"jp-(\d+)", suffix)
+        if sample:
+            doujin_suffix = f"jp-{int(sample.group(1)):03d}"
+        for media_type in ("comic", "cg", "voice"):
+            urls.append(
+                "https://doujin-assets.dmm.co.jp/digital/"
+                f"{media_type}/{product_id}/{product_id}{doujin_suffix}.jpg"
+            )
+    urls.append(
         "https://awsimgsrc.dmm.co.jp/pics_dig/digital/video/"
         f"{product_id}/{product_id}{suffix}.jpg"
     )
-    request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    try:
-        with urllib.request.urlopen(request, timeout=20) as response:
-            data = response.read(12 * 1024 * 1024 + 1)
-            content_type = str(response.headers.get("Content-Type") or "").lower()
-            final_url = str(response.geturl() or url)
-    except (OSError, urllib.error.URLError, TimeoutError):
-        return None
-    if (
-        not data
-        or len(data) > 12 * 1024 * 1024
-        or not content_type.startswith("image/")
-        or fanza_image_product_id(final_url) != product_id
-    ):
-        return None
-    return {
-        "id": image_id,
-        "url": final_url,
-        "rights_source_url": final_url,
-        "alt": alt,
-        "extension": ".jpg",
-        "mime_type": "image/jpeg",
-        "data": data,
-        "width": 0,
-        "height": 0,
-        "orientation": "portrait",
-        "rights_basis": rights_basis,
-        "product_id": product_id,
-    }
+    return urls
 
 
 def _download_exact_fanza_package(product_id: str) -> dict[str, Any] | None:
