@@ -166,7 +166,6 @@
           "evidence_types": {
             "type": "array",
             "minItems": 2,
-            "uniqueItems": true,
             "items": {
               "type": "string",
               "enum": ["headline", "caption", "alt", "link_text", "official_profile", "official_page", "product_credit", "source_metadata"]
@@ -217,7 +216,6 @@
           "evidence_types": {
             "type": "array",
             "minItems": 2,
-            "uniqueItems": true,
             "items": {
               "type": "string",
               "enum": ["headline", "caption", "alt", "link_text", "official_profile", "official_page", "product_credit", "source_metadata"]
@@ -273,7 +271,6 @@
                 "evidence_types": {
                   "type": "array",
                   "minItems": 1,
-                  "uniqueItems": true,
                   "items": {
                     "type": "string",
                     "enum": ["headline", "caption", "alt", "link_text", "source_metadata", "watermark_ocr", "filename_clue", "web_search_result", "reverse_image_result", "video_frame_match"]
@@ -282,7 +279,6 @@
                 "evidence_urls": {
                   "type": "array",
                   "maxItems": 4,
-                  "uniqueItems": true,
                   "items": {
                     "type": "string",
                     "maxLength": 2048

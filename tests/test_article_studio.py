@@ -283,6 +283,7 @@ class ArticleStudioTests(unittest.TestCase):
 
         def verify(node: object, location: str = "$") -> None:
             if isinstance(node, dict):
+                self.assertNotIn("uniqueItems", node, location)
                 if node.get("type") == "object" and node.get("additionalProperties") is False:
                     properties = set((node.get("properties") or {}).keys())
                     required = set(node.get("required") or [])
