@@ -161,3 +161,45 @@ def test_detail_hubs_are_generated_beyond_the_index_display_limit() -> None:
         last_path = f"topics/{_entity_slug('topic', last_label)}.html"
         assert last_path in generated
         assert (site / last_path).is_file()
+
+
+def test_discovery_is_inserted_after_nested_person_cards() -> None:
+    with tempfile.TemporaryDirectory() as temporary:
+        site = Path(temporary)
+        (site / "articles").mkdir()
+        (site / "data").mkdir()
+        (site / "assets" / "common").mkdir(parents=True)
+        (site / "index.html").write_text(
+            '<!doctype html><html><head><title>淫談屋</title></head>'
+            '<body><nav></nav></body></html>',
+            encoding="utf-8",
+        )
+        article = _article(
+            "nested",
+            "【画像】宮下玲奈、ABC-123の制服作品",
+            "2026-08-25T12:00:00+09:00",
+        )
+        nested = '''<!doctype html><html><head><title>記事</title></head><body>
+        <article class="article"><h1>記事</h1>
+        <section class="person-discovery"><div class="person-discovery-rail">
+        <article class="person-discovery-card"><strong>宮下玲奈</strong></article>
+        </div></section><div class="editorial-note">注記</div>
+        </article><aside class="sidebar">横欄</aside></body></html>'''
+        path = site / "articles" / "nested.html"
+        path.write_text(nested, encoding="utf-8")
+
+        refresh_site_discovery(site, "https://example.com/site/", [article])
+        first = path.read_text(encoding="utf-8")
+        marker = first.index("<!-- INDANYA_DISCOVERY_START -->")
+        person_card_end = first.index(
+            "</article>",
+            first.index('class="person-discovery-card"'),
+        )
+        sidebar = first.index('<aside class="sidebar">')
+
+        assert marker > person_card_end
+        assert marker < sidebar
+        assert first[:marker].count("<article") - first[:marker].count("</article>") == 1
+
+        refresh_site_discovery(site, "https://example.com/site/", [article])
+        assert first == path.read_text(encoding="utf-8")

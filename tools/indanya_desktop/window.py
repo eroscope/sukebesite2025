@@ -177,7 +177,6 @@ from indanya_desktop.social_x import (
     prepare_due_x_reply_candidate,
     mark_x_manga_replenishing,
     notify_x_manga_article_published,
-    prepare_x_viral_reply,
     record_x_post_performance,
     refresh_x_reply_candidate_score,
     save_x_settings,
@@ -684,8 +683,9 @@ class XPostingSettingsDialog(QDialog):
         self.reply_link_rate.setSingleStep(10)
         self.reply_link_rate.setSuffix(" %")
         self.reply_link_rate.setValue(
-            int(settings.get("reply_link_rate_percent") or 0)
+            100
         )
+        self.reply_link_rate.setEnabled(False)
         self.reply_media_mode = QComboBox()
         self.reply_media_mode.addItem("記事の元素材（標準）", "original")
         self.reply_media_mode.addItem("安全カード", "safe_card")
@@ -694,6 +694,10 @@ class XPostingSettingsDialog(QDialog):
             str(settings.get("reply_default_media_mode") or "original")
         )
         self.reply_media_mode.setCurrentIndex(max(0, media_index))
+        self.reply_media_mode.setCurrentIndex(
+            max(0, self.reply_media_mode.findData("original"))
+        )
+        self.reply_media_mode.setEnabled(False)
         self.reply_blocked_handles = QLineEdit(
             ", ".join(str(value) for value in settings.get("reply_blocked_handles") or [])
         )
@@ -749,8 +753,8 @@ class XPostingSettingsDialog(QDialog):
         account.addRow("返信間隔", self.reply_interval)
         account.addRow("返信できる募集", self.reply_max_age)
         account.addRow("同じ相手への間隔", self.reply_account_cooldown)
-        account.addRow("記事リンクを入れる割合", self.reply_link_rate)
-        account.addRow("返信の標準添付", self.reply_media_mode)
+        account.addRow("返信の記事リンク", self.reply_link_rate)
+        account.addRow("返信の添付", self.reply_media_mode)
         account.addRow("返信対象外", self.reply_blocked_handles)
         account.addRow("自分主催で同じ記事を使う間隔", self.owned_contest_cooldown)
         account.addRow("漫画スレッド", self.manga_recurring_enabled)
@@ -784,7 +788,7 @@ class XPostingSettingsDialog(QDialog):
             self.reply_daily_limit.setValue(1)
             self.reply_interval.setMinimum(180)
             self.reply_interval.setValue(max(180, self.reply_interval.value()))
-            self.reply_link_rate.setValue(0)
+            self.reply_link_rate.setValue(100)
         else:
             self.reply_interval.setMinimum(60)
 
@@ -810,8 +814,8 @@ class XPostingSettingsDialog(QDialog):
             "reply_min_interval_minutes": self.reply_interval.value(),
             "reply_target_max_age_hours": self.reply_max_age.value(),
             "reply_account_cooldown_days": self.reply_account_cooldown.value(),
-            "reply_link_rate_percent": self.reply_link_rate.value(),
-            "reply_default_media_mode": str(self.reply_media_mode.currentData()),
+            "reply_link_rate_percent": 100,
+            "reply_default_media_mode": "original",
             "reply_blocked_handles": self.reply_blocked_handles.text(),
             "owned_contest_cooldown_days": self.owned_contest_cooldown.value(),
             "manga_recurring_enabled": self.manga_recurring_enabled.isChecked(),
@@ -1988,9 +1992,6 @@ class MainWindow(QMainWindow):
         self.x_contest_button = button("自分の選手権を作る")
         self.x_contest_button.clicked.connect(self.prepare_owned_x_contest)
         reply_actions.addWidget(self.x_contest_button)
-        self.x_viral_reply_button = button("バズ投稿へ会話返信")
-        self.x_viral_reply_button.clicked.connect(self.prepare_viral_x_reply)
-        reply_actions.addWidget(self.x_viral_reply_button)
         reply_actions.addStretch()
         layout.addLayout(reply_actions)
 
@@ -2053,6 +2054,12 @@ class MainWindow(QMainWindow):
         reply_layout.addWidget(self.x_reply_media_mode, 3, 1)
         self.x_reply_include_link = QCheckBox("記事リンクを入れる")
         reply_layout.addWidget(self.x_reply_include_link, 3, 2, 1, 2)
+        self.x_reply_media_mode.setCurrentIndex(
+            max(0, self.x_reply_media_mode.findData("original"))
+        )
+        self.x_reply_media_mode.setEnabled(False)
+        self.x_reply_include_link.setChecked(True)
+        self.x_reply_include_link.setEnabled(False)
         self.x_reply_score_label = QLabel("返信適合度: 未採点", objectName="sectionTitle")
         reply_layout.addWidget(self.x_reply_score_label, 4, 1, 1, 3)
         self.x_reply_score_reason = QLabel("返信先を保存すると自動採点します。", objectName="muted")
@@ -2421,7 +2428,6 @@ class MainWindow(QMainWindow):
                 reply_detail = f"外部リプ: 次回候補確認 {next_reply}"
             reply_detail += (
                 f" / 選手権{int(reply.get('contest_candidate_count') or 0)}件"
-                f" / バズ会話{int(reply.get('viral_candidate_count') or 0)}件"
                 f" / 今日{int(reply.get('completed_today') or 0)}"
                 f"/{int(reply.get('daily_limit') or 1)}件"
             )
@@ -2453,8 +2459,7 @@ class MainWindow(QMainWindow):
             f"いいね{minimum:,}件以上を{samples}件採用 / テンプレ担当 Codex / 本文担当 ChatGPT"
         )
         contests = len(state.get("reply_candidates") or [])
-        viral = len(state.get("viral_reply_candidates") or [])
-        detail += f" / 返信募集 {contests}件 / バズ会話候補 {viral}件"
+        detail += f" / 返信募集 {contests}件"
         error = str(state.get("last_error") or "").strip()
         if error:
             detail += f" / 前回失敗: {error[:160]}"
@@ -2543,8 +2548,8 @@ class MainWindow(QMainWindow):
         self.x_post_progress.setValue(100)
         self.x_post_status.setText(
             f"Xの流行調査が完了しました。Codexテンプレ "
-            f"{len(state.get('templates') or [])}本 / バズ会話候補 "
-            f"{len(state.get('viral_reply_candidates') or [])}件です。"
+            f"{len(state.get('templates') or [])}本 / "
+            f"返信募集 {len(state.get('reply_candidates') or [])}件です。"
         )
         QTimer.singleShot(500, self._scheduler_tick)
 
@@ -2663,11 +2668,7 @@ class MainWindow(QMainWindow):
                 else:
                     schedule_text = "次の空き枠"
             delivery_text = {
-                "reply": (
-                    "バズ会話返信"
-                    if row.get("reply_kind") == "viral_conversation"
-                    else "選手権返信"
-                ),
+                "reply": "募集投稿へ返信",
                 "campaign": "自分主催",
                 "thread": "漫画スレッド",
             }.get(str(row.get("delivery_mode") or "post"), "通常投稿")
@@ -2764,18 +2765,17 @@ class MainWindow(QMainWindow):
         )
         self.x_reply_media_mode.setCurrentIndex(max(0, media_index))
         self.x_reply_include_link.setChecked(bool(row.get("reply_include_link", False)))
-        viral_reply = str(row.get("reply_kind") or "contest") == "viral_conversation"
-        self.x_reply_topic_label.setText(
-            "返信先の投稿本文" if viral_reply else "選手権のお題"
-        )
+        self.x_reply_topic_label.setText("募集投稿の本文")
         self.x_reply_target_topic.setPlaceholderText(
-            "返信先から取得した投稿本文"
-            if viral_reply
-            else "例：水着動画選手権"
+            "例：水着画像選手権。画像をリプで募集します"
         )
-        self.x_reply_opt_in.setVisible(not viral_reply)
-        self.x_reply_media_mode.setEnabled(not viral_reply)
-        self.x_reply_include_link.setEnabled(not viral_reply)
+        self.x_reply_opt_in.setVisible(True)
+        self.x_reply_media_mode.setCurrentIndex(
+            max(0, self.x_reply_media_mode.findData("original"))
+        )
+        self.x_reply_media_mode.setEnabled(False)
+        self.x_reply_include_link.setChecked(True)
+        self.x_reply_include_link.setEnabled(False)
         self.x_campaign_topic.setText(str(row.get("campaign_topic") or ""))
         score = float(row.get("reply_candidate_score") or 0)
         level = str(row.get("reply_candidate_level") or "未採点")
@@ -2838,7 +2838,6 @@ class MainWindow(QMainWindow):
         target_url = self.x_reply_target_url.text().strip()
         topic = self.x_reply_target_topic.text().strip()
         campaign_topic = self.x_campaign_topic.text().strip()
-        viral_reply = str(current.get("reply_kind") or "contest") == "viral_conversation"
         if mode == "reply":
             try:
                 target_url = canonical_x_status_url(target_url)
@@ -2860,14 +2859,13 @@ class MainWindow(QMainWindow):
             )
             return False
         target_changed = str(current.get("reply_target_url") or "") != target_url
-        include_link = self.x_reply_include_link.isChecked()
-        if mode == "reply" and viral_reply:
-            include_link = False
-            self.x_reply_include_link.setChecked(False)
-            media_mode = "none"
-        else:
-            media_mode = str(self.x_reply_media_mode.currentData() or "safe_card")
-        if mode == "reply" and target_changed and not viral_reply:
+        include_link = mode == "reply" or self.x_reply_include_link.isChecked()
+        media_mode = (
+            "original"
+            if mode == "reply"
+            else str(self.x_reply_media_mode.currentData() or "original")
+        )
+        if mode == "reply" and target_changed:
             try:
                 include_link = choose_x_reply_link(self.site.root, current, target_url)
                 self.x_reply_include_link.setChecked(include_link)
@@ -2886,9 +2884,7 @@ class MainWindow(QMainWindow):
             "delivery_mode": mode,
             "reply_target_url": target_url,
             "reply_target_topic": topic,
-            "reply_opt_in_confirmed": (
-                False if viral_reply else self.x_reply_opt_in.isChecked()
-            ),
+            "reply_opt_in_confirmed": self.x_reply_opt_in.isChecked(),
             "reply_media_mode": media_mode,
             "reply_include_link": include_link,
             "reply_link_decided": bool(mode == "reply" and target_url),
@@ -3201,39 +3197,6 @@ class MainWindow(QMainWindow):
                 self.x_posts_table.selectRow(row_index)
         self.x_post_status.setText(
             f"「{post.get('campaign_topic')}」の募集文を作成しています。"
-        )
-        self.x_copy_worker = XCopyWorker(self.site.root, [post_id])
-        self.x_copy_worker.signals.progress.connect(self._x_post_progress_changed)
-        self.x_copy_worker.signals.completed.connect(self._x_copy_completed)
-        self.x_copy_worker.signals.failed.connect(self._x_copy_failed)
-        self.x_copy_button.setEnabled(False)
-        self.thread_pool.start(self.x_copy_worker)
-
-    def prepare_viral_x_reply(self) -> None:
-        if self.x_copy_worker is not None:
-            return
-        post = prepare_x_viral_reply(self.site.root)
-        if not post:
-            self.x_post_status.setText(
-                "未使用のバズ会話候補がありません。先に「今すぐ流行を調査」を実行してください。"
-            )
-            return
-        post_id = str(post.get("post_id") or "")
-        self._refresh_x_posts()
-        for row_index in range(self.x_posts_table.rowCount()):
-            item = self.x_posts_table.item(row_index, 0)
-            if not item:
-                continue
-            current_id = str(item.data(Qt.ItemDataRole.UserRole) or "")
-            item.setCheckState(
-                Qt.CheckState.Checked
-                if current_id == post_id
-                else Qt.CheckState.Unchecked
-            )
-            if current_id == post_id:
-                self.x_posts_table.selectRow(row_index)
-        self.x_post_status.setText(
-            "高インプレ投稿へ送る、リンクなし・画像なしの会話返信を作成しています。"
         )
         self.x_copy_worker = XCopyWorker(self.site.root, [post_id])
         self.x_copy_worker.signals.progress.connect(self._x_post_progress_changed)
@@ -6326,9 +6289,9 @@ class MainWindow(QMainWindow):
                 self.x_copy_worker.signals.failed.connect(self._x_copy_failed)
                 self.x_post_status.setText(
                     (
-                        "外部リプの候補文を作成し、条件を再確認してXへ返信します。"
+                        "募集投稿へ、記事タイトル・URL・サムネ付きで返信します。"
                         if not x_settings.get("manual_delivery_only", False)
-                        else "外部リプの候補文を作成しています。送信はX公式画面で確認します。"
+                        else "募集投稿向けの固定文とサムネを用意しています。"
                     )
                 )
                 self.thread_pool.start(self.x_copy_worker)

@@ -345,6 +345,79 @@ def _replace_marked(source: str, start: str, end: str, replacement: str) -> str:
     return source
 
 
+def _remove_marked(source: str, start: str, end: str) -> str:
+    pattern = re.compile(
+        r"[ \t]*(?:\r?\n)?"
+        + re.escape(start)
+        + r"[\s\S]*?"
+        + re.escape(end)
+        + r"[ \t]*(?:\r?\n)?"
+    )
+    return pattern.sub("", source, count=1)
+
+
+def _primary_article_close(source: str) -> int:
+    """Return the closing tag for the page article, not a nested content card."""
+    stack: list[tuple[int, bool]] = []
+    closing_fallbacks: list[int] = []
+    for match in re.finditer(r"</?article\b[^>]*>", source, flags=re.IGNORECASE):
+        tag = match.group(0)
+        if tag.startswith("</"):
+            closing_fallbacks.append(match.start())
+            if not stack:
+                continue
+            _opening, is_primary = stack.pop()
+            if is_primary:
+                return match.start()
+            continue
+        class_match = re.search(
+            r"\bclass\s*=\s*(['\"])(.*?)\1",
+            tag,
+            flags=re.IGNORECASE | re.DOTALL,
+        )
+        classes = set(class_match.group(2).casefold().split()) if class_match else set()
+        stack.append((match.start(), "article" in classes))
+    return closing_fallbacks[-1] if closing_fallbacks else -1
+
+
+def _discovery_is_at_article_root(source: str) -> bool:
+    marker_at = source.find(DISCOVERY_START)
+    if marker_at < 0:
+        return False
+    stack: list[bool] = []
+    for match in re.finditer(
+        r"</?article\b[^>]*>",
+        source[:marker_at],
+        flags=re.IGNORECASE,
+    ):
+        tag = match.group(0)
+        if tag.startswith("</"):
+            if stack:
+                stack.pop()
+            continue
+        class_match = re.search(
+            r"\bclass\s*=\s*(['\"])(.*?)\1",
+            tag,
+            flags=re.IGNORECASE | re.DOTALL,
+        )
+        classes = set(class_match.group(2).casefold().split()) if class_match else set()
+        stack.append("article" in classes)
+    return len(stack) == 1
+
+
+def _insert_article_discovery(source: str, discovery: str) -> str:
+    if DISCOVERY_START in source and _discovery_is_at_article_root(source):
+        return _replace_marked(source, DISCOVERY_START, DISCOVERY_END, discovery)
+    source = _remove_marked(source, DISCOVERY_START, DISCOVERY_END)
+    if not discovery:
+        return source
+    close_at = _primary_article_close(source)
+    if close_at < 0:
+        return source
+    before = source[:close_at].rstrip()
+    return f"{before}\n{discovery}\n{source[close_at:]}"
+
+
 def _media_from_html(source: str, page_url: str, slug: str) -> MediaEntry:
     parser = ArticleMediaParser(page_url, slug)
     parser.feed(source)
@@ -558,9 +631,7 @@ def _augment_article(
         source = source.replace("</head>", seo + "\n</head>", 1)
 
     discovery = _discovery_section(article, articles, people, works, topics)
-    source = _replace_marked(source, DISCOVERY_START, DISCOVERY_END, discovery)
-    if discovery and DISCOVERY_START not in source:
-        source = source.replace("</article>", discovery + "\n</article>", 1)
+    source = _insert_article_discovery(source, discovery)
     original = path.read_text(encoding="utf-8")
     if source != original:
         path.write_text(source, encoding="utf-8", newline="")

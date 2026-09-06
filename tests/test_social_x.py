@@ -19,6 +19,8 @@ from indanya_desktop.social_x import (
     _assign_random_trend_templates,
     _metric_number,
     _is_official_manga_sales_url,
+    _reply_solicitation_text_allowed,
+    _simple_article_post_text,
     _trend_text_allowed,
     _viral_reply_text_allowed,
     _x_pacing_error,
@@ -204,7 +206,7 @@ class SocialXTests(unittest.TestCase):
         self.assertEqual(1, load_x_settings(self.root)["reply_daily_limit"])
         self.assertEqual(7, load_x_settings(self.root)["global_daily_action_limit"])
         self.assertEqual(90, load_x_settings(self.root)["global_min_interval_minutes"])
-        self.assertEqual(0, load_x_settings(self.root)["reply_link_rate_percent"])
+        self.assertEqual(100, load_x_settings(self.root)["reply_link_rate_percent"])
         self.assertFalse(load_x_settings(self.root)["manual_delivery_only"])
 
     def test_prepare_candidates_only_adds_published_article_once(self) -> None:
@@ -427,7 +429,7 @@ class SocialXTests(unittest.TestCase):
 
         self.assertIsNone(prepare_x_viral_reply(self.root))
 
-    def test_trend_state_keeps_topic_only_viral_candidates(self) -> None:
+    def test_trend_state_discards_ordinary_viral_reply_candidates(self) -> None:
         state_path = self.root / ".article-studio" / "x-trend-templates.json"
         state_path.parent.mkdir(parents=True, exist_ok=True)
         state_path.write_text(json.dumps({
@@ -442,10 +444,18 @@ class SocialXTests(unittest.TestCase):
 
         saved = load_x_trend_state(self.root)
 
-        self.assertEqual(1, len(saved["viral_reply_candidates"]))
-        self.assertEqual(
-            "水着グラビアの新作イラストを公開しました",
-            saved["viral_reply_candidates"][0]["topic"],
+        self.assertEqual([], saved["viral_reply_candidates"])
+
+    def test_reply_solicitation_requires_media_and_an_explicit_invitation(self) -> None:
+        self.assertTrue(
+            _reply_solicitation_text_allowed(
+                "水着画像選手権を開催。画像をリプで募集しています"
+            )
+        )
+        self.assertFalse(
+            _reply_solicitation_text_allowed(
+                "水着グラビアの新作画像を公開しました"
+            )
         )
 
     def test_failed_daily_refresh_keeps_previous_codex_templates(self) -> None:
@@ -1057,11 +1067,12 @@ class SocialXTests(unittest.TestCase):
             post["post_id"],
             delivery_mode="reply",
             reply_target_url=target_url,
-            reply_target_topic="水着画像選手権",
+            reply_target_topic="水着画像選手権。画像をリプで募集します",
             reply_opt_in_confirmed=True,
-            post_text="この振り返りは反則 https://example.com/article",
-            status="copy_ready",
+            reply_media_mode="original",
+            reply_include_link=True,
         )
+        generate_x_copies(self.root, [post["post_id"]])
         validated = validate_x_reply_post(self.root, post["post_id"], now=now)
         self.assertEqual(target_id, validated["target_id"])
         intent = x_reply_intent_url(self.root, post["post_id"], now=now)
@@ -1077,11 +1088,12 @@ class SocialXTests(unittest.TestCase):
             post["post_id"],
             delivery_mode="reply",
             reply_target_url=f"https://x.com/contest/status/{target_id}",
-            reply_target_topic="水着動画選手権",
+            reply_target_topic="水着動画選手権。動画をリプで募集します",
             reply_opt_in_confirmed=True,
-            post_text="これは強い https://example.com/article",
-            status="copy_ready",
+            reply_media_mode="original",
+            reply_include_link=True,
         )
+        generate_x_copies(self.root, [post["post_id"]])
         with self.assertRaisesRegex(ValueError, "動画ではありません"):
             validate_x_reply_post(self.root, post["post_id"], now=now)
 
@@ -1093,9 +1105,11 @@ class SocialXTests(unittest.TestCase):
         base = {
             **post,
             "delivery_mode": "reply",
-            "reply_target_topic": "水着画像選手権",
+            "reply_target_topic": "水着画像選手権。画像をリプで募集します",
             "reply_opt_in_confirmed": True,
-            "post_text": "この一枚は強い https://example.com/article",
+            "reply_media_mode": "original",
+            "reply_include_link": True,
+            "post_text": _simple_article_post_text(post),
         }
         completed = {
             **base,
@@ -1199,11 +1213,12 @@ class SocialXTests(unittest.TestCase):
             post["post_id"],
             delivery_mode="reply",
             reply_target_url=f"https://x.com/contest/status/{target_id}",
-            reply_target_topic="水着画像選手権",
+            reply_target_topic="水着画像選手権。画像をリプで募集します",
             reply_opt_in_confirmed=True,
-            post_text="この振り返りは反則",
-            status="copy_ready",
+            reply_media_mode="original",
+            reply_include_link=True,
         )
+        generate_x_copies(self.root, [post["post_id"]])
         playwright_api = MagicMock()
         context = MagicMock()
         page = MagicMock()
@@ -1245,10 +1260,10 @@ class SocialXTests(unittest.TestCase):
             post["post_id"],
             delivery_mode="reply",
             reply_target_url=f"https://x.com/contest_owner/status/{target_id}",
-            reply_target_topic="水着画像選手権",
+            reply_target_topic="水着画像選手権。画像をリプで募集します",
             reply_opt_in_confirmed=True,
-            reply_media_mode="safe_card",
-            reply_include_link=False,
+            reply_media_mode="original",
+            reply_include_link=True,
         )
         scored = refresh_x_reply_candidate_score(self.root, post["post_id"], now=now)
         self.assertTrue(scored["recommended"])
@@ -1276,53 +1291,44 @@ class SocialXTests(unittest.TestCase):
             post["post_id"],
             delivery_mode="reply",
             reply_target_url=target_url,
-            reply_target_topic="水着画像選手権",
+            reply_target_topic="水着画像選手権。画像をリプで募集します",
             reply_opt_in_confirmed=True,
+            reply_media_mode="original",
+            reply_include_link=True,
         )
         self.assertEqual("noreply", block_x_reply_handle(self.root, target_url))
         scored = refresh_x_reply_candidate_score(self.root, post["post_id"], now=now)
         self.assertTrue(any("返信対象外" in value for value in scored["blockers"]))
 
-    def test_reply_link_rate_is_deterministic_and_can_be_disabled(self) -> None:
+    def test_reply_always_includes_the_article_link(self) -> None:
         post = prepare_x_candidates(self.root, "https://example.com/", limit=1)[0]
         target = "https://x.com/contest/status/1234567890123456789"
         save_x_settings(self.root, {
             "safe_pacing_enabled": False,
             "reply_link_rate_percent": 0,
         })
-        self.assertEqual(0, load_x_settings(self.root)["reply_link_rate_percent"])
-        self.assertFalse(choose_x_reply_link(self.root, post, target))
-        save_x_settings(self.root, {"reply_link_rate_percent": 100})
-        self.assertTrue(choose_x_reply_link(self.root, post, target))
+        self.assertEqual(100, load_x_settings(self.root)["reply_link_rate_percent"])
         self.assertTrue(choose_x_reply_link(self.root, post, target))
 
-    def test_reply_without_link_removes_article_url_from_generated_copy(self) -> None:
+    def test_reply_uses_the_same_fixed_article_copy_as_a_normal_post(self) -> None:
         post = prepare_x_candidates(self.root, "https://example.com/", limit=1)[0]
         update_x_post(
             self.root,
             post["post_id"],
             delivery_mode="reply",
             reply_target_url="https://x.com/contest/status/1234567890123456789",
-            reply_target_topic="水着画像選手権",
+            reply_target_topic="水着画像選手権。画像をリプで募集します",
             reply_opt_in_confirmed=True,
             reply_include_link=False,
             reply_link_decided=True,
         )
-        response = {"message": json.dumps({"posts": [{
-            "post_id": post["post_id"],
-            "variants": [f"プールサイドで振り返る一枚、表情まで自然でかなり好き {post['article_url']}"],
-            "selected": f"プールサイドで振り返る一枚、表情まで自然でかなり好き {post['article_url']}",
-        }]}, ensure_ascii=False)}
-        with patch(
-            "indanya_desktop.social_x.ensure_x_trend_templates",
-            return_value=self.trend_state(),
-        ), patch("indanya_desktop.social_x.send_chatgpt_prompt", return_value=response):
+        with patch("indanya_desktop.social_x.send_chatgpt_prompt") as chatgpt:
             completed = generate_x_copies(self.root, [post["post_id"]])
-        self.assertNotIn(post["article_url"], completed[0]["post_text"])
-        self.assertEqual(
-            "プールサイドで振り返る一枚、表情まで自然でかなり好き",
-            completed[0]["post_text"],
-        )
+        chatgpt.assert_not_called()
+        self.assertEqual(_simple_article_post_text(post), completed[0]["post_text"])
+        self.assertTrue(completed[0]["reply_include_link"])
+        self.assertEqual("original", completed[0]["reply_media_mode"])
+        self.assertGreater(len(completed[0]["media_paths"]), 0)
 
     def test_ai_like_abstract_copy_is_rejected(self) -> None:
         row = {"reply_kind": "contest"}
@@ -1333,7 +1339,7 @@ class SocialXTests(unittest.TestCase):
         )
         self.assertTrue(any("定型句" in value for value in issues))
 
-    def test_high_view_viral_post_becomes_conversation_reply_without_promotion(self) -> None:
+    def test_high_view_viral_post_never_becomes_a_reply(self) -> None:
         now = datetime.now(JST)
         target_id = self.status_id_at(now - timedelta(hours=1))
         post = prepare_x_viral_reply(self.root, {
@@ -1345,12 +1351,7 @@ class SocialXTests(unittest.TestCase):
             "replies": 23,
             "target_age_hours": 1,
         })
-        self.assertIsNotNone(post)
-        self.assertEqual("viral_conversation", post["reply_kind"])
-        self.assertFalse(post["reply_opt_in_confirmed"])
-        self.assertFalse(post["reply_include_link"])
-        self.assertEqual("none", post["reply_media_mode"])
-        self.assertGreaterEqual(post["reply_candidate_score"], 70)
+        self.assertIsNone(post)
 
     def test_normal_post_uses_original_article_media_without_mosaic(self) -> None:
         from PIL import Image
@@ -1365,22 +1366,21 @@ class SocialXTests(unittest.TestCase):
         with Image.open(paths[0]) as image:
             self.assertEqual((800, 1200), image.size)
 
-    def test_safe_reply_card_is_generated_instead_of_adult_media(self) -> None:
-        from PIL import Image
-
+    def test_reply_uses_article_media_instead_of_a_generated_card(self) -> None:
         post = prepare_x_candidates(self.root, "https://example.com/", limit=1)[0]
         update_x_post(
             self.root,
             post["post_id"],
             delivery_mode="reply",
-            reply_media_mode="safe_card",
-            reply_target_topic="水着画像選手権",
+            reply_media_mode="original",
+            reply_target_topic="水着画像選手権。画像をリプで募集します",
+            reply_opt_in_confirmed=True,
+            reply_include_link=True,
         )
         paths = x_post_media_paths(self.root, post["post_id"])
-        self.assertEqual(1, len(paths))
-        self.assertIn("reply-card-", Path(paths[0]).name)
-        with Image.open(paths[0]) as image:
-            self.assertEqual((1200, 675), image.size)
+        self.assertEqual(4, len(paths))
+        self.assertEqual("image-01.jpg", Path(paths[0]).name)
+        self.assertTrue(all("reply-card-" not in Path(path).name for path in paths))
 
     def test_owned_contest_uses_article_media_and_respects_cooldown(self) -> None:
         first = prepare_x_contest_candidate(self.root, "https://example.com/")

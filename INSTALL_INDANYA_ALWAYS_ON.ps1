@@ -1,13 +1,15 @@
 param(
     [string]$SiteRoot = $PSScriptRoot,
+    [string]$BuildRoot = $PSScriptRoot,
     [string]$BuildName = "dist-growth-v33",
     [switch]$Enable
 )
 
 $ErrorActionPreference = "Stop"
 $root = [System.IO.Path]::GetFullPath($SiteRoot)
-$exe = Join-Path $root "$BuildName\IndanyaStudio\IndanyaStudio.exe"
-$watchdog = Join-Path $root "tools\indanya_watchdog.ps1"
+$build = [System.IO.Path]::GetFullPath($BuildRoot)
+$exe = Join-Path $build "$BuildName\IndanyaStudio\IndanyaStudio.exe"
+$watchdog = Join-Path $build "tools\indanya_watchdog.ps1"
 if (-not (Test-Path -LiteralPath $exe -PathType Leaf)) {
     throw "Application executable not found: $exe"
 }
@@ -88,7 +90,7 @@ $shortcut.Arguments = (
     '-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "{0}" ' +
     '-Executable "{1}" -SiteRoot "{2}" -Show'
 ) -f $watchdog, $exe, $root
-$shortcut.WorkingDirectory = $root
+$shortcut.WorkingDirectory = $build
 $shortcut.IconLocation = "$exe,0"
 $shortcut.Description = "Open Indanya Article Studio"
 $shortcut.Save()
@@ -97,3 +99,4 @@ Write-Output "TASK=$taskName"
 Write-Output "ENABLED=$([bool]$Enable)"
 Write-Output "SHORTCUT=$shortcutPath"
 Write-Output "EXE=$exe"
+Write-Output "SITE_ROOT=$root"

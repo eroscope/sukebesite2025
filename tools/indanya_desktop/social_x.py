@@ -59,7 +59,7 @@ DEFAULT_X_SETTINGS: dict[str, Any] = {
     "reply_min_interval_minutes": 180,
     "reply_target_max_age_hours": 72,
     "reply_account_cooldown_days": 30,
-    "reply_link_rate_percent": 0,
+    "reply_link_rate_percent": 100,
     "reply_default_media_mode": "original",
     "reply_blocked_handles": [],
     "owned_contest_cooldown_days": 7,
@@ -280,12 +280,7 @@ def load_x_settings(site_root: Path) -> dict[str, Any]:
         1,
         min(365, int(result.get("reply_account_cooldown_days") or 30)),
     )
-    result["reply_link_rate_percent"] = max(
-        0,
-        min(100, int(result.get("reply_link_rate_percent", 30))),
-    )
-    if result["safe_pacing_enabled"]:
-        result["reply_link_rate_percent"] = 0
+    result["reply_link_rate_percent"] = 100
     media_mode = str(result.get("reply_default_media_mode") or "original")
     result["reply_default_media_mode"] = (
         media_mode if media_mode in _X_REPLY_MEDIA_MODES else "original"
@@ -355,16 +350,14 @@ def load_x_trend_state(site_root: Path) -> dict[str, Any]:
     ]
     reply_candidates = [
         dict(item) for item in (raw.get("reply_candidates") or [])
-        if isinstance(item, dict) and item.get("url")
-    ]
-    viral_reply_candidates = [
-        dict(item) for item in (raw.get("viral_reply_candidates") or [])
         if isinstance(item, dict)
         and item.get("url")
-        and _viral_reply_text_allowed(
-            str(item.get("topic") or item.get("text") or "")
-        )
+        and bool(item.get("opt_in_confirmed", False))
+        and _reply_solicitation_text_allowed(item.get("topic"))
     ]
+    # Ordinary viral posts are never reply targets. Keep the key for backwards
+    # compatible state files, but deliberately discard old conversation rows.
+    viral_reply_candidates: list[dict[str, Any]] = []
     return {
         "version": 1,
         "status": str(raw.get("status") or "never"),
@@ -402,7 +395,6 @@ def x_follow_candidates(
     pools = (
         (state.get("samples") or [], "流行投稿"),
         (state.get("reply_candidates") or [], "画像・動画募集"),
-        (state.get("viral_reply_candidates") or [], "関連する会話"),
     )
     ranked: dict[str, dict[str, Any]] = {}
     for values, source_label in pools:
@@ -597,6 +589,28 @@ def _trend_text_allowed(text: str) -> bool:
     return any(term.casefold() in lowered for term in X_TREND_ADULT_MARKERS)
 
 
+def _reply_solicitation_text_allowed(text: Any) -> bool:
+    """Accept only posts that explicitly invite media replies."""
+    lowered = re.sub(r"\s+", " ", str(text or "")).casefold().strip()
+    if len(lowered) < 8:
+        return False
+    if any(term.casefold() in lowered for term in X_TREND_BLOCKED_TERMS):
+        return False
+    has_event = any(
+        value in lowered
+        for value in ("選手権", "募集", "募集中", "大募集", "参加者")
+    )
+    has_invitation = any(
+        value in lowered
+        for value in (
+            "リプ", "返信", "貼って", "貼り付け", "送って", "投稿して",
+            "参加して", "参加ください", "参加どうぞ", "ください", "募集中",
+        )
+    )
+    has_media = any(value in lowered for value in ("画像", "写真", "動画", "サムネ"))
+    return has_event and has_invitation and has_media
+
+
 def _tweet_status_url(tweet: Any) -> str:
     links = tweet.locator('a[href*="/status/"]')
     for index in range(links.count()):
@@ -735,14 +749,9 @@ def _contest_sample(tweet: Any, settings: dict[str, Any]) -> dict[str, Any] | No
         whole_text = str(tweet.inner_text() or "")
     except Exception:
         return None
-    lowered = text.casefold()
     if not _trend_text_allowed(text):
         return None
-    if not any(value in lowered for value in ("選手権", "募集")):
-        return None
-    if not any(value in lowered for value in ("リプ", "返信", "貼って", "参加", "ください")):
-        return None
-    if not any(value in lowered for value in ("画像", "写真", "動画")):
+    if not _reply_solicitation_text_allowed(text):
         return None
     if "プロモーション" in whole_text or "Promoted" in whole_text:
         return None
@@ -760,6 +769,7 @@ def _contest_sample(tweet: Any, settings: dict[str, Any]) -> dict[str, Any] | No
         return None
     if handle in set(settings.get("reply_blocked_handles") or []):
         return None
+    lowered = text.casefold()
     requested_media = (
         "video" if "動画" in lowered and not any(value in lowered for value in ("画像", "写真"))
         else "images" if any(value in lowered for value in ("画像", "写真")) and "動画" not in lowered
@@ -912,61 +922,9 @@ def collect_x_viral_reply_candidates(
     site_root: Path,
     progress: ProgressCallback = lambda _value, _message: None,
 ) -> list[dict[str, Any]]:
-    if not x_login_ready():
-        return []
-    settings = load_x_settings(site_root)
-    minimum_likes = max(300, int(settings["trend_min_likes"]) // 2)
-    collected: dict[str, dict[str, Any]] = {}
-    with sync_playwright() as playwright:
-        context = playwright.chromium.launch_persistent_context(
-            str(x_browser_profile_path()),
-            channel="chrome",
-            headless=True,
-            viewport={"width": 1365, "height": 900},
-            locale="ja-JP",
-            args=["--disable-blink-features=AutomationControlled"],
-        )
-        try:
-            page = context.pages[0] if context.pages else context.new_page()
-            for query in X_VIRAL_REPLY_QUERIES:
-                search = (
-                    f"{query} min_faves:{minimum_likes} "
-                    "-filter:replies filter:media lang:ja"
-                )
-                page.goto(
-                    f"https://x.com/search?q={quote(search)}&src=typed_query&f=top",
-                    wait_until="domcontentloaded",
-                    timeout=60_000,
-                )
-                page.wait_for_timeout(2200)
-                if "/i/flow/login" in page.url:
-                    raise RuntimeError("Xのログインが切れています")
-                for _ in range(4):
-                    tweets = page.locator('article[data-testid="tweet"]')
-                    for index in range(tweets.count()):
-                        candidate = _viral_reply_sample(tweets.nth(index), settings)
-                        if candidate:
-                            collected[candidate["url"]] = candidate
-                    if len(collected) >= 12:
-                        break
-                    page.mouse.wheel(0, 1500)
-                    page.wait_for_timeout(1000)
-        finally:
-            context.close()
-    result = sorted(
-        collected.values(),
-        key=lambda item: (
-            int(item.get("views") or 0),
-            int(item.get("likes") or 0) + int(item.get("reposts") or 0) * 2,
-            -float(item.get("target_age_hours") or 0),
-        ),
-        reverse=True,
-    )[:12]
-    collected_at = datetime.now(JST).isoformat(timespec="seconds")
-    for item in result:
-        item["collected_at"] = collected_at
-    progress(61, f"会話返信向けのバズ投稿を{len(result)}件確認しました")
-    return result
+    del site_root
+    progress(61, "通常投稿への会話返信は停止しています")
+    return []
 
 
 def refresh_x_trend_templates(
@@ -999,13 +957,6 @@ def refresh_x_trend_templates(
             reply_candidates_error = str(exc)[:500]
         viral_reply_candidates: list[dict[str, Any]] = []
         viral_reply_candidates_error = ""
-        try:
-            viral_reply_candidates = collect_x_viral_reply_candidates(
-                site_root,
-                progress,
-            )
-        except Exception as exc:
-            viral_reply_candidates_error = str(exc)[:500]
         try:
             samples = collect_x_trend_samples(site_root, progress)
             progress(62, "Codexが流行の型をテンプレにしています")
@@ -1147,6 +1098,19 @@ def list_x_posts(site_root: Path) -> list[dict[str, Any]]:
             else "safe_card"
         )
         row["reply_include_link"] = bool(row.get("reply_include_link", False))
+        if (
+            row["delivery_mode"] == "reply"
+            and status not in {"posted", "skipped"}
+            and (
+                row["reply_kind"] != "contest"
+                or not row["reply_opt_in_confirmed"]
+                or not _reply_solicitation_text_allowed(row["reply_target_topic"])
+            )
+        ):
+            row["status"] = "skipped"
+            row["last_error"] = (
+                "返信募集を明示した選手権等ではないため自動送信を停止しました"
+            )
         try:
             reply_candidate_score = float(row.get("reply_candidate_score") or 0)
         except (TypeError, ValueError):
@@ -1264,13 +1228,9 @@ def choose_x_reply_link(
     row: dict[str, Any],
     target_url: str,
 ) -> bool:
-    percent = int(load_x_settings(site_root)["reply_link_rate_percent"])
-    key = "\n".join([
-        canonical_x_status_url(target_url),
-        str(row.get("article_slug") or ""),
-    ])
-    bucket = int(hashlib.sha256(key.encode("utf-8")).hexdigest()[:8], 16) % 100
-    return bucket < percent
+    del site_root, row
+    canonical_x_status_url(target_url)
+    return True
 
 
 def score_x_reply_candidate(
@@ -1289,7 +1249,6 @@ def score_x_reply_candidate(
         raise ValueError("X投稿候補が見つかりません")
 
     reply_kind = str(row.get("reply_kind") or "contest")
-    is_viral_conversation = reply_kind == "viral_conversation"
     score = 0.0
     reasons: list[str] = []
     blockers: list[str] = []
@@ -1304,29 +1263,22 @@ def score_x_reply_candidate(
         blockers.append(str(exc))
 
     topic = str(row.get("reply_target_topic") or "").strip()
-    if is_viral_conversation:
-        if len(topic) < 4:
-            blockers.append("返信先の投稿本文を確認できません")
-        elif not _viral_reply_text_allowed(topic):
-            blockers.append("サイトの読者と会話がつながる投稿ではありません")
+    if reply_kind != "contest":
+        blockers.append("通常投稿への会話返信は禁止しています")
+    if row.get("reply_opt_in_confirmed"):
+        score += 20
+        reasons.append("返信募集を確認済み")
+    else:
+        blockers.append("画像・動画の返信募集が未確認です")
+    if not _reply_solicitation_text_allowed(topic):
+        blockers.append("画像・動画の返信募集を明示した投稿ではありません")
+    else:
+        topic_error = _reply_topic_error(row, topic)
+        if topic_error:
+            blockers.append(topic_error)
         else:
             score += 25
-            reasons.append("サイトと相性のよいバズ投稿")
-    else:
-        if row.get("reply_opt_in_confirmed"):
-            score += 20
-            reasons.append("返信募集を確認済み")
-        else:
-            blockers.append("画像・動画の返信募集が未確認です")
-        if len(topic) < 4:
-            blockers.append("選手権のお題が未入力です")
-        else:
-            topic_error = _reply_topic_error(row, topic)
-            if topic_error:
-                blockers.append(topic_error)
-            else:
-                score += 25
-                reasons.append("お題と記事素材が一致")
+            reasons.append("募集内容と記事素材が一致")
 
     if target_url:
         created_at = _x_status_created_at(target_url)
@@ -1384,7 +1336,6 @@ def score_x_reply_candidate(
         sample_pools = [
             trend_state.get("samples") or [],
             trend_state.get("reply_candidates") or [],
-            trend_state.get("viral_reply_candidates") or [],
         ]
         for sample in [value for pool in sample_pools for value in pool]:
             try:
@@ -1405,41 +1356,34 @@ def score_x_reply_candidate(
         if views:
             score += min(12.0, 2.0 + math.log10(views + 1) * 2.0)
             reasons.append(f"表示{views:,}")
-        if is_viral_conversation and likes < 300 and views < 100_000:
-            blockers.append("返信するほどの表示・反応を確認できません")
         if replies > max(50, likes * 0.4):
             score -= 5
             reasons.append("返信が混雑")
-    elif is_viral_conversation:
-        blockers.append("表示数・いいね数を取得できていません")
     else:
         score += 5
         reasons.append("反応数は未取得")
 
     media_mode = str(row.get("reply_media_mode") or "safe_card")
-    if is_viral_conversation:
-        if media_mode != "none":
-            blockers.append("会話返信には画像・動画を添付しません")
-        else:
-            score += 10
-            reasons.append("会話だけで自然に返信")
-        if bool(row.get("reply_include_link", False)):
-            blockers.append("会話返信には記事リンクを付けません")
-        else:
-            score += 5
-            reasons.append("売り込みリンクなし")
+    if not str(row.get("article_slug") or "").strip() or not str(
+        row.get("article_url") or ""
+    ).strip():
+        blockers.append("返信に使う記事がありません")
+    media_paths, _media_kind = _published_media_paths(
+        site_root,
+        str(row.get("article_slug") or ""),
+    )
+    if media_mode != "original":
+        blockers.append("返信には記事で使っているサムネを添付してください")
+    elif not media_paths:
+        blockers.append("記事のサムネを確認できません")
     else:
-        if media_mode == "safe_card":
-            score += 10
-            reasons.append("安全カードを使用")
-        elif media_mode == "none":
-            score += 7
-            reasons.append("返信へ成人向け素材を添付しない")
-        else:
-            reasons.append("募集に合わせて元素材を使用")
-        if not bool(row.get("reply_include_link", False)):
-            score += 5
-            reasons.append("売り込みリンクなし")
+        score += 10
+        reasons.append("記事のサムネを使用")
+    if bool(row.get("reply_include_link", False)):
+        score += 5
+        reasons.append("記事リンクあり")
+    else:
+        blockers.append("返信に記事リンクがありません")
 
     score = round(max(0.0, min(100.0, score)), 1)
     if blockers:
@@ -1519,6 +1463,11 @@ def validate_x_reply_post(
     text = str(row.get("post_text") or "").strip()
     if not text or _x_text_length(text) > 280:
         raise ValueError("返信文を1～280文字で用意してください")
+    expected_text = _simple_article_post_text(row)
+    if text != expected_text:
+        raise ValueError(
+            "返信文は記事タイトル・「続きはこちら」・記事URLの固定文にしてください"
+        )
     evaluation = score_x_reply_candidate(site_root, post_id, now=current)
     target_url = str(evaluation["target_url"])
     if not target_url:
@@ -2981,7 +2930,10 @@ def prepare_discovered_x_reply(
     }
     opportunities = [
         dict(item) for item in (load_x_trend_state(site_root).get("reply_candidates") or [])
-        if isinstance(item, dict) and str(item.get("url") or "") not in used_targets
+        if isinstance(item, dict)
+        and str(item.get("url") or "") not in used_targets
+        and bool(item.get("opt_in_confirmed", False))
+        and _reply_solicitation_text_allowed(item.get("topic"))
     ]
     if not opportunities:
         return None
@@ -3048,7 +3000,7 @@ def prepare_discovered_x_reply(
         "reply_target_topic": str(opportunity.get("topic") or ""),
         "reply_opt_in_confirmed": True,
         "reply_media_mode": "original",
-        "reply_include_link": False,
+        "reply_include_link": True,
         "reply_link_decided": True,
         "campaign_topic": "",
         "performance": {},
@@ -3078,6 +3030,12 @@ def prepare_x_viral_reply(
     site_root: Path,
     candidate: dict[str, Any] | None = None,
 ) -> dict[str, Any] | None:
+    """Retained for old callers; ordinary viral posts are no longer replied to."""
+    del site_root, candidate
+    return None
+
+    # Legacy implementation below is intentionally unreachable until old UI
+    # callers are removed in a later compatibility cleanup.
     rows = list_x_posts(site_root)
     used_targets = {
         str(row.get("reply_target_url") or "")
@@ -3210,7 +3168,6 @@ def x_reply_schedule_status(
     trend = x_trend_scan_status(site_root, current)
     trend_state = load_x_trend_state(site_root)
     contest_count = len(trend_state.get("reply_candidates") or [])
-    viral_count = len(trend_state.get("viral_reply_candidates") or [])
     last_prepared = _as_jst(state.get("reply_last_prepared_at"))
     next_at = (
         last_prepared + timedelta(days=1)
@@ -3248,7 +3205,7 @@ def x_reply_schedule_status(
         "completed_today": len(completed_today),
         "daily_limit": daily_limit,
         "contest_candidate_count": contest_count,
-        "viral_candidate_count": viral_count,
+        "viral_candidate_count": 0,
         "waiting_for_trend": waiting_for_trend,
         "last_prepared_at": str(state.get("reply_last_prepared_at") or ""),
         "last_error": str(state.get("reply_last_error") or ""),
@@ -3267,15 +3224,13 @@ def prepare_due_x_reply_candidate(
         return None
     item = prepare_discovered_x_reply(site_root, public_url)
     if item is None:
-        item = prepare_x_viral_reply(site_root)
-    if item is None:
         _save_x_auto_state(
             site_root,
             reply_next_retry_at=(current + timedelta(hours=6)).isoformat(
                 timespec="seconds"
             ),
             reply_last_error=(
-                "未使用で条件に合う選手権・バズ会話候補がありません"
+                "未使用で条件に合う画像・動画募集の候補がありません"
             ),
         )
         return None
@@ -4216,9 +4171,37 @@ def generate_x_copies(
             row["copy_writer"] = "固定文"
             completed.append(row)
             continue
-        if row.get("delivery_mode") != "post":
+        mode = str(row.get("delivery_mode") or "post")
+        if mode not in {"post", "reply"}:
             creative_selected.append(row)
             continue
+        if mode == "reply":
+            if (
+                str(row.get("reply_kind") or "contest") != "contest"
+                or not bool(row.get("reply_opt_in_confirmed", False))
+                or not _reply_solicitation_text_allowed(row.get("reply_target_topic"))
+                or not str(row.get("article_slug") or "").strip()
+                or not str(row.get("article_url") or "").strip()
+            ):
+                row["status"] = "skipped"
+                row["last_error"] = (
+                    "画像・動画の返信募集と記事を確認できないため返信しません"
+                )
+                continue
+            media_paths, media_kind = _published_media_paths(
+                site_root,
+                str(row.get("article_slug") or ""),
+            )
+            if not media_paths:
+                row["status"] = "failed"
+                row["last_error"] = "返信へ添付する記事サムネを確認できませんでした"
+                continue
+            row["media_paths"] = media_paths
+            row["media_kind"] = media_kind
+            row["media_count"] = len(media_paths)
+            row["reply_media_mode"] = "original"
+            row["reply_include_link"] = True
+            row["reply_link_decided"] = True
         text = _simple_article_post_text(row)
         if not text or len(text) > 280:
             row["status"] = "failed"
@@ -4231,8 +4214,14 @@ def generate_x_copies(
         row["copy_generated_at"] = generated_at
         row["copy_writer"] = "固定文"
         row["template_writer"] = "不要"
-        row["trend_template_id"] = "simple_article_link"
-        row["trend_template_name"] = "記事タイトル＋続きはこちら"
+        row["trend_template_id"] = (
+            "solicitation_article_reply" if mode == "reply" else "simple_article_link"
+        )
+        row["trend_template_name"] = (
+            "募集投稿へ記事タイトル＋続きはこちら"
+            if mode == "reply"
+            else "記事タイトル＋続きはこちら"
+        )
         completed.append(row)
     if not creative_selected:
         save_x_posts(site_root, rows)
