@@ -314,6 +314,7 @@
     "topics/topic-b75a38aae367.html",
     "topics/topic-b84b61e7e757.html",
     "topics/topic-b89d8be7513d.html",
+    "topics/topic-b9b2957e3db9.html",
     "topics/topic-baf27cc23978.html",
     "topics/topic-bb69fdc44886.html",
     "topics/topic-bbd6edfddc76.html",
@@ -448,7 +449,7 @@
   "counts": {
     "people": 263,
     "works": 210,
-    "topics": 1442
+    "topics": 1443
   },
   "people": [
     {
@@ -2533,7 +2534,7 @@
     },
     {
       "name": "AVセール",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "AVデビュー",
@@ -5117,7 +5118,7 @@
     },
     {
       "name": "作品パッケージ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "作品画像",
@@ -5401,6 +5402,10 @@
     },
     {
       "name": "半裸",
+      "articles": 1
+    },
+    {
+      "name": "半額キャンペーン",
       "articles": 1
     },
     {
