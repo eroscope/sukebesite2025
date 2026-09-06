@@ -446,7 +446,7 @@
   "counts": {
     "people": 259,
     "works": 209,
-    "topics": 1411
+    "topics": 1413
   },
   "people": [
     {
@@ -2406,6 +2406,10 @@
       "articles": 1
     },
     {
+      "name": "55％OFF",
+      "articles": 1
+    },
+    {
       "name": "5chまとめ",
       "articles": 2
     },
@@ -2499,7 +2503,7 @@
     },
     {
       "name": "AVセール",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "AVデビュー",
@@ -3714,6 +3718,10 @@
       "articles": 1
     },
     {
+      "name": "ゴーゴーズ",
+      "articles": 1
+    },
+    {
       "name": "サキュバスバニー",
       "articles": 1
     },
@@ -3915,7 +3923,7 @@
     },
     {
       "name": "ソクミル",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ソシャゲ",
@@ -6735,7 +6743,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 69
+      "articles": 70
     },
     {
       "name": "画像ギャラリー",
