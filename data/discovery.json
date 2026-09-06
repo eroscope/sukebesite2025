@@ -53,6 +53,7 @@
     "people/person-cbe1ad461cc6.html",
     "people/person-cea65373350d.html",
     "people/person-d2b9c6056a6b.html",
+    "people/person-d3174ace886f.html",
     "people/person-d32c2ccdd232.html",
     "people/person-d568cffffbee.html",
     "people/person-dd5395be5964.html",
@@ -207,6 +208,7 @@
     "topics/topic-699303adec9c.html",
     "topics/topic-6a0b30d36103.html",
     "topics/topic-6a5a9a6c1012.html",
+    "topics/topic-6a5e50e11eca.html",
     "topics/topic-6d1d803fccd8.html",
     "topics/topic-6eac69881e67.html",
     "topics/topic-6f0b069faec6.html",
@@ -449,7 +451,7 @@
   "counts": {
     "people": 263,
     "works": 210,
-    "topics": 1443
+    "topics": 1444
   },
   "people": [
     {
@@ -1222,7 +1224,7 @@
     },
     {
       "name": "白石るな",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "白石透羽",
@@ -2558,7 +2560,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 36
+      "articles": 37
     },
     {
       "name": "AV女優検索",
@@ -3306,7 +3308,7 @@
     },
     {
       "name": "アイデアポケット",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "アイドルマスター",
@@ -4454,6 +4456,10 @@
     },
     {
       "name": "プロフィール",
+      "articles": 1
+    },
+    {
+      "name": "プロフィール画像",
       "articles": 1
     },
     {
@@ -6226,7 +6232,7 @@
     },
     {
       "name": "新人",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "新人女子マネージャー",
