@@ -444,9 +444,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 262,
+    "people": 263,
     "works": 209,
-    "topics": 1434
+    "topics": 1437
   },
   "people": [
     {
@@ -523,6 +523,10 @@
     },
     {
       "name": "やんやん",
+      "articles": 1
+    },
+    {
+      "name": "らいあ",
       "articles": 1
     },
     {
@@ -4870,6 +4874,10 @@
       "articles": 1
     },
     {
+      "name": "下ネタギャグ漫画",
+      "articles": 1
+    },
+    {
       "name": "下乳",
       "articles": 3
     },
@@ -5619,6 +5627,10 @@
     },
     {
       "name": "大島優香",
+      "articles": 1
+    },
+    {
+      "name": "大川ぶくぶ",
       "articles": 1
     },
     {
@@ -6672,6 +6684,10 @@
     {
       "name": "漫画",
       "articles": 9
+    },
+    {
+      "name": "漫画キャラクター",
+      "articles": 1
     },
     {
       "name": "漫画コマ",
