@@ -446,7 +446,7 @@
   "counts": {
     "people": 259,
     "works": 209,
-    "topics": 1408
+    "topics": 1410
   },
   "people": [
     {
@@ -5166,6 +5166,10 @@
       "articles": 1
     },
     {
+      "name": "全身画像",
+      "articles": 1
+    },
+    {
       "name": "公園",
       "articles": 2
     },
@@ -6770,6 +6774,10 @@
       "articles": 1
     },
     {
+      "name": "白い衣装",
+      "articles": 1
+    },
+    {
       "name": "白シャツ",
       "articles": 4
     },
@@ -7735,7 +7743,7 @@
     },
     {
       "name": "露出",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "露出垢",
