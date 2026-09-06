@@ -446,7 +446,7 @@
   "counts": {
     "people": 261,
     "works": 209,
-    "topics": 1424
+    "topics": 1428
   },
   "people": [
     {
@@ -3614,6 +3614,10 @@
       "articles": 1
     },
     {
+      "name": "クルカイ",
+      "articles": 1
+    },
+    {
       "name": "クレイジーウォーカー",
       "articles": 1
     },
@@ -3695,7 +3699,7 @@
     },
     {
       "name": "ゲーム画像",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "コス衣装",
@@ -4082,7 +4086,15 @@
       "articles": 1
     },
     {
+      "name": "ドルフロ2",
+      "articles": 1
+    },
+    {
       "name": "ドレス",
+      "articles": 1
+    },
+    {
+      "name": "ドールズフロントライン2",
       "articles": 1
     },
     {
@@ -6683,6 +6695,10 @@
     },
     {
       "name": "無垢",
+      "articles": 1
+    },
+    {
+      "name": "無垢なる奉仕",
       "articles": 1
     },
     {
