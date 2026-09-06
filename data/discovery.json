@@ -446,7 +446,7 @@
   "counts": {
     "people": 261,
     "works": 209,
-    "topics": 1428
+    "topics": 1431
   },
   "people": [
     {
@@ -2343,6 +2343,10 @@
     },
     {
       "name": "18時間",
+      "articles": 1
+    },
+    {
+      "name": "1stDVD",
       "articles": 1
     },
     {
@@ -6274,6 +6278,10 @@
       "articles": 1
     },
     {
+      "name": "月嶋ちか",
+      "articles": 1
+    },
+    {
       "name": "有名人",
       "articles": 1
     },
@@ -6483,7 +6491,7 @@
     },
     {
       "name": "水着",
-      "articles": 105
+      "articles": 106
     },
     {
       "name": "水着グラビア",
@@ -6816,6 +6824,10 @@
     {
       "name": "画像集",
       "articles": 7
+    },
+    {
+      "name": "画像＋動画",
+      "articles": 1
     },
     {
       "name": "病院",
