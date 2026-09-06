@@ -1151,20 +1151,13 @@ def ensure_related_footer(payload: dict[str, Any]) -> bool:
         dict(item) for item in (payload.get("related_destinations") or [])
         if isinstance(item, dict)
     ]
-    if exact_product_footer is not None:
-        destinations = [
-            item for item in destinations
-            if str(item.get("link_kind") or "") not in _FOOTER_RECOMMENDATION_KINDS
-        ]
-    else:
-        destinations = [
-            item for item in destinations
-            if str(item.get("link_kind") or "") != "inferred_topic_search"
-            and not (
-                str(item.get("link_kind") or "") == "person_search"
-                and not _person_search_matches_creator(item, named_creator)
-            )
-        ]
+    # Footer destinations mirror the footer blocks. Rebuild them on every pass
+    # so a previously hydrated product cannot survive after the article topic
+    # changes and later reappear during editing or republishing.
+    destinations = [
+        item for item in destinations
+        if str(item.get("link_kind") or "") not in _FOOTER_RECOMMENDATION_KINDS
+    ]
     destination_urls = {str(item.get("url") or "") for item in destinations}
     for item in [*footer_recommendations, *official_profiles]:
         url = str(item.get("url") or "")
@@ -1175,6 +1168,7 @@ def ensure_related_footer(payload: dict[str, Any]) -> bool:
             key: item.get(key)
             for key in (
                 "url", "title", "provider", "link_kind", "match_confidence",
+                "search_query",
             )
         }
         person_name = _clean_text(item.get("person_name"), 80)

@@ -184,6 +184,20 @@ def test_sixty_nine_topic_replaces_a_stale_hydrated_fellatio_product() -> None:
                 "thumbnail_image_id": "old-package",
             },
         ],
+        "related_destinations": [
+            {
+                "url": "https://video.dmm.co.jp/av/content/?id=old001",
+                "title": "フェラチオ作品",
+                "provider": "fanza",
+                "link_kind": "inferred_topic_product",
+            },
+            {
+                "url": "https://video.dmm.co.jp/av/content/?id=older002",
+                "title": "さらに古いフェラチオ作品",
+                "provider": "fanza",
+                "link_kind": "inferred_topic_product",
+            },
+        ],
     }
 
     assert ensure_related_footer(payload) is True
@@ -200,6 +214,20 @@ def test_sixty_nine_topic_replaces_a_stale_hydrated_fellatio_product() -> None:
         block.get("url") == "https://video.dmm.co.jp/av/content/?id=old001"
         for block in payload["blocks"] if isinstance(block, dict)
     )
+    assert not any(
+        destination.get("url") in {
+            "https://video.dmm.co.jp/av/content/?id=old001",
+            "https://video.dmm.co.jp/av/content/?id=older002",
+        }
+        for destination in payload["related_destinations"]
+        if isinstance(destination, dict)
+    )
+    destination = next(
+        destination for destination in payload["related_destinations"]
+        if isinstance(destination, dict)
+        and destination.get("link_kind") == "inferred_topic_search"
+    )
+    assert destination["search_query"] == "シックスナイン"
 
 
 def test_exact_fanza_product_replaces_generic_footer_recommendation() -> None:
@@ -927,6 +955,7 @@ def test_related_footer_replaces_a_saved_unsafe_topic_search() -> None:
         "provider": "fanza",
         "link_kind": "inferred_topic_search",
         "match_confidence": 40,
+        "search_query": "デリヘル",
     }]
 
 
