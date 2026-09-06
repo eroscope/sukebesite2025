@@ -379,6 +379,57 @@ def article_quality_report(
     if video_ids.difference(placed_videos):
         warnings.append("unplaced_video")
 
+    placed_media = {
+        ("image", media_id) for media_id in placed_images
+    } | {
+        ("video", media_id) for media_id in placed_videos
+    }
+    attributed_media = {
+        ("image", str(media_id))
+        for item in payload.get("media_person_attributions") or []
+        if isinstance(item, dict)
+        for media_id in item.get("image_ids") or []
+    } | {
+        ("video", str(media_id))
+        for item in payload.get("media_person_attributions") or []
+        if isinstance(item, dict)
+        for media_id in item.get("video_ids") or []
+    }
+    unresolved_without_candidates: set[tuple[str, str]] = set()
+    candidate_only_media: set[tuple[str, str]] = set()
+    for group in payload.get("person_identity_candidates") or []:
+        if not isinstance(group, dict):
+            continue
+        media_key = (
+            str(group.get("media_type") or "").casefold(),
+            str(group.get("media_id") or ""),
+        )
+        if media_key not in placed_media or media_key in attributed_media:
+            continue
+        candidates: list[dict[str, Any]] = []
+        for candidate in group.get("candidates") or []:
+            if not isinstance(candidate, dict):
+                continue
+            try:
+                confidence = int(candidate.get("confidence") or 0)
+            except (TypeError, ValueError):
+                confidence = 0
+            if (
+                str(candidate.get("name") or "").strip()
+                and confidence > 0
+                and candidate.get("evidence_types")
+                and str(candidate.get("reason") or "").strip()
+            ):
+                candidates.append(candidate)
+        if candidates:
+            candidate_only_media.add(media_key)
+        else:
+            unresolved_without_candidates.add(media_key)
+    if unresolved_without_candidates:
+        warnings.append("person_identity_unresolved_without_candidates")
+    if candidate_only_media:
+        warnings.append("person_identity_candidate_only")
+
     source_product = _product_key(payload.get("source_url"))
     exact_product_urls: list[str] = []
     exact_official_work_urls: list[str] = []
@@ -612,6 +663,8 @@ def article_quality_report(
         evidence.append("FANZA商品IDをURLから照合")
     if embedded_exact_keys and not embedded_exact_keys.difference(exact_keys):
         evidence.append("本文ギャラリー直後の確定作品PRを照合")
+    if candidate_only_media and not unresolved_without_candidates:
+        evidence.append("未確定人物は素材別の候補と確率を表示")
     severe = any(code in SEVERE_BLOCKERS for code in blockers)
     recommendation = "auto_ready" if not blockers and score >= 82 else "review" if score >= 55 and not severe else "discard"
     return {

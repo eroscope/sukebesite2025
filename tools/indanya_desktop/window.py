@@ -210,6 +210,7 @@ from indanya_desktop.adaptive_quality import (
     run_quality_routines,
     sync_ga4_performance,
 )
+from indanya_desktop.visual_identity import recheck_unresolved_draft_identities
 from indanya_desktop.outreach import (
     STATUS_LABELS as OUTREACH_STATUS_LABELS,
     TARGET_CATEGORIES as OUTREACH_TARGET_CATEGORIES,
@@ -6165,6 +6166,10 @@ class MainWindow(QMainWindow):
     def _scheduler_tick(self) -> None:
         try:
             run_quality_routines(self.site.root)
+        except Exception:
+            traceback.print_exc()
+        try:
+            recheck_unresolved_draft_identities(self.site.root, limit=12)
         except Exception:
             traceback.print_exc()
         if (

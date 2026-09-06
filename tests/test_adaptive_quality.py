@@ -148,6 +148,77 @@ class AdaptiveQualityTests(unittest.TestCase):
         self.assertNotIn("named_person_identity_unverified", verified["blockers"])
         self.assertNotIn("person_identity_below_precision_gate", verified["blockers"])
 
+    def test_person_media_without_any_identity_candidate_is_published_with_warning(self) -> None:
+        payload = _payload()
+        payload["images"] = [
+            {"id": f"image-{index}", "source_url": f"https://cdn.example.com/{index}.jpg"}
+            for index in range(1, 4)
+        ]
+        payload["blocks"][0]["image_ids"] = ["image-1", "image-2", "image-3"]
+        payload["person_identity_candidates"] = [
+            {
+                "media_type": "image",
+                "media_id": f"image-{index}",
+                "candidates": [],
+                "unresolved_reason": "人物名を示す根拠が見つからない",
+            }
+            for index in range(1, 4)
+        ]
+
+        report = article_quality_report(payload)
+
+        self.assertEqual("auto_ready", report["recommendation"])
+        self.assertIn(
+            "person_identity_unresolved_without_candidates", report["warnings"]
+        )
+        self.assertNotIn(
+            "person_identity_unresolved_without_candidates", report["blockers"]
+        )
+
+        for group in payload["person_identity_candidates"]:
+            group["candidates"] = [{
+                "name": "候補者",
+                "confidence": 70,
+                "evidence_types": ["watermark_ocr"],
+                "reason": "画像内の透かしと掲載ページの名義が一致",
+            }]
+        candidate_report = article_quality_report(payload)
+        self.assertNotIn(
+            "person_identity_unresolved_without_candidates",
+            candidate_report["warnings"],
+        )
+        self.assertIn("person_identity_candidate_only", candidate_report["warnings"])
+        self.assertIn(
+            "未確定人物は素材別の候補と確率を表示",
+            candidate_report["evidence"],
+        )
+
+    def test_verified_attribution_overrides_an_empty_candidate_group(self) -> None:
+        payload = _payload()
+        payload["identified_people"] = [{"name": "確認済み人物", "confidence": 98}]
+        payload["media_person_attributions"] = [{
+            "person_name": "確認済み人物",
+            "image_ids": ["image-1"],
+            "video_ids": [],
+            "confidence": 98,
+            "evidence_types": ["headline", "official_profile"],
+        }]
+        payload["person_identity_candidates"] = [{
+            "media_type": "image",
+            "media_id": "image-1",
+            "candidates": [],
+            "unresolved_reason": "古い解析結果",
+        }]
+
+        report = article_quality_report(payload)
+
+        self.assertNotIn(
+            "person_identity_unresolved_without_candidates", report["blockers"]
+        )
+        self.assertNotIn(
+            "person_identity_unresolved_without_candidates", report["warnings"]
+        )
+
     def test_named_person_with_multiple_content_groups_is_rejected(self) -> None:
         payload = _payload()
         payload["main_subject"] = {"kind": "person", "name": "南ゆい"}

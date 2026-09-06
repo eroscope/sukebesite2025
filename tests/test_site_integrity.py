@@ -122,6 +122,8 @@ class SiteIntegrityTests(unittest.TestCase):
         self.assertIn("html:not(.home-ready) .feature", index)
         self.assertIn("注目記事", index)
         self.assertNotIn("TODAY'S PICK", index)
+        self.assertIn("object-fit:cover", index)
+        self.assertIn("object-position:center 22%", index)
 
     def test_catalog_pages_share_search_and_article_data(self) -> None:
         catalog_script = (ROOT / "assets" / "common" / "catalog.js").read_text(encoding="utf-8")

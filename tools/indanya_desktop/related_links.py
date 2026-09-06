@@ -99,7 +99,7 @@ _INFERRED_FANZA_TOPICS = (
     "ホテル", "オフィス", "部屋着", "同棲", "寝取られ", "NTR", "不倫", "ハーレム",
     "逆3P", "3P", "4P", "複数プレイ", "乱交", "拘束", "緊縛", "露出", "盗撮",
     "ハメ撮り", "主観", "8KVR", "3DVR", "VR", "ASMR", "濃厚キス", "キス",
-    "フェラチオ", "フェラ", "パイズリ", "手コキ", "中出し", "顔射", "騎乗位",
+    "シックスナイン", "フェラチオ", "フェラ", "パイズリ", "手コキ", "中出し", "顔射", "騎乗位",
     "後背位", "バック", "開脚", "オナニー", "セックス", "性交", "レズ", "アナル",
     "ぶっかけ", "口内射精", "クンニ", "AI", "口淫", "眼鏡", "黒髪",
     "ショートヘア", "ロングヘア", "美少女", "美女",
@@ -552,6 +552,7 @@ def _topic_query(payload: dict[str, Any], source: dict[str, Any]) -> str:
     # 人名・グループ名・媒体名を足し合わせると検索結果が消えるため、
     # 視覚的な衣装や行為を優先する。
     canonical_rules = (
+        ("シックスナイン", ("シックスナイン", "69プレイ", "同時に舐め合う", "互いに舐め合う")),
         ("口内射精", ("口内射精", "口の中に射精", "口に精子")),
         ("顔射", ("顔射", "顔に精子", "顔へ射精")),
         ("中出し", ("中出し", "膣内射精", "精子が垂れ", "精液が垂れ")),
@@ -991,7 +992,23 @@ def ensure_related_footer(payload: dict[str, Any]) -> bool:
             block for block in recommendations
             if str(block.get("link_kind") or "") == "verified_person_search"
         ]
-    if exact_product_footer is None and any(
+    current_topic = _topic_query(payload, {}) or "人気作品"
+    stale_inferred_product = any(
+        str(block.get("link_kind") or "") in {
+            "inferred_topic_product", "inferred_topic_search",
+        }
+        and _clean_text(block.get("search_query"), 120) != current_topic
+        for block in recommendations
+    )
+    if exact_product_footer is None and stale_inferred_product:
+        recommendations = [
+            block for block in recommendations
+            if str(block.get("link_kind") or "") not in {
+                "inferred_topic_product", "inferred_topic_search",
+            }
+        ]
+        recommendations.append(_fallback_footer_recommendation(payload))
+    elif exact_product_footer is None and any(
         str(block.get("link_kind") or "") == "inferred_topic_search"
         for block in recommendations
     ):

@@ -63,6 +63,9 @@ from indanya_desktop.related_links import (  # noqa: E402
 from indanya_desktop.social_profiles import (  # noqa: E402
     validate_social_verification,
 )
+from indanya_desktop.visual_identity import (  # noqa: E402
+    mark_payload_identity_research_state,
+)
 
 
 SITE_ROOT = TOOLS_ROOT.parent
@@ -1876,7 +1879,8 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
 - 複数人物のまとめでは、画像ごとの隣接説明や作品出演者表記がない画像を顔だけで振り分けない。1枚に複数人が写り、全員を根拠付きで確認できる場合は同じimage_idを複数人物へ割り当ててよい。
 - グラビアアイドル、コスプレイヤー、配信者をAV女優と推定しない。FANZA出演は作品ページまたは出演者表記で別に確認する。
 - 名前が書かれていない画像や動画も人物調査の対象から外さない。画像内の透かし・ロゴ・文字、ファイル名、リンク先、元ページから本編までの遷移履歴、動画の代表フレーム、同じ画像を掲載するWebページを検索し、候補名を調べる。
-- 無記名素材で95以上まで裏取りできなかった場合は、person_identity_candidatesへ素材ごとに最大3人を確率順で返す。候補がなければcandidatesを空配列にしてunresolved_reasonへ不足した根拠を書く。
+- 無記名素材で95以上まで裏取りできなかった場合は、person_identity_candidatesへ素材ごとに最大3人を確率順で返す。複数人物の画像集も一括判定せず、採用する画像・動画を1点ずつ調査する。同じ人物の連続カットだと根拠付きで確認できる場合だけ調査結果を共有してよい。
+- 採用する人物画像・動画には、media_person_attributionsの確定人物、またはperson_identity_candidatesの根拠付き候補を可能な限り付ける。候補を作れない場合はcandidatesを空配列にしてunresolved_reasonへ不足した根拠を書く。記事の公開は続けるが未特定素材として記録し、後日の照合対象に残す。公開数を優先して名前を作らない。
 - person_identity_candidatesのconfidenceは推測の強さではなく、素材とその候補が同一人物である確からしさを1～94で付ける。顔や体型が似るだけなら40以下、透かしや画像検索結果が一致しても公式情報まで結べなければ94以下にする。
 - evidence_urlsには実際に調査したページだけを入れ、URLやアカウントを作らない。検索結果の一覧URLではなく、候補名と素材の関係を確認した掲載ページを優先する。
 - 95以上の確定人物は従来どおりidentified_peopleとmedia_person_attributionsへ入れ、person_identity_candidatesで確定扱いにしない。
@@ -1895,6 +1899,7 @@ FANZA関連判定:
 - 作品Aの画像・動画と作品Bの画像・動画が混在する場合は、人物や雰囲気で一括りにせず作品ごとに分ける。素人投稿、X投稿、一般コスプレ、出典不明素材は、見た目がAV風でもfanza_image_productsへ入れない。
 - product_urlは画面内リンク候補または現在ページURLに存在する、その作品の商品詳細URLだけを一字も変えずに使う。商品URLがなくても品番が本文や周辺文で確認できるならproduct_codeへ入れられる。URLも品番も確認できない作品は登録しない。
 - fanza_image_productsに入れた素材へ別の関連作品を割り当てない。後工程は、その作品に対応する画像または動画の直後へ同じ作品のPRを置く。対応しない素材の近くへ置かない。
+- 複数画像の記事でも、透かし、品番、作品名、出演者表記、公式サンプルとの一致を画像ごとに確認する。特定作品まで確認できた素材は必ずfanza_image_productsへ対応付け、記事末尾の一般的なおすすめだけで代用しない。作品パッケージをカード画像に使い、その素材の直後へ同一作品のPRを置く。
 - fanza_product_codeはページ内で確認できた場合だけ返す。fanza_reasonには判定根拠を簡潔に書く。
 - 特定作品へ結び付かない場合はFANZA商品を推測して薦めない。サイト内の関連記事を後工程で選ぶため、fanza_recommendation_queriesは常に空配列にする。
 
@@ -6090,6 +6095,7 @@ def build_article(payload: dict[str, Any], site_root: Path = SITE_ROOT, *, previ
     payload = sanitize_related_destinations(
         canonicalize_payload_fanza_links(_sanitize_legacy_product_ctas(payload))
     )
+    mark_payload_identity_research_state(payload)
     ensure_related_footer(payload)
     affiliate_id = load_fanza_settings(site_root).get("affiliate_id", "")
     try:
@@ -6303,6 +6309,7 @@ def save_draft(payload: dict[str, Any], site_root: Path = SITE_ROOT) -> str:
     payload = sanitize_related_destinations(
         canonicalize_payload_fanza_links(_sanitize_legacy_product_ctas(payload))
     )
+    mark_payload_identity_research_state(payload)
     ensure_related_footer(payload)
     slug = _require_text(payload, "slug", 100)
     if not SLUG_PATTERN.fullmatch(slug):
@@ -6335,6 +6342,7 @@ def load_draft_payload(slug: str, site_root: Path = SITE_ROOT) -> dict[str, Any]
         canonicalize_payload_fanza_links(_sanitize_legacy_product_ctas(payload))
     )
     payload["title"] = normalize_article_title_label(payload.get("title"))
+    mark_payload_identity_research_state(payload)
     ensure_related_footer(payload)
     with _DRAFT_PAYLOAD_CACHE_LOCK:
         _DRAFT_PAYLOAD_CACHE[path] = (signature[0], signature[1], payload)

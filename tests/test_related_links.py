@@ -141,6 +141,67 @@ def test_related_footer_replaces_empty_ad_and_repeats_verified_account() -> None
     ) == 1
 
 
+def test_sixty_nine_topic_beats_the_broader_fellatio_tag() -> None:
+    payload = {
+        "slug": "sixty-nine-topic-test",
+        "title": "【画像】向かい合う密着ポーズが続くシックスナイン写真36枚",
+        "summary": "互いに舐め合うシックスナインを集めた画像記事。",
+        "tags": ["シックスナイン", "フェラチオ", "クンニリングス"],
+        "images": [{"id": "image-1"}],
+        "thumbnail_id": "image-1",
+        "blocks": [{"id": "media", "type": "images", "image_ids": ["image-1"]}],
+    }
+
+    assert ensure_related_footer(payload) is True
+
+    recommendation = next(
+        block for block in payload["blocks"]
+        if isinstance(block, dict)
+        and block.get("link_kind") == "inferred_topic_search"
+    )
+    assert recommendation["search_query"] == "シックスナイン"
+    assert "シックスナイン" in unquote(recommendation["url"])
+    assert "フェラチオ" not in recommendation["title"]
+    assert ensure_related_footer(payload) is False
+
+
+def test_sixty_nine_topic_replaces_a_stale_hydrated_fellatio_product() -> None:
+    payload = {
+        "slug": "sixty-nine-stale-product-test",
+        "title": "シックスナイン画像36枚",
+        "tags": ["シックスナイン", "フェラチオ", "クンニリングス"],
+        "images": [{"id": "image-1"}],
+        "thumbnail_id": "image-1",
+        "blocks": [
+            {"id": "media", "type": "images", "image_ids": ["image-1"]},
+            {
+                "id": "old-product",
+                "type": "related_link",
+                "title": "フェラチオ作品",
+                "url": "https://video.dmm.co.jp/av/content/?id=old001",
+                "link_kind": "inferred_topic_product",
+                "search_query": "フェラチオ",
+                "thumbnail_image_id": "old-package",
+            },
+        ],
+    }
+
+    assert ensure_related_footer(payload) is True
+
+    recommendation = next(
+        block for block in payload["blocks"]
+        if isinstance(block, dict)
+        and block.get("link_kind") == "inferred_topic_search"
+    )
+    assert recommendation["search_query"] == "シックスナイン"
+    assert "シックスナイン" in unquote(recommendation["url"])
+    assert not recommendation.get("thumbnail_image_id")
+    assert not any(
+        block.get("url") == "https://video.dmm.co.jp/av/content/?id=old001"
+        for block in payload["blocks"] if isinstance(block, dict)
+    )
+
+
 def test_exact_fanza_product_replaces_generic_footer_recommendation() -> None:
     payload = {
         "slug": "url-video-dmm-co-jp-exact-test",

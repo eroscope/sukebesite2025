@@ -618,6 +618,13 @@ def migrate_legacy_article_cards(
         if payload:
             drafts.append((path, payload))
 
+    # Normalize stale topic cards before collecting lookup queries. Otherwise
+    # a repaired footer can switch topics after prefetch and miss the product
+    # thumbnail for its new, correct query in the same migration run.
+    footer_preflight_changed = {
+        path: ensure_related_footer(payload) for path, payload in drafts
+    }
+
     cache_path = site_root / ".article-studio" / "legacy-card-cache.json"
     cache = _load_cache(cache_path)
     product_urls = {
@@ -722,7 +729,9 @@ def migrate_legacy_article_cards(
     unresolved_profiles: set[str] = set()
     for _path, payload in drafts:
         normalized_title = normalize_article_title_label(payload.get("title"))
-        changed = normalized_title != str(payload.get("title") or "")
+        changed = bool(footer_preflight_changed.get(_path)) or (
+            normalized_title != str(payload.get("title") or "")
+        )
         if changed:
             payload["title"] = normalized_title
         changed = (

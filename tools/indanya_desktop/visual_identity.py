@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import base64
+import binascii
 import hashlib
 import io
 import json
@@ -14,6 +16,7 @@ from indanya_desktop.social_profiles import normalize_person_name
 
 REGISTRY_VERSION = 1
 REGISTRY_RELATIVE_PATH = Path(".article-studio") / "person-identity-visual-registry.json"
+RECHECK_STATE_RELATIVE_PATH = Path(".article-studio") / "person-identity-recheck-state.json"
 MAX_RECORDS = 20_000
 
 
@@ -142,14 +145,33 @@ def _match_score(
     return None
 
 
+def _decode_data_url(value: Any) -> bytes:
+    raw = str(value or "")
+    if not raw.startswith("data:image/") or ";base64," not in raw:
+        return b""
+    encoded = raw.split(",", 1)[1]
+    if not encoded or len(encoded) > 32 * 1024 * 1024:
+        return b""
+    try:
+        return base64.b64decode(encoded, validate=True)
+    except (ValueError, binascii.Error):
+        return b""
+
+
 def _source_media(source: dict[str, Any]) -> list[tuple[str, str, bytes]]:
     media: list[tuple[str, str, bytes]] = []
     for item in source.get("images") or []:
-        if isinstance(item, dict) and isinstance(item.get("data"), bytes):
-            media.append(("image", str(item.get("id") or ""), item["data"]))
+        if not isinstance(item, dict):
+            continue
+        data = item.get("data") if isinstance(item.get("data"), bytes) else _decode_data_url(item.get("data_url"))
+        if data:
+            media.append(("image", str(item.get("id") or ""), data))
     for item in source.get("videos") or []:
-        if isinstance(item, dict) and isinstance(item.get("frame_data"), bytes):
-            media.append(("video", str(item.get("id") or ""), item["frame_data"]))
+        if not isinstance(item, dict):
+            continue
+        data = item.get("frame_data") if isinstance(item.get("frame_data"), bytes) else _decode_data_url(item.get("poster_data_url"))
+        if data:
+            media.append(("video", str(item.get("id") or ""), data))
     return [item for item in media if item[1]]
 
 
@@ -274,6 +296,272 @@ def apply_known_visual_identity_matches(
     return source
 
 
+def mark_payload_identity_research_state(payload: dict[str, Any]) -> bool:
+    """Keep unresolved identity work visible without blocking publication."""
+    groups = [
+        item for item in payload.get("person_identity_candidates") or []
+        if isinstance(item, dict)
+        and str(item.get("media_type") or "").casefold() in {"image", "video"}
+        and str(item.get("media_id") or "")
+    ]
+    verified_media = {
+        ("image", str(media_id))
+        for item in payload.get("media_person_attributions") or []
+        if isinstance(item, dict) and int(item.get("confidence") or 0) >= 95
+        for media_id in item.get("image_ids") or []
+    } | {
+        ("video", str(media_id))
+        for item in payload.get("media_person_attributions") or []
+        if isinstance(item, dict) and int(item.get("confidence") or 0) >= 95
+        for media_id in item.get("video_ids") or []
+    }
+    unresolved = [
+        item for item in groups
+        if (
+            str(item.get("media_type") or "").casefold(),
+            str(item.get("media_id") or ""),
+        ) not in verified_media
+    ]
+    candidate_count = sum(bool(item.get("candidates")) for item in unresolved)
+    previous = payload.get("identity_research")
+    if not unresolved:
+        if not isinstance(previous, dict):
+            return False
+        updated = {
+            "status": "resolved",
+            "unresolved_media": 0,
+            "candidate_media": 0,
+            "method": "verified_source_or_visual_registry",
+            "blocks_publication": False,
+        }
+    else:
+        updated = {
+            "status": "partially_resolved" if verified_media else "unresolved",
+            "unresolved_media": len(unresolved),
+            "candidate_media": candidate_count,
+            "method": "per_media_evidence_and_visual_registry",
+            "blocks_publication": False,
+        }
+    changed = previous != updated
+    payload["identity_research"] = updated
+
+    resolution = payload.get("identity_resolution")
+    resolution_status = (
+        str(resolution.get("status") or "").casefold()
+        if isinstance(resolution, dict) else ""
+    )
+    if unresolved and resolution_status in {"", "not_applicable", "unresolved"}:
+        replacement = {
+            "status": "unresolved",
+            "method": "per_media_identity_research",
+            "message": (
+                f"採用素材{len(unresolved)}点は人物名の根拠が不足。"
+                "記事は公開し、同一画像の確定情報が増えた時に再照合します。"
+            ),
+        }
+        if resolution != replacement:
+            payload["identity_resolution"] = replacement
+            changed = True
+    return changed
+
+
+def apply_known_visual_identity_matches_to_payload(
+    site_root: Path,
+    payload: dict[str, Any],
+) -> int:
+    """Apply verified whole-image matches to an already saved article payload."""
+    unresolved_keys = {
+        (
+            str(item.get("media_type") or "").casefold(),
+            str(item.get("media_id") or ""),
+        )
+        for item in payload.get("person_identity_candidates") or []
+        if isinstance(item, dict)
+        and str(item.get("media_type") or "").casefold() in {"image", "video"}
+        and str(item.get("media_id") or "")
+    }
+    if not unresolved_keys:
+        return 0
+    source = {
+        "images": [
+            item for item in payload.get("images") or []
+            if isinstance(item, dict)
+            and ("image", str(item.get("id") or "")) in unresolved_keys
+        ],
+        "videos": [
+            item for item in payload.get("videos") or []
+            if isinstance(item, dict)
+            and ("video", str(item.get("id") or "")) in unresolved_keys
+        ],
+        "ai_identified_people": [
+            dict(item) for item in payload.get("identified_people") or []
+            if isinstance(item, dict)
+        ],
+        "ai_media_person_attributions": [
+            dict(item) for item in payload.get("media_person_attributions") or []
+            if isinstance(item, dict)
+        ],
+        "verified_social_profiles": [
+            dict(item) for item in payload.get("verified_social_profiles") or []
+            if isinstance(item, dict)
+        ],
+    }
+    apply_known_visual_identity_matches(site_root, source)
+    matches = [
+        item for item in source.get("visual_identity_matches") or []
+        if isinstance(item, dict)
+    ]
+    if not matches:
+        mark_payload_identity_research_state(payload)
+        return 0
+
+    matched_keys = {
+        (str(item.get("media_type") or ""), str(item.get("media_id") or ""))
+        for item in matches
+    }
+    payload["identified_people"] = source.get("ai_identified_people") or []
+    unique_attributions: list[dict[str, Any]] = []
+    seen_attributions: set[tuple[str, tuple[str, ...], tuple[str, ...]]] = set()
+    for item in source.get("ai_media_person_attributions") or []:
+        if not isinstance(item, dict):
+            continue
+        key = (
+            normalize_person_name(item.get("person_name")),
+            tuple(sorted(str(value) for value in item.get("image_ids") or [])),
+            tuple(sorted(str(value) for value in item.get("video_ids") or [])),
+        )
+        if not key[0] or key in seen_attributions:
+            continue
+        seen_attributions.add(key)
+        unique_attributions.append(dict(item))
+    payload["media_person_attributions"] = unique_attributions
+    payload["verified_social_profiles"] = source.get("verified_social_profiles") or []
+    payload["person_identity_candidates"] = [
+        item for item in payload.get("person_identity_candidates") or []
+        if not isinstance(item, dict)
+        or (
+            str(item.get("media_type") or "").casefold(),
+            str(item.get("media_id") or ""),
+        ) not in matched_keys
+    ]
+
+    names_by_image: dict[str, list[str]] = {}
+    for item in unique_attributions:
+        if int(item.get("confidence") or 0) < 95:
+            continue
+        for image_id in item.get("image_ids") or []:
+            names_by_image.setdefault(str(image_id), []).append(
+                str(item.get("person_name") or "")
+            )
+    for image in payload.get("images") or []:
+        if not isinstance(image, dict):
+            continue
+        names = list(dict.fromkeys(
+            name for name in names_by_image.get(str(image.get("id") or ""), [])
+            if name
+        ))
+        if names:
+            image["identified_people"] = names
+            image["identity_confidence"] = min(
+                int(item.get("confidence") or 0)
+                for item in unique_attributions
+                if str(image.get("id") or "") in item.get("image_ids", [])
+            )
+    payload["person_identity_gate"] = {
+        "status": "verified",
+        "minimum_confidence": 95,
+        "verified_people": len(payload["identified_people"]),
+        "attributed_media": len(matched_keys),
+        "method": "verified_visual_registry_recheck",
+        "requires_authoritative_evidence": True,
+    }
+    payload["identity_resolution"] = {
+        "status": "verified" if not payload["person_identity_candidates"] else "partially_verified",
+        "method": "verified_visual_registry_recheck",
+        "message": f"過去に公式情報で確定した同一素材と{len(matched_keys)}点が一致",
+    }
+    mark_payload_identity_research_state(payload)
+    return len(matched_keys)
+
+
+def recheck_unresolved_draft_identities(
+    site_root: Path,
+    *,
+    limit: int = 12,
+) -> dict[str, Any]:
+    """Recheck a bounded draft batch when the verified registry changes."""
+    site_root = Path(site_root)
+    registry = _load_registry(site_root)
+    revision = str(registry.get("updated_at") or "")
+    if not revision or not registry.get("records"):
+        return {"scanned": 0, "matched": 0, "queued": [], "complete": True}
+
+    state_path = site_root / RECHECK_STATE_RELATIVE_PATH
+    try:
+        state = json.loads(state_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError, TypeError):
+        state = {}
+    state_revision = str(state.get("registry_revision") or "")
+    if not state_revision:
+        state = {"registry_revision": revision, "cursor": 0, "complete": False}
+    elif state.get("complete") is True and state_revision != revision:
+        state = {"registry_revision": revision, "cursor": 0, "complete": False}
+    elif state.get("complete") is True:
+        return {"scanned": 0, "matched": 0, "queued": [], "complete": True}
+
+    draft_root = site_root / ".article-studio" / "drafts"
+    paths = sorted(draft_root.glob("*.json"))
+    start = max(0, int(state.get("cursor") or 0))
+    selected = paths[start:start + max(1, int(limit))]
+    matched = 0
+    queued: list[str] = []
+    failures: list[dict[str, str]] = []
+    for path in selected:
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            if not isinstance(payload, dict):
+                continue
+            count = apply_known_visual_identity_matches_to_payload(site_root, payload)
+            if not count:
+                continue
+            from article_studio import save_draft
+            from indanya_desktop.automation import enqueue_article
+
+            payload["replace_existing"] = True
+            save_draft(payload, site_root)
+            enqueue_article(site_root, str(payload.get("slug") or path.stem))
+            matched += count
+            queued.append(str(payload.get("slug") or path.stem))
+        except Exception as exc:
+            failures.append({"slug": path.stem, "error": str(exc)[:240]})
+
+    cursor = start + len(selected)
+    complete = cursor >= len(paths)
+    # Finish the current bounded sweep even if new verified records arrive in
+    # the meantime. A second sweep starts afterwards, preventing a busy site
+    # from repeatedly resetting to the first drafts and starving later ones.
+    if complete and str(state.get("registry_revision") or "") != revision:
+        state["registry_revision"] = revision
+        cursor = 0
+        complete = False
+    state.update({
+        "cursor": cursor,
+        "complete": complete,
+        "checked_at": datetime.now(timezone.utc).isoformat(),
+    })
+    state_path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = state_path.with_suffix(".tmp")
+    temporary.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
+    temporary.replace(state_path)
+    return {
+        "scanned": len(selected),
+        "matched": matched,
+        "queued": queued,
+        "failures": failures,
+        "complete": complete,
+    }
+
+
 def record_verified_visual_identities(
     site_root: Path,
     source: dict[str, Any],
@@ -373,5 +661,8 @@ def record_verified_visual_identities(
 
 __all__ = [
     "apply_known_visual_identity_matches",
+    "apply_known_visual_identity_matches_to_payload",
+    "mark_payload_identity_research_state",
+    "recheck_unresolved_draft_identities",
     "record_verified_visual_identities",
 ]
