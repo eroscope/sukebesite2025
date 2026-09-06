@@ -446,7 +446,7 @@
   "counts": {
     "people": 259,
     "works": 209,
-    "topics": 1402
+    "topics": 1407
   },
   "people": [
     {
@@ -2478,6 +2478,10 @@
       "articles": 1
     },
     {
+      "name": "AI顔検索",
+      "articles": 1
+    },
+    {
       "name": "ASMR",
       "articles": 4
     },
@@ -2516,6 +2520,10 @@
     {
       "name": "AV女優",
       "articles": 32
+    },
+    {
+      "name": "AV女優検索",
+      "articles": 1
     },
     {
       "name": "AV画像",
@@ -2787,6 +2795,10 @@
     },
     {
       "name": "NTRエステ",
+      "articles": 1
+    },
+    {
+      "name": "NicoFace",
       "articles": 1
     },
     {
@@ -5262,6 +5274,10 @@
       "articles": 1
     },
     {
+      "name": "動画スクショ",
+      "articles": 1
+    },
+    {
       "name": "包茎",
       "articles": 1
     },
@@ -6715,6 +6731,10 @@
     },
     {
       "name": "画像スレ",
+      "articles": 1
+    },
+    {
+      "name": "画像検索",
       "articles": 1
     },
     {
