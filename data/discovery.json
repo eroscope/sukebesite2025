@@ -446,7 +446,7 @@
   "counts": {
     "people": 259,
     "works": 209,
-    "topics": 1414
+    "topics": 1417
   },
   "people": [
     {
@@ -3158,6 +3158,10 @@
       "articles": 1
     },
     {
+      "name": "ぱーてぃーちゃん",
+      "articles": 1
+    },
+    {
       "name": "ひなの",
       "articles": 1
     },
@@ -4010,6 +4014,10 @@
       "articles": 2
     },
     {
+      "name": "デジタル写真集",
+      "articles": 1
+    },
+    {
       "name": "デビュー作",
       "articles": 2
     },
@@ -4671,7 +4679,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 72
+      "articles": 73
     },
     {
       "name": "リアクション",
@@ -5087,6 +5095,10 @@
     },
     {
       "name": "保育士",
+      "articles": 1
+    },
+    {
+      "name": "信子",
       "articles": 1
     },
     {
