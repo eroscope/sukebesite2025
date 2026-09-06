@@ -444,9 +444,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 259,
+    "people": 260,
     "works": 209,
-    "topics": 1417
+    "topics": 1419
   },
   "people": [
     {
@@ -632,6 +632,10 @@
     {
       "name": "三田真鈴",
       "articles": 3
+    },
+    {
+      "name": "上原亜依",
+      "articles": 1
     },
     {
       "name": "中山ふみか",
@@ -2514,6 +2518,10 @@
       "articles": 1
     },
     {
+      "name": "AV企画",
+      "articles": 1
+    },
+    {
       "name": "AV作品",
       "articles": 5
     },
@@ -2523,7 +2531,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 33
+      "articles": 34
     },
     {
       "name": "AV女優検索",
@@ -4831,7 +4839,7 @@
     },
     {
       "name": "下着",
-      "articles": 51
+      "articles": 52
     },
     {
       "name": "下着ずらし",
@@ -5507,6 +5515,10 @@
     },
     {
       "name": "場面カット",
+      "articles": 1
+    },
+    {
+      "name": "場面写真",
       "articles": 1
     },
     {
@@ -6759,7 +6771,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 70
+      "articles": 71
     },
     {
       "name": "画像ギャラリー",
