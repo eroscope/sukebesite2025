@@ -450,9 +450,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 263,
-    "works": 211,
-    "topics": 1453
+    "people": 264,
+    "works": 212,
+    "topics": 1455
   },
   "people": [
     {
@@ -1224,6 +1224,10 @@
       "articles": 1
     },
     {
+      "name": "白石さん",
+      "articles": 1
+    },
+    {
       "name": "白石るな",
       "articles": 2
     },
@@ -1571,6 +1575,10 @@
     },
     {
       "code": "300MIUM-1386",
+      "articles": 1
+    },
+    {
+      "code": "300MIUM-1408",
       "articles": 1
     },
     {
@@ -2537,6 +2545,10 @@
     },
     {
       "name": "AV DEBUT",
+      "articles": 1
+    },
+    {
+      "name": "AV(素人)",
       "articles": 1
     },
     {
@@ -5412,6 +5424,10 @@
       "articles": 1
     },
     {
+      "name": "化粧品会社",
+      "articles": 1
+    },
+    {
       "name": "北川遥",
       "articles": 1
     },
@@ -6273,7 +6289,7 @@
     },
     {
       "name": "新卒OL",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "新卒OL設定",
@@ -6909,7 +6925,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 73
+      "articles": 74
     },
     {
       "name": "画像ギャラリー",
