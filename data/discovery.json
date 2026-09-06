@@ -451,7 +451,7 @@
   "counts": {
     "people": 263,
     "works": 210,
-    "topics": 1445
+    "topics": 1447
   },
   "people": [
     {
@@ -2540,7 +2540,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 15
+      "articles": 16
     },
     {
       "name": "AVパッケージ",
@@ -2916,7 +2916,7 @@
     },
     {
       "name": "S1",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "S1 GIRLS COLLECTION",
@@ -3244,6 +3244,10 @@
     },
     {
       "name": "みづなれい",
+      "articles": 1
+    },
+    {
+      "name": "みらいみう",
       "articles": 1
     },
     {
@@ -4744,7 +4748,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 74
+      "articles": 75
     },
     {
       "name": "リアクション",
@@ -5959,6 +5963,10 @@
       "articles": 2
     },
     {
+      "name": "希望みう",
+      "articles": 1
+    },
+    {
       "name": "希望プレイ",
       "articles": 1
     },
@@ -6548,7 +6556,7 @@
     },
     {
       "name": "水着",
-      "articles": 106
+      "articles": 107
     },
     {
       "name": "水着グラビア",
