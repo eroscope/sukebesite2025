@@ -296,6 +296,7 @@
     "topics/topic-av.html",
     "topics/topic-av.html",
     "topics/topic-av.html",
+    "topics/topic-av.html",
     "topics/topic-b010a4c2d907.html",
     "topics/topic-b03ff91d92e0.html",
     "topics/topic-b0d4c6c28a4b.html",
@@ -422,6 +423,7 @@
     "topics/topic-mgs.html",
     "topics/topic-moodyz-diva.html",
     "topics/topic-moodyz.html",
+    "topics/topic-nicoface.html",
     "topics/topic-nikke.html",
     "topics/topic-nmb48.html",
     "topics/topic-ntr.html",
@@ -446,7 +448,7 @@
   "counts": {
     "people": 263,
     "works": 209,
-    "topics": 1437
+    "topics": 1440
   },
   "people": [
     {
@@ -2470,6 +2472,10 @@
       "articles": 1
     },
     {
+      "name": "AI",
+      "articles": 1
+    },
+    {
       "name": "AIKA",
       "articles": 1
     },
@@ -2551,7 +2557,7 @@
     },
     {
       "name": "AV女優検索",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "AV画像",
@@ -2835,7 +2841,7 @@
     },
     {
       "name": "NicoFace",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "OL",
@@ -5359,6 +5365,10 @@
     },
     {
       "name": "動画スクショ",
+      "articles": 1
+    },
+    {
+      "name": "動画検索",
       "articles": 1
     },
     {
@@ -7936,6 +7946,10 @@
     {
       "name": "顔射",
       "articles": 4
+    },
+    {
+      "name": "顔認識",
+      "articles": 1
     },
     {
       "name": "顔面接写",
