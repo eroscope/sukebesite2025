@@ -452,7 +452,7 @@
   "counts": {
     "people": 265,
     "works": 212,
-    "topics": 1463
+    "topics": 1466
   },
   "people": [
     {
@@ -5436,6 +5436,10 @@
       "articles": 1
     },
     {
+      "name": "勝負動画",
+      "articles": 1
+    },
+    {
       "name": "包茎",
       "articles": 1
     },
@@ -6154,6 +6158,10 @@
     {
       "name": "成人向け漫画",
       "articles": 3
+    },
+    {
+      "name": "成人向け話題",
+      "articles": 1
     },
     {
       "name": "成人向け音声",
@@ -8101,6 +8109,10 @@
     },
     {
       "name": "風愛ことり",
+      "articles": 1
+    },
+    {
+      "name": "風船ゲーム",
       "articles": 1
     },
     {
