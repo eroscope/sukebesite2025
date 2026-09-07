@@ -450,9 +450,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 264,
+    "people": 265,
     "works": 212,
-    "topics": 1459
+    "topics": 1463
   },
   "people": [
     {
@@ -1409,6 +1409,10 @@
     },
     {
       "name": "谷碧",
+      "articles": 1
+    },
+    {
+      "name": "貴島明日香",
       "articles": 1
     },
     {
@@ -2717,6 +2721,10 @@
     },
     {
       "name": "GIF動画あり",
+      "articles": 1
+    },
+    {
+      "name": "GIF画像",
       "articles": 1
     },
     {
@@ -4468,6 +4476,10 @@
       "articles": 1
     },
     {
+      "name": "ブラチラ",
+      "articles": 1
+    },
+    {
       "name": "プリクラ",
       "articles": 1
     },
@@ -5753,7 +5765,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "女子大生",
@@ -6848,6 +6860,10 @@
       "articles": 11
     },
     {
+      "name": "猫を洗う",
+      "articles": 1
+    },
+    {
       "name": "猫耳",
       "articles": 2
     },
@@ -7460,6 +7476,10 @@
       "articles": 3
     },
     {
+      "name": "胸チラ",
+      "articles": 1
+    },
+    {
       "name": "胸元",
       "articles": 31
     },
@@ -7725,7 +7745,7 @@
     },
     {
       "name": "谷間",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "豊満グラビア",
