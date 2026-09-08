@@ -463,7 +463,7 @@
   "counts": {
     "people": 267,
     "works": 213,
-    "topics": 1483
+    "topics": 1487
   },
   "people": [
     {
@@ -2400,6 +2400,10 @@
     },
     {
       "name": "18時間",
+      "articles": 1
+    },
+    {
+      "name": "18禁コスプレ",
       "articles": 1
     },
     {
@@ -4460,6 +4464,10 @@
     },
     {
       "name": "ファンサ",
+      "articles": 1
+    },
+    {
+      "name": "ファンタジー衣装",
       "articles": 1
     },
     {
@@ -7395,6 +7403,10 @@
       "articles": 1
     },
     {
+      "name": "紫髪",
+      "articles": 1
+    },
+    {
       "name": "経理部員",
       "articles": 1
     },
@@ -7756,6 +7768,10 @@
     },
     {
       "name": "裸エプロン",
+      "articles": 1
+    },
+    {
+      "name": "裸コスプレ",
       "articles": 1
     },
     {
