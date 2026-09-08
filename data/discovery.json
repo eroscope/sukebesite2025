@@ -195,6 +195,7 @@
     "topics/topic-5e0721bebbe4.html",
     "topics/topic-5ef5727d4453.html",
     "topics/topic-5fc9e30aedc2.html",
+    "topics/topic-60bb2a31f7d3.html",
     "topics/topic-612e72ff9af8.html",
     "topics/topic-614189b3887e.html",
     "topics/topic-616794ab0faa.html",
@@ -455,7 +456,7 @@
   "counts": {
     "people": 266,
     "works": 212,
-    "topics": 1469
+    "topics": 1470
   },
   "people": [
     {
@@ -5548,7 +5549,7 @@
     },
     {
       "name": "同人漫画",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "同人誌",
@@ -5784,7 +5785,7 @@
     },
     {
       "name": "女子大生",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "女子社員",
@@ -6911,6 +6912,10 @@
       "articles": 2
     },
     {
+      "name": "田舎",
+      "articles": 1
+    },
+    {
       "name": "田野憂",
       "articles": 1
     },
@@ -7356,7 +7361,7 @@
     },
     {
       "name": "総集編",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "縄跳び",
