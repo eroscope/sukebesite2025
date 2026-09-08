@@ -289,6 +289,7 @@
     "topics/topic-a6577e51aa03.html",
     "topics/topic-a6730f134ba7.html",
     "topics/topic-a808e1aede8c.html",
+    "topics/topic-aace97cc7e95.html",
     "topics/topic-ab67c0ff4bc5.html",
     "topics/topic-ac5f468ffba4.html",
     "topics/topic-ac9d2eb7082c.html",
@@ -459,7 +460,7 @@
   "counts": {
     "people": 266,
     "works": 212,
-    "topics": 1471
+    "topics": 1472
   },
   "people": [
     {
@@ -2576,7 +2577,7 @@
     },
     {
       "name": "AVセール",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "AVデビュー",
@@ -4344,7 +4345,7 @@
     },
     {
       "name": "パッケージ画像",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "パッケージ紹介",
@@ -5492,6 +5493,10 @@
     },
     {
       "name": "半額キャンペーン",
+      "articles": 1
+    },
+    {
+      "name": "半額セール",
       "articles": 1
     },
     {
