@@ -1682,14 +1682,21 @@ def apply_official_social_destinations(
         expected_owner = str(
             block.get("thumbnail_owner_url") or block.get("url") or ""
         ).rstrip("/")
+        local_thumbnail_source = str(
+            local_thumbnail.get("source_url") if local_thumbnail else ""
+        ).strip()
+        is_x_banner = (
+            "pbs.twimg.com/profile_banners/" in local_thumbnail_source.casefold()
+        )
         has_local_thumbnail = bool(
             local_thumbnail
             and str(local_thumbnail.get("thumbnail_owner_url") or "").rstrip("/")
             == expected_owner
+            and not is_x_banner
         )
         for field in (
-            "title", "provider", "link_kind", "match_evidence",
-            "match_confidence",
+            "title", "text", "button_text", "placement_label", "provider",
+            "link_kind", "match_evidence", "match_confidence", "person_name",
         ):
             value = destination.get(field)
             if value and block.get(field) != value:

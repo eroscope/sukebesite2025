@@ -46,6 +46,7 @@ def test_social_repair_updates_existing_profile_card_thumbnail() -> None:
 
     card = payload["blocks"][0]
     assert card["title"] == "やんやんのInstagram"
+    assert card["person_name"] == "やんやん"
     assert card["thumbnail_source_kind"] == "official_hub_profile"
     assert card["thumbnail_owner_url"] == "https://linktr.ee/yanyan_cos"
     assert "thumbnail_image_id" not in card
@@ -74,6 +75,75 @@ def test_social_repair_drops_local_thumbnail_owned_by_a_different_page() -> None
         "name": "本人",
         "service": "instagram",
         "url": "https://www.instagram.com/example/",
+        "is_main_subject": True,
+    }]
+
+    assert apply_official_social_destinations(payload, profiles) is True
+    assert "thumbnail_image_id" not in payload["blocks"][0]
+
+
+def test_social_repair_replaces_an_outdated_thumbnail_from_the_same_profile() -> None:
+    profile_url = "https://x.com/example"
+    payload = {
+        "images": [{
+            "id": "old-profile",
+            "related_thumbnail_only": True,
+            "thumbnail_owner_url": profile_url,
+            "source_url": "https://pbs.twimg.com/profile_banners/123/456",
+        }],
+        "blocks": [{
+            "id": "profile",
+            "type": "related_link",
+            "url": profile_url,
+            "title": "本人のX",
+            "provider": "x",
+            "link_kind": "official_profile",
+            "thumbnail_image_id": "old-profile",
+            "thumbnail_source_kind": "profile",
+            "thumbnail_owner_url": profile_url,
+        }],
+    }
+    profiles = [{
+        "name": "本人",
+        "service": "x",
+        "url": profile_url,
+        "is_main_subject": True,
+        "thumbnail_url": "https://unavatar.io/x/example?fallback=false",
+        "thumbnail_source_kind": "profile",
+        "thumbnail_owner_url": profile_url,
+    }]
+
+    assert apply_official_social_destinations(payload, profiles) is True
+    card = payload["blocks"][0]
+    assert "thumbnail_image_id" not in card
+    assert card["thumbnail_url"] == "https://unavatar.io/x/example?fallback=false"
+
+
+def test_social_repair_rejects_x_banner_reused_for_another_service() -> None:
+    instagram_url = "https://www.instagram.com/example/"
+    payload = {
+        "images": [{
+            "id": "old-fallback",
+            "related_thumbnail_only": True,
+            "thumbnail_owner_url": instagram_url,
+            "source_url": "https://pbs.twimg.com/profile_banners/123/456",
+        }],
+        "blocks": [{
+            "id": "profile",
+            "type": "related_link",
+            "url": instagram_url,
+            "title": "本人のInstagram",
+            "provider": "instagram",
+            "link_kind": "official_profile",
+            "thumbnail_image_id": "old-fallback",
+            "thumbnail_source_kind": "profile",
+            "thumbnail_owner_url": instagram_url,
+        }],
+    }
+    profiles = [{
+        "name": "本人",
+        "service": "instagram",
+        "url": instagram_url,
         "is_main_subject": True,
     }]
 

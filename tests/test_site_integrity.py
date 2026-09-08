@@ -124,6 +124,11 @@ class SiteIntegrityTests(unittest.TestCase):
         self.assertNotIn("TODAY'S PICK", index)
         self.assertIn("object-fit:cover", index)
         self.assertIn("object-position:center 22%", index)
+        self.assertIn("@media(max-width:1100px)", index)
+        self.assertIn(".layout { grid-template-columns:1fr; }", index)
+        feature_grid = index[index.index(".feature-grid {"):index.index(".feature-copy {")]
+        self.assertIn("align-items:stretch", feature_grid)
+        self.assertNotIn("align-items:start", feature_grid)
 
     def test_catalog_pages_share_search_and_article_data(self) -> None:
         catalog_script = (ROOT / "assets" / "common" / "catalog.js").read_text(encoding="utf-8")

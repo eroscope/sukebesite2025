@@ -69,6 +69,31 @@ def test_x_thumbnail_falls_back_to_verified_handle_avatar_proxy(monkeypatch) -> 
     )
 
 
+def test_x_banner_is_replaced_with_the_verified_handle_avatar(tmp_path: Path) -> None:
+    source = {
+        "verified_social_profiles": [{
+            "name": "森日向子",
+            "service": "x",
+            "url": "https://x.com/morihinako_",
+            "thumbnail_url": "https://pbs.twimg.com/profile_banners/123/456",
+            "thumbnail_source_kind": "profile",
+            "thumbnail_owner_url": "https://x.com/morihinako_",
+        }],
+    }
+
+    enrich_source_profile_thumbnails(
+        tmp_path,
+        source,
+        fetcher=lambda _url: "https://unavatar.io/x/morihinako_?fallback=false",
+    )
+
+    profile = source["verified_social_profiles"][0]
+    assert profile["thumbnail_url"] == (
+        "https://unavatar.io/x/morihinako_?fallback=false"
+    )
+    assert "profile_banners" not in profile["thumbnail_url"]
+
+
 def test_verification_requires_independent_evidence() -> None:
     result = validate_social_verification(
         {
@@ -239,6 +264,83 @@ def test_duplicate_registry_profile_keeps_thumbnail_from_richer_record(tmp_path:
 
     assert len([item for item in profiles if item["service"] == "x"]) == 1
     assert profiles[0]["thumbnail_url"].endswith("yanyan.jpg")
+
+
+def test_duplicate_group_profile_is_reassigned_to_the_individual_owner() -> None:
+    url = "https://x.com/morihinako_"
+    merged = merge_verified_social_profiles(
+        [{
+            "name": "森日向子・伊藤舞雪",
+            "role": "AV女優グループ",
+            "service": "x",
+            "url": url,
+            "confidence": 91,
+        }],
+        [{
+            "name": "森日向子",
+            "display_name": "森 日向子",
+            "role": "AV女優",
+            "service": "x",
+            "url": url,
+            "confidence": 94,
+            "verification_status": "verified",
+        }],
+    )
+
+    assert len(merged) == 1
+    assert merged[0]["name"] == "森日向子"
+    assert merged[0]["role"] == "AV女優"
+    assert merged[0]["verification_status"] == "verified"
+
+
+def test_group_subject_profiles_are_saved_to_each_person_record(tmp_path: Path) -> None:
+    people = [
+        ("森日向子", "https://x.com/morihinako_"),
+        ("伊藤舞雪", "https://x.com/mayukiito"),
+    ]
+    for name, url in people:
+        upsert_social_profile_record(tmp_path, {
+            "canonical_name": name,
+            "aliases": [name],
+            "role": "AV女優",
+            "status": "verified",
+            "confidence": 98,
+            "profiles": [{"service": "x", "url": url, "display_name": name}],
+            "evidence": [],
+            "reason": "所属事務所の公式プロフィールで確認",
+        })
+    source = {
+        "title": "森日向子と伊藤舞雪の作品を比較",
+        "requested_url": "https://example.com/comparison",
+        "ai_main_subject": {
+            "name": "森日向子・伊藤舞雪",
+            "kind": "group",
+            "role": "AV女優",
+            "is_public_creator": True,
+        },
+        "ai_social_profiles": [
+            {
+                "name": "森日向子・伊藤舞雪",
+                "service": "x",
+                "url": url,
+                "is_main_subject": True,
+                "confidence": 95,
+            }
+            for _name, url in people
+        ],
+    }
+
+    resolved = resolve_subject_social_profiles(tmp_path, source)
+
+    assert {item["name"] for item in resolved["verified_social_profiles"]} == {
+        "森日向子", "伊藤舞雪",
+    }
+    assert [
+        item["url"] for item in find_social_profile_record(tmp_path, "森日向子")["profiles"]
+    ] == ["https://x.com/morihinako_"]
+    assert [
+        item["url"] for item in find_social_profile_record(tmp_path, "伊藤舞雪")["profiles"]
+    ] == ["https://x.com/mayukiito"]
 
 
 def test_share_and_content_urls_are_not_saved_as_profiles() -> None:

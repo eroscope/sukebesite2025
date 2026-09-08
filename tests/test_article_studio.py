@@ -744,9 +744,72 @@ class ArticleStudioTests(unittest.TestCase):
 
         self.assertIn('class="person-discovery-rail"', build.article_html)
         self.assertIn("FANZA出演作", build.article_html)
-        self.assertIn("sample001pl.jpg", build.article_html)
+        self.assertIn("気になった人の出演作品", build.article_html)
+        self.assertIn(">出演作</div>", build.article_html)
+        self.assertNotIn("sample001pl.jpg", build.article_html)
+        self.assertNotIn("公式プロフィール画像", build.article_html)
         self.assertEqual(1, build.article_html.count(performer_url))
         self.assertNotIn('data-link-kind="verified_person_search"', build.article_html)
+
+    def test_group_subject_profiles_are_rendered_as_individual_people(self) -> None:
+        payload = make_payload()
+        payload["title"] = "森日向子と伊藤舞雪、AVの好みが分かれるスレ"
+        payload["main_subject"] = {
+            "kind": "group",
+            "name": "森日向子・伊藤舞雪",
+            "role": "AV女優",
+            "is_public_creator": True,
+        }
+        payload["identified_people"] = [{
+            "name": "森日向子",
+            "role": "AV女優",
+            "is_public_creator": True,
+            "confidence": 100,
+        }]
+        profiles = [
+            ("森日向子", "x", "https://x.com/morihinako_", 94),
+            ("伊藤舞雪", "instagram", "https://www.instagram.com/myk__gram/", 98),
+        ]
+        payload["verified_social_profiles"] = []
+        for index, (name, service, url, confidence) in enumerate(profiles, start=1):
+            image_id = f"profile-{index}"
+            payload["images"].append({
+                "id": image_id,
+                "name": f"profile-{index}.png",
+                "data_url": payload["images"][0]["data_url"],
+                "alt": f"{name}の{service}プロフィール画像",
+                "orientation": "landscape",
+                "related_thumbnail_only": True,
+                "thumbnail_owner_url": url,
+            })
+            payload["verified_social_profiles"].append({
+                "name": name,
+                "role": "AV女優",
+                "service": service,
+                "url": url,
+                "confidence": confidence,
+                "verification_status": "verified",
+            })
+            payload["blocks"].append({
+                "id": f"official-{index}",
+                "type": "related_link",
+                "url": url,
+                "title": f"{name}の{service}",
+                "provider": service,
+                "link_kind": "official_profile",
+                "person_name": name,
+                "thumbnail_image_id": image_id,
+                "thumbnail_source_kind": "profile",
+                "thumbnail_owner_url": url,
+                "match_confidence": confidence,
+            })
+
+        build = article_studio.build_article(payload, self.site_root)
+
+        self.assertIn("気になった人の公式ページ", build.article_html)
+        self.assertIn("<strong>森日向子</strong>", build.article_html)
+        self.assertIn("<strong>伊藤舞雪</strong>", build.article_html)
+        self.assertEqual(2, build.article_html.count("公式プロフィール画像"))
 
     def test_grouped_profile_rail_does_not_package_hidden_duplicate_thumbnails(self) -> None:
         payload = make_payload()

@@ -5542,6 +5542,27 @@ def _render_person_discovery_rail(
             "role": "AV出演者",
             "confidence": 100,
         })
+    title_key = re.sub(
+        r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "",
+        str(payload.get("title") or "").casefold(),
+    )
+    subject = payload.get("main_subject")
+    subject_key = re.sub(
+        r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "",
+        str(subject.get("name") or "").casefold(),
+    ) if isinstance(subject, dict) else ""
+    for profile in payload.get("verified_social_profiles") or []:
+        if not isinstance(profile, dict) or safe_confidence(profile.get("confidence")) < 95:
+            continue
+        name = str(profile.get("name") or "").strip()
+        key = re.sub(r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "", name.casefold())
+        if not key or (key not in title_key and key not in subject_key):
+            continue
+        verified_people.setdefault(key, {
+            "name": name,
+            "role": str(profile.get("role") or ""),
+            "confidence": safe_confidence(profile.get("confidence")),
+        })
     if not verified_people:
         return ""
     profile_blocks = {
@@ -5565,11 +5586,16 @@ def _render_person_discovery_rail(
     }
     grouped: dict[str, dict[str, Any]] = {}
     for profile in payload.get("verified_social_profiles") or []:
-        if not isinstance(profile, dict) or safe_confidence(profile.get("confidence")) < 95:
+        if not isinstance(profile, dict):
             continue
         name = str(profile.get("name") or profile.get("display_name") or "").strip()
         key = re.sub(r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "", name.casefold())
         if key not in verified_people:
+            continue
+        if (
+            safe_confidence(profile.get("confidence")) < 95
+            and str(profile.get("verification_status") or "") != "verified"
+        ):
             continue
         service = str(profile.get("service") or "").casefold()
         url = str(profile.get("url") or "").strip()
@@ -5610,15 +5636,12 @@ def _render_person_discovery_rail(
             "profiles": [],
             "thumbnail": "",
         })
-        if not group["thumbnail"]:
-            group["thumbnail"] = _related_thumbnail_source(
-                block, image_map, preview=preview
-            )
         destination = ("fanza", url)
         if destination not in group["profiles"]:
             group["profiles"].append(destination)
 
     cards: list[str] = []
+    has_official_profiles = False
     for group in grouped.values():
         links = "".join(
             f'<a href="{html.escape(url, quote=True)}" target="_blank" '
@@ -5627,10 +5650,18 @@ def _render_person_discovery_rail(
         )
         if not links:
             continue
+        group_has_official_profile = any(
+            service != "fanza" for service, _url in group["profiles"]
+        )
+        has_official_profiles = has_official_profiles or group_has_official_profile
         thumbnail = (
             f'<img src="{html.escape(group["thumbnail"], quote=True)}" '
             f'alt="{html.escape(str(group["name"]), quote=True)}の公式プロフィール画像" loading="lazy">'
-            if group["thumbnail"] else '<div class="person-discovery-placeholder" aria-hidden="true">公式</div>'
+            if group["thumbnail"] else (
+                '<div class="person-discovery-placeholder" aria-hidden="true">公式</div>'
+                if group_has_official_profile else
+                '<div class="person-discovery-placeholder" aria-hidden="true">出演作</div>'
+            )
         )
         role = (
             f'<span>{html.escape(str(group["role"]))}</span>'
@@ -5645,10 +5676,11 @@ def _render_person_discovery_rail(
         )
     if not cards:
         return ""
+    heading = "気になった人の公式ページ" if has_official_profiles else "気になった人の出演作品"
     return (
         '<section class="person-discovery" aria-label="登場人物の公式リンク">'
         '<div class="person-discovery-head"><span>登場人物</span>'
-        '<h2>気になった人の公式ページ</h2></div>'
+        f'<h2>{heading}</h2></div>'
         f'<div class="person-discovery-rail">{"".join(cards)}</div></section>'
     )
 

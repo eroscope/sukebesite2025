@@ -161,6 +161,13 @@ _META_CONTENT_RE = re.compile(
 
 def fetch_profile_thumbnail(url: str, timeout: float = 6.0) -> str:
     """Return the profile page's own public OGP image, never an article image."""
+    canonical_x = canonical_social_profile_url("x", url)
+    if canonical_x:
+        username = urlparse(canonical_x).path.strip("/").split("/", 1)[0]
+        if username:
+            # X's OGP commonly exposes the wide header instead of the avatar.
+            # Localize the exact verified handle's avatar proxy instead.
+            return f"https://unavatar.io/x/{username}?fallback=false"
     request = urllib.request.Request(
         url,
         headers={
@@ -191,13 +198,6 @@ def fetch_profile_thumbnail(url: str, timeout: float = 6.0) -> str:
     rendered = fetch_rendered_profile_thumbnail(url)
     if rendered:
         return rendered
-    canonical_x = canonical_social_profile_url("x", url)
-    if canonical_x:
-        username = urlparse(canonical_x).path.strip("/").split("/", 1)[0]
-        if username:
-            # X often withholds profile metadata from logged-out clients.
-            # This URL proxies the avatar owned by the exact verified handle.
-            return f"https://unavatar.io/x/{username}?fallback=false"
     return ""
 
 
@@ -235,7 +235,7 @@ def _rendered_profile_thumbnail_score(
         if "pbs.twimg.com/profile_images/" in src_key:
             score += 320
         elif "pbs.twimg.com/profile_banners/" in src_key:
-            score += 220
+            score -= 400
     elif service == "youtube" and "yt3." in src_key:
         score += 260
     elif service == "tiktok" and re.search(r"avatar|tos-maliva-avt", src_key):
@@ -528,12 +528,14 @@ def _record_profiles_for_source(record: dict[str, Any]) -> list[dict[str, Any]]:
     return [
         {
             "name": _clean_text(record.get("canonical_name"), 80),
+            "display_name": _clean_text(profile.get("display_name"), 120),
             "role": _clean_text(record.get("role"), 80),
             "service": profile["service"],
             "url": profile["url"],
             "is_main_subject": True,
             "reason": evidence_text or _clean_text(record.get("reason"), 240),
             "verification_source": "verified_registry",
+            "verification_status": "verified",
             "confidence": int(record.get("confidence") or 0),
             **(
                 {"thumbnail_url": _safe_thumbnail_url(profile.get("thumbnail_url"))}
@@ -585,9 +587,25 @@ def merge_verified_social_profiles(
                 continue
 
             existing = merged[positions[key]]
+            existing_name = _clean_text(existing.get("name"), 80)
+            incoming_name = _clean_text(profile.get("name"), 80)
+            existing_name_key = normalize_person_name(existing_name)
+            incoming_name_key = normalize_person_name(incoming_name)
+            if (
+                existing_name_key
+                and incoming_name_key
+                and existing_name_key != incoming_name_key
+                and len(incoming_name_key) >= 3
+                and incoming_name_key in existing_name_key
+                and any(separator in existing_name for separator in ("・", "×", "＆", "&", "、", "/", "／"))
+            ):
+                existing["name"] = incoming_name
+                if profile.get("role"):
+                    existing["role"] = profile["role"]
             for field in (
                 "name", "display_name", "role", "reason", "verification_source",
-                "thumbnail_url", "thumbnail_source_kind", "thumbnail_owner_url",
+                "verification_status", "thumbnail_url", "thumbnail_source_kind",
+                "thumbnail_owner_url",
             ):
                 if not existing.get(field) and profile.get(field):
                     existing[field] = profile[field]
@@ -704,43 +722,71 @@ def resolve_subject_social_profiles(
             }),
         )
         source["verified_social_profiles"] = existing
-        first = existing[0]
-        canonical_name = _clean_text(first.get("name"), 80)
         subject = source.get("ai_main_subject")
         role = (
             _clean_text(subject.get("role"), 80)
             if isinstance(subject, dict) else ""
         )
-        stored_profiles: list[dict[str, str]] = []
+        subject_kind = (
+            _clean_text(subject.get("kind"), 20).casefold()
+            if isinstance(subject, dict) else ""
+        )
+        subject_name = (
+            _clean_text(subject.get("name"), 80)
+            if isinstance(subject, dict) else ""
+        )
+        stored_by_person: dict[str, dict[str, Any]] = {}
         for item in existing:
             service = _clean_text(item.get("service"), 20).casefold()
             url = canonical_social_profile_url(service, item.get("url"))
-            if url:
-                stored_profile = {
-                    "service": service,
-                    "url": url,
-                    "display_name": _clean_text(item.get("name"), 120) or canonical_name,
-                }
-                thumbnail_url = _safe_thumbnail_url(item.get("thumbnail_url"))
-                if thumbnail_url:
-                    stored_profile["thumbnail_url"] = thumbnail_url
-                    stored_profile["thumbnail_source_kind"] = (
-                        _clean_text(item.get("thumbnail_source_kind"), 40)
-                        or "profile"
-                    )
-                    stored_profile["thumbnail_owner_url"] = (
-                        _safe_thumbnail_url(item.get("thumbnail_owner_url"))
-                        or url
-                    )
-                stored_profiles.append(stored_profile)
-        if canonical_name and stored_profiles:
-            source_url = str(
-                source.get("requested_url") or source.get("url") or ""
-            ).strip()
+            canonical_name = _clean_text(item.get("name"), 80)
+            if not url or not canonical_name:
+                continue
+            if (
+                subject_kind == "group"
+                and normalize_person_name(canonical_name)
+                == normalize_person_name(subject_name)
+            ):
+                continue
+            person_key = normalize_person_name(canonical_name)
+            person_group = stored_by_person.setdefault(person_key, {
+                "name": canonical_name,
+                "role": _clean_text(item.get("role"), 80) or role,
+                "profiles": [],
+                "reason": _clean_text(item.get("reason"), 240),
+                "confidence": int(item.get("confidence") or 0),
+            })
+            stored_profile = {
+                "service": service,
+                "url": url,
+                "display_name": (
+                    _clean_text(item.get("display_name"), 120)
+                    or canonical_name
+                ),
+            }
+            thumbnail_url = _safe_thumbnail_url(item.get("thumbnail_url"))
+            if thumbnail_url:
+                stored_profile["thumbnail_url"] = thumbnail_url
+                stored_profile["thumbnail_source_kind"] = (
+                    _clean_text(item.get("thumbnail_source_kind"), 40)
+                    or "profile"
+                )
+                stored_profile["thumbnail_owner_url"] = (
+                    _safe_thumbnail_url(item.get("thumbnail_owner_url"))
+                    or url
+                )
+            person_group["profiles"].append(stored_profile)
+
+        source_url = str(
+            source.get("requested_url") or source.get("url") or ""
+        ).strip()
+        for person_group in stored_by_person.values():
+            canonical_name = person_group["name"]
+            stored_profiles = person_group["profiles"]
             evidence = [{
                 "url": stored_profiles[0]["url"],
                 "kind": "official_profile",
-                "claim": _clean_text(first.get("reason"), 240)
+                "claim": person_group["reason"]
                 or "元ページ内で本人アカウントとして確認",
             }]
             try:
@@ -756,9 +802,12 @@ def resolve_subject_social_profiles(
             upsert_social_profile_record(site_root, {
                 "canonical_name": canonical_name,
                 "aliases": [canonical_name],
-                "role": role,
+                "role": person_group["role"],
                 "status": "verified",
-                "confidence": 100 if source_url == stored_profiles[0]["url"] else 95,
+                "confidence": max(
+                    person_group["confidence"],
+                    100 if source_url == stored_profiles[0]["url"] else 95,
+                ),
                 "profiles": stored_profiles,
                 "evidence": evidence,
                 "reason": "元ページ内リンクとCodexの主役判定を照合",
@@ -769,7 +818,7 @@ def resolve_subject_social_profiles(
         source["identity_resolution"] = {
             "status": "verified",
             "method": "source_page",
-            "message": "元ページ内の本人アカウントを確認",
+            "message": "元ページ内の本人アカウントを人物別に確認",
         }
         return source
 
@@ -1032,6 +1081,13 @@ def enrich_source_profile_thumbnails(
             thumbnail_owner_url = _safe_thumbnail_url(
                 profile.get("thumbnail_owner_url")
             )
+            if service == "x" and "pbs.twimg.com/profile_banners/" in thumbnail.casefold():
+                thumbnail = ""
+                thumbnail_source_kind = ""
+                thumbnail_owner_url = ""
+                profile.pop("thumbnail_url", None)
+                profile.pop("thumbnail_source_kind", None)
+                profile.pop("thumbnail_owner_url", None)
             if not thumbnail and service == "x" and x_thumbnail:
                 parsed = urlparse(url) if url else None
                 username = (
