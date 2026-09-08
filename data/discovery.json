@@ -94,6 +94,7 @@
     "topics/topic-104cm.html",
     "topics/topic-110186b4822a.html",
     "topics/topic-1102589b2046.html",
+    "topics/topic-11c4c0e59e80.html",
     "topics/topic-15690ba6bf52.html",
     "topics/topic-16288155e65c.html",
     "topics/topic-1647288711c1.html",
@@ -462,7 +463,7 @@
   "counts": {
     "people": 267,
     "works": 213,
-    "topics": 1482
+    "topics": 1483
   },
   "people": [
     {
@@ -4358,6 +4359,10 @@
       "articles": 1
     },
     {
+      "name": "パチンコ店",
+      "articles": 1
+    },
+    {
       "name": "パッケージ",
       "articles": 2
     },
@@ -5783,7 +5788,7 @@
     },
     {
       "name": "大胆衣装",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "天宮花南",
@@ -7567,7 +7572,7 @@
     },
     {
       "name": "胸元",
-      "articles": 31
+      "articles": 32
     },
     {
       "name": "胸出し",
