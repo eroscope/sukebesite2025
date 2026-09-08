@@ -30,6 +30,11 @@ from indanya_desktop.affiliate_opportunities import (  # noqa: E402
 
 COUNT_TITLE = re.compile(r"(?:画像|動画|GIF)\s*\d+\s*(?:枚|本)", re.IGNORECASE)
 VALID_SLUG = re.compile(r"[a-z0-9][a-z0-9-]{1,99}")
+LEGACY_PERSON_CARD = re.compile(
+    r'<aside class="article-destination[^>]*"[^>]*'
+    r'data-link-kind="(?:official_profile|official_content|verified_person_search)"',
+    re.IGNORECASE,
+)
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -347,6 +352,14 @@ def audit_site(site_root: Path) -> dict[str, Any]:
             ):
                 flag("direct_fanza_performer_profiles_unresolved", slug)
 
+    for article_path in sorted((site_root / "articles").glob("*.html")):
+        try:
+            rendered = article_path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        if LEGACY_PERSON_CARD.search(rendered):
+            flag("legacy_person_destination_card", article_path.stem)
+
     critical_prefixes = (
         "invalid_draft_json",
         "quality_blocker:",
@@ -367,6 +380,7 @@ def audit_site(site_root: Path) -> dict[str, Any]:
         "direct_fanza_exact_product_card_count",
         "direct_fanza_inferred_product_card",
         "direct_fanza_missing_performer_works",
+        "legacy_person_destination_card",
     )
     critical = sum(
         count

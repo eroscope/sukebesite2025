@@ -5167,6 +5167,7 @@ def _validate_blocks(
                 "thumbnail_owner_url": thumbnail_owner_url,
                 "placement_label": _optional_text(raw, "placement_label", 60) or "関連ページ",
                 "provider": _optional_text(raw, "provider", 40),
+                "person_name": _optional_text(raw, "person_name", 80),
                 "link_kind": link_kind,
                 "match_evidence": _optional_text(raw, "match_evidence", 300),
                 "match_confidence": max(0, min(100, _safe_int(raw.get("match_confidence")))),
@@ -5525,8 +5526,76 @@ def _render_person_discovery_rail(
         except (TypeError, ValueError):
             return 0
 
+    service_labels = {
+        "x": "X",
+        "instagram": "Instagram",
+        "tiktok": "TikTok",
+        "youtube": "YouTube",
+        "myfans": "MyFans",
+        "fantia": "Fantia",
+        "fanza": "FANZA出演作",
+    }
+
+    def person_key(value: Any) -> str:
+        return re.sub(
+            r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "", str(value or "").casefold()
+        )
+
+    def block_service(block: dict[str, Any]) -> str:
+        provider = str(block.get("provider") or "").casefold()
+        if provider in service_labels:
+            return provider
+        hostname = (urlparse(str(block.get("url") or "")).hostname or "").casefold()
+        if hostname in {"x.com", "www.x.com", "twitter.com", "www.twitter.com"}:
+            return "x"
+        if hostname in {"instagram.com", "www.instagram.com"}:
+            return "instagram"
+        if hostname in {"tiktok.com", "www.tiktok.com", "m.tiktok.com"}:
+            return "tiktok"
+        if hostname in {"youtube.com", "www.youtube.com", "youtu.be"}:
+            return "youtube"
+        if hostname in {"myfans.jp", "www.myfans.jp"}:
+            return "myfans"
+        if hostname in {"fantia.jp", "www.fantia.jp"}:
+            return "fantia"
+        if _is_dmm_fanza_host(hostname) or hostname == "al.dmm.com":
+            return "fanza"
+        return ""
+
+    generic_person_titles = {
+        "本人", "紹介した人物", "記事の人物", "登場人物", "av作品",
+        "公式アカウント", "公式ページ",
+    }
+
+    def name_from_block(block: dict[str, Any], service: str) -> str:
+        explicit = str(block.get("person_name") or "").strip()
+        if explicit:
+            return explicit
+        title = str(block.get("title") or "").strip()
+        suffixes = (
+            "の出演作品一覧", "の出演作品", "のFANZA出演作", "の作品を見る",
+            "のX", "のInstagram", "のTikTok", "のYouTube", "のMyFans",
+            "のFantia", "の公式アカウント", "の公式ページ",
+        )
+        candidate = next(
+            (title[:-len(suffix)].strip() for suffix in suffixes if title.endswith(suffix)),
+            "",
+        )
+        if candidate and candidate.casefold() not in generic_person_titles:
+            return candidate
+        if service != "fanza":
+            parts = [
+                part for part in urlparse(str(block.get("url") or "")).path.split("/")
+                if part
+            ]
+            if parts:
+                handle = parts[0] if service != "youtube" else parts[-1]
+                if handle.casefold() not in {"channel", "user", "c"}:
+                    return handle if handle.startswith("@") else f"@{handle}"
+        return candidate
+
     verified_people = {
-        re.sub(r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "", str(item.get("name") or "").casefold()): item
+        person_key(item.get("name")): item
         for item in payload.get("identified_people") or []
         if isinstance(item, dict)
         and safe_confidence(item.get("confidence")) >= 95
@@ -5536,7 +5605,7 @@ def _render_person_discovery_rail(
         if not isinstance(item, dict) or not str(item.get("name") or "").strip():
             continue
         name = str(item["name"]).strip()
-        key = re.sub(r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "", name.casefold())
+        key = person_key(name)
         verified_people.setdefault(key, {
             "name": name,
             "role": "AV出演者",
@@ -5555,13 +5624,44 @@ def _render_person_discovery_rail(
         if not isinstance(profile, dict) or safe_confidence(profile.get("confidence")) < 95:
             continue
         name = str(profile.get("name") or "").strip()
-        key = re.sub(r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "", name.casefold())
+        key = person_key(name)
         if not key or (key not in title_key and key not in subject_key):
             continue
         verified_people.setdefault(key, {
             "name": name,
             "role": str(profile.get("role") or ""),
             "confidence": safe_confidence(profile.get("confidence")),
+        })
+    profile_owners = {
+        str(profile.get("url") or "").rstrip("/"): profile
+        for profile in payload.get("verified_social_profiles") or []
+        if isinstance(profile, dict) and str(profile.get("url") or "").strip()
+    }
+    for block in blocks:
+        if not isinstance(block, dict) or block.get("type") != "related_link":
+            continue
+        link_kind = str(block.get("link_kind") or "")
+        if link_kind not in {
+            "official_profile", "official_content", "verified_person_search",
+        }:
+            continue
+        service = block_service(block)
+        if not service:
+            continue
+        owner = profile_owners.get(str(block.get("url") or "").rstrip("/")) or {}
+        name = str(owner.get("name") or "").strip() or name_from_block(block, service)
+        key = person_key(name)
+        if not key:
+            continue
+        verified_people.setdefault(key, {
+            "name": name,
+            "role": (
+                str(owner.get("role") or "").strip()
+                or ("AV出演者" if service == "fanza" else "公式アカウント")
+            ),
+            "confidence": safe_confidence(
+                owner.get("confidence") or block.get("match_confidence")
+            ),
         })
     if not verified_people:
         return ""
@@ -5575,21 +5675,12 @@ def _render_person_discovery_rail(
         }
         and str(block.get("url") or "").strip()
     }
-    service_labels = {
-        "x": "X",
-        "instagram": "Instagram",
-        "tiktok": "TikTok",
-        "youtube": "YouTube",
-        "myfans": "MyFans",
-        "fantia": "Fantia",
-        "fanza": "FANZA出演作",
-    }
     grouped: dict[str, dict[str, Any]] = {}
     for profile in payload.get("verified_social_profiles") or []:
         if not isinstance(profile, dict):
             continue
         name = str(profile.get("name") or profile.get("display_name") or "").strip()
-        key = re.sub(r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "", name.casefold())
+        key = person_key(name)
         if key not in verified_people:
             continue
         if (
@@ -5618,25 +5709,31 @@ def _render_person_discovery_rail(
         if (
             not isinstance(block, dict)
             or block.get("type") != "related_link"
-            or block.get("link_kind") != "verified_person_search"
+            or str(block.get("link_kind") or "") not in {
+                "official_profile", "official_content", "verified_person_search",
+            }
         ):
             continue
-        name = str(block.get("person_name") or "").strip()
-        if not name:
-            name = re.sub(
-                r"の出演作品(?:一覧)?$", "", str(block.get("title") or "")
-            ).strip()
-        key = re.sub(r"[^0-9a-zぁ-んァ-ヶ一-龠々ー]", "", name.casefold())
+        service = block_service(block)
+        owner = profile_owners.get(str(block.get("url") or "").rstrip("/")) or {}
+        name = str(owner.get("name") or "").strip() or name_from_block(block, service)
+        key = person_key(name)
         url = str(block.get("url") or "").strip()
-        if key not in verified_people or not url:
+        if service not in service_labels or key not in verified_people or not url:
             continue
         group = grouped.setdefault(key, {
             "name": verified_people[key].get("name") or name,
-            "role": verified_people[key].get("role") or "AV出演者",
+            "role": verified_people[key].get("role") or (
+                "AV出演者" if service == "fanza" else "公式アカウント"
+            ),
             "profiles": [],
             "thumbnail": "",
         })
-        destination = ("fanza", url)
+        if service != "fanza" and not group["thumbnail"]:
+            group["thumbnail"] = _related_thumbnail_source(
+                block, image_map, preview=preview
+            )
+        destination = (service, url)
         if destination not in group["profiles"]:
             group["profiles"].append(destination)
 
@@ -5645,7 +5742,8 @@ def _render_person_discovery_rail(
     for group in grouped.values():
         links = "".join(
             f'<a href="{html.escape(url, quote=True)}" target="_blank" '
-            f'rel="noopener noreferrer">{html.escape(service_labels[service])}</a>'
+            f'rel="{"sponsored " if service == "fanza" else ""}noopener noreferrer">'
+            f'{html.escape(service_labels[service])}</a>'
             for service, url in group["profiles"]
         )
         if not links:

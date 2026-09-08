@@ -627,7 +627,7 @@ class ArticleStudioTests(unittest.TestCase):
         self.assertNotIn("この作品の公式ページ / PR", build.article_html)
         self.assertNotIn('data-pr-id="official-work"', build.article_html)
 
-    def test_tiktoker_profile_is_rendered_as_a_non_pr_official_account(self) -> None:
+    def test_tiktoker_profile_without_identity_metadata_uses_compact_rail(self) -> None:
         payload = make_payload()
         payload["blocks"].insert(2, {
             "id": "creator-tiktok",
@@ -650,11 +650,59 @@ class ArticleStudioTests(unittest.TestCase):
 
         build = article_studio.build_article(payload, self.site_root)
 
-        self.assertIn("本人の公式アカウント", build.article_html)
+        self.assertIn('class="person-discovery-rail"', build.article_html)
+        self.assertIn("<strong>@creator.name</strong>", build.article_html)
         self.assertIn("https://www.tiktok.com/@creator.name", build.article_html)
-        self.assertIn("TikTokで見る", build.article_html)
+        self.assertIn(">TikTok</a>", build.article_html)
         self.assertIn("https://linktr.ee/og/image/creator.jpg", build.article_html)
+        self.assertNotIn('data-link-id="creator-tiktok"', build.article_html)
         self.assertNotIn('data-pr-id="creator-tiktok"', build.article_html)
+
+    def test_person_named_only_on_link_blocks_is_grouped_into_one_card(self) -> None:
+        payload = make_payload()
+        profile_image = "https://pbs.twimg.com/profile_images/person.jpg"
+        destinations = [
+            ("x", "official_profile", "https://x.com/person_name"),
+            (
+                "instagram",
+                "official_profile",
+                "https://www.instagram.com/person_name/",
+            ),
+            (
+                "fanza",
+                "verified_person_search",
+                "https://video.dmm.co.jp/av/list/?actress=12345",
+            ),
+        ]
+        for index, (service, link_kind, url) in enumerate(destinations):
+            block = {
+                "id": f"person-link-{index}",
+                "type": "related_link",
+                "url": url,
+                "title": "人物甲の出演作品" if service == "fanza" else f"人物甲の{service}",
+                "person_name": "人物甲",
+                "provider": service,
+                "link_kind": link_kind,
+                "match_confidence": 96,
+            }
+            if service == "x":
+                block.update({
+                    "thumbnail_url": profile_image,
+                    "thumbnail_source_kind": "profile",
+                    "thumbnail_owner_url": url,
+                })
+            payload["blocks"].append(block)
+
+        build = article_studio.build_article(payload, self.site_root)
+
+        self.assertEqual(1, build.article_html.count('class="person-discovery-card"'))
+        self.assertIn("<strong>人物甲</strong>", build.article_html)
+        self.assertIn(">X</a>", build.article_html)
+        self.assertIn(">Instagram</a>", build.article_html)
+        self.assertIn(">FANZA出演作</a>", build.article_html)
+        self.assertEqual(1, build.article_html.count(profile_image))
+        self.assertNotIn('data-link-kind="official_profile"', build.article_html)
+        self.assertNotIn('data-link-kind="verified_person_search"', build.article_html)
 
     def test_verified_people_are_labeled_below_images_and_grouped_in_one_rail(self) -> None:
         payload = make_payload()
@@ -981,7 +1029,9 @@ class ArticleStudioTests(unittest.TestCase):
         self.assertNotIn("記事内容に合う関連広告枠", build.article_html)
         self.assertNotIn('<div class="side-ad">関連広告枠</div>', build.article_html)
         self.assertIn("記事の題材から選ぶ / PR", build.article_html)
-        self.assertIn("この記事が気に入った人向け", build.article_html)
+        self.assertIn('class="person-discovery-rail"', build.article_html)
+        self.assertIn("<strong>やんやん</strong>", build.article_html)
+        self.assertIn(">X</a>", build.article_html)
         self.assertEqual(1, build.article_html.count("https://x.com/yanyan_cos"))
         self.assertIn('class="side-ad side-ad-link fanza-product-button"', build.article_html)
         self.assertEqual(0, build.article_html.count('class="fanza-product-thumb"'))
