@@ -58,6 +58,7 @@
     "people/person-d32c2ccdd232.html",
     "people/person-d568cffffbee.html",
     "people/person-dd5395be5964.html",
+    "people/person-de92f995f049.html",
     "people/person-df4a10e38d0b.html",
     "people/person-df9cc108d456.html",
     "people/person-e5c60fa51860.html",
@@ -337,6 +338,7 @@
     "topics/topic-c411c94a4696.html",
     "topics/topic-c411f881be34.html",
     "topics/topic-c4d273b77a52.html",
+    "topics/topic-c5273e93ff14.html",
     "topics/topic-c53794778a50.html",
     "topics/topic-c79d6ca8cec1.html",
     "topics/topic-c85a37f5a170.html",
@@ -457,7 +459,7 @@
   "counts": {
     "people": 266,
     "works": 212,
-    "topics": 1470
+    "topics": 1471
   },
   "people": [
     {
@@ -582,7 +584,7 @@
     },
     {
       "name": "ベッド",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ポートレート",
@@ -4206,7 +4208,7 @@
     },
     {
       "name": "ヌード",
-      "articles": 35
+      "articles": 36
     },
     {
       "name": "ヌードルストッパー",
@@ -6005,6 +6007,10 @@
       "articles": 1
     },
     {
+      "name": "屋外",
+      "articles": 1
+    },
+    {
       "name": "屋外ロケ",
       "articles": 1
     },
@@ -7002,7 +7008,7 @@
     },
     {
       "name": "画像集",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "画像＋動画",
@@ -7706,7 +7712,7 @@
     },
     {
       "name": "裸身",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "複数プレイ",
