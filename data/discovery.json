@@ -461,7 +461,7 @@
   ],
   "counts": {
     "people": 267,
-    "works": 212,
+    "works": 213,
     "topics": 1477
   },
   "people": [
@@ -1211,7 +1211,7 @@
     },
     {
       "name": "瀬戸環奈",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "無無田",
@@ -2284,6 +2284,10 @@
       "articles": 1
     },
     {
+      "code": "SNOS-334",
+      "articles": 1
+    },
+    {
       "code": "SNOS-371",
       "articles": 1
     },
@@ -2967,7 +2971,7 @@
     },
     {
       "name": "S1",
-      "articles": 22
+      "articles": 23
     },
     {
       "name": "S1 GIRLS COLLECTION",
@@ -3979,7 +3983,7 @@
     },
     {
       "name": "スーツ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "スーパーリアル麻雀",
@@ -4555,7 +4559,7 @@
     },
     {
       "name": "ベッドシーン",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "ベッド上",
@@ -4591,7 +4595,7 @@
     },
     {
       "name": "ホテル",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "ホラー",
