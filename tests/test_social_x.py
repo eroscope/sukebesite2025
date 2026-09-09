@@ -23,6 +23,7 @@ from indanya_desktop.social_x import (
     _learn_x_growth_accounts,
     _reply_solicitation_text_allowed,
     _reply_has_traffic,
+    _reply_recruitment_active,
     _reply_traffic_score,
     _simple_article_post_text,
     _trend_text_allowed,
@@ -339,6 +340,25 @@ class SocialXTests(unittest.TestCase):
         message = _x_pacing_error(settings, rows, now)
 
         self.assertIn("90分以上", message)
+
+    def test_high_traffic_recruitment_remains_active_for_seven_days(self) -> None:
+        settings = load_x_settings(self.root)
+
+        self.assertTrue(_reply_recruitment_active(
+            97.2,
+            {"views": 82_271, "likes": 905, "replies": 12},
+            settings,
+        ))
+        self.assertFalse(_reply_recruitment_active(
+            97.2,
+            {"views": 8_000, "likes": 40, "replies": 2},
+            settings,
+        ))
+        self.assertFalse(_reply_recruitment_active(
+            200,
+            {"views": 800_000, "likes": 9_000, "replies": 500},
+            settings,
+        ))
 
     def test_draft_media_prefers_video_over_images(self) -> None:
         payload = {

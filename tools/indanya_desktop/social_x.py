@@ -61,6 +61,10 @@ DEFAULT_X_SETTINGS: dict[str, Any] = {
     "reply_auto_prepare_enabled": True,
     "reply_min_interval_minutes": 360,
     "reply_target_max_age_hours": 72,
+    "reply_evergreen_max_age_hours": 168,
+    "reply_evergreen_min_views": 50_000,
+    "reply_evergreen_min_likes": 500,
+    "reply_evergreen_min_replies": 10,
     "reply_account_cooldown_days": 30,
     "reply_link_rate_percent": 100,
     "reply_default_media_mode": "original",
@@ -311,6 +315,22 @@ def load_x_settings(site_root: Path) -> dict[str, Any]:
     result["reply_target_max_age_hours"] = max(
         24,
         min(168, int(result.get("reply_target_max_age_hours") or 72)),
+    )
+    result["reply_evergreen_max_age_hours"] = max(
+        result["reply_target_max_age_hours"],
+        min(336, int(result.get("reply_evergreen_max_age_hours") or 168)),
+    )
+    result["reply_evergreen_min_views"] = max(
+        10_000,
+        min(10_000_000, int(result.get("reply_evergreen_min_views") or 50_000)),
+    )
+    result["reply_evergreen_min_likes"] = max(
+        100,
+        min(1_000_000, int(result.get("reply_evergreen_min_likes") or 500)),
+    )
+    result["reply_evergreen_min_replies"] = max(
+        3,
+        min(100_000, int(result.get("reply_evergreen_min_replies") or 10)),
     )
     result["reply_account_cooldown_days"] = max(
         1,
@@ -1202,6 +1222,28 @@ def _reply_has_traffic(item: dict[str, Any], settings: dict[str, Any]) -> bool:
     )
 
 
+def _reply_recruitment_active(
+    age_hours: float,
+    metrics: dict[str, Any],
+    settings: dict[str, Any],
+) -> bool:
+    """Keep a proven recruitment post usable after the ordinary freshness window."""
+    if age_hours <= int(settings["reply_target_max_age_hours"]):
+        return True
+    if age_hours > int(settings["reply_evergreen_max_age_hours"]):
+        return False
+    views = max(0, int(metrics.get("views") or 0))
+    likes = max(0, int(metrics.get("likes") or 0))
+    replies = max(0, int(metrics.get("replies") or 0))
+    return bool(
+        views >= int(settings["reply_evergreen_min_views"])
+        and (
+            likes >= int(settings["reply_evergreen_min_likes"])
+            or replies >= int(settings["reply_evergreen_min_replies"])
+        )
+    )
+
+
 def _trend_text_allowed(text: str) -> bool:
     lowered = str(text or "").casefold()
     if len(lowered.strip()) < 8:
@@ -1407,9 +1449,6 @@ def _contest_sample(
         return None
     if age_hours < -1:
         return None
-    maximum_age = int(settings["reply_target_max_age_hours"])
-    if age_hours > maximum_age and not allow_historical:
-        return None
     handle = x_reply_target_handle(url)
     if handle == str(settings.get("account_handle") or "").casefold():
         return None
@@ -1421,10 +1460,7 @@ def _contest_sample(
         else "images" if any(value in lowered for value in ("画像", "写真")) and "動画" not in lowered
         else "any"
     )
-    return {
-        "url": canonical_x_status_url(url),
-        "topic": re.sub(r"\s+", " ", text)[:180],
-        "requested_media": requested_media,
+    metrics = {
         "likes": _locator_metric(tweet, '[data-testid="like"], [data-testid="unlike"]'),
         "reposts": _locator_metric(tweet, '[data-testid="retweet"], [data-testid="unretweet"]'),
         "replies": _locator_metric(tweet, '[data-testid="reply"]'),
@@ -1432,9 +1468,22 @@ def _contest_sample(
             tweet,
             'a[href$="/analytics"], a[aria-label*="view" i], a[aria-label*="表示"]',
         ),
+    }
+    active_for_reply = _reply_recruitment_active(age_hours, metrics, settings)
+    if not active_for_reply and not allow_historical:
+        return None
+    return {
+        "url": canonical_x_status_url(url),
+        "topic": re.sub(r"\s+", " ", text)[:180],
+        "requested_media": requested_media,
+        **metrics,
         "target_handle": handle,
         "target_age_hours": round(age_hours, 1),
-        "active_for_reply": age_hours <= maximum_age,
+        "active_for_reply": active_for_reply,
+        "evergreen_recruitment": (
+            active_for_reply
+            and age_hours > int(settings["reply_target_max_age_hours"])
+        ),
         "opt_in_confirmed": True,
     }
 
@@ -2016,10 +2065,23 @@ def score_x_reply_candidate(
         created_at = _x_status_created_at(target_url)
         age_hours = (current - created_at).total_seconds() / 3600
         maximum_age = int(settings["reply_target_max_age_hours"])
+        target_metrics = (
+            dict(row.get("reply_target_metrics") or {})
+            if isinstance(row.get("reply_target_metrics"), dict)
+            else {}
+        )
+        recruitment_active = _reply_recruitment_active(
+            age_hours,
+            target_metrics,
+            settings,
+        )
         if age_hours < -1:
             blockers.append("返信先URLの投稿日時を確認できません")
-        elif age_hours > maximum_age:
+        elif not recruitment_active:
             blockers.append(f"募集が{maximum_age}時間より古いです")
+        elif age_hours > maximum_age:
+            score += 10
+            reasons.append("高表示が続く7日以内の募集")
         elif age_hours <= 12:
             score += 20
             reasons.append("12時間以内の新しい募集")
