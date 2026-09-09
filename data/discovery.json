@@ -51,6 +51,7 @@
     "people/person-bf2038bd812f.html",
     "people/person-c3e5fc6f482e.html",
     "people/person-c6f16d119136.html",
+    "people/person-caa07f8734ff.html",
     "people/person-cbe1ad461cc6.html",
     "people/person-cea65373350d.html",
     "people/person-d2b9c6056a6b.html",
@@ -462,11 +463,15 @@
     "works.html"
   ],
   "counts": {
-    "people": 267,
-    "works": 213,
+    "people": 270,
+    "works": 214,
     "topics": 1487
   },
   "people": [
+    {
+      "name": "あがりえひかり",
+      "articles": 1
+    },
     {
       "name": "あきばもも",
       "articles": 1
@@ -493,7 +498,7 @@
     },
     {
       "name": "さくらみな",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "さくらわかな",
@@ -1324,6 +1329,10 @@
       "articles": 2
     },
     {
+      "name": "篠原なぎさ",
+      "articles": 1
+    },
+    {
       "name": "篠宮なほ",
       "articles": 1
     },
@@ -1346,6 +1355,10 @@
     {
       "name": "紫堂るい",
       "articles": 2
+    },
+    {
+      "name": "紫月ゆかり",
+      "articles": 1
     },
     {
       "name": "紹介文",
@@ -1879,6 +1892,10 @@
     },
     {
       "code": "IPZZ-987",
+      "articles": 1
+    },
+    {
+      "code": "JBMD-160",
       "articles": 1
     },
     {
@@ -3453,7 +3470,7 @@
     },
     {
       "name": "イメージビデオ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "イラスト",
@@ -4293,7 +4310,7 @@
     },
     {
       "name": "ハーレム",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "バイブ拘束",
@@ -4417,7 +4434,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 39
+      "articles": 40
     },
     {
       "name": "ビビアン",
@@ -5813,7 +5830,7 @@
     },
     {
       "name": "女上司",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "女主人公",
@@ -6017,7 +6034,7 @@
     },
     {
       "name": "寝室",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "寮母",
@@ -6709,7 +6726,7 @@
     },
     {
       "name": "水着",
-      "articles": 112
+      "articles": 113
     },
     {
       "name": "水着グラビア",
@@ -7053,7 +7070,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 74
+      "articles": 75
     },
     {
       "name": "画像ギャラリー",
@@ -7781,7 +7798,7 @@
     },
     {
       "name": "裸体",
-      "articles": 38
+      "articles": 39
     },
     {
       "name": "裸身",
