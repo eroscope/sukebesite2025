@@ -482,7 +482,7 @@
   "counts": {
     "people": 276,
     "works": 220,
-    "topics": 1518
+    "topics": 1520
   },
   "people": [
     {
@@ -5683,7 +5683,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "十味",
@@ -6366,6 +6366,10 @@
       "articles": 2
     },
     {
+      "name": "性癖談義",
+      "articles": 1
+    },
+    {
       "name": "性行為",
       "articles": 4
     },
@@ -6819,6 +6823,10 @@
     },
     {
       "name": "椎名心春",
+      "articles": 1
+    },
+    {
+      "name": "検索ワード",
       "articles": 1
     },
     {
