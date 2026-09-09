@@ -171,6 +171,7 @@
     "topics/topic-4464f1058733.html",
     "topics/topic-459503174895.html",
     "topics/topic-45cec0322496.html",
+    "topics/topic-468a17f22ed9.html",
     "topics/topic-473c318725f8.html",
     "topics/topic-48313ee94b4d.html",
     "topics/topic-4a3fad303d05.html",
@@ -226,6 +227,7 @@
     "topics/topic-710b57e0cad1.html",
     "topics/topic-71d84a4e08e8.html",
     "topics/topic-73773dcb8f71.html",
+    "topics/topic-73ef55f7fae4.html",
     "topics/topic-7617e3b447bc.html",
     "topics/topic-76faf7bb7608.html",
     "topics/topic-771bd1d57220.html",
@@ -382,7 +384,9 @@
     "topics/topic-dedcb64739e6.html",
     "topics/topic-deff1678ad25.html",
     "topics/topic-dlsite.html",
+    "topics/topic-duga.html",
     "topics/topic-dvd.html",
+    "topics/topic-e-body.html",
     "topics/topic-e042c2ead2f0.html",
     "topics/topic-e16d9671dc56.html",
     "topics/topic-e18b1ea15d9c.html",
@@ -427,6 +431,7 @@
     "topics/topic-fb9d4a0a9dcb.html",
     "topics/topic-fc917e94f5f9.html",
     "topics/topic-fe643b80ac5c.html",
+    "topics/topic-ff3aea7d4828.html",
     "topics/topic-ffc18ca99215.html",
     "topics/topic-fitch.html",
     "topics/topic-flash.html",
@@ -436,6 +441,7 @@
     "topics/topic-i-mew.html",
     "topics/topic-ideapocket.html",
     "topics/topic-instagram.html",
+    "topics/topic-julia.html",
     "topics/topic-kawaii.html",
     "topics/topic-madonna.html",
     "topics/topic-madonnavr.html",
@@ -450,8 +456,10 @@
     "topics/topic-ol.html",
     "topics/topic-oppai.html",
     "topics/topic-premium.html",
+    "topics/topic-rookie.html",
     "topics/topic-s1-no-1-style.html",
     "topics/topic-s1.html",
+    "topics/topic-sod.html",
     "topics/topic-sod.html",
     "topics/topic-sod.html",
     "topics/topic-sodstar.html",
@@ -465,9 +473,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 270,
-    "works": 214,
-    "topics": 1489
+    "people": 271,
+    "works": 217,
+    "topics": 1498
   },
   "people": [
     {
@@ -604,10 +612,6 @@
     },
     {
       "name": "マリア・バレンタイン",
-      "articles": 1
-    },
-    {
-      "name": "ミス中央大学",
       "articles": 1
     },
     {
@@ -759,6 +763,10 @@
       "articles": 1
     },
     {
+      "name": "加藤愛梨",
+      "articles": 1
+    },
+    {
       "name": "北岡果林",
       "articles": 1
     },
@@ -876,6 +884,10 @@
     },
     {
       "name": "小松空",
+      "articles": 1
+    },
+    {
+      "name": "小松詩乃",
       "articles": 1
     },
     {
@@ -1861,6 +1873,10 @@
       "articles": 1
     },
     {
+      "code": "IPZZ-806",
+      "articles": 1
+    },
+    {
       "code": "IPZZ-826",
       "articles": 1
     },
@@ -2173,6 +2189,10 @@
       "articles": 1
     },
     {
+      "code": "OPDA-001",
+      "articles": 1
+    },
+    {
       "code": "PPPE-404",
       "articles": 1
     },
@@ -2202,6 +2222,10 @@
     },
     {
       "code": "PXVR-433",
+      "articles": 1
+    },
+    {
+      "code": "RKI-178",
       "articles": 1
     },
     {
@@ -2416,6 +2440,14 @@
     },
     {
       "name": "12タイトル12時間",
+      "articles": 1
+    },
+    {
+      "name": "161作品",
+      "articles": 1
+    },
+    {
+      "name": "16時間",
       "articles": 1
     },
     {
@@ -2704,7 +2736,7 @@
     },
     {
       "name": "DUGA",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "DVD",
@@ -2716,7 +2748,7 @@
     },
     {
       "name": "E-BODY",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "FALENO",
@@ -2825,6 +2857,10 @@
     {
       "name": "Iカップ人妻",
       "articles": 1
+    },
+    {
+      "name": "JULIA",
+      "articles": 2
     },
     {
       "name": "Jカップ",
@@ -2979,6 +3015,10 @@
       "articles": 1
     },
     {
+      "name": "ROOKIE",
+      "articles": 2
+    },
+    {
       "name": "ROYAL",
       "articles": 1
     },
@@ -3032,7 +3072,7 @@
     },
     {
       "name": "SODクリエイト",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "SOD女子社員",
@@ -3396,7 +3436,7 @@
     },
     {
       "name": "アイデアポケット",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "アイドルマスター",
@@ -3472,7 +3512,7 @@
     },
     {
       "name": "イメージビデオ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "イラスト",
@@ -3831,6 +3871,10 @@
       "articles": 1
     },
     {
+      "name": "コマラセタイ",
+      "articles": 1
+    },
+    {
       "name": "コミケ",
       "articles": 5
     },
@@ -4056,7 +4100,7 @@
     },
     {
       "name": "セーラー服",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "セーラー服風",
@@ -4388,7 +4432,7 @@
     },
     {
       "name": "パッケージ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "パッケージ画像",
@@ -4585,6 +4629,10 @@
     {
       "name": "ベスト盤",
       "articles": 1
+    },
+    {
+      "name": "ベスト総集編",
+      "articles": 2
     },
     {
       "name": "ベッド",
@@ -4844,6 +4892,10 @@
     },
     {
       "name": "ラブホ",
+      "articles": 1
+    },
+    {
+      "name": "ラブホテル",
       "articles": 1
     },
     {
@@ -5187,6 +5239,10 @@
       "articles": 1
     },
     {
+      "name": "企画物",
+      "articles": 1
+    },
+    {
       "name": "伊藤舞雪",
       "articles": 1
     },
@@ -5355,6 +5411,10 @@
       "articles": 1
     },
     {
+      "name": "先生と生徒",
+      "articles": 1
+    },
+    {
       "name": "入浴",
       "articles": 3
     },
@@ -5464,7 +5524,7 @@
     },
     {
       "name": "制服",
-      "articles": 24
+      "articles": 25
     },
     {
       "name": "制服衣装",
@@ -5732,7 +5792,7 @@
     },
     {
       "name": "堀北桃愛",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "堀未央奈",
@@ -6116,7 +6176,7 @@
     },
     {
       "name": "巨乳",
-      "articles": 70
+      "articles": 71
     },
     {
       "name": "巨尻",
@@ -6484,7 +6544,7 @@
     },
     {
       "name": "時間停止",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "暑さ対策",
@@ -6728,7 +6788,7 @@
     },
     {
       "name": "水着",
-      "articles": 113
+      "articles": 114
     },
     {
       "name": "水着グラビア",
@@ -7456,7 +7516,7 @@
     },
     {
       "name": "総集編",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "縄跳び",
