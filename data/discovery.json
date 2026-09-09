@@ -114,6 +114,7 @@
     "topics/topic-1f46d17641e4.html",
     "topics/topic-1f65bfa6c12b.html",
     "topics/topic-1fdbd8b413bd.html",
+    "topics/topic-1fe8558fd940.html",
     "topics/topic-20.html",
     "topics/topic-202e70a44f7a.html",
     "topics/topic-214f1d402588.html",
@@ -466,7 +467,7 @@
   "counts": {
     "people": 270,
     "works": 214,
-    "topics": 1487
+    "topics": 1489
   },
   "people": [
     {
@@ -4139,7 +4140,7 @@
     },
     {
       "name": "チアリーダー",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "チャイナドレス",
@@ -7603,7 +7604,7 @@
     },
     {
       "name": "胸元",
-      "articles": 32
+      "articles": 33
     },
     {
       "name": "胸出し",
@@ -7954,6 +7955,10 @@
       "articles": 1
     },
     {
+      "name": "透け衣装",
+      "articles": 1
+    },
+    {
       "name": "透け襦袢",
       "articles": 1
     },
@@ -8011,6 +8016,10 @@
     },
     {
       "name": "野球企画",
+      "articles": 1
+    },
+    {
+      "name": "野球場",
       "articles": 1
     },
     {
