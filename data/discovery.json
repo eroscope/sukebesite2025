@@ -421,6 +421,7 @@
     "topics/topic-f688a71a55d5.html",
     "topics/topic-f6d4b64ad1d4.html",
     "topics/topic-f713282a59b5.html",
+    "topics/topic-f74a9e431b06.html",
     "topics/topic-f7e9cf65c854.html",
     "topics/topic-f7f4f3529b7b.html",
     "topics/topic-f8d4c83a4941.html",
@@ -474,8 +475,8 @@
   ],
   "counts": {
     "people": 271,
-    "works": 217,
-    "topics": 1499
+    "works": 218,
+    "topics": 1500
   },
   "people": [
     {
@@ -1657,6 +1658,10 @@
       "articles": 1
     },
     {
+      "code": "BBSS-084",
+      "articles": 1
+    },
+    {
       "code": "BIGC-007",
       "articles": 1
     },
@@ -2700,6 +2705,10 @@
     },
     {
       "name": "BEST",
+      "articles": 1
+    },
+    {
+      "name": "BEST作品",
       "articles": 1
     },
     {
@@ -4436,7 +4445,7 @@
     },
     {
       "name": "パッケージ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "パッケージ画像",
@@ -4488,7 +4497,7 @@
     },
     {
       "name": "ビビアン",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ビフォーアフター",
@@ -4964,7 +4973,7 @@
     },
     {
       "name": "レズビアン",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "レポート",
