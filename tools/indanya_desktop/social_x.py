@@ -2950,7 +2950,9 @@ def _x_pacing_error(
         ignore_post_id=ignore_post_id,
         account_handle=str(settings.get("account_handle") or ""),
     )
-    daily_limit = int(settings.get("global_daily_action_limit") or 2)
+    daily_limit = int(settings.get("global_daily_action_limit", 2))
+    if daily_limit <= 0:
+        return "アカウント診断によりXへの送信を一時停止しています"
     same_day = [value for value in actions if value.date() == proposed.date()]
     if len(same_day) >= daily_limit:
         return f"通常投稿と返信を合わせた1日の上限{daily_limit}件に達しています"
@@ -3011,7 +3013,7 @@ def _bulk_slots(
             value for value in (_as_jst(item) for item in result) if value is not None
         ]
         day_actions = [value for value in action_times if value.date() == target_day]
-        global_limit = int(settings.get("global_daily_action_limit") or 2)
+        global_limit = int(settings.get("global_daily_action_limit", 2))
         capacity = min(
             max(0, daily_limit - len(reserved)),
             max(0, global_limit - len(day_actions)),

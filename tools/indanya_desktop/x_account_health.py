@@ -5,9 +5,7 @@ import re
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Callable
-from urllib.error import HTTPError, URLError
 from urllib.parse import quote
-from urllib.request import Request, urlopen
 
 from playwright.sync_api import sync_playwright
 
@@ -20,9 +18,9 @@ from indanya_desktop.browser_capture import (
 
 
 ProgressCallback = Callable[[int, str], None]
-SHADOWBAN_CHECKER_URL = (
-    "https://socialcal-media-proxy.jan-orsula1.workers.dev/twitter-shadowban"
-)
+SHADOWBAN_CHECKER_URL = "https://x-shadowban-checker.fia-s.com/"
+SHADOWBAN_CHECK_API_SUFFIX = "/api/check-by-user"
+POST_DELIVERY_CHECK_DELAY_MINUTES = 10
 _ACCOUNT_WARNING_MARKERS = (
     "account is suspended",
     "account suspended",
@@ -106,6 +104,7 @@ def load_x_health_state(
         "recovery_streak": max(0, int(raw.get("recovery_streak") or 0)),
         "last_checked_at": str(raw.get("last_checked_at") or ""),
         "next_check_at": str(raw.get("next_check_at") or ""),
+        "trigger_reason": str(raw.get("trigger_reason") or ""),
         "last_error": str(raw.get("last_error") or ""),
         "external": dict(raw.get("external") or {}),
         "first_party": dict(raw.get("first_party") or {}),
@@ -218,13 +217,64 @@ def x_health_schedule_status(
     last_checked = _as_jst(state.get("last_checked_at"))
     next_at = last_checked + timedelta(hours=interval) if last_checked else current
     enabled = bool(settings.get("health_check_enabled", True))
+    latest_delivery = _latest_unchecked_delivery(
+        site_root,
+        state.get("account_handle"),
+        last_checked,
+        current,
+    )
+    interval_due = current >= next_at
+    post_due = latest_delivery is not None
     return {
         **state,
         "enabled": enabled,
-        "due": bool(enabled and current >= next_at),
+        "due": bool(enabled and (interval_due or post_due)),
+        "due_reason": (
+            "post_delivery" if post_due else ("interval" if interval_due else "")
+        ),
+        "latest_unchecked_delivery_at": (
+            latest_delivery.isoformat(timespec="seconds") if latest_delivery else ""
+        ),
         "next_at": next_at.isoformat(timespec="seconds"),
         "interval_hours": interval,
     }
+
+
+def _latest_unchecked_delivery(
+    site_root: Path,
+    account_handle: Any,
+    last_checked: datetime | None,
+    now: datetime,
+) -> datetime | None:
+    """Return a delivered post that is old enough for the checker to observe."""
+    handle = _clean_handle(account_handle)
+    cutoff = now - timedelta(minutes=POST_DELIVERY_CHECK_DELAY_MINUTES)
+    rows = _read_json(_root(site_root) / "x-posting-queue.json", [])
+    rows = rows if isinstance(rows, list) else []
+    latest: datetime | None = None
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        owner = _clean_handle(row.get("account_handle"))
+        if handle and owner and owner != handle:
+            continue
+        if str(row.get("status") or "") not in {"posted", "scheduled"}:
+            continue
+        delivered = next(
+            (
+                parsed
+                for key in ("reply_completed_at", "posted_at", "scheduled_for")
+                if (parsed := _as_jst(row.get(key))) is not None
+            ),
+            None,
+        )
+        if delivered is None or delivered > cutoff:
+            continue
+        if last_checked is not None and delivered <= last_checked:
+            continue
+        if latest is None or delivered > latest:
+            latest = delivered
+    return latest
 
 
 def _metric_number(value: Any) -> int:
@@ -347,38 +397,162 @@ def _first_party_visibility(handle: str) -> dict[str, Any]:
             context.close()
 
 
-def _external_shadowban_check(handle: str) -> dict[str, Any]:
-    payload = json.dumps({"handle": handle}).encode("utf-8")
-    request = Request(
-        SHADOWBAN_CHECKER_URL,
-        data=payload,
-        headers={
-            "Content-Type": "application/json",
-            "User-Agent": "IndanyaStudio/1.0 account-health-monitor",
-        },
-        method="POST",
+def _parse_fia_checker_payload(payload: Any) -> dict[str, Any]:
+    result = payload if isinstance(payload, dict) else {}
+    api_status = result.get("api_status") or {}
+    rate_limited = any(
+        bool(group.get("rate_limit"))
+        for group in api_status.values()
+        if isinstance(group, dict)
+    ) if isinstance(api_status, dict) else False
+    unavailable = bool(
+        result.get("not_found")
+        or result.get("suspend")
+        or result.get("protect")
+        or result.get("no_tweet")
+        or rate_limited
     )
-    try:
-        with urlopen(request, timeout=30) as response:
-            result = json.loads(response.read().decode("utf-8", errors="replace"))
-    except (HTTPError, URLError, TimeoutError, json.JSONDecodeError) as exc:
-        return {"status": "unknown", "error": str(exc)[:300], "checks": {}}
+    source_fields = {
+        "search_suggestion": "search_suggestion_ban",
+        "search": "search_ban",
+        "ghost": "ghost_ban",
+        "reply_deboost": "reply_deboosting",
+    }
     checks: dict[str, str] = {}
-    for key, value in dict(result.get("checks") or {}).items():
-        raw_status = value.get("status") if isinstance(value, dict) else value
-        status = str(raw_status or "unknown").casefold()
-        checks[str(key)] = status if status in {"ok", "banned", "unknown"} else "unknown"
+    for name, field in source_fields.items():
+        raw = result.get(field)
+        if unavailable or not isinstance(raw, bool):
+            checks[name] = "unknown"
+        else:
+            checks[name] = "banned" if raw else "ok"
+
+    tweets: list[dict[str, str]] = []
+    for item in result.get("tweets") or []:
+        if not isinstance(item, dict):
+            continue
+        status = str(item.get("status") or "ERROR").upper()
+        if status not in {
+            "AVAILABLE",
+            "FORBIDDEN",
+            "QUOTE_FORBIDDEN",
+            "QUATE_FORBIDDEN",
+            "ERROR",
+        }:
+            status = "ERROR"
+        tweets.append({
+            "url": str(item.get("url") or "")[:300],
+            "status": status,
+            "type": str(item.get("type") or "POST").upper()[:20],
+        })
+    original_posts = [item for item in tweets if item["type"] == "POST"]
+    postban_forbidden = sum(
+        1
+        for item in original_posts
+        if item["status"] in {"FORBIDDEN", "QUOTE_FORBIDDEN", "QUATE_FORBIDDEN"}
+    )
+    postban_verified = sum(
+        1
+        for item in original_posts
+        if item["status"] in {"AVAILABLE", "FORBIDDEN", "QUATE_FORBIDDEN"}
+    )
     banned = sorted(key for key, value in checks.items() if value == "banned")
     verified = sum(1 for value in checks.values() if value in {"ok", "banned"})
+    error = ""
+    if rate_limited:
+        error = "Shadowban Checker F の利用制限に達しました"
+    elif unavailable:
+        error = "Shadowban Checker F でアカウント状態を判定できませんでした"
     return {
+        "source": "Shadowban Checker F",
+        "source_url": SHADOWBAN_CHECKER_URL,
         "status": "banned" if banned else ("clean" if verified else "unknown"),
         "checks": checks,
         "banned_signals": banned,
         "verified_signals": verified,
-        "checked_at": str(result.get("checkedAt") or ""),
-        "cached": bool(result.get("cached", False)),
-        "error": str(result.get("error") or "")[:300],
+        "postban_checked": postban_verified,
+        "postban_forbidden": postban_forbidden,
+        "postban_forbidden_ratio": (
+            round(postban_forbidden / postban_verified, 3) if postban_verified else None
+        ),
+        "tweets": tweets[:20],
+        "rate_limited": rate_limited,
+        "error": error,
     }
+
+
+def _external_shadowban_check(handle: str) -> dict[str, Any]:
+    if not handle:
+        return {
+            "source": "Shadowban Checker F",
+            "source_url": SHADOWBAN_CHECKER_URL,
+            "status": "unknown",
+            "checks": {},
+            "banned_signals": [],
+            "verified_signals": 0,
+            "error": "Xアカウント名が設定されていません",
+        }
+    captured: dict[str, Any] = {}
+    browser = None
+    try:
+        with sync_playwright() as playwright:
+            browser = playwright.chromium.launch(
+                channel="chrome",
+                headless=True,
+                args=["--disable-blink-features=AutomationControlled"],
+            )
+            context = browser.new_context(locale="ja-JP")
+
+            def route_request(route: Any) -> None:
+                request = route.request
+                url = request.url.casefold()
+                blocked_host = any(value in url for value in (
+                    "googlesyndication.com",
+                    "google-analytics.com",
+                    "doubleclick.net",
+                    "adtrafficquality.google",
+                    "widget-view.dmm.com",
+                    "a8.net",
+                ))
+                if request.resource_type in {"image", "media", "font"} or blocked_host:
+                    route.abort()
+                else:
+                    route.continue_()
+
+            context.route("**/*", route_request)
+            page = context.new_page()
+            page.goto(
+                SHADOWBAN_CHECKER_URL,
+                wait_until="domcontentloaded",
+                timeout=60_000,
+            )
+            field = page.locator("input").first
+            field.wait_for(state="visible", timeout=30_000)
+            field.fill(handle)
+            with page.expect_response(
+                lambda response: response.url.endswith(SHADOWBAN_CHECK_API_SUFFIX),
+                timeout=60_000,
+            ) as response_info:
+                field.press("Enter")
+            captured = response_info.value.json()
+            context.close()
+            browser.close()
+            browser = None
+    except Exception as exc:
+        if browser is not None:
+            try:
+                browser.close()
+            except Exception:
+                pass
+        return {
+            "source": "Shadowban Checker F",
+            "source_url": SHADOWBAN_CHECKER_URL,
+            "status": "unknown",
+            "checks": {},
+            "banned_signals": [],
+            "verified_signals": 0,
+            "error": str(exc)[:500],
+        }
+    return _parse_fia_checker_payload(captured)
 
 
 def _activity_snapshot(site_root: Path, handle: str, now: datetime) -> dict[str, Any]:
@@ -451,12 +625,22 @@ def _classify_health(
 ) -> str:
     if external.get("banned_signals") or first_party.get("account_warning"):
         return "restricted"
+    postban_checked = int(external.get("postban_checked") or 0)
+    postban_ratio = external.get("postban_forbidden_ratio")
+    if (
+        postban_checked >= 3
+        and postban_ratio is not None
+        and float(postban_ratio) >= 0.5
+    ):
+        return "restricted"
     if not first_party.get("profile_accessible", False):
         return "restricted"
     profile_count = int(first_party.get("profile_post_count") or 0)
     search_available = bool(first_party.get("search_available", False))
     ratio = first_party.get("search_ratio")
     if profile_count >= 2 and search_available and ratio is not None and float(ratio) < 0.5:
+        return "caution"
+    if int(external.get("postban_forbidden") or 0) > 0:
         return "caution"
     if profile_count and (not search_available or ratio is None):
         return "unknown"
@@ -465,10 +649,27 @@ def _classify_health(
     return "unknown"
 
 
-def _infer_causes(activity: dict[str, Any], classification: str) -> list[str]:
+def _infer_causes(
+    activity: dict[str, Any],
+    classification: str,
+    external: dict[str, Any] | None = None,
+) -> list[str]:
     if classification not in {"caution", "restricted"}:
         return []
     causes: list[str] = []
+    labels = {
+        "search_suggestion": "Search Suggestion Ban検出",
+        "search": "Search Ban検出",
+        "ghost": "Ghost Ban検出",
+        "reply_deboost": "Reply Deboosting検出",
+    }
+    external = external or {}
+    for signal in external.get("banned_signals") or []:
+        causes.append(labels.get(str(signal), f"{signal}検出"))
+    postban_forbidden = int(external.get("postban_forbidden") or 0)
+    postban_checked = int(external.get("postban_checked") or 0)
+    if postban_forbidden:
+        causes.append(f"直近ポストの検索除外 {postban_forbidden}/{postban_checked}件")
     if float(activity.get("duplicate_text_ratio") or 0) >= 0.25:
         causes.append("似た文面の重複")
     if int(activity.get("replies_24h") or 0) >= 2:
@@ -480,14 +681,19 @@ def _infer_causes(activity: dict[str, Any], classification: str) -> list[str]:
     return causes or ["検索表示または投稿内容の品質判定"]
 
 
-def _transition_state(previous: dict[str, Any], classification: str) -> dict[str, int]:
+def _transition_state(
+    previous: dict[str, Any],
+    classification: str,
+    *,
+    hard_restriction: bool = False,
+) -> dict[str, int]:
     risk = max(0, min(3, int(previous.get("risk_level") or 0)))
     healthy = int(previous.get("healthy_streak") or 0)
     caution = int(previous.get("caution_streak") or 0)
     recovery = int(previous.get("recovery_streak") or 0)
     if classification == "restricted":
         return {
-            "risk_level": min(3, max(2, risk + 1)),
+            "risk_level": 3 if hard_restriction else min(3, max(2, risk + 1)),
             "healthy_streak": 0,
             "caution_streak": caution + 1,
             "recovery_streak": 0,
@@ -557,8 +763,17 @@ def run_due_x_health_check(
     progress(75, "X内のプロフィールと検索表示を照合しました")
     activity = _activity_snapshot(site_root, handle, current)
     classification = _classify_health(external, first_party)
-    transition = _transition_state(previous, classification)
-    causes = _infer_causes(activity, classification)
+    hard_restriction = bool(external.get("banned_signals")) or bool(
+        int(external.get("postban_checked") or 0) >= 3
+        and external.get("postban_forbidden_ratio") is not None
+        and float(external.get("postban_forbidden_ratio") or 0) >= 0.5
+    )
+    transition = _transition_state(
+        previous,
+        classification,
+        hard_restriction=hard_restriction,
+    )
+    causes = _infer_causes(activity, classification, external)
     interval = max(12, min(48, int(settings.get("health_check_interval_hours") or 12)))
     checked_at = current.isoformat(timespec="seconds")
     state = {
@@ -569,6 +784,7 @@ def run_due_x_health_check(
         "classification": classification,
         "last_checked_at": checked_at,
         "next_check_at": (current + timedelta(hours=interval)).isoformat(timespec="seconds"),
+        "trigger_reason": "manual" if force else str(schedule.get("due_reason") or "interval"),
         "last_error": error,
         "external": external,
         "first_party": first_party,
@@ -587,9 +803,13 @@ def run_due_x_health_check(
     history = list(previous.get("history") or [])
     history.append({
         "checked_at": checked_at,
+        "trigger_reason": str(state.get("trigger_reason") or ""),
         "classification": classification,
         "risk_level": int(state["risk_level"]),
         "external_status": str(external.get("status") or "unknown"),
+        "external_checks": dict(external.get("checks") or {}),
+        "postban_forbidden": int(external.get("postban_forbidden") or 0),
+        "postban_checked": int(external.get("postban_checked") or 0),
         "search_ratio": first_party.get("search_ratio"),
         "activity": activity,
         "inferred_causes": causes,

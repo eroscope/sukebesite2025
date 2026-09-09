@@ -2,6 +2,26 @@
 setlocal
 cd /d "%~dp0"
 
+if exist "%CD%\dist-growth-v43\IndanyaStudio\IndanyaStudio.exe" (
+  powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "%CD%\tools\indanya_watchdog.ps1" -Executable "%CD%\dist-growth-v43\IndanyaStudio\IndanyaStudio.exe" -SiteRoot "%CD%" -Show
+  exit /b 0
+)
+
+if exist "%CD%\dist-growth-v42\IndanyaStudio\IndanyaStudio.exe" (
+  powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "%CD%\tools\indanya_watchdog.ps1" -Executable "%CD%\dist-growth-v42\IndanyaStudio\IndanyaStudio.exe" -SiteRoot "%CD%" -Show
+  exit /b 0
+)
+
+if exist "%CD%\dist-growth-v41\IndanyaStudio\IndanyaStudio.exe" (
+  powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "%CD%\tools\indanya_watchdog.ps1" -Executable "%CD%\dist-growth-v41\IndanyaStudio\IndanyaStudio.exe" -SiteRoot "%CD%" -Show
+  exit /b 0
+)
+
+if exist "%CD%\dist-growth-v40\IndanyaStudio\IndanyaStudio.exe" (
+  powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "%CD%\tools\indanya_watchdog.ps1" -Executable "%CD%\dist-growth-v40\IndanyaStudio\IndanyaStudio.exe" -SiteRoot "%CD%" -Show
+  exit /b 0
+)
+
 if exist "%CD%\dist-growth-v39\IndanyaStudio\IndanyaStudio.exe" (
   powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "%CD%\tools\indanya_watchdog.ps1" -Executable "%CD%\dist-growth-v39\IndanyaStudio\IndanyaStudio.exe" -SiteRoot "%CD%" -Show
   exit /b 0

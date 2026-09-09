@@ -1,7 +1,7 @@
 param(
     [string]$SiteRoot = $PSScriptRoot,
     [string]$BuildRoot = $PSScriptRoot,
-    [string]$BuildName = "dist-growth-v42",
+    [string]$BuildName = "dist-growth-v43",
     [switch]$Enable
 )
 
@@ -44,6 +44,7 @@ Register-ScheduledTask `
     -Force | Out-Null
 if ($Enable) {
     Enable-ScheduledTask -TaskName $taskName | Out-Null
+    & $watchdog -Executable $exe -SiteRoot $root
 } else {
     Disable-ScheduledTask -TaskName $taskName | Out-Null
 }

@@ -327,6 +327,17 @@ class SocialXTests(unittest.TestCase):
 
         self.assertIn("1日の上限8件", message)
 
+    def test_health_pause_zero_action_limit_blocks_manual_delivery_too(self) -> None:
+        now = datetime(2026, 9, 9, 23, 0, tzinfo=JST)
+        settings = {
+            "global_daily_action_limit": 0,
+            "global_min_interval_minutes": 1440,
+        }
+
+        message = _x_pacing_error(settings, [], now)
+
+        self.assertIn("送信を一時停止", message)
+
     def test_safe_pacing_reports_the_configured_ninety_minute_interval(self) -> None:
         now = datetime(2026, 8, 26, 13, 0, tzinfo=JST)
         settings = load_x_settings(self.root)

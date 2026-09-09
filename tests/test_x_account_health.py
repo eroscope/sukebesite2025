@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import tempfile
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -7,6 +8,7 @@ from unittest.mock import patch
 
 from article_studio import JST
 from indanya_desktop.x_account_health import (
+    _parse_fia_checker_payload,
     apply_x_health_limits,
     load_x_health_state,
     run_due_x_health_check,
@@ -88,10 +90,59 @@ def test_restriction_signal_reduces_replies_and_follows_before_posts() -> None:
         ):
             result = run_due_x_health_check(root, settings(), now=now)
         assert result["classification"] == "restricted"
-        assert result["risk_level"] == 2
-        assert result["effective_limits"]["daily_posts"] == 1
+        assert result["risk_level"] == 3
+        assert result["effective_limits"]["daily_posts"] == 0
         assert result["effective_limits"]["daily_replies"] == 0
         assert result["effective_limits"]["daily_follows"] == 0
+
+
+def test_fia_checker_payload_preserves_bans_and_postban_results() -> None:
+    result = _parse_fia_checker_payload({
+        "not_found": False,
+        "suspend": False,
+        "protect": False,
+        "no_tweet": False,
+        "search_ban": True,
+        "search_suggestion_ban": True,
+        "ghost_ban": False,
+        "reply_deboosting": False,
+        "api_status": {"userSearchGroup": {"rate_limit": False}},
+        "tweets": [
+            {"url": "https://x.com/hentai596/status/1", "status": "FORBIDDEN", "type": "POST"},
+            {"url": "https://x.com/hentai596/status/2", "status": "AVAILABLE", "type": "POST"},
+            {"url": "https://x.com/hentai596/status/3", "status": "FORBIDDEN", "type": "REPOST"},
+        ],
+    })
+    assert result["status"] == "banned"
+    assert result["banned_signals"] == ["search", "search_suggestion"]
+    assert result["checks"]["ghost"] == "ok"
+    assert result["postban_checked"] == 2
+    assert result["postban_forbidden"] == 1
+    assert result["postban_forbidden_ratio"] == 0.5
+
+
+def test_health_check_is_due_ten_minutes_after_a_new_delivery() -> None:
+    with tempfile.TemporaryDirectory() as folder:
+        root = Path(folder)
+        now = datetime(2026, 9, 9, 8, 0, tzinfo=JST)
+        state = load_x_health_state(root, "hentai596")
+        state.update({
+            "last_checked_at": (now - timedelta(hours=1)).isoformat(),
+            "classification": "healthy",
+        })
+        save_x_health_state(root, state)
+        queue_path = root / ".article-studio" / "x-posting-queue.json"
+        queue_path.write_text(json.dumps([{
+            "post_id": "post-1",
+            "delivery_mode": "post",
+            "status": "posted",
+            "account_handle": "hentai596",
+            "posted_at": (now - timedelta(minutes=10)).isoformat(),
+        }]), encoding="utf-8")
+
+        schedule = x_health_schedule_status(root, settings(), now)
+        assert schedule["due"] is True
+        assert schedule["due_reason"] == "post_delivery"
 
 
 def test_three_clean_checks_restore_only_one_level() -> None:

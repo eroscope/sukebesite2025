@@ -14,12 +14,28 @@ if (-not (Test-Path -LiteralPath $exe -PathType Leaf)) {
     exit 2
 }
 
-$running = Get-CimInstance Win32_Process -Filter "Name = 'IndanyaStudio.exe'" |
-    Where-Object {
-        $_.ExecutablePath -eq $exe -or
-        ($_.CommandLine -and $_.CommandLine.Contains($root))
-    } |
+$allInstances = @(
+    Get-CimInstance Win32_Process -Filter "Name = 'IndanyaStudio.exe'" |
+        Where-Object {
+            $_.ExecutablePath -eq $exe -or
+            (
+                $_.CommandLine -and
+                $_.CommandLine.IndexOf($root, [StringComparison]::OrdinalIgnoreCase) -ge 0
+            )
+        }
+)
+$running = $allInstances |
+    Where-Object { $_.ExecutablePath -eq $exe } |
     Select-Object -First 1
+$staleInstances = $allInstances |
+    Where-Object { $_.ExecutablePath -and $_.ExecutablePath -ne $exe }
+
+foreach ($stale in $staleInstances) {
+    Stop-Process -Id $stale.ProcessId -Force -ErrorAction SilentlyContinue
+}
+if ($staleInstances) {
+    Start-Sleep -Milliseconds 500
+}
 
 if ($running) {
     if ($Show -and $running.ProcessId) {

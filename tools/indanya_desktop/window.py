@@ -2511,7 +2511,7 @@ class MainWindow(QMainWindow):
         health_labels = {
             "healthy": "正常",
             "caution": "注意",
-            "restricted": "制限兆候",
+            "restricted": "制限中・自動操作停止",
             "unknown": "判定待ち",
         }
         health_label = health_labels.get(
@@ -2522,6 +2522,16 @@ class MainWindow(QMainWindow):
             f" / アカウント診断 {health_label}"
             f"・調整段階{int(health.get('risk_level') or 0)}"
         )
+        external = health.get("external") or {}
+        banned = [
+            str(value) for value in (external.get("banned_signals") or []) if value
+        ]
+        if banned:
+            detail += f"・検出 {', '.join(banned)}"
+        postban_checked = int(external.get("postban_checked") or 0)
+        postban_forbidden = int(external.get("postban_forbidden") or 0)
+        if postban_checked:
+            detail += f"・検索除外 {postban_forbidden}/{postban_checked}件"
         error = str(state.get("last_error") or "").strip()
         if error:
             detail += f" / 前回失敗: {error[:160]}"
@@ -2662,7 +2672,7 @@ class MainWindow(QMainWindow):
         labels = {
             "healthy": "正常",
             "caution": "注意",
-            "restricted": "制限兆候",
+            "restricted": "制限中・自動操作停止",
             "unknown": "判定保留",
         }
         classification = str(result.get("classification") or "unknown")
