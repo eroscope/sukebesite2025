@@ -470,8 +470,8 @@
   ],
   "counts": {
     "people": 270,
-    "works": 215,
-    "topics": 1492
+    "works": 216,
+    "topics": 1494
   },
   "people": [
     {
@@ -2213,6 +2213,10 @@
       "articles": 1
     },
     {
+      "code": "RKI-178",
+      "articles": 1
+    },
+    {
       "code": "ROE-476",
       "articles": 1
     },
@@ -2984,6 +2988,10 @@
     },
     {
       "name": "RARA",
+      "articles": 1
+    },
+    {
+      "name": "ROOKIE",
       "articles": 1
     },
     {
@@ -4396,7 +4404,7 @@
     },
     {
       "name": "パッケージ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "パッケージ画像",
@@ -4592,6 +4600,10 @@
     },
     {
       "name": "ベスト盤",
+      "articles": 1
+    },
+    {
+      "name": "ベスト総集編",
       "articles": 1
     },
     {
