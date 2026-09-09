@@ -441,6 +441,7 @@
     "topics/topic-i-mew.html",
     "topics/topic-ideapocket.html",
     "topics/topic-instagram.html",
+    "topics/topic-julia.html",
     "topics/topic-kawaii.html",
     "topics/topic-madonna.html",
     "topics/topic-madonnavr.html",
@@ -455,6 +456,7 @@
     "topics/topic-ol.html",
     "topics/topic-oppai.html",
     "topics/topic-premium.html",
+    "topics/topic-rookie.html",
     "topics/topic-s1-no-1-style.html",
     "topics/topic-s1.html",
     "topics/topic-sod.html",
@@ -473,7 +475,7 @@
   "counts": {
     "people": 271,
     "works": 217,
-    "topics": 1496
+    "topics": 1498
   },
   "people": [
     {
@@ -2441,6 +2443,14 @@
       "articles": 1
     },
     {
+      "name": "161作品",
+      "articles": 1
+    },
+    {
+      "name": "16時間",
+      "articles": 1
+    },
+    {
       "name": "18時間",
       "articles": 1
     },
@@ -2850,7 +2860,7 @@
     },
     {
       "name": "JULIA",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "Jカップ",
@@ -3006,7 +3016,7 @@
     },
     {
       "name": "ROOKIE",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ROYAL",
@@ -7506,7 +7516,7 @@
     },
     {
       "name": "総集編",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "縄跳び",
