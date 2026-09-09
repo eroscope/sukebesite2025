@@ -7,6 +7,11 @@ if exist "%CD%\dist-growth-v44\IndanyaStudio\IndanyaStudio.exe" (
   exit /b 0
 )
 
+if exist "%CD%\dist-growth-v43\IndanyaStudio\IndanyaStudio.exe" (
+  powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "%CD%\tools\indanya_watchdog.ps1" -Executable "%CD%\dist-growth-v43\IndanyaStudio\IndanyaStudio.exe" -SiteRoot "%CD%" -Show
+  exit /b 0
+)
+
 if exist "%CD%\dist-growth-v42\IndanyaStudio\IndanyaStudio.exe" (
   powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "%CD%\tools\indanya_watchdog.ps1" -Executable "%CD%\dist-growth-v42\IndanyaStudio\IndanyaStudio.exe" -SiteRoot "%CD%" -Show
   exit /b 0
