@@ -60,11 +60,10 @@ DEFAULT_X_SETTINGS: dict[str, Any] = {
     "reply_daily_limit": 2,
     "reply_auto_prepare_enabled": True,
     "reply_min_interval_minutes": 360,
-    "reply_target_max_age_hours": 72,
-    "reply_evergreen_max_age_hours": 168,
-    "reply_evergreen_min_views": 50_000,
-    "reply_evergreen_min_likes": 500,
-    "reply_evergreen_min_replies": 10,
+    "reply_target_max_age_hours": 24,
+    "reply_min_views_per_hour": 500,
+    "reply_min_likes_per_hour": 5,
+    "reply_min_replies_per_hour": 1,
     "reply_account_cooldown_days": 30,
     "reply_link_rate_percent": 100,
     "reply_default_media_mode": "original",
@@ -313,24 +312,20 @@ def load_x_settings(site_root: Path) -> dict[str, Any]:
         else reply_minimum
     )
     result["reply_target_max_age_hours"] = max(
-        24,
-        min(168, int(result.get("reply_target_max_age_hours") or 72)),
+        6,
+        min(48, int(result.get("reply_target_max_age_hours") or 24)),
     )
-    result["reply_evergreen_max_age_hours"] = max(
-        result["reply_target_max_age_hours"],
-        min(336, int(result.get("reply_evergreen_max_age_hours") or 168)),
-    )
-    result["reply_evergreen_min_views"] = max(
-        10_000,
-        min(10_000_000, int(result.get("reply_evergreen_min_views") or 50_000)),
-    )
-    result["reply_evergreen_min_likes"] = max(
+    result["reply_min_views_per_hour"] = max(
         100,
-        min(1_000_000, int(result.get("reply_evergreen_min_likes") or 500)),
+        min(100_000, int(result.get("reply_min_views_per_hour") or 500)),
     )
-    result["reply_evergreen_min_replies"] = max(
-        3,
-        min(100_000, int(result.get("reply_evergreen_min_replies") or 10)),
+    result["reply_min_likes_per_hour"] = max(
+        1,
+        min(10_000, int(result.get("reply_min_likes_per_hour") or 5)),
+    )
+    result["reply_min_replies_per_hour"] = max(
+        1,
+        min(1_000, int(result.get("reply_min_replies_per_hour") or 1)),
     )
     result["reply_account_cooldown_days"] = max(
         1,
@@ -1227,20 +1222,17 @@ def _reply_recruitment_active(
     metrics: dict[str, Any],
     settings: dict[str, Any],
 ) -> bool:
-    """Keep a proven recruitment post usable after the ordinary freshness window."""
-    if age_hours <= int(settings["reply_target_max_age_hours"]):
-        return True
-    if age_hours > int(settings["reply_evergreen_max_age_hours"]):
+    """Require a fresh recruitment post with enough current reaction velocity."""
+    if age_hours < -1 or age_hours > int(settings["reply_target_max_age_hours"]):
         return False
+    elapsed = max(0.5, age_hours)
     views = max(0, int(metrics.get("views") or 0))
     likes = max(0, int(metrics.get("likes") or 0))
     replies = max(0, int(metrics.get("replies") or 0))
     return bool(
-        views >= int(settings["reply_evergreen_min_views"])
-        and (
-            likes >= int(settings["reply_evergreen_min_likes"])
-            or replies >= int(settings["reply_evergreen_min_replies"])
-        )
+        views / elapsed >= int(settings["reply_min_views_per_hour"])
+        or likes / elapsed >= int(settings["reply_min_likes_per_hour"])
+        or replies / elapsed >= int(settings["reply_min_replies_per_hour"])
     )
 
 
@@ -1480,10 +1472,7 @@ def _contest_sample(
         "target_handle": handle,
         "target_age_hours": round(age_hours, 1),
         "active_for_reply": active_for_reply,
-        "evergreen_recruitment": (
-            active_for_reply
-            and age_hours > int(settings["reply_target_max_age_hours"])
-        ),
+        "reaction_velocity_confirmed": active_for_reply,
         "opt_in_confirmed": True,
     }
 
@@ -2077,11 +2066,10 @@ def score_x_reply_candidate(
         )
         if age_hours < -1:
             blockers.append("返信先URLの投稿日時を確認できません")
-        elif not recruitment_active:
-            blockers.append(f"募集が{maximum_age}時間より古いです")
         elif age_hours > maximum_age:
-            score += 10
-            reasons.append("高表示が続く7日以内の募集")
+            blockers.append(f"募集が{maximum_age}時間より古いです")
+        elif not recruitment_active:
+            blockers.append("募集投稿の現在の伸びが流入基準に届いていません")
         elif age_hours <= 12:
             score += 20
             reasons.append("12時間以内の新しい募集")
@@ -4832,6 +4820,8 @@ def record_x_post_performance(
 def x_template_performance(site_root: Path) -> dict[str, dict[str, Any]]:
     totals: dict[str, dict[str, Any]] = {}
     for row in list_x_posts(site_root):
+        if bool(row.get("learning_excluded")):
+            continue
         template_id = str(row.get("trend_template_id") or "").strip()
         performance = row.get("performance") or {}
         if not template_id or not isinstance(performance, dict) or not performance:

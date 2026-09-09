@@ -341,22 +341,27 @@ class SocialXTests(unittest.TestCase):
 
         self.assertIn("90分以上", message)
 
-    def test_high_traffic_recruitment_remains_active_for_seven_days(self) -> None:
+    def test_only_fresh_growing_recruitment_is_active(self) -> None:
         settings = load_x_settings(self.root)
 
         self.assertTrue(_reply_recruitment_active(
-            97.2,
-            {"views": 82_271, "likes": 905, "replies": 12},
+            2,
+            {"views": 1_500, "likes": 20, "replies": 3},
+            settings,
+        ))
+        self.assertTrue(_reply_recruitment_active(
+            20,
+            {"views": 20_000, "likes": 250, "replies": 20},
             settings,
         ))
         self.assertFalse(_reply_recruitment_active(
             97.2,
-            {"views": 8_000, "likes": 40, "replies": 2},
-            settings,
-        ))
-        self.assertFalse(_reply_recruitment_active(
-            200,
             {"views": 800_000, "likes": 9_000, "replies": 500},
+            settings,
+        ))
+        self.assertFalse(_reply_recruitment_active(
+            12,
+            {"views": 3_000, "likes": 24, "replies": 3},
             settings,
         ))
 
@@ -1311,6 +1316,7 @@ class SocialXTests(unittest.TestCase):
             reply_opt_in_confirmed=True,
             reply_media_mode="original",
             reply_include_link=True,
+            reply_target_metrics={"views": 2_000, "likes": 25, "replies": 4},
         )
         generate_x_copies(self.root, [post["post_id"]])
         validated = validate_x_reply_post(self.root, post["post_id"], now=now)
@@ -1457,6 +1463,7 @@ class SocialXTests(unittest.TestCase):
             reply_opt_in_confirmed=True,
             reply_media_mode="original",
             reply_include_link=True,
+            reply_target_metrics={"views": 2_000, "likes": 25, "replies": 4},
         )
         generate_x_copies(self.root, [post["post_id"]])
         playwright_api = MagicMock()
@@ -1504,6 +1511,7 @@ class SocialXTests(unittest.TestCase):
             reply_opt_in_confirmed=True,
             reply_media_mode="original",
             reply_include_link=True,
+            reply_target_metrics={"views": 2_000, "likes": 25, "replies": 4},
         )
         scored = refresh_x_reply_candidate_score(self.root, post["post_id"], now=now)
         self.assertTrue(scored["recommended"])
@@ -1661,6 +1669,9 @@ class SocialXTests(unittest.TestCase):
         row = {"media_kind": "images"}
         _assign_random_trend_templates([row], self.trend_state(), learning)
         self.assertEqual(1, row["template_learning"]["samples"])
+
+        update_x_post(self.root, post["post_id"], learning_excluded=True)
+        self.assertNotIn("image_reaction", x_template_performance(self.root))
 
 
 if __name__ == "__main__":
