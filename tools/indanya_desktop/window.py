@@ -128,6 +128,7 @@ from indanya_desktop.workers import (
     XCopyWorker,
     XDailyWorker,
     XFollowWorker,
+    XHealthWorker,
     XScheduleWorker,
     XTrendWorker,
     AnalyticsWorker,
@@ -195,6 +196,10 @@ from indanya_desktop.social_x import (
     advance_x_thread,
     x_template_performance,
     x_trend_scan_status,
+)
+from indanya_desktop.x_account_health import (
+    load_x_health_state,
+    x_health_schedule_status,
 )
 from indanya_desktop.sitemap_health import (
     load_sitemap_health,
@@ -605,7 +610,7 @@ class XPostingSettingsDialog(QDialog):
         self.resize(720, 820)
         layout = QVBoxLayout(self)
         account = QFormLayout()
-        self.handle = QLineEdit(str(settings.get("account_handle") or "indanya_sns"))
+        self.handle = QLineEdit(str(settings.get("account_handle") or "hentai596"))
         self.handle.setPlaceholderText("@を除いたXユーザー名")
         self.count = QSpinBox()
         self.count.setRange(1, 20)
@@ -1096,6 +1101,7 @@ class MainWindow(QMainWindow):
         self.x_daily_worker: XDailyWorker | None = None
         self.x_trend_worker: XTrendWorker | None = None
         self.x_follow_worker: XFollowWorker | None = None
+        self.x_health_worker: XHealthWorker | None = None
         self.x_schedule_after_copy_ids: list[str] = []
         self.chatgpt_login_worker: ChatGptLoginWorker | None = None
         self.chatgpt_send_worker: CodexSendWorker | None = None
@@ -1930,7 +1936,7 @@ class MainWindow(QMainWindow):
             "X投稿管理",
             "通常投稿・返信・漫画スレッドを条件別に候補化し、X公式画面で確認して送信します。",
         ), 1)
-        self.x_account_label = QLabel("@indanya_sns", objectName="muted")
+        self.x_account_label = QLabel("@hentai596", objectName="muted")
         head.addWidget(self.x_account_label)
         open_account = button("アカウントを開く")
         open_account.clicked.connect(self.open_x_account)
@@ -2498,6 +2504,24 @@ class MainWindow(QMainWindow):
             f"/{int(follow.get('daily_limit') or 0)}人"
             f"・候補{int(follow.get('candidate_count') or 0)}人"
         )
+        health = load_x_health_state(
+            self.site.root,
+            load_x_settings(self.site.root).get("account_handle"),
+        )
+        health_labels = {
+            "healthy": "正常",
+            "caution": "注意",
+            "restricted": "制限兆候",
+            "unknown": "判定待ち",
+        }
+        health_label = health_labels.get(
+            str(health.get("classification") or "unknown"),
+            "判定待ち",
+        )
+        detail += (
+            f" / アカウント診断 {health_label}"
+            f"・調整段階{int(health.get('risk_level') or 0)}"
+        )
         error = str(state.get("last_error") or "").strip()
         if error:
             detail += f" / 前回失敗: {error[:160]}"
@@ -2521,6 +2545,7 @@ class MainWindow(QMainWindow):
         self.x_trend_scan_button.setEnabled(
             self.x_trend_worker is None
             and self.x_follow_worker is None
+            and self.x_health_worker is None
             and self._update_x_login_state()
         )
         self._refresh_x_follow_candidates()
@@ -2563,6 +2588,7 @@ class MainWindow(QMainWindow):
             or self.x_copy_worker is not None
             or self.x_daily_worker is not None
             or self.x_follow_worker is not None
+            or self.x_health_worker is not None
         ):
             self.x_post_status.setText("現在の記事・投稿文処理が終わってから流行調査を開始します。")
             return
@@ -2615,6 +2641,45 @@ class MainWindow(QMainWindow):
         self.x_follow_worker.signals.failed.connect(self._x_follow_failed)
         self.x_post_status.setText("関連アカウントの自動フォローを確認しています。")
         self.thread_pool.start(self.x_follow_worker)
+
+    def _start_x_health_check(self, settings: dict) -> None:
+        if self.x_health_worker is not None:
+            return
+        self.x_health_worker = XHealthWorker(self.site.root, settings)
+        self.x_health_worker.signals.progress.connect(self._x_health_progress_changed)
+        self.x_health_worker.signals.completed.connect(self._x_health_completed)
+        self.x_health_worker.signals.failed.connect(self._x_health_failed)
+        self.x_post_status.setText("Xアカウントの公開状態を確認しています。")
+        self.thread_pool.start(self.x_health_worker)
+
+    def _x_health_progress_changed(self, value: int, message: str) -> None:
+        self.x_post_progress.setValue(value)
+        self.x_post_status.setText(message)
+
+    def _x_health_completed(self, result: dict) -> None:
+        self.x_health_worker = None
+        self._refresh_x_trend_status()
+        labels = {
+            "healthy": "正常",
+            "caution": "注意",
+            "restricted": "制限兆候",
+            "unknown": "判定保留",
+        }
+        classification = str(result.get("classification") or "unknown")
+        limits = result.get("effective_limits") or {}
+        self.x_post_status.setText(
+            f"X診断: {labels.get(classification, '判定保留')} / "
+            f"投稿{int(limits.get('daily_posts') or 0)}・"
+            f"返信{int(limits.get('daily_replies') or 0)}・"
+            f"フォロー{int(limits.get('daily_follows') or 0)}件/日"
+        )
+        QTimer.singleShot(500, self._scheduler_tick)
+
+    def _x_health_failed(self, message: str) -> None:
+        self.x_health_worker = None
+        self._refresh_x_trend_status()
+        self.x_post_status.setText(f"Xアカウント診断を完了できませんでした: {message}")
+        QTimer.singleShot(500, self._scheduler_tick)
 
     def _x_follow_progress_changed(self, value: int, message: str) -> None:
         self.x_post_progress.setValue(value)
@@ -6256,6 +6321,7 @@ class MainWindow(QMainWindow):
             or self.x_daily_worker
             or self.x_trend_worker
             or self.x_follow_worker
+            or self.x_health_worker
             or self.x_copy_worker
             or self.x_schedule_worker
         ):
@@ -6274,6 +6340,10 @@ class MainWindow(QMainWindow):
                 self._start_next_scheduled_publish()
                 return
         x_settings = load_x_settings(self.site.root)
+        health_status = x_health_schedule_status(self.site.root, x_settings)
+        if health_status.get("due") and x_login_ready():
+            self._start_x_health_check(x_settings)
+            return
         if (
             not x_settings.get("manual_delivery_only", False)
             and x_login_ready()

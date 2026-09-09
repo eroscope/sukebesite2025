@@ -7,6 +7,7 @@ import json
 import math
 import random
 import re
+import shutil
 import threading
 import time
 from datetime import datetime, timedelta, timezone
@@ -18,10 +19,12 @@ from playwright.sync_api import sync_playwright
 
 from article_studio import JST
 from indanya_desktop.browser_capture import (
+    require_x_page_account,
     send_chatgpt_prompt,
     x_browser_profile_path,
     x_login_ready,
 )
+from indanya_desktop.x_account_health import effective_x_settings
 from indanya_desktop.publishing import _download_video
 from indanya_desktop.fanza_affiliate import (
     build_fanza_affiliate_url,
@@ -37,9 +40,9 @@ from indanya_desktop.editorial_policy import (
 ProgressCallback = Callable[[int, str], None]
 
 DEFAULT_X_SETTINGS: dict[str, Any] = {
-    "account_name": "淫談屋",
-    "account_handle": "indanya_sns",
-    "account_url": "https://x.com/indanya_sns",
+    "account_name": "AI画像生成",
+    "account_handle": "hentai596",
+    "account_url": "https://x.com/hentai596",
     "candidate_count": 3,
     "attach_thumbnail": True,
     "automatic_posting_enabled": True,
@@ -70,6 +73,9 @@ DEFAULT_X_SETTINGS: dict[str, Any] = {
     "follow_min_score": 55,
     "recruiter_follow_min_posts": 2,
     "recruiter_discovery_interval_days": 7,
+    "health_check_enabled": True,
+    "health_check_interval_hours": 12,
+    "adaptive_pacing_enabled": True,
     "owned_contest_cooldown_days": 7,
     "manga_recurring_enabled": True,
     "manga_interval_days": 1,
@@ -347,6 +353,15 @@ def load_x_settings(site_root: Path) -> dict[str, Any]:
     result["recruiter_discovery_interval_days"] = max(
         1, min(30, int(result.get("recruiter_discovery_interval_days") or 7))
     )
+    result["health_check_enabled"] = bool(
+        result.get("health_check_enabled", True)
+    )
+    result["health_check_interval_hours"] = max(
+        12, min(48, int(result.get("health_check_interval_hours") or 12))
+    )
+    result["adaptive_pacing_enabled"] = bool(
+        result.get("adaptive_pacing_enabled", True)
+    )
     result["owned_contest_cooldown_days"] = max(
         1,
         min(90, int(result.get("owned_contest_cooldown_days") or 7)),
@@ -379,12 +394,101 @@ def load_x_settings(site_root: Path) -> dict[str, Any]:
     return result
 
 
+def _clean_x_handle(value: Any) -> str:
+    return re.sub(r"[^A-Za-z0-9_]", "", str(value or "")).casefold()[:15]
+
+
+def migrate_x_account(
+    site_root: Path,
+    old_handle: Any,
+    new_handle: Any,
+) -> dict[str, Any]:
+    """Separate account-owned actions before changing the automation login."""
+    old = _clean_x_handle(old_handle)
+    new = _clean_x_handle(new_handle)
+    if not old or not new or old == new:
+        return {"migrated": False, "old_handle": old, "new_handle": new}
+
+    root = _root(site_root)
+    stamp = datetime.now(JST).strftime("%Y%m%d-%H%M%S-%f")
+    backup = root / "x-account-history" / f"{old}-{stamp}"
+    backup.mkdir(parents=True, exist_ok=False)
+    for source in (
+        _settings_path(site_root),
+        _queue_path(site_root),
+        _growth_state_path(site_root),
+        _auto_state_path(site_root),
+        root / "x-account-health.json",
+    ):
+        if source.exists() and source.is_file():
+            shutil.copy2(source, backup / source.name)
+
+    rows = _read_json(_queue_path(site_root), [])
+    rows = rows if isinstance(rows, list) else []
+    owned_rows = 0
+    for row in rows:
+        if not isinstance(row, dict) or _clean_x_handle(row.get("account_handle")):
+            continue
+        if str(row.get("status") or "") in {
+            "posted",
+            "posting",
+            "scheduled",
+            "scheduling",
+        }:
+            row["account_handle"] = old
+            owned_rows += 1
+    _write_json(_queue_path(site_root), rows)
+
+    growth = _read_json(_growth_state_path(site_root), {})
+    growth = growth if isinstance(growth, dict) else {}
+    follow_history = growth.get("follow_history") or []
+    owned_follows = 0
+    for item in follow_history:
+        if not isinstance(item, dict) or _clean_x_handle(item.get("account_handle")):
+            continue
+        item["account_handle"] = old
+        owned_follows += 1
+    accounts = growth.get("accounts") or {}
+    if isinstance(accounts, dict):
+        for item in accounts.values():
+            if not isinstance(item, dict):
+                continue
+            for key in ("follow_status", "last_follow_attempt_at", "followed_at"):
+                item.pop(key, None)
+    growth.update({
+        "account_handle": new,
+        "follow_history": follow_history,
+        "last_follow_attempt_at": "",
+        "last_follow_error": "",
+    })
+    _write_json(_growth_state_path(site_root), growth)
+    return {
+        "migrated": True,
+        "old_handle": old,
+        "new_handle": new,
+        "owned_queue_rows": owned_rows,
+        "owned_follow_rows": owned_follows,
+        "backup_path": str(backup),
+    }
+
+
 def save_x_settings(site_root: Path, values: dict[str, Any]) -> dict[str, Any]:
-    merged = {**load_x_settings(site_root), **values}
+    current = load_x_settings(site_root)
+    merged = {**current, **values}
+    migrate_x_account(
+        site_root,
+        current.get("account_handle"),
+        merged.get("account_handle"),
+    )
     _write_json(_settings_path(site_root), merged)
     normalized = load_x_settings(site_root)
     _write_json(_settings_path(site_root), normalized)
     return normalized
+
+
+def load_effective_x_settings(site_root: Path) -> dict[str, Any]:
+    """Return configured settings after account-health pacing is applied."""
+    return effective_x_settings(site_root, load_x_settings(site_root))
 
 
 def load_x_trend_state(site_root: Path) -> dict[str, Any]:
@@ -452,6 +556,9 @@ def load_x_growth_state(site_root: Path) -> dict[str, Any]:
     ]
     return {
         "version": 1,
+        "account_handle": re.sub(
+            r"[^A-Za-z0-9_]", "", str(raw.get("account_handle") or "")
+        ).casefold(),
         "accounts": accounts,
         "follow_history": history[-500:],
         "last_follow_attempt_at": str(raw.get("last_follow_attempt_at") or ""),
@@ -562,14 +669,19 @@ def x_follow_candidates(
     }
     state = load_x_trend_state(site_root)
     growth = load_x_growth_state(site_root)
+    account_history = [
+        item for item in growth.get("follow_history") or []
+        if not str(item.get("account_handle") or "").strip()
+        or str(item.get("account_handle") or "").casefold() == own_handle
+    ]
     followed_handles = {
         str(item.get("handle") or "").casefold()
-        for item in growth.get("follow_history") or []
+        for item in account_history
         if str(item.get("result") or "") in {"followed", "already_following"}
     }
     recent_attempt_handles: set[str] = set()
     retry_cutoff = datetime.now(JST) - timedelta(hours=24)
-    for item in growth.get("follow_history") or []:
+    for item in account_history:
         attempted = _as_jst(item.get("attempted_at"))
         if attempted is not None and attempted >= retry_cutoff:
             recent_attempt_handles.add(str(item.get("handle") or "").casefold())
@@ -743,7 +855,10 @@ def _auto_follow_candidate_allowed(
     return "creator" in roles and score >= max(65.0, minimum + 10.0)
 
 
-def _follow_x_profile(candidate: dict[str, Any]) -> str:
+def _follow_x_profile(
+    candidate: dict[str, Any],
+    expected_handle: str = "",
+) -> str:
     handle = re.sub(
         r"[^A-Za-z0-9_]", "", str(candidate.get("handle") or "")
     ).casefold()
@@ -766,6 +881,7 @@ def _follow_x_profile(candidate: dict[str, Any]) -> str:
                 page.wait_for_timeout(2200)
                 if "/i/flow/login" in page.url:
                     raise RuntimeError("Xのログインが切れています")
+                require_x_page_account(page, expected_handle)
                 following = page.locator('button[data-testid$="-unfollow"]')
                 if following.count() and following.first.is_visible():
                     return "already_following"
@@ -799,9 +915,14 @@ def x_follow_schedule_status(
     now: datetime | None = None,
 ) -> dict[str, Any]:
     current = (now or datetime.now(JST)).astimezone(JST)
-    settings = load_x_settings(site_root)
+    settings = load_effective_x_settings(site_root)
     state = load_x_growth_state(site_root)
-    history = list(state.get("follow_history") or [])
+    own_handle = str(settings.get("account_handle") or "").casefold()
+    history = [
+        item for item in state.get("follow_history") or []
+        if not str(item.get("account_handle") or "").strip()
+        or str(item.get("account_handle") or "").casefold() == own_handle
+    ]
     today = [
         item for item in history
         if (stamp := _as_jst(item.get("attempted_at"))) is not None
@@ -832,7 +953,9 @@ def x_follow_schedule_status(
         item for item in x_follow_candidates(site_root, limit=10)
         if _auto_follow_candidate_allowed(item, settings)
     ]
-    enabled = bool(settings.get("follow_automation_enabled", True))
+    enabled = bool(
+        settings.get("follow_automation_enabled", True) and daily_limit > 0
+    )
     # Failed UI attempts are capped too, so a changed X screen cannot loop all day.
     attempt_limit = daily_limit + 2
     return {
@@ -861,8 +984,20 @@ def run_due_x_follow_cycle(
     force: bool = False,
 ) -> dict[str, Any]:
     current = (now or datetime.now(JST)).astimezone(JST)
-    settings = load_x_settings(site_root)
+    settings = load_effective_x_settings(site_root)
     status = x_follow_schedule_status(site_root, current)
+    if int(status.get("daily_limit") or 0) <= 0:
+        return {
+            "result": "health_paused",
+            **status,
+            "last_error": "アカウント診断によりフォローを一時停止しています",
+        }
+    if (
+        int(status.get("followed_today") or 0) >= int(status.get("daily_limit") or 0)
+        or int(status.get("attempted_today") or 0)
+        >= int(status.get("daily_limit") or 0) + 2
+    ):
+        return {"result": "limit_reached", **status}
     if not force and not status.get("due"):
         return {"result": "not_due", **status}
     candidates = [
@@ -881,7 +1016,10 @@ def run_due_x_follow_cycle(
         handle = str(candidate.get("handle") or "").casefold()
         attempted_at = current.isoformat(timespec="seconds")
         try:
-            result = _follow_x_profile(candidate)
+            result = _follow_x_profile(
+                candidate,
+                str(settings.get("account_handle") or ""),
+            )
             error = ""
         except Exception as exc:
             result = "failed"
@@ -889,6 +1027,7 @@ def run_due_x_follow_cycle(
         state = load_x_growth_state(site_root)
         history = list(state.get("follow_history") or [])
         history.append({
+            "account_handle": str(settings.get("account_handle") or "").casefold(),
             "handle": handle,
             "profile_url": str(candidate.get("profile_url") or f"https://x.com/{handle}"),
             "score": float(candidate.get("score") or 0),
@@ -898,6 +1037,9 @@ def run_due_x_follow_cycle(
             "error": error,
         })
         state["follow_history"] = history[-500:]
+        state["account_handle"] = str(
+            settings.get("account_handle") or ""
+        ).casefold()
         state["last_follow_attempt_at"] = attempted_at
         state["last_follow_error"] = error
         account = dict(state.get("accounts", {}).get(handle) or {})
@@ -1180,6 +1322,9 @@ def collect_x_trend_samples(
             )
             try:
                 page = context.pages[0] if context.pages else context.new_page()
+                page.goto("https://x.com/home", wait_until="domcontentloaded", timeout=60_000)
+                page.wait_for_timeout(1800)
+                require_x_page_account(page, settings.get("account_handle"))
                 for query_index, base_query in enumerate(X_TREND_QUERIES):
                     query = (
                         f"{base_query} min_faves:{minimum_likes} "
@@ -1326,6 +1471,9 @@ def collect_x_contest_candidates(
         )
         try:
             page = context.pages[0] if context.pages else context.new_page()
+            page.goto("https://x.com/home", wait_until="domcontentloaded", timeout=60_000)
+            page.wait_for_timeout(1800)
+            require_x_page_account(page, settings.get("account_handle"))
             search_plans: list[tuple[str, str]] = []
             for query in queries:
                 modes = (
@@ -2044,7 +2192,7 @@ def validate_x_reply_post(
     now: datetime | None = None,
 ) -> dict[str, Any]:
     current = (now or datetime.now(JST)).astimezone(JST)
-    settings = load_x_settings(site_root)
+    settings = load_effective_x_settings(site_root)
     pause_until = _as_jst(load_x_auto_state(site_root).get("pause_until"))
     if pause_until is not None and current < pause_until:
         raise ValueError(
@@ -2141,7 +2289,7 @@ def validate_x_manual_post(
     now: datetime | None = None,
 ) -> dict[str, Any]:
     current = (now or datetime.now(JST)).astimezone(JST)
-    settings = load_x_settings(site_root)
+    settings = load_effective_x_settings(site_root)
     pause_until = _as_jst(load_x_auto_state(site_root).get("pause_until"))
     if pause_until is not None and current < pause_until:
         raise ValueError(
@@ -2673,7 +2821,16 @@ def x_post_media_paths(site_root: Path, post_id: str) -> list[str]:
     return paths
 
 
-def _row_reserved_time(row: dict[str, Any]) -> datetime | None:
+def _row_reserved_time(
+    row: dict[str, Any],
+    account_handle: str = "",
+) -> datetime | None:
+    owner = re.sub(
+        r"[^A-Za-z0-9_]", "", str(row.get("account_handle") or "")
+    ).casefold()
+    expected = re.sub(r"[^A-Za-z0-9_]", "", account_handle).casefold()
+    if owner and expected and owner != expected:
+        return None
     if row.get("delivery_mode") == "reply" or row.get("status") == "skipped":
         return None
     scheduled = _as_jst(row.get("scheduled_for"))
@@ -2703,11 +2860,17 @@ def _x_action_times(
     rows: list[dict[str, Any]],
     *,
     ignore_post_id: str = "",
+    account_handle: str = "",
 ) -> list[datetime]:
     return [
         value
         for row in rows
         if str(row.get("post_id") or "") != ignore_post_id
+        if not account_handle
+        or not str(row.get("account_handle") or "").strip()
+        or re.sub(
+            r"[^A-Za-z0-9_]", "", str(row.get("account_handle") or "")
+        ).casefold() == account_handle.casefold()
         if (value := _x_action_time(row)) is not None
     ]
 
@@ -2719,7 +2882,11 @@ def _x_pacing_error(
     *,
     ignore_post_id: str = "",
 ) -> str:
-    actions = _x_action_times(rows, ignore_post_id=ignore_post_id)
+    actions = _x_action_times(
+        rows,
+        ignore_post_id=ignore_post_id,
+        account_handle=str(settings.get("account_handle") or ""),
+    )
     daily_limit = int(settings.get("global_daily_action_limit") or 2)
     same_day = [value for value in actions if value.date() == proposed.date()]
     if len(same_day) >= daily_limit:
@@ -2768,10 +2935,16 @@ def _bulk_slots(
     for day_offset in range(0, 60):
         target_day = current.date() + timedelta(days=day_offset)
         reserved = [
-            value for value in (_row_reserved_time(row) for row in rows)
+            value for value in (
+                _row_reserved_time(row, str(settings.get("account_handle") or ""))
+                for row in rows
+            )
             if value is not None and value.date() == target_day
         ]
-        action_times = _x_action_times(rows) + [
+        action_times = _x_action_times(
+            rows,
+            account_handle=str(settings.get("account_handle") or ""),
+        ) + [
             value for value in (_as_jst(item) for item in result) if value is not None
         ]
         day_actions = [value for value in action_times if value.date() == target_day]
@@ -2820,7 +2993,10 @@ def _automatic_batch_slots(
     now: datetime,
 ) -> list[str]:
     future = sorted(
-        value for value in (_row_reserved_time(row) for row in rows)
+        value for value in (
+            _row_reserved_time(row, str(settings.get("account_handle") or ""))
+            for row in rows
+        )
         if value is not None and value > now + timedelta(minutes=15)
     )
     planned = _bulk_slots(settings, int(settings["daily_post_limit"]), rows, now)
@@ -2901,7 +3077,7 @@ def prepare_x_candidates(
     *,
     limit: int | None = None,
 ) -> list[dict[str, Any]]:
-    settings = load_x_settings(site_root)
+    settings = load_effective_x_settings(site_root)
     refresh_x_article_candidates(site_root, public_url)
     rows = list_x_posts(site_root)
     analytics = _ga4_article_analytics(site_root)
@@ -3211,7 +3387,9 @@ def select_x_daily_posts(
     now: datetime | None = None,
 ) -> list[dict[str, Any]]:
     current = (now or datetime.now(JST)).astimezone(JST)
-    settings = load_x_settings(site_root)
+    settings = load_effective_x_settings(site_root)
+    if int(settings.get("daily_post_limit") or 0) <= 0:
+        return []
     if not settings["automatic_posting_enabled"]:
         return []
     state = load_x_auto_state(site_root)
@@ -3267,7 +3445,7 @@ def x_daily_posting_status(
     now: datetime | None = None,
 ) -> dict[str, Any]:
     current = (now or datetime.now(JST)).astimezone(JST)
-    settings = load_x_settings(site_root)
+    settings = load_effective_x_settings(site_root)
     state = load_x_auto_state(site_root)
     rows = list_x_posts(site_root)
     if _recover_stale_x_rows(rows, current) or _complete_elapsed_x_schedules(rows, current):
@@ -3285,9 +3463,15 @@ def x_daily_posting_status(
     ) if prepared else []
     return {
         **state,
-        "enabled": bool(settings["automatic_posting_enabled"]),
+        "enabled": bool(
+            settings["automatic_posting_enabled"]
+            and int(settings.get("daily_post_limit") or 0) > 0
+            and int(settings.get("global_daily_action_limit") or 0) > 0
+        ),
         "due": bool(
             settings["automatic_posting_enabled"]
+            and int(settings.get("daily_post_limit") or 0) > 0
+            and int(settings.get("global_daily_action_limit") or 0) > 0
             and bool(prepared or (eligible and slots))
             and not ran_today
             and not (pause_until is not None and current < pause_until)
@@ -3305,7 +3489,7 @@ def run_x_daily_cycle(
     progress: ProgressCallback = lambda _value, _message: None,
 ) -> dict[str, Any]:
     current = datetime.now(JST)
-    settings = load_x_settings(site_root)
+    settings = load_effective_x_settings(site_root)
     refresh_x_ga4_learning(site_root, now=current)
     selected = select_x_daily_posts(site_root, public_url, now=current)
     if not selected:
@@ -3768,7 +3952,7 @@ def x_reply_schedule_status(
 ) -> dict[str, Any]:
     """Describe the independent send-ready queue for external X replies."""
     current = (now or datetime.now(JST)).astimezone(JST)
-    settings = load_x_settings(site_root)
+    settings = load_effective_x_settings(site_root)
     state = load_x_auto_state(site_root)
     rows = list_x_posts(site_root)
     pending = [
@@ -3810,6 +3994,8 @@ def x_reply_schedule_status(
     enabled = bool(
         settings.get("trend_scan_enabled", True)
         and settings.get("reply_auto_prepare_enabled", True)
+        and daily_limit > 0
+        and int(settings.get("global_daily_action_limit") or 0) > 0
     )
     waiting_for_trend = bool(trend.get("due"))
     return {
@@ -4304,7 +4490,7 @@ def x_manga_schedule_status(
     now: datetime | None = None,
 ) -> dict[str, Any]:
     current = (now or datetime.now(JST)).astimezone(JST)
-    settings = load_x_settings(site_root)
+    settings = load_effective_x_settings(site_root)
     state = load_x_auto_state(site_root)
     rows = list_x_posts(site_root)
     pending = [
@@ -4332,7 +4518,12 @@ def x_manga_schedule_status(
     retry_at = _as_jst(state.get("manga_next_retry_at"))
     if retry_at is not None and retry_at > next_at:
         next_at = retry_at
-    enabled = bool(settings.get("manga_recurring_enabled", True))
+    enabled = bool(
+        settings.get("manga_recurring_enabled", True)
+        and int(settings.get("daily_post_limit") or 0) > 0
+        and int(settings.get("global_daily_action_limit") or 0) > 0
+        and int(settings.get("health_risk_level") or 0) == 0
+    )
     blocked_by_pending = len(pending) >= int(settings["manga_max_pending"])
     return {
         "enabled": enabled,
@@ -5141,10 +5332,37 @@ def schedule_x_posts(
     post_ids: list[str],
     progress: ProgressCallback = lambda _value, _message: None,
 ) -> dict[str, Any]:
-    settings = load_x_settings(site_root)
+    settings = load_effective_x_settings(site_root)
     ordered_ids = list(dict.fromkeys(post_ids))
     rows = list_x_posts(site_root)
     by_id = {str(row.get("post_id") or ""): row for row in rows}
+    if int(settings.get("global_daily_action_limit") or 0) <= 0:
+        return {
+            "posted": [],
+            "scheduled": [],
+            "failed": [
+                {
+                    "post_id": post_id,
+                    "error": "Xの公開状態に制限兆候があるため自動送信を休止しています",
+                }
+                for post_id in ordered_ids
+            ],
+        }
+    if int(settings.get("health_risk_level") or 0) > 0 and any(
+        by_id.get(post_id, {}).get("delivery_mode") == "thread"
+        for post_id in ordered_ids
+    ):
+        return {
+            "posted": [],
+            "scheduled": [],
+            "failed": [
+                {
+                    "post_id": post_id,
+                    "error": "Xの公開状態が安定するまで漫画の連続投稿を保留します",
+                }
+                for post_id in ordered_ids
+            ],
+        }
     if settings.get("manual_delivery_only", False):
         return {
             "posted": [],
@@ -5237,11 +5455,15 @@ def schedule_x_posts(
             if not any(str(cookie.get("name") or "") == "auth_token" for cookie in cookies):
                 raise RuntimeError("Xへのログインが必要です。先に「Xログイン」を実行してください")
             page = context.new_page()
+            page.goto("https://x.com/home", wait_until="domcontentloaded", timeout=60_000)
+            page.wait_for_timeout(1800)
+            require_x_page_account(page, settings.get("account_handle"))
             total = max(1, len(scheduled_rows) + len(direct))
             completed = 0
             for row in scheduled_rows:
                 post_id = str(row["post_id"])
                 row["status"] = "scheduling"
+                row["account_handle"] = str(settings.get("account_handle") or "")
                 save_x_posts(site_root, rows)
                 progress(
                     max(5, int(completed / total * 90)),
@@ -5307,6 +5529,7 @@ def schedule_x_posts(
                         )
                         row.update({
                             "status": "posted",
+                            "account_handle": str(settings.get("account_handle") or ""),
                             "posted_at": completed_at,
                             "reply_completed_at": completed_at,
                             "scheduled_at": completed_at,
@@ -5331,6 +5554,9 @@ def schedule_x_posts(
                             step = steps[step_index]
                             row["post_text"] = str(step.get("text") or "").strip()
                             row["status"] = "posting"
+                            row["account_handle"] = str(
+                                settings.get("account_handle") or ""
+                            )
                             save_x_posts(site_root, current_rows)
                             previous = row.get("thread_post_urls") or []
                             reply_to_id = (

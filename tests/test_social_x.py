@@ -38,6 +38,7 @@ from indanya_desktop.social_x import (
     load_x_trend_state,
     list_x_posts,
     load_x_settings,
+    migrate_x_account,
     prepare_x_candidates,
     prepare_discovered_x_reply,
     prepare_x_contest_candidate,
@@ -112,6 +113,12 @@ class SocialXTests(unittest.TestCase):
 
     def setUp(self) -> None:
         self.temporary = tempfile.TemporaryDirectory()
+        self.account_guard = patch(
+            "indanya_desktop.social_x.require_x_page_account",
+            return_value="hentai596",
+        )
+        self.account_guard.start()
+        self.addCleanup(self.account_guard.stop)
         self.root = Path(self.temporary.name)
         (self.root / "data").mkdir()
         (self.root / "assets" / "articles" / "sample").mkdir(parents=True)
@@ -197,10 +204,10 @@ class SocialXTests(unittest.TestCase):
         )
         return payload
 
-    def test_default_account_is_indanya_sns_and_password_is_never_stored(self) -> None:
+    def test_default_account_is_hentai596_and_password_is_never_stored(self) -> None:
         settings = load_x_settings(self.root)
-        self.assertEqual("indanya_sns", settings["account_handle"])
-        self.assertEqual("https://x.com/indanya_sns", settings["account_url"])
+        self.assertEqual("hentai596", settings["account_handle"])
+        self.assertEqual("https://x.com/hentai596", settings["account_url"])
         save_x_settings(self.root, {"bulk_interval_minutes": 45})
         stored = (self.root / ".article-studio" / "x-posting-settings.json").read_text(
             encoding="utf-8"
@@ -220,6 +227,56 @@ class SocialXTests(unittest.TestCase):
         self.assertEqual(2, load_x_settings(self.root)["follow_daily_limit"])
         self.assertEqual(100, load_x_settings(self.root)["reply_link_rate_percent"])
         self.assertFalse(load_x_settings(self.root)["manual_delivery_only"])
+
+    def test_account_switch_scopes_old_actions_and_preserves_pending_work(self) -> None:
+        settings_path = self.root / ".article-studio" / "x-posting-settings.json"
+        settings_path.parent.mkdir(parents=True, exist_ok=True)
+        settings_path.write_text(json.dumps({
+            "account_name": "old",
+            "account_handle": "indanya_sns",
+        }), encoding="utf-8")
+        save_x_posts(self.root, [
+            {"post_id": "old-post", "status": "posted", "delivery_mode": "post"},
+            {"post_id": "old-reservation", "status": "scheduled", "delivery_mode": "post"},
+            {"post_id": "new-candidate", "status": "copy_ready", "delivery_mode": "post"},
+        ])
+        growth_path = self.root / ".article-studio" / "x-growth-accounts.json"
+        growth_path.write_text(json.dumps({
+            "accounts": {"sample": {
+                "handle": "sample",
+                "follow_status": "followed",
+                "followed_at": "2026-09-09T08:00:00+09:00",
+            }},
+            "follow_history": [{
+                "handle": "sample",
+                "attempted_at": "2026-09-09T08:00:00+09:00",
+                "result": "followed",
+            }],
+        }), encoding="utf-8")
+
+        saved = save_x_settings(self.root, {
+            "account_name": "AI画像生成",
+            "account_handle": "hentai596",
+        })
+
+        self.assertEqual("hentai596", saved["account_handle"])
+        rows = {row["post_id"]: row for row in list_x_posts(self.root)}
+        self.assertEqual("indanya_sns", rows["old-post"]["account_handle"])
+        self.assertEqual("indanya_sns", rows["old-reservation"]["account_handle"])
+        self.assertFalse(rows["new-candidate"].get("account_handle"))
+        growth = load_x_growth_state(self.root)
+        self.assertEqual("hentai596", growth["account_handle"])
+        self.assertEqual(
+            "indanya_sns",
+            growth["follow_history"][0]["account_handle"],
+        )
+        self.assertNotIn("follow_status", growth["accounts"]["sample"])
+        backups = list(
+            (self.root / ".article-studio" / "x-account-history").glob(
+                "indanya_sns-*"
+            )
+        )
+        self.assertEqual(1, len(backups))
 
     def test_prepare_candidates_only_adds_published_article_once(self) -> None:
         first = prepare_x_candidates(self.root, "https://example.com/site/", limit=3)
@@ -1409,7 +1466,7 @@ class SocialXTests(unittest.TestCase):
         )
         self.assertEqual("posted", saved["status"])
         self.assertEqual(
-            "https://x.com/indanya_sns/status/2099999999999999999",
+            "https://x.com/hentai596/status/2099999999999999999",
             saved["x_post_url"],
         )
 

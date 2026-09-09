@@ -76,6 +76,7 @@ from indanya_desktop.social_x import (
     run_x_daily_cycle,
     schedule_x_posts,
 )
+from indanya_desktop.x_account_health import run_due_x_health_check
 from indanya_desktop.automation import (
     discover_new_sources,
     discover_candidates,
@@ -470,6 +471,27 @@ class XFollowWorker(QRunnable):
         try:
             result = run_due_x_follow_cycle(
                 self.site_root,
+                progress=lambda value, message: self.signals.progress.emit(value, message),
+            )
+            self.signals.completed.emit(result)
+        except Exception as exc:
+            traceback.print_exc()
+            self.signals.failed.emit(str(exc) or exc.__class__.__name__)
+
+
+class XHealthWorker(QRunnable):
+    def __init__(self, site_root: Path, settings: dict[str, Any]) -> None:
+        super().__init__()
+        self.site_root = site_root
+        self.settings = dict(settings)
+        self.signals = WorkerSignals()
+
+    @Slot()
+    def run(self) -> None:
+        try:
+            result = run_due_x_health_check(
+                self.site_root,
+                self.settings,
                 progress=lambda value, message: self.signals.progress.emit(value, message),
             )
             self.signals.completed.emit(result)

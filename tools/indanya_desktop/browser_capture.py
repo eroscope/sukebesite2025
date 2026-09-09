@@ -289,6 +289,43 @@ def x_login_ready() -> bool:
     return (profile / ".indanya-login-ready").exists()
 
 
+def x_page_account_handle(page: Any, timeout_ms: int = 10_000) -> str:
+    """Read the active account from X's own profile navigation link."""
+    profile_link = page.locator('a[data-testid="AppTabBar_Profile_Link"]')
+    try:
+        profile_link.first.wait_for(state="attached", timeout=max(500, timeout_ms))
+    except Exception:
+        pass
+    if profile_link.count():
+        href = str(profile_link.first.get_attribute("href") or "").strip()
+        match = re.fullmatch(r"/([A-Za-z0-9_]{1,15})/?", href)
+        if match:
+            return match.group(1).casefold()
+    switcher = page.locator('[data-testid="SideNav_AccountSwitcher_Button"]')
+    if switcher.count():
+        try:
+            text = str(switcher.first.inner_text() or "")
+        except Exception:
+            text = ""
+        match = re.search(r"@([A-Za-z0-9_]{1,15})", text)
+        if match:
+            return match.group(1).casefold()
+    return ""
+
+
+def require_x_page_account(page: Any, expected_handle: Any) -> str:
+    """Stop an X action when the dedicated profile is on another account."""
+    expected = re.sub(r"[^A-Za-z0-9_]", "", str(expected_handle or "")).casefold()
+    actual = x_page_account_handle(page)
+    if not actual:
+        raise RuntimeError("Xで現在使用中のアカウントを確認できませんでした")
+    if expected and actual != expected:
+        raise RuntimeError(
+            f"Xのログイン先が違います。設定は@{expected}、実際は@{actual}です"
+        )
+    return actual
+
+
 def chatgpt_browser_profile_path() -> Path:
     local_app_data = os.environ.get("LOCALAPPDATA")
     base = Path(local_app_data) if local_app_data else Path.home() / "AppData" / "Local"
