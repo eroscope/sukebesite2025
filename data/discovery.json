@@ -462,11 +462,15 @@
     "works.html"
   ],
   "counts": {
-    "people": 267,
-    "works": 213,
+    "people": 268,
+    "works": 214,
     "topics": 1487
   },
   "people": [
+    {
+      "name": "あがりえひかり",
+      "articles": 1
+    },
     {
       "name": "あきばもも",
       "articles": 1
@@ -1879,6 +1883,10 @@
     },
     {
       "code": "IPZZ-987",
+      "articles": 1
+    },
+    {
+      "code": "JBMD-160",
       "articles": 1
     },
     {
@@ -3453,7 +3461,7 @@
     },
     {
       "name": "イメージビデオ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "イラスト",
@@ -4417,7 +4425,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 39
+      "articles": 40
     },
     {
       "name": "ビビアン",
@@ -6709,7 +6717,7 @@
     },
     {
       "name": "水着",
-      "articles": 112
+      "articles": 113
     },
     {
       "name": "水着グラビア",
