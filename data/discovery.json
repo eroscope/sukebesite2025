@@ -480,9 +480,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 276,
+    "people": 277,
     "works": 220,
-    "topics": 1522
+    "topics": 1524
   },
   "people": [
     {
@@ -675,6 +675,10 @@
     },
     {
       "name": "上原亜依",
+      "articles": 1
+    },
+    {
+      "name": "上坂すみれ",
       "articles": 1
     },
     {
@@ -5146,6 +5150,10 @@
       "articles": 1
     },
     {
+      "name": "下着ライン",
+      "articles": 1
+    },
+    {
       "name": "不倫",
       "articles": 8
     },
@@ -5907,7 +5915,7 @@
     },
     {
       "name": "声優",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "売り子",
@@ -7180,6 +7188,10 @@
     {
       "name": "生尻",
       "articles": 3
+    },
+    {
+      "name": "生放送",
+      "articles": 1
     },
     {
       "name": "生配信",
