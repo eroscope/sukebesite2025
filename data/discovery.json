@@ -226,6 +226,7 @@
     "topics/topic-710b57e0cad1.html",
     "topics/topic-71d84a4e08e8.html",
     "topics/topic-73773dcb8f71.html",
+    "topics/topic-73ef55f7fae4.html",
     "topics/topic-7617e3b447bc.html",
     "topics/topic-76faf7bb7608.html",
     "topics/topic-771bd1d57220.html",
@@ -382,6 +383,7 @@
     "topics/topic-dedcb64739e6.html",
     "topics/topic-deff1678ad25.html",
     "topics/topic-dlsite.html",
+    "topics/topic-duga.html",
     "topics/topic-dvd.html",
     "topics/topic-e042c2ead2f0.html",
     "topics/topic-e16d9671dc56.html",
@@ -454,6 +456,7 @@
     "topics/topic-s1.html",
     "topics/topic-sod.html",
     "topics/topic-sod.html",
+    "topics/topic-sod.html",
     "topics/topic-sodstar.html",
     "topics/topic-sodstar.html",
     "topics/topic-tameike.html",
@@ -467,7 +470,7 @@
   "counts": {
     "people": 270,
     "works": 214,
-    "topics": 1489
+    "topics": 1490
   },
   "people": [
     {
@@ -604,10 +607,6 @@
     },
     {
       "name": "マリア・バレンタイン",
-      "articles": 1
-    },
-    {
-      "name": "ミス中央大学",
       "articles": 1
     },
     {
@@ -756,6 +755,10 @@
     },
     {
       "name": "初美なのか",
+      "articles": 1
+    },
+    {
+      "name": "加藤愛梨",
       "articles": 1
     },
     {
@@ -2704,7 +2707,7 @@
     },
     {
       "name": "DUGA",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "DVD",
@@ -3032,7 +3035,7 @@
     },
     {
       "name": "SODクリエイト",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "SOD女子社員",
@@ -5187,6 +5190,10 @@
       "articles": 1
     },
     {
+      "name": "企画物",
+      "articles": 1
+    },
+    {
       "name": "伊藤舞雪",
       "articles": 1
     },
@@ -6484,7 +6491,7 @@
     },
     {
       "name": "時間停止",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "暑さ対策",
