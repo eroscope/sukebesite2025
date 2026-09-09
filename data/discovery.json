@@ -476,7 +476,7 @@
   "counts": {
     "people": 271,
     "works": 218,
-    "topics": 1500
+    "topics": 1501
   },
   "people": [
     {
@@ -2853,7 +2853,7 @@
     },
     {
       "name": "Instagram",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "I’mew",
@@ -4076,6 +4076,10 @@
       "articles": 2
     },
     {
+      "name": "セクシー",
+      "articles": 1
+    },
+    {
       "name": "セクシーラウンジ",
       "articles": 1
     },
@@ -4493,7 +4497,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 40
+      "articles": 41
     },
     {
       "name": "ビビアン",
@@ -5077,7 +5081,7 @@
     },
     {
       "name": "下着",
-      "articles": 52
+      "articles": 53
     },
     {
       "name": "下着ずらし",
@@ -6801,7 +6805,7 @@
     },
     {
       "name": "水着",
-      "articles": 114
+      "articles": 115
     },
     {
       "name": "水着グラビア",
@@ -7737,7 +7741,7 @@
     },
     {
       "name": "自撮り",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "自撮り動画",
