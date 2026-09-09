@@ -171,6 +171,7 @@
     "topics/topic-4464f1058733.html",
     "topics/topic-459503174895.html",
     "topics/topic-45cec0322496.html",
+    "topics/topic-468a17f22ed9.html",
     "topics/topic-473c318725f8.html",
     "topics/topic-48313ee94b4d.html",
     "topics/topic-4a3fad303d05.html",
@@ -469,8 +470,8 @@
   ],
   "counts": {
     "people": 270,
-    "works": 214,
-    "topics": 1490
+    "works": 215,
+    "topics": 1492
   },
   "people": [
     {
@@ -1861,6 +1862,10 @@
     },
     {
       "code": "IPZZ-778",
+      "articles": 1
+    },
+    {
+      "code": "IPZZ-806",
       "articles": 1
     },
     {
@@ -3399,7 +3404,7 @@
     },
     {
       "name": "アイデアポケット",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "アイドルマスター",
@@ -4850,6 +4855,10 @@
       "articles": 1
     },
     {
+      "name": "ラブホテル",
+      "articles": 1
+    },
+    {
       "name": "ラブラブH",
       "articles": 1
     },
@@ -5362,6 +5371,10 @@
       "articles": 1
     },
     {
+      "name": "先生と生徒",
+      "articles": 1
+    },
+    {
       "name": "入浴",
       "articles": 3
     },
@@ -5471,7 +5484,7 @@
     },
     {
       "name": "制服",
-      "articles": 24
+      "articles": 25
     },
     {
       "name": "制服衣装",
@@ -5739,7 +5752,7 @@
     },
     {
       "name": "堀北桃愛",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "堀未央奈",
