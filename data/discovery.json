@@ -477,7 +477,7 @@
   "counts": {
     "people": 272,
     "works": 218,
-    "topics": 1504
+    "topics": 1507
   },
   "people": [
     {
@@ -2681,6 +2681,10 @@
       "articles": 1
     },
     {
+      "name": "AV動画",
+      "articles": 1
+    },
+    {
       "name": "AV女優",
       "articles": 43
     },
@@ -4842,7 +4846,7 @@
     },
     {
       "name": "メンズエステ",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "モザイク比較",
@@ -5921,6 +5925,10 @@
       "articles": 1
     },
     {
+      "name": "天羽りりか",
+      "articles": 1
+    },
+    {
       "name": "天馬ゆい",
       "articles": 1
     },
@@ -6634,6 +6642,10 @@
     },
     {
       "name": "本田姉妹",
+      "articles": 1
+    },
+    {
+      "name": "本番",
       "articles": 1
     },
     {
