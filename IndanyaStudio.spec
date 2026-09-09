@@ -1,26 +1,28 @@
 # -*- mode: python ; coding: utf-8 -*-
 from pathlib import Path
 import PySide6
-from PyInstaller.utils.hooks import collect_data_files, collect_dynamic_libs
+from PyInstaller.utils.hooks import collect_all, collect_data_files, collect_dynamic_libs
 
 root = Path(SPECPATH).resolve()
 tools = root / "tools"
 playwright_data = collect_data_files("playwright")
 imageio_ffmpeg_data = collect_data_files("imageio_ffmpeg")
 imageio_ffmpeg_binaries = collect_dynamic_libs("imageio_ffmpeg")
+rapidocr_data, rapidocr_binaries, rapidocr_hiddenimports = collect_all("rapidocr")
+onnxruntime_binaries = collect_dynamic_libs("onnxruntime")
 
 a = Analysis(
     [str(tools / "indanya_desktop_app.py")],
     pathex=[str(tools)],
-    binaries=imageio_ffmpeg_binaries,
+    binaries=imageio_ffmpeg_binaries + rapidocr_binaries + onnxruntime_binaries,
     datas=[
         (str(tools / "article_studio_app"), "article_studio_app"),
         (str(tools / "article_studio_codex_schema.json"), "."),
         (str(tools / "article_studio_codex_analysis_schema.json"), "."),
         (str(tools / "social_profile_verification_schema.json"), "."),
         (str(tools / "x_trend_templates_schema.json"), "."),
-    ] + playwright_data + imageio_ffmpeg_data,
-    hiddenimports=["PIL", "playwright.sync_api", "playwright._impl._driver", "PySide6.QtWebEngineWidgets", "PySide6.QtMultimedia", "imageio_ffmpeg", "google.analytics.data_v1beta", "google.oauth2.service_account"],
+    ] + playwright_data + imageio_ffmpeg_data + rapidocr_data,
+    hiddenimports=["PIL", "playwright.sync_api", "playwright._impl._driver", "PySide6.QtWebEngineWidgets", "PySide6.QtMultimedia", "imageio_ffmpeg", "google.analytics.data_v1beta", "google.oauth2.service_account", "onnxruntime"] + rapidocr_hiddenimports,
     hookspath=[],
     runtime_hooks=[],
     excludes=[],

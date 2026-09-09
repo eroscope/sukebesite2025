@@ -1191,6 +1191,12 @@ def build_source_draft_payload(
             "ai_content_group": str(item.get("ai_content_group") or "")[:120],
             "ai_role": str(item.get("ai_role") or "")[:80],
             "ai_reason": str(item.get("ai_reason") or "")[:500],
+            "local_ocr_text": str(item.get("local_ocr_text") or "")[:1800],
+            "local_public_handle_candidates": [
+                dict(value)
+                for value in item.get("local_public_handle_candidates") or []
+                if isinstance(value, dict)
+            ][:12],
         })
         if image_id in selected_image_ids:
             body_image_ids.append(payload_image_id)
@@ -1423,12 +1429,20 @@ def _codex_prompt(
             if fanza_product_mode else ""
         ),
         "nearby_real_headlines_for_style_comparison": _source_headline_samples(source),
+        "local_identity_clues": source.get("local_identity_clues", []),
         "selected_image_context": [
             {
                 "image_id": item.get("id"),
                 "page_role": item.get("ai_role"),
                 "relation_to_other_media": item.get("ai_relation"),
                 "analysis_reason": item.get("ai_reason"),
+                "local_ocr_text": item.get("local_ocr_text", ""),
+                "public_handle_candidates": item.get(
+                    "local_public_handle_candidates", []
+                ),
+                "known_identity_matches": item.get(
+                    "local_known_identity_matches", []
+                ),
             }
             for item in (source.get("images") or [])
             if isinstance(item, dict) and str(item.get("id")) in generation_image_ids
@@ -1729,6 +1743,8 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
             "動画があることを理由に本文画像を除外せず、画像があることを理由に動画を除外しない。"
         ),
         "navigation_context": source.get("navigation_context", {}),
+        "local_ocr": source.get("local_ocr", {}),
+        "local_identity_clues": source.get("local_identity_clues", []),
     }
     raw_links = [item for item in (source.get("links") or []) if isinstance(item, dict)]
     navigation_text = " ".join(
@@ -1779,6 +1795,9 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
             "page_rect": item.get("browser_rect", {}), "surrounding_text": str(item.get("browser_context", ""))[:220],
             "dom_ancestors": str(item.get("browser_ancestors", ""))[:180], "link_target": item.get("browser_link_url", ""),
             "thumbnail_only_candidate": bool(item.get("thumbnail_only_candidate")),
+            "local_ocr_text": str(item.get("local_ocr_text", ""))[:1800],
+            "public_handle_candidates": item.get("local_public_handle_candidates", []),
+            "known_identity_matches": item.get("local_known_identity_matches", []),
         }
         for item in (source.get("images") or []) if isinstance(item, dict)
     ]
@@ -1861,6 +1880,9 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
 - reasonには、どの表示から作品名とURLが一致したと確認したかを書く。thumbnail_urlは同じ公式作品ページのOGPまたは公式パッケージ画像を直接確認できた場合だけ入れ、記事画像や別作品画像を代用しない。
 
 本人アカウント判定:
+- local_ocrとlocal_identity_cluesは、モデルを呼ぶ前に端末内で画像そのものから読んだ文字である。画像内に書かれた氏名、@ID、`*_official`を本文やaltより優先度の高い人物調査の手掛かりとして必ず確認し、空のまま無視しない。
+- public_handle_candidatesは本人確定ではない。Web検索でその公開IDを調べ、公式サイト・出版社・所属先など別の公開情報と人物名が一致した場合だけ確定する。顔や体型の類似だけで人物名を決めない。
+- known_identity_matchesは過去に公式情報で検証済みの公開IDとの完全一致である。同じ素材に別の公開IDがなければ人物名と素材の対応根拠として使い、公式プロフィールも再利用する。
 - 記事の中心人物がインフルエンサー、TikToker、YouTuber、配信者、コスプレイヤー、モデル、グラビアアイドルなどで、ページ情報またはリンク一覧に本人のSNSだと確認できるURLがある場合、social_profilesへ入れる。
 - nameはページ本文・投稿者名・見出し・リンク周辺文で確認できた人物名、serviceはx/tiktok/instagram/youtube/myfans/fantia、urlは提示された現在URLまたはリンク一覧に実在するURLを一字も変えずに返す。
 - 記事の中心人物に対応するものだけis_main_subject=trueにする。複数人物の記事では、各人物との対応がページ上で確認できる公式アカウントもis_main_subject=falseで入れる。アカウントと人物の対応が不明なら入れない。
@@ -1870,10 +1892,11 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
 人物と画像の対応判定:
 - identified_peopleには、見出し、画像直前の説明、alt/caption、リンク文、作品の出演者表記、公式ページのうち独立した2種類以上の根拠が同じ名前を示す公開活動者だけを入れる。
 - confidenceは表示名の正確さを表す。95未満の人物はidentified_peopleにもmedia_person_attributionsにも入れない。人数を埋めるために推測せず、分からない人物は未特定のままにする。
-- evidence_typesは実際に使った根拠だけをheadline/caption/alt/link_text/official_profile/official_page/product_credit/source_metadataから2種類以上選ぶ。似た顔、体型、衣装、雰囲気は根拠に含めない。
+- evidence_typesは実際に使った根拠だけをheadline/caption/alt/link_text/watermark_ocr/official_profile/official_page/product_credit/source_metadataから2種類以上選ぶ。似た顔、体型、衣装、雰囲気は根拠に含めない。
 - media_person_attributionsには、どの画像・動画に誰が写るかを対応付ける。image_idsとvideo_idsは候補一覧のIDを一字も変えずに使い、少なくともどちらか一方を入れる。
 - 1人を特集する記事でも、全画像を自動的に同一人物とみなさない。記事見出しと各画像のalt/captionまたは直前の説明が同じ人物名を示す画像だけ対応付ける。
 - 各画像・動画の画面内に表示される投稿者名、チャンネル名、透かし、@ハンドルを必ず読む。確認できた文字列はimage_decisionsまたはvideo_decisionsのvisible_creator_handleへそのまま入れ、主役または根拠付きの別人物と一致するかをsubject_matchで判定する。
+- local_ocr_textに氏名や公開IDがあり、公式情報との照合で人物を95以上まで確認できた場合は、identified_peopleとmedia_person_attributionsを空にしてはならない。公式情報まで届かなければperson_identity_candidatesへ残し、何も記録せず通過させない。
 - visible_creator_handleが主役の確認済み公式ハンドルと異なり、その別ハンドルの人物が本編の共演者・別の特集対象だとページ上で確認できない場合はsubject_match=mismatch、verdict=unrelated、recommended_use=excludeにする。その素材をtitle、description、レスの根拠に使わない。
 - 記事タイトルが主役名を示していても、関連記事・おすすめ欄・次の記事から混入した別ハンドルの素材を主役本人だと扱わない。ハンドル不一致は、顔や衣装が似ているという理由では覆せない。
 - 複数人物のまとめでは、画像ごとの隣接説明や作品出演者表記がない画像を顔だけで振り分けない。1枚に複数人が写り、全員を根拠付きで確認できる場合は同じimage_idを複数人物へ割り当ててよい。
@@ -2129,7 +2152,7 @@ def _validate_codex_analysis(value: Any, source: dict[str, Any]) -> dict[str, An
     }
     allowed_identity_evidence = {
         "headline", "caption", "alt", "link_text", "official_profile",
-        "official_page", "product_credit", "source_metadata",
+        "official_page", "product_credit", "source_metadata", "watermark_ocr",
     }
     identified_people: list[dict[str, Any]] = []
     identified_names: set[str] = set()

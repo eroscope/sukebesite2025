@@ -6,3 +6,5 @@ imageio-ffmpeg>=0.6
 tzdata>=2026.1
 google-analytics-data>=0.23
 google-auth>=2.56
+rapidocr>=3.4,<4
+onnxruntime>=1.26,<2

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 from typing import Any
+from urllib.parse import urlparse
 
 from indanya_desktop.social_profiles import normalize_person_name
 
@@ -16,6 +17,7 @@ ALLOWED_EVIDENCE_TYPES = {
     "official_page",
     "product_credit",
     "source_metadata",
+    "watermark_ocr",
     "visual_exact_match",
     "visual_near_match",
     "verified_visual_registry",
@@ -96,6 +98,34 @@ def _verified_account_groups(source: dict[str, Any], person_name: Any) -> set[st
     return groups
 
 
+def _verified_profile_handles(source: dict[str, Any], person_name: Any) -> set[str]:
+    person_keys = _person_name_keys(person_name)
+    handles: set[str] = set()
+    for profile in source.get("verified_social_profiles") or []:
+        if not isinstance(profile, dict) or _confidence(profile.get("confidence")) < 95:
+            continue
+        if not person_keys.intersection(
+            _person_name_keys(profile.get("name") or profile.get("display_name"))
+        ):
+            continue
+        try:
+            parts = [part for part in urlparse(str(profile.get("url") or "")).path.split("/") if part]
+        except ValueError:
+            parts = []
+        if not parts:
+            continue
+        service = str(profile.get("service") or "").casefold()
+        if service == "fantia" and len(parts) >= 2:
+            handle = parts[1]
+        elif service == "youtube" and parts[0].startswith("@"):
+            handle = parts[0][1:]
+        else:
+            handle = parts[0].lstrip("@")
+        if handle:
+            handles.add(handle.casefold())
+    return handles
+
+
 def _actual_evidence_types(
     source: dict[str, Any],
     person_name: str,
@@ -121,6 +151,7 @@ def _actual_evidence_types(
         if isinstance(item, dict) and str(item.get("id") or "") in video_ids
     }
     account_groups = _verified_account_groups(source, person_name)
+    verified_profile_handles = _verified_profile_handles(source, person_name)
     for item in [*selected_images.values(), *selected_videos.values()]:
         if _contains_person_name(item.get("alt"), person_name):
             evidence.add("alt")
@@ -133,6 +164,16 @@ def _actual_evidence_types(
         if str(item.get("ai_content_group") or "").casefold() in account_groups:
             evidence.add("official_profile")
             evidence.add("source_metadata")
+        ocr_text = item.get("local_ocr_text")
+        if _contains_person_name(ocr_text, person_name):
+            evidence.add("watermark_ocr")
+        written_handles = {
+            str(handle.get("handle") or "").casefold()
+            for handle in item.get("local_public_handle_candidates") or []
+            if isinstance(handle, dict) and handle.get("handle")
+        }
+        if verified_profile_handles.intersection(written_handles):
+            evidence.add("watermark_ocr")
 
     if any(
         normalize_person_name(item.get("name") or item.get("display_name"))
@@ -271,6 +312,7 @@ def _main_subject_attributions(
         return []
     image_ids: list[str] = []
     account_groups = _verified_account_groups(source, person["name"])
+    verified_profile_handles = _verified_profile_handles(source, person["name"])
     for image in source.get("images") or []:
         if not isinstance(image, dict):
             continue
@@ -279,11 +321,19 @@ def _main_subject_attributions(
             continue
         adjacent = " ".join(
             _clean_text(image.get(field), 500)
-            for field in ("alt", "caption", "nearby_text", "link_text")
+            for field in (
+                "alt", "caption", "nearby_text", "link_text", "local_ocr_text"
+            )
         )
+        written_handles = {
+            str(handle.get("handle") or "").casefold()
+            for handle in image.get("local_public_handle_candidates") or []
+            if isinstance(handle, dict) and handle.get("handle")
+        }
         if (
             _contains_person_name(adjacent, name)
             or str(image.get("ai_content_group") or "").casefold() in account_groups
+            or bool(verified_profile_handles.intersection(written_handles))
         ):
             image_ids.append(image_id)
     if not image_ids:

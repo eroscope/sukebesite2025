@@ -219,6 +219,67 @@ class AdaptiveQualityTests(unittest.TestCase):
             "person_identity_unresolved_without_candidates", report["warnings"]
         )
 
+    def test_visible_account_id_cannot_be_silently_ignored(self) -> None:
+        payload = _payload()
+        payload["images"][0]["source_id"] = "media-1"
+        source = {
+            "local_identity_clues": [{
+                "image_id": "media-1",
+                "ocr_text": "airi_kato_official",
+                "public_handle_candidates": [{
+                    "handle": "airi_kato_official",
+                    "confidence": 95,
+                }],
+                "known_identity_matches": [],
+            }]
+        }
+
+        unresolved = article_quality_report(payload, source)
+        self.assertIn("visible_identity_clue_ignored", unresolved["warnings"])
+        self.assertNotIn("visible_identity_clue_ignored", unresolved["blockers"])
+
+        payload["person_identity_candidates"] = [{
+            "media_type": "image",
+            "media_id": "image-1",
+            "candidates": [{
+                "name": "加藤愛梨",
+                "confidence": 90,
+                "evidence_types": ["watermark_ocr"],
+                "reason": "画像内IDから得た未確定候補",
+            }],
+        }]
+        recorded = article_quality_report(payload, source)
+        self.assertNotIn("visible_identity_clue_ignored", recorded["warnings"])
+
+    def test_all_attributed_person_images_do_not_need_a_content_group(self) -> None:
+        payload = _payload()
+        payload["images"][0]["source_id"] = "media-1"
+        payload["images"].append({
+            "id": "image-2",
+            "source_id": "media-2",
+            "source_url": "https://cdn.example.com/2.jpg",
+        })
+        payload["blocks"][0]["image_ids"] = ["image-1", "image-2"]
+        payload["main_subject"] = {
+            "kind": "person",
+            "name": "加藤愛梨",
+            "is_public_creator": True,
+        }
+        payload["person_identity_gate"] = {"status": "verified"}
+        payload["identified_people"] = [{"name": "加藤愛梨", "confidence": 99}]
+        payload["media_person_attributions"] = [{
+            "person_name": "加藤愛梨",
+            "image_ids": ["image-1", "image-2"],
+            "video_ids": [],
+            "confidence": 99,
+            "evidence_types": ["watermark_ocr", "official_profile"],
+        }]
+
+        report = article_quality_report(payload)
+
+        self.assertNotIn("unverified_subject_media", report["warnings"])
+        self.assertIn("採用した全画像を検証済み人物へ対応付け", report["evidence"])
+
     def test_named_person_with_multiple_content_groups_is_rejected(self) -> None:
         payload = _payload()
         payload["main_subject"] = {"kind": "person", "name": "南ゆい"}

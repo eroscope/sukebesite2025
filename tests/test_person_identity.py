@@ -127,6 +127,57 @@ def test_verified_x_account_group_attributes_every_exact_post_image() -> None:
     assert "official_profile" in attribution["evidence_types"]
 
 
+def test_written_instagram_handle_is_valid_identity_evidence() -> None:
+    source = {
+        "title": "加藤愛梨の水着グラビア",
+        "ai_main_subject": {
+            "kind": "person",
+            "name": "加藤愛梨",
+            "role": "グラビアモデル",
+        },
+        "verified_social_profiles": [{
+            "name": "加藤愛梨",
+            "role": "グラビアモデル",
+            "service": "instagram",
+            "url": "https://www.instagram.com/airi_kato_official/",
+            "confidence": 99,
+        }],
+        "ai_identified_people": [{
+            "name": "加藤愛梨",
+            "role": "グラビアモデル",
+            "is_public_creator": True,
+            "confidence": 99,
+            "evidence_types": ["watermark_ocr", "official_profile"],
+            "reason": "画像内IDと公式Instagramが一致",
+        }],
+        "ai_media_person_attributions": [{
+            "person_name": "加藤愛梨",
+            "image_ids": ["media-1"],
+            "video_ids": [],
+            "confidence": 99,
+            "evidence_types": ["watermark_ocr", "official_profile"],
+            "reason": "画像内IDと公式Instagramが一致",
+        }],
+        "images": [{
+            "id": "media-1",
+            "ai_verdict": "article",
+            "local_ocr_text": "airi_kato_official",
+            "local_public_handle_candidates": [{
+                "handle": "airi_kato_official",
+                "confidence": 95,
+            }],
+        }],
+    }
+
+    apply_verified_person_identity_to_source(source)
+
+    assert source["identified_people"][0]["name"] == "加藤愛梨"
+    assert source["media_person_attributions"][0]["image_ids"] == ["media-1"]
+    assert source["media_person_attributions"][0]["evidence_types"] == [
+        "watermark_ocr", "official_profile",
+    ]
+
+
 def test_model_confidence_without_authoritative_evidence_is_rejected() -> None:
     source = {
         "title": "候補人物の水着画像",

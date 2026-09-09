@@ -110,6 +110,10 @@ from indanya_desktop.site_learning import (
     prioritize_source_media,
     record_site_outcome,
 )
+from indanya_desktop.image_text_identity import (
+    apply_local_identity_matches_to_analysis,
+    enrich_source_with_local_image_text,
+)
 from indanya_desktop.affiliate_opportunities import (
     detect_affiliate_opportunities,
 )
@@ -2564,13 +2568,19 @@ def _capture_and_analyze_source(
             )
 
         if progress:
+            progress(34, "画像内の氏名と公開アカウントIDを端末内で読み取っています")
+        source = enrich_source_with_local_image_text(site_root, source)
+
+        if progress:
             progress(38, "Codexが本編素材の判定と完成記事を1回で作成しています")
         composed = runner.compose(source, {
             "category": category,
             "reply_count": reply_count,
             "site_learning_context": learning_prompt_context(site_plan),
         })
-        analysis = dict(composed["analysis"])
+        analysis = apply_local_identity_matches_to_analysis(
+            source, dict(composed["analysis"])
+        )
         if analysis.get("adult_content") is not True:
             reason = str(analysis.get("adult_reason") or "一般向けの内容です")
             raise NonAdultSourceError(f"成人向けでないため記事を作成しませんでした: {reason}")
@@ -2953,6 +2963,10 @@ def _apply_editorial_metadata(
     payload["promotion_type"] = promotion_type
     payload["editorial_brief"] = str(intent.get("editorial_brief") or "")[:1000]
     payload["private_client_note"] = str(intent.get("private_note") or "")[:2000]
+    for field in ("local_ocr", "local_identity_clues"):
+        value = source.get(field)
+        if value not in (None, [], {}):
+            payload[field] = json.loads(json.dumps(value, ensure_ascii=False))
     trend_context = intent.get("trend_context") or {}
     if isinstance(trend_context, dict) and trend_context:
         payload["automation_trend_context"] = {

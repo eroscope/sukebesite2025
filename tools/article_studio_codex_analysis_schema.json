@@ -168,7 +168,7 @@
             "minItems": 2,
             "items": {
               "type": "string",
-              "enum": ["headline", "caption", "alt", "link_text", "official_profile", "official_page", "product_credit", "source_metadata"]
+              "enum": ["headline", "caption", "alt", "link_text", "watermark_ocr", "official_profile", "official_page", "product_credit", "source_metadata"]
             }
           },
           "reason": {
@@ -218,7 +218,7 @@
             "minItems": 2,
             "items": {
               "type": "string",
-              "enum": ["headline", "caption", "alt", "link_text", "official_profile", "official_page", "product_credit", "source_metadata"]
+              "enum": ["headline", "caption", "alt", "link_text", "watermark_ocr", "official_profile", "official_page", "product_credit", "source_metadata"]
             }
           },
           "reason": {

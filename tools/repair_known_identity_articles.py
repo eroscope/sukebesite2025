@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import quote
@@ -20,11 +21,63 @@ from indanya_desktop.related_thumbnail_assets import (  # noqa: E402
     localize_related_thumbnail_assets,
     prune_unreferenced_related_thumbnail_assets,
 )
+from indanya_desktop.related_links import (  # noqa: E402
+    apply_official_social_destinations,
+    ensure_related_footer,
+)
+from indanya_desktop.social_profiles import upsert_social_profile_record  # noqa: E402
+from indanya_desktop.adaptive_quality import apply_quality_gate  # noqa: E402
 
 
 PAN_SLUG = "url-himablo-xyz-dcd6535f"
 HAYASHIDA_SLUG = "url-chaos-giga-com-9b7c45ac"
 SAKURA_SLUG = "url-hnalady-com-0726ca89"
+KATO_AIRI_SLUG = "url-himablo-xyz-0fad6d38"
+
+KATO_AIRI_PROFILES = [
+    {
+        "name": "加藤愛梨",
+        "display_name": "加藤愛梨",
+        "role": "俳優・グラビアモデル",
+        "service": "x",
+        "url": "https://x.com/l_ovepear",
+        "is_main_subject": True,
+        "reason": "週プレNEWSの加藤愛梨プロフィール欄で公式Xとして確認",
+        "verification_source": "official_publisher",
+        "verification_status": "verified",
+        "confidence": 99,
+        "thumbnail_url": (
+            "https://pbs.twimg.com/profile_images/2082246526827712512/"
+            "1Pt18Wg4_400x400.jpg"
+        ),
+        "thumbnail_source_kind": "profile",
+        "thumbnail_owner_url": "https://x.com/l_ovepear",
+    },
+    {
+        "name": "加藤愛梨",
+        "display_name": "加藤愛梨",
+        "role": "俳優・グラビアモデル",
+        "service": "instagram",
+        "url": "https://www.instagram.com/airi_kato_official/",
+        "is_main_subject": True,
+        "reason": "画像内IDと週プレNEWS記載の公式Instagramが完全一致",
+        "verification_source": "watermark_ocr_and_official_publisher",
+        "verification_status": "verified",
+        "confidence": 99,
+    },
+    {
+        "name": "加藤愛梨",
+        "display_name": "加藤愛梨",
+        "role": "俳優・グラビアモデル",
+        "service": "tiktok",
+        "url": "https://www.tiktok.com/@l_ovepear",
+        "is_main_subject": True,
+        "reason": "週プレNEWSの加藤愛梨プロフィール欄で公式TikTokとして確認",
+        "verification_source": "official_publisher",
+        "verification_status": "verified",
+        "confidence": 99,
+    },
+]
 
 
 def _source_media(payload: dict[str, Any], prefix: str) -> list[dict[str, Any]]:
@@ -215,10 +268,131 @@ def repair_sakura_miko(payload: dict[str, Any]) -> bool:
     return before != repr(payload)
 
 
+def repair_kato_airi(payload: dict[str, Any]) -> bool:
+    if str(payload.get("slug") or "") != KATO_AIRI_SLUG:
+        return False
+    before = repr(payload)
+    person_name = "加藤愛梨"
+    payload["title"] = "【画像】加藤愛梨、ミス中央の清楚な笑顔から水着グラビアへ"
+    payload["summary"] = (
+        "ミス中央2022グランプリの加藤愛梨が、表彰時のティアラ姿から白と水色の"
+        "ビキニ姿まで見せるグラビア。画像内の氏名とInstagram IDを公式情報と照合した。"
+    )
+    payload["tags"] = ["加藤愛梨", "グラビア", "水着", "ビキニ"]
+    payload["main_subject"] = {
+        "name": person_name,
+        "kind": "person",
+        "role": "俳優・グラビアモデル",
+        "is_public_creator": True,
+        "reason": (
+            "画像内の『加藤愛梨』『airi_kato_official』と、"
+            "集英社・週プレの公式人物情報が一致"
+        ),
+    }
+    payload["identity_resolution"] = {
+        "status": "verified",
+        "method": "local_ocr_and_official_publisher",
+        "message": (
+            "画像内Instagram IDと氏名をOCRで取得し、週プレNEWSの公式SNS欄、"
+            "集英社の写真集モデル表記と照合"
+        ),
+        "retry_after": "",
+    }
+    payload["verified_social_profiles"] = [dict(item) for item in KATO_AIRI_PROFILES]
+    payload["promotion_type"] = "organic"
+    payload.pop("affiliate_opportunities", None)
+    payload.pop("transparency_note", None)
+    payload["local_identity_clues"] = [
+        {
+            "image_id": "source-image-3",
+            "ocr_text": "airi_kato_official / 中央大学 (Chuo University)",
+            "public_handle_candidates": [{
+                "handle": "airi_kato_official",
+                "written_as": "airi_kato_official",
+                "service_hint": "instagram",
+                "confidence": 95,
+                "evidence_type": "watermark_ocr",
+            }],
+            "known_identity_matches": [{
+                "name": person_name,
+                "role": "俳優・グラビアモデル",
+                "confidence": 99,
+            }],
+        },
+        {
+            "image_id": "source-image-5",
+            "ocr_text": "Digital Limited / photographed by Kousuke MAE / 加藤愛梨",
+            "public_handle_candidates": [],
+            "known_identity_matches": [{
+                "name": person_name,
+                "role": "俳優・グラビアモデル",
+                "confidence": 99,
+            }],
+        },
+    ]
+    for index, item in enumerate(_source_media(payload, "source-image-"), start=1):
+        item["alt"] = f"加藤愛梨のグラビア画像 {index}"
+        item["caption"] = person_name
+        if str(item.get("id") or "") == "source-image-3":
+            item["local_ocr_text"] = "airi_kato_official / 中央大学 (Chuo University)"
+            item["local_public_handle_candidates"] = [{
+                "handle": "airi_kato_official",
+                "written_as": "airi_kato_official",
+                "service_hint": "instagram",
+                "confidence": 95,
+                "evidence_type": "watermark_ocr",
+            }]
+        elif str(item.get("id") or "") == "source-image-5":
+            item["local_ocr_text"] = "Digital Limited / photographed by Kousuke MAE / 加藤愛梨"
+
+    official_url = "https://www.grajapa.shueisha.co.jp/item/detail/gravure/32ccf4fe4c399f573db547b704dcf2aa"
+    official_thumbnail = (
+        "https://www.grajapa.shueisha.co.jp/files/jpn/img/book/000001/"
+        "32ccf4fe4c399f573db547b704dcf2aa_l.jpg"
+    )
+    body_blocks = [
+        block
+        for block in payload.get("blocks") or []
+        if isinstance(block, dict) and block.get("type") != "related_link"
+    ]
+    body_blocks.append({
+        "id": "kato-airi-official-photobook",
+        "type": "related_link",
+        "url": official_url,
+        "title": "加藤愛梨 写真集『永遠に憧れの人。』",
+        "text": "記事の人物本人をモデルとして集英社が販売する公式デジタル写真集です。",
+        "button_text": "公式写真集を見る",
+        "placement_label": "加藤愛梨の公式写真集",
+        "provider": "grajapa",
+        "link_kind": "exact_official_work",
+        "match_evidence": "画像内氏名と公式商品ページのモデル名が一致",
+        "match_confidence": 99,
+        "person_name": person_name,
+        "thumbnail_url": official_thumbnail,
+        "thumbnail_source_kind": "official_page",
+        "thumbnail_owner_url": official_url,
+    })
+    payload["blocks"] = body_blocks
+    payload["related_destinations"] = [{
+        "url": official_url,
+        "title": "加藤愛梨 写真集『永遠に憧れの人。』",
+        "provider": "grajapa",
+        "link_kind": "official_content",
+        "match_confidence": 99,
+        "person_name": person_name,
+    }]
+    apply_official_social_destinations(payload, KATO_AIRI_PROFILES)
+    ensure_related_footer(payload)
+    payload.pop("quality_gate", None)
+    payload.pop("review_message", None)
+    return before != repr(payload)
+
+
 REPAIRS: dict[str, Callable[[dict[str, Any]], bool]] = {
     PAN_SLUG: repair_pan_piano,
     HAYASHIDA_SLUG: repair_hayashida_moka,
     SAKURA_SLUG: repair_sakura_miko,
+    KATO_AIRI_SLUG: repair_kato_airi,
 }
 
 
@@ -228,11 +402,37 @@ def repair(slug: str, site_root: Path = ROOT) -> dict[str, Any]:
         raise ValueError(f"未登録の修復対象です: {slug}")
     payload = load_draft_payload(slug, site_root)
     content_changed = repairer(payload)
+    if slug == KATO_AIRI_SLUG:
+        upsert_social_profile_record(site_root, {
+            "canonical_name": "加藤愛梨",
+            "aliases": ["加藤愛梨", "airi_kato_official", "l_ovepear"],
+            "role": "俳優・グラビアモデル",
+            "status": "verified",
+            "confidence": 99,
+            "profiles": [dict(item) for item in KATO_AIRI_PROFILES],
+            "evidence": [
+                {
+                    "url": "https://wpb.shueisha.co.jp/gravure/movie/20260715-132134/",
+                    "kind": "published_article",
+                    "claim": "加藤愛梨の氏名、活動歴、公式X・TikTok・Instagramを掲載",
+                },
+                {
+                    "url": "https://www.shueisha.co.jp/books/items/contents.html?jdcn=08000000052447000000",
+                    "kind": "official_profile",
+                    "claim": "集英社の写真集ページでモデル名を加藤愛梨と確認",
+                },
+            ],
+            "reason": "画像内の氏名・Instagram IDと集英社公式情報が一致",
+            "verified_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "retry_after": "",
+            "verification_method": "local_ocr_and_official_publisher",
+        })
     identity_changed = backfill_verified_main_subject_identity(payload)
     thumbnails_changed = localize_related_thumbnail_assets(payload)
     fallback_changed = apply_related_thumbnail_fallbacks(payload)
     pruned = prune_unreferenced_related_thumbnail_assets(payload)
     payload["replace_existing"] = True
+    apply_quality_gate(site_root, payload, persist=False)
     save_draft(payload, site_root)
     result = add_built_article(payload, site_root)
     return {

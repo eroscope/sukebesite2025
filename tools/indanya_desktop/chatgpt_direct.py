@@ -47,6 +47,10 @@ from indanya_desktop.site_learning import (
     prioritize_source_media,
     record_fast_path_probe,
 )
+from indanya_desktop.image_text_identity import (
+    apply_local_identity_matches_to_analysis,
+    enrich_source_with_local_image_text,
+)
 
 
 ProgressCallback = Callable[[int, str], None]
@@ -788,6 +792,7 @@ def capture_and_analyze(
             except Exception:
                 traceback.print_exc()
         source = prioritize_source_media(source, site_plan)
+        source = enrich_source_with_local_image_text(site_root, source)
         if semantic:
             _merge_x_semantics(source, semantic)
         if (
@@ -892,6 +897,7 @@ def capture_and_analyze(
                 }
                 current_url = validated
                 continue
+        analysis = apply_local_identity_matches_to_analysis(source, analysis)
         analyzed = apply_codex_analysis(source, analysis)
         analyzed["_single_pass_article"] = analysis.get("article")
         analyzed["requested_url"] = source_url

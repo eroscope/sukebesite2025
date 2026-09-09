@@ -430,6 +430,40 @@ def article_quality_report(
     if candidate_only_media:
         warnings.append("person_identity_candidate_only")
 
+    payload_ids_by_source = {
+        str(item.get("source_id") or ""): str(item.get("id") or "")
+        for item in images
+        if item.get("source_id") and item.get("id")
+    }
+    strong_ocr_media: set[tuple[str, str]] = set()
+    for clue in source.get("local_identity_clues") or payload.get("local_identity_clues") or []:
+        if not isinstance(clue, dict):
+            continue
+        strong_handle = False
+        for item in clue.get("public_handle_candidates") or []:
+            if not isinstance(item, dict) or not str(item.get("handle") or "").strip():
+                continue
+            try:
+                handle_confidence = int(item.get("confidence") or 0)
+            except (TypeError, ValueError):
+                handle_confidence = 0
+            if handle_confidence >= 70:
+                strong_handle = True
+                break
+        if not strong_handle and not clue.get("known_identity_matches"):
+            continue
+        source_id = str(clue.get("image_id") or "")
+        payload_id = payload_ids_by_source.get(source_id, source_id)
+        media_key = ("image", payload_id)
+        if media_key in placed_media:
+            strong_ocr_media.add(media_key)
+    candidate_media = candidate_only_media | unresolved_without_candidates
+    ignored_ocr_media = strong_ocr_media.difference(attributed_media).difference(candidate_media)
+    if ignored_ocr_media:
+        warnings.append("visible_identity_clue_ignored")
+    elif strong_ocr_media:
+        evidence.append("画像内の公開アカウントIDを人物調査へ反映")
+
     source_product = _product_key(payload.get("source_url"))
     exact_product_urls: list[str] = []
     exact_official_work_urls: list[str] = []
@@ -630,8 +664,18 @@ def article_quality_report(
         }
         if len(selected_groups) > 1:
             blockers.append("cross_subject_media")
-        if len(selected_images) > 1 and any(not selected_group(item) for item in selected_images):
+        all_selected_attributed = bool(selected_images) and all(
+            ("image", str(item.get("id") or "")) in attributed_media
+            for item in selected_images
+        )
+        if (
+            len(selected_images) > 1
+            and any(not selected_group(item) for item in selected_images)
+            and not all_selected_attributed
+        ):
             warnings.append("unverified_subject_media")
+        elif len(selected_images) > 1 and all_selected_attributed:
+            evidence.append("採用した全画像を検証済み人物へ対応付け")
         elif len(selected_images) > 1 and len(selected_groups) == 1:
             evidence.append("保存済みの素材所有者グループが全画像で一致")
     people = source.get("ai_fanza_people") or source.get("fanza_people") or []
