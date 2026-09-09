@@ -526,8 +526,16 @@ class SocialXTests(unittest.TestCase):
             "replies": 35,
             "target_age_hours": 2,
         }
+        early = {
+            "views": 420,
+            "likes": 8,
+            "reposts": 1,
+            "replies": 2,
+            "target_age_hours": 0.8,
+        }
         self.assertFalse(_reply_has_traffic(low, settings))
         self.assertTrue(_reply_has_traffic(high, settings))
+        self.assertTrue(_reply_has_traffic(early, settings))
         self.assertGreater(_reply_traffic_score(high), _reply_traffic_score(low))
 
     def test_recruitment_hosts_are_learned_once_per_unique_post(self) -> None:
@@ -695,6 +703,16 @@ class SocialXTests(unittest.TestCase):
         self.assertTrue(
             _reply_solicitation_text_allowed(
                 "おっぱい選手権。リプに自慢のおっぱいを見せてください"
+            )
+        )
+        self.assertTrue(
+            _reply_solicitation_text_allowed(
+                "おすすめの巨乳さんを教えてください。写真でも名前だけでもOK、リプ欄に貼って"
+            )
+        )
+        self.assertFalse(
+            _reply_solicitation_text_allowed(
+                "FANZA動画の新作を紹介します。動画はリプ欄で"
             )
         )
         self.assertFalse(

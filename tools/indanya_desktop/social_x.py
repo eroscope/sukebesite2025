@@ -114,6 +114,8 @@ X_CONTEST_QUERIES = (
     '("自慢のおっぱい" OR "自慢の美尻" OR "自慢の水着") ("リプ" OR "返信")',
     '("性癖" OR "フェチ") ("リプ" OR "返信") ("画像" OR "動画" OR "写真")',
     '("おっぱい" OR "美乳" OR "美尻" OR "ビキニ") ("リプに" OR "返信に") ("見せて" OR "貼って" OR "送って")',
+    '("教えてください" OR "おすすめ教えて") ("写真でも" OR "画像でも" OR "リプ欄") ("AV女優" OR "グラドル" OR "グラビア" OR "巨乳" OR "水着")',
+    '("リプに貼って" OR "リプ欄に貼って" OR "返信に貼って") ("おっぱい" OR "巨乳" OR "グラビア" OR "水着" OR "コスプレ")',
 )
 X_VIRAL_REPLY_QUERIES = (
     '("女湯" OR "男の娘") (漫画 OR イラスト OR 画像)',
@@ -1213,7 +1215,8 @@ def _reply_has_traffic(item: dict[str, Any], settings: dict[str, Any]) -> bool:
         or likes >= int(settings.get("reply_min_likes") or 50)
         or reposts >= 20
         or replies >= 15
-        or (age_hours <= 3 and views >= 1500)
+        or (age_hours <= 1.5 and views >= 300 and (likes >= 5 or replies >= 2))
+        or (age_hours <= 3 and views >= 750)
     )
 
 
@@ -1258,7 +1261,17 @@ def _reply_solicitation_text_allowed(text: Any) -> bool:
         value in lowered
         for value in (
             "選手権", "募集", "募集中", "大募集", "参加者", "企画", "祭り",
-            "お題", "リプ欄", "返信欄",
+            "お題",
+        )
+    )
+    direct_request = any(
+        value in lowered
+        for value in (
+            "リプに貼って", "リプ欄に貼って", "返信に貼って", "返信欄に貼って",
+            "リプで教えて", "返信で教えて", "教えてください", "おすすめ教えて",
+            "画像ください", "写真ください", "動画ください", "画像をください",
+            "写真をください", "動画をください", "リプに送って", "返信に送って",
+            "リプで見せて", "返信で見せて", "参加してください", "参加して",
         )
     )
     has_invitation = any(
@@ -1277,7 +1290,7 @@ def _reply_solicitation_text_allowed(text: Any) -> bool:
     has_audience = any(
         value.casefold() in lowered for value in X_REPLY_AUDIENCE_MARKERS
     )
-    return has_event and has_invitation and has_media and has_audience
+    return (has_event or direct_request) and has_invitation and has_media and has_audience
 
 
 def _tweet_status_url(tweet: Any) -> str:
