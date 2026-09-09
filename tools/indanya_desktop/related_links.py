@@ -8,6 +8,7 @@ from indanya_desktop.affiliate_opportunities import (
     mgs_product_code_from_url,
     normalize_affiliate_opportunities,
 )
+from indanya_desktop.fanza_affiliate import unwrap_fanza_affiliate_url
 from indanya_desktop.social_profiles import canonical_social_profile_url
 
 
@@ -70,7 +71,7 @@ _FOOTER_RECOMMENDATION_KINDS = {
 _OFFICIAL_ACCOUNT_KINDS = {"official_profile", "official_content"}
 _FOOTER_PROFILE_ID_PREFIX = "article-related-footer-profile-"
 _FOOTER_PRODUCT_ID = "article-related-footer-product"
-_RELATED_FOOTER_VERSION = 9
+_RELATED_FOOTER_VERSION = 10
 
 _PUBLIC_PERSON_ROLE_TERMS = (
     "av女優", "av出演者", "セクシー女優", "fanza作品の出演者",
@@ -111,6 +112,84 @@ _INFERRED_FANZA_TOPIC_KEYS = tuple(
 _FANZA_MONTHLY_RANKING_URL = (
     "https://www.dmm.co.jp/digital/videoa/-/ranking/=/term=monthly/"
 )
+
+_SALE_MARKERS = (
+    "セール", "sale", "off", "割引", "半額", "キャンペーン",
+)
+
+
+def _is_fanza_sale_article(payload: dict[str, Any], source: dict[str, Any]) -> bool:
+    text = " ".join(
+        _clean_text(value, 400)
+        for value in (
+            payload.get("title"), payload.get("summary"), source.get("title"),
+            source.get("description"), *(payload.get("tags") or []),
+        )
+    ).casefold()
+    return (
+        any(name in text for name in ("fanza", "dmm"))
+        and any(marker in text for marker in _SALE_MARKERS)
+    )
+
+
+def _fanza_sale_campaign_destination(
+    payload: dict[str, Any], source: dict[str, Any]
+) -> dict[str, Any] | None:
+    """Use the source's campaign list for sale roundups, never an unrelated product."""
+    if not _is_fanza_sale_article(payload, source):
+        return None
+
+    candidates: list[tuple[int, str, str]] = []
+    for item in source.get("links") or []:
+        if not isinstance(item, dict):
+            continue
+        raw_url = _safe_public_url(item.get("url"))
+        canonical = unwrap_fanza_affiliate_url(raw_url)
+        if not canonical:
+            continue
+        parsed = urlparse(canonical)
+        query = parse_qs(parsed.query)
+        label = _clean_text(item.get("text"), 240)
+        path = parsed.path.casefold()
+        score = 0
+        if query.get("campaign"):
+            score += 100
+        if "/av/list" in path or "/digital/videoa/" in path:
+            score += 30
+        if any(marker in label.casefold() for marker in _SALE_MARKERS):
+            score += 20
+        if "/content" in path or query.get("id"):
+            score -= 100
+        if score >= 100:
+            candidates.append((score, canonical, label))
+    if not candidates:
+        return None
+
+    _score, url, label = max(candidates, key=lambda item: item[0])
+    title = _clean_text(payload.get("title") or source.get("title"), 120)
+    title = re.sub(r"^[【\[].*?[】\]]\s*", "", title).strip()
+    block = _related_block(
+        url=url,
+        title=(f"{title}の対象作品" if title else "FANZAセールの対象作品"),
+        text=(
+            "記事で紹介しているFANZAセールの対象作品一覧です。"
+            "掲載商品を含む対象作品と現在の販売条件を確認できます。"
+        ),
+        button_text="セール対象作品をFANZAで見る",
+        label="この記事で紹介しているセール",
+        provider="fanza",
+        link_kind="exact_campaign",
+        evidence=(
+            "元記事内のFANZAセール案内リンクとキャンペーン一覧URLを確認"
+            + (f"（{label}）" if label else "")
+        ),
+        confidence=100,
+        affiliate_network="fanza",
+    )
+    block["id"] = "article-related-footer-campaign"
+    payload["suppress_generic_related_recommendation"] = True
+    payload["promotion_type"] = "affiliate"
+    return block
 
 
 def _clean_text(value: Any, limit: int = 180) -> str:
@@ -979,9 +1058,16 @@ def ensure_related_footer(payload: dict[str, Any]) -> bool:
         and block.get("link_kind") == "exact_official_work"
         for block in blocks
     )
+    has_exact_campaign = any(
+        isinstance(block, dict)
+        and block.get("type") == "related_link"
+        and block.get("link_kind") == "exact_campaign"
+        for block in blocks
+    )
     suppress_generic_recommendation = bool(
         payload.get("suppress_generic_related_recommendation")
         or has_exact_official_work
+        or has_exact_campaign
         or exact_product_footer is not None
     )
     if suppress_generic_recommendation:
@@ -1330,6 +1416,10 @@ def resolve_article_destination(
     opportunities: list[dict[str, Any]],
 ) -> dict[str, Any] | None:
     """Choose one honest next destination without inventing an exact match."""
+    sale_campaign = _fanza_sale_campaign_destination(payload, source)
+    if sale_campaign:
+        return sale_campaign
+
     matched_opportunities = [
         item for item in opportunities
         if not isinstance(item, dict) or item.get("article_match") is not False
@@ -1491,6 +1581,12 @@ def resolve_article_destination(
         )
 
     if not payload.get("slug"):
+        return None
+    if _is_fanza_sale_article(payload, source):
+        # A sale roundup without a verified campaign/list URL may still be
+        # published, but it must not advertise an arbitrary product inferred
+        # from a word such as "swimsuit" in one package image.
+        payload["suppress_generic_related_recommendation"] = True
         return None
     fallback = _fallback_footer_recommendation(payload)
     fallback["id"] = "article-related-destination"

@@ -903,7 +903,7 @@ def test_saved_author_person_search_is_replaced_when_subject_is_unidentified() -
     assert recommendations[0]["link_kind"] == "inferred_topic_search"
     assert "etietidoga" not in recommendations[0]["title"]
     assert "etietidoga" not in unquote(recommendations[0]["url"])
-    assert payload["related_footer_version"] == 9
+    assert payload["related_footer_version"] == 10
     assert all(
         item.get("link_kind") != "person_search"
         for item in payload["related_destinations"]
@@ -1018,7 +1018,7 @@ def test_related_footer_replaces_a_saved_unsafe_topic_search() -> None:
     assert "長瀬智也" not in decoded_url
     assert "投稿画像" not in decoded_url
     assert "東京ドリーム" not in decoded_url
-    assert payload["related_footer_version"] == 9
+    assert payload["related_footer_version"] == 10
     assert payload["related_destinations"] == [{
         "url": recommendation["url"],
         "title": recommendation["title"],
@@ -1490,3 +1490,76 @@ def test_exact_official_work_keeps_owned_official_page_thumbnail() -> None:
     }
 
     assert sanitize_related_destinations(payload) is payload
+
+
+def test_fanza_sale_roundup_uses_source_campaign_instead_of_topic_product() -> None:
+    payload = {
+        "slug": "sale-roundup",
+        "title": "【画像】FANZA夏のAV50％OFF第12弾",
+        "tags": ["FANZA", "水着", "セール"],
+    }
+    source = {
+        "title": payload["title"],
+        "links": [{
+            "text": "夏の動画50％OFF対象作品",
+            "url": (
+                "https://al.dmm.com/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Flist%2F"
+                "%3Fcampaign%3Dhalf%26sort%3Dbookmark_desc&af_id=other-001"
+            ),
+        }],
+    }
+
+    result = resolve_article_destination(payload, source, [])
+
+    assert result is not None
+    assert result["link_kind"] == "exact_campaign"
+    assert result["url"] == (
+        "https://video.dmm.co.jp/av/list/?campaign=half&sort=bookmark_desc"
+    )
+    assert result["button_text"] == "セール対象作品をFANZAで見る"
+    assert payload["suppress_generic_related_recommendation"] is True
+
+
+def test_fanza_sale_roundup_without_campaign_never_falls_back_to_water() -> None:
+    payload = {
+        "slug": "sale-without-link",
+        "title": "FANZA夏のAV50％OFF対象作品",
+        "tags": ["水着", "セール"],
+    }
+
+    assert resolve_article_destination(payload, {}, []) is None
+    assert payload["suppress_generic_related_recommendation"] is True
+
+
+def test_exact_campaign_removes_stale_inferred_product_footer() -> None:
+    campaign_url = "https://video.dmm.co.jp/av/list/?campaign=half"
+    payload = {
+        "slug": "sale-footer",
+        "title": "FANZA夏のAV50％OFF対象作品",
+        "tags": ["水着", "セール"],
+        "blocks": [
+            {
+                "id": "article-related-footer-campaign",
+                "type": "related_link",
+                "url": campaign_url,
+                "link_kind": "exact_campaign",
+                "provider": "fanza",
+            },
+            {
+                "id": "article-related-footer-recommendation",
+                "type": "related_link",
+                "url": "https://video.dmm.co.jp/av/content/?id=wrong",
+                "link_kind": "inferred_topic_product",
+                "provider": "fanza",
+                "search_query": "水着",
+            },
+        ],
+    }
+
+    assert ensure_related_footer(payload) is True
+    related = [
+        block for block in payload["blocks"]
+        if isinstance(block, dict) and block.get("type") == "related_link"
+    ]
+    assert [block["link_kind"] for block in related] == ["exact_campaign"]
+    assert related[0]["url"] == campaign_url
