@@ -168,6 +168,7 @@ def _fanza_sale_campaign_destination(
     _score, url, label = max(candidates, key=lambda item: item[0])
     title = _clean_text(payload.get("title") or source.get("title"), 120)
     title = re.sub(r"^[【\[].*?[】\]]\s*", "", title).strip()
+    title = re.split(r"[、,:：]", title, maxsplit=1)[0].strip()
     block = _related_block(
         url=url,
         title=(f"{title}の対象作品" if title else "FANZAセールの対象作品"),

@@ -42,7 +42,7 @@ def repair(
             isinstance(block, dict)
             and block.get("type") == "related_link"
             and str(block.get("link_kind") or "") in {
-                "inferred_topic_product", "inferred_topic_search",
+                "exact_campaign", "inferred_topic_product", "inferred_topic_search",
             }
         )
     ]
