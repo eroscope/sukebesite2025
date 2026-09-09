@@ -471,9 +471,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 270,
-    "works": 216,
-    "topics": 1495
+    "people": 271,
+    "works": 217,
+    "topics": 1496
   },
   "people": [
     {
@@ -882,6 +882,10 @@
     },
     {
       "name": "小松空",
+      "articles": 1
+    },
+    {
+      "name": "小松詩乃",
       "articles": 1
     },
     {
@@ -2180,6 +2184,10 @@
     },
     {
       "code": "OFJE-709",
+      "articles": 1
+    },
+    {
+      "code": "OPDA-001",
       "articles": 1
     },
     {
@@ -3494,7 +3502,7 @@
     },
     {
       "name": "イメージビデオ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "イラスト",
@@ -3853,6 +3861,10 @@
       "articles": 1
     },
     {
+      "name": "コマラセタイ",
+      "articles": 1
+    },
+    {
       "name": "コミケ",
       "articles": 5
     },
@@ -4078,7 +4090,7 @@
     },
     {
       "name": "セーラー服",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "セーラー服風",
@@ -6766,7 +6778,7 @@
     },
     {
       "name": "水着",
-      "articles": 113
+      "articles": 114
     },
     {
       "name": "水着グラビア",
