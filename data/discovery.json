@@ -488,7 +488,7 @@
   "counts": {
     "people": 278,
     "works": 220,
-    "topics": 1525
+    "topics": 1526
   },
   "people": [
     {
@@ -4377,7 +4377,7 @@
     },
     {
       "name": "ヌード",
-      "articles": 40
+      "articles": 41
     },
     {
       "name": "ヌードルストッパー",
@@ -4985,7 +4985,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 80
+      "articles": 81
     },
     {
       "name": "リアクション",
@@ -6420,6 +6420,10 @@
       "articles": 1
     },
     {
+      "name": "成人グラビア",
+      "articles": 1
+    },
+    {
       "name": "成人向けVR",
       "articles": 1
     },
@@ -6929,7 +6933,7 @@
     },
     {
       "name": "水着",
-      "articles": 117
+      "articles": 118
     },
     {
       "name": "水着グラビア",
@@ -7285,7 +7289,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 77
+      "articles": 78
     },
     {
       "name": "画像ギャラリー",
