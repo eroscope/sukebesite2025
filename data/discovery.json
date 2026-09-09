@@ -482,7 +482,7 @@
   "counts": {
     "people": 276,
     "works": 220,
-    "topics": 1520
+    "topics": 1521
   },
   "people": [
     {
@@ -5122,6 +5122,10 @@
       "articles": 1
     },
     {
+      "name": "上目遣い",
+      "articles": 1
+    },
+    {
       "name": "下ネタギャグ漫画",
       "articles": 1
     },
@@ -5735,7 +5739,7 @@
     },
     {
       "name": "口淫",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "可愛まゆ",
@@ -7271,7 +7275,7 @@
     },
     {
       "name": "画像集",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "画像＋動画",
