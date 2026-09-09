@@ -112,6 +112,7 @@
     "topics/topic-1c7fff2e2e56.html",
     "topics/topic-1d4ebd368cf4.html",
     "topics/topic-1e403857b0e9.html",
+    "topics/topic-1f16cef238f0.html",
     "topics/topic-1f46d17641e4.html",
     "topics/topic-1f65bfa6c12b.html",
     "topics/topic-1fdbd8b413bd.html",
@@ -488,7 +489,7 @@
   "counts": {
     "people": 278,
     "works": 220,
-    "topics": 1528
+    "topics": 1530
   },
   "people": [
     {
@@ -4364,6 +4365,10 @@
       "articles": 5
     },
     {
+      "name": "ニュースウォッチ9",
+      "articles": 1
+    },
+    {
       "name": "ニューハーフ",
       "articles": 3
     },
@@ -6041,7 +6046,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 15
+      "articles": 16
     },
     {
       "name": "女子大生",
@@ -6277,6 +6282,10 @@
     },
     {
       "name": "屋外",
+      "articles": 1
+    },
+    {
+      "name": "屋外リポート",
       "articles": 1
     },
     {
@@ -7825,7 +7834,7 @@
     },
     {
       "name": "胸元",
-      "articles": 33
+      "articles": 34
     },
     {
       "name": "胸出し",
@@ -8489,7 +8498,7 @@
     },
     {
       "name": "飯尾夏帆",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "餃子の王将",
