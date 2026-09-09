@@ -127,6 +127,7 @@ from indanya_desktop.workers import (
     XLoginWorker,
     XCopyWorker,
     XDailyWorker,
+    XFollowWorker,
     XScheduleWorker,
     XTrendWorker,
     AnalyticsWorker,
@@ -186,6 +187,7 @@ from indanya_desktop.social_x import (
     x_post_intent_url,
     x_daily_posting_status,
     x_follow_candidates,
+    x_follow_schedule_status,
     x_manga_schedule_status,
     x_reply_schedule_status,
     x_reply_intent_url,
@@ -621,24 +623,25 @@ class XPostingSettingsDialog(QDialog):
             not bool(settings.get("manual_delivery_only", False))
         )
         self.safe_pacing = QCheckBox(
-            "安定運用（通常3件＋募集返信1件＋漫画1スレッド・最低3時間間隔）"
+            "安定運用（通常5件＋募集返信2件＋漫画1スレッド・返信は6時間間隔）"
         )
         self.safe_pacing.setChecked(bool(settings.get("safe_pacing_enabled", True)))
         self.daily_post_limit = QSpinBox()
-        self.daily_post_limit.setRange(1, 3)
+        self.daily_post_limit.setRange(1, 5)
         self.daily_post_limit.setSuffix(" 件 / 日")
         self.daily_post_limit.setValue(int(settings.get("daily_post_limit") or 1))
-        raw_slots = list(settings.get("daily_slots") or ["08:30", "14:30", "20:30"])
-        while len(raw_slots) < 3:
-            raw_slots.append(["08:30", "14:30", "20:30"][len(raw_slots)])
+        default_slots = ["07:30", "11:00", "14:30", "18:00", "22:00"]
+        raw_slots = list(settings.get("daily_slots") or default_slots)
+        while len(raw_slots) < 5:
+            raw_slots.append(default_slots[len(raw_slots)])
         self.daily_slots: list[QTimeEdit] = []
-        for value in raw_slots[:3]:
+        for value in raw_slots[:5]:
             field = QTimeEdit()
             field.setDisplayFormat("HH:mm")
             parsed = QTime.fromString(str(value), "HH:mm")
             field.setTime(parsed if parsed.isValid() else QTime(8, 30))
             self.daily_slots.append(field)
-        self.trend_enabled = QCheckBox("1日1回、Xのバズった成人向け投稿から流行を調査する")
+        self.trend_enabled = QCheckBox("6時間ごとにXの流行投稿と画像・動画募集を調査する")
         self.trend_enabled.setChecked(bool(settings.get("trend_scan_enabled", True)))
         self.trend_min_likes = QSpinBox()
         self.trend_min_likes.setRange(100, 1_000_000)
@@ -658,6 +661,22 @@ class XPostingSettingsDialog(QDialog):
         )
         self.reply_auto_prepare.setChecked(
             bool(settings.get("reply_auto_prepare_enabled", True))
+        )
+        self.follow_automation = QCheckBox(
+            "募集実績または高い関連反応があるアカウントを定期フォローする"
+        )
+        self.follow_automation.setChecked(
+            bool(settings.get("follow_automation_enabled", True))
+        )
+        self.follow_daily_limit = QSpinBox()
+        self.follow_daily_limit.setRange(1, 3)
+        self.follow_daily_limit.setSuffix(" 人 / 日")
+        self.follow_daily_limit.setValue(int(settings.get("follow_daily_limit") or 2))
+        self.follow_interval = QSpinBox()
+        self.follow_interval.setRange(4, 48)
+        self.follow_interval.setSuffix(" 時間")
+        self.follow_interval.setValue(
+            int(settings.get("follow_min_interval_hours") or 6)
         )
         self.reply_interval = QSpinBox()
         self.reply_interval.setRange(60, 1440)
@@ -757,6 +776,9 @@ class XPostingSettingsDialog(QDialog):
         account.addRow("返信の記事リンク", self.reply_link_rate)
         account.addRow("返信の添付", self.reply_media_mode)
         account.addRow("返信対象外", self.reply_blocked_handles)
+        account.addRow("関連アカウントの自動フォロー", self.follow_automation)
+        account.addRow("自動フォロー上限", self.follow_daily_limit)
+        account.addRow("自動フォロー間隔", self.follow_interval)
         account.addRow("自分主催で同じ記事を使う間隔", self.owned_contest_cooldown)
         account.addRow("漫画スレッド", self.manga_recurring_enabled)
         account.addRow("漫画の間隔", self.manga_interval_days)
@@ -767,7 +789,7 @@ class XPostingSettingsDialog(QDialog):
         self._sync_safe_pacing(self.safe_pacing.isChecked())
         layout.addLayout(account)
         note = QLabel(
-            "安定運用では通常投稿3件、募集返信1件、漫画1スレッドまでを最低3時間空けます。自動送信がONなら通常投稿は予約枠へ送り、返信は対象投稿へ、漫画は公式試し読み5枚・淫談屋の記事・作品PRをひとつのスレッドとして送ります。途中で止まった漫画は、送信済みの続きから再開します。",
+            "安定運用では通常投稿5件、流入基準を満たす募集返信2件、漫画1スレッドを分散します。自動送信がONなら通常投稿は予約枠へ送り、募集返信と漫画は対象のスレッドへ送ります。フォローは募集実績または高い関連反応を確認できた相手だけを1回1人ずつ行い、自動解除はしません。漫画は途中で止まっても送信済みの続きから再開します。",
             objectName="muted",
         )
         note.setWordWrap(True)
@@ -783,12 +805,12 @@ class XPostingSettingsDialog(QDialog):
         layout.addWidget(actions)
 
     def _sync_safe_pacing(self, enabled: bool) -> None:
-        self.daily_post_limit.setMaximum(3)
-        self.reply_daily_limit.setMaximum(1 if enabled else 5)
+        self.daily_post_limit.setMaximum(5)
+        self.reply_daily_limit.setMaximum(2 if enabled else 5)
         if enabled:
-            self.reply_daily_limit.setValue(1)
-            self.reply_interval.setMinimum(180)
-            self.reply_interval.setValue(max(180, self.reply_interval.value()))
+            self.reply_daily_limit.setValue(min(2, max(1, self.reply_daily_limit.value())))
+            self.reply_interval.setMinimum(360)
+            self.reply_interval.setValue(max(360, self.reply_interval.value()))
             self.reply_link_rate.setValue(100)
         else:
             self.reply_interval.setMinimum(60)
@@ -802,9 +824,9 @@ class XPostingSettingsDialog(QDialog):
             "manual_delivery_only": not self.automatic_delivery.isChecked(),
             "safe_pacing_enabled": self.safe_pacing.isChecked(),
             "daily_post_limit": self.daily_post_limit.value(),
-            "global_daily_action_limit": 5,
+            "global_daily_action_limit": 8,
             "global_min_interval_minutes": (
-                180 if self.safe_pacing.isChecked() else 60
+                90 if self.safe_pacing.isChecked() else 60
             ),
             "daily_slots": [field.time().toString("HH:mm") for field in self.daily_slots],
             "trend_scan_enabled": self.trend_enabled.isChecked(),
@@ -818,6 +840,14 @@ class XPostingSettingsDialog(QDialog):
             "reply_link_rate_percent": 100,
             "reply_default_media_mode": "original",
             "reply_blocked_handles": self.reply_blocked_handles.text(),
+            "reply_min_views": 5000,
+            "reply_min_likes": 50,
+            "follow_automation_enabled": self.follow_automation.isChecked(),
+            "follow_daily_limit": self.follow_daily_limit.value(),
+            "follow_min_interval_hours": self.follow_interval.value(),
+            "follow_min_score": 55,
+            "recruiter_follow_min_posts": 2,
+            "recruiter_discovery_interval_days": 7,
             "owned_contest_cooldown_days": self.owned_contest_cooldown.value(),
             "manga_recurring_enabled": self.manga_recurring_enabled.isChecked(),
             "manga_interval_days": self.manga_interval_days.value(),
@@ -1065,6 +1095,7 @@ class MainWindow(QMainWindow):
         self.x_schedule_worker: XScheduleWorker | None = None
         self.x_daily_worker: XDailyWorker | None = None
         self.x_trend_worker: XTrendWorker | None = None
+        self.x_follow_worker: XFollowWorker | None = None
         self.x_schedule_after_copy_ids: list[str] = []
         self.chatgpt_login_worker: ChatGptLoginWorker | None = None
         self.chatgpt_send_worker: CodexSendWorker | None = None
@@ -1952,7 +1983,7 @@ class MainWindow(QMainWindow):
 
         follow_box = QVBoxLayout()
         follow_box.setContentsMargins(14, 10, 14, 10)
-        follow_box.addWidget(QLabel("今日のフォロー候補", objectName="sectionTitle"))
+        follow_box.addWidget(QLabel("次の自動フォロー候補", objectName="sectionTitle"))
         self.x_follow_table = QTableWidget(0, 4)
         self.x_follow_table.setHorizontalHeaderLabels([
             "アカウント", "反応", "選定理由", "確認",
@@ -2461,6 +2492,12 @@ class MainWindow(QMainWindow):
         )
         contests = len(state.get("reply_candidates") or [])
         detail += f" / 返信募集 {contests}件"
+        follow = x_follow_schedule_status(self.site.root)
+        detail += (
+            f" / 自動フォロー {int(follow.get('followed_today') or 0)}"
+            f"/{int(follow.get('daily_limit') or 0)}人"
+            f"・候補{int(follow.get('candidate_count') or 0)}人"
+        )
         error = str(state.get("last_error") or "").strip()
         if error:
             detail += f" / 前回失敗: {error[:160]}"
@@ -2482,7 +2519,9 @@ class MainWindow(QMainWindow):
         else:
             self.x_learning_label.setText("反応学習: 投稿後の数字を記録すると自動で優先度へ反映")
         self.x_trend_scan_button.setEnabled(
-            self.x_trend_worker is None and self._update_x_login_state()
+            self.x_trend_worker is None
+            and self.x_follow_worker is None
+            and self._update_x_login_state()
         )
         self._refresh_x_follow_candidates()
 
@@ -2523,6 +2562,7 @@ class MainWindow(QMainWindow):
             or self.active_worker is not None
             or self.x_copy_worker is not None
             or self.x_daily_worker is not None
+            or self.x_follow_worker is not None
         ):
             self.x_post_status.setText("現在の記事・投稿文処理が終わってから流行調査を開始します。")
             return
@@ -2564,6 +2604,42 @@ class MainWindow(QMainWindow):
             )
         else:
             self.x_post_status.setText(f"Xの流行調査に失敗しました: {message}")
+        QTimer.singleShot(500, self._scheduler_tick)
+
+    def _start_x_follow_cycle(self) -> None:
+        if self.x_follow_worker is not None:
+            return
+        self.x_follow_worker = XFollowWorker(self.site.root)
+        self.x_follow_worker.signals.progress.connect(self._x_follow_progress_changed)
+        self.x_follow_worker.signals.completed.connect(self._x_follow_completed)
+        self.x_follow_worker.signals.failed.connect(self._x_follow_failed)
+        self.x_post_status.setText("関連アカウントの自動フォローを確認しています。")
+        self.thread_pool.start(self.x_follow_worker)
+
+    def _x_follow_progress_changed(self, value: int, message: str) -> None:
+        self.x_post_progress.setValue(value)
+        self.x_post_status.setText(message)
+
+    def _x_follow_completed(self, result: dict) -> None:
+        self.x_follow_worker = None
+        self._refresh_x_trend_status()
+        outcome = str(result.get("result") or "")
+        candidate = result.get("candidate") or {}
+        handle = str(candidate.get("handle") or "")
+        if outcome == "followed":
+            self.x_post_status.setText(f"@{handle} を自動フォローしました。")
+        elif outcome == "already_following":
+            self.x_post_status.setText("候補はすでにフォロー済みでした。")
+        elif outcome == "failed":
+            self.x_post_status.setText(
+                f"自動フォローを完了できませんでした: {result.get('error', '')}"
+            )
+        QTimer.singleShot(500, self._scheduler_tick)
+
+    def _x_follow_failed(self, message: str) -> None:
+        self.x_follow_worker = None
+        self._refresh_x_trend_status()
+        self.x_post_status.setText(f"自動フォロー処理に失敗しました: {message}")
         QTimer.singleShot(500, self._scheduler_tick)
 
     def start_x_daily_cycle(self) -> None:
@@ -6179,6 +6255,7 @@ class MainWindow(QMainWindow):
             or self.source_discovery_worker
             or self.x_daily_worker
             or self.x_trend_worker
+            or self.x_follow_worker
             or self.x_copy_worker
             or self.x_schedule_worker
         ):
@@ -6302,6 +6379,10 @@ class MainWindow(QMainWindow):
                 self.thread_pool.start(self.x_copy_worker)
                 return
             self._refresh_x_auto_status()
+        follow_status = x_follow_schedule_status(self.site.root)
+        if follow_status.get("due") and x_login_ready():
+            self._start_x_follow_cycle()
+            return
         daily_status = x_daily_posting_status(self.site.root)
         if (
             daily_status.get("due")

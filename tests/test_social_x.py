@@ -17,9 +17,13 @@ from indanya_desktop.social_x import (
     _future_scheduled_time,
     _json_object,
     _assign_random_trend_templates,
+    _auto_follow_candidate_allowed,
     _metric_number,
     _is_official_manga_sales_url,
+    _learn_x_growth_accounts,
     _reply_solicitation_text_allowed,
+    _reply_has_traffic,
+    _reply_traffic_score,
     _simple_article_post_text,
     _trend_text_allowed,
     _viral_reply_text_allowed,
@@ -30,10 +34,12 @@ from indanya_desktop.social_x import (
     choose_x_reply_link,
     generate_x_copies,
     load_x_auto_state,
+    load_x_growth_state,
     load_x_trend_state,
     list_x_posts,
     load_x_settings,
     prepare_x_candidates,
+    prepare_discovered_x_reply,
     prepare_x_contest_candidate,
     prepare_x_manga_thread,
     prepare_due_x_manga_thread,
@@ -45,6 +51,7 @@ from indanya_desktop.social_x import (
     refresh_x_reply_candidate_score,
     refresh_x_article_candidates,
     refresh_x_trend_templates,
+    run_due_x_follow_cycle,
     save_x_settings,
     save_x_posts,
     run_x_daily_cycle,
@@ -59,6 +66,7 @@ from indanya_desktop.social_x import (
     x_template_performance,
     x_daily_posting_status,
     x_follow_candidates,
+    x_follow_schedule_status,
     x_manga_schedule_status,
     x_reply_schedule_status,
     x_trend_scan_status,
@@ -203,9 +211,13 @@ class SocialXTests(unittest.TestCase):
         self.assertEqual(1000, load_x_settings(self.root)["trend_min_likes"])
         self.assertTrue(load_x_settings(self.root)["safe_pacing_enabled"])
         self.assertEqual(5, load_x_settings(self.root)["daily_post_limit"])
-        self.assertEqual(1, load_x_settings(self.root)["reply_daily_limit"])
-        self.assertEqual(7, load_x_settings(self.root)["global_daily_action_limit"])
+        self.assertEqual(2, load_x_settings(self.root)["reply_daily_limit"])
+        self.assertEqual(8, load_x_settings(self.root)["global_daily_action_limit"])
         self.assertEqual(90, load_x_settings(self.root)["global_min_interval_minutes"])
+        self.assertEqual(6, load_x_settings(self.root)["trend_scan_interval_hours"])
+        self.assertEqual(360, load_x_settings(self.root)["reply_min_interval_minutes"])
+        self.assertTrue(load_x_settings(self.root)["follow_automation_enabled"])
+        self.assertEqual(2, load_x_settings(self.root)["follow_daily_limit"])
         self.assertEqual(100, load_x_settings(self.root)["reply_link_rate_percent"])
         self.assertFalse(load_x_settings(self.root)["manual_delivery_only"])
 
@@ -241,7 +253,7 @@ class SocialXTests(unittest.TestCase):
         now = datetime(2026, 8, 26, 13, 0, tzinfo=JST)
         settings = load_x_settings(self.root)
         rows = []
-        for index in range(7):
+        for index in range(8):
             timestamp = (now - timedelta(hours=3 + index)).isoformat()
             row = {
                 "post_id": f"action-{index}",
@@ -255,7 +267,7 @@ class SocialXTests(unittest.TestCase):
 
         message = _x_pacing_error(settings, rows, now)
 
-        self.assertIn("1日の上限7件", message)
+        self.assertIn("1日の上限8件", message)
 
     def test_safe_pacing_reports_the_configured_ninety_minute_interval(self) -> None:
         now = datetime(2026, 8, 26, 13, 0, tzinfo=JST)
@@ -319,6 +331,8 @@ class SocialXTests(unittest.TestCase):
 
     def test_trend_filter_requires_adult_marker_and_rejects_risky_age_or_source(self) -> None:
         self.assertTrue(_trend_text_allowed("成人向けグラビアの水着動画を公開しました"))
+        self.assertTrue(_trend_text_allowed("おっぱい画像選手権を開催します"))
+        self.assertTrue(_trend_text_allowed("美尻写真をリプで募集します"))
         self.assertFalse(_trend_text_allowed("風景写真を公開しました"))
         self.assertFalse(_trend_text_allowed("女子高生の水着グラビア動画"))
         self.assertFalse(_trend_text_allowed("成人向け動画が流出したらしい"))
@@ -414,6 +428,140 @@ class SocialXTests(unittest.TestCase):
         self.assertEqual(["gravure_creator"], [item["handle"] for item in candidates])
         self.assertEqual("https://x.com/gravure_creator", candidates[0]["profile_url"])
 
+    def test_reply_traffic_gate_prefers_reach_and_fresh_velocity(self) -> None:
+        settings = load_x_settings(self.root)
+        low = {
+            "views": 300,
+            "likes": 4,
+            "reposts": 0,
+            "replies": 2,
+            "target_age_hours": 12,
+        }
+        high = {
+            "views": 80_000,
+            "likes": 600,
+            "reposts": 70,
+            "replies": 35,
+            "target_age_hours": 2,
+        }
+        self.assertFalse(_reply_has_traffic(low, settings))
+        self.assertTrue(_reply_has_traffic(high, settings))
+        self.assertGreater(_reply_traffic_score(high), _reply_traffic_score(low))
+
+    def test_recruitment_hosts_are_learned_once_per_unique_post(self) -> None:
+        first = {
+            "url": "https://x.com/recruiter/status/2099000000000000001",
+            "topic": "水着画像選手権。自慢の写真をリプで募集します",
+            "views": 100_000,
+            "likes": 500,
+        }
+        second = {
+            **first,
+            "url": "https://x.com/recruiter/status/2099000000000000002",
+        }
+        _learn_x_growth_accounts(self.root, [first], [])
+        _learn_x_growth_accounts(self.root, [first], [])
+        self.assertEqual(
+            1,
+            load_x_growth_state(self.root)["accounts"]["recruiter"]["recruitment_posts"],
+        )
+        _learn_x_growth_accounts(self.root, [second], [])
+        account = load_x_growth_state(self.root)["accounts"]["recruiter"]
+        self.assertEqual(2, account["recruitment_posts"])
+        candidate = x_follow_candidates(self.root, limit=1)[0]
+        self.assertTrue(_auto_follow_candidate_allowed(candidate, load_x_settings(self.root)))
+        self.assertIn("募集実績 2件", candidate["reason"])
+
+    def test_auto_follow_runs_one_at_a_time_and_stops_at_daily_limit(self) -> None:
+        growth_path = self.root / ".article-studio" / "x-growth-accounts.json"
+        growth_path.parent.mkdir(parents=True, exist_ok=True)
+        accounts = {
+            "host_one": {
+                "handle": "host_one",
+                "profile_url": "https://x.com/host_one",
+                "roles": ["recruiter"],
+                "recruitment_posts": 3,
+                "best_views": 200_000,
+                "best_likes": 900,
+                "last_topic": "水着画像選手権。写真をリプで募集します",
+                "seen_status_urls": ["https://x.com/host_one/status/2099000000000000011"],
+            },
+            "host_two": {
+                "handle": "host_two",
+                "profile_url": "https://x.com/host_two",
+                "roles": ["recruiter"],
+                "recruitment_posts": 2,
+                "best_views": 100_000,
+                "best_likes": 500,
+                "last_topic": "水着コスプレ画像選手権。画像を返信で募集します",
+                "seen_status_urls": ["https://x.com/host_two/status/2099000000000000012"],
+            },
+        }
+        growth_path.write_text(json.dumps({
+            "accounts": accounts,
+            "follow_history": [],
+        }, ensure_ascii=False), encoding="utf-8")
+        now = datetime(2026, 9, 9, 8, 0, tzinfo=JST)
+        with patch(
+            "indanya_desktop.social_x._follow_x_profile",
+            side_effect=["followed", "followed"],
+        ) as follow:
+            first = run_due_x_follow_cycle(self.root, now=now, force=True)
+            self.assertEqual("host_one", first["candidate"]["handle"])
+            waiting = x_follow_schedule_status(self.root, now + timedelta(hours=1))
+            self.assertFalse(waiting["due"])
+            second = run_due_x_follow_cycle(
+                self.root,
+                now=now + timedelta(hours=6),
+                force=True,
+            )
+            self.assertEqual("host_two", second["candidate"]["handle"])
+        self.assertEqual(2, follow.call_count)
+        finished = x_follow_schedule_status(self.root, now + timedelta(hours=12))
+        self.assertFalse(finished["due"])
+        self.assertEqual(2, finished["followed_today"])
+
+    def test_discovered_reply_ignores_low_reach_and_keeps_target_metrics(self) -> None:
+        now = datetime.now(JST)
+        low_id = self.status_id_at(now - timedelta(hours=2))
+        high_id = self.status_id_at(now - timedelta(hours=1))
+        state_path = self.root / ".article-studio" / "x-trend-templates.json"
+        state_path.parent.mkdir(parents=True, exist_ok=True)
+        state_path.write_text(json.dumps({
+            **self.trend_state(),
+            "reply_candidates": [
+                {
+                    "url": f"https://x.com/low_host/status/{low_id}",
+                    "topic": "水着画像選手権。写真をリプで募集します",
+                    "requested_media": "images",
+                    "views": 200,
+                    "likes": 2,
+                    "reposts": 0,
+                    "replies": 1,
+                    "target_age_hours": 2,
+                    "opt_in_confirmed": True,
+                },
+                {
+                    "url": f"https://x.com/high_host/status/{high_id}",
+                    "topic": "水着画像選手権。写真をリプで募集します",
+                    "requested_media": "images",
+                    "views": 120_000,
+                    "likes": 800,
+                    "reposts": 90,
+                    "replies": 40,
+                    "target_age_hours": 1,
+                    "opt_in_confirmed": True,
+                },
+            ],
+        }, ensure_ascii=False), encoding="utf-8")
+
+        prepared = prepare_discovered_x_reply(self.root, "https://example.com/")
+
+        self.assertIsNotNone(prepared)
+        self.assertIn("/high_host/status/", prepared["reply_target_url"])
+        self.assertEqual(120_000, prepared["reply_target_metrics"]["views"])
+        self.assertIn("表示120,000", prepared["selection_reason"])
+
     def test_old_unrelated_viral_candidate_is_not_reused(self) -> None:
         state_path = self.root / ".article-studio" / "x-trend-templates.json"
         state_path.parent.mkdir(parents=True, exist_ok=True)
@@ -455,6 +603,21 @@ class SocialXTests(unittest.TestCase):
         self.assertFalse(
             _reply_solicitation_text_allowed(
                 "水着グラビアの新作画像を公開しました"
+            )
+        )
+        self.assertTrue(
+            _reply_solicitation_text_allowed(
+                "おっぱい選手権開催。自慢の写真を返信で見せて"
+            )
+        )
+        self.assertTrue(
+            _reply_solicitation_text_allowed(
+                "おっぱい選手権。リプに自慢のおっぱいを見せてください"
+            )
+        )
+        self.assertFalse(
+            _reply_solicitation_text_allowed(
+                "無償イラスト企画。人物やコスプレ写真をリプで募集します"
             )
         )
 

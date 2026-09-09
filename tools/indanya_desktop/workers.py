@@ -72,6 +72,7 @@ from indanya_desktop.social_x import (
     generate_x_copies,
     prepare_publish_x_post,
     refresh_x_trend_templates,
+    run_due_x_follow_cycle,
     run_x_daily_cycle,
     schedule_x_posts,
 )
@@ -453,6 +454,25 @@ class XTrendWorker(QRunnable):
                 progress=lambda value, message: self.signals.progress.emit(value, message),
             )
             self.signals.completed.emit(state)
+        except Exception as exc:
+            traceback.print_exc()
+            self.signals.failed.emit(str(exc) or exc.__class__.__name__)
+
+
+class XFollowWorker(QRunnable):
+    def __init__(self, site_root: Path) -> None:
+        super().__init__()
+        self.site_root = site_root
+        self.signals = WorkerSignals()
+
+    @Slot()
+    def run(self) -> None:
+        try:
+            result = run_due_x_follow_cycle(
+                self.site_root,
+                progress=lambda value, message: self.signals.progress.emit(value, message),
+            )
+            self.signals.completed.emit(result)
         except Exception as exc:
             traceback.print_exc()
             self.signals.failed.emit(str(exc) or exc.__class__.__name__)

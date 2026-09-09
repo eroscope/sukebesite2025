@@ -48,20 +48,28 @@ DEFAULT_X_SETTINGS: dict[str, Any] = {
     "daily_post_limit": 5,
     "daily_slots": ["07:30", "11:00", "14:30", "18:00", "22:00"],
     "bulk_interval_minutes": 60,
-    "global_daily_action_limit": 7,
+    "global_daily_action_limit": 8,
     "global_min_interval_minutes": 90,
     "trend_scan_enabled": True,
-    "trend_scan_interval_hours": 24,
+    "trend_scan_interval_hours": 6,
     "trend_min_likes": 1000,
     "trend_sample_limit": 24,
-    "reply_daily_limit": 1,
+    "reply_daily_limit": 2,
     "reply_auto_prepare_enabled": True,
-    "reply_min_interval_minutes": 180,
+    "reply_min_interval_minutes": 360,
     "reply_target_max_age_hours": 72,
     "reply_account_cooldown_days": 30,
     "reply_link_rate_percent": 100,
     "reply_default_media_mode": "original",
     "reply_blocked_handles": [],
+    "reply_min_views": 5000,
+    "reply_min_likes": 50,
+    "follow_automation_enabled": True,
+    "follow_daily_limit": 2,
+    "follow_min_interval_hours": 6,
+    "follow_min_score": 55,
+    "recruiter_follow_min_posts": 2,
+    "recruiter_discovery_interval_days": 7,
     "owned_contest_cooldown_days": 7,
     "manga_recurring_enabled": True,
     "manga_interval_days": 1,
@@ -90,6 +98,13 @@ X_TREND_QUERIES = (
 )
 X_CONTEST_QUERIES = (
     '("選手権" OR "募集") ("リプ" OR "返信" OR "貼って") ("画像" OR "写真" OR "動画")',
+    '("おっぱい選手権" OR "尻選手権" OR "水着選手権" OR "コスプレ選手権") filter:media',
+    '("画像募集" OR "写真募集" OR "動画募集") ("リプ" OR "返信" OR "参加")',
+    '("画像" OR "写真" OR "動画") ("リプに" OR "返信に" OR "見せて" OR "送って") ("募集" OR "企画")',
+    '("リプ欄" OR "返信欄") ("画像" OR "写真" OR "動画" OR "自撮り") ("埋めて" OR "見せて" OR "貼って")',
+    '("自慢のおっぱい" OR "自慢の美尻" OR "自慢の水着") ("リプ" OR "返信")',
+    '("性癖" OR "フェチ") ("リプ" OR "返信") ("画像" OR "動画" OR "写真")',
+    '("おっぱい" OR "美乳" OR "美尻" OR "ビキニ") ("リプに" OR "返信に") ("見せて" OR "貼って" OR "送って")',
 )
 X_VIRAL_REPLY_QUERIES = (
     '("女湯" OR "男の娘") (漫画 OR イラスト OR 画像)',
@@ -106,6 +121,14 @@ X_COPY_ANGLES = (
 X_TREND_ADULT_MARKERS = (
     "成人向け", "18禁", "r18", "アダルト", "av女優", "セクシー女優",
     "グラビア", "ヌード", "ランジェリー", "水着", "フェチ", "エロ", "えち",
+    "おっぱい", "胸", "美乳", "巨乳", "爆乳", "尻", "美尻", "太もも",
+    "グラドル", "お色気", "下着", "露出",
+)
+X_REPLY_AUDIENCE_MARKERS = (
+    "成人向け", "18禁", "r18", "アダルト", "av女優", "セクシー女優",
+    "グラビア", "グラドル", "ヌード", "ランジェリー", "水着", "ビキニ",
+    "フェチ", "エロ", "えち", "おっぱい", "美乳", "巨乳", "爆乳", "美尻",
+    "お尻", "太もも", "下着", "お色気",
 )
 X_TREND_BLOCKED_TERMS = (
     "未成年", "18歳未満", "高校生", "中学生", "小学生", "女子高生", "女子中学生",
@@ -129,6 +152,9 @@ _X_REPLY_TOPIC_GROUPS: tuple[tuple[tuple[str, ...], tuple[str, ...]], ...] = (
     (("制服",), ("制服", "セーラー", "学生服", "OL", "ナース")),
     (("グラビア",), ("グラビア", "水着", "ビキニ")),
     (("AV女優", "セクシー女優"), ("AV", "女優", "FANZA", "DMM")),
+    (("おっぱい", "美乳", "巨乳", "胸"), ("おっぱい", "美乳", "巨乳", "胸", "バスト")),
+    (("お尻", "美尻", "尻"), ("お尻", "美尻", "尻", "ヒップ")),
+    (("太もも", "脚"), ("太もも", "脚", "美脚")),
 )
 
 
@@ -152,6 +178,10 @@ def _trend_state_path(site_root: Path) -> Path:
 
 def _auto_state_path(site_root: Path) -> Path:
     return _root(site_root) / "x-auto-posting-state.json"
+
+
+def _growth_state_path(site_root: Path) -> Path:
+    return _root(site_root) / "x-growth-accounts.json"
 
 
 def _read_json(path: Path, fallback: Any) -> Any:
@@ -233,14 +263,14 @@ def load_x_settings(site_root: Path) -> dict[str, Any]:
         min(1440, int(result.get("global_min_interval_minutes") or 480)),
     )
     if result["safe_pacing_enabled"]:
-        result["global_daily_action_limit"] = 7
+        result["global_daily_action_limit"] = 8
         result["global_min_interval_minutes"] = max(
             90,
             result["global_min_interval_minutes"],
         )
     result["trend_scan_enabled"] = bool(result.get("trend_scan_enabled", True))
     result["trend_scan_interval_hours"] = max(
-        24,
+        6,
         min(168, int(result.get("trend_scan_interval_hours") or 24)),
     )
     result["trend_min_likes"] = max(
@@ -256,7 +286,7 @@ def load_x_settings(site_root: Path) -> dict[str, Any]:
         min(5, int(result.get("reply_daily_limit") or 1)),
     )
     result["reply_daily_limit"] = (
-        min(1, reply_daily_limit)
+        min(2, reply_daily_limit)
         if result["safe_pacing_enabled"]
         else reply_daily_limit
     )
@@ -268,7 +298,7 @@ def load_x_settings(site_root: Path) -> dict[str, Any]:
         min(1440, int(result.get("reply_min_interval_minutes") or 240)),
     )
     result["reply_min_interval_minutes"] = (
-        max(180, reply_minimum)
+        max(360, reply_minimum)
         if result["safe_pacing_enabled"]
         else reply_minimum
     )
@@ -293,6 +323,30 @@ def load_x_settings(site_root: Path) -> dict[str, Any]:
         for value in blocked
         if re.sub(r"[^A-Za-z0-9_]", "", str(value))
     })
+    result["reply_min_views"] = max(
+        0, min(10_000_000, int(result.get("reply_min_views") or 5000))
+    )
+    result["reply_min_likes"] = max(
+        0, min(1_000_000, int(result.get("reply_min_likes") or 50))
+    )
+    result["follow_automation_enabled"] = bool(
+        result.get("follow_automation_enabled", True)
+    )
+    result["follow_daily_limit"] = max(
+        1, min(3, int(result.get("follow_daily_limit") or 2))
+    )
+    result["follow_min_interval_hours"] = max(
+        4, min(48, int(result.get("follow_min_interval_hours") or 6))
+    )
+    result["follow_min_score"] = max(
+        0, min(100, int(result.get("follow_min_score") or 55))
+    )
+    result["recruiter_follow_min_posts"] = max(
+        1, min(10, int(result.get("recruiter_follow_min_posts") or 2))
+    )
+    result["recruiter_discovery_interval_days"] = max(
+        1, min(30, int(result.get("recruiter_discovery_interval_days") or 7))
+    )
     result["owned_contest_cooldown_days"] = max(
         1,
         min(90, int(result.get("owned_contest_cooldown_days") or 7)),
@@ -364,6 +418,7 @@ def load_x_trend_state(site_root: Path) -> dict[str, Any]:
         "last_attempt_at": str(raw.get("last_attempt_at") or ""),
         "last_scan_at": str(raw.get("last_scan_at") or ""),
         "next_scan_at": str(raw.get("next_scan_at") or ""),
+        "template_generated_at": str(raw.get("template_generated_at") or ""),
         "last_error": str(raw.get("last_error") or ""),
         "sample_count": max(0, int(raw.get("sample_count") or len(samples))),
         "minimum_likes": max(0, int(raw.get("minimum_likes") or 0)),
@@ -380,11 +435,125 @@ def load_x_trend_state(site_root: Path) -> dict[str, Any]:
     }
 
 
+def load_x_growth_state(site_root: Path) -> dict[str, Any]:
+    raw = _read_json(_growth_state_path(site_root), {})
+    raw = raw if isinstance(raw, dict) else {}
+    raw_accounts = raw.get("accounts") or {}
+    raw_accounts = raw_accounts if isinstance(raw_accounts, dict) else {}
+    accounts = {
+        str(handle).casefold(): dict(item)
+        for handle, item in raw_accounts.items()
+        if re.fullmatch(r"[a-z0-9_]{1,30}", str(handle).casefold())
+        and isinstance(item, dict)
+    }
+    history = [
+        dict(item) for item in (raw.get("follow_history") or [])
+        if isinstance(item, dict) and item.get("handle")
+    ]
+    return {
+        "version": 1,
+        "accounts": accounts,
+        "follow_history": history[-500:],
+        "last_follow_attempt_at": str(raw.get("last_follow_attempt_at") or ""),
+        "last_follow_error": str(raw.get("last_follow_error") or ""),
+        "last_recruiter_discovery_at": str(
+            raw.get("last_recruiter_discovery_at") or ""
+        ),
+    }
+
+
+def _save_x_growth_state(site_root: Path, state: dict[str, Any]) -> None:
+    _write_json(_growth_state_path(site_root), state)
+
+
+def _learn_x_growth_accounts(
+    site_root: Path,
+    reply_candidates: list[dict[str, Any]],
+    trend_samples: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Remember proven recruitment hosts and relevant high-reach accounts."""
+    state = load_x_growth_state(site_root)
+    accounts = state["accounts"]
+    now = datetime.now(JST).isoformat(timespec="seconds")
+    for values, role in ((reply_candidates, "recruiter"), (trend_samples, "creator")):
+        for raw in values:
+            if not isinstance(raw, dict):
+                continue
+            try:
+                status_url = canonical_x_status_url(raw.get("url"))
+                handle = x_reply_target_handle(status_url)
+            except ValueError:
+                continue
+            topic = re.sub(
+                r"\s+", " ", str(raw.get("topic") or raw.get("text") or "")
+            ).strip()[:240]
+            topic_allowed = (
+                _reply_solicitation_text_allowed(topic)
+                if role == "recruiter"
+                else _trend_text_allowed(topic)
+            )
+            if not topic or not topic_allowed:
+                continue
+            account = dict(accounts.get(handle) or {})
+            seen_urls = [
+                str(value) for value in account.get("seen_status_urls") or []
+                if str(value)
+            ]
+            is_new_status = status_url not in seen_urls
+            if is_new_status:
+                seen_urls.append(status_url)
+            account.update({
+                "handle": handle,
+                "profile_url": f"https://x.com/{handle}",
+                "last_seen_at": now,
+                "last_topic": topic,
+                "best_views": max(
+                    int(account.get("best_views") or 0), int(raw.get("views") or 0)
+                ),
+                "best_likes": max(
+                    int(account.get("best_likes") or 0), int(raw.get("likes") or 0)
+                ),
+                "seen_status_urls": seen_urls[-20:],
+            })
+            roles = set(str(value) for value in account.get("roles") or [])
+            roles.add(role)
+            account["roles"] = sorted(roles)
+            if role == "recruiter" and is_new_status:
+                account["recruitment_posts"] = int(
+                    account.get("recruitment_posts") or 0
+                ) + 1
+            accounts[handle] = account
+    state["accounts"] = accounts
+    _save_x_growth_state(site_root, state)
+    return state
+
+
+def _known_recruiter_queries(site_root: Path, limit: int = 8) -> list[str]:
+    accounts = load_x_growth_state(site_root)["accounts"]
+    recruiters = sorted(
+        (
+            item for item in accounts.values()
+            if "recruiter" in set(item.get("roles") or [])
+            and _reply_solicitation_text_allowed(item.get("last_topic"))
+        ),
+        key=lambda item: (
+            int(item.get("recruitment_posts") or 0),
+            int(item.get("best_views") or 0),
+            int(item.get("best_likes") or 0),
+        ),
+        reverse=True,
+    )[:max(0, int(limit))]
+    return [
+        f'from:{item["handle"]} ("選手権" OR "募集" OR "リプ" OR "返信")'
+        for item in recruiters
+    ]
+
+
 def x_follow_candidates(
     site_root: Path,
     limit: int = 3,
 ) -> list[dict[str, Any]]:
-    """Rank adult-topic accounts for manual review without automating follows."""
+    """Rank relevant accounts, prioritizing recurring high-reach recruiters."""
     settings = load_x_settings(site_root)
     own_handle = str(settings.get("account_handle") or "").casefold()
     blocked = {
@@ -392,6 +561,18 @@ def x_follow_candidates(
         for value in (settings.get("reply_blocked_handles") or [])
     }
     state = load_x_trend_state(site_root)
+    growth = load_x_growth_state(site_root)
+    followed_handles = {
+        str(item.get("handle") or "").casefold()
+        for item in growth.get("follow_history") or []
+        if str(item.get("result") or "") in {"followed", "already_following"}
+    }
+    recent_attempt_handles: set[str] = set()
+    retry_cutoff = datetime.now(JST) - timedelta(hours=24)
+    for item in growth.get("follow_history") or []:
+        attempted = _as_jst(item.get("attempted_at"))
+        if attempted is not None and attempted >= retry_cutoff:
+            recent_attempt_handles.add(str(item.get("handle") or "").casefold())
     pools = (
         (state.get("samples") or [], "流行投稿"),
         (state.get("reply_candidates") or [], "画像・動画募集"),
@@ -406,7 +587,13 @@ def x_follow_candidates(
                 handle = x_reply_target_handle(url)
             except ValueError:
                 continue
-            if not handle or handle == own_handle or handle in blocked:
+            if (
+                not handle
+                or handle == own_handle
+                or handle in blocked
+                or handle in followed_handles
+                or handle in recent_attempt_handles
+            ):
                 continue
             topic = re.sub(
                 r"\s+",
@@ -419,8 +606,16 @@ def x_follow_candidates(
                 continue
             likes = max(0, int(raw.get("likes") or 0))
             views = max(0, int(raw.get("views") or 0))
+            account = growth["accounts"].get(handle) or {}
+            recruitment_posts = int(account.get("recruitment_posts") or 0)
             score = round(
-                min(100.0, math.log1p(likes) * 6.0 + math.log1p(views) * 2.0),
+                min(
+                    100.0,
+                    math.log1p(likes) * 6.0
+                    + math.log1p(views) * 2.0
+                    + (15.0 if source_label == "画像・動画募集" else 0.0)
+                    + min(25.0, recruitment_posts * 10.0),
+                ),
                 1,
             )
             candidate = {
@@ -431,14 +626,72 @@ def x_follow_candidates(
                 "likes": likes,
                 "views": views,
                 "score": score,
-                "reason": f"{source_label} / 成人向け話題との一致",
+                "recruitment_posts": recruitment_posts,
+                "roles": list(account.get("roles") or []),
+                "reason": (
+                    f"募集実績 {recruitment_posts}件 / 表示と記事読者層が一致"
+                    if recruitment_posts
+                    else f"{source_label} / 記事読者層との一致"
+                ),
             }
             previous = ranked.get(handle)
             if previous is None or score > float(previous.get("score") or 0):
                 ranked[handle] = candidate
+
+    for handle, account in growth["accounts"].items():
+        if (
+            handle in followed_handles
+            or handle in recent_attempt_handles
+            or handle == own_handle
+            or handle in blocked
+        ):
+            continue
+        roles = set(str(value) for value in account.get("roles") or [])
+        topic = str(account.get("last_topic") or "")
+        if "recruiter" in roles and not _reply_solicitation_text_allowed(topic):
+            roles.discard("recruiter")
+        if "creator" in roles and not _trend_text_allowed(topic):
+            roles.discard("creator")
+        if not roles:
+            continue
+        recruitment_posts = int(account.get("recruitment_posts") or 0)
+        views = int(account.get("best_views") or 0)
+        likes = int(account.get("best_likes") or 0)
+        score = min(
+            100.0,
+            math.log1p(likes) * 6.0
+            + math.log1p(views) * 2.0
+            + min(25.0, recruitment_posts * 10.0),
+        )
+        candidate = {
+            "handle": handle,
+            "profile_url": f"https://x.com/{handle}",
+            "status_url": (account.get("seen_status_urls") or [""])[-1],
+            "topic": topic[:160],
+            "likes": likes,
+            "views": views,
+            "score": round(score, 1),
+            "recruitment_posts": recruitment_posts,
+            "roles": sorted(roles),
+            "reason": (
+                f"募集実績 {recruitment_posts}件 / 成人向け話題との一致"
+                if recruitment_posts
+                else "高反応の関連アカウント"
+            ),
+        }
+        previous = ranked.get(handle)
+        if previous is None or score > float(previous.get("score") or 0):
+            ranked[handle] = candidate
     return sorted(
-        ranked.values(),
+        (
+            item for handle, item in ranked.items()
+            if handle not in followed_handles
+        ),
         key=lambda item: (
+            int(item.get("recruitment_posts") or 0) >= int(
+                settings.get("recruiter_follow_min_posts") or 2
+            ),
+            int(item.get("recruitment_posts") or 0),
             float(item.get("score") or 0),
             int(item.get("views") or 0),
             int(item.get("likes") or 0),
@@ -470,6 +723,200 @@ def _as_jst(value: Any) -> datetime | None:
     if parsed.tzinfo is None:
         parsed = parsed.replace(tzinfo=JST)
     return parsed.astimezone(JST)
+
+
+def _auto_follow_candidate_allowed(
+    candidate: dict[str, Any],
+    settings: dict[str, Any],
+) -> bool:
+    score = float(candidate.get("score") or 0)
+    minimum = float(settings.get("follow_min_score") or 55)
+    if score < minimum:
+        return False
+    roles = set(str(value) for value in candidate.get("roles") or [])
+    recruitment_posts = int(candidate.get("recruitment_posts") or 0)
+    recruiter_minimum = int(settings.get("recruiter_follow_min_posts") or 2)
+    if recruitment_posts >= recruiter_minimum:
+        return True
+    if recruitment_posts and score >= max(75.0, minimum + 15.0):
+        return True
+    return "creator" in roles and score >= max(65.0, minimum + 10.0)
+
+
+def _follow_x_profile(candidate: dict[str, Any]) -> str:
+    handle = re.sub(
+        r"[^A-Za-z0-9_]", "", str(candidate.get("handle") or "")
+    ).casefold()
+    if not handle:
+        raise RuntimeError("フォロー候補のアカウント名が不正です")
+    profile_url = f"https://x.com/{handle}"
+    try:
+        with sync_playwright() as playwright:
+            context = playwright.chromium.launch_persistent_context(
+                str(x_browser_profile_path()),
+                channel="chrome",
+                headless=True,
+                viewport={"width": 1365, "height": 900},
+                locale="ja-JP",
+                args=["--disable-blink-features=AutomationControlled"],
+            )
+            try:
+                page = context.pages[0] if context.pages else context.new_page()
+                page.goto(profile_url, wait_until="domcontentloaded", timeout=60_000)
+                page.wait_for_timeout(2200)
+                if "/i/flow/login" in page.url:
+                    raise RuntimeError("Xのログインが切れています")
+                following = page.locator('button[data-testid$="-unfollow"]')
+                if following.count() and following.first.is_visible():
+                    return "already_following"
+                follow = page.locator('button[data-testid$="-follow"]')
+                if not follow.count():
+                    follow = page.get_by_role(
+                        "button",
+                        name=re.compile(r"^(?:フォローする|フォロー|Follow)$", re.I),
+                    )
+                _click_first_enabled(
+                    follow,
+                    page,
+                    20_000,
+                    f"@{handle} のフォローボタンを確認できませんでした",
+                )
+                page.wait_for_timeout(1800)
+                following = page.locator('button[data-testid$="-unfollow"]')
+                if not following.count() or not following.first.is_visible():
+                    raise RuntimeError(f"@{handle} のフォロー完了を確認できませんでした")
+                return "followed"
+            finally:
+                context.close()
+    except RuntimeError:
+        raise
+    except Exception as exc:
+        raise RuntimeError(f"@{handle} をフォローできませんでした: {exc}") from exc
+
+
+def x_follow_schedule_status(
+    site_root: Path,
+    now: datetime | None = None,
+) -> dict[str, Any]:
+    current = (now or datetime.now(JST)).astimezone(JST)
+    settings = load_x_settings(site_root)
+    state = load_x_growth_state(site_root)
+    history = list(state.get("follow_history") or [])
+    today = [
+        item for item in history
+        if (stamp := _as_jst(item.get("attempted_at"))) is not None
+        and stamp.date() == current.date()
+    ]
+    followed_today = [
+        item for item in today if str(item.get("result") or "") == "followed"
+    ]
+    timestamps = [
+        stamp for item in history
+        if (stamp := _as_jst(item.get("attempted_at"))) is not None
+    ]
+    last_attempt = max(timestamps, default=None)
+    next_at = (
+        last_attempt + timedelta(hours=int(settings["follow_min_interval_hours"]))
+        if last_attempt is not None
+        else current
+    )
+    daily_limit = int(settings["follow_daily_limit"])
+    if len(followed_today) >= daily_limit:
+        tomorrow = datetime.combine(
+            current.date() + timedelta(days=1),
+            datetime.min.time(),
+            tzinfo=JST,
+        ).replace(hour=8)
+        next_at = max(next_at, tomorrow)
+    candidates = [
+        item for item in x_follow_candidates(site_root, limit=10)
+        if _auto_follow_candidate_allowed(item, settings)
+    ]
+    enabled = bool(settings.get("follow_automation_enabled", True))
+    # Failed UI attempts are capped too, so a changed X screen cannot loop all day.
+    attempt_limit = daily_limit + 2
+    return {
+        "enabled": enabled,
+        "due": bool(
+            enabled
+            and candidates
+            and len(followed_today) < daily_limit
+            and len(today) < attempt_limit
+            and current >= next_at
+        ),
+        "next_at": next_at.isoformat(timespec="seconds"),
+        "candidate_count": len(candidates),
+        "followed_today": len(followed_today),
+        "attempted_today": len(today),
+        "daily_limit": daily_limit,
+        "last_error": str(state.get("last_follow_error") or ""),
+    }
+
+
+def run_due_x_follow_cycle(
+    site_root: Path,
+    progress: ProgressCallback = lambda _value, _message: None,
+    *,
+    now: datetime | None = None,
+    force: bool = False,
+) -> dict[str, Any]:
+    current = (now or datetime.now(JST)).astimezone(JST)
+    settings = load_x_settings(site_root)
+    status = x_follow_schedule_status(site_root, current)
+    if not force and not status.get("due"):
+        return {"result": "not_due", **status}
+    candidates = [
+        item for item in x_follow_candidates(site_root, limit=10)
+        if _auto_follow_candidate_allowed(item, settings)
+    ]
+    if not candidates:
+        state = load_x_growth_state(site_root)
+        state["last_follow_attempt_at"] = current.isoformat(timespec="seconds")
+        state["last_follow_error"] = "条件を満たす未フォローの関連アカウントがありません"
+        _save_x_growth_state(site_root, state)
+        return {"result": "no_candidate", "candidate_count": 0}
+
+    progress(10, "募集実績または記事読者層が一致するフォロー候補を確認しています")
+    for index, candidate in enumerate(candidates[:3], start=1):
+        handle = str(candidate.get("handle") or "").casefold()
+        attempted_at = current.isoformat(timespec="seconds")
+        try:
+            result = _follow_x_profile(candidate)
+            error = ""
+        except Exception as exc:
+            result = "failed"
+            error = str(exc)[:500]
+        state = load_x_growth_state(site_root)
+        history = list(state.get("follow_history") or [])
+        history.append({
+            "handle": handle,
+            "profile_url": str(candidate.get("profile_url") or f"https://x.com/{handle}"),
+            "score": float(candidate.get("score") or 0),
+            "reason": str(candidate.get("reason") or ""),
+            "attempted_at": attempted_at,
+            "result": result,
+            "error": error,
+        })
+        state["follow_history"] = history[-500:]
+        state["last_follow_attempt_at"] = attempted_at
+        state["last_follow_error"] = error
+        account = dict(state.get("accounts", {}).get(handle) or {})
+        account["follow_status"] = result
+        account["last_follow_attempt_at"] = attempted_at
+        if result in {"followed", "already_following"}:
+            account["followed_at"] = attempted_at
+        if account:
+            state.setdefault("accounts", {})[handle] = account
+        _save_x_growth_state(site_root, state)
+        if result == "followed":
+            progress(100, f"@{handle} をフォローしました")
+            return {"result": result, "candidate": candidate, "attempt": index}
+        if result == "already_following":
+            progress(30 + index * 15, f"@{handle} はフォロー済みでした。次を確認します")
+            continue
+        progress(100, error or f"@{handle} をフォローできませんでした")
+        return {"result": result, "candidate": candidate, "error": error}
+    return {"result": "already_following", "candidate_count": len(candidates)}
 
 
 def load_x_auto_state(site_root: Path) -> dict[str, Any]:
@@ -578,6 +1025,41 @@ def _locator_metric(tweet: Any, selector: str) -> int:
     return max((_metric_number(value) for value in values), default=0)
 
 
+def _reply_traffic_score(item: dict[str, Any]) -> float:
+    views = max(0, int(item.get("views") or 0))
+    likes = max(0, int(item.get("likes") or 0))
+    reposts = max(0, int(item.get("reposts") or 0))
+    replies = max(0, int(item.get("replies") or 0))
+    age_hours = max(0.5, float(item.get("target_age_hours") or 24))
+    velocity = views / age_hours
+    recency = max(0.0, 15.0 - min(15.0, age_hours / 4.0))
+    crowd_penalty = 8.0 if replies > max(300, likes * 0.8) else 0.0
+    score = (
+        math.log10(views + 1) * 9.0
+        + math.log10(likes + 1) * 7.0
+        + math.log10(reposts + 1) * 4.0
+        + math.log10(velocity + 1) * 5.0
+        + recency
+        - crowd_penalty
+    )
+    return round(max(0.0, min(100.0, score)), 1)
+
+
+def _reply_has_traffic(item: dict[str, Any], settings: dict[str, Any]) -> bool:
+    views = max(0, int(item.get("views") or 0))
+    likes = max(0, int(item.get("likes") or 0))
+    reposts = max(0, int(item.get("reposts") or 0))
+    replies = max(0, int(item.get("replies") or 0))
+    age_hours = max(0.5, float(item.get("target_age_hours") or 24))
+    return bool(
+        views >= int(settings.get("reply_min_views") or 5000)
+        or likes >= int(settings.get("reply_min_likes") or 50)
+        or reposts >= 20
+        or replies >= 15
+        or (age_hours <= 3 and views >= 1500)
+    )
+
+
 def _trend_text_allowed(text: str) -> bool:
     lowered = str(text or "").casefold()
     if len(lowered.strip()) < 8:
@@ -598,17 +1080,28 @@ def _reply_solicitation_text_allowed(text: Any) -> bool:
         return False
     has_event = any(
         value in lowered
-        for value in ("選手権", "募集", "募集中", "大募集", "参加者")
+        for value in (
+            "選手権", "募集", "募集中", "大募集", "参加者", "企画", "祭り",
+            "お題", "リプ欄", "返信欄",
+        )
     )
     has_invitation = any(
         value in lowered
         for value in (
             "リプ", "返信", "貼って", "貼り付け", "送って", "投稿して",
-            "参加して", "参加ください", "参加どうぞ", "ください", "募集中",
+            "参加して", "参加ください", "参加どうぞ", "ください", "募集中", "見せて",
+            "埋めて",
         )
     )
-    has_media = any(value in lowered for value in ("画像", "写真", "動画", "サムネ"))
-    return has_event and has_invitation and has_media
+    has_media = any(
+        value in lowered for value in ("画像", "写真", "動画", "サムネ", "自撮り", "1枚")
+    ) or (
+        "見せて" in lowered and any(value in lowered for value in ("リプ", "返信"))
+    )
+    has_audience = any(
+        value.casefold() in lowered for value in X_REPLY_AUDIENCE_MARKERS
+    )
+    return has_event and has_invitation and has_media and has_audience
 
 
 def _tweet_status_url(tweet: Any) -> str:
@@ -743,7 +1236,12 @@ def collect_x_trend_samples(
     return samples
 
 
-def _contest_sample(tweet: Any, settings: dict[str, Any]) -> dict[str, Any] | None:
+def _contest_sample(
+    tweet: Any,
+    settings: dict[str, Any],
+    *,
+    allow_historical: bool = False,
+) -> dict[str, Any] | None:
     try:
         text = str(tweet.locator('[data-testid="tweetText"]').first.inner_text() or "").strip()
         whole_text = str(tweet.inner_text() or "")
@@ -762,7 +1260,10 @@ def _contest_sample(tweet: Any, settings: dict[str, Any]) -> dict[str, Any] | No
         age_hours = (datetime.now(JST) - _x_status_created_at(url)).total_seconds() / 3600
     except (TypeError, ValueError):
         return None
-    if age_hours < -1 or age_hours > int(settings["reply_target_max_age_hours"]):
+    if age_hours < -1:
+        return None
+    maximum_age = int(settings["reply_target_max_age_hours"])
+    if age_hours > maximum_age and not allow_historical:
         return None
     handle = x_reply_target_handle(url)
     if handle == str(settings.get("account_handle") or "").casefold():
@@ -780,9 +1281,15 @@ def _contest_sample(tweet: Any, settings: dict[str, Any]) -> dict[str, Any] | No
         "topic": re.sub(r"\s+", " ", text)[:180],
         "requested_media": requested_media,
         "likes": _locator_metric(tweet, '[data-testid="like"], [data-testid="unlike"]'),
+        "reposts": _locator_metric(tweet, '[data-testid="retweet"], [data-testid="unretweet"]'),
         "replies": _locator_metric(tweet, '[data-testid="reply"]'),
+        "views": _locator_metric(
+            tweet,
+            'a[href$="/analytics"], a[aria-label*="view" i], a[aria-label*="表示"]',
+        ),
         "target_handle": handle,
         "target_age_hours": round(age_hours, 1),
+        "active_for_reply": age_hours <= maximum_age,
         "opt_in_confirmed": True,
     }
 
@@ -795,6 +1302,19 @@ def collect_x_contest_candidates(
         return []
     settings = load_x_settings(site_root)
     collected: dict[str, dict[str, Any]] = {}
+    historical: dict[str, dict[str, Any]] = {}
+    queries = list(dict.fromkeys([
+        *X_CONTEST_QUERIES,
+        *_known_recruiter_queries(site_root),
+    ]))
+    growth_state = load_x_growth_state(site_root)
+    last_discovery = _as_jst(growth_state.get("last_recruiter_discovery_at"))
+    discovery_due = bool(
+        last_discovery is None
+        or datetime.now(JST) >= last_discovery + timedelta(
+            days=int(settings["recruiter_discovery_interval_days"])
+        )
+    )
     with sync_playwright() as playwright:
         context = playwright.chromium.launch_persistent_context(
             str(x_browser_profile_path()),
@@ -806,35 +1326,73 @@ def collect_x_contest_candidates(
         )
         try:
             page = context.pages[0] if context.pages else context.new_page()
-            for query in X_CONTEST_QUERIES:
+            search_plans: list[tuple[str, str]] = []
+            for query in queries:
+                modes = (
+                    ("live",)
+                    if query.startswith("from:") or not discovery_due
+                    else ("top", "live")
+                )
+                search_plans.extend((query, mode) for mode in modes)
+            for plan_index, (query, mode) in enumerate(search_plans):
                 page.goto(
-                    f"https://x.com/search?q={quote(query + ' -filter:replies lang:ja')}&src=typed_query&f=live",
+                    f"https://x.com/search?q={quote(query + ' -filter:replies lang:ja')}&src=typed_query&f={mode}",
                     wait_until="domcontentloaded",
                     timeout=60_000,
                 )
                 page.wait_for_timeout(2200)
                 if "/i/flow/login" in page.url:
                     raise RuntimeError("Xのログインが切れています")
-                for _ in range(4):
+                for _ in range(3):
                     tweets = page.locator('article[data-testid="tweet"]')
                     for index in range(tweets.count()):
-                        candidate = _contest_sample(tweets.nth(index), settings)
+                        candidate = _contest_sample(
+                            tweets.nth(index),
+                            settings,
+                            allow_historical=True,
+                        )
                         if candidate:
-                            collected[candidate["url"]] = candidate
-                    if len(collected) >= 12:
-                        break
+                            historical[candidate["url"]] = candidate
+                            if candidate.get("active_for_reply"):
+                                collected[candidate["url"]] = candidate
                     page.mouse.wheel(0, 1500)
-                    page.wait_for_timeout(1000)
+                    page.wait_for_timeout(900)
+                progress(
+                    8 + int((plan_index + 1) * 42 / max(1, len(search_plans))),
+                    f"上位・新着・常連募集元を横断中です（候補 {len(collected)}件）",
+                )
         finally:
             context.close()
+    proven_history = [
+        item for item in historical.values()
+        if int(item.get("views") or 0) >= 1000
+        or int(item.get("likes") or 0) >= 10
+        or int(item.get("replies") or 0) >= 3
+    ]
+    _learn_x_growth_accounts(site_root, proven_history, [])
+    if discovery_due:
+        growth_state = load_x_growth_state(site_root)
+        growth_state["last_recruiter_discovery_at"] = datetime.now(JST).isoformat(
+            timespec="seconds"
+        )
+        _save_x_growth_state(site_root, growth_state)
+    qualified: list[dict[str, Any]] = []
+    for item in collected.values():
+        item["traffic_score"] = _reply_traffic_score(item)
+        if _reply_has_traffic(item, settings):
+            qualified.append(item)
     result = sorted(
-        collected.values(),
+        qualified,
         key=lambda item: (
-            int(item.get("likes") or 0) + int(item.get("replies") or 0),
+            float(item.get("traffic_score") or 0),
+            int(item.get("views") or 0),
+            int(item.get("likes") or 0)
+            + int(item.get("reposts") or 0) * 2
+            + int(item.get("replies") or 0),
             -float(item.get("target_age_hours") or 0),
         ),
         reverse=True,
-    )[:12]
+    )[:24]
     collected_at = datetime.now(JST).isoformat(timespec="seconds")
     for item in result:
         item["collected_at"] = collected_at
@@ -955,20 +1513,42 @@ def refresh_x_trend_templates(
             reply_candidates = collect_x_contest_candidates(site_root, progress)
         except Exception as exc:
             reply_candidates_error = str(exc)[:500]
+        _learn_x_growth_accounts(site_root, reply_candidates, [])
         viral_reply_candidates: list[dict[str, Any]] = []
         viral_reply_candidates_error = ""
         try:
             samples = collect_x_trend_samples(site_root, progress)
-            progress(62, "Codexが流行の型をテンプレにしています")
-            from article_studio import CodexRunner
+            _learn_x_growth_accounts(site_root, reply_candidates, samples)
+            template_generated_at = _as_jst(
+                previous.get("template_generated_at") or previous.get("last_scan_at")
+            )
+            reuse_templates = bool(
+                previous.get("templates")
+                and template_generated_at is not None
+                and current < template_generated_at + timedelta(hours=24)
+            )
+            if reuse_templates:
+                generated = {
+                    "observations": previous.get("observations") or [],
+                    "templates": previous.get("templates") or [],
+                }
+                generated_at = template_generated_at.isoformat(timespec="seconds")
+                progress(62, "返信先だけ更新し、Codexテンプレは前回分を再利用します")
+            else:
+                progress(62, "Codexが流行の型をテンプレにしています")
+                from article_studio import CodexRunner
 
-            generated = CodexRunner(site_root).compose_x_trend_templates(samples)
+                generated = CodexRunner(site_root).compose_x_trend_templates(samples)
+                generated_at = current.isoformat(timespec="seconds")
         except Exception as exc:
             failed = {
                 **previous,
                 "status": "stale" if previous.get("templates") else "failed",
                 "last_attempt_at": current.isoformat(timespec="seconds"),
                 "next_scan_at": next_scan.isoformat(timespec="seconds"),
+                "template_generated_at": str(
+                    previous.get("template_generated_at") or ""
+                ),
                 "last_error": str(exc)[:500],
                 "reply_candidates": reply_candidates,
                 "reply_candidates_error": reply_candidates_error,
@@ -983,6 +1563,7 @@ def refresh_x_trend_templates(
             "last_attempt_at": current.isoformat(timespec="seconds"),
             "last_scan_at": current.isoformat(timespec="seconds"),
             "next_scan_at": next_scan.isoformat(timespec="seconds"),
+            "template_generated_at": generated_at,
             "last_error": "",
             "sample_count": len(samples),
             "minimum_likes": int(settings["trend_min_likes"]),
@@ -996,7 +1577,10 @@ def refresh_x_trend_templates(
             "template_writer": "Codex",
         }
         _save_x_trend_state(site_root, ready)
-        progress(100, f"Codexテンプレを{len(ready['templates'])}本更新しました")
+        progress(
+            100,
+            f"X調査完了: 募集候補{len(reply_candidates)}件 / テンプレ{len(ready['templates'])}本",
+        )
         return ready
 
 
@@ -1347,6 +1931,22 @@ def score_x_reply_candidate(
     if matching_sample is None and isinstance(row.get("reply_target_metrics"), dict):
         matching_sample = dict(row["reply_target_metrics"])
     if matching_sample:
+        traffic_sample = {
+            **matching_sample,
+            "target_age_hours": (
+                age_hours
+                if age_hours is not None
+                else matching_sample.get("target_age_hours")
+            ),
+        }
+        if (
+            str(row.get("origin") or "") == "contest_discovery"
+            and not _reply_has_traffic(traffic_sample, settings)
+        ):
+            blockers.append("表示数・反応数が流入を見込める基準に届いていません")
+        traffic_score = _reply_traffic_score(traffic_sample)
+        score += min(15.0, traffic_score * 0.15)
+        reasons.append(f"流入見込み{traffic_score:.0f}点")
         likes = max(0, int(matching_sample.get("likes") or 0))
         views = max(0, int(matching_sample.get("views") or 0))
         replies = max(0, int(matching_sample.get("replies") or 0))
@@ -1360,8 +1960,11 @@ def score_x_reply_candidate(
             score -= 5
             reasons.append("返信が混雑")
     else:
-        score += 5
-        reasons.append("反応数は未取得")
+        if str(row.get("origin") or "") == "contest_discovery":
+            blockers.append("募集投稿の表示数・反応数を確認できません")
+        else:
+            score += 5
+            reasons.append("反応数は未取得")
 
     media_mode = str(row.get("reply_media_mode") or "safe_card")
     if not str(row.get("article_slug") or "").strip() or not str(
@@ -2934,12 +3537,16 @@ def prepare_discovered_x_reply(
         and str(item.get("url") or "") not in used_targets
         and bool(item.get("opt_in_confirmed", False))
         and _reply_solicitation_text_allowed(item.get("topic"))
+        and _reply_has_traffic(item, settings)
     ]
     if not opportunities:
         return None
     now = datetime.now(JST)
     ranked: list[tuple[float, dict[str, Any], dict[str, Any], list[str], str]] = []
+    analytics = _ga4_article_analytics(site_root)
     for opportunity in opportunities:
+        traffic_score = _reply_traffic_score(opportunity)
+        opportunity["traffic_score"] = traffic_score
         requested = str(opportunity.get("requested_media") or "any")
         topic = str(opportunity.get("topic") or "")
         for article in _published_articles(site_root):
@@ -2956,9 +3563,9 @@ def prepare_discovered_x_reply(
             }
             if _reply_topic_error(probe, topic):
                 continue
-            score, _reasons = _article_score(article, now, _ga4_article_analytics(site_root))
-            score += min(12.0, math.log1p(int(opportunity.get("likes") or 0)) * 2.0)
-            score += min(8.0, math.log1p(int(opportunity.get("replies") or 0)) * 1.5)
+            article_score, _reasons = _article_score(article, now, analytics)
+            # Reach is the primary selector; article quality breaks close ties.
+            score = traffic_score * 0.75 + min(100.0, article_score) * 0.25
             ranked.append((score, opportunity, article, media_paths, media_kind))
     if not ranked:
         return None
@@ -2987,7 +3594,11 @@ def prepare_discovered_x_reply(
         "media_kind": media_kind,
         "media_count": len(media_paths),
         "score": round(score, 1),
-        "selection_reason": "返信募集と記事素材が一致",
+        "selection_reason": (
+            "高表示の返信募集と記事素材が一致 / "
+            f"表示{int(opportunity.get('views') or 0):,} / "
+            f"いいね{int(opportunity.get('likes') or 0):,}"
+        ),
         "copy_angle_id": angle_id,
         "copy_angle_instruction": angle_instruction,
         "copy_variants": [],
@@ -3002,6 +3613,14 @@ def prepare_discovered_x_reply(
         "reply_media_mode": "original",
         "reply_include_link": True,
         "reply_link_decided": True,
+        "reply_target_metrics": {
+            "views": max(0, int(opportunity.get("views") or 0)),
+            "likes": max(0, int(opportunity.get("likes") or 0)),
+            "reposts": max(0, int(opportunity.get("reposts") or 0)),
+            "replies": max(0, int(opportunity.get("replies") or 0)),
+            "target_age_hours": max(0.0, float(opportunity.get("target_age_hours") or 0)),
+            "traffic_score": float(opportunity.get("traffic_score") or 0),
+        },
         "campaign_topic": "",
         "performance": {},
         "created_at": now.isoformat(timespec="seconds"),
@@ -3170,7 +3789,9 @@ def x_reply_schedule_status(
     contest_count = len(trend_state.get("reply_candidates") or [])
     last_prepared = _as_jst(state.get("reply_last_prepared_at"))
     next_at = (
-        last_prepared + timedelta(days=1)
+        last_prepared + timedelta(
+            minutes=int(settings["reply_min_interval_minutes"])
+        )
         if last_prepared is not None
         else current
     )
