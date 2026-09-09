@@ -478,7 +478,7 @@
   "counts": {
     "people": 273,
     "works": 220,
-    "topics": 1508
+    "topics": 1511
   },
   "people": [
     {
@@ -2646,6 +2646,10 @@
       "articles": 1
     },
     {
+      "name": "AI顔認識",
+      "articles": 1
+    },
+    {
       "name": "ASMR",
       "articles": 4
     },
@@ -2699,7 +2703,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 44
+      "articles": 45
     },
     {
       "name": "AV女優検索",
@@ -5298,6 +5302,10 @@
       "articles": 1
     },
     {
+      "name": "似てる女優",
+      "articles": 1
+    },
+    {
       "name": "住田紗里",
       "articles": 1
     },
@@ -5928,6 +5936,10 @@
     {
       "name": "大胆衣装",
       "articles": 2
+    },
+    {
+      "name": "天城ねね",
+      "articles": 1
     },
     {
       "name": "天宮花南",
