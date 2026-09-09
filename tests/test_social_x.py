@@ -15,6 +15,8 @@ from indanya_desktop.social_x import (
     _copy_prompt,
     _draft_media_paths,
     _future_scheduled_time,
+    _fanza_player_preview_urls,
+    _fanza_product_id_variants,
     _json_object,
     _assign_random_trend_templates,
     _auto_follow_candidate_allowed,
@@ -41,6 +43,8 @@ from indanya_desktop.social_x import (
     load_x_settings,
     migrate_x_account,
     prepare_x_candidates,
+    prepare_x_av_shelf,
+    prepare_x_reach_post,
     prepare_discovered_x_reply,
     prepare_x_contest_candidate,
     prepare_x_manga_thread,
@@ -69,6 +73,8 @@ from indanya_desktop.social_x import (
     x_daily_posting_status,
     x_follow_candidates,
     x_follow_schedule_status,
+    x_av_shelf_schedule_status,
+    x_reach_schedule_status,
     x_manga_schedule_status,
     x_reply_schedule_status,
     x_trend_scan_status,
@@ -201,6 +207,72 @@ class SocialXTests(unittest.TestCase):
         drafts.mkdir(parents=True, exist_ok=True)
         (drafts / f"{slug}.json").write_text(
             json.dumps(payload, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        return payload
+
+    def _av_draft(self, index: int) -> dict:
+        from PIL import Image
+
+        product_id = f"abc{index:05d}"
+        slug = f"url-video-dmm-co-jp-{index:08x}"
+        source_url = f"https://video.dmm.co.jp/av/content/?id={product_id}"
+        assets = self.root / "assets" / "articles" / slug
+        assets.mkdir(parents=True)
+        Image.new("RGB", (560, 800), (80 + index, 40, 90)).save(
+            assets / "image-01.jpg"
+        )
+        payload = {
+            "slug": slug,
+            "title": f"【画像＋動画】出演者{index}の公式サンプル作品 {product_id}",
+            "summary": "FANZA公式の商品情報とサンプルを紹介する公開記事です。",
+            "status": "published",
+            "rights_status": "confirmed",
+            "content_mode": "fanza_product",
+            "source_url": source_url,
+            "fanza_product_url": source_url,
+            "fanza_product_id": product_id,
+            "published_url": f"https://example.com/articles/{slug}.html",
+            "published_at": f"2026-09-{min(index, 9):02d}T12:00:00+09:00",
+            "tags": ["AV", "FANZA"],
+            "images": [{
+                "id": "source-image-1",
+                "url": (
+                    "https://pics.dmm.co.jp/digital/video/"
+                    f"{product_id}/{product_id}pl.jpg"
+                ),
+                "rights_basis": "fanza_product_main_image",
+            }],
+            "blocks": [{
+                "type": "product_cta",
+                "url": source_url,
+                "match_confidence": 100,
+                "match_type": "exact_product",
+            }],
+        }
+        drafts = self.root / ".article-studio" / "drafts"
+        drafts.mkdir(parents=True, exist_ok=True)
+        (drafts / f"{slug}.json").write_text(
+            json.dumps(payload, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        articles_path = self.root / "data" / "articles.json"
+        articles = json.loads(articles_path.read_text(encoding="utf-8"))
+        articles.append({
+            "slug": slug,
+            "title": payload["title"],
+            "summary": payload["summary"],
+            "category": "動画",
+            "tags": payload["tags"],
+            "status": "published",
+            "published_at": payload["published_at"],
+            "url": f"articles/{slug}.html",
+            "thumbnail": f"assets/articles/{slug}/image-01.jpg",
+            "images_used": 1,
+            "videos_used": 1,
+        })
+        articles_path.write_text(
+            json.dumps(articles, ensure_ascii=False),
             encoding="utf-8",
         )
         return payload
@@ -1667,6 +1739,177 @@ class SocialXTests(unittest.TestCase):
         self.assertEqual("images", first["media_kind"])
         self.assertIn("utm_campaign=owned_contest", first["article_url"])
         self.assertIsNone(prepare_x_contest_candidate(self.root, "https://example.com/"))
+
+    def test_av_shelf_uses_ten_exact_products_and_official_packages(self) -> None:
+        for index in range(1, 12):
+            payload = self._av_draft(index)
+            if index == 11:
+                payload["blocks"][0]["match_confidence"] = 40
+                path = self.root / ".article-studio" / "drafts" / f"{payload['slug']}.json"
+                path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+        shelf = prepare_x_av_shelf(self.root, "https://example.com/")
+        self.assertIsNotNone(shelf)
+        self.assertEqual("av_product_shelf", shelf["origin"])
+        self.assertEqual(11, len(shelf["thread_steps"]))
+        products = shelf["thread_steps"][1:]
+        self.assertEqual(10, len(products))
+        self.assertNotIn("abc00011", {item["product_id"] for item in products})
+        self.assertTrue(all(item["kind"] == "product" for item in products))
+        self.assertTrue(all(len(item["media_paths"]) == 1 for item in products))
+        self.assertTrue(all("utm_campaign=av_shelf" in item["article_url"] for item in products))
+
+    def test_fanza_player_preview_accepts_compact_same_product_id_only(self) -> None:
+        player_html = r'''{
+          "medium": "\\/\\/cc3001.dmm.co.jp\\/pv\\/signed-token\\/1nhdtc217mhb.mp4",
+          "high": "https:\\/\\/cc3001.dmm.co.jp\\/pv\\/signed-token\\/1nhdtc217hhb.mp4",
+          "other": "\\/\\/cc3001.dmm.co.jp\\/pv\\/signed-token\\/other999mhb.mp4"
+        }'''
+        urls = _fanza_player_preview_urls("1nhdtc00217", player_html)
+        self.assertEqual(2, len(urls))
+        self.assertTrue(urls[0].endswith("1nhdtc217mhb.mp4"))
+        self.assertTrue(urls[1].endswith("1nhdtc217hhb.mp4"))
+        self.assertTrue(all("other999" not in value for value in urls))
+        self.assertEqual(
+            {"1nhdtc00217", "1nhdtc217"},
+            _fanza_product_id_variants("1nhdtc00217"),
+        )
+
+    def test_reach_post_sends_native_video_then_quotes_matching_shelf_item(self) -> None:
+        from indanya_desktop.x_account_health import (
+            load_x_health_state,
+            save_x_health_state,
+        )
+
+        for index in range(1, 11):
+            self._av_draft(index)
+        shelf = prepare_x_av_shelf(self.root, "https://example.com/")
+        self.assertIsNotNone(shelf)
+        status_urls = [
+            f"https://x.com/hentai596/status/{2099000000000000100 + index}"
+            for index in range(11)
+        ]
+        update_x_post(
+            self.root,
+            shelf["post_id"],
+            status="posted",
+            thread_step_index=11,
+            thread_post_urls=status_urls,
+            posted_at=(datetime.now(JST) - timedelta(hours=2)).isoformat(),
+            account_handle="hentai596",
+        )
+        health = load_x_health_state(self.root, "hentai596")
+        health.update({
+            "classification": "healthy",
+            "risk_level": 0,
+            "last_checked_at": datetime.now(JST).isoformat(),
+        })
+        save_x_health_state(self.root, health)
+        video = self.root / "reach.mp4"
+        video.write_bytes(b"video")
+        with patch(
+            "indanya_desktop.social_x._materialize_fanza_reach_video",
+            return_value=str(video),
+        ):
+            reach = prepare_x_reach_post(self.root, "https://example.com/")
+        self.assertIsNotNone(reach)
+        self.assertEqual("reach", reach["delivery_mode"])
+        self.assertNotIn("http", reach["post_text"])
+        self.assertEqual(
+            f"続きはこちら\n{reach['reach_shelf_status_url']}",
+            reach["reach_followup_text"],
+        )
+
+        playwright_api = MagicMock()
+        context = MagicMock()
+        page = MagicMock()
+        playwright_api.chromium.launch_persistent_context.return_value = context
+        context.cookies.return_value = [{"name": "auth_token"}]
+        context.new_page.return_value = page
+        manager = MagicMock()
+        manager.__enter__.return_value = playwright_api
+        created_ids = ["2099000000000000201", "2099000000000000202"]
+        with patch(
+            "indanya_desktop.social_x.sync_playwright",
+            return_value=manager,
+        ), patch(
+            "indanya_desktop.social_x._post_one",
+            side_effect=created_ids,
+        ) as post_one:
+            result = schedule_x_posts(self.root, [reach["post_id"]])
+        self.assertEqual([reach["post_id"]], result["posted"])
+        self.assertEqual(2, post_one.call_count)
+        self.assertEqual("", post_one.call_args_list[0].kwargs.get("reply_to_id", ""))
+        self.assertEqual(created_ids[0], post_one.call_args_list[1].kwargs["reply_to_id"])
+        followup = post_one.call_args_list[1].args[1]
+        self.assertEqual(reach["reach_followup_text"], followup["post_text"])
+        saved = next(
+            row for row in list_x_posts(self.root)
+            if row["post_id"] == reach["post_id"]
+        )
+        self.assertEqual("posted", saved["status"])
+        self.assertTrue(saved["reach_reply_post_url"].endswith(created_ids[1]))
+        status = x_reach_schedule_status(self.root)
+        self.assertTrue(status["waiting_for_health_check"])
+        self.assertFalse(status["due"])
+
+    def test_reach_retry_does_not_duplicate_a_successful_main_video(self) -> None:
+        from indanya_desktop.x_account_health import (
+            load_x_health_state,
+            save_x_health_state,
+        )
+
+        video = self.root / "reach-retry.mp4"
+        video.write_bytes(b"video")
+        health = load_x_health_state(self.root, "hentai596")
+        health.update({"classification": "healthy", "risk_level": 0})
+        save_x_health_state(self.root, health)
+        row = {
+            "post_id": "reach-retry",
+            "status": "copy_ready",
+            "delivery_mode": "reach",
+            "origin": "adaptive_reach_video",
+            "post_text": "この展開は最後まで見てしまう",
+            "media_kind": "video",
+            "media_paths": [str(video)],
+            "reach_product_id": "abc00001",
+            "reach_shelf_status_url": "https://x.com/hentai596/status/2099000000000000300",
+            "reach_followup_text": "続きはこちら\nhttps://x.com/hentai596/status/2099000000000000300",
+            "created_at": (datetime.now(JST) - timedelta(hours=2)).isoformat(),
+        }
+        save_x_posts(self.root, [row])
+        playwright_api = MagicMock()
+        context = MagicMock()
+        page = MagicMock()
+        playwright_api.chromium.launch_persistent_context.return_value = context
+        context.cookies.return_value = [{"name": "auth_token"}]
+        context.new_page.return_value = page
+        manager = MagicMock()
+        manager.__enter__.return_value = playwright_api
+        with patch(
+            "indanya_desktop.social_x.sync_playwright",
+            return_value=manager,
+        ), patch(
+            "indanya_desktop.social_x._post_one",
+            side_effect=["2099000000000000301", RuntimeError("reply failed")],
+        ):
+            first = schedule_x_posts(self.root, ["reach-retry"])
+        self.assertEqual(1, len(first["failed"]))
+        partial = list_x_posts(self.root)[0]
+        self.assertTrue(partial["x_post_url"].endswith("301"))
+
+        manager = MagicMock()
+        manager.__enter__.return_value = playwright_api
+        with patch(
+            "indanya_desktop.social_x.sync_playwright",
+            return_value=manager,
+        ), patch(
+            "indanya_desktop.social_x._post_one",
+            return_value="2099000000000000302",
+        ) as post_one:
+            second = schedule_x_posts(self.root, ["reach-retry"])
+        self.assertEqual(["reach-retry"], second["posted"])
+        self.assertEqual(1, post_one.call_count)
+        self.assertEqual("2099000000000000301", post_one.call_args.kwargs["reply_to_id"])
 
     def test_performance_record_becomes_template_learning_data(self) -> None:
         post = prepare_x_candidates(self.root, "https://example.com/", limit=1)[0]

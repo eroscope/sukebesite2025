@@ -8,6 +8,7 @@ from unittest.mock import patch
 
 from article_studio import JST
 from indanya_desktop.x_account_health import (
+    _transition_reach_cadence,
     _parse_fia_checker_payload,
     apply_x_health_limits,
     load_x_health_state,
@@ -145,6 +146,59 @@ def test_health_check_is_due_ten_minutes_after_a_new_delivery() -> None:
         assert schedule["due_reason"] == "post_delivery"
 
 
+def test_reach_delivery_gets_its_own_learning_trigger() -> None:
+    with tempfile.TemporaryDirectory() as folder:
+        root = Path(folder)
+        now = datetime(2026, 9, 9, 8, 0, tzinfo=JST)
+        state = load_x_health_state(root, "hentai596")
+        state["last_checked_at"] = (now - timedelta(hours=1)).isoformat()
+        save_x_health_state(root, state)
+        queue_path = root / ".article-studio" / "x-posting-queue.json"
+        queue_path.write_text(json.dumps([{
+            "post_id": "reach-1",
+            "delivery_mode": "reach",
+            "status": "posted",
+            "account_handle": "hentai596",
+            "reach_reply_posted_at": (now - timedelta(minutes=10)).isoformat(),
+        }]), encoding="utf-8")
+        schedule = x_health_schedule_status(root, settings(), now)
+        assert schedule["due_reason"] == "reach_post_delivery"
+
+
+def test_reach_delivery_result_is_saved_on_the_exact_queue_row() -> None:
+    with tempfile.TemporaryDirectory() as folder:
+        root = Path(folder)
+        now = datetime(2026, 9, 9, 8, 0, tzinfo=JST)
+        state = load_x_health_state(root, "hentai596")
+        state.update({
+            "last_checked_at": (now - timedelta(hours=1)).isoformat(),
+            "classification": "healthy",
+            "risk_level": 0,
+        })
+        save_x_health_state(root, state)
+        queue_path = root / ".article-studio" / "x-posting-queue.json"
+        queue_path.write_text(json.dumps([{
+            "post_id": "reach-measured",
+            "delivery_mode": "reach",
+            "status": "posted",
+            "account_handle": "hentai596",
+            "reach_reply_posted_at": (now - timedelta(minutes=10)).isoformat(),
+        }]), encoding="utf-8")
+        with patch(
+            "indanya_desktop.x_account_health._external_shadowban_check",
+            return_value={"status": "clean", "checks": {"search": "ok"}},
+        ), patch(
+            "indanya_desktop.x_account_health._first_party_visibility",
+            return_value=healthy_first_party(),
+        ):
+            result = run_due_x_health_check(root, settings(), now=now)
+        saved = json.loads(queue_path.read_text(encoding="utf-8"))[0]
+        assert result["trigger_reason"] == "reach_post_delivery"
+        assert result["reach_clean_post_checks"] == 1
+        assert saved["reach_health_classification"] == "healthy"
+        assert saved["reach_next_interval_hours"] == 48
+
+
 def test_three_clean_checks_restore_only_one_level() -> None:
     with tempfile.TemporaryDirectory() as folder:
         root = Path(folder)
@@ -219,3 +273,52 @@ def test_forced_follow_still_stops_during_health_pause() -> None:
         save_x_health_state(root, state)
         result = run_due_x_follow_cycle(root, force=True)
         assert result["result"] == "health_paused"
+
+
+def test_reach_cadence_accelerates_only_after_two_clean_post_checks() -> None:
+    initial = {
+        "reach_cadence_index": 0,
+        "reach_clean_post_checks": 0,
+        "reach_last_result": "未計測",
+    }
+    first = _transition_reach_cadence(initial, "healthy", "reach_post_delivery")
+    assert first["reach_cadence_index"] == 0
+    assert first["reach_clean_post_checks"] == 1
+    second = _transition_reach_cadence(first, "healthy", "reach_post_delivery")
+    assert second["reach_cadence_index"] == 1
+    assert second["reach_clean_post_checks"] == 0
+    ordinary = _transition_reach_cadence(initial, "healthy", "post_delivery")
+    assert ordinary["reach_cadence_index"] == 0
+    assert ordinary["reach_clean_post_checks"] == 0
+
+
+def test_reach_cadence_slows_aggressively_and_resets_on_restriction() -> None:
+    previous = {
+        "reach_cadence_index": 4,
+        "reach_clean_post_checks": 1,
+    }
+    caution = _transition_reach_cadence(previous, "caution", "reach_post_delivery")
+    assert caution["reach_cadence_index"] == 2
+    assert caution["reach_clean_post_checks"] == 0
+    restricted = _transition_reach_cadence(
+        previous,
+        "restricted",
+        "interval",
+        hard_restriction=True,
+    )
+    assert restricted["reach_cadence_index"] == 0
+
+
+def test_reach_interval_is_clamped_while_account_is_recovering() -> None:
+    result = apply_x_health_limits(settings(), {
+        "risk_level": 1,
+        "classification": "healthy",
+        "reach_cadence_index": 5,
+    })
+    assert result["reach_interval_hours"] == 24
+    restricted = apply_x_health_limits(settings(), {
+        "risk_level": 2,
+        "classification": "healthy",
+        "reach_cadence_index": 5,
+    })
+    assert restricted["reach_interval_hours"] == 48

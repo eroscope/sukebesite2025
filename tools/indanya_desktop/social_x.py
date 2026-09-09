@@ -3,17 +3,20 @@ from __future__ import annotations
 import base64
 import binascii
 import hashlib
+import html as html_lib
 import json
 import math
 import random
 import re
 import shutil
+import subprocess
 import threading
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import quote, urlencode, urljoin, urlparse
+from urllib.request import Request, urlopen
 
 from playwright.sync_api import sync_playwright
 
@@ -24,7 +27,10 @@ from indanya_desktop.browser_capture import (
     x_browser_profile_path,
     x_login_ready,
 )
-from indanya_desktop.x_account_health import effective_x_settings
+from indanya_desktop.x_account_health import (
+    effective_x_settings,
+    load_x_health_state,
+)
 from indanya_desktop.publishing import _download_video
 from indanya_desktop.fanza_affiliate import (
     build_fanza_affiliate_url,
@@ -33,6 +39,8 @@ from indanya_desktop.fanza_affiliate import (
 from indanya_desktop.editorial_policy import (
     canonical_fanza_product_url,
     fanza_product_id,
+    is_fanza_official_sample_video_url,
+    is_fanza_package_image,
     is_fanza_product_url,
 )
 
@@ -79,6 +87,11 @@ DEFAULT_X_SETTINGS: dict[str, Any] = {
     "health_check_enabled": True,
     "health_check_interval_hours": 12,
     "adaptive_pacing_enabled": True,
+    "reach_funnel_enabled": True,
+    "reach_shelf_size": 10,
+    "reach_shelf_step_interval_hours": 4,
+    "reach_product_cooldown_days": 90,
+    "reach_video_seconds": 30,
     "owned_contest_cooldown_days": 7,
     "manga_recurring_enabled": True,
     "manga_interval_days": 1,
@@ -152,7 +165,7 @@ _X_STATUS_URL_RE = re.compile(
     r"(?:[/?#].*)?$",
     re.I,
 )
-_X_DELIVERY_MODES = {"post", "reply", "campaign", "thread"}
+_X_DELIVERY_MODES = {"post", "reply", "campaign", "thread", "reach"}
 _X_REPLY_MEDIA_MODES = {"safe_card", "original", "none"}
 _X_REPLY_KINDS = {"contest", "viral_conversation"}
 _X_SNOWFLAKE_EPOCH_MS = 1_288_834_974_657
@@ -378,6 +391,23 @@ def load_x_settings(site_root: Path) -> dict[str, Any]:
     )
     result["adaptive_pacing_enabled"] = bool(
         result.get("adaptive_pacing_enabled", True)
+    )
+    result["reach_funnel_enabled"] = bool(
+        result.get("reach_funnel_enabled", True)
+    )
+    result["reach_shelf_size"] = max(
+        5, min(12, int(result.get("reach_shelf_size") or 10))
+    )
+    result["reach_shelf_step_interval_hours"] = max(
+        2,
+        min(24, int(result.get("reach_shelf_step_interval_hours") or 4)),
+    )
+    result["reach_product_cooldown_days"] = max(
+        14,
+        min(365, int(result.get("reach_product_cooldown_days") or 90)),
+    )
+    result["reach_video_seconds"] = max(
+        15, min(45, int(result.get("reach_video_seconds") or 30))
     )
     result["owned_contest_cooldown_days"] = max(
         1,
@@ -1100,6 +1130,13 @@ def load_x_auto_state(site_root: Path) -> dict[str, Any]:
         "reply_last_prepared_at": str(raw.get("reply_last_prepared_at") or ""),
         "reply_next_retry_at": str(raw.get("reply_next_retry_at") or ""),
         "reply_last_error": str(raw.get("reply_last_error") or ""),
+        "reach_last_prepared_at": str(raw.get("reach_last_prepared_at") or ""),
+        "reach_next_retry_at": str(raw.get("reach_next_retry_at") or ""),
+        "reach_last_error": str(raw.get("reach_last_error") or ""),
+        "shelf_last_prepared_at": str(raw.get("shelf_last_prepared_at") or ""),
+        "shelf_next_retry_at": str(raw.get("shelf_next_retry_at") or ""),
+        "shelf_last_error": str(raw.get("shelf_last_error") or ""),
+        "shelf_current_post_id": str(raw.get("shelf_current_post_id") or ""),
     }
 
 
@@ -1838,15 +1875,29 @@ def _assign_random_trend_templates(
 
 
 
-def _is_manga_thread_row(row: dict[str, Any]) -> bool:
+def _is_thread_row(row: dict[str, Any]) -> bool:
     steps = row.get("thread_steps") or []
     return bool(
         str(row.get("delivery_mode") or "") == "thread"
         or (
-            str(row.get("origin") or "") == "manga_thread"
+            str(row.get("origin") or "") in {"manga_thread", "av_product_shelf"}
             and isinstance(steps, list)
             and any(isinstance(step, dict) for step in steps)
         )
+    )
+
+
+def _is_manga_thread_row(row: dict[str, Any]) -> bool:
+    return bool(
+        str(row.get("origin") or "") == "manga_thread"
+        and _is_thread_row(row)
+    )
+
+
+def _is_av_shelf_row(row: dict[str, Any]) -> bool:
+    return bool(
+        str(row.get("origin") or "") == "av_product_shelf"
+        and _is_thread_row(row)
     )
 
 
@@ -1910,7 +1961,7 @@ def list_x_posts(site_root: Path) -> list[dict[str, Any]]:
         # Early manga rows were accidentally persisted as ordinary posts even
         # though they already contained the six self-reply steps. Recover them
         # as threads so they cannot be selected and sent as one normal post.
-        if _is_manga_thread_row(row):
+        if _is_thread_row(row):
             row["delivery_mode"] = "thread"
         try:
             thread_step_index = int(row.get("thread_step_index") or 0)
@@ -1925,6 +1976,20 @@ def list_x_posts(site_root: Path) -> list[dict[str, Any]]:
             str(value).strip() for value in thread_post_urls
             if str(value).strip()
         ] if isinstance(thread_post_urls, list) else []
+        thread_posted_ats = row.get("thread_posted_ats") or []
+        row["thread_posted_ats"] = [
+            str(value).strip() for value in thread_posted_ats
+            if str(value).strip()
+        ] if isinstance(thread_posted_ats, list) else []
+        row["reach_shelf_status_url"] = str(
+            row.get("reach_shelf_status_url") or ""
+        ).strip()
+        row["reach_followup_text"] = str(
+            row.get("reach_followup_text") or ""
+        ).strip()
+        row["reach_reply_post_url"] = str(
+            row.get("reach_reply_post_url") or ""
+        ).strip()
         performance = row.get("performance") or {}
         row["performance"] = dict(performance) if isinstance(performance, dict) else {}
         rows.append(row)
@@ -2925,17 +2990,37 @@ def _x_action_times(
     ignore_post_id: str = "",
     account_handle: str = "",
 ) -> list[datetime]:
-    return [
-        value
-        for row in rows
-        if str(row.get("post_id") or "") != ignore_post_id
-        if not account_handle
-        or not str(row.get("account_handle") or "").strip()
-        or re.sub(
+    actions: list[datetime] = []
+    for row in rows:
+        if str(row.get("post_id") or "") == ignore_post_id:
+            continue
+        owner = re.sub(
             r"[^A-Za-z0-9_]", "", str(row.get("account_handle") or "")
-        ).casefold() == account_handle.casefold()
-        if (value := _x_action_time(row)) is not None
-    ]
+        ).casefold()
+        if account_handle and owner and owner != account_handle.casefold():
+            continue
+        if row.get("delivery_mode") == "reach":
+            values = (
+                _as_jst(row.get("reach_main_posted_at")),
+                _as_jst(row.get("reach_reply_posted_at")),
+            )
+            actions.extend(value for value in values if value is not None)
+            if any(value is not None for value in values):
+                continue
+        if row.get("delivery_mode") == "thread":
+            thread_values = [
+                parsed for parsed in (
+                    _as_jst(value) for value in row.get("thread_posted_ats") or []
+                )
+                if parsed is not None
+            ]
+            if thread_values:
+                actions.extend(thread_values)
+                continue
+        value = _x_action_time(row)
+        if value is not None:
+            actions.append(value)
+    return actions
 
 
 def _x_pacing_error(
@@ -3511,6 +3596,7 @@ def x_daily_posting_status(
 ) -> dict[str, Any]:
     current = (now or datetime.now(JST)).astimezone(JST)
     settings = load_effective_x_settings(site_root)
+    reach = x_reach_schedule_status(site_root, current)
     state = load_x_auto_state(site_root)
     rows = list_x_posts(site_root)
     if _recover_stale_x_rows(rows, current) or _complete_elapsed_x_schedules(rows, current):
@@ -3526,6 +3612,14 @@ def x_daily_posting_status(
         min(len(prepared), int(settings["daily_post_limit"])),
         current,
     ) if prepared else []
+    normal_due = bool(
+        settings["automatic_posting_enabled"]
+        and int(settings.get("daily_post_limit") or 0) > 0
+        and int(settings.get("global_daily_action_limit") or 0) > 0
+        and bool(prepared or (eligible and slots))
+        and not ran_today
+        and not (pause_until is not None and current < pause_until)
+    )
     return {
         **state,
         "enabled": bool(
@@ -3533,18 +3627,19 @@ def x_daily_posting_status(
             and int(settings.get("daily_post_limit") or 0) > 0
             and int(settings.get("global_daily_action_limit") or 0) > 0
         ),
-        "due": bool(
-            settings["automatic_posting_enabled"]
-            and int(settings.get("daily_post_limit") or 0) > 0
-            and int(settings.get("global_daily_action_limit") or 0) > 0
-            and bool(prepared or (eligible and slots))
-            and not ran_today
-            and not (pause_until is not None and current < pause_until)
+        "due": bool(reach.get("due") or normal_due),
+        "candidate_count": (
+            len(prepared) + len(eligible) + int(reach.get("available_products") or 0)
         ),
-        "candidate_count": len(prepared) + len(eligible),
-        "next_slots": prepared_slots or slots,
+        "next_slots": (
+            [str(reach.get("next_at") or "")]
+            if reach.get("due")
+            else (prepared_slots or slots)
+        ),
         "daily_post_limit": int(settings["daily_post_limit"]),
         "ran_today": ran_today,
+        "reach_due": bool(reach.get("due")),
+        "reach": reach,
     }
 
 
@@ -3556,6 +3651,44 @@ def run_x_daily_cycle(
     current = datetime.now(JST)
     settings = load_effective_x_settings(site_root)
     refresh_x_ga4_learning(site_root, now=current)
+    reach_status = x_reach_schedule_status(site_root, current)
+    if reach_status.get("due"):
+        reach_post = prepare_due_x_reach_post(site_root, public_url, current)
+        if reach_post is not None:
+            post_id = str(reach_post.get("post_id") or "")
+            _save_x_auto_state(
+                site_root,
+                status="running",
+                last_attempt_at=current.isoformat(timespec="seconds"),
+                last_selected_ids=[post_id],
+                last_error="",
+            )
+            result = schedule_x_posts(
+                site_root,
+                [post_id],
+                lambda value, message: progress(value, message),
+            )
+            failures = list(result.get("failed") or [])
+            previous_success = str(
+                load_x_auto_state(site_root).get("last_success_at") or ""
+            )
+            _save_x_auto_state(
+                site_root,
+                status="paused" if failures else "idle",
+                pause_until=(
+                    (current + timedelta(hours=1)).isoformat(timespec="seconds")
+                    if failures else ""
+                ),
+                last_success_at=(
+                    datetime.now(JST).isoformat(timespec="seconds")
+                    if not failures else previous_success
+                ),
+                last_error=(
+                    str(failures[0].get("error") or "")[:500]
+                    if failures else ""
+                ),
+            )
+            return {"selected": [post_id], **result, "reach": True}
     selected = select_x_daily_posts(site_root, public_url, now=current)
     if not selected:
         return {"selected": [], "posted": [], "scheduled": [], "failed": []}
@@ -4113,6 +4246,830 @@ def prepare_due_x_reply_candidate(
         reply_last_error="",
     )
     return item
+
+
+_AV_SHELF_SALE_MARKERS = (
+    "セール", "割引", "値下げ", "特価", "キャンペーン", "%off", "％off",
+)
+_AV_SHELF_POPULAR_MARKERS = (
+    "人気", "ランキング", "売れ筋", "急上昇", "注目",
+)
+
+
+def _draft_payload(site_root: Path, slug: str) -> dict[str, Any]:
+    raw = _read_json(_root(site_root) / "drafts" / f"{slug}.json", {})
+    return dict(raw) if isinstance(raw, dict) else {}
+
+
+def _is_payload_fanza_package(image: dict[str, Any], product_id: str) -> bool:
+    normalized = dict(image)
+    normalized["url"] = str(image.get("url") or image.get("source_url") or "")
+    return is_fanza_package_image(normalized, product_id)
+
+
+def _exact_fanza_product(payload: dict[str, Any]) -> tuple[str, str]:
+    source_url = canonical_fanza_product_url(
+        str(payload.get("fanza_product_url") or payload.get("source_url") or "")
+    )
+    product_id = fanza_product_id(source_url)
+    if (
+        not product_id
+        or str(payload.get("status") or "") != "published"
+        or str(payload.get("rights_status") or "") != "confirmed"
+        or str(payload.get("content_mode") or "") != "fanza_product"
+        or str(payload.get("fanza_product_id") or "").casefold()
+        not in {"", product_id.casefold()}
+    ):
+        return "", ""
+    exact_cta = next(
+        (
+            block for block in payload.get("blocks") or []
+            if isinstance(block, dict)
+            and block.get("type") == "product_cta"
+            and fanza_product_id(str(block.get("url") or "")) == product_id
+            and int(block.get("match_confidence") or 0) >= 90
+        ),
+        None,
+    )
+    if exact_cta is None:
+        return "", ""
+    package = next(
+        (
+            image for image in payload.get("images") or []
+            if isinstance(image, dict)
+            and _is_payload_fanza_package(image, product_id)
+        ),
+        None,
+    )
+    if package is None:
+        return "", ""
+    return source_url, product_id
+
+
+def _payload_image_path(
+    site_root: Path,
+    payload: dict[str, Any],
+    image_id: str,
+    cache_name: str,
+) -> str:
+    images = [item for item in payload.get("images") or [] if isinstance(item, dict)]
+    match_index = next(
+        (
+            index for index, image in enumerate(images, start=1)
+            if str(image.get("id") or "") == image_id
+        ),
+        0,
+    )
+    if not match_index:
+        raise RuntimeError(f"商品画像 {image_id} が見つかりません")
+    slug = str(payload.get("slug") or cache_name)
+    cache_dir = _media_cache_dir(site_root, slug) / cache_name
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    for source in sorted((site_root / "assets" / "articles" / slug).glob(
+        f"image-{match_index:02d}.*"
+    )):
+        if source.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"}:
+            return str(_compatible_image(source, cache_dir, match_index).resolve())
+    image = images[match_index - 1]
+    encoded = re.fullmatch(
+        r"data:image/(jpeg|jpg|png|webp);base64,([A-Za-z0-9+/=\s]+)",
+        str(image.get("data_url") or "").strip(),
+    )
+    if not encoded:
+        raise RuntimeError(f"商品画像 {image_id} の実データがありません")
+    extension = ".jpg" if encoded.group(1) in {"jpeg", "jpg"} else f".{encoded.group(1)}"
+    raw_path = cache_dir / f"image-{match_index:02d}{extension}"
+    try:
+        raw = base64.b64decode(re.sub(r"\s+", "", encoded.group(2)), validate=True)
+    except (ValueError, binascii.Error) as exc:
+        raise RuntimeError(f"商品画像 {image_id} を読み取れません") from exc
+    if not raw:
+        raise RuntimeError(f"商品画像 {image_id} が空です")
+    raw_path.write_bytes(raw)
+    return str(_compatible_image(raw_path, cache_dir, match_index).resolve())
+
+
+def _fanza_package_path(site_root: Path, payload: dict[str, Any]) -> str:
+    _url, product_id = _exact_fanza_product(payload)
+    package = next(
+        (
+            image for image in payload.get("images") or []
+            if isinstance(image, dict)
+            and _is_payload_fanza_package(image, product_id)
+        ),
+        None,
+    )
+    if package is None:
+        raise RuntimeError("同一作品の公式パッケージ画像がありません")
+    return _payload_image_path(
+        site_root,
+        payload,
+        str(package.get("id") or ""),
+        "av-shelf",
+    )
+
+
+def _av_product_usage(
+    rows: list[dict[str, Any]],
+    since: datetime,
+) -> set[str]:
+    used: set[str] = set()
+    for row in rows:
+        stamp = next(
+            (
+                parsed for parsed in (
+                    _as_jst(row.get("posted_at")),
+                    _as_jst(row.get("thread_started_at")),
+                    _as_jst(row.get("created_at")),
+                )
+                if parsed is not None
+            ),
+            None,
+        )
+        if stamp is None or stamp < since:
+            continue
+        if _is_av_shelf_row(row):
+            for step in row.get("thread_steps") or []:
+                product_id = str(step.get("product_id") or "").casefold()
+                if product_id:
+                    used.add(product_id)
+        elif row.get("delivery_mode") == "reach":
+            product_id = str(row.get("reach_product_id") or "").casefold()
+            if product_id:
+                used.add(product_id)
+    return used
+
+
+def _av_shelf_candidates(
+    site_root: Path,
+    public_url: str,
+    rows: list[dict[str, Any]],
+    now: datetime,
+    limit: int,
+) -> list[dict[str, Any]]:
+    settings = load_x_settings(site_root)
+    used = _av_product_usage(
+        rows,
+        now - timedelta(days=int(settings["reach_product_cooldown_days"])),
+    )
+    articles = sorted(
+        _published_articles(site_root),
+        key=lambda item: str(item.get("published_at") or ""),
+        reverse=True,
+    )
+    ranked: list[tuple[float, dict[str, Any], dict[str, Any], str, str]] = []
+    for article in articles:
+        slug = str(article.get("slug") or "")
+        if not slug.startswith("url-video-dmm-co-jp-"):
+            continue
+        payload = _draft_payload(site_root, slug)
+        product_url, product_id = _exact_fanza_product(payload)
+        if not product_id or product_id.casefold() in used:
+            continue
+        try:
+            package_path = _fanza_package_path(site_root, payload)
+        except RuntimeError:
+            continue
+        trend = payload.get("automation_trend_context") or {}
+        trend = dict(trend) if isinstance(trend, dict) else {}
+        subject = " ".join([
+            str(payload.get("title") or ""),
+            str(payload.get("summary") or ""),
+            " ".join(str(value) for value in trend.get("selection_reasons") or []),
+        ]).casefold()
+        score, _reasons = _article_score(article, now, {})
+        if bool(trend.get("sale_context")) or any(
+            marker in subject for marker in _AV_SHELF_SALE_MARKERS
+        ):
+            score += 10_000
+        if bool(trend.get("popular_context")) or any(
+            marker in subject for marker in _AV_SHELF_POPULAR_MARKERS
+        ):
+            score += 5_000
+        ranked.append((score, article, payload, product_url, package_path))
+        if len(ranked) >= max(40, limit * 4):
+            break
+    ranked.sort(key=lambda item: item[0], reverse=True)
+    result: list[dict[str, Any]] = []
+    for score, article, payload, product_url, package_path in ranked[:limit]:
+        slug = str(article.get("slug") or payload.get("slug") or "")
+        result.append({
+            "slug": slug,
+            "title": str(payload.get("title") or article.get("title") or slug),
+            "article_url": str(payload.get("published_url") or article.get("url") or ""),
+            "product_url": product_url,
+            "product_id": fanza_product_id(product_url),
+            "package_path": package_path,
+            "score": score,
+        })
+    return result
+
+
+def _clean_shelf_title(value: Any) -> str:
+    title = re.sub(r"^【[^】]+】\s*", "", str(value or "")).strip()
+    title = re.sub(r"\s+", " ", title)
+    return title[:96].rstrip() + ("…" if len(title) > 96 else "")
+
+
+def prepare_x_av_shelf(
+    site_root: Path,
+    public_url: str,
+    now: datetime | None = None,
+) -> dict[str, Any] | None:
+    current = (now or datetime.now(JST)).astimezone(JST)
+    rows = list_x_posts(site_root)
+    pending = next(
+        (
+            row for row in reversed(rows)
+            if _is_av_shelf_row(row)
+            and row.get("status") not in {"posted", "skipped"}
+        ),
+        None,
+    )
+    if pending is not None:
+        return pending
+    settings = load_x_settings(site_root)
+    shelf_size = int(settings["reach_shelf_size"])
+    candidates = _av_shelf_candidates(
+        site_root,
+        public_url,
+        rows,
+        current,
+        shelf_size,
+    )
+    if len(candidates) < shelf_size:
+        return None
+    post_id = hashlib.sha256(
+        f"av-shelf\n{current.isoformat()}".encode("utf-8")
+    ).hexdigest()[:16]
+    steps: list[dict[str, Any]] = [{
+        "number": 0,
+        "label": "棚",
+        "text": "気になった作品をここにまとめていきます [PR]",
+        "media_paths": [],
+        "kind": "shelf_root",
+    }]
+    for index, candidate in enumerate(candidates, start=1):
+        tracking_url = _tracking_url(
+            public_url,
+            candidate["article_url"],
+            f"{post_id}-{index:02d}",
+            "av_shelf",
+        )
+        text = (
+            f"{_clean_shelf_title(candidate['title'])}\n\n"
+            f"続きはこちら [PR]\n{tracking_url}"
+        )
+        steps.append({
+            "number": index,
+            "label": f"作品{index}",
+            "text": text,
+            "media_paths": [candidate["package_path"]],
+            "kind": "product",
+            "article_slug": candidate["slug"],
+            "article_url": tracking_url,
+            "product_url": candidate["product_url"],
+            "product_id": candidate["product_id"],
+        })
+    item = {
+        "post_id": post_id,
+        "article_slug": "",
+        "article_title": "AV作品棚",
+        "article_summary": "拡散動画から同一作品の記事へつなぐ作品棚",
+        "category": "動画",
+        "tags": ["FANZA", "AV"],
+        "article_url": "",
+        "thumbnail_path": "",
+        "media_paths": [],
+        "media_kind": "none",
+        "media_count": 0,
+        "score": 200.0,
+        "selection_reason": "同一商品ID・公式パッケージ・公開記事を確認した10作品",
+        "copy_variants": [steps[0]["text"]],
+        "post_text": steps[0]["text"],
+        "scheduled_for": "",
+        "status": "copy_ready",
+        "origin": "av_product_shelf",
+        "delivery_mode": "thread",
+        "thread_steps": steps,
+        "thread_step_index": 0,
+        "thread_post_urls": [],
+        "copy_writer": "固定文",
+        "template_writer": "作品棚",
+        "trend_template_id": "av_product_shelf",
+        "trend_template_name": "親投稿＋同一作品10件",
+        "performance": {},
+        "created_at": current.isoformat(timespec="seconds"),
+        "scheduled_at": "",
+        "auto_retry_after": "",
+        "last_error": "",
+    }
+    rows.append(item)
+    save_x_posts(site_root, rows)
+    _save_x_auto_state(
+        site_root,
+        shelf_last_prepared_at=current.isoformat(timespec="seconds"),
+        shelf_next_retry_at="",
+        shelf_last_error="",
+        shelf_current_post_id=post_id,
+    )
+    return item
+
+
+def _posted_av_shelf_entries(rows: list[dict[str, Any]]) -> list[dict[str, str]]:
+    entries: list[dict[str, str]] = []
+    for row in reversed(rows):
+        if not _is_av_shelf_row(row):
+            continue
+        urls = [str(value) for value in row.get("thread_post_urls") or []]
+        for index, step in enumerate(row.get("thread_steps") or []):
+            if index >= len(urls) or str(step.get("kind") or "") != "product":
+                continue
+            entries.append({
+                "article_slug": str(step.get("article_slug") or ""),
+                "product_id": str(step.get("product_id") or "").casefold(),
+                "status_url": urls[index],
+                "article_url": str(step.get("article_url") or ""),
+            })
+    return entries
+
+
+def _used_reach_product_ids(
+    rows: list[dict[str, Any]],
+    since: datetime,
+) -> set[str]:
+    return {
+        str(row.get("reach_product_id") or "").casefold()
+        for row in rows
+        if row.get("delivery_mode") == "reach"
+        and (_as_jst(row.get("created_at")) or datetime.min.replace(tzinfo=JST)) >= since
+        and str(row.get("reach_product_id") or "").strip()
+        and row.get("status") != "skipped"
+    }
+
+
+def x_av_shelf_schedule_status(
+    site_root: Path,
+    now: datetime | None = None,
+) -> dict[str, Any]:
+    current = (now or datetime.now(JST)).astimezone(JST)
+    settings = load_effective_x_settings(site_root)
+    state = load_x_auto_state(site_root)
+    rows = list_x_posts(site_root)
+    pending = next(
+        (
+            row for row in reversed(rows)
+            if _is_av_shelf_row(row)
+            and row.get("status") not in {"posted", "skipped"}
+        ),
+        None,
+    )
+    entries = _posted_av_shelf_entries(rows)
+    used = _used_reach_product_ids(
+        rows,
+        current - timedelta(days=int(settings["reach_product_cooldown_days"])),
+    )
+    remaining = [entry for entry in entries if entry["product_id"] not in used]
+    retry_at = _as_jst(state.get("shelf_next_retry_at"))
+    enabled = bool(
+        settings.get("reach_funnel_enabled", True)
+        and settings.get("automatic_posting_enabled", True)
+        and int(settings.get("health_risk_level") or 0) == 0
+        and str(settings.get("health_classification") or "") == "healthy"
+        and int(settings.get("global_daily_action_limit") or 0) > 0
+    )
+    needs_new = pending is None and len(remaining) <= max(2, int(settings["reach_shelf_size"]) // 2)
+    return {
+        "enabled": enabled,
+        "due": bool(enabled and needs_new and (retry_at is None or current >= retry_at)),
+        "pending_post_id": str(pending.get("post_id") or "") if pending else "",
+        "posted_entries": len(entries),
+        "remaining_entries": len(remaining),
+        "shelf_size": int(settings["reach_shelf_size"]),
+        "last_error": str(state.get("shelf_last_error") or ""),
+    }
+
+
+def prepare_due_x_av_shelf(
+    site_root: Path,
+    public_url: str,
+    now: datetime | None = None,
+) -> dict[str, Any] | None:
+    current = (now or datetime.now(JST)).astimezone(JST)
+    if not x_av_shelf_schedule_status(site_root, current).get("due"):
+        return None
+    item = prepare_x_av_shelf(site_root, public_url, current)
+    if item is None:
+        _save_x_auto_state(
+            site_root,
+            shelf_next_retry_at=(current + timedelta(hours=12)).isoformat(timespec="seconds"),
+            shelf_last_error="同一商品ID・公式パッケージ・公開記事が揃う未使用作品を10件確保できません",
+        )
+    return item
+
+
+def _fanza_native_preview_url(product_id: str) -> str:
+    normalized = str(product_id or "").strip().casefold()
+    if not re.fullmatch(r"[a-z0-9_]+", normalized):
+        return ""
+    url = (
+        "https://cc3001.dmm.co.jp/litevideo/freepv/"
+        f"{normalized[0]}/{normalized[:3]}/{normalized}/{normalized}mhb.mp4"
+    )
+    return url if is_fanza_official_sample_video_url(url, normalized) else ""
+
+
+def _fanza_product_id_variants(product_id: str) -> set[str]:
+    normalized = re.sub(r"[^a-z0-9]", "", str(product_id or "").casefold())
+    if not normalized:
+        return set()
+    variants = {normalized}
+    match = re.fullmatch(r"(.+?[a-z])0*(\d+)", normalized)
+    if match:
+        variants.add(f"{match.group(1)}{int(match.group(2))}")
+    return {value for value in variants if len(value) >= 6}
+
+
+def _fanza_preview_matches_product(url: str, product_id: str) -> bool:
+    if not is_fanza_official_sample_video_url(url):
+        return False
+    normalized_url = re.sub(r"[^a-z0-9]", "", str(url or "").casefold())
+    return any(
+        variant in normalized_url
+        for variant in _fanza_product_id_variants(product_id)
+    )
+
+
+def _fanza_player_url(product_id: str) -> str:
+    normalized = str(product_id or "").strip().casefold()
+    return (
+        "https://www.dmm.co.jp/service/digitalapi/-/html5_player/=/"
+        f"cid={quote(normalized, safe='')}/mtype=AhRVShI_/service=litevideo/"
+        "mode=part/width=720/height=480/"
+    )
+
+
+def _fanza_player_preview_urls(product_id: str, player_html: str) -> list[str]:
+    decoded = html_lib.unescape(str(player_html or ""))
+    decoded = re.sub(r"\\+u002[fF]", "/", decoded)
+    decoded = re.sub(r"\\+/", "/", decoded)
+    matches = re.findall(
+        r"(?:(?:https?:)?//)[^\s\"'<>\\]+?\.(?:mp4|webm|m4v)"
+        r"(?:\?[^\s\"'<>\\]*)?",
+        decoded,
+        re.IGNORECASE,
+    )
+    urls: list[str] = []
+    for value in matches:
+        candidate = "https:" + value if value.startswith("//") else value
+        if (
+            candidate not in urls
+            and _fanza_preview_matches_product(candidate, product_id)
+        ):
+            urls.append(candidate)
+
+    def quality(url: str) -> tuple[int, int]:
+        filename = urlparse(url).path.rsplit("/", 1)[-1].casefold()
+        suffixes = ("mhb.mp4", "hhb.mp4", "hmb.mp4", "mmb.mp4", "dm.mp4", "sm.mp4")
+        rank = next(
+            (index for index, suffix in enumerate(suffixes) if filename.endswith(suffix)),
+            len(suffixes),
+        )
+        return rank, len(url)
+
+    return sorted(urls, key=quality)
+
+
+def _fanza_native_preview_urls(product_id: str) -> list[str]:
+    normalized = str(product_id or "").strip().casefold()
+    if not re.fullmatch(r"[a-z0-9_]+", normalized):
+        return []
+    player_url = _fanza_player_url(normalized)
+    player_urls: list[str] = []
+    try:
+        request = Request(
+            player_url,
+            headers={
+                "Accept": "text/html,application/xhtml+xml",
+                "Accept-Language": "ja,en-US;q=0.7,en;q=0.3",
+                "Referer": f"https://video.dmm.co.jp/av/content/?id={normalized}",
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 Chrome/136 Safari/537.36"
+                ),
+            },
+        )
+        with urlopen(request, timeout=30) as response:
+            player_html = response.read().decode("utf-8", "replace")
+        player_urls = _fanza_player_preview_urls(normalized, player_html)
+    except Exception:
+        player_urls = []
+    fallback = _fanza_native_preview_url(normalized)
+    if fallback and fallback not in player_urls:
+        player_urls.append(fallback)
+    return player_urls
+
+
+def _materialize_fanza_reach_video(
+    site_root: Path,
+    slug: str,
+    product_id: str,
+    seconds: int,
+) -> str:
+    cache_dir = _media_cache_dir(site_root, slug) / "reach-video"
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    destination = cache_dir / f"{product_id}-{seconds}s.mp4"
+    if destination.is_file() and destination.stat().st_size >= 100_000:
+        return str(destination.resolve())
+    source_urls = _fanza_native_preview_urls(product_id)
+    if not source_urls:
+        raise RuntimeError("同一作品のFANZA公式サンプル動画URLを確認できません")
+    source = cache_dir / f"{product_id}-official.mp4"
+    try:
+        if not source.is_file() or source.stat().st_size < 1024:
+            download_errors: list[str] = []
+            for source_url in source_urls:
+                source.unlink(missing_ok=True)
+                try:
+                    _download_video(
+                        {
+                            "url": source_url,
+                            "referer": _fanza_player_url(product_id),
+                        },
+                        source,
+                    )
+                except Exception as exc:
+                    download_errors.append(str(exc)[-160:])
+                    continue
+                if source.is_file() and source.stat().st_size >= 1024:
+                    break
+            if not source.is_file() or source.stat().st_size < 1024:
+                detail = next((value for value in reversed(download_errors) if value), "")
+                raise RuntimeError(
+                    "同一作品のFANZA公式サンプル動画を取得できませんでした"
+                    + (f": {detail}" if detail else "")
+                )
+        import imageio_ffmpeg
+
+        command = [
+            imageio_ffmpeg.get_ffmpeg_exe(),
+            "-hide_banner", "-loglevel", "error", "-y",
+            "-ss", "1", "-i", str(source), "-t", str(seconds),
+            "-c:v", "libx264", "-preset", "veryfast", "-crf", "24",
+            "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k",
+            "-movflags", "+faststart", str(destination),
+        ]
+        completed = subprocess.run(
+            command,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=300,
+            check=False,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+        )
+        if (
+            completed.returncode != 0
+            or not destination.is_file()
+            or destination.stat().st_size < 100_000
+        ):
+            destination.unlink(missing_ok=True)
+            raise RuntimeError(
+                "FANZA公式サンプルをX用短尺動画にできませんでした: "
+                + (completed.stderr or completed.stdout or "")[-240:]
+            )
+        return str(destination.resolve())
+    finally:
+        source.unlink(missing_ok=True)
+
+
+def _reach_hook(title: Any, product_id: str) -> str:
+    text = re.sub(r"^【[^】]+】\s*", "", str(title or "")).strip()
+    text = re.sub(re.escape(product_id), "", text, flags=re.IGNORECASE)
+    phrase = re.split(r"[、。]", text, maxsplit=1)[0]
+    phrase = re.sub(r"\s+", " ", phrase).strip(" ・-")[:32]
+    if not phrase:
+        return "この展開は最後まで見てしまう"
+    endings = (
+        "、これは最後まで見てしまう",
+        "からこの展開は強い",
+        "、この時点でもう強い",
+        "でこれは反則やろ",
+    )
+    digest = int(hashlib.sha256(f"{product_id}:{phrase}".encode("utf-8")).hexdigest()[:8], 16)
+    return (phrase + endings[digest % len(endings)])[:70]
+
+
+def prepare_x_reach_post(
+    site_root: Path,
+    public_url: str,
+    now: datetime | None = None,
+) -> dict[str, Any] | None:
+    current = (now or datetime.now(JST)).astimezone(JST)
+    rows = list_x_posts(site_root)
+    pending = next(
+        (
+            row for row in reversed(rows)
+            if row.get("delivery_mode") == "reach"
+            and row.get("status") not in {"posted", "skipped"}
+        ),
+        None,
+    )
+    if pending is not None:
+        return pending
+    settings = load_x_settings(site_root)
+    effective_settings = load_effective_x_settings(site_root)
+    used = _used_reach_product_ids(
+        rows,
+        current - timedelta(days=int(settings["reach_product_cooldown_days"])),
+    )
+    entries = [
+        entry for entry in _posted_av_shelf_entries(rows)
+        if entry["product_id"] and entry["product_id"] not in used
+    ]
+    articles = {
+        str(article.get("slug") or ""): article
+        for article in _published_articles(site_root)
+    }
+    entries.sort(
+        key=lambda entry: str(
+            articles.get(entry["article_slug"], {}).get("published_at") or ""
+        ),
+        reverse=True,
+    )
+    last_error = ""
+    for entry in entries:
+        article = articles.get(entry["article_slug"])
+        if article is None:
+            continue
+        product_id = entry["product_id"]
+        try:
+            media_path = _materialize_fanza_reach_video(
+                site_root,
+                entry["article_slug"],
+                product_id,
+                int(settings["reach_video_seconds"]),
+            )
+        except RuntimeError as exc:
+            last_error = str(exc)
+            continue
+        post_id = hashlib.sha256(
+            f"reach\n{product_id}\n{current.isoformat()}".encode("utf-8")
+        ).hexdigest()[:16]
+        hook = _reach_hook(article.get("title"), product_id)
+        item = {
+            "post_id": post_id,
+            "article_slug": entry["article_slug"],
+            "article_title": str(article.get("title") or entry["article_slug"]),
+            "article_summary": str(article.get("summary") or ""),
+            "category": "動画",
+            "tags": [str(value) for value in article.get("tags") or []][:8],
+            "article_url": entry["article_url"],
+            "thumbnail_path": "",
+            "media_paths": [media_path],
+            "media_kind": "video",
+            "media_count": 1,
+            "score": 300.0,
+            "selection_reason": "棚の同一商品IDとFANZA公式サンプル動画を照合",
+            "copy_variants": [hook],
+            "post_text": hook,
+            "scheduled_for": "",
+            "status": "copy_ready",
+            "origin": "adaptive_reach_video",
+            "delivery_mode": "reach",
+            "reach_product_id": product_id,
+            "reach_shelf_status_url": entry["status_url"],
+            "reach_followup_text": f"続きはこちら\n{entry['status_url']}",
+            "reach_reply_post_url": "",
+            "reach_source_verified": "fanza_official_same_product_sample",
+            "reach_interval_hours_at_post": int(
+                effective_settings.get("reach_interval_hours") or 48
+            ),
+            "copy_writer": "固定短文",
+            "template_writer": "拡散動画導線",
+            "trend_template_id": "adaptive_native_video_quote_reply",
+            "trend_template_name": "短尺動画＋同一作品棚の引用リプ",
+            "performance": {},
+            "created_at": current.isoformat(timespec="seconds"),
+            "scheduled_at": "",
+            "auto_retry_after": "",
+            "last_error": "",
+        }
+        rows.append(item)
+        save_x_posts(site_root, rows)
+        _save_x_auto_state(
+            site_root,
+            reach_last_prepared_at=current.isoformat(timespec="seconds"),
+            reach_next_retry_at="",
+            reach_last_error="",
+        )
+        return item
+    _save_x_auto_state(
+        site_root,
+        reach_next_retry_at=(current + timedelta(hours=6)).isoformat(timespec="seconds"),
+        reach_last_error=last_error or "投稿済み作品棚に未使用の公式サンプル動画がありません",
+    )
+    return None
+
+
+def x_reach_schedule_status(
+    site_root: Path,
+    now: datetime | None = None,
+) -> dict[str, Any]:
+    current = (now or datetime.now(JST)).astimezone(JST)
+    settings = load_effective_x_settings(site_root)
+    base_settings = load_x_settings(site_root)
+    health = load_x_health_state(site_root, settings.get("account_handle"))
+    state = load_x_auto_state(site_root)
+    rows = list_x_posts(site_root)
+    pending = next(
+        (
+            row for row in reversed(rows)
+            if row.get("delivery_mode") == "reach"
+            and row.get("status") not in {"posted", "skipped"}
+        ),
+        None,
+    )
+    posted = [
+        row for row in rows
+        if row.get("delivery_mode") == "reach"
+        and row.get("status") == "posted"
+    ]
+    latest = max(
+        (
+            next(
+                (
+                    parsed for parsed in (
+                        _as_jst(row.get("reach_reply_posted_at")),
+                        _as_jst(row.get("posted_at")),
+                    )
+                    if parsed is not None
+                ),
+                datetime.min.replace(tzinfo=JST),
+            )
+            for row in posted
+        ),
+        default=None,
+    )
+    interval_hours = int(settings.get("reach_interval_hours") or 48)
+    next_at = latest + timedelta(hours=interval_hours) if latest else current
+    last_checked = _as_jst(health.get("last_checked_at"))
+    waiting_for_check = bool(
+        latest
+        and (
+            last_checked is None
+            or last_checked < latest + timedelta(seconds=2)
+        )
+    )
+    retry_at = _as_jst(state.get("reach_next_retry_at"))
+    used = _used_reach_product_ids(
+        rows,
+        current - timedelta(days=int(base_settings["reach_product_cooldown_days"])),
+    )
+    available = [
+        entry for entry in _posted_av_shelf_entries(rows)
+        if entry["product_id"] and entry["product_id"] not in used
+    ]
+    enabled = bool(
+        settings.get("reach_funnel_enabled", True)
+        and settings.get("automatic_posting_enabled", True)
+        and not settings.get("manual_delivery_only", False)
+        and str(health.get("classification") or "") == "healthy"
+        and int(health.get("risk_level") or 0) <= 1
+        and int(settings.get("global_daily_action_limit") or 0) >= 2
+    )
+    due = bool(
+        enabled
+        and pending is None
+        and available
+        and not waiting_for_check
+        and current >= next_at
+        and (retry_at is None or current >= retry_at)
+    )
+    return {
+        "enabled": enabled,
+        "due": due,
+        "pending_post_id": str(pending.get("post_id") or "") if pending else "",
+        "available_products": len(available),
+        "waiting_for_health_check": waiting_for_check,
+        "interval_hours": interval_hours,
+        "next_at": next_at.isoformat(timespec="seconds"),
+        "last_result": str(health.get("reach_last_result") or "未計測"),
+        "clean_post_checks": int(health.get("reach_clean_post_checks") or 0),
+        "last_error": str(state.get("reach_last_error") or ""),
+    }
+
+
+def prepare_due_x_reach_post(
+    site_root: Path,
+    public_url: str,
+    now: datetime | None = None,
+) -> dict[str, Any] | None:
+    current = (now or datetime.now(JST)).astimezone(JST)
+    if not x_reach_schedule_status(site_root, current).get("due"):
+        return None
+    return prepare_x_reach_post(site_root, public_url, current)
 
 
 _MANGA_THREAD_MARKERS = (
@@ -4747,6 +5704,9 @@ def advance_x_thread(
     posted.append(posted_url)
     completed_at = datetime.now(JST).isoformat(timespec="seconds")
     row["thread_post_urls"] = posted
+    posted_ats = [str(value) for value in row.get("thread_posted_ats") or []]
+    posted_ats.append(completed_at)
+    row["thread_posted_ats"] = posted_ats
     row["thread_last_posted_at"] = completed_at
     if index == 0:
         row["thread_started_at"] = completed_at
@@ -5394,6 +6354,51 @@ def _schedule_one(page: Any, row: dict[str, Any], media_paths: list[str]) -> Non
     page.wait_for_timeout(2200)
 
 
+def _validate_reach_row(
+    site_root: Path,
+    row: dict[str, Any],
+    settings: dict[str, Any],
+    rows: list[dict[str, Any]],
+) -> list[str]:
+    if row.get("delivery_mode") != "reach":
+        raise ValueError("拡散動画の候補ではありません")
+    if str(row.get("media_kind") or "") != "video":
+        raise ValueError("拡散投稿には動画を1本だけ添付してください")
+    text = str(row.get("post_text") or "").strip()
+    if not text or _x_text_length(text) > 280 or re.search(r"https?://", text):
+        raise ValueError("拡散動画の本文はURLなし・280文字以内にしてください")
+    shelf_url = canonical_x_status_url(row.get("reach_shelf_status_url"))
+    expected_followup = f"続きはこちら\n{shelf_url}"
+    if str(row.get("reach_followup_text") or "").strip() != expected_followup:
+        raise ValueError("引用リプが同一作品の棚投稿を指していません")
+    if not str(row.get("reach_product_id") or "").strip():
+        raise ValueError("拡散動画の商品IDがありません")
+    if not str(row.get("x_post_url") or "").strip():
+        now = datetime.now(JST)
+        actions_today = [
+            value for value in _x_action_times(
+                rows,
+                ignore_post_id=str(row.get("post_id") or ""),
+                account_handle=str(settings.get("account_handle") or ""),
+            )
+            if value.date() == now.date()
+        ]
+        if len(actions_today) + 2 > int(settings.get("global_daily_action_limit") or 0):
+            raise ValueError("動画本体と引用リプの2操作分の本日枠がありません")
+        pacing_error = _x_pacing_error(
+            settings,
+            rows,
+            now,
+            ignore_post_id=str(row.get("post_id") or ""),
+        )
+        if pacing_error:
+            raise ValueError(pacing_error)
+    media_paths = _row_media_paths(site_root, row)
+    if len(media_paths) != 1 or not Path(media_paths[0]).is_file():
+        raise ValueError("拡散投稿の短尺動画を確認できません")
+    return media_paths
+
+
 def schedule_x_posts(
     site_root: Path,
     post_ids: list[str],
@@ -5430,6 +6435,24 @@ def schedule_x_posts(
                 for post_id in ordered_ids
             ],
         }
+    if any(
+        by_id.get(post_id, {}).get("delivery_mode") == "reach"
+        for post_id in ordered_ids
+    ) and (
+        int(settings.get("health_risk_level") or 0) > 1
+        or str(settings.get("health_classification") or "") != "healthy"
+    ):
+        return {
+            "posted": [],
+            "scheduled": [],
+            "failed": [
+                {
+                    "post_id": post_id,
+                    "error": "拡散動画は正常判定かつ調整段階1以下になるまで保留します",
+                }
+                for post_id in ordered_ids
+            ],
+        }
     if settings.get("manual_delivery_only", False):
         return {
             "posted": [],
@@ -5441,7 +6464,9 @@ def schedule_x_posts(
                         "X公式返信画面で内容を確認して送信してください"
                         if by_id.get(post_id, {}).get("delivery_mode") == "reply"
                         else (
-                            "X公式画面で漫画スレッドを1通ずつ送信してください"
+                            "X公式画面で動画本体と引用リプを送信してください"
+                            if by_id.get(post_id, {}).get("delivery_mode") == "reach"
+                            else "X公式画面でスレッドを1通ずつ送信してください"
                             if by_id.get(post_id, {}).get("delivery_mode") == "thread"
                             else "X公式投稿画面で内容を確認して送信してください"
                         )
@@ -5462,7 +6487,7 @@ def schedule_x_posts(
     failures: list[dict[str, str]] = []
     direct = [
         row for row in selected
-        if row.get("delivery_mode") in {"reply", "thread"}
+        if row.get("delivery_mode") in {"reply", "thread", "reach"}
     ]
     scheduled_rows = [row for row in selected if row not in direct]
     missing_schedule = [
@@ -5564,8 +6589,12 @@ def schedule_x_posts(
                 progress(
                     max(5, int(completed / total * 90)),
                     (
-                        f"{completed + 1}/{total}件目の漫画スレッドを送信しています"
+                        f"{completed + 1}/{total}件目の作品棚スレッドを送信しています"
+                        if mode == "thread" and _is_av_shelf_row(selected_row)
+                        else f"{completed + 1}/{total}件目の漫画スレッドを送信しています"
                         if mode == "thread"
+                        else f"{completed + 1}/{total}件目の拡散動画と引用リプを送信しています"
+                        if mode == "reach"
                         else f"{completed + 1}/{total}件目を対象投稿へ返信しています"
                     ),
                 )
@@ -5606,6 +6635,62 @@ def schedule_x_posts(
                         })
                         save_x_posts(site_root, current_rows)
                         posted_ids.append(post_id)
+                    elif mode == "reach":
+                        current_rows = list_x_posts(site_root)
+                        row = next(
+                            item for item in current_rows
+                            if str(item.get("post_id") or "") == post_id
+                        )
+                        media_paths = _validate_reach_row(
+                            site_root,
+                            row,
+                            settings,
+                            current_rows,
+                        )
+                        row["status"] = "posting"
+                        row["account_handle"] = str(
+                            settings.get("account_handle") or ""
+                        )
+                        save_x_posts(site_root, current_rows)
+                        main_url = str(row.get("x_post_url") or "").strip()
+                        if main_url:
+                            main_id = x_status_id(main_url)
+                        else:
+                            main_id = _post_one(page, row, media_paths)
+                            completed_at = datetime.now(JST).isoformat(timespec="seconds")
+                            main_url = (
+                                f"https://x.com/{settings['account_handle']}/status/{main_id}"
+                            )
+                            row.update({
+                                "x_post_url": main_url,
+                                "posted_at": completed_at,
+                                "reach_main_posted_at": completed_at,
+                                "scheduled_at": completed_at,
+                            })
+                            save_x_posts(site_root, current_rows)
+                        if not str(row.get("reach_reply_post_url") or "").strip():
+                            followup = {
+                                "post_text": str(row.get("reach_followup_text") or ""),
+                            }
+                            reply_id = _post_one(
+                                page,
+                                followup,
+                                [],
+                                reply_to_id=main_id,
+                            )
+                            reply_at = datetime.now(JST).isoformat(timespec="seconds")
+                            row["reach_reply_post_url"] = (
+                                f"https://x.com/{settings['account_handle']}/status/{reply_id}"
+                            )
+                            row["reach_reply_posted_at"] = reply_at
+                        row.update({
+                            "status": "posted",
+                            "account_handle": str(settings.get("account_handle") or ""),
+                            "auto_retry_after": "",
+                            "last_error": "",
+                        })
+                        save_x_posts(site_root, current_rows)
+                        posted_ids.append(post_id)
                     else:
                         while True:
                             current_rows = list_x_posts(site_root)
@@ -5617,6 +6702,14 @@ def schedule_x_posts(
                             step_index = int(row.get("thread_step_index") or 0)
                             if row.get("status") == "posted" or step_index >= len(steps):
                                 break
+                            pacing_error = _x_pacing_error(
+                                settings,
+                                current_rows,
+                                datetime.now(JST),
+                                ignore_post_id=post_id,
+                            )
+                            if pacing_error:
+                                raise ValueError(pacing_error)
                             x_thread_intent_url(site_root, post_id)
                             step = steps[step_index]
                             row["post_text"] = str(step.get("text") or "").strip()
@@ -5643,7 +6736,18 @@ def schedule_x_posts(
                             status_url = (
                                 f"https://x.com/{settings['account_handle']}/status/{created_id}"
                             )
-                            advance_x_thread(site_root, post_id, status_url)
+                            advanced = advance_x_thread(site_root, post_id, status_url)
+                            if _is_av_shelf_row(advanced):
+                                if advanced.get("status") != "posted":
+                                    retry_at = datetime.now(JST) + timedelta(
+                                        hours=int(settings["reach_shelf_step_interval_hours"])
+                                    )
+                                    update_x_post(
+                                        site_root,
+                                        post_id,
+                                        auto_retry_after=retry_at.isoformat(timespec="seconds"),
+                                    )
+                                break
                         posted_ids.append(post_id)
                 except Exception as exc:
                     current_rows = list_x_posts(site_root)

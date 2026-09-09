@@ -21,6 +21,8 @@ ProgressCallback = Callable[[int, str], None]
 SHADOWBAN_CHECKER_URL = "https://x-shadowban-checker.fia-s.com/"
 SHADOWBAN_CHECK_API_SUFFIX = "/api/check-by-user"
 POST_DELIVERY_CHECK_DELAY_MINUTES = 10
+REACH_INTERVAL_STEPS_HOURS = (48, 36, 24, 18, 12, 8)
+REACH_CLEAN_CHECKS_TO_ACCELERATE = 2
 _ACCOUNT_WARNING_MARKERS = (
     "account is suspended",
     "account suspended",
@@ -93,6 +95,14 @@ def load_x_health_state(
         dict(item) for item in (raw.get("history") or [])
         if isinstance(item, dict)
     ][-90:]
+    try:
+        reach_cadence_index = int(raw.get("reach_cadence_index") or 0)
+    except (TypeError, ValueError):
+        reach_cadence_index = 0
+    reach_cadence_index = max(
+        0,
+        min(len(REACH_INTERVAL_STEPS_HOURS) - 1, reach_cadence_index),
+    )
     return {
         "version": 1,
         "account_handle": requested or stored,
@@ -102,6 +112,19 @@ def load_x_health_state(
         "healthy_streak": max(0, int(raw.get("healthy_streak") or 0)),
         "caution_streak": max(0, int(raw.get("caution_streak") or 0)),
         "recovery_streak": max(0, int(raw.get("recovery_streak") or 0)),
+        "reach_cadence_index": reach_cadence_index,
+        "reach_interval_hours": REACH_INTERVAL_STEPS_HOURS[reach_cadence_index],
+        "reach_clean_post_checks": max(
+            0,
+            min(
+                REACH_CLEAN_CHECKS_TO_ACCELERATE - 1,
+                int(raw.get("reach_clean_post_checks") or 0),
+            ),
+        ),
+        "reach_last_result": str(raw.get("reach_last_result") or "未計測"),
+        "reach_last_adjustment_at": str(
+            raw.get("reach_last_adjustment_at") or ""
+        ),
         "last_checked_at": str(raw.get("last_checked_at") or ""),
         "next_check_at": str(raw.get("next_check_at") or ""),
         "trigger_reason": str(raw.get("trigger_reason") or ""),
@@ -121,6 +144,42 @@ def save_x_health_state(site_root: Path, state: dict[str, Any]) -> None:
     _write_json(_state_path(site_root), state)
 
 
+def _record_reach_health_result(
+    site_root: Path,
+    post_id: str,
+    state: dict[str, Any],
+) -> None:
+    if not post_id:
+        return
+    path = _root(site_root) / "x-posting-queue.json"
+    rows = _read_json(path, [])
+    if not isinstance(rows, list):
+        return
+    changed = False
+    for row in rows:
+        if not isinstance(row, dict) or str(row.get("post_id") or "") != post_id:
+            continue
+        row.update({
+            "reach_health_checked_at": str(state.get("last_checked_at") or ""),
+            "reach_health_classification": str(state.get("classification") or "unknown"),
+            "reach_health_risk_level": int(state.get("risk_level") or 0),
+            "reach_health_external_checks": dict(
+                (state.get("external") or {}).get("checks") or {}
+            ),
+            "reach_health_search_ratio": (
+                state.get("first_party") or {}
+            ).get("search_ratio"),
+            "reach_next_interval_hours": int(
+                state.get("reach_interval_hours") or REACH_INTERVAL_STEPS_HOURS[0]
+            ),
+            "reach_health_result": str(state.get("reach_last_result") or ""),
+        })
+        changed = True
+        break
+    if changed:
+        _write_json(path, rows)
+
+
 def apply_x_health_limits(
     settings: dict[str, Any],
     state: dict[str, Any],
@@ -134,6 +193,14 @@ def apply_x_health_limits(
     configured_posts = max(1, int(settings.get("daily_post_limit") or 1))
     configured_replies = max(0, int(settings.get("reply_daily_limit") or 0))
     configured_follows = max(0, int(settings.get("follow_daily_limit") or 0))
+    reach_index = max(
+        0,
+        min(
+            len(REACH_INTERVAL_STEPS_HOURS) - 1,
+            int(state.get("reach_cadence_index") or 0),
+        ),
+    )
+    reach_interval = REACH_INTERVAL_STEPS_HOURS[reach_index]
     if level == 0:
         posts = configured_posts
         replies = configured_replies
@@ -187,6 +254,10 @@ def apply_x_health_limits(
         minimum_interval = 1440
         reply_interval = 1440
         follow_interval = 48
+    if level >= 2:
+        reach_interval = max(48, reach_interval)
+    elif level == 1:
+        reach_interval = max(24, reach_interval)
     result.update({
         "daily_post_limit": posts,
         "reply_daily_limit": replies,
@@ -197,8 +268,72 @@ def apply_x_health_limits(
         "follow_min_interval_hours": follow_interval,
         "health_risk_level": level,
         "health_classification": str(state.get("classification") or "unknown"),
+        "reach_interval_hours": reach_interval,
+        "reach_cadence_index": reach_index,
+        "reach_clean_post_checks": int(
+            state.get("reach_clean_post_checks") or 0
+        ),
     })
     return result
+
+
+def _transition_reach_cadence(
+    previous: dict[str, Any],
+    classification: str,
+    trigger_reason: str,
+    *,
+    hard_restriction: bool = False,
+) -> dict[str, Any]:
+    """Move one measured step at a time; restrictions slow down immediately."""
+    maximum = len(REACH_INTERVAL_STEPS_HOURS) - 1
+    index = max(0, min(maximum, int(previous.get("reach_cadence_index") or 0)))
+    clean_checks = max(0, int(previous.get("reach_clean_post_checks") or 0))
+    result = str(previous.get("reach_last_result") or "未計測")
+
+    if classification == "restricted":
+        return {
+            "reach_cadence_index": 0,
+            "reach_clean_post_checks": 0,
+            "reach_last_result": "制限を検出したため停止・48時間段階へ戻しました",
+        }
+    if classification == "caution":
+        return {
+            "reach_cadence_index": max(0, index - 2),
+            "reach_clean_post_checks": 0,
+            "reach_last_result": "注意判定のため投稿間隔を2段階広げました",
+        }
+    if trigger_reason != "reach_post_delivery":
+        return {
+            "reach_cadence_index": index,
+            "reach_clean_post_checks": clean_checks,
+            "reach_last_result": result,
+        }
+    if classification != "healthy":
+        return {
+            "reach_cadence_index": index,
+            "reach_clean_post_checks": 0,
+            "reach_last_result": "投稿後判定を確定できないため現在の間隔を維持します",
+        }
+
+    clean_checks += 1
+    if clean_checks >= REACH_CLEAN_CHECKS_TO_ACCELERATE and index < maximum:
+        return {
+            "reach_cadence_index": index + 1,
+            "reach_clean_post_checks": 0,
+            "reach_last_result": "投稿後判定が2回連続正常のため1段階速めました",
+        }
+    return {
+        "reach_cadence_index": index,
+        "reach_clean_post_checks": min(
+            REACH_CLEAN_CHECKS_TO_ACCELERATE - 1,
+            clean_checks,
+        ),
+        "reach_last_result": (
+            "投稿後判定は正常です。もう1回正常なら1段階速めます"
+            if index < maximum
+            else "投稿後判定は正常です。最短8時間段階を維持します"
+        ),
+    }
 
 
 def effective_x_settings(site_root: Path, settings: dict[str, Any]) -> dict[str, Any]:
@@ -225,15 +360,27 @@ def x_health_schedule_status(
     )
     interval_due = current >= next_at
     post_due = latest_delivery is not None
+    delivery_mode = str((latest_delivery or {}).get("delivery_mode") or "")
+    due_reason = (
+        "reach_post_delivery"
+        if post_due and bool((latest_delivery or {}).get("includes_reach"))
+        else ("post_delivery" if post_due else ("interval" if interval_due else ""))
+    )
     return {
         **state,
         "enabled": enabled,
         "due": bool(enabled and (interval_due or post_due)),
-        "due_reason": (
-            "post_delivery" if post_due else ("interval" if interval_due else "")
-        ),
+        "due_reason": due_reason,
         "latest_unchecked_delivery_at": (
-            latest_delivery.isoformat(timespec="seconds") if latest_delivery else ""
+            latest_delivery["delivered_at"].isoformat(timespec="seconds")
+            if latest_delivery else ""
+        ),
+        "latest_unchecked_delivery_mode": delivery_mode,
+        "latest_unchecked_post_id": str(
+            (latest_delivery or {}).get("post_id") or ""
+        ),
+        "latest_unchecked_reach_post_id": str(
+            (latest_delivery or {}).get("reach_post_id") or ""
         ),
         "next_at": next_at.isoformat(timespec="seconds"),
         "interval_hours": interval,
@@ -245,25 +392,31 @@ def _latest_unchecked_delivery(
     account_handle: Any,
     last_checked: datetime | None,
     now: datetime,
-) -> datetime | None:
+) -> dict[str, Any] | None:
     """Return a delivered post that is old enough for the checker to observe."""
     handle = _clean_handle(account_handle)
     cutoff = now - timedelta(minutes=POST_DELIVERY_CHECK_DELAY_MINUTES)
     rows = _read_json(_root(site_root) / "x-posting-queue.json", [])
     rows = rows if isinstance(rows, list) else []
-    latest: datetime | None = None
+    latest: dict[str, Any] | None = None
+    includes_reach = False
+    latest_reach: tuple[datetime, str] | None = None
     for row in rows:
         if not isinstance(row, dict):
             continue
         owner = _clean_handle(row.get("account_handle"))
         if handle and owner and owner != handle:
             continue
-        if str(row.get("status") or "") not in {"posted", "scheduled"}:
-            continue
         delivered = next(
             (
                 parsed
-                for key in ("reply_completed_at", "posted_at", "scheduled_for")
+                for key in (
+                    "reach_reply_posted_at",
+                    "thread_last_posted_at",
+                    "reply_completed_at",
+                    "posted_at",
+                    "scheduled_for",
+                )
                 if (parsed := _as_jst(row.get(key))) is not None
             ),
             None,
@@ -272,8 +425,20 @@ def _latest_unchecked_delivery(
             continue
         if last_checked is not None and delivered <= last_checked:
             continue
-        if latest is None or delivered > latest:
-            latest = delivered
+        mode = str(row.get("delivery_mode") or "post")
+        if mode == "reach":
+            includes_reach = True
+            if latest_reach is None or delivered > latest_reach[0]:
+                latest_reach = (delivered, str(row.get("post_id") or ""))
+        if latest is None or delivered > latest["delivered_at"]:
+            latest = {
+                "delivered_at": delivered,
+                "delivery_mode": mode,
+                "post_id": str(row.get("post_id") or ""),
+            }
+    if latest is not None:
+        latest["includes_reach"] = includes_reach
+        latest["reach_post_id"] = latest_reach[1] if latest_reach else ""
     return latest
 
 
@@ -567,6 +732,39 @@ def _activity_snapshot(site_root: Path, handle: str, now: datetime) -> dict[str,
         owner = _clean_handle(row.get("account_handle"))
         if owner and owner != handle:
             continue
+        mode = str(row.get("delivery_mode") or "post")
+        if mode == "thread":
+            step_times = [
+                parsed for parsed in (
+                    _as_jst(value) for value in row.get("thread_posted_ats") or []
+                )
+                if parsed is not None and since <= parsed <= now
+            ]
+            if step_times:
+                thread_steps += len(step_times)
+                posts += len(step_times)
+                for step in row.get("thread_steps") or []:
+                    text = re.sub(r"https?://\S+", "", str(step.get("text") or ""))
+                    text = re.sub(r"\s+", " ", text).strip().casefold()
+                    if text:
+                        texts.append(text)
+                continue
+        if mode == "reach":
+            main_at = _as_jst(row.get("reach_main_posted_at"))
+            reply_at = _as_jst(row.get("reach_reply_posted_at"))
+            if main_at is not None and since <= main_at <= now:
+                posts += 1
+            if reply_at is not None and since <= reply_at <= now:
+                replies += 1
+            if (
+                (main_at is not None and since <= main_at <= now)
+                or (reply_at is not None and since <= reply_at <= now)
+            ):
+                text = re.sub(r"https?://\S+", "", str(row.get("post_text") or ""))
+                text = re.sub(r"\s+", " ", text).strip().casefold()
+                if text:
+                    texts.append(text)
+            continue
         stamp = next(
             (
                 parsed for key in (
@@ -581,7 +779,6 @@ def _activity_snapshot(site_root: Path, handle: str, now: datetime) -> dict[str,
         )
         if stamp is None or not (since <= stamp <= now):
             continue
-        mode = str(row.get("delivery_mode") or "post")
         if mode == "reply":
             replies += 1
         elif mode == "thread":
@@ -776,22 +973,44 @@ def run_due_x_health_check(
     causes = _infer_causes(activity, classification, external)
     interval = max(12, min(48, int(settings.get("health_check_interval_hours") or 12)))
     checked_at = current.isoformat(timespec="seconds")
+    scheduled_reason = str(schedule.get("due_reason") or "")
+    trigger_reason = (
+        scheduled_reason
+        if scheduled_reason in {"post_delivery", "reach_post_delivery"}
+        else ("manual" if force else (scheduled_reason or "interval"))
+    )
+    reach_transition = _transition_reach_cadence(
+        previous,
+        classification,
+        trigger_reason,
+        hard_restriction=hard_restriction,
+    )
+    reach_adjusted = (
+        int(reach_transition["reach_cadence_index"])
+        != int(previous.get("reach_cadence_index") or 0)
+    )
     state = {
         **previous,
         **transition,
+        **reach_transition,
         "account_handle": handle,
         "status": "checked" if not error else "partial",
         "classification": classification,
         "last_checked_at": checked_at,
         "next_check_at": (current + timedelta(hours=interval)).isoformat(timespec="seconds"),
-        "trigger_reason": "manual" if force else str(schedule.get("due_reason") or "interval"),
+        "trigger_reason": trigger_reason,
         "last_error": error,
         "external": external,
         "first_party": first_party,
         "activity": activity,
         "inferred_causes": causes,
     }
+    if reach_adjusted or classification == "restricted":
+        state["reach_last_adjustment_at"] = checked_at
     effective = apply_x_health_limits(settings, state)
+    state["reach_interval_hours"] = int(
+        effective.get("reach_interval_hours") or REACH_INTERVAL_STEPS_HOURS[0]
+    )
     state["effective_limits"] = {
         "daily_posts": int(effective.get("daily_post_limit") or 0),
         "daily_replies": int(effective.get("reply_daily_limit") or 0),
@@ -799,6 +1018,7 @@ def run_due_x_health_check(
         "daily_actions": int(effective.get("global_daily_action_limit") or 0),
         "minimum_interval_minutes": int(effective.get("global_min_interval_minutes") or 0),
         "follow_interval_hours": int(effective.get("follow_min_interval_hours") or 0),
+        "reach_interval_hours": int(effective.get("reach_interval_hours") or 0),
     }
     history = list(previous.get("history") or [])
     history.append({
@@ -814,8 +1034,20 @@ def run_due_x_health_check(
         "activity": activity,
         "inferred_causes": causes,
         "effective_limits": state["effective_limits"],
+        "reach_cadence_index": int(state.get("reach_cadence_index") or 0),
+        "reach_interval_hours": int(state.get("reach_interval_hours") or 0),
+        "reach_clean_post_checks": int(
+            state.get("reach_clean_post_checks") or 0
+        ),
+        "reach_last_result": str(state.get("reach_last_result") or ""),
     })
     state["history"] = history[-90:]
     save_x_health_state(site_root, state)
+    if trigger_reason == "reach_post_delivery":
+        _record_reach_health_result(
+            site_root,
+            str(schedule.get("latest_unchecked_reach_post_id") or ""),
+            state,
+        )
     progress(100, "Xアカウント診断と投稿ペースの更新が完了しました")
     return {"result": "checked", **state}

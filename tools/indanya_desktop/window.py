@@ -175,6 +175,7 @@ from indanya_desktop.social_x import (
     prepare_x_contest_candidate,
     prepare_x_candidates,
     prepare_x_manga_thread,
+    prepare_due_x_av_shelf,
     prepare_due_x_manga_thread,
     prepare_due_x_reply_candidate,
     mark_x_manga_replenishing,
@@ -190,6 +191,8 @@ from indanya_desktop.social_x import (
     x_follow_candidates,
     x_follow_schedule_status,
     x_manga_schedule_status,
+    x_av_shelf_schedule_status,
+    x_reach_schedule_status,
     x_reply_schedule_status,
     x_reply_intent_url,
     x_thread_intent_url,
@@ -2418,6 +2421,24 @@ class MainWindow(QMainWindow):
         detail = (
             f"候補 {int(state.get('candidate_count') or 0)}件 / "
             f"上限 {int(state.get('daily_post_limit') or 1)}件/日 / 送信方式: {delivery}"
+        )
+        reach = dict(state.get("reach") or {})
+        if not reach.get("enabled"):
+            reach_detail = "拡散動画は制限解除と正常判定を待機"
+        elif reach.get("waiting_for_health_check"):
+            reach_detail = "拡散動画は直前投稿の10分後診断を待機"
+        elif reach.get("due"):
+            reach_detail = "拡散動画と引用リプを準備中"
+        else:
+            reach_detail = (
+                "拡散動画の次回 "
+                f"{self._x_trend_time(str(reach.get('next_at') or ''))}"
+            )
+        detail += (
+            f" / {reach_detail}"
+            f"・学習間隔{int(reach.get('interval_hours') or 48)}時間"
+            f"・棚{int(reach.get('available_products') or 0)}作品"
+            f"・{str(reach.get('last_result') or '未計測')}"
         )
         error = str(state.get("last_error") or "").strip()
         if error:
@@ -6359,8 +6380,25 @@ class MainWindow(QMainWindow):
             and x_login_ready()
         ):
             now = datetime.now(JST)
+            health_state = load_x_health_state(
+                self.site.root,
+                x_settings.get("account_handle"),
+            )
+            health_risk = int(health_state.get("risk_level") or 0)
+            health_classification = str(
+                health_state.get("classification") or "unknown"
+            )
             for row in reversed(list_x_posts(self.site.root)):
-                if row.get("delivery_mode") not in {"reply", "thread"}:
+                mode = str(row.get("delivery_mode") or "")
+                if mode not in {"reply", "thread", "reach"}:
+                    continue
+                if mode == "thread" and health_risk > 0:
+                    continue
+                if mode == "reply" and health_risk >= 2:
+                    continue
+                if mode == "reach" and (
+                    health_risk > 1 or health_classification != "healthy"
+                ):
                     continue
                 if row.get("status") not in {"copy_ready", "failed"}:
                     continue
@@ -6377,6 +6415,20 @@ class MainWindow(QMainWindow):
                         pass
                 self._start_x_schedule([str(row.get("post_id") or "")])
                 return
+        shelf_status = x_av_shelf_schedule_status(self.site.root)
+        if shelf_status.get("due"):
+            shelf_post = prepare_due_x_av_shelf(
+                self.site.root,
+                self.site.public_url,
+            )
+            if shelf_post:
+                self._refresh_x_posts()
+                self.x_post_status.setText(
+                    "同一商品IDを確認した作品棚を用意しました。数時間おきに1件ずつ送信します。"
+                )
+                QTimer.singleShot(100, self._scheduler_tick)
+                return
+            self._refresh_x_auto_status()
         manga_status = x_manga_schedule_status(self.site.root)
         if manga_status.get("due"):
             manga_post = prepare_due_x_manga_thread(
