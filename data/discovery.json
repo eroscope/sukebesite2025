@@ -51,6 +51,7 @@
     "people/person-bf2038bd812f.html",
     "people/person-c3e5fc6f482e.html",
     "people/person-c6f16d119136.html",
+    "people/person-caa07f8734ff.html",
     "people/person-cbe1ad461cc6.html",
     "people/person-cea65373350d.html",
     "people/person-d2b9c6056a6b.html",
@@ -462,7 +463,7 @@
     "works.html"
   ],
   "counts": {
-    "people": 269,
+    "people": 270,
     "works": 214,
     "topics": 1487
   },
@@ -497,7 +498,7 @@
     },
     {
       "name": "さくらみな",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "さくらわかな",
@@ -1326,6 +1327,10 @@
     {
       "name": "篠原いよ",
       "articles": 2
+    },
+    {
+      "name": "篠原なぎさ",
+      "articles": 1
     },
     {
       "name": "篠宮なほ",
@@ -4305,7 +4310,7 @@
     },
     {
       "name": "ハーレム",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "バイブ拘束",
