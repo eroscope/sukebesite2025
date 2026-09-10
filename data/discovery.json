@@ -501,7 +501,7 @@
   "counts": {
     "people": 282,
     "works": 221,
-    "topics": 1555
+    "topics": 1557
   },
   "people": [
     {
@@ -2766,7 +2766,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 51
+      "articles": 52
     },
     {
       "name": "AV女優検索",
@@ -2862,6 +2862,10 @@
     },
     {
       "name": "FALENOstar",
+      "articles": 1
+    },
+    {
+      "name": "FANZA作品",
       "articles": 1
     },
     {
@@ -5790,7 +5794,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "十味",
@@ -6471,6 +6475,10 @@
     {
       "name": "後輩",
       "articles": 2
+    },
+    {
+      "name": "復帰希望",
+      "articles": 1
     },
     {
       "name": "性交",
