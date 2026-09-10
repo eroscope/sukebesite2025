@@ -320,6 +320,7 @@
     "topics/topic-aecaac86ab2c.html",
     "topics/topic-ai.html",
     "topics/topic-ai.html",
+    "topics/topic-ai.html",
     "topics/topic-ani.html",
     "topics/topic-animates.html",
     "topics/topic-asmr.html",
@@ -500,7 +501,7 @@
   "counts": {
     "people": 282,
     "works": 221,
-    "topics": 1551
+    "topics": 1553
   },
   "people": [
     {
@@ -2701,7 +2702,7 @@
     },
     {
       "name": "AI疑惑",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "AI顔検索",
@@ -6240,6 +6241,10 @@
       "articles": 1
     },
     {
+      "name": "実写映像",
+      "articles": 1
+    },
+    {
       "name": "実写版",
       "articles": 1
     },
@@ -8126,6 +8131,10 @@
     {
       "name": "裸",
       "articles": 13
+    },
+    {
+      "name": "裸の群衆",
+      "articles": 1
     },
     {
       "name": "裸エプロン",
