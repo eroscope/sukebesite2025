@@ -211,6 +211,7 @@
     "topics/topic-616794ab0faa.html",
     "topics/topic-6178b11f2bab.html",
     "topics/topic-6188fdb6e5de.html",
+    "topics/topic-61943548a743.html",
     "topics/topic-62ac794272dd.html",
     "topics/topic-6314aa46097f.html",
     "topics/topic-6316987bee78.html",
@@ -489,7 +490,7 @@
   "counts": {
     "people": 278,
     "works": 220,
-    "topics": 1530
+    "topics": 1532
   },
   "people": [
     {
@@ -3582,7 +3583,7 @@
     },
     {
       "name": "イベント",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "イベント展示",
@@ -4147,6 +4148,10 @@
     {
       "name": "セクシー",
       "articles": 2
+    },
+    {
+      "name": "セクシーコスプレ",
+      "articles": 1
     },
     {
       "name": "セクシーラウンジ",
@@ -5774,7 +5779,7 @@
     },
     {
       "name": "台湾",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "台湾AV",
@@ -8203,6 +8208,10 @@
     {
       "name": "逢沢みゆ",
       "articles": 3
+    },
+    {
+      "name": "遊戯王",
+      "articles": 1
     },
     {
       "name": "過去写真",
