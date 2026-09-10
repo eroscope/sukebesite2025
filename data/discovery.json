@@ -64,6 +64,7 @@
     "people/person-de92f995f049.html",
     "people/person-df4a10e38d0b.html",
     "people/person-df9cc108d456.html",
+    "people/person-e4456d834472.html",
     "people/person-e5c60fa51860.html",
     "people/person-e714d8df7815.html",
     "people/person-e796e68b08f6.html",
@@ -496,12 +497,13 @@
     "topics/topic-vtuber.html",
     "topics/topic-youtuber.html",
     "works.html",
+    "works/work-abf-384.html",
     "works/work-snos-371.html"
   ],
   "counts": {
     "people": 285,
     "works": 222,
-    "topics": 1565
+    "topics": 1566
   },
   "people": [
     {
@@ -1562,7 +1564,7 @@
     },
     {
       "name": "野々浦暖",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "金松季歩",
@@ -1720,7 +1722,7 @@
     },
     {
       "code": "ABF-384",
-      "articles": 1
+      "articles": 2
     },
     {
       "code": "ACHJ-083",
@@ -2970,7 +2972,7 @@
     },
     {
       "name": "Instagram",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "I’mew",
@@ -3022,7 +3024,7 @@
     },
     {
       "name": "MGS",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "MIU",
@@ -5279,6 +5281,10 @@
     {
       "name": "不倫",
       "articles": 9
+    },
+    {
+      "name": "不倫シチュエーション",
+      "articles": 1
     },
     {
       "name": "不倫設定",
