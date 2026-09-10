@@ -489,9 +489,9 @@
     "works.html"
   ],
   "counts": {
-    "people": 278,
+    "people": 279,
     "works": 220,
-    "topics": 1536
+    "topics": 1537
   },
   "people": [
     {
@@ -1288,6 +1288,10 @@
     },
     {
       "name": "璃音",
+      "articles": 1
+    },
+    {
+      "name": "田中美久",
       "articles": 1
     },
     {
@@ -4807,6 +4811,10 @@
       "articles": 1
     },
     {
+      "name": "ポニーテール",
+      "articles": 1
+    },
+    {
       "name": "ポリコレ",
       "articles": 1
     },
@@ -5004,7 +5012,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 81
+      "articles": 82
     },
     {
       "name": "リアクション",
@@ -5168,7 +5176,7 @@
     },
     {
       "name": "下着",
-      "articles": 56
+      "articles": 57
     },
     {
       "name": "下着ずらし",
