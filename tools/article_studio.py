@@ -98,6 +98,12 @@ CODEX_GENERATION_IMAGE_SAMPLE = 16
 CODEX_GENERATION_VIDEO_SAMPLE = 12
 CODEX_DIRECT_IMAGE_LIMIT = 6
 CODEX_CONTACT_SHEET_ITEMS = 12
+CODEX_CHILD_ENV_PREFIXES = (
+    "BROWSER_USE_",
+    "CUA_REPL_",
+    "NODE_REPL_",
+    "SKY_CUA_",
+)
 CODEX_CONTACT_SHEET_COLUMNS = 3
 CODEX_CONTACT_SHEET_CELL = (420, 330)
 RIGHTS_STATUSES = {"unconfirmed", "requested", "confirmed", "rejected"}
@@ -1832,8 +1838,13 @@ def _codex_analysis_prompt(source: dict[str, Any], attachments: list[dict[str, A
         for item in (source.get("videos") or [])
         if isinstance(item, dict)
     ]
-    return f"""あなたは、URL先を実ブラウザで調査して記事素材を決めるCodex編集責任者です。
+    return f"""あなたは、プログラムが実ブラウザから回収した証拠を調査して記事素材を決めるCodex編集責任者です。
 プログラムが意味で候補を選んだとは考えず、レンダリング後のページ全体と添付証拠をあなた自身で見て判断してください。
+
+実行環境の厳守事項:
+- PC上のChrome、Edge、アプリ内ブラウザ、画面操作ツールを起動・選択・操作しない。タブやウィンドウを作らない。
+- 追加の公開情報確認が必要な場合は、この実行に組み込まれたWeb検索だけを使う。
+- ページの見た目と本文素材は、下記のページ情報・添付したブラウザ証拠・候補一覧だけで判断する。
 
 あなたの役割:
 - ページ全景画像でヘッダー、記事本文、広告、関連記事、ランキング、フッターの境界を把握する。
@@ -3783,7 +3794,7 @@ class CodexRunner:
             str(self.executable), "exec",
             "--model", CODEX_ARTICLE_MODEL,
             "--config", f'model_reasoning_effort="{reasoning_effort}"',
-            "--ephemeral", "--ignore-rules",
+            "--ephemeral", "--ignore-user-config", "--ignore-rules",
             "--sandbox", "read-only", "--skip-git-repo-check",
             "--output-schema", str(schema_path),
             "--output-last-message", str(output_path),
@@ -3792,6 +3803,17 @@ class CodexRunner:
         if web_search:
             command[2:2] = ["--enable", "standalone_web_search"]
         return command
+
+    @staticmethod
+    def _subprocess_environment(base: dict[str, str] | None = None) -> dict[str, str]:
+        environment = dict(os.environ if base is None else base)
+        for name in list(environment):
+            if (
+                (name.startswith("CODEX_") and name != "CODEX_HOME")
+                or name.startswith(CODEX_CHILD_ENV_PREFIXES)
+            ):
+                environment.pop(name, None)
+        return environment
 
     def _execute(
         self,
@@ -3828,9 +3850,7 @@ class CodexRunner:
                 image_path = temporary_root / filename
                 image_path.write_bytes(attachment["data"])
                 command[2:2] = ["--image", str(image_path)]
-            environment = os.environ.copy()
-            for name in ("CODEX_CI", "CODEX_THREAD_ID", "CODEX_INTERNAL_ORIGINATOR_OVERRIDE"):
-                environment.pop(name, None)
+            environment = self._subprocess_environment()
             try:
                 completed = subprocess.run(
                     command,

@@ -1913,10 +1913,45 @@ class ArticleStudioTests(unittest.TestCase):
         runner = article_studio.CodexRunner(self.site_root, executable=Path(__file__))
         command = runner._build_command(Path("schema.json"), Path("result.json"))
         self.assertEqual("gpt-5.6-luna", command[command.index("--model") + 1])
+        self.assertIn("--ignore-user-config", command)
         self.assertEqual(
             'model_reasoning_effort="high"',
             command[command.index("--config") + 1],
         )
+
+    def test_codex_child_cannot_inherit_desktop_browser_tools(self) -> None:
+        runner = article_studio.CodexRunner(self.site_root, executable=Path(__file__))
+        environment = runner._subprocess_environment({
+            "PATH": "kept",
+            "CODEX_HOME": "kept-auth-home",
+            "CODEX_APP_TOOLS_PIPE_PATH": "browser-pipe",
+            "CODEX_THREAD_ID": "parent-thread",
+            "CODEX_SESSION_ID": "parent-session",
+            "BROWSER_USE_AVAILABLE_BACKENDS": "chrome,iab",
+            "CUA_REPL_ENABLED_SURFACES": "browser",
+            "NODE_REPL_TRUSTED_SERVICES": "browser-service",
+            "SKY_CUA_NATIVE_PIPE": "native-pipe",
+        })
+
+        self.assertEqual("kept", environment["PATH"])
+        self.assertEqual("kept-auth-home", environment["CODEX_HOME"])
+        self.assertNotIn("CODEX_APP_TOOLS_PIPE_PATH", environment)
+        self.assertNotIn("CODEX_THREAD_ID", environment)
+        self.assertNotIn("CODEX_SESSION_ID", environment)
+        self.assertNotIn("BROWSER_USE_AVAILABLE_BACKENDS", environment)
+        self.assertNotIn("CUA_REPL_ENABLED_SURFACES", environment)
+        self.assertNotIn("NODE_REPL_TRUSTED_SERVICES", environment)
+        self.assertNotIn("SKY_CUA_NATIVE_PIPE", environment)
+
+    def test_codex_analysis_forbids_user_browser_tabs(self) -> None:
+        prompt = article_studio._codex_analysis_prompt(
+            {"images": [], "videos": [], "links": []},
+            [],
+        )
+
+        self.assertIn("PC上のChrome", prompt)
+        self.assertIn("タブやウィンドウを作らない", prompt)
+        self.assertIn("組み込まれたWeb検索だけ", prompt)
 
     def test_social_profile_verification_uses_luna_web_search_and_low_reasoning(self) -> None:
         runner = article_studio.CodexRunner(self.site_root, executable=Path(__file__))
