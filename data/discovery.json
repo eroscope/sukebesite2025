@@ -490,7 +490,7 @@
   "counts": {
     "people": 278,
     "works": 220,
-    "topics": 1532
+    "topics": 1533
   },
   "people": [
     {
@@ -5163,7 +5163,7 @@
     },
     {
       "name": "下着",
-      "articles": 55
+      "articles": 56
     },
     {
       "name": "下着ずらし",
@@ -5595,7 +5595,7 @@
     },
     {
       "name": "写真集",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "凰華りん",
@@ -6951,7 +6951,7 @@
     },
     {
       "name": "水着",
-      "articles": 118
+      "articles": 119
     },
     {
       "name": "水着グラビア",
@@ -7215,6 +7215,10 @@
     },
     {
       "name": "珍画像",
+      "articles": 1
+    },
+    {
+      "name": "琴雛ひな",
       "articles": 1
     },
     {
