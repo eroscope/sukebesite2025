@@ -501,7 +501,7 @@
   "counts": {
     "people": 284,
     "works": 221,
-    "topics": 1563
+    "topics": 1565
   },
   "people": [
     {
@@ -4581,6 +4581,10 @@
       "articles": 1
     },
     {
+      "name": "バンドリ",
+      "articles": 1
+    },
+    {
       "name": "パイズリ",
       "articles": 9
     },
@@ -5082,7 +5086,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 84
+      "articles": 85
     },
     {
       "name": "ラヴィット！",
@@ -5686,7 +5690,7 @@
     },
     {
       "name": "写真集",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "凰華りん",
@@ -6494,6 +6498,10 @@
     },
     {
       "name": "復帰希望",
+      "articles": 1
+    },
+    {
+      "name": "志崎樺音",
       "articles": 1
     },
     {
