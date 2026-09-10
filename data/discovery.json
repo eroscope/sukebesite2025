@@ -501,7 +501,7 @@
   "counts": {
     "people": 282,
     "works": 221,
-    "topics": 1553
+    "topics": 1555
   },
   "people": [
     {
@@ -3121,6 +3121,10 @@
       "articles": 1
     },
     {
+      "name": "RIZIN",
+      "articles": 1
+    },
+    {
       "name": "ROOKIE",
       "articles": 2
     },
@@ -4626,7 +4630,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 42
+      "articles": 43
     },
     {
       "name": "ビビアン",
@@ -5026,6 +5030,10 @@
     },
     {
       "name": "ラウンジ嬢",
+      "articles": 1
+    },
+    {
+      "name": "ラウンドガール",
       "articles": 1
     },
     {
@@ -7394,7 +7402,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 78
+      "articles": 79
     },
     {
       "name": "画像ギャラリー",
