@@ -41,7 +41,6 @@ from indanya_desktop.editorial_policy import (
     fanza_product_id,
     is_fanza_official_sample_video_url,
     is_fanza_package_image,
-    is_fanza_product_sample_image,
     is_fanza_product_url,
 )
 
@@ -4506,16 +4505,15 @@ def prepare_x_av_shelf(
         public_url,
         rows,
         current,
-        max(product_count, shelf_size * 2),
+        max(product_count * 5, shelf_size * 5),
     )
     if len(candidates) < product_count:
         return None
 
-    lead_candidate: dict[str, Any] | None = None
-    lead_video_path = ""
+    selected_candidates: list[dict[str, Any]] = []
     for candidate in candidates:
         try:
-            lead_video_path = _materialize_fanza_reach_video(
+            video_path = _materialize_fanza_reach_video(
                 site_root,
                 candidate["slug"],
                 candidate["product_id"],
@@ -4523,20 +4521,16 @@ def prepare_x_av_shelf(
             )
         except RuntimeError:
             continue
-        lead_candidate = candidate
-        break
-    if lead_candidate is None or not lead_video_path:
-        return None
-
-    selected_candidates = [lead_candidate]
-    selected_candidates.extend(
-        candidate
-        for candidate in candidates
-        if candidate["product_id"] != lead_candidate["product_id"]
-    )
-    selected_candidates = selected_candidates[:product_count]
+        selected = dict(candidate)
+        selected["reach_video_path"] = video_path
+        selected_candidates.append(selected)
+        if len(selected_candidates) >= product_count:
+            break
     if len(selected_candidates) < product_count:
         return None
+
+    lead_candidate = selected_candidates[0]
+    lead_video_path = str(lead_candidate["reach_video_path"])
 
     post_id = hashlib.sha256(
         f"av-shelf\n{current.isoformat()}".encode("utf-8")
@@ -4572,6 +4566,7 @@ def prepare_x_av_shelf(
             "article_url": tracking_url,
             "product_url": candidate["product_url"],
             "product_id": candidate["product_id"],
+            "reach_video_path": candidate["reach_video_path"],
         })
     item = {
         "post_id": post_id,
@@ -4587,8 +4582,8 @@ def prepare_x_av_shelf(
         "media_count": 1,
         "score": 200.0,
         "selection_reason": (
-            f"同一商品のFANZA公式動画1本と、商品ID・公式パッケージ・"
-            f"公開記事を確認した{product_count}作品"
+            f"商品ID・公式パッケージ・公開記事・FANZA公式サンプル動画を"
+            f"すべて確認できた{product_count}作品"
         ),
         "copy_variants": [steps[0]["text"]],
         "post_text": steps[0]["text"],
@@ -4637,6 +4632,7 @@ def _av_shelf_row_entries(row: dict[str, Any]) -> list[dict[str, Any]]:
             "product_id": str(step.get("product_id") or "").casefold(),
             "status_url": urls[index],
             "article_url": str(step.get("article_url") or ""),
+            "reach_video_path": str(step.get("reach_video_path") or ""),
         })
     return entries
 
@@ -4665,11 +4661,20 @@ def _reach_shelf_urls(
 ) -> set[str]:
     result: set[str] = set()
     for row in rows:
-        if row.get("delivery_mode") != "reach" or row.get("status") == "skipped":
+        if row.get("delivery_mode") != "reach":
+            continue
+        unavailable = bool(
+            row.get("status") == "skipped"
+            and row.get("reach_source_unavailable")
+        )
+        if row.get("status") == "skipped" and not unavailable:
             continue
         if completed_only and (
-            row.get("status") != "posted"
-            or not str(row.get("reach_reply_post_url") or "").strip()
+            not unavailable
+            and (
+                row.get("status") != "posted"
+                or not str(row.get("reach_reply_post_url") or "").strip()
+            )
         ):
             continue
         status_url = str(row.get("reach_shelf_status_url") or "").strip()
@@ -4688,7 +4693,10 @@ def _used_reach_product_ids(
         if row.get("delivery_mode") == "reach"
         and (_as_jst(row.get("created_at")) or datetime.min.replace(tzinfo=JST)) >= since
         and str(row.get("reach_product_id") or "").strip()
-        and row.get("status") != "skipped"
+        and (
+            row.get("status") != "skipped"
+            or row.get("reach_source_unavailable")
+        )
     }
 
 
@@ -4799,6 +4807,14 @@ def _fanza_player_url(product_id: str) -> str:
     )
 
 
+def _fanza_vr_player_url(product_id: str) -> str:
+    normalized = str(product_id or "").strip().casefold()
+    return (
+        "https://www.dmm.co.jp/digital/-/vr-sample-player/=/"
+        f"cid={quote(normalized, safe='')}/"
+    )
+
+
 def _fanza_player_preview_urls(product_id: str, player_html: str) -> list[str]:
     decoded = html_lib.unescape(str(player_html or ""))
     decoded = re.sub(r"\\+u002[fF]", "/", decoded)
@@ -4830,19 +4846,29 @@ def _fanza_player_preview_urls(product_id: str, player_html: str) -> list[str]:
     return sorted(urls, key=quality)
 
 
-def _fanza_native_preview_urls(product_id: str) -> list[str]:
+def _fanza_graphql_preview_urls(product_id: str) -> list[str]:
     normalized = str(product_id or "").strip().casefold()
     if not re.fullmatch(r"[a-z0-9_]+", normalized):
         return []
-    player_url = _fanza_player_url(normalized)
-    player_urls: list[str] = []
+    query = (
+        "query SampleMovies($id: ID!) { ppvContent(id: $id) { id "
+        "sample2DMovie { highestMovieUrl } "
+        "sampleVRMovie { highestMovieUrl } } }"
+    )
+    body = json.dumps({
+        "operationName": "SampleMovies",
+        "query": query,
+        "variables": {"id": normalized},
+    }).encode("utf-8")
     try:
         request = Request(
-            player_url,
+            "https://api.video.dmm.co.jp/graphql",
+            data=body,
             headers={
-                "Accept": "text/html,application/xhtml+xml",
-                "Accept-Language": "ja,en-US;q=0.7,en;q=0.3",
-                "Referer": f"https://video.dmm.co.jp/av/content/?id={normalized}",
+                "Accept": "application/graphql-response+json, application/json",
+                "Content-Type": "application/json",
+                "Fanza-Device": "BROWSER",
+                "Referer": "https://video.dmm.co.jp/",
                 "User-Agent": (
                     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                     "AppleWebKit/537.36 Chrome/136 Safari/537.36"
@@ -4850,141 +4876,55 @@ def _fanza_native_preview_urls(product_id: str) -> list[str]:
             },
         )
         with urlopen(request, timeout=30) as response:
-            player_html = response.read().decode("utf-8", "replace")
-        player_urls = _fanza_player_preview_urls(normalized, player_html)
+            payload = json.loads(response.read().decode("utf-8", "replace"))
     except Exception:
-        player_urls = []
+        return []
+    content = ((payload.get("data") or {}).get("ppvContent") or {})
+    if str(content.get("id") or "").casefold() != normalized:
+        return []
+    urls: list[str] = []
+    for key in ("sample2DMovie", "sampleVRMovie"):
+        sample = content.get(key) or {}
+        url = str(sample.get("highestMovieUrl") or "").strip()
+        if url and url not in urls and _fanza_preview_matches_product(url, normalized):
+            urls.append(url)
+    return urls
+
+
+def _fanza_native_preview_urls(product_id: str) -> list[str]:
+    normalized = str(product_id or "").strip().casefold()
+    if not re.fullmatch(r"[a-z0-9_]+", normalized):
+        return []
+    player_urls = _fanza_graphql_preview_urls(normalized)
+    if player_urls:
+        return player_urls
+    product_url = f"https://video.dmm.co.jp/av/content/?id={normalized}"
+    for player_url in (_fanza_player_url(normalized), _fanza_vr_player_url(normalized)):
+        try:
+            request = Request(
+                player_url,
+                headers={
+                    "Accept": "text/html,application/xhtml+xml",
+                    "Accept-Language": "ja,en-US;q=0.7,en;q=0.3",
+                    "Cookie": "age_check_done=1",
+                    "Referer": product_url,
+                    "User-Agent": (
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                        "AppleWebKit/537.36 Chrome/136 Safari/537.36"
+                    ),
+                },
+            )
+            with urlopen(request, timeout=30) as response:
+                player_html = response.read().decode("utf-8", "replace")
+            for preview_url in _fanza_player_preview_urls(normalized, player_html):
+                if preview_url not in player_urls:
+                    player_urls.append(preview_url)
+        except Exception:
+            continue
     fallback = _fanza_native_preview_url(normalized)
     if fallback and fallback not in player_urls:
         player_urls.append(fallback)
     return player_urls
-
-
-def _fanza_reach_image_paths(
-    site_root: Path,
-    slug: str,
-    product_id: str,
-    *,
-    limit: int = 6,
-) -> list[str]:
-    payload = _draft_payload(site_root, slug)
-    _product_url, exact_product_id = _exact_fanza_product(payload)
-    normalized_product_id = str(product_id or "").strip().casefold()
-    if exact_product_id.casefold() != normalized_product_id:
-        return []
-    images = [item for item in payload.get("images") or [] if isinstance(item, dict)]
-    samples = [
-        image for image in images
-        if is_fanza_product_sample_image(image, normalized_product_id)
-    ]
-    packages = [
-        image for image in images
-        if _is_payload_fanza_package(image, normalized_product_id)
-    ]
-    # Moving through the landscape introduction images is a stronger native-video
-    # hook; keep the exact package as the final identity check when space permits.
-    eligible = [*samples[: max(1, limit - 1)], *packages]
-    paths: list[str] = []
-    for image in eligible:
-        image_id = str(image.get("id") or "").strip()
-        if not image_id:
-            continue
-        try:
-            path = _payload_image_path(
-                site_root,
-                payload,
-                image_id,
-                "reach-image-reel",
-            )
-        except RuntimeError:
-            continue
-        if path not in paths:
-            paths.append(path)
-        if len(paths) >= max(1, limit):
-            break
-    return paths
-
-
-def _materialize_fanza_reach_image_reel(
-    site_root: Path,
-    slug: str,
-    product_id: str,
-    seconds: int,
-) -> str:
-    cache_dir = _media_cache_dir(site_root, slug) / "reach-video"
-    cache_dir.mkdir(parents=True, exist_ok=True)
-    destination = cache_dir / f"{product_id}-{seconds}s-image-reel.mp4"
-    if destination.is_file() and destination.stat().st_size >= 100_000:
-        return str(destination.resolve())
-    image_paths = _fanza_reach_image_paths(
-        site_root,
-        slug,
-        product_id,
-        limit=6,
-    )
-    if not image_paths:
-        raise RuntimeError("同一作品のFANZA公式商品画像がありません")
-
-    import imageio_ffmpeg
-
-    fps = 30
-    segment_seconds = max(2.0, float(seconds) / len(image_paths))
-    segment_frames = max(1, int(math.ceil(segment_seconds * fps)))
-    command = [imageio_ffmpeg.get_ffmpeg_exe(), "-hide_banner", "-loglevel", "error", "-y"]
-    for path in image_paths:
-        command.extend(["-loop", "1", "-t", f"{segment_seconds:.3f}", "-i", path])
-    filters: list[str] = []
-    labels: list[str] = []
-    for index in range(len(image_paths)):
-        label = f"v{index}"
-        labels.append(f"[{label}]")
-        filters.append(
-            f"[{index}:v]"
-            "scale=1280:720:force_original_aspect_ratio=decrease,"
-            "pad=1280:720:(ow-iw)/2:(oh-ih)/2:color=black,"
-            "setsar=1,"
-            f"zoompan=z='min(zoom+0.00035,1.055)':"
-            "x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':"
-            f"d={segment_frames}:s=1280x720:fps={fps},"
-            f"trim=duration={segment_seconds:.3f},setpts=PTS-STARTPTS[{label}]"
-        )
-    if len(labels) == 1:
-        filters.append(
-            f"{labels[0]}trim=duration={seconds},setpts=PTS-STARTPTS[outv]"
-        )
-    else:
-        filters.append(
-            "".join(labels)
-            + f"concat=n={len(labels)}:v=1:a=0,trim=duration={seconds},setpts=PTS-STARTPTS[outv]"
-        )
-    command.extend([
-        "-filter_complex", ";".join(filters),
-        "-map", "[outv]",
-        "-an", "-c:v", "libx264", "-preset", "veryfast", "-crf", "24",
-        "-pix_fmt", "yuv420p", "-r", str(fps), "-movflags", "+faststart",
-        str(destination),
-    ])
-    completed = subprocess.run(
-        command,
-        capture_output=True,
-        text=True,
-        encoding="utf-8",
-        errors="replace",
-        timeout=300,
-        check=False,
-        creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
-    )
-    if (
-        completed.returncode != 0
-        or not destination.is_file()
-        or destination.stat().st_size < 100_000
-    ):
-        destination.unlink(missing_ok=True)
-        raise RuntimeError(
-            "同一作品のFANZA公式商品画像をX用動画にできませんでした: "
-            + (completed.stderr or completed.stdout or "")[-240:]
-        )
-    return str(destination.resolve())
 
 
 def _materialize_fanza_reach_video(
@@ -5008,10 +4948,15 @@ def _materialize_fanza_reach_video(
                 for source_url in source_urls:
                     source.unlink(missing_ok=True)
                     try:
+                        referer = (
+                            _fanza_vr_player_url(product_id)
+                            if "vrlite" in source_url.casefold()
+                            else _fanza_player_url(product_id)
+                        )
                         _download_video(
                             {
                                 "url": source_url,
-                                "referer": _fanza_player_url(product_id),
+                                "referer": referer,
                             },
                             source,
                         )
@@ -5061,23 +5006,11 @@ def _materialize_fanza_reach_video(
             sample_error = str(exc)
         finally:
             source.unlink(missing_ok=True)
-    try:
-        return _materialize_fanza_reach_image_reel(
-            site_root,
-            slug,
-            product_id,
-            seconds,
-        )
-    except RuntimeError as exc:
-        raise RuntimeError(f"{sample_error} / {exc}") from exc
+    raise RuntimeError(sample_error)
 
 
 def _reach_video_source_verified(media_path: str) -> str:
-    return (
-        "fanza_official_same_product_image_reel"
-        if Path(media_path).stem.endswith("-image-reel")
-        else "fanza_official_same_product_sample"
-    )
+    return "fanza_official_same_product_sample"
 
 
 def _reach_hook(title: Any, product_id: str) -> str:
@@ -5143,16 +5076,18 @@ def prepare_x_reach_post(
         if article is None:
             continue
         product_id = entry["product_id"]
-        try:
-            media_path = _materialize_fanza_reach_video(
-                site_root,
-                entry["article_slug"],
-                product_id,
-                int(settings["reach_video_seconds"]),
-            )
-        except RuntimeError as exc:
-            last_error = str(exc)
-            continue
+        media_path = str(entry.get("reach_video_path") or "")
+        if not media_path or not Path(media_path).is_file():
+            try:
+                media_path = _materialize_fanza_reach_video(
+                    site_root,
+                    entry["article_slug"],
+                    product_id,
+                    int(settings["reach_video_seconds"]),
+                )
+            except RuntimeError as exc:
+                last_error = str(exc)
+                continue
         post_id = hashlib.sha256(
             f"reach\n{product_id}\n{current.isoformat()}".encode("utf-8")
         ).hexdigest()[:16]
@@ -5171,11 +5106,7 @@ def prepare_x_reach_post(
             "media_kind": "video",
             "media_count": 1,
             "score": 300.0,
-            "selection_reason": (
-                "棚の同一商品IDとFANZA公式商品画像を照合して短尺化"
-                if source_verified == "fanza_official_same_product_image_reel"
-                else "棚の同一商品IDとFANZA公式サンプル動画を照合"
-            ),
+            "selection_reason": "棚の同一商品IDとFANZA公式サンプル動画を照合",
             "copy_variants": [hook],
             "post_text": hook,
             "scheduled_for": "",
@@ -6622,6 +6553,10 @@ def _validate_reach_row(
         raise ValueError("引用リプが同一作品の棚投稿を指していません")
     if not str(row.get("reach_product_id") or "").strip():
         raise ValueError("拡散動画の商品IDがありません")
+    if str(row.get("reach_source_verified") or "") != (
+        "fanza_official_same_product_sample"
+    ):
+        raise ValueError("拡散投稿には同一作品のFANZA公式サンプル動画が必要です")
     if not str(row.get("x_post_url") or "").strip():
         now = datetime.now(JST)
         actions_today = [

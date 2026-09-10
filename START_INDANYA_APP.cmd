@@ -2,8 +2,8 @@
 setlocal
 cd /d "%~dp0"
 
-if exist "%CD%\dist-growth-v47\IndanyaStudio\IndanyaStudio.exe" (
-  powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "%CD%\tools\indanya_watchdog.ps1" -Executable "%CD%\dist-growth-v47\IndanyaStudio\IndanyaStudio.exe" -SiteRoot "%CD%" -Show
+if exist "%CD%\dist-growth-v50\IndanyaStudio\IndanyaStudio.exe" (
+  powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "%CD%\tools\indanya_watchdog.ps1" -Executable "%CD%\dist-growth-v50\IndanyaStudio\IndanyaStudio.exe" -SiteRoot "%CD%" -Show
   exit /b %errorlevel%
 )
 if exist "%CD%\dist-growth-v46\IndanyaStudio\IndanyaStudio.exe" (
