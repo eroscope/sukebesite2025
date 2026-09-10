@@ -493,7 +493,7 @@
   "counts": {
     "people": 281,
     "works": 220,
-    "topics": 1542
+    "topics": 1544
   },
   "people": [
     {
@@ -2562,7 +2562,7 @@
     },
     {
       "name": "3P",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "3P・4P",
@@ -3858,7 +3858,7 @@
     },
     {
       "name": "ギャル",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "ギャルインフルエンサー",
@@ -4387,6 +4387,10 @@
     {
       "name": "ナチュラルハイ",
       "articles": 2
+    },
+    {
+      "name": "ナンパ",
+      "articles": 1
     },
     {
       "name": "ナース",
@@ -7054,6 +7058,10 @@
     },
     {
       "name": "流出風",
+      "articles": 1
+    },
+    {
+      "name": "浮気調査",
       "articles": 1
     },
     {
