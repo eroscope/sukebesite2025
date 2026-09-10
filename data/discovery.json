@@ -501,7 +501,7 @@
   "counts": {
     "people": 283,
     "works": 221,
-    "topics": 1559
+    "topics": 1562
   },
   "people": [
     {
@@ -2914,7 +2914,7 @@
     },
     {
       "name": "GIF",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "GIF動画あり",
@@ -4490,7 +4490,7 @@
     },
     {
       "name": "ノースリーブ",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "ノーパン風",
@@ -5079,6 +5079,10 @@
     {
       "name": "ランジェリー",
       "articles": 82
+    },
+    {
+      "name": "ラヴィット！",
+      "articles": 1
     },
     {
       "name": "リアクション",
@@ -7345,6 +7349,10 @@
       "articles": 2
     },
     {
+      "name": "田村真子",
+      "articles": 1
+    },
+    {
       "name": "田舎",
       "articles": 1
     },
@@ -8514,6 +8522,10 @@
     },
     {
       "name": "電動歯ブラシ",
+      "articles": 1
+    },
+    {
+      "name": "電気ショック",
       "articles": 1
     },
     {
