@@ -143,6 +143,7 @@
     "topics/topic-3081d7739206.html",
     "topics/topic-309200e20a10.html",
     "topics/topic-3189b4418993.html",
+    "topics/topic-31cf0104d378.html",
     "topics/topic-32073fec122e.html",
     "topics/topic-323450745cc2.html",
     "topics/topic-339b5a30e0a5.html",
@@ -490,7 +491,7 @@
   "counts": {
     "people": 278,
     "works": 220,
-    "topics": 1534
+    "topics": 1536
   },
   "people": [
     {
@@ -2875,7 +2876,7 @@
     },
     {
       "name": "GIF",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "GIF動画あり",
@@ -3611,7 +3612,7 @@
     },
     {
       "name": "インナー",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "インナーちら見え",
@@ -4427,7 +4428,7 @@
     },
     {
       "name": "ノースリーブ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "ノーパン風",
@@ -6055,7 +6056,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "女子大生",
@@ -7595,6 +7596,14 @@
     },
     {
       "name": "競輪",
+      "articles": 1
+    },
+    {
+      "name": "競馬予想",
+      "articles": 1
+    },
+    {
+      "name": "竹俣紅",
       "articles": 1
     },
     {
