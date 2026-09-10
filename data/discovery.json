@@ -501,7 +501,7 @@
   "counts": {
     "people": 283,
     "works": 221,
-    "topics": 1562
+    "topics": 1563
   },
   "people": [
     {
@@ -5078,7 +5078,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 82
+      "articles": 83
     },
     {
       "name": "ラヴィット！",
@@ -7050,7 +7050,7 @@
     },
     {
       "name": "水着",
-      "articles": 121
+      "articles": 122
     },
     {
       "name": "水着グラビア",
@@ -7305,6 +7305,10 @@
       "articles": 11
     },
     {
+      "name": "爽香",
+      "articles": 1
+    },
+    {
       "name": "猫を洗う",
       "articles": 1
     },
@@ -7446,7 +7450,7 @@
     },
     {
       "name": "画像集",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "画像＋動画",
