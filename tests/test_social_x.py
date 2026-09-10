@@ -17,6 +17,8 @@ from indanya_desktop.social_x import (
     _future_scheduled_time,
     _fanza_player_preview_urls,
     _fanza_product_id_variants,
+    _materialize_fanza_reach_video,
+    _reach_video_source_verified,
     _json_object,
     _assign_random_trend_templates,
     _auto_follow_candidate_allowed,
@@ -1789,6 +1791,85 @@ class SocialXTests(unittest.TestCase):
         self.assertEqual(materialize.call_args_list[1].args[2], root["lead_product_id"])
         self.assertEqual(root["lead_product_id"], shelf["thread_steps"][1]["product_id"])
 
+    def test_av_shelf_campaign_requires_every_matching_video_quote_pair(self) -> None:
+        from indanya_desktop.x_account_health import (
+            load_x_health_state,
+            save_x_health_state,
+        )
+
+        for index in range(1, 11):
+            self._av_draft(index)
+        video = self.root / "campaign-video.mp4"
+        video.write_bytes(b"video" * 30_000)
+        with patch(
+            "indanya_desktop.social_x._materialize_fanza_reach_video",
+            return_value=str(video),
+        ):
+            shelf = prepare_x_av_shelf(self.root, "https://example.com/")
+        self.assertIsNotNone(shelf)
+        status_urls = [
+            f"https://x.com/hentai596/status/{2099000000000010000 + index}"
+            for index in range(10)
+        ]
+        update_x_post(
+            self.root,
+            shelf["post_id"],
+            status="posted",
+            thread_step_index=10,
+            thread_post_urls=status_urls,
+            posted_at=datetime.now(JST).isoformat(),
+        )
+        health = load_x_health_state(self.root, "hentai596")
+        health.update({
+            "classification": "healthy",
+            "risk_level": 0,
+            "last_checked_at": datetime.now(JST).isoformat(),
+        })
+        save_x_health_state(self.root, health)
+
+        initial = x_av_shelf_schedule_status(self.root)
+        self.assertFalse(initial["due"])
+        self.assertEqual(shelf["post_id"], initial["campaign_post_id"])
+        self.assertEqual(9, initial["remaining_entries"])
+
+        for product_index, step in enumerate(shelf["thread_steps"][1:], start=1):
+            with patch(
+                "indanya_desktop.social_x._materialize_fanza_reach_video",
+                return_value=str(video),
+            ):
+                reach = prepare_x_reach_post(
+                    self.root,
+                    "https://example.com/",
+                    now=datetime.now(JST) + timedelta(minutes=product_index),
+                )
+            self.assertIsNotNone(reach)
+            self.assertEqual(shelf["post_id"], reach["reach_shelf_post_id"])
+            self.assertEqual(product_index + 1, reach["reach_shelf_step_number"])
+            self.assertEqual(step["product_id"], reach["reach_product_id"])
+            self.assertEqual(status_urls[product_index], reach["reach_shelf_status_url"])
+            self.assertEqual(
+                f"続きはこちら\n{status_urls[product_index]}",
+                reach["reach_followup_text"],
+            )
+            update_x_post(
+                self.root,
+                reach["post_id"],
+                status="posted",
+                x_post_url=(
+                    f"https://x.com/hentai596/status/"
+                    f"{2099000000000020000 + product_index}"
+                ),
+                reach_reply_post_url=(
+                    f"https://x.com/hentai596/status/"
+                    f"{2099000000000030000 + product_index}"
+                ),
+                posted_at=datetime.now(JST).isoformat(),
+            )
+            status = x_av_shelf_schedule_status(self.root)
+            self.assertEqual(9 - product_index, status["remaining_entries"])
+            self.assertEqual(product_index, status["completed_entries"])
+            self.assertEqual(product_index == 9, status["due"])
+
     def test_fanza_player_preview_accepts_compact_same_product_id_only(self) -> None:
         player_html = r'''{
           "medium": "\\/\\/cc3001.dmm.co.jp\\/pv\\/signed-token\\/1nhdtc217mhb.mp4",
@@ -1803,6 +1884,37 @@ class SocialXTests(unittest.TestCase):
         self.assertEqual(
             {"1nhdtc00217", "1nhdtc217"},
             _fanza_product_id_variants("1nhdtc00217"),
+        )
+
+    def test_reach_video_falls_back_to_same_product_official_image_reel(self) -> None:
+        payload = self._av_draft(1)
+
+        def finish_reel(command, **_kwargs):
+            Path(command[-1]).write_bytes(b"video" * 30_000)
+            result = MagicMock()
+            result.returncode = 0
+            result.stderr = ""
+            result.stdout = ""
+            return result
+
+        with patch(
+            "indanya_desktop.social_x._fanza_native_preview_urls",
+            return_value=[],
+        ), patch(
+            "indanya_desktop.social_x.subprocess.run",
+            side_effect=finish_reel,
+        ):
+            media_path = _materialize_fanza_reach_video(
+                self.root,
+                payload["slug"],
+                payload["fanza_product_id"],
+                30,
+            )
+        self.assertTrue(Path(media_path).is_file())
+        self.assertTrue(Path(media_path).name.endswith("-30s-image-reel.mp4"))
+        self.assertEqual(
+            "fanza_official_same_product_image_reel",
+            _reach_video_source_verified(media_path),
         )
 
     def test_reach_post_sends_native_video_then_quotes_matching_shelf_item(self) -> None:

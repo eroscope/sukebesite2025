@@ -41,6 +41,7 @@ from indanya_desktop.editorial_policy import (
     fanza_product_id,
     is_fanza_official_sample_video_url,
     is_fanza_package_image,
+    is_fanza_product_sample_image,
     is_fanza_product_url,
 )
 
@@ -1984,6 +1985,15 @@ def list_x_posts(site_root: Path) -> list[dict[str, Any]]:
         row["reach_shelf_status_url"] = str(
             row.get("reach_shelf_status_url") or ""
         ).strip()
+        row["reach_shelf_post_id"] = str(
+            row.get("reach_shelf_post_id") or ""
+        ).strip()
+        try:
+            row["reach_shelf_step_number"] = max(
+                0, int(row.get("reach_shelf_step_number") or 0)
+            )
+        except (TypeError, ValueError):
+            row["reach_shelf_step_number"] = 0
         row["reach_followup_text"] = str(
             row.get("reach_followup_text") or ""
         ).strip()
@@ -4611,22 +4621,61 @@ def prepare_x_av_shelf(
     return item
 
 
-def _posted_av_shelf_entries(rows: list[dict[str, Any]]) -> list[dict[str, str]]:
-    entries: list[dict[str, str]] = []
-    for row in reversed(rows):
-        if not _is_av_shelf_row(row):
+def _av_shelf_row_entries(row: dict[str, Any]) -> list[dict[str, Any]]:
+    if not _is_av_shelf_row(row) or row.get("status") != "posted":
+        return []
+    entries: list[dict[str, Any]] = []
+    urls = [str(value) for value in row.get("thread_post_urls") or []]
+    for index, step in enumerate(row.get("thread_steps") or []):
+        if index >= len(urls) or str(step.get("kind") or "") != "product":
             continue
-        urls = [str(value) for value in row.get("thread_post_urls") or []]
-        for index, step in enumerate(row.get("thread_steps") or []):
-            if index >= len(urls) or str(step.get("kind") or "") != "product":
-                continue
-            entries.append({
-                "article_slug": str(step.get("article_slug") or ""),
-                "product_id": str(step.get("product_id") or "").casefold(),
-                "status_url": urls[index],
-                "article_url": str(step.get("article_url") or ""),
-            })
+        entries.append({
+            "shelf_post_id": str(row.get("post_id") or ""),
+            "shelf_step_number": int(step.get("number") or index + 1),
+            "shelf_created_at": str(row.get("created_at") or ""),
+            "article_slug": str(step.get("article_slug") or ""),
+            "product_id": str(step.get("product_id") or "").casefold(),
+            "status_url": urls[index],
+            "article_url": str(step.get("article_url") or ""),
+        })
     return entries
+
+
+def _posted_av_shelf_entries(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    entries: list[dict[str, Any]] = []
+    for row in reversed(rows):
+        entries.extend(_av_shelf_row_entries(row))
+    return entries
+
+
+def _latest_av_shelf_campaign_entries(
+    rows: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    for row in reversed(rows):
+        entries = _av_shelf_row_entries(row)
+        if entries:
+            return entries
+    return []
+
+
+def _reach_shelf_urls(
+    rows: list[dict[str, Any]],
+    *,
+    completed_only: bool,
+) -> set[str]:
+    result: set[str] = set()
+    for row in rows:
+        if row.get("delivery_mode") != "reach" or row.get("status") == "skipped":
+            continue
+        if completed_only and (
+            row.get("status") != "posted"
+            or not str(row.get("reach_reply_post_url") or "").strip()
+        ):
+            continue
+        status_url = str(row.get("reach_shelf_status_url") or "").strip()
+        if status_url:
+            result.add(status_url)
+    return result
 
 
 def _used_reach_product_ids(
@@ -4659,12 +4708,12 @@ def x_av_shelf_schedule_status(
         ),
         None,
     )
-    entries = _posted_av_shelf_entries(rows)
-    used = _used_reach_product_ids(
-        rows,
-        current - timedelta(days=int(settings["reach_product_cooldown_days"])),
-    )
-    remaining = [entry for entry in entries if entry["product_id"] not in used]
+    entries = _latest_av_shelf_campaign_entries(rows)
+    completed_urls = _reach_shelf_urls(rows, completed_only=True)
+    remaining = [
+        entry for entry in entries
+        if entry["status_url"] not in completed_urls
+    ]
     retry_at = _as_jst(state.get("shelf_next_retry_at"))
     enabled = bool(
         settings.get("reach_funnel_enabled", True)
@@ -4673,13 +4722,15 @@ def x_av_shelf_schedule_status(
         and str(settings.get("health_classification") or "") == "healthy"
         and int(settings.get("global_daily_action_limit") or 0) > 0
     )
-    needs_new = pending is None and len(remaining) <= max(2, int(settings["reach_shelf_size"]) // 2)
+    needs_new = pending is None and (not entries or not remaining)
     return {
         "enabled": enabled,
         "due": bool(enabled and needs_new and (retry_at is None or current >= retry_at)),
         "pending_post_id": str(pending.get("post_id") or "") if pending else "",
         "posted_entries": len(entries),
+        "completed_entries": len(entries) - len(remaining),
         "remaining_entries": len(remaining),
+        "campaign_post_id": str(entries[0]["shelf_post_id"]) if entries else "",
         "shelf_size": int(settings["reach_shelf_size"]),
         "last_error": str(state.get("shelf_last_error") or ""),
     }
@@ -4809,6 +4860,133 @@ def _fanza_native_preview_urls(product_id: str) -> list[str]:
     return player_urls
 
 
+def _fanza_reach_image_paths(
+    site_root: Path,
+    slug: str,
+    product_id: str,
+    *,
+    limit: int = 6,
+) -> list[str]:
+    payload = _draft_payload(site_root, slug)
+    _product_url, exact_product_id = _exact_fanza_product(payload)
+    normalized_product_id = str(product_id or "").strip().casefold()
+    if exact_product_id.casefold() != normalized_product_id:
+        return []
+    images = [item for item in payload.get("images") or [] if isinstance(item, dict)]
+    samples = [
+        image for image in images
+        if is_fanza_product_sample_image(image, normalized_product_id)
+    ]
+    packages = [
+        image for image in images
+        if _is_payload_fanza_package(image, normalized_product_id)
+    ]
+    # Moving through the landscape introduction images is a stronger native-video
+    # hook; keep the exact package as the final identity check when space permits.
+    eligible = [*samples[: max(1, limit - 1)], *packages]
+    paths: list[str] = []
+    for image in eligible:
+        image_id = str(image.get("id") or "").strip()
+        if not image_id:
+            continue
+        try:
+            path = _payload_image_path(
+                site_root,
+                payload,
+                image_id,
+                "reach-image-reel",
+            )
+        except RuntimeError:
+            continue
+        if path not in paths:
+            paths.append(path)
+        if len(paths) >= max(1, limit):
+            break
+    return paths
+
+
+def _materialize_fanza_reach_image_reel(
+    site_root: Path,
+    slug: str,
+    product_id: str,
+    seconds: int,
+) -> str:
+    cache_dir = _media_cache_dir(site_root, slug) / "reach-video"
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    destination = cache_dir / f"{product_id}-{seconds}s-image-reel.mp4"
+    if destination.is_file() and destination.stat().st_size >= 100_000:
+        return str(destination.resolve())
+    image_paths = _fanza_reach_image_paths(
+        site_root,
+        slug,
+        product_id,
+        limit=6,
+    )
+    if not image_paths:
+        raise RuntimeError("同一作品のFANZA公式商品画像がありません")
+
+    import imageio_ffmpeg
+
+    fps = 30
+    segment_seconds = max(2.0, float(seconds) / len(image_paths))
+    segment_frames = max(1, int(math.ceil(segment_seconds * fps)))
+    command = [imageio_ffmpeg.get_ffmpeg_exe(), "-hide_banner", "-loglevel", "error", "-y"]
+    for path in image_paths:
+        command.extend(["-loop", "1", "-t", f"{segment_seconds:.3f}", "-i", path])
+    filters: list[str] = []
+    labels: list[str] = []
+    for index in range(len(image_paths)):
+        label = f"v{index}"
+        labels.append(f"[{label}]")
+        filters.append(
+            f"[{index}:v]"
+            "scale=1280:720:force_original_aspect_ratio=decrease,"
+            "pad=1280:720:(ow-iw)/2:(oh-ih)/2:color=black,"
+            "setsar=1,"
+            f"zoompan=z='min(zoom+0.00035,1.055)':"
+            "x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':"
+            f"d={segment_frames}:s=1280x720:fps={fps},"
+            f"trim=duration={segment_seconds:.3f},setpts=PTS-STARTPTS[{label}]"
+        )
+    if len(labels) == 1:
+        filters.append(
+            f"{labels[0]}trim=duration={seconds},setpts=PTS-STARTPTS[outv]"
+        )
+    else:
+        filters.append(
+            "".join(labels)
+            + f"concat=n={len(labels)}:v=1:a=0,trim=duration={seconds},setpts=PTS-STARTPTS[outv]"
+        )
+    command.extend([
+        "-filter_complex", ";".join(filters),
+        "-map", "[outv]",
+        "-an", "-c:v", "libx264", "-preset", "veryfast", "-crf", "24",
+        "-pix_fmt", "yuv420p", "-r", str(fps), "-movflags", "+faststart",
+        str(destination),
+    ])
+    completed = subprocess.run(
+        command,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        timeout=300,
+        check=False,
+        creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+    )
+    if (
+        completed.returncode != 0
+        or not destination.is_file()
+        or destination.stat().st_size < 100_000
+    ):
+        destination.unlink(missing_ok=True)
+        raise RuntimeError(
+            "同一作品のFANZA公式商品画像をX用動画にできませんでした: "
+            + (completed.stderr or completed.stdout or "")[-240:]
+        )
+    return str(destination.resolve())
+
+
 def _materialize_fanza_reach_video(
     site_root: Path,
     slug: str,
@@ -4821,66 +4999,85 @@ def _materialize_fanza_reach_video(
     if destination.is_file() and destination.stat().st_size >= 100_000:
         return str(destination.resolve())
     source_urls = _fanza_native_preview_urls(product_id)
-    if not source_urls:
-        raise RuntimeError("同一作品のFANZA公式サンプル動画URLを確認できません")
     source = cache_dir / f"{product_id}-official.mp4"
-    try:
-        if not source.is_file() or source.stat().st_size < 1024:
-            download_errors: list[str] = []
-            for source_url in source_urls:
-                source.unlink(missing_ok=True)
-                try:
-                    _download_video(
-                        {
-                            "url": source_url,
-                            "referer": _fanza_player_url(product_id),
-                        },
-                        source,
-                    )
-                except Exception as exc:
-                    download_errors.append(str(exc)[-160:])
-                    continue
-                if source.is_file() and source.stat().st_size >= 1024:
-                    break
+    sample_error = "同一作品のFANZA公式サンプル動画URLを確認できません"
+    if source_urls:
+        try:
             if not source.is_file() or source.stat().st_size < 1024:
-                detail = next((value for value in reversed(download_errors) if value), "")
-                raise RuntimeError(
-                    "同一作品のFANZA公式サンプル動画を取得できませんでした"
-                    + (f": {detail}" if detail else "")
-                )
-        import imageio_ffmpeg
+                download_errors: list[str] = []
+                for source_url in source_urls:
+                    source.unlink(missing_ok=True)
+                    try:
+                        _download_video(
+                            {
+                                "url": source_url,
+                                "referer": _fanza_player_url(product_id),
+                            },
+                            source,
+                        )
+                    except Exception as exc:
+                        download_errors.append(str(exc)[-160:])
+                        continue
+                    if source.is_file() and source.stat().st_size >= 1024:
+                        break
+                if not source.is_file() or source.stat().st_size < 1024:
+                    detail = next((value for value in reversed(download_errors) if value), "")
+                    raise RuntimeError(
+                        "同一作品のFANZA公式サンプル動画を取得できませんでした"
+                        + (f": {detail}" if detail else "")
+                    )
+            import imageio_ffmpeg
 
-        command = [
-            imageio_ffmpeg.get_ffmpeg_exe(),
-            "-hide_banner", "-loglevel", "error", "-y",
-            "-ss", "1", "-i", str(source), "-t", str(seconds),
-            "-c:v", "libx264", "-preset", "veryfast", "-crf", "24",
-            "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k",
-            "-movflags", "+faststart", str(destination),
-        ]
-        completed = subprocess.run(
-            command,
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            timeout=300,
-            check=False,
-            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
-        )
-        if (
-            completed.returncode != 0
-            or not destination.is_file()
-            or destination.stat().st_size < 100_000
-        ):
-            destination.unlink(missing_ok=True)
-            raise RuntimeError(
-                "FANZA公式サンプルをX用短尺動画にできませんでした: "
-                + (completed.stderr or completed.stdout or "")[-240:]
+            command = [
+                imageio_ffmpeg.get_ffmpeg_exe(),
+                "-hide_banner", "-loglevel", "error", "-y",
+                "-ss", "1", "-i", str(source), "-t", str(seconds),
+                "-c:v", "libx264", "-preset", "veryfast", "-crf", "24",
+                "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k",
+                "-movflags", "+faststart", str(destination),
+            ]
+            completed = subprocess.run(
+                command,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=300,
+                check=False,
+                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
             )
-        return str(destination.resolve())
-    finally:
-        source.unlink(missing_ok=True)
+            if (
+                completed.returncode != 0
+                or not destination.is_file()
+                or destination.stat().st_size < 100_000
+            ):
+                destination.unlink(missing_ok=True)
+                raise RuntimeError(
+                    "FANZA公式サンプルをX用短尺動画にできませんでした: "
+                    + (completed.stderr or completed.stdout or "")[-240:]
+                )
+            return str(destination.resolve())
+        except Exception as exc:
+            sample_error = str(exc)
+        finally:
+            source.unlink(missing_ok=True)
+    try:
+        return _materialize_fanza_reach_image_reel(
+            site_root,
+            slug,
+            product_id,
+            seconds,
+        )
+    except RuntimeError as exc:
+        raise RuntimeError(f"{sample_error} / {exc}") from exc
+
+
+def _reach_video_source_verified(media_path: str) -> str:
+    return (
+        "fanza_official_same_product_image_reel"
+        if Path(media_path).stem.endswith("-image-reel")
+        else "fanza_official_same_product_sample"
+    )
 
 
 def _reach_hook(title: Any, product_id: str) -> str:
@@ -4892,9 +5089,9 @@ def _reach_hook(title: Any, product_id: str) -> str:
         return "この展開は最後まで見てしまう"
     endings = (
         "、これは最後まで見てしまう",
-        "からこの展開は強い",
+        "、ここからの展開が強い",
         "、この時点でもう強い",
-        "でこれは反則やろ",
+        "、これは反則やろ",
     )
     digest = int(hashlib.sha256(f"{product_id}:{phrase}".encode("utf-8")).hexdigest()[:8], 16)
     return (phrase + endings[digest % len(endings)])[:70]
@@ -4917,26 +5114,29 @@ def prepare_x_reach_post(
     )
     if pending is not None:
         return pending
+    if any(
+        _is_av_shelf_row(row)
+        and row.get("status") not in {"posted", "skipped"}
+        for row in rows
+    ):
+        return None
     settings = load_x_settings(site_root)
     effective_settings = load_effective_x_settings(site_root)
     used = _used_reach_product_ids(
         rows,
         current - timedelta(days=int(settings["reach_product_cooldown_days"])),
     )
+    reserved_urls = _reach_shelf_urls(rows, completed_only=False)
     entries = [
-        entry for entry in _posted_av_shelf_entries(rows)
-        if entry["product_id"] and entry["product_id"] not in used
+        entry for entry in _latest_av_shelf_campaign_entries(rows)
+        if entry["product_id"]
+        and entry["product_id"] not in used
+        and entry["status_url"] not in reserved_urls
     ]
     articles = {
         str(article.get("slug") or ""): article
         for article in _published_articles(site_root)
     }
-    entries.sort(
-        key=lambda entry: str(
-            articles.get(entry["article_slug"], {}).get("published_at") or ""
-        ),
-        reverse=True,
-    )
     last_error = ""
     for entry in entries:
         article = articles.get(entry["article_slug"])
@@ -4957,6 +5157,7 @@ def prepare_x_reach_post(
             f"reach\n{product_id}\n{current.isoformat()}".encode("utf-8")
         ).hexdigest()[:16]
         hook = _reach_hook(article.get("title"), product_id)
+        source_verified = _reach_video_source_verified(media_path)
         item = {
             "post_id": post_id,
             "article_slug": entry["article_slug"],
@@ -4970,7 +5171,11 @@ def prepare_x_reach_post(
             "media_kind": "video",
             "media_count": 1,
             "score": 300.0,
-            "selection_reason": "棚の同一商品IDとFANZA公式サンプル動画を照合",
+            "selection_reason": (
+                "棚の同一商品IDとFANZA公式商品画像を照合して短尺化"
+                if source_verified == "fanza_official_same_product_image_reel"
+                else "棚の同一商品IDとFANZA公式サンプル動画を照合"
+            ),
             "copy_variants": [hook],
             "post_text": hook,
             "scheduled_for": "",
@@ -4978,10 +5183,12 @@ def prepare_x_reach_post(
             "origin": "adaptive_reach_video",
             "delivery_mode": "reach",
             "reach_product_id": product_id,
+            "reach_shelf_post_id": entry["shelf_post_id"],
+            "reach_shelf_step_number": entry["shelf_step_number"],
             "reach_shelf_status_url": entry["status_url"],
             "reach_followup_text": f"続きはこちら\n{entry['status_url']}",
             "reach_reply_post_url": "",
-            "reach_source_verified": "fanza_official_same_product_sample",
+            "reach_source_verified": source_verified,
             "reach_interval_hours_at_post": int(
                 effective_settings.get("reach_interval_hours") or 48
             ),
@@ -5066,9 +5273,12 @@ def x_reach_schedule_status(
         rows,
         current - timedelta(days=int(base_settings["reach_product_cooldown_days"])),
     )
+    reserved_urls = _reach_shelf_urls(rows, completed_only=False)
     available = [
-        entry for entry in _posted_av_shelf_entries(rows)
-        if entry["product_id"] and entry["product_id"] not in used
+        entry for entry in _latest_av_shelf_campaign_entries(rows)
+        if entry["product_id"]
+        and entry["product_id"] not in used
+        and entry["status_url"] not in reserved_urls
     ]
     enabled = bool(
         settings.get("reach_funnel_enabled", True)

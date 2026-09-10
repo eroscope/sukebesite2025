@@ -1,7 +1,7 @@
 param(
     [string]$SiteRoot = $PSScriptRoot,
     [string]$BuildRoot = $PSScriptRoot,
-    [string]$BuildName = "dist-growth-v46",
+    [string]$BuildName = "dist-growth-v47",
     [switch]$Enable
 )
 
