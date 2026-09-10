@@ -493,7 +493,7 @@
   "counts": {
     "people": 281,
     "works": 220,
-    "topics": 1540
+    "topics": 1541
   },
   "people": [
     {
@@ -1366,7 +1366,7 @@
     },
     {
       "name": "石川澪",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "石田佳蓮",
@@ -2750,7 +2750,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 48
+      "articles": 49
     },
     {
       "name": "AV女優検索",
@@ -3002,7 +3002,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 29
+      "articles": 30
     },
     {
       "name": "MOODYZ DIVA",
@@ -5434,6 +5434,10 @@
     },
     {
       "name": "体重変化",
+      "articles": 1
+    },
+    {
+      "name": "作品サンプル",
       "articles": 1
     },
     {
