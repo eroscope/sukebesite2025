@@ -499,7 +499,7 @@
     "works/work-snos-371.html"
   ],
   "counts": {
-    "people": 283,
+    "people": 284,
     "works": 221,
     "topics": 1563
   },
@@ -1530,6 +1530,10 @@
     },
     {
       "name": "谷碧",
+      "articles": 1
+    },
+    {
+      "name": "豊島心桜",
       "articles": 1
     },
     {
@@ -5078,7 +5082,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 83
+      "articles": 84
     },
     {
       "name": "ラヴィット！",
@@ -7050,7 +7054,7 @@
     },
     {
       "name": "水着",
-      "articles": 122
+      "articles": 123
     },
     {
       "name": "水着グラビア",
@@ -7434,7 +7438,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 80
+      "articles": 81
     },
     {
       "name": "画像ギャラリー",
