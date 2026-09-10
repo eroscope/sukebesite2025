@@ -362,6 +362,7 @@
     "topics/topic-bf20d27fdec8.html",
     "topics/topic-bf56a156e7b1.html",
     "topics/topic-c23ddf4b8f73.html",
+    "topics/topic-c39fc6b78c01.html",
     "topics/topic-c3eb5feb0b13.html",
     "topics/topic-c411c94a4696.html",
     "topics/topic-c411f881be34.html",
@@ -493,7 +494,8 @@
     "topics/topic-vr.html",
     "topics/topic-vtuber.html",
     "topics/topic-youtuber.html",
-    "works.html"
+    "works.html",
+    "works/work-snos-371.html"
   ],
   "counts": {
     "people": 282,
@@ -1243,7 +1245,7 @@
     },
     {
       "name": "河北彩花",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "波多野結衣",
@@ -2417,7 +2419,7 @@
     },
     {
       "code": "SNOS-371",
-      "articles": 1
+      "articles": 2
     },
     {
       "code": "SNOS-373",
@@ -2763,7 +2765,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 50
+      "articles": 51
     },
     {
       "name": "AV女優検索",
@@ -3139,7 +3141,7 @@
     },
     {
       "name": "S1",
-      "articles": 23
+      "articles": 24
     },
     {
       "name": "S1 GIRLS COLLECTION",
@@ -5479,7 +5481,7 @@
     },
     {
       "name": "作品紹介",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "佳苗るか",
@@ -6359,7 +6361,7 @@
     },
     {
       "name": "屋外ロケ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "山本里菜",
