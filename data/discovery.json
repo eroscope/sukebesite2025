@@ -387,6 +387,7 @@
     "topics/topic-d57207655b68.html",
     "topics/topic-d77f81e2b6d3.html",
     "topics/topic-d7b0db6974a0.html",
+    "topics/topic-d7e2406282aa.html",
     "topics/topic-d8f933e9ab9e.html",
     "topics/topic-d9041f832b92.html",
     "topics/topic-da2a872c803c.html",
@@ -492,8 +493,8 @@
   ],
   "counts": {
     "people": 281,
-    "works": 220,
-    "topics": 1544
+    "works": 221,
+    "topics": 1545
   },
   "people": [
     {
@@ -2155,6 +2156,10 @@
       "articles": 1
     },
     {
+      "code": "MIGD-569",
+      "articles": 1
+    },
+    {
       "code": "MIKR-048",
       "articles": 1
     },
@@ -2726,7 +2731,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "AVパッケージ",
@@ -3377,6 +3382,10 @@
       "articles": 1
     },
     {
+      "name": "かいとうぴんく",
+      "articles": 1
+    },
+    {
       "name": "かな",
       "articles": 1
     },
@@ -3822,7 +3831,7 @@
     },
     {
       "name": "キャプチャ画像",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "キャプ画像",
