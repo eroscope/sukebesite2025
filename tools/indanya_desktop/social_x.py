@@ -4489,40 +4489,72 @@ def prepare_x_av_shelf(
     if pending is not None:
         return pending
     settings = load_x_settings(site_root)
-    shelf_size = int(settings["reach_shelf_size"])
+    shelf_size = max(2, int(settings["reach_shelf_size"]))
+    product_count = shelf_size - 1
     candidates = _av_shelf_candidates(
         site_root,
         public_url,
         rows,
         current,
-        shelf_size,
+        max(product_count, shelf_size * 2),
     )
-    if len(candidates) < shelf_size:
+    if len(candidates) < product_count:
         return None
+
+    lead_candidate: dict[str, Any] | None = None
+    lead_video_path = ""
+    for candidate in candidates:
+        try:
+            lead_video_path = _materialize_fanza_reach_video(
+                site_root,
+                candidate["slug"],
+                candidate["product_id"],
+                int(settings["reach_video_seconds"]),
+            )
+        except RuntimeError:
+            continue
+        lead_candidate = candidate
+        break
+    if lead_candidate is None or not lead_video_path:
+        return None
+
+    selected_candidates = [lead_candidate]
+    selected_candidates.extend(
+        candidate
+        for candidate in candidates
+        if candidate["product_id"] != lead_candidate["product_id"]
+    )
+    selected_candidates = selected_candidates[:product_count]
+    if len(selected_candidates) < product_count:
+        return None
+
     post_id = hashlib.sha256(
         f"av-shelf\n{current.isoformat()}".encode("utf-8")
     ).hexdigest()[:16]
     steps: list[dict[str, Any]] = [{
-        "number": 0,
-        "label": "棚",
-        "text": "気になった作品をここにまとめていきます [PR]",
-        "media_paths": [],
+        "number": 1,
+        "label": f"1/{shelf_size}",
+        "text": f"気になった作品をここにまとめていきます [1/{shelf_size}]",
+        "media_paths": [lead_video_path],
         "kind": "shelf_root",
+        "lead_article_slug": lead_candidate["slug"],
+        "lead_product_id": lead_candidate["product_id"],
     }]
-    for index, candidate in enumerate(candidates, start=1):
+    for sequence_number, candidate in enumerate(selected_candidates, start=2):
         tracking_url = _tracking_url(
             public_url,
             candidate["article_url"],
-            f"{post_id}-{index:02d}",
+            f"{post_id}-{sequence_number:02d}",
             "av_shelf",
         )
         text = (
-            f"{_clean_shelf_title(candidate['title'])}\n\n"
-            f"続きはこちら [PR]\n{tracking_url}"
+            f"{_clean_shelf_title(candidate['title'])} "
+            f"[{sequence_number}/{shelf_size}]\n"
+            f"続きはこちら↓\n{tracking_url}"
         )
         steps.append({
-            "number": index,
-            "label": f"作品{index}",
+            "number": sequence_number,
+            "label": f"{sequence_number}/{shelf_size}",
             "text": text,
             "media_paths": [candidate["package_path"]],
             "kind": "product",
@@ -4540,11 +4572,14 @@ def prepare_x_av_shelf(
         "tags": ["FANZA", "AV"],
         "article_url": "",
         "thumbnail_path": "",
-        "media_paths": [],
-        "media_kind": "none",
-        "media_count": 0,
+        "media_paths": [lead_video_path],
+        "media_kind": "video",
+        "media_count": 1,
         "score": 200.0,
-        "selection_reason": "同一商品ID・公式パッケージ・公開記事を確認した10作品",
+        "selection_reason": (
+            f"同一商品のFANZA公式動画1本と、商品ID・公式パッケージ・"
+            f"公開記事を確認した{product_count}作品"
+        ),
         "copy_variants": [steps[0]["text"]],
         "post_text": steps[0]["text"],
         "scheduled_for": "",
@@ -4557,7 +4592,7 @@ def prepare_x_av_shelf(
         "copy_writer": "固定文",
         "template_writer": "作品棚",
         "trend_template_id": "av_product_shelf",
-        "trend_template_name": "親投稿＋同一作品10件",
+        "trend_template_name": f"公式動画の親投稿＋同一作品{product_count}件",
         "performance": {},
         "created_at": current.isoformat(timespec="seconds"),
         "scheduled_at": "",
@@ -4660,10 +4695,14 @@ def prepare_due_x_av_shelf(
         return None
     item = prepare_x_av_shelf(site_root, public_url, current)
     if item is None:
+        shelf_size = max(2, int(load_x_settings(site_root)["reach_shelf_size"]))
         _save_x_auto_state(
             site_root,
             shelf_next_retry_at=(current + timedelta(hours=12)).isoformat(timespec="seconds"),
-            shelf_last_error="同一商品ID・公式パッケージ・公開記事が揃う未使用作品を10件確保できません",
+            shelf_last_error=(
+                "先頭用のFANZA公式動画と、同一商品ID・公式パッケージ・"
+                f"公開記事が揃う未使用作品を{shelf_size - 1}件確保できません"
+            ),
         )
     return item
 

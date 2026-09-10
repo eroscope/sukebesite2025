@@ -1740,23 +1740,54 @@ class SocialXTests(unittest.TestCase):
         self.assertIn("utm_campaign=owned_contest", first["article_url"])
         self.assertIsNone(prepare_x_contest_candidate(self.root, "https://example.com/"))
 
-    def test_av_shelf_uses_ten_exact_products_and_official_packages(self) -> None:
+    def test_av_shelf_is_ten_posts_with_video_lead_and_numbered_products(self) -> None:
         for index in range(1, 12):
             payload = self._av_draft(index)
             if index == 11:
                 payload["blocks"][0]["match_confidence"] = 40
                 path = self.root / ".article-studio" / "drafts" / f"{payload['slug']}.json"
                 path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
-        shelf = prepare_x_av_shelf(self.root, "https://example.com/")
+        lead_video = self.root / "lead-video.mp4"
+        lead_video.write_bytes(b"video" * 30_000)
+        with patch(
+            "indanya_desktop.social_x._materialize_fanza_reach_video",
+            return_value=str(lead_video),
+        ) as materialize:
+            shelf = prepare_x_av_shelf(self.root, "https://example.com/")
         self.assertIsNotNone(shelf)
         self.assertEqual("av_product_shelf", shelf["origin"])
-        self.assertEqual(11, len(shelf["thread_steps"]))
+        self.assertEqual(10, len(shelf["thread_steps"]))
+        root = shelf["thread_steps"][0]
+        self.assertEqual("気になった作品をここにまとめていきます [1/10]", root["text"])
+        self.assertEqual([str(lead_video)], root["media_paths"])
+        self.assertEqual("video", shelf["media_kind"])
+        self.assertEqual(1, shelf["media_count"])
+        materialize.assert_called_once()
         products = shelf["thread_steps"][1:]
-        self.assertEqual(10, len(products))
+        self.assertEqual(9, len(products))
         self.assertNotIn("abc00011", {item["product_id"] for item in products})
         self.assertTrue(all(item["kind"] == "product" for item in products))
         self.assertTrue(all(len(item["media_paths"]) == 1 for item in products))
         self.assertTrue(all("utm_campaign=av_shelf" in item["article_url"] for item in products))
+        for sequence_number, item in enumerate(products, start=2):
+            self.assertIn(f"[{sequence_number}/10]\n続きはこちら↓\n", item["text"])
+            self.assertNotIn("[PR]", item["text"])
+
+    def test_av_shelf_tries_another_product_when_first_video_is_unavailable(self) -> None:
+        for index in range(1, 11):
+            self._av_draft(index)
+        lead_video = self.root / "fallback-lead-video.mp4"
+        lead_video.write_bytes(b"video" * 30_000)
+        with patch(
+            "indanya_desktop.social_x._materialize_fanza_reach_video",
+            side_effect=[RuntimeError("preview unavailable"), str(lead_video)],
+        ) as materialize:
+            shelf = prepare_x_av_shelf(self.root, "https://example.com/")
+        self.assertIsNotNone(shelf)
+        self.assertEqual(2, materialize.call_count)
+        root = shelf["thread_steps"][0]
+        self.assertEqual(materialize.call_args_list[1].args[2], root["lead_product_id"])
+        self.assertEqual(root["lead_product_id"], shelf["thread_steps"][1]["product_id"])
 
     def test_fanza_player_preview_accepts_compact_same_product_id_only(self) -> None:
         player_html = r'''{
@@ -1782,17 +1813,23 @@ class SocialXTests(unittest.TestCase):
 
         for index in range(1, 11):
             self._av_draft(index)
-        shelf = prepare_x_av_shelf(self.root, "https://example.com/")
+        shelf_lead_video = self.root / "shelf-lead.mp4"
+        shelf_lead_video.write_bytes(b"video" * 30_000)
+        with patch(
+            "indanya_desktop.social_x._materialize_fanza_reach_video",
+            return_value=str(shelf_lead_video),
+        ):
+            shelf = prepare_x_av_shelf(self.root, "https://example.com/")
         self.assertIsNotNone(shelf)
         status_urls = [
             f"https://x.com/hentai596/status/{2099000000000000100 + index}"
-            for index in range(11)
+            for index in range(10)
         ]
         update_x_post(
             self.root,
             shelf["post_id"],
             status="posted",
-            thread_step_index=11,
+            thread_step_index=10,
             thread_post_urls=status_urls,
             posted_at=(datetime.now(JST) - timedelta(hours=2)).isoformat(),
             account_handle="hentai596",
