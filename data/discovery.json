@@ -525,7 +525,7 @@
   "counts": {
     "people": 300,
     "works": 224,
-    "topics": 1633
+    "topics": 1634
   },
   "people": [
     {
@@ -2858,7 +2858,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "AVパッケージ",
@@ -2886,7 +2886,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 64
+      "articles": 65
     },
     {
       "name": "AV女優検索",
@@ -5874,6 +5874,10 @@
     },
     {
       "name": "全身画像",
+      "articles": 1
+    },
+    {
+      "name": "八神七々実",
       "articles": 1
     },
     {
