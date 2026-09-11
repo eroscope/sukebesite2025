@@ -505,7 +505,7 @@
   "counts": {
     "people": 285,
     "works": 222,
-    "topics": 1569
+    "topics": 1570
   },
   "people": [
     {
@@ -1026,7 +1026,7 @@
     },
     {
       "name": "彩月七緒",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "役野満里奈",
@@ -4458,7 +4458,7 @@
     },
     {
       "name": "ナース",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "ニット",
@@ -4974,6 +4974,10 @@
     },
     {
       "name": "ミルキー・グラマー",
+      "articles": 1
+    },
+    {
+      "name": "ムーディーズ",
       "articles": 1
     },
     {
