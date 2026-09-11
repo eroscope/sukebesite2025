@@ -523,7 +523,7 @@
   "counts": {
     "people": 300,
     "works": 224,
-    "topics": 1617
+    "topics": 1619
   },
   "people": [
     {
@@ -4655,6 +4655,10 @@
       "articles": 7
     },
     {
+      "name": "ハンバーガー",
+      "articles": 1
+    },
+    {
       "name": "ハンモック",
       "articles": 1
     },
@@ -5057,6 +5061,10 @@
     {
       "name": "マイクロビキニ",
       "articles": 3
+    },
+    {
+      "name": "マクドナルド風",
+      "articles": 1
     },
     {
       "name": "マジックミラー",
