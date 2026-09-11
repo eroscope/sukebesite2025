@@ -201,6 +201,7 @@
     "topics/topic-545b57cf435b.html",
     "topics/topic-55258bc4d97a.html",
     "topics/topic-56fd6f27e8b6.html",
+    "topics/topic-57a6bb2bbdb0.html",
     "topics/topic-5905586d5b3b.html",
     "topics/topic-596bd4059266.html",
     "topics/topic-5a57ba84695f.html",
@@ -503,7 +504,7 @@
     "works/work-snos-371.html"
   ],
   "counts": {
-    "people": 286,
+    "people": 287,
     "works": 222,
     "topics": 1573
   },
@@ -1571,6 +1572,10 @@
     {
       "name": "野々浦暖",
       "articles": 2
+    },
+    {
+      "name": "野上のいこ",
+      "articles": 1
     },
     {
       "name": "金松季歩",
@@ -5286,7 +5291,7 @@
     },
     {
       "name": "下着",
-      "articles": 62
+      "articles": 63
     },
     {
       "name": "下着ずらし",
@@ -8514,7 +8519,7 @@
     },
     {
       "name": "鏡撮り",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "長い舌",
