@@ -337,6 +337,7 @@
     "topics/topic-av.html",
     "topics/topic-av.html",
     "topics/topic-av.html",
+    "topics/topic-av.html",
     "topics/topic-b010a4c2d907.html",
     "topics/topic-b03ff91d92e0.html",
     "topics/topic-b0d4c6c28a4b.html",
@@ -508,7 +509,7 @@
   "counts": {
     "people": 289,
     "works": 222,
-    "topics": 1580
+    "topics": 1582
   },
   "people": [
     {
@@ -2809,7 +2810,7 @@
     },
     {
       "name": "AV動画",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "AV女優",
@@ -4568,6 +4569,10 @@
       "articles": 11
     },
     {
+      "name": "バイク",
+      "articles": 1
+    },
+    {
       "name": "バイブ拘束",
       "articles": 1
     },
@@ -5805,7 +5810,7 @@
     },
     {
       "name": "制服風衣装",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "前かがみ",
@@ -6686,6 +6691,10 @@
     {
       "name": "手マン",
       "articles": 2
+    },
+    {
+      "name": "手技",
+      "articles": 1
     },
     {
       "name": "手袋フェチ",
