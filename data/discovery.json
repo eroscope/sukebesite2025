@@ -505,7 +505,7 @@
   "counts": {
     "people": 286,
     "works": 222,
-    "topics": 1572
+    "topics": 1573
   },
   "people": [
     {
@@ -2942,7 +2942,7 @@
     },
     {
       "name": "GIF",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "GIF動画あり",
@@ -3518,7 +3518,7 @@
     },
     {
       "name": "ぶっかけ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "まーちぃ",
@@ -6723,6 +6723,10 @@
     {
       "name": "撮影会",
       "articles": 2
+    },
+    {
+      "name": "撮影演出",
+      "articles": 1
     },
     {
       "name": "撮影現場",
