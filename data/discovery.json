@@ -379,6 +379,7 @@
     "topics/topic-c23ddf4b8f73.html",
     "topics/topic-c39fc6b78c01.html",
     "topics/topic-c3eb5feb0b13.html",
+    "topics/topic-c3fd6731427e.html",
     "topics/topic-c411c94a4696.html",
     "topics/topic-c411f881be34.html",
     "topics/topic-c494371f0c73.html",
@@ -518,8 +519,8 @@
     "works/work-snos-371.html"
   ],
   "counts": {
-    "people": 296,
-    "works": 222,
+    "people": 297,
+    "works": 223,
     "topics": 1613
   },
   "people": [
@@ -985,6 +986,10 @@
     },
     {
       "name": "小沢菜穂",
+      "articles": 1
+    },
+    {
+      "name": "小田倉里奈",
       "articles": 1
     },
     {
@@ -2582,6 +2587,10 @@
       "articles": 1
     },
     {
+      "code": "TRID-219",
+      "articles": 1
+    },
+    {
       "code": "URVRSP-561",
       "articles": 1
     },
@@ -3753,7 +3762,7 @@
     },
     {
       "name": "イメージビデオ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "イラスト",
@@ -6789,7 +6798,7 @@
     },
     {
       "name": "手ブラ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "手マン",
@@ -7265,7 +7274,7 @@
     },
     {
       "name": "水着",
-      "articles": 126
+      "articles": 127
     },
     {
       "name": "水着グラビア",
