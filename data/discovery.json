@@ -509,9 +509,9 @@
     "works/work-snos-371.html"
   ],
   "counts": {
-    "people": 290,
+    "people": 291,
     "works": 222,
-    "topics": 1589
+    "topics": 1591
   },
   "people": [
     {
@@ -1033,6 +1033,10 @@
     {
       "name": "幸村泉希",
       "articles": 4
+    },
+    {
+      "name": "幸田あかり",
+      "articles": 1
     },
     {
       "name": "弘中れおな",
@@ -5156,7 +5160,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 85
+      "articles": 86
     },
     {
       "name": "ラヴィット！",
@@ -6589,6 +6593,10 @@
     {
       "name": "後輩",
       "articles": 2
+    },
+    {
+      "name": "復帰写真集",
+      "articles": 1
     },
     {
       "name": "復帰希望",
@@ -8416,6 +8424,10 @@
     },
     {
       "name": "赤いワンピース水着",
+      "articles": 1
+    },
+    {
+      "name": "赤い衣装",
       "articles": 1
     },
     {
