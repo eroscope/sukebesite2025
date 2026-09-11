@@ -513,7 +513,7 @@
   "counts": {
     "people": 293,
     "works": 222,
-    "topics": 1605
+    "topics": 1607
   },
   "people": [
     {
@@ -2838,7 +2838,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 57
+      "articles": 58
     },
     {
       "name": "AV女優検索",
@@ -3282,6 +3282,10 @@
     },
     {
       "name": "SOFT ON DEMAND",
+      "articles": 1
+    },
+    {
+      "name": "SSランク",
       "articles": 1
     },
     {
@@ -5570,7 +5574,7 @@
     },
     {
       "name": "似てる女優",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "住田紗里",
@@ -8461,6 +8465,10 @@
       "articles": 1
     },
     {
+      "name": "谷原希美",
+      "articles": 1
+    },
+    {
       "name": "谷碧",
       "articles": 1
     },
@@ -8834,7 +8842,7 @@
     },
     {
       "name": "顔比較",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "顔認識",
