@@ -511,7 +511,7 @@
   "counts": {
     "people": 291,
     "works": 222,
-    "topics": 1591
+    "topics": 1592
   },
   "people": [
     {
@@ -3080,7 +3080,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 33
+      "articles": 34
     },
     {
       "name": "MOODYZ DIVA",
@@ -3548,7 +3548,7 @@
     },
     {
       "name": "ぶっかけ",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "まーちぃ",
@@ -4748,6 +4748,10 @@
     },
     {
       "name": "ピンク水着",
+      "articles": 1
+    },
+    {
+      "name": "ピンク衣装",
       "articles": 1
     },
     {
@@ -8512,7 +8516,7 @@
     },
     {
       "name": "逢沢みゆ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "遊戯王",
