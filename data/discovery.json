@@ -519,9 +519,9 @@
     "works/work-snos-371.html"
   ],
   "counts": {
-    "people": 297,
+    "people": 298,
     "works": 223,
-    "topics": 1614
+    "topics": 1616
   },
   "people": [
     {
@@ -867,6 +867,10 @@
     {
       "name": "古東まりこ",
       "articles": 2
+    },
+    {
+      "name": "叶ユリア",
+      "articles": 1
     },
     {
       "name": "吉木りさ",
@@ -3945,6 +3949,10 @@
       "articles": 1
     },
     {
+      "name": "ガーター",
+      "articles": 1
+    },
+    {
       "name": "ガーターストッキング",
       "articles": 1
     },
@@ -4702,6 +4710,10 @@
     },
     {
       "name": "バンドリ",
+      "articles": 1
+    },
+    {
+      "name": "バー店員",
       "articles": 1
     },
     {
@@ -8970,7 +8982,7 @@
     },
     {
       "name": "騎乗位",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "驚き顔",
