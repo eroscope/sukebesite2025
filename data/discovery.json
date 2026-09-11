@@ -523,7 +523,7 @@
   "counts": {
     "people": 300,
     "works": 224,
-    "topics": 1619
+    "topics": 1623
   },
   "people": [
     {
@@ -4447,6 +4447,10 @@
       "articles": 2
     },
     {
+      "name": "タイ",
+      "articles": 1
+    },
+    {
       "name": "タイツ",
       "articles": 2
     },
@@ -4904,6 +4908,10 @@
     },
     {
       "name": "フルバックパンティ",
+      "articles": 1
+    },
+    {
+      "name": "フルーツ",
       "articles": 1
     },
     {
@@ -6387,6 +6395,10 @@
       "articles": 1
     },
     {
+      "name": "女性店員",
+      "articles": 1
+    },
+    {
       "name": "女性画像",
       "articles": 4
     },
@@ -6600,6 +6612,10 @@
     },
     {
       "name": "屋内プール",
+      "articles": 1
+    },
+    {
+      "name": "屋台",
       "articles": 1
     },
     {
