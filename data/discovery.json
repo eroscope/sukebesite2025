@@ -238,6 +238,7 @@
     "topics/topic-6a5a9a6c1012.html",
     "topics/topic-6a5e50e11eca.html",
     "topics/topic-6d1d803fccd8.html",
+    "topics/topic-6e7be2372480.html",
     "topics/topic-6eac69881e67.html",
     "topics/topic-6f0b069faec6.html",
     "topics/topic-6f8da9261bf8.html",
@@ -514,9 +515,9 @@
     "works/work-snos-371.html"
   ],
   "counts": {
-    "people": 295,
+    "people": 296,
     "works": 222,
-    "topics": 1610
+    "topics": 1612
   },
   "people": [
     {
@@ -698,6 +699,10 @@
     {
       "name": "七瀬アリス",
       "articles": 2
+    },
+    {
+      "name": "三好佑香",
+      "articles": 1
     },
     {
       "name": "三枝れい",
@@ -2849,7 +2854,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 61
+      "articles": 62
     },
     {
       "name": "AV女優検索",
@@ -4884,6 +4889,10 @@
       "articles": 1
     },
     {
+      "name": "プレミアム",
+      "articles": 1
+    },
+    {
       "name": "プロフィール",
       "articles": 2
     },
@@ -6908,6 +6917,10 @@
       "articles": 1
     },
     {
+      "name": "新作",
+      "articles": 1
+    },
+    {
       "name": "新卒OL",
       "articles": 3
     },
@@ -8197,7 +8210,7 @@
     },
     {
       "name": "背徳",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "胡桃さくら",
