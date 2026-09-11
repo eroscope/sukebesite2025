@@ -511,7 +511,7 @@
   "counts": {
     "people": 291,
     "works": 222,
-    "topics": 1592
+    "topics": 1594
   },
   "people": [
     {
@@ -3227,6 +3227,10 @@
       "articles": 18
     },
     {
+      "name": "SM",
+      "articles": 1
+    },
+    {
       "name": "SNS投稿",
       "articles": 1
     },
@@ -3788,7 +3792,7 @@
     },
     {
       "name": "エロ画像",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "オイル",
@@ -4936,7 +4940,7 @@
     },
     {
       "name": "ボンデージ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "ボンバーガール",
@@ -5164,7 +5168,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 86
+      "articles": 87
     },
     {
       "name": "ラヴィット！",
@@ -7973,6 +7977,10 @@
     {
       "name": "網タイツ",
       "articles": 7
+    },
+    {
+      "name": "緊縛",
+      "articles": 1
     },
     {
       "name": "総集編",
