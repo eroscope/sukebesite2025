@@ -85,6 +85,7 @@
     "topics/topic-01ff051c4dd1.html",
     "topics/topic-020f766d5b23.html",
     "topics/topic-02369abf0527.html",
+    "topics/topic-024cb129435e.html",
     "topics/topic-02dc6b1d733a.html",
     "topics/topic-0335284ae7e8.html",
     "topics/topic-035e321e6410.html",
@@ -523,7 +524,7 @@
   "counts": {
     "people": 300,
     "works": 224,
-    "topics": 1623
+    "topics": 1627
   },
   "people": [
     {
@@ -3815,6 +3816,10 @@
       "articles": 1
     },
     {
+      "name": "エアグルーヴ",
+      "articles": 1
+    },
+    {
       "name": "エクササイズ",
       "articles": 1
     },
@@ -3943,6 +3948,10 @@
       "articles": 1
     },
     {
+      "name": "カラスマル",
+      "articles": 1
+    },
+    {
       "name": "カルバン・クライン",
       "articles": 1
     },
@@ -4016,6 +4025,10 @@
     },
     {
       "name": "キャラクタークリエイト",
+      "articles": 1
+    },
+    {
+      "name": "キャラクターデザイン",
       "articles": 1
     },
     {
@@ -4416,7 +4429,7 @@
     },
     {
       "name": "ソシャゲ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ソシャゲコラボ",
@@ -6032,6 +6045,10 @@
     },
     {
       "name": "十束るう",
+      "articles": 1
+    },
+    {
+      "name": "千年戦争アイギス",
       "articles": 1
     },
     {
