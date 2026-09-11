@@ -288,6 +288,7 @@
     "topics/topic-93f835c72780.html",
     "topics/topic-957e62aa9027.html",
     "topics/topic-9630462d97a4.html",
+    "topics/topic-9646e0741a71.html",
     "topics/topic-96c8cef0a786.html",
     "topics/topic-974a698e2fe9.html",
     "topics/topic-978473dda66d.html",
@@ -509,7 +510,7 @@
   "counts": {
     "people": 289,
     "works": 222,
-    "topics": 1583
+    "topics": 1587
   },
   "people": [
     {
@@ -3085,6 +3086,10 @@
       "articles": 2
     },
     {
+      "name": "Maika",
+      "articles": 1
+    },
+    {
       "name": "Mina",
       "articles": 1
     },
@@ -5521,6 +5526,10 @@
       "articles": 1
     },
     {
+      "name": "似てるAV女優",
+      "articles": 1
+    },
+    {
       "name": "似てる女優",
       "articles": 2
     },
@@ -7549,6 +7558,10 @@
       "articles": 1
     },
     {
+      "name": "画像比較",
+      "articles": 1
+    },
+    {
       "name": "画像集",
       "articles": 13
     },
@@ -8581,6 +8594,10 @@
       "articles": 1
     },
     {
+      "name": "長瀬百合",
+      "articles": 1
+    },
+    {
       "name": "長舌",
       "articles": 1
     },
@@ -8730,7 +8747,7 @@
     },
     {
       "name": "顔認識",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "顔面接写",
