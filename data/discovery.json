@@ -511,7 +511,7 @@
   "counts": {
     "people": 292,
     "works": 222,
-    "topics": 1595
+    "topics": 1599
   },
   "people": [
     {
@@ -2715,6 +2715,10 @@
       "articles": 1
     },
     {
+      "name": "90円",
+      "articles": 1
+    },
+    {
       "name": "A10ピストンSA",
       "articles": 1
     },
@@ -3852,7 +3856,7 @@
     },
     {
       "name": "オムニバス",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "オレンジワンピース",
@@ -4340,7 +4344,7 @@
     },
     {
       "name": "ソクミル",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ソシャゲ",
@@ -6187,6 +6191,10 @@
       "articles": 1
     },
     {
+      "name": "大容量",
+      "articles": 1
+    },
+    {
       "name": "大島優香",
       "articles": 1
     },
@@ -6676,6 +6684,10 @@
     },
     {
       "name": "成人向けコミックス",
+      "articles": 1
+    },
+    {
+      "name": "成人向けセール",
       "articles": 1
     },
     {
@@ -7989,6 +8001,10 @@
     {
       "name": "総集編",
       "articles": 6
+    },
+    {
+      "name": "総集編AV",
+      "articles": 1
     },
     {
       "name": "縄跳び",
