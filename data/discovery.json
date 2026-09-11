@@ -509,7 +509,7 @@
     "works/work-snos-371.html"
   ],
   "counts": {
-    "people": 292,
+    "people": 293,
     "works": 222,
     "topics": 1599
   },
@@ -772,6 +772,10 @@
     },
     {
       "name": "佐知子",
+      "articles": 1
+    },
+    {
+      "name": "佐藤てんしちゃん",
       "articles": 1
     },
     {
@@ -5176,7 +5180,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 87
+      "articles": 88
     },
     {
       "name": "ラヴィット！",
@@ -8220,7 +8224,7 @@
     },
     {
       "name": "自撮り",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "自撮り動画",
