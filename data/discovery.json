@@ -521,7 +521,7 @@
   "counts": {
     "people": 297,
     "works": 223,
-    "topics": 1613
+    "topics": 1614
   },
   "people": [
     {
@@ -1070,7 +1070,7 @@
     },
     {
       "name": "彩月七緒",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "役野満里奈",
@@ -3122,7 +3122,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 35
+      "articles": 36
     },
     {
       "name": "MOODYZ DIVA",
@@ -4550,7 +4550,7 @@
     },
     {
       "name": "ナース",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "ニット",
@@ -6534,6 +6534,10 @@
     },
     {
       "name": "専属女優",
+      "articles": 1
+    },
+    {
+      "name": "小悪魔ナース",
       "articles": 1
     },
     {
