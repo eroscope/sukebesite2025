@@ -524,7 +524,7 @@
   "counts": {
     "people": 300,
     "works": 224,
-    "topics": 1629
+    "topics": 1632
   },
   "people": [
     {
@@ -5269,7 +5269,7 @@
     },
     {
       "name": "ラブドール",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ラブホ",
@@ -5488,6 +5488,10 @@
       "articles": 1
     },
     {
+      "name": "不気味の谷",
+      "articles": 1
+    },
+    {
       "name": "不知火舞",
       "articles": 2
     },
@@ -5646,6 +5650,10 @@
     {
       "name": "人妻設定",
       "articles": 2
+    },
+    {
+      "name": "人形",
+      "articles": 1
     },
     {
       "name": "介護士",
@@ -8062,6 +8070,10 @@
     {
       "name": "筆おろし",
       "articles": 3
+    },
+    {
+      "name": "等身大ドール",
+      "articles": 1
     },
     {
       "name": "筋トレ",
