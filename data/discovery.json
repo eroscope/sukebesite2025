@@ -251,6 +251,7 @@
     "topics/topic-77bf3dd73ea1.html",
     "topics/topic-795d25e718e1.html",
     "topics/topic-797df32f29ec.html",
+    "topics/topic-79bbc2e24b20.html",
     "topics/topic-7a439a1175ee.html",
     "topics/topic-7aa488f78e72.html",
     "topics/topic-7b24795e07de.html",
@@ -504,9 +505,9 @@
     "works/work-snos-371.html"
   ],
   "counts": {
-    "people": 287,
+    "people": 288,
     "works": 222,
-    "topics": 1573
+    "topics": 1575
   },
   "people": [
     {
@@ -847,6 +848,10 @@
     },
     {
       "name": "同棲彼女",
+      "articles": 1
+    },
+    {
+      "name": "和泉芳怜",
       "articles": 1
     },
     {
@@ -4878,6 +4883,10 @@
       "articles": 1
     },
     {
+      "name": "ペアグラビア",
+      "articles": 1
+    },
+    {
       "name": "ペットショップ店員",
       "articles": 1
     },
@@ -5051,7 +5060,7 @@
     },
     {
       "name": "ヤングマガジン",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ヤンデレ",
@@ -6959,6 +6968,10 @@
     },
     {
       "name": "林美希",
+      "articles": 1
+    },
+    {
+      "name": "果南",
       "articles": 1
     },
     {
