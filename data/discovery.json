@@ -260,6 +260,7 @@
     "topics/topic-7aa488f78e72.html",
     "topics/topic-7b24795e07de.html",
     "topics/topic-7bf35e1b0bf7.html",
+    "topics/topic-806916b39143.html",
     "topics/topic-8075af292874.html",
     "topics/topic-80aec901cf34.html",
     "topics/topic-80f7a0365e69.html",
@@ -404,6 +405,7 @@
     "topics/topic-d36caa93b02a.html",
     "topics/topic-d36e7a03fcec.html",
     "topics/topic-d57207655b68.html",
+    "topics/topic-d59bbe86d3e8.html",
     "topics/topic-d77f81e2b6d3.html",
     "topics/topic-d7b0db6974a0.html",
     "topics/topic-d7e2406282aa.html",
@@ -509,6 +511,7 @@
     "topics/topic-vr.html",
     "topics/topic-vr.html",
     "topics/topic-vtuber.html",
+    "topics/topic-youtube.html",
     "topics/topic-youtuber.html",
     "works.html",
     "works/work-abf-384.html",
@@ -517,7 +520,7 @@
   "counts": {
     "people": 296,
     "works": 222,
-    "topics": 1612
+    "topics": 1613
   },
   "people": [
     {
@@ -3374,7 +3377,7 @@
     },
     {
       "name": "YouTube",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "YouTuber",
@@ -3502,7 +3505,7 @@
     },
     {
       "name": "お尻",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "お泊まり",
@@ -4494,7 +4497,7 @@
     },
     {
       "name": "トレーニング",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "トレーニングウェア",
@@ -6530,7 +6533,7 @@
     },
     {
       "name": "小池里奈",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "尻",
@@ -7135,6 +7138,10 @@
     {
       "name": "桃太郎映像出版",
       "articles": 2
+    },
+    {
+      "name": "桃尻",
+      "articles": 1
     },
     {
       "name": "桃色カンパネラ",
