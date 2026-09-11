@@ -81,6 +81,7 @@
     "topics/topic-00034f2a3b00.html",
     "topics/topic-00b38f300f22.html",
     "topics/topic-00d516cd674a.html",
+    "topics/topic-0190762129db.html",
     "topics/topic-01ff051c4dd1.html",
     "topics/topic-020f766d5b23.html",
     "topics/topic-02369abf0527.html",
@@ -513,9 +514,9 @@
     "works/work-snos-371.html"
   ],
   "counts": {
-    "people": 294,
+    "people": 295,
     "works": 222,
-    "topics": 1609
+    "topics": 1610
   },
   "people": [
     {
@@ -816,6 +817,10 @@
     },
     {
       "name": "初美なのか",
+      "articles": 1
+    },
+    {
+      "name": "初音ろな",
       "articles": 1
     },
     {
@@ -2844,7 +2849,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 60
+      "articles": 61
     },
     {
       "name": "AV女優検索",
@@ -2916,7 +2921,7 @@
     },
     {
       "name": "DUGA",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "DVD",
@@ -4880,7 +4885,7 @@
     },
     {
       "name": "プロフィール",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "プロフィール画像",
@@ -5552,6 +5557,10 @@
     },
     {
       "name": "人妻秘書",
+      "articles": 1
+    },
+    {
+      "name": "人妻系",
       "articles": 1
     },
     {
