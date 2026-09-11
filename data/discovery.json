@@ -263,6 +263,7 @@
     "topics/topic-81a5663bf989.html",
     "topics/topic-828860e753a8.html",
     "topics/topic-82e081465000.html",
+    "topics/topic-835b5e2ef19e.html",
     "topics/topic-843a2b7c59e8.html",
     "topics/topic-84e02d8d7d24.html",
     "topics/topic-84fda3a3860c.html",
@@ -511,7 +512,7 @@
   "counts": {
     "people": 293,
     "works": 222,
-    "topics": 1599
+    "topics": 1602
   },
   "people": [
     {
@@ -2836,7 +2837,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 55
+      "articles": 56
     },
     {
       "name": "AV女優検索",
@@ -3144,6 +3145,10 @@
     },
     {
       "name": "NTRエステ",
+      "articles": 1
+    },
+    {
+      "name": "Nia",
       "articles": 1
     },
     {
@@ -3524,6 +3529,10 @@
     },
     {
       "name": "なるみん",
+      "articles": 1
+    },
+    {
+      "name": "にあ",
       "articles": 1
     },
     {
@@ -5812,7 +5821,7 @@
     },
     {
       "name": "出演作品",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "出演者ランキング",
@@ -6249,6 +6258,10 @@
     {
       "name": "女優",
       "articles": 2
+    },
+    {
+      "name": "女優系",
+      "articles": 1
     },
     {
       "name": "女優談義",
