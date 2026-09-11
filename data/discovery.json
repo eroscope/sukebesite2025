@@ -329,6 +329,7 @@
     "topics/topic-ai.html",
     "topics/topic-ai.html",
     "topics/topic-ai.html",
+    "topics/topic-ai.html",
     "topics/topic-ani.html",
     "topics/topic-animates.html",
     "topics/topic-asmr.html",
@@ -513,7 +514,7 @@
   "counts": {
     "people": 294,
     "works": 222,
-    "topics": 1608
+    "topics": 1609
   },
   "people": [
     {
@@ -2782,7 +2783,7 @@
     },
     {
       "name": "AI顔認識",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ASMR",
@@ -2842,7 +2843,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 59
+      "articles": 60
     },
     {
       "name": "AV女優検索",
@@ -5582,7 +5583,7 @@
     },
     {
       "name": "似てる女優",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "住田紗里",
@@ -7257,6 +7258,10 @@
       "articles": 1
     },
     {
+      "name": "永崎麗香",
+      "articles": 1
+    },
+    {
       "name": "沈娜娜",
       "articles": 1
     },
@@ -8850,7 +8855,7 @@
     },
     {
       "name": "顔比較",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "顔認識",
