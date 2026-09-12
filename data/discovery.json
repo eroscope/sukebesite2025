@@ -529,7 +529,7 @@
   "counts": {
     "people": 301,
     "works": 225,
-    "topics": 1642
+    "topics": 1643
   },
   "people": [
     {
@@ -4002,7 +4002,7 @@
     },
     {
       "name": "ガーターベルト",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "キス",
@@ -4838,7 +4838,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 43
+      "articles": 44
     },
     {
       "name": "ビビアン",
@@ -5310,7 +5310,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 90
+      "articles": 91
     },
     {
       "name": "ラヴィット！",
@@ -7786,7 +7786,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 86
+      "articles": 87
     },
     {
       "name": "画像ギャラリー",
@@ -8994,6 +8994,10 @@
     },
     {
       "name": "韓国女子",
+      "articles": 1
+    },
+    {
+      "name": "韓国系美女",
       "articles": 1
     },
     {
