@@ -540,7 +540,7 @@
   "counts": {
     "people": 304,
     "works": 225,
-    "topics": 1654
+    "topics": 1655
   },
   "people": [
     {
@@ -3549,7 +3549,7 @@
     },
     {
       "name": "おっぱい",
-      "articles": 22
+      "articles": 23
     },
     {
       "name": "おっぱいパブ",
@@ -4817,7 +4817,7 @@
     },
     {
       "name": "パイズリ",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "パイズリ男優オーディション",
@@ -5461,6 +5461,10 @@
     },
     {
       "name": "ワンルーム",
+      "articles": 1
+    },
+    {
+      "name": "一人称視点",
       "articles": 1
     },
     {
@@ -7841,7 +7845,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 90
+      "articles": 91
     },
     {
       "name": "画像ギャラリー",
