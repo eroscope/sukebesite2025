@@ -541,9 +541,9 @@
     "works/work-snos-371.html"
   ],
   "counts": {
-    "people": 305,
+    "people": 306,
     "works": 225,
-    "topics": 1660
+    "topics": 1662
   },
   "people": [
     {
@@ -1100,6 +1100,10 @@
     },
     {
       "name": "幸田あかり",
+      "articles": 1
+    },
+    {
+      "name": "広瀬なるみ",
       "articles": 1
     },
     {
@@ -3347,6 +3351,10 @@
       "articles": 1
     },
     {
+      "name": "SNS動画",
+      "articles": 1
+    },
+    {
       "name": "SNS投稿",
       "articles": 1
     },
@@ -5127,6 +5135,10 @@
       "articles": 9
     },
     {
+      "name": "ホテル撮影",
+      "articles": 1
+    },
+    {
       "name": "ホラー",
       "articles": 1
     },
@@ -6672,7 +6684,7 @@
     },
     {
       "name": "密着",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "密着性交",
