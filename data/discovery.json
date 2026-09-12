@@ -129,6 +129,7 @@
     "topics/topic-1f16cef238f0.html",
     "topics/topic-1f46d17641e4.html",
     "topics/topic-1f65bfa6c12b.html",
+    "topics/topic-1f7640ef9ec0.html",
     "topics/topic-1fdbd8b413bd.html",
     "topics/topic-1fe8558fd940.html",
     "topics/topic-20.html",
@@ -545,7 +546,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 307,
+    "people": 308,
     "works": 226,
     "topics": 1671
   },
@@ -1372,6 +1373,10 @@
     },
     {
       "name": "浅野こころ",
+      "articles": 1
+    },
+    {
+      "name": "浜田由梨",
       "articles": 1
     },
     {
@@ -3860,7 +3865,7 @@
     },
     {
       "name": "イメージビデオ",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "イラスト",
@@ -5412,7 +5417,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 92
+      "articles": 93
     },
     {
       "name": "ラヴィット！",
@@ -7040,7 +7045,7 @@
     },
     {
       "name": "手ブラ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "手マン",
@@ -8848,7 +8853,7 @@
     },
     {
       "name": "赤い衣装",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "赤ちゃんプレイ",
