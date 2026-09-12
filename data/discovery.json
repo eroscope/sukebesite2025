@@ -511,6 +511,7 @@
     "topics/topic-mgs.html",
     "topics/topic-moodyz-diva.html",
     "topics/topic-moodyz.html",
+    "topics/topic-nhk.html",
     "topics/topic-nia.html",
     "topics/topic-nicoface.html",
     "topics/topic-nikke.html",
@@ -544,7 +545,7 @@
   "counts": {
     "people": 306,
     "works": 226,
-    "topics": 1665
+    "topics": 1667
   },
   "people": [
     {
@@ -3233,7 +3234,7 @@
     },
     {
       "name": "NHKアナウンサー",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "NHK大阪",
@@ -4697,7 +4698,7 @@
     },
     {
       "name": "ニット",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "ニュースウォッチ9",
@@ -5046,6 +5047,10 @@
     {
       "name": "ブラチラ",
       "articles": 2
+    },
+    {
+      "name": "ブラ紐",
+      "articles": 1
     },
     {
       "name": "プリクラ",
@@ -6517,7 +6522,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "女子大生",
@@ -7569,6 +7574,10 @@
     },
     {
       "name": "流出風",
+      "articles": 1
+    },
+    {
+      "name": "浅田春奈",
       "articles": 1
     },
     {
