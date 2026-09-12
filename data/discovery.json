@@ -540,12 +540,13 @@
     "works/work-300mium-1364.html",
     "works/work-abf-384.html",
     "works/work-jur-819.html",
-    "works/work-snos-371.html"
+    "works/work-snos-371.html",
+    "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 306,
+    "people": 307,
     "works": 226,
-    "topics": 1668
+    "topics": 1669
   },
   "people": [
     {
@@ -1182,6 +1183,10 @@
     },
     {
       "name": "明里つむぎ",
+      "articles": 1
+    },
+    {
+      "name": "星空ねる",
       "articles": 1
     },
     {
@@ -2584,7 +2589,7 @@
     },
     {
       "code": "SNOS-409",
-      "articles": 1
+      "articles": 2
     },
     {
       "code": "SONE-529",
@@ -2942,7 +2947,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 68
+      "articles": 69
     },
     {
       "name": "AV女優検索",
@@ -3342,7 +3347,7 @@
     },
     {
       "name": "S1",
-      "articles": 24
+      "articles": 25
     },
     {
       "name": "S1 GIRLS COLLECTION",
@@ -7305,6 +7310,10 @@
       "articles": 1
     },
     {
+      "name": "本番サンプル",
+      "articles": 1
+    },
+    {
       "name": "本郷柚巴",
       "articles": 1
     },
@@ -7510,7 +7519,7 @@
     },
     {
       "name": "水着",
-      "articles": 134
+      "articles": 135
     },
     {
       "name": "水着グラビア",
