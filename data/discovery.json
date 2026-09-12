@@ -543,7 +543,7 @@
   "counts": {
     "people": 306,
     "works": 226,
-    "topics": 1663
+    "topics": 1664
   },
   "people": [
     {
@@ -4599,6 +4599,10 @@
       "articles": 1
     },
     {
+      "name": "ツンデレ",
+      "articles": 1
+    },
+    {
       "name": "テレビキャプチャ",
       "articles": 3
     },
@@ -5100,7 +5104,7 @@
     },
     {
       "name": "ベッドシーン",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "ベッド上",
@@ -5572,7 +5576,7 @@
     },
     {
       "name": "下着",
-      "articles": 68
+      "articles": 69
     },
     {
       "name": "下着ずらし",
