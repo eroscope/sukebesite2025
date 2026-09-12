@@ -375,6 +375,7 @@
     "topics/topic-b62b6f9bda9f.html",
     "topics/topic-b75a38aae367.html",
     "topics/topic-b84b61e7e757.html",
+    "topics/topic-b8981e960871.html",
     "topics/topic-b89d8be7513d.html",
     "topics/topic-b9b2957e3db9.html",
     "topics/topic-baf27cc23978.html",
@@ -538,7 +539,7 @@
   "counts": {
     "people": 304,
     "works": 225,
-    "topics": 1652
+    "topics": 1653
   },
   "people": [
     {
@@ -4214,6 +4215,10 @@
       "articles": 5
     },
     {
+      "name": "コスプレ写真",
+      "articles": 1
+    },
+    {
       "name": "コス衣装",
       "articles": 1
     },
@@ -4419,7 +4424,7 @@
     },
     {
       "name": "セクシーコスプレ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "セクシーラウンジ",
@@ -4783,7 +4788,7 @@
     },
     {
       "name": "バニーガール",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "バニーナース",
