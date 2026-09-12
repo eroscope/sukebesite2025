@@ -524,6 +524,7 @@
     "topics/topic-oppai.html",
     "topics/topic-premium.html",
     "topics/topic-rookie.html",
+    "topics/topic-s1-girls-collection.html",
     "topics/topic-s1-no-1-style.html",
     "topics/topic-s1.html",
     "topics/topic-sod.html",
@@ -548,7 +549,7 @@
   "counts": {
     "people": 308,
     "works": 226,
-    "topics": 1671
+    "topics": 1672
   },
   "people": [
     {
@@ -2964,6 +2965,10 @@
       "articles": 3
     },
     {
+      "name": "AV福袋",
+      "articles": 1
+    },
+    {
       "name": "AV紹介",
       "articles": 1
     },
@@ -3357,7 +3362,7 @@
     },
     {
       "name": "S1 GIRLS COLLECTION",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "S1 NO.1 STYLE",
@@ -4885,7 +4890,7 @@
     },
     {
       "name": "パッケージ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "パッケージ画像",
@@ -7929,7 +7934,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 92
+      "articles": 93
     },
     {
       "name": "画像ギャラリー",
