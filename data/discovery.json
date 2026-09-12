@@ -537,7 +537,7 @@
   "counts": {
     "people": 304,
     "works": 225,
-    "topics": 1646
+    "topics": 1649
   },
   "people": [
     {
@@ -4173,6 +4173,10 @@
       "articles": 1
     },
     {
+      "name": "ケモノ",
+      "articles": 1
+    },
+    {
       "name": "ゲッププレイ",
       "articles": 1
     },
@@ -4279,6 +4283,10 @@
     {
       "name": "シックスナイン",
       "articles": 2
+    },
+    {
+      "name": "シャチ女",
+      "articles": 1
     },
     {
       "name": "シャニマス",
@@ -6830,7 +6838,7 @@
     },
     {
       "name": "性交",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "性感帯診断",
@@ -6882,6 +6890,10 @@
     },
     {
       "name": "成人向けVR",
+      "articles": 1
+    },
+    {
+      "name": "成人向けアニメ",
       "articles": 1
     },
     {
