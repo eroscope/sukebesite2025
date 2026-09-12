@@ -412,6 +412,7 @@
     "topics/topic-d36e7a03fcec.html",
     "topics/topic-d57207655b68.html",
     "topics/topic-d59bbe86d3e8.html",
+    "topics/topic-d7209522408a.html",
     "topics/topic-d77f81e2b6d3.html",
     "topics/topic-d7b0db6974a0.html",
     "topics/topic-d7e2406282aa.html",
@@ -462,6 +463,7 @@
     "topics/topic-f215e675c450.html",
     "topics/topic-f4b53d5ab084.html",
     "topics/topic-f500c702a477.html",
+    "topics/topic-f5c2cb45438d.html",
     "topics/topic-f62b608f9969.html",
     "topics/topic-f65c255c513f.html",
     "topics/topic-f688a71a55d5.html",
@@ -525,9 +527,9 @@
     "works/work-snos-371.html"
   ],
   "counts": {
-    "people": 300,
+    "people": 301,
     "works": 225,
-    "topics": 1641
+    "topics": 1642
   },
   "people": [
     {
@@ -1380,6 +1382,10 @@
     },
     {
       "name": "玉木璃子",
+      "articles": 1
+    },
+    {
+      "name": "琴雛ひな",
       "articles": 1
     },
     {
@@ -4428,7 +4434,7 @@
     },
     {
       "name": "セーラー風衣装",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "セール",
@@ -4532,7 +4538,7 @@
     },
     {
       "name": "デジタル写真集",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "デビュー作",
@@ -9192,6 +9198,10 @@
     },
     {
       "name": "黒髪ショート",
+      "articles": 1
+    },
+    {
+      "name": "黒髪ボブ",
       "articles": 1
     },
     {
