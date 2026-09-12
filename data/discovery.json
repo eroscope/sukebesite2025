@@ -526,7 +526,7 @@
   "counts": {
     "people": 300,
     "works": 224,
-    "topics": 1635
+    "topics": 1636
   },
   "people": [
     {
@@ -3176,6 +3176,10 @@
     {
       "name": "M男",
       "articles": 2
+    },
+    {
+      "name": "NHKアナウンサー",
+      "articles": 1
     },
     {
       "name": "NHK大阪",
@@ -6399,7 +6403,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "女子大生",
@@ -9055,7 +9059,7 @@
     },
     {
       "name": "飯尾夏帆",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "餃子の王将",
