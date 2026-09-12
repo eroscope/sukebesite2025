@@ -332,6 +332,7 @@
     "topics/topic-ab67c0ff4bc5.html",
     "topics/topic-ac5f468ffba4.html",
     "topics/topic-ac9d2eb7082c.html",
+    "topics/topic-ad614843cf44.html",
     "topics/topic-aecaac86ab2c.html",
     "topics/topic-ai.html",
     "topics/topic-ai.html",
@@ -525,8 +526,8 @@
   ],
   "counts": {
     "people": 300,
-    "works": 224,
-    "topics": 1636
+    "works": 225,
+    "topics": 1638
   },
   "people": [
     {
@@ -1973,6 +1974,10 @@
     },
     {
       "code": "H-113HR00012",
+      "articles": 1
+    },
+    {
+      "code": "HJMO-741",
       "articles": 1
     },
     {
@@ -5150,6 +5155,10 @@
       "articles": 2
     },
     {
+      "name": "ミラーゲーム",
+      "articles": 1
+    },
+    {
       "name": "ミルキー・グラマー",
       "articles": 1
     },
@@ -5891,7 +5900,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 23
+      "articles": 24
     },
     {
       "name": "公式サンプル動画",
@@ -8207,7 +8216,7 @@
     },
     {
       "name": "罰ゲーム",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "罵倒",
@@ -8459,6 +8468,10 @@
     },
     {
       "name": "花守夏歩",
+      "articles": 1
+    },
+    {
+      "name": "若妻",
       "articles": 1
     },
     {
