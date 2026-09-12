@@ -292,6 +292,7 @@
     "topics/topic-8k.html",
     "topics/topic-8kvr.html",
     "topics/topic-909a4929400c.html",
+    "topics/topic-934370df8f88.html",
     "topics/topic-9382af5ea57b.html",
     "topics/topic-93f835c72780.html",
     "topics/topic-957e62aa9027.html",
@@ -529,7 +530,7 @@
     "works/work-snos-371.html"
   ],
   "counts": {
-    "people": 302,
+    "people": 303,
     "works": 225,
     "topics": 1643
   },
@@ -1585,6 +1586,10 @@
     {
       "name": "花守夏歩",
       "articles": 2
+    },
+    {
+      "name": "花瀬かりん",
+      "articles": 1
     },
     {
       "name": "菜那セシル",
@@ -2904,7 +2909,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 65
+      "articles": 66
     },
     {
       "name": "AV女優検索",
@@ -2976,7 +2981,7 @@
     },
     {
       "name": "DUGA",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "DVD",
@@ -4984,7 +4989,7 @@
     },
     {
       "name": "プロフィール",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "プロフィール写真",
@@ -9204,7 +9209,7 @@
     },
     {
       "name": "黒髪",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "黒髪ショート",
