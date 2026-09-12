@@ -540,7 +540,7 @@
   "counts": {
     "people": 305,
     "works": 225,
-    "topics": 1656
+    "topics": 1657
   },
   "people": [
     {
@@ -4000,6 +4000,10 @@
       "articles": 1
     },
     {
+      "name": "カメラマン",
+      "articles": 1
+    },
+    {
       "name": "カラスマル",
       "articles": 1
     },
@@ -7061,7 +7065,7 @@
     },
     {
       "name": "撮影会",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "撮影演出",
@@ -7465,7 +7469,7 @@
     },
     {
       "name": "水着",
-      "articles": 131
+      "articles": 132
     },
     {
       "name": "水着グラビア",
