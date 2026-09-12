@@ -208,6 +208,7 @@
     "topics/topic-57a6bb2bbdb0.html",
     "topics/topic-5905586d5b3b.html",
     "topics/topic-596bd4059266.html",
+    "topics/topic-596da9924f16.html",
     "topics/topic-5a57ba84695f.html",
     "topics/topic-5b3ab36e05cb.html",
     "topics/topic-5b592521cfcd.html",
@@ -528,7 +529,7 @@
     "works/work-snos-371.html"
   ],
   "counts": {
-    "people": 301,
+    "people": 302,
     "works": 225,
     "topics": 1643
   },
@@ -1563,6 +1564,10 @@
     },
     {
       "name": "羽田カイラ",
+      "articles": 1
+    },
+    {
+      "name": "胸元",
       "articles": 1
     },
     {
@@ -6223,7 +6228,7 @@
     },
     {
       "name": "和装",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "和風",
@@ -7483,7 +7488,7 @@
     },
     {
       "name": "浴衣",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "海",
@@ -7787,7 +7792,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 87
+      "articles": 88
     },
     {
       "name": "画像ギャラリー",
