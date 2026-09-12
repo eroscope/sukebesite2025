@@ -11,6 +11,7 @@
     "people/person-12db991e1946.html",
     "people/person-1bf8c0e47455.html",
     "people/person-213207dd268f.html",
+    "people/person-22656f555de3.html",
     "people/person-233ca36573b6.html",
     "people/person-236dc419b29a.html",
     "people/person-27b34ab347a7.html",
@@ -207,6 +208,7 @@
     "topics/topic-55258bc4d97a.html",
     "topics/topic-56fd6f27e8b6.html",
     "topics/topic-57a6bb2bbdb0.html",
+    "topics/topic-588128096173.html",
     "topics/topic-5905586d5b3b.html",
     "topics/topic-596bd4059266.html",
     "topics/topic-596da9924f16.html",
@@ -534,7 +536,7 @@
   "counts": {
     "people": 303,
     "works": 225,
-    "topics": 1643
+    "topics": 1644
   },
   "people": [
     {
@@ -1671,7 +1673,7 @@
     },
     {
       "name": "鈴の家りん",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "鈴木ふみ奈",
@@ -3399,7 +3401,7 @@
     },
     {
       "name": "VR",
-      "articles": 85
+      "articles": 86
     },
     {
       "name": "VR CHANNEL 005",
@@ -4839,6 +4841,10 @@
     },
     {
       "name": "パーソナルジム",
+      "articles": 1
+    },
+    {
+      "name": "パーソナルトレーナー",
       "articles": 1
     },
     {
@@ -7195,7 +7201,7 @@
     },
     {
       "name": "本中",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "本田姉妹",
