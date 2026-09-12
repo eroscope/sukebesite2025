@@ -540,7 +540,7 @@
   "counts": {
     "people": 304,
     "works": 225,
-    "topics": 1653
+    "topics": 1654
   },
   "people": [
     {
@@ -4236,6 +4236,10 @@
       "articles": 1
     },
     {
+      "name": "ゴシック",
+      "articles": 1
+    },
+    {
       "name": "ゴシックロリータ",
       "articles": 1
     },
@@ -5221,7 +5225,7 @@
     },
     {
       "name": "メイド",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "メイドコスプレ",
@@ -5353,7 +5357,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 91
+      "articles": 92
     },
     {
       "name": "ラヴィット！",
@@ -7449,7 +7453,7 @@
     },
     {
       "name": "水着",
-      "articles": 130
+      "articles": 131
     },
     {
       "name": "水着グラビア",
