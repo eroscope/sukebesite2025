@@ -551,7 +551,7 @@
   "counts": {
     "people": 309,
     "works": 226,
-    "topics": 1674
+    "topics": 1676
   },
   "people": [
     {
@@ -2896,7 +2896,7 @@
     },
     {
       "name": "AI顔認識",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ASMR",
@@ -2960,7 +2960,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 69
+      "articles": 70
     },
     {
       "name": "AV女優検索",
@@ -5836,7 +5836,7 @@
     },
     {
       "name": "似てる女優",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "住田紗里",
@@ -6789,6 +6789,10 @@
     {
       "name": "小池里奈",
       "articles": 2
+    },
+    {
+      "name": "小豆もち",
+      "articles": 1
     },
     {
       "name": "尻",
@@ -9200,6 +9204,10 @@
     },
     {
       "name": "顔が良い",
+      "articles": 1
+    },
+    {
+      "name": "顔写真",
       "articles": 1
     },
     {
