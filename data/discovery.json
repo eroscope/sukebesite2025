@@ -555,7 +555,7 @@
   "counts": {
     "people": 315,
     "works": 227,
-    "topics": 1690
+    "topics": 1692
   },
   "people": [
     {
@@ -5348,7 +5348,7 @@
     },
     {
       "name": "メイド",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "メイドコスプレ",
@@ -6188,7 +6188,7 @@
     },
     {
       "name": "制服",
-      "articles": 25
+      "articles": 26
     },
     {
       "name": "制服衣装",
@@ -6596,6 +6596,10 @@
     },
     {
       "name": "天馬ゆい",
+      "articles": 1
+    },
+    {
+      "name": "太もも",
       "articles": 1
     },
     {
@@ -7269,6 +7273,10 @@
     {
       "name": "新人",
       "articles": 4
+    },
+    {
+      "name": "新人声優",
+      "articles": 1
     },
     {
       "name": "新人女子マネージャー",
