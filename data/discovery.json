@@ -100,6 +100,7 @@
     "topics/topic-09f4175d8aff.html",
     "topics/topic-09fe90dec83a.html",
     "topics/topic-0a0ea20a99a1.html",
+    "topics/topic-0a4b018747ad.html",
     "topics/topic-0dff8343cfe0.html",
     "topics/topic-0e6797903b11.html",
     "topics/topic-0eb07ae3effa.html",
@@ -331,6 +332,7 @@
     "topics/topic-9cdef30322b5.html",
     "topics/topic-9de5bab4f2e7.html",
     "topics/topic-9dec44a3aaa7.html",
+    "topics/topic-a0349bb5970e.html",
     "topics/topic-a04d5bfd17ef.html",
     "topics/topic-a1708ab4d3ce.html",
     "topics/topic-a3744f95b338.html",
@@ -545,12 +547,13 @@
     "works.html",
     "works/work-300mium-1364.html",
     "works/work-abf-384.html",
+    "works/work-jur-104.html",
     "works/work-jur-819.html",
     "works/work-snos-371.html",
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 313,
+    "people": 314,
     "works": 227,
     "topics": 1689
   },
@@ -1269,6 +1272,10 @@
     },
     {
       "name": "松咲那奈",
+      "articles": 1
+    },
+    {
+      "name": "松岡すず",
       "articles": 1
     },
     {
@@ -2215,7 +2222,7 @@
     },
     {
       "code": "JUR-104",
-      "articles": 1
+      "articles": 2
     },
     {
       "code": "JUR-186",
@@ -2969,7 +2976,7 @@
     },
     {
       "name": "AV作品",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "AV初出演",
@@ -5845,7 +5852,7 @@
     },
     {
       "name": "人妻秘書",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "人妻系",
@@ -8277,7 +8284,7 @@
     },
     {
       "name": "社長室",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "禁欲",
