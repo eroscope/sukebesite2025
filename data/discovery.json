@@ -556,7 +556,7 @@
   "counts": {
     "people": 315,
     "works": 228,
-    "topics": 1705
+    "topics": 1708
   },
   "people": [
     {
@@ -3880,6 +3880,10 @@
       "articles": 2
     },
     {
+      "name": "アズールレーン",
+      "articles": 1
+    },
+    {
       "name": "アナウンサー",
       "articles": 1
     },
@@ -3969,6 +3973,10 @@
     },
     {
       "name": "ウエディングドレス",
+      "articles": 1
+    },
+    {
+      "name": "ウシ娘",
       "articles": 1
     },
     {
@@ -7966,6 +7974,10 @@
     {
       "name": "猫耳",
       "articles": 2
+    },
+    {
+      "name": "獣耳",
+      "articles": 1
     },
     {
       "name": "王様ゲーム",
