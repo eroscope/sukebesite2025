@@ -537,6 +537,7 @@
     "topics/topic-sod.html",
     "topics/topic-sodstar.html",
     "topics/topic-sodstar.html",
+    "topics/topic-steam.html",
     "topics/topic-tameike.html",
     "topics/topic-vr.html",
     "topics/topic-vr.html",
@@ -555,7 +556,7 @@
   "counts": {
     "people": 315,
     "works": 227,
-    "topics": 1692
+    "topics": 1694
   },
   "people": [
     {
@@ -3464,7 +3465,7 @@
     },
     {
       "name": "Steam",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "TAMEIKE",
@@ -3640,6 +3641,10 @@
     },
     {
       "name": "おじさん、あそぼ",
+      "articles": 1
+    },
+    {
+      "name": "おすすめ機能",
       "articles": 1
     },
     {
@@ -4292,7 +4297,7 @@
     },
     {
       "name": "ゲーム",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "ゲームイラスト",
@@ -4529,6 +4534,10 @@
     {
       "name": "セクシー",
       "articles": 2
+    },
+    {
+      "name": "セクシーゲーム",
+      "articles": 1
     },
     {
       "name": "セクシーコスプレ",
