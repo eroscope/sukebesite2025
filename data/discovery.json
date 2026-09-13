@@ -556,7 +556,7 @@
   "counts": {
     "people": 315,
     "works": 228,
-    "topics": 1704
+    "topics": 1705
   },
   "people": [
     {
@@ -4573,7 +4573,7 @@
     },
     {
       "name": "セックス",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "セックス画像",
@@ -7049,7 +7049,7 @@
     },
     {
       "name": "後背位",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "後輩",
@@ -7069,7 +7069,7 @@
     },
     {
       "name": "性交",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "性感帯診断",
@@ -7637,7 +7637,7 @@
     },
     {
       "name": "正常位",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "段ボール",
@@ -8505,6 +8505,10 @@
     },
     {
       "name": "経理部員",
+      "articles": 1
+    },
+    {
+      "name": "結合部",
       "articles": 1
     },
     {
