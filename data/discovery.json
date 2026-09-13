@@ -551,7 +551,7 @@
   "counts": {
     "people": 311,
     "works": 227,
-    "topics": 1682
+    "topics": 1683
   },
   "people": [
     {
@@ -2908,7 +2908,7 @@
     },
     {
       "name": "AI顔認識",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ASMR",
@@ -2972,7 +2972,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 70
+      "articles": 71
     },
     {
       "name": "AV女優検索",
@@ -5856,7 +5856,7 @@
     },
     {
       "name": "似てる女優",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "住田紗里",
@@ -7400,6 +7400,10 @@
     },
     {
       "name": "松井日奈子",
+      "articles": 1
+    },
+    {
+      "name": "松咲那奈",
       "articles": 1
     },
     {
@@ -9264,7 +9268,7 @@
     },
     {
       "name": "顔比較",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "顔認識",
