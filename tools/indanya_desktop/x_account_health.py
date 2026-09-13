@@ -240,17 +240,31 @@ def apply_x_health_limits(
         follow_interval = max(int(settings.get("follow_min_interval_hours") or 6), 12)
     elif level == 2:
         posts = min(configured_posts, 1)
-        replies = 0
+        replies = min(configured_replies, 1)
         follows = 0
-        global_limit = 1
+        # Keep one ordinary post and one opt-in reply available while recovery
+        # is being measured. The shared cap and interval prevent a burst.
+        global_limit = min(
+            max(0, int(settings.get("global_daily_action_limit") or 0)),
+            2,
+        )
         minimum_interval = 720
-        reply_interval = 1440
+        reply_interval = max(
+            int(settings.get("reply_min_interval_minutes") or 360),
+            720,
+        )
         follow_interval = 24
     else:
-        posts = 0
-        replies = 0
+        # A search restriction is an observation, not a kill switch. Continue
+        # with one measured post or opt-in reply per rolling day so later health
+        # checks can establish the account's sustainable activity boundary.
+        posts = min(configured_posts, 1)
+        replies = min(configured_replies, 1)
         follows = 0
-        global_limit = 0
+        global_limit = min(
+            max(0, int(settings.get("global_daily_action_limit") or 0)),
+            1,
+        )
         minimum_interval = 1440
         reply_interval = 1440
         follow_interval = 48

@@ -72,7 +72,7 @@ def test_health_check_runs_every_twelve_hours_and_keeps_normal_limits() -> None:
         )["due"]
 
 
-def test_restriction_signal_reduces_replies_and_follows_before_posts() -> None:
+def test_restriction_signal_keeps_one_measured_post_or_reply_active() -> None:
     with tempfile.TemporaryDirectory() as folder:
         root = Path(folder)
         now = datetime(2026, 9, 9, 8, 0, tzinfo=JST)
@@ -92,9 +92,24 @@ def test_restriction_signal_reduces_replies_and_follows_before_posts() -> None:
             result = run_due_x_health_check(root, settings(), now=now)
         assert result["classification"] == "restricted"
         assert result["risk_level"] == 3
-        assert result["effective_limits"]["daily_posts"] == 0
-        assert result["effective_limits"]["daily_replies"] == 0
+        assert result["effective_limits"]["daily_posts"] == 1
+        assert result["effective_limits"]["daily_replies"] == 1
         assert result["effective_limits"]["daily_follows"] == 0
+        assert result["effective_limits"]["daily_actions"] == 1
+        assert result["effective_limits"]["minimum_interval_minutes"] == 1440
+
+
+def test_recovery_stage_allows_one_post_and_one_reply_without_follows() -> None:
+    result = apply_x_health_limits(settings(), {
+        "risk_level": 2,
+        "classification": "caution",
+    })
+
+    assert result["daily_post_limit"] == 1
+    assert result["reply_daily_limit"] == 1
+    assert result["follow_daily_limit"] == 0
+    assert result["global_daily_action_limit"] == 2
+    assert result["global_min_interval_minutes"] == 720
 
 
 def test_fia_checker_payload_preserves_bans_and_postban_results() -> None:

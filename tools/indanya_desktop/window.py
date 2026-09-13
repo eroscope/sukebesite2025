@@ -2532,7 +2532,7 @@ class MainWindow(QMainWindow):
         health_labels = {
             "healthy": "正常",
             "caution": "注意",
-            "restricted": "制限中・自動操作停止",
+            "restricted": "制限中・1日1操作で計測継続",
             "unknown": "判定待ち",
         }
         health_label = health_labels.get(
@@ -2693,7 +2693,7 @@ class MainWindow(QMainWindow):
         labels = {
             "healthy": "正常",
             "caution": "注意",
-            "restricted": "制限中・自動操作停止",
+            "restricted": "制限中・1日1操作で計測継続",
             "unknown": "判定保留",
         }
         classification = str(result.get("classification") or "unknown")
@@ -6393,8 +6393,6 @@ class MainWindow(QMainWindow):
                 if mode not in {"reply", "thread", "reach"}:
                     continue
                 if mode == "thread" and health_risk > 0:
-                    continue
-                if mode == "reply" and health_risk >= 2:
                     continue
                 if mode == "reach" and (
                     health_risk > 1 or health_classification != "healthy"
