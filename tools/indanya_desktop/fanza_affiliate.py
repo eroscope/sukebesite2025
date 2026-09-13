@@ -130,6 +130,7 @@ def unwrap_fanza_affiliate_url(value: str) -> str:
         (key, item)
         for key, values in parse_qs(parsed.query, keep_blank_values=True).items()
         if key.casefold() not in TRACKING_QUERY_KEYS
+        and not key.casefold().startswith("utm_")
         for item in values
     ]
     return urlunparse(parsed._replace(query=urlencode(query_items, doseq=True), fragment=""))

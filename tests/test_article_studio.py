@@ -478,7 +478,7 @@ class ArticleStudioTests(unittest.TestCase):
         )
         self.assertEqual(3, local.count("product.jpg"))
 
-    def test_fanza_product_card_renders_a_sponsored_purchase_link(self) -> None:
+    def test_fanza_product_card_uses_direct_preview_and_sponsored_public_link(self) -> None:
         save_fanza_settings(self.site_root, "article-owner-001")
         payload = make_payload()
         payload["blocks"].insert(-1, {
@@ -494,24 +494,27 @@ class ArticleStudioTests(unittest.TestCase):
             "match_evidence": "画像の横に同じ品番の商品リンクがある",
             "match_confidence": 98,
         })
-        build = article_studio.build_article(payload, self.site_root, preview=True)
-        self.assertIn('class="fanza-product"', build.article_html)
-        self.assertIn('href="https://al.dmm.com/?lurl=', build.article_html)
-        self.assertIn("af_id=article-owner-001", build.article_html)
-        self.assertNotIn("al.dmm.co.jp", build.article_html)
-        self.assertIn('rel="sponsored noopener noreferrer"', build.article_html)
+        preview = article_studio.build_article(payload, self.site_root, preview=True)
+        public = article_studio.build_article(payload, self.site_root)
+        self.assertIn('class="fanza-product"', preview.article_html)
+        self.assertIn('href="https://video.dmm.co.jp/av/content/?id=test001"', preview.article_html)
+        self.assertNotIn("https://al.dmm.com/", preview.article_html)
+        self.assertIn('href="https://al.dmm.com/?lurl=', public.article_html)
+        self.assertIn("af_id=article-owner-001", public.article_html)
+        self.assertNotIn("al.dmm.co.jp", public.article_html)
+        self.assertIn('rel="sponsored noopener noreferrer"', public.article_html)
         self.assertIn("border-left: 4px solid #c72d22", article_studio.FANZA_PRODUCT_STYLE)
-        self.assertIn('class="fanza-product-thumb"', build.article_html)
-        self.assertIn("この画像の商品 / PR", build.article_html)
-        self.assertIn('data-pr-kind="exact_image"', build.article_html)
-        self.assertIn('data-pr-confidence="98"', build.article_html)
-        self.assertIn("配置: この画像の商品 / 一致度: 98%", build.article_html)
-        self.assertNotIn('data-pr-id="article-related-footer-product"', build.article_html)
-        self.assertNotIn("この記事で紹介している作品 / PR", build.article_html)
-        self.assertNotIn('data-link-kind="inferred_topic_search"', build.article_html)
-        self.assertNotIn("に近い作品", build.article_html)
-        self.assertEqual(1, build.article_html.count('class="fanza-product-thumb"'))
-        self.assertNotIn('class="side-ad-link-thumb"', build.article_html)
+        self.assertIn('class="fanza-product-thumb"', preview.article_html)
+        self.assertIn("この画像の商品 / PR", preview.article_html)
+        self.assertIn('data-pr-kind="exact_image"', preview.article_html)
+        self.assertIn('data-pr-confidence="98"', preview.article_html)
+        self.assertIn("配置: この画像の商品 / 一致度: 98%", preview.article_html)
+        self.assertNotIn('data-pr-id="article-related-footer-product"', preview.article_html)
+        self.assertNotIn("この記事で紹介している作品 / PR", preview.article_html)
+        self.assertNotIn('data-link-kind="inferred_topic_search"', preview.article_html)
+        self.assertNotIn("に近い作品", preview.article_html)
+        self.assertEqual(1, preview.article_html.count('class="fanza-product-thumb"'))
+        self.assertNotIn('class="side-ad-link-thumb"', preview.article_html)
         self.assertNotIn("border: 2px solid #1a1a1a", article_studio.FANZA_PRODUCT_STYLE)
 
     def test_fanza_package_ownership_survives_article_validation(self) -> None:

@@ -6279,6 +6279,21 @@ def build_article(payload: dict[str, Any], site_root: Path = SITE_ROOT, *, previ
         )
     except FanzaAffiliateConfigurationError as exc:
         raise ValidationError(str(exc)) from exc
+    if preview:
+        payload = {
+            **payload,
+            "blocks": [
+                {
+                    **block,
+                    "url": str(block.get("affiliate_destination") or block.get("url") or ""),
+                }
+                if isinstance(block, dict)
+                and block.get("affiliate_status") == "configured"
+                and block.get("affiliate_destination")
+                else block
+                for block in payload.get("blocks", [])
+            ],
+        }
     if any(
         isinstance(block, dict)
         and block.get("type") == "related_link"

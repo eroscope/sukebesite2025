@@ -159,6 +159,7 @@ from indanya_desktop.chatgpt_queue import (
 )
 from indanya_desktop.browser_capture import chatgpt_login_ready, x_login_ready
 from indanya_desktop.editorial_policy import is_fanza_product_url
+from indanya_desktop.fanza_affiliate import unwrap_fanza_affiliate_url
 from indanya_desktop.site_learning import (
     bootstrap_site_learning,
     can_attempt_site,
@@ -4001,7 +4002,12 @@ class MainWindow(QMainWindow):
         self.refine_button = button("Codexで会話を推敲")
         self.refine_button.clicked.connect(self.refine_editor_draft)
         source = button("元記事を開く")
-        source.clicked.connect(lambda: QDesktopServices.openUrl(QUrl(self.editor_source.text())))
+        source.clicked.connect(
+            lambda: QDesktopServices.openUrl(QUrl(
+                unwrap_fanza_affiliate_url(self.editor_source.text())
+                or self.editor_source.text()
+            ))
+        )
         actions.addWidget(save)
         actions.addWidget(self.rebuild_media_button)
         actions.addWidget(self.refine_button)
@@ -5423,7 +5429,8 @@ class MainWindow(QMainWindow):
             lambda _checked=False, url=register_url: QDesktopServices.openUrl(QUrl(url))
         )
         row.addWidget(register_button)
-        product_url = str(item.get("product_url") or "")
+        raw_product_url = str(item.get("product_url") or "")
+        product_url = unwrap_fanza_affiliate_url(raw_product_url) or raw_product_url
         if product_url:
             product_button = button("対象商品を確認")
             product_button.clicked.connect(

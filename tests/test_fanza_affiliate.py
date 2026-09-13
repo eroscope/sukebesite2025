@@ -174,6 +174,19 @@ class FanzaAffiliateTests(unittest.TestCase):
             html.unescape(rendered.split('href="', 1)[1].split('"', 1)[0])
         ))
 
+    def test_unwrap_removes_affiliate_and_utm_tracking_parameters(self) -> None:
+        wrapped = (
+            "https://al.dmm.com/?lurl="
+            + quote(
+                PRODUCT_URL
+                + "&utm_source=studio&utm_medium=preview&utm_campaign=qa",
+                safe="",
+            )
+            + "&af_id=someone-001&ch=link_tool&ch_id=link"
+        )
+
+        self.assertEqual(PRODUCT_URL, unwrap_fanza_affiliate_url(wrapped))
+
 
 if __name__ == "__main__":
     unittest.main()
