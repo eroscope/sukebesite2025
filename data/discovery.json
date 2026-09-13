@@ -553,9 +553,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 314,
+    "people": 315,
     "works": 227,
-    "topics": 1689
+    "topics": 1690
   },
   "people": [
     {
@@ -989,6 +989,10 @@
     {
       "name": "奥田咲",
       "articles": 3
+    },
+    {
+      "name": "女性型ロボット",
+      "articles": 1
     },
     {
       "name": "姫咲はな",
@@ -5708,7 +5712,7 @@
     },
     {
       "name": "中国",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "中国人女性",
@@ -5864,6 +5868,10 @@
     },
     {
       "name": "人形",
+      "articles": 1
+    },
+    {
+      "name": "人間そっくり",
       "articles": 1
     },
     {
