@@ -551,7 +551,7 @@
   "counts": {
     "people": 310,
     "works": 227,
-    "topics": 1678
+    "topics": 1681
   },
   "people": [
     {
@@ -4804,7 +4804,7 @@
     },
     {
       "name": "ハメ撮り",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "ハンバーガー",
@@ -5257,6 +5257,10 @@
     {
       "name": "マッサージ",
       "articles": 3
+    },
+    {
+      "name": "マッチングアプリ",
+      "articles": 1
     },
     {
       "name": "マドンナ",
@@ -5955,6 +5959,10 @@
       "articles": 1
     },
     {
+      "name": "個人撮影",
+      "articles": 1
+    },
+    {
       "name": "停電",
       "articles": 1
     },
@@ -6256,6 +6264,10 @@
     },
     {
       "name": "博多彩葉",
+      "articles": 1
+    },
+    {
+      "name": "受付嬢",
       "articles": 1
     },
     {
