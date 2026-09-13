@@ -13,6 +13,7 @@ from indanya_desktop.social_x import (
     _bulk_slots,
     _copy_quality_issues,
     _copy_prompt,
+    _contest_search_plans,
     _draft_media_paths,
     _future_scheduled_time,
     _fanza_graphql_preview_urls,
@@ -524,6 +525,30 @@ class SocialXTests(unittest.TestCase):
         after = before + timedelta(minutes=2)
         self.assertFalse(x_trend_scan_status(self.root, before)["due"])
         self.assertTrue(x_trend_scan_status(self.root, after)["due"])
+
+    def test_contest_search_checks_ranked_and_live_results_every_run(self) -> None:
+        now = datetime(2026, 9, 13, 21, 0, tzinfo=JST)
+        plans = _contest_search_plans([
+            '("画像募集" OR "動画募集") ("リプ" OR "返信")',
+            'from:known_recruiter ("募集" OR "リプ")',
+        ], now)
+
+        self.assertEqual([
+            (
+                '("画像募集" OR "動画募集") ("リプ" OR "返信") '
+                'since:2026-09-12',
+                "top",
+            ),
+            (
+                '("画像募集" OR "動画募集") ("リプ" OR "返信") '
+                'since:2026-09-12',
+                "live",
+            ),
+            (
+                'from:known_recruiter ("募集" OR "リプ") since:2026-09-12',
+                "live",
+            ),
+        ], plans)
 
     def test_daily_status_recovers_abandoned_posting_rows(self) -> None:
         now = datetime(2026, 8, 29, 12, 0, tzinfo=JST)

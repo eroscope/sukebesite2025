@@ -1527,6 +1527,21 @@ def _contest_sample(
     }
 
 
+def _contest_search_plans(
+    queries: list[str],
+    now: datetime | None = None,
+) -> list[tuple[str, str]]:
+    """Search both ranked and newest results without drifting into old posts."""
+    current = (now or datetime.now(JST)).astimezone(JST)
+    since_date = (current - timedelta(days=1)).date().isoformat()
+    plans: list[tuple[str, str]] = []
+    for query in queries:
+        recent_query = f"{query} since:{since_date}"
+        modes = ("live",) if query.startswith("from:") else ("top", "live")
+        plans.extend((recent_query, mode) for mode in modes)
+    return plans
+
+
 def collect_x_contest_candidates(
     site_root: Path,
     progress: ProgressCallback = lambda _value, _message: None,
@@ -1562,14 +1577,11 @@ def collect_x_contest_candidates(
             page.goto("https://x.com/home", wait_until="domcontentloaded", timeout=60_000)
             page.wait_for_timeout(1800)
             require_x_page_account(page, settings.get("account_handle"))
-            search_plans: list[tuple[str, str]] = []
-            for query in queries:
-                modes = (
-                    ("live",)
-                    if query.startswith("from:") or not discovery_due
-                    else ("top", "live")
-                )
-                search_plans.extend((query, mode) for mode in modes)
+            # Ranked results must be checked on every scan. Limiting ranked search
+            # to the weekly recruiter-discovery run meant we only saw brand-new,
+            # zero-reaction posts for six days and missed posts that started
+            # gaining traction a few hours after publication.
+            search_plans = _contest_search_plans(queries)
             for plan_index, (query, mode) in enumerate(search_plans):
                 page.goto(
                     f"https://x.com/search?q={quote(query + ' -filter:replies lang:ja')}&src=typed_query&f={mode}",
