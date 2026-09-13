@@ -551,7 +551,7 @@
   "counts": {
     "people": 311,
     "works": 227,
-    "topics": 1683
+    "topics": 1685
   },
   "people": [
     {
@@ -2908,7 +2908,7 @@
     },
     {
       "name": "AI顔認識",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "ASMR",
@@ -2972,7 +2972,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 71
+      "articles": 72
     },
     {
       "name": "AV女優検索",
@@ -3568,6 +3568,10 @@
     },
     {
       "name": "あいみゅう",
+      "articles": 1
+    },
+    {
+      "name": "あかね麗",
       "articles": 1
     },
     {
@@ -5707,6 +5711,10 @@
       "articles": 1
     },
     {
+      "name": "乃音のの",
+      "articles": 1
+    },
+    {
       "name": "九井スナオ",
       "articles": 1
     },
@@ -5856,7 +5864,7 @@
     },
     {
       "name": "似てる女優",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "住田紗里",
