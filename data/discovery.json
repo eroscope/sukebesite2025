@@ -555,8 +555,8 @@
   ],
   "counts": {
     "people": 315,
-    "works": 227,
-    "topics": 1694
+    "works": 228,
+    "topics": 1696
   },
   "people": [
     {
@@ -2042,6 +2042,10 @@
       "articles": 1
     },
     {
+      "code": "EBOD-513",
+      "articles": 1
+    },
+    {
       "code": "EBWH-267",
       "articles": 1
     },
@@ -3141,7 +3145,7 @@
     },
     {
       "name": "GIF",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "GIF動画あり",
@@ -6061,6 +6065,10 @@
     },
     {
       "name": "元カノ",
+      "articles": 1
+    },
+    {
+      "name": "元ネタ特定",
       "articles": 1
     },
     {
@@ -9141,6 +9149,10 @@
     },
     {
       "name": "鈴木ふみ奈",
+      "articles": 1
+    },
+    {
+      "name": "鈴木心春",
       "articles": 1
     },
     {
