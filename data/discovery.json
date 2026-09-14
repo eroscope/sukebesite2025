@@ -558,7 +558,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 319,
+    "people": 320,
     "works": 232,
     "topics": 1728
   },
@@ -1273,6 +1273,10 @@
     },
     {
       "name": "本田望結",
+      "articles": 1
+    },
+    {
+      "name": "本田翼",
       "articles": 1
     },
     {
@@ -8893,7 +8897,7 @@
     },
     {
       "name": "自撮り",
-      "articles": 21
+      "articles": 22
     },
     {
       "name": "自撮り動画",
