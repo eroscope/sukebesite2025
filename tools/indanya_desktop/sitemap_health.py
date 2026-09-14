@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import time
 import urllib.error
 import urllib.request
+from urllib.robotparser import RobotFileParser
 import xml.etree.ElementTree as ET
 from datetime import datetime
 from pathlib import Path
@@ -31,6 +33,10 @@ def _timestamp() -> str:
     return datetime.now(JST).isoformat(timespec="seconds")
 
 
+def _url_digest(locations: list[str]) -> str:
+    return hashlib.sha256("\n".join(sorted(locations)).encode("utf-8")).hexdigest()
+
+
 def _read_articles(repository: Path) -> list[dict[str, Any]]:
     try:
         raw = json.loads(
@@ -54,6 +60,19 @@ def _read_articles(repository: Path) -> list[dict[str, Any]]:
 def _parse_sitemap_bytes(payload: bytes, name: str) -> tuple[list[str], str]:
     if len(payload) > MAX_SITEMAP_BYTES:
         raise RuntimeError(f"{name} がGoogleの50MB上限を超えています")
+    if name.endswith(".txt"):
+        try:
+            locations = payload.decode("utf-8-sig").splitlines()
+        except UnicodeDecodeError as exc:
+            raise RuntimeError(f"{name} is not UTF-8") from exc
+        if len(locations) > MAX_SITEMAP_URLS or len(locations) != len(set(locations)):
+            raise RuntimeError(f"{name} has duplicate URLs or exceeds the URL limit")
+        for location in locations:
+            parsed = urlparse(location)
+            if (location != location.strip() or not location or parsed.scheme != "https"
+                    or not parsed.netloc or parsed.username or parsed.password or parsed.fragment):
+                raise RuntimeError(f"{name} contains an invalid canonical URL")
+        return locations, "text"
     try:
         root = ET.fromstring(payload)
     except ET.ParseError as exc:
@@ -101,13 +120,15 @@ def validate_local_sitemaps(repository: Path, public_url: str) -> dict[str, Any]
     errors: list[str] = []
     sitemap_rows: dict[str, dict[str, Any]] = {}
     locations_by_name: dict[str, list[str]] = {}
-    for name in SITEMAP_FILES:
+    names = (*SITEMAP_FILES, "sitemap-pages.txt") if (repository / "sitemap-pages.txt").exists() else SITEMAP_FILES
+    for name in names:
         try:
             locations, _root_tag, size = _parse_sitemap_file(repository / name)
             locations_by_name[name] = locations
             sitemap_rows[name] = {
                 "url_count": len(locations),
                 "bytes": size,
+                "url_digest": _url_digest(locations),
                 "status": "healthy",
             }
         except RuntimeError as exc:
@@ -130,6 +151,8 @@ def validate_local_sitemaps(repository: Path, public_url: str) -> dict[str, Any]
         if str(item.get("url") or "").strip()
     ]
     main_locations = set(locations_by_name.get("sitemap.xml", []))
+    if "sitemap-pages.txt" in locations_by_name and set(locations_by_name["sitemap-pages.txt"]) != main_locations:
+        errors.append("sitemap-pages.txt and sitemap.xml contain different URLs")
     missing = [value for value in article_urls if value not in main_locations]
     if missing:
         errors.append(
@@ -192,7 +215,8 @@ def check_public_sitemaps(
     sitemap_rows: dict[str, dict[str, Any]] = {}
     locations_by_name: dict[str, list[str]] = {}
     expected_sitemaps = (expected or {}).get("sitemaps") or {}
-    for name in SITEMAP_FILES:
+    names = (*SITEMAP_FILES, "sitemap-pages.txt") if "sitemap-pages.txt" in expected_sitemaps else SITEMAP_FILES
+    for name in names:
         url = urljoin(base, name)
         try:
             status, payload = _request_bytes(url, timeout)
@@ -206,11 +230,15 @@ def check_public_sitemaps(
                 raise RuntimeError(
                     f"公開先は{len(locations)}件、今回生成は{expected_count}件で未反映です"
                 )
+            digest = _url_digest(locations)
+            if isinstance(expected_row, dict) and expected_row.get("url_digest") and expected_row["url_digest"] != digest:
+                raise RuntimeError("URL件数は同じですが、公開先の記事URL一覧が今回生成した内容と異なります")
             sitemap_rows[name] = {
                 "url": url,
                 "http_status": status,
                 "url_count": len(locations),
                 "bytes": len(payload),
+                "url_digest": digest,
                 "status": "healthy",
             }
         except (RuntimeError, OSError, urllib.error.URLError) as exc:
@@ -225,18 +253,37 @@ def check_public_sitemaps(
                 "error": str(exc),
             }
 
-    robots_url = urljoin(base, "robots.txt")
+    if "sitemap-pages.txt" in locations_by_name and set(locations_by_name["sitemap-pages.txt"]) != set(locations_by_name.get("sitemap.xml", [])):
+        errors.append("公開中のXML版とURL一覧版のサイトマップが一致しません")
+
+    # Crawlers use the origin root, not a project/subdirectory robots.txt.
+    robots_url = urljoin(base, "/robots.txt")
+    warnings: list[str] = []
     try:
         robots_status, robots_payload = _request_bytes(robots_url, timeout)
         robots = robots_payload.decode("utf-8-sig", errors="replace")
-        if robots_status != 200:
+        if robots_status != 200 and not (400 <= robots_status < 500 and robots_status != 429):
             raise RuntimeError(f"HTTP {robots_status}")
-        missing_robots = [
-            name for name in SITEMAP_FILES if urljoin(base, name) not in robots
-        ]
+        parser = RobotFileParser(robots_url)
+        parser.parse(robots.splitlines() if robots_status == 200 else [])
+        allowed = all(parser.can_fetch("Googlebot", url) for url in
+                      [base, *locations_by_name.get("sitemap.xml", [])])
+        if not allowed:
+            raise RuntimeError("Googlebotによるサイトまたは記事の取得が禁止されています")
+        discovered = set(parser.site_maps() or [])
+        missing_robots = [name for name in SITEMAP_FILES if urljoin(base, name) not in discovered]
+        robots_row = {"url": robots_url, "http_status": robots_status, "status": "healthy" if robots_status == 200 else "missing_discovery",
+                      "allows_crawl": True, "sitemap_discovery": not missing_robots}
         if missing_robots:
-            raise RuntimeError("案内不足: " + ", ".join(missing_robots))
-        robots_row = {"url": robots_url, "http_status": 200, "status": "healthy"}
+            warnings.append("ドメイン直下のrobots.txtにサイトマップ案内がありません。Search Consoleへの直接送信が必要です")
+    except urllib.error.HTTPError as exc:
+        if 400 <= exc.code < 500 and exc.code != 429:
+            robots_row = {"url": robots_url, "http_status": exc.code, "status": "missing_discovery",
+                          "allows_crawl": True, "sitemap_discovery": False}
+            warnings.append("ドメイン直下のrobots.txtがありません。クロール禁止ではありませんが、自動発見の案内がありません")
+        else:
+            errors.append(f"robots.txt: HTTP {exc.code}")
+            robots_row = {"url": robots_url, "http_status": exc.code, "status": "pending"}
     except (RuntimeError, OSError, urllib.error.URLError) as exc:
         errors.append(f"robots.txt: {exc}")
         robots_row = {
@@ -280,6 +327,7 @@ def check_public_sitemaps(
         "robots": robots_row,
         "sample_article": article_row,
         "errors": errors,
+        "warnings": warnings,
     }
 
 

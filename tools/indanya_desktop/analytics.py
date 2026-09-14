@@ -19,7 +19,7 @@ from .owner_collector import (
 
 
 GA4_READ_SCOPE = "https://www.googleapis.com/auth/analytics.readonly"
-ANALYTICS_VERSION = 9
+ANALYTICS_VERSION = 10
 AUDIENCES = ("external", "all")
 
 ARTICLE_EVENTS = {
@@ -470,9 +470,12 @@ def fetch_ga4_report(site_root: Path, start_date: str = "6daysAgo", end_date: st
     page_events = ARTICLE_EVENTS["external"]
     pr_events = ARTICLE_PR_EVENTS["external"]
     all_events = tuple(dict.fromkeys(page_events + ARTICLE_VISIT_EVENTS["external"] + pr_events))
+    reader_events = ("age_gate_view", "age_gate_enter", "related_article_click", "official_link_click", "article_save", "article_unsave", "saved_article_open", "reader_return", "rss_open")
     specs: list[tuple[str, list[str], list[str], tuple[str, ...], int]] = [
         ("site_summary", [], ["totalUsers", "sessions", "screenPageViews", "engagedSessions"], (), 1),
-        ("reader_events", ["eventName"], ["eventCount", "totalUsers"], ("age_gate_view", "age_gate_enter", "related_article_click", "official_link_click", "article_save", "article_unsave", "saved_article_open", "reader_return", "rss_open"), 100),
+        ("reader_events", ["eventName"], ["eventCount", "totalUsers"], reader_events, 100),
+        ("daily_site", ["date"], ["sessions", "screenPageViews", "engagedSessions"], (), 400),
+        ("daily_funnel", ["date", "eventName"], ["eventCount"], tuple(dict.fromkeys(reader_events + pr_events)), 10000),
         ("acquisition", ["sessionSource", "sessionMedium", "sessionManualCampaignName"], ["sessions", "totalUsers", "screenPageViews"], (), 500),
         ("summary", [], ["eventCount", "activeUsers", "sessions"], page_events, 1),
         ("articles", ["pagePath", "pageTitle"], ["eventCount", "activeUsers"], page_events, 1000),
@@ -508,9 +511,19 @@ def fetch_ga4_report(site_root: Path, start_date: str = "6daysAgo", end_date: st
         raise RuntimeError("GA4から必要な集計結果がすべて返りませんでした")
 
     raw: dict[str, list[dict]] = {}
+    quality: dict[str, dict] = {}
     for spec, response in zip(specs, responses):
         name, dimensions, metrics, _, _ = spec
         raw[name] = _report_rows(response, dimensions, metrics)
+        metadata = getattr(response, "metadata", None)
+        quality[name] = {
+            "time_zone": str(getattr(metadata, "time_zone", "") or ""),
+            "thresholded": bool(getattr(metadata, "subject_to_thresholding", False)),
+            "sampled": bool(getattr(metadata, "sampling_metadatas", [])),
+            "data_loss": bool(getattr(metadata, "data_loss_from_other_row", False)),
+            "empty_reason": str(getattr(metadata, "empty_reason", "") or ""),
+            "truncated": int(getattr(response, "row_count", 0) or 0) > len(raw[name]),
+        }
 
     result: dict[str, object] = {
         "version": ANALYTICS_VERSION,
@@ -518,6 +531,7 @@ def fetch_ga4_report(site_root: Path, start_date: str = "6daysAgo", end_date: st
         "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         "start_date": start_date,
         "end_date": end_date,
+        "measurement_quality": quality,
     }
     event_rows = _canonical_event_rows(raw["events"], all_events)
     summary = _first_row(raw["summary"], ["eventCount", "activeUsers", "sessions"])
@@ -529,6 +543,8 @@ def fetch_ga4_report(site_root: Path, start_date: str = "6daysAgo", end_date: st
     external = {
         "site_summary": _first_row(raw["site_summary"], ["totalUsers", "sessions", "screenPageViews", "engagedSessions"]),
         "reader_events": raw["reader_events"],
+        "daily_site": raw["daily_site"],
+        "daily_funnel": [{**row, "eventName": CANONICAL_EVENTS.get(row.get("eventName"), row.get("eventName"))} for row in raw["daily_funnel"]],
         "acquisition": raw["acquisition"],
         "summary": summary,
         "articles": _merge_article_rows(raw["articles"], raw["article_pr"]),
@@ -548,8 +564,9 @@ def fetch_ga4_report(site_root: Path, start_date: str = "6daysAgo", end_date: st
     owner = _owner_historical_report(site_root, start_date, end_date)
     result["external"] = external
     result["all"] = _merge_historical_reports(external, owner)
+    from .reader_growth import build_growth_comparison, write_growth_review
+    result["growth_comparison"] = build_growth_comparison(result)
     save_ga4_cache(site_root, "historical", result)
-    from .reader_growth import write_growth_review
     write_growth_review(site_root, result)
     return result
 

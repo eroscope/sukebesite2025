@@ -184,6 +184,8 @@ class AnalyticsTests(unittest.TestCase):
                         reports.append(test.response([([], ["5", "2", "3"])]))
                     elif dimensions == ["pagePath", "pageTitle"]:
                         reports.append(test.response([(["/site/articles/a.html", "記事A"], ["5", "2"])]))
+                    elif dimensions == ["date", "eventName"]:
+                        reports.append(test.response([(["20260901", "article_pr_click"], ["3"])]))
                     elif dimensions == ["pagePath", "eventName"]:
                         reports.append(test.response([
                             (["/site/articles/a.html", "article_pr_impression"], ["4"]),
@@ -230,7 +232,9 @@ class AnalyticsTests(unittest.TestCase):
         self.assertEqual(data["external"]["summary"]["prClicks"], 1)
         self.assertEqual(data["all"]["summary"]["prClicks"], 2)
         self.assertEqual(data["all"]["articles"][0]["prImpressions"], 5)
-        self.assertEqual(cache["historical"]["version"], 9)
+        self.assertEqual(cache["historical"]["version"], 10)
+        self.assertEqual(data["external"]["daily_funnel"][0]["eventName"], "pr_click")
+        self.assertIn("daily_site", data["measurement_quality"])
 
     def test_realtime_report_switches_pages_without_second_fetch(self) -> None:
         test = self

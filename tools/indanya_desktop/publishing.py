@@ -481,7 +481,7 @@ def _extend_sparse_checkout_if_enabled(
         _run_git(
             [
                 "sparse-checkout", "add",
-                "/index.html", "/latest*.html", "/data/reader/", "/articles/*.html",
+                "/index.html", "/latest*.html", "/data/reader/", "/sitemap-pages.txt", "/articles/*.html",
                 f"/articles/{slug}.html", f"/assets/articles/{slug}/",
                 "/people.html", "/works.html", "/topics.html",
                 "/people/", "/works/", "/topics/",
@@ -541,7 +541,7 @@ def _prepare_cached_site(
             [
                 "sparse-checkout", "set", "--no-cone",
                 "/data/articles.json", "/data/discovery.json",
-                "/sitemap.xml", "/sitemap-images.xml", "/sitemap-videos.xml",
+                "/sitemap.xml", "/sitemap-images.xml", "/sitemap-videos.xml", "/sitemap-pages.txt",
                 "/feed.xml", "/robots.txt", "/index.html", "/latest*.html", "/data/reader/",
                 "/articles/*.html", "/articles/pool-look-back.html",
                 f"/articles/{slug}.html", f"/assets/articles/{slug}/",

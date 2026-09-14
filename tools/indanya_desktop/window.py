@@ -1459,6 +1459,8 @@ class MainWindow(QMainWindow):
             detail += f" / 最終確認 {checked}"
         if errors:
             detail += " / " + errors[0]
+        elif public.get("warnings"):
+            detail += " / " + str(public["warnings"][0])
         search = report.get("search_console") or {}
         search_labels = {
             "fetch_failed": "Google側は取得失敗",
@@ -5058,12 +5060,12 @@ class MainWindow(QMainWindow):
         previous = self.reader_growth_attempted_at
         if previous and (now - previous).total_seconds() < 3600:
             return
-        report = load_ga4_cache(self.site.root).get("historical") or {}
         try:
-            stamp = datetime.fromisoformat(str(report.get("generated_at") or ""))
-            if stamp.astimezone(JST).date() == now.date() and (report.get("external") or {}).get("site_summary"):
+            report = json.loads((self.site.root / ".article-studio/reader-growth/comparison-latest.json").read_text(encoding="utf-8"))
+            stamp = datetime.fromisoformat(str(report.get("measurement_generated_at") or ""))
+            if stamp.astimezone(JST).date() == now.date():
                 return
-        except (ValueError, TypeError):
+        except (ValueError, TypeError, OSError):
             pass
         self.reader_growth_attempted_at = now
         self.analytics_worker = AnalyticsWorker(self.site.root, "growth", 7)
@@ -5250,6 +5252,7 @@ class MainWindow(QMainWindow):
             )
 
     def _render_ga4_report(self, data: dict, *, cached: bool = False) -> None:
+        from .reader_growth import growth_comparison_text
         stamp = self._ga4_time_label(data.get("generated_at"))
         source = "前回の正常値" if cached else "取得成功"
         for audience, view in self.ga4_audience_views.items():
@@ -5295,6 +5298,7 @@ class MainWindow(QMainWindow):
             )
             view["report_status"].setText(
                 f"{source} {stamp} / {data.get('start_date')}〜{data.get('end_date')} / 上の指標は記事のみ" + site_note
+                + ("\n" + growth_comparison_text(data.get("growth_comparison") or {}) if audience == "external" else "")
             )
 
     def _ga4_realtime_loaded(self, data: dict) -> None:

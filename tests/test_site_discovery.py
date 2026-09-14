@@ -116,6 +116,10 @@ def test_refresh_generates_seo_hubs_feeds_and_media_sitemaps() -> None:
         assert (site / "assets" / "common" / "article-discovery.css").is_file()
 
         sitemap = (site / "sitemap.xml").read_text(encoding="utf-8")
+        plain_urls = (site / "sitemap-pages.txt").read_text(encoding="utf-8").splitlines()
+        xml_urls = [node.text for node in ET.fromstring(sitemap).findall("{*}url/{*}loc")]
+        assert set(plain_urls) == set(xml_urls)
+        assert len(plain_urls) == len(set(plain_urls))
         image_sitemap = (site / "sitemap-images.xml").read_text(encoding="utf-8")
         video_sitemap = (site / "sitemap-videos.xml").read_text(encoding="utf-8")
         robots = (site / "robots.txt").read_text(encoding="utf-8")

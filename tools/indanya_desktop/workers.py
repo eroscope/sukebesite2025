@@ -338,7 +338,7 @@ class AnalyticsWorker(QRunnable):
             if self.mode == "realtime":
                 result = fetch_ga4_realtime(self.site_root)
             elif self.mode == "growth":
-                result = fetch_ga4_report(self.site_root, start_date="7daysAgo", end_date="yesterday")
+                result = fetch_ga4_report(self.site_root, start_date="16daysAgo", end_date="3daysAgo")
             else:
                 result = fetch_ga4_report(
                     self.site_root,

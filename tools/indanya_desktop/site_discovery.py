@@ -857,6 +857,8 @@ def _write_sitemaps(
         page_lines.append("  </url>")
     page_lines.append("</urlset>")
     (repository / "sitemap.xml").write_text("\n".join(page_lines) + "\n", encoding="utf-8", newline="")
+    # A plain URL-only sitemap isolates XML/media-extension parsing failures.
+    (repository / "sitemap-pages.txt").write_text("\n".join(sorted(seen)) + "\n", encoding="utf-8", newline="")
 
     image_lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
