@@ -266,6 +266,7 @@
     "topics/topic-7617e3b447bc.html",
     "topics/topic-76faf7bb7608.html",
     "topics/topic-771bd1d57220.html",
+    "topics/topic-7762d3aed2fb.html",
     "topics/topic-77bf3dd73ea1.html",
     "topics/topic-795d25e718e1.html",
     "topics/topic-797df32f29ec.html",
@@ -555,9 +556,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 318,
-    "works": 230,
-    "topics": 1724
+    "people": 319,
+    "works": 231,
+    "topics": 1725
   },
   "people": [
     {
@@ -1621,6 +1622,10 @@
       "articles": 1
     },
     {
+      "name": "罵倒オナサポ",
+      "articles": 1
+    },
+    {
       "name": "美乃すずめ",
       "articles": 1
     },
@@ -2396,6 +2401,10 @@
     },
     {
       "code": "MIKR-048",
+      "articles": 1
+    },
+    {
+      "code": "MIKR-122",
       "articles": 1
     },
     {
@@ -3286,7 +3295,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 38
+      "articles": 39
     },
     {
       "name": "MOODYZ DIVA",
@@ -4934,6 +4943,10 @@
     },
     {
       "name": "バイク",
+      "articles": 1
+    },
+    {
+      "name": "バイノーラル",
       "articles": 1
     },
     {
@@ -7658,7 +7671,7 @@
     },
     {
       "name": "森日向子",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "森沢かな",
