@@ -213,6 +213,7 @@
     "topics/topic-51138b9db6a2.html",
     "topics/topic-52bc074edf26.html",
     "topics/topic-536c40f98792.html",
+    "topics/topic-53e5cddf2157.html",
     "topics/topic-545b57cf435b.html",
     "topics/topic-55258bc4d97a.html",
     "topics/topic-56fd6f27e8b6.html",
@@ -362,6 +363,7 @@
     "topics/topic-ani.html",
     "topics/topic-animates.html",
     "topics/topic-asmr.html",
+    "topics/topic-av.html",
     "topics/topic-av.html",
     "topics/topic-av.html",
     "topics/topic-av.html",
@@ -557,7 +559,7 @@
   ],
   "counts": {
     "people": 319,
-    "works": 231,
+    "works": 232,
     "topics": 1728
   },
   "people": [
@@ -2545,6 +2547,10 @@
     },
     {
       "code": "PXVR-433",
+      "articles": 1
+    },
+    {
+      "code": "RD-1372",
       "articles": 1
     },
     {
@@ -5039,7 +5045,7 @@
     },
     {
       "name": "パッケージ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "パッケージ画像",
@@ -6899,7 +6905,7 @@
     },
     {
       "name": "室内シーン",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "室内撮影",
@@ -8051,7 +8057,7 @@
     },
     {
       "name": "熟女AV",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "爆乳",
@@ -8215,7 +8221,7 @@
     },
     {
       "name": "画像集",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "画像＋動画",
