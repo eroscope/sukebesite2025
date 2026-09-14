@@ -555,7 +555,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 317,
+    "people": 318,
     "works": 229,
     "topics": 1722
   },
@@ -815,6 +815,10 @@
     {
       "name": "伊藤舞雪",
       "articles": 3
+    },
+    {
+      "name": "似鳥沙也加",
+      "articles": 1
     },
     {
       "name": "佐々木あき",
@@ -3518,7 +3522,7 @@
     },
     {
       "name": "Tバック",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "UnfinishedVR",
@@ -5550,7 +5554,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 96
+      "articles": 97
     },
     {
       "name": "ラヴィット！",
@@ -5738,7 +5742,7 @@
     },
     {
       "name": "下着",
-      "articles": 70
+      "articles": 71
     },
     {
       "name": "下着ずらし",
