@@ -558,7 +558,7 @@
   "counts": {
     "people": 319,
     "works": 231,
-    "topics": 1725
+    "topics": 1728
   },
   "people": [
     {
@@ -3771,6 +3771,10 @@
     },
     {
       "name": "ちゃづり",
+      "articles": 1
+    },
+    {
+      "name": "つばさ舞",
       "articles": 1
     },
     {
@@ -6998,6 +7002,10 @@
       "articles": 1
     },
     {
+      "name": "小野六花",
+      "articles": 1
+    },
+    {
       "name": "尻",
       "articles": 16
     },
@@ -8792,6 +8800,10 @@
     {
       "name": "背徳",
       "articles": 2
+    },
+    {
+      "name": "背面騎乗位",
+      "articles": 1
     },
     {
       "name": "胡桃さくら",
