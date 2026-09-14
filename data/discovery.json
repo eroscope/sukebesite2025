@@ -556,7 +556,7 @@
   "counts": {
     "people": 315,
     "works": 228,
-    "topics": 1712
+    "topics": 1718
   },
   "people": [
     {
@@ -3040,6 +3040,10 @@
       "articles": 1
     },
     {
+      "name": "BLACK LAGOON",
+      "articles": 1
+    },
+    {
       "name": "BLACK MANIA",
       "articles": 1
     },
@@ -4340,6 +4344,10 @@
       "articles": 2
     },
     {
+      "name": "ゲームコラボ",
+      "articles": 1
+    },
+    {
       "name": "ゲームニュース",
       "articles": 1
     },
@@ -4949,6 +4957,10 @@
     },
     {
       "name": "バニーナース",
+      "articles": 1
+    },
+    {
+      "name": "バラライカ",
       "articles": 1
     },
     {
@@ -5585,6 +5597,10 @@
     },
     {
       "name": "レポート",
+      "articles": 1
+    },
+    {
+      "name": "レヴィ",
       "articles": 1
     },
     {
@@ -6905,6 +6921,10 @@
     },
     {
       "name": "対面座位",
+      "articles": 1
+    },
+    {
+      "name": "対魔忍",
       "articles": 1
     },
     {
@@ -8374,6 +8394,10 @@
     {
       "name": "社長室",
       "articles": 2
+    },
+    {
+      "name": "神姫PROJECT",
+      "articles": 1
     },
     {
       "name": "禁欲",
