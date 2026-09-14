@@ -557,7 +557,7 @@
   "counts": {
     "people": 315,
     "works": 228,
-    "topics": 1720
+    "topics": 1722
   },
   "people": [
     {
@@ -3429,6 +3429,10 @@
       "articles": 1
     },
     {
+      "name": "SNS写真",
+      "articles": 1
+    },
+    {
       "name": "SNS動画",
       "articles": 1
     },
@@ -5050,7 +5054,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 46
+      "articles": 47
     },
     {
       "name": "ビビアン",
@@ -7037,6 +7041,10 @@
       "articles": 1
     },
     {
+      "name": "希空",
+      "articles": 1
+    },
+    {
       "name": "年下彼女",
       "articles": 1
     },
@@ -7862,7 +7870,7 @@
     },
     {
       "name": "海辺",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "消火栓",
