@@ -5,7 +5,8 @@ import json
 import time
 from pathlib import Path
 from urllib.parse import urljoin
-from urllib.request import Request, urlopen
+from urllib.request import HTTPRedirectHandler, Request, build_opener
+from urllib.error import URLError
 import xml.etree.ElementTree as ET
 
 
@@ -14,6 +15,13 @@ def digest(raw):
 
 
 def verify(root, base, slugs):
+    class SiteRedirects(HTTPRedirectHandler):
+        def redirect_request(self, request, fp, code, message, headers, newurl):
+            if not newurl.startswith(base):
+                raise ValueError("Redirect left the site")
+            return super().redirect_request(request, fp, code, message, headers, newurl)
+
+    opener = build_opener(SiteRedirects())
     paths = ["index.html", "latest.html", "latest-2.html", "saved.html", "privacy.html",
              "assets/common/age-gate.js", "assets/common/ga4.js", "assets/common/reader.js",
              "assets/common/reader.css", "assets/common/catalog.js", "assets/common/article-related.js",
@@ -22,10 +30,12 @@ def verify(root, base, slugs):
     results = []
     for path in paths:
         request = Request(urljoin(base, path), headers={"User-Agent": "Indanya-Release-Check/1.0"})
-        with urlopen(request, timeout=25) as response:
-            raw = response.read()
-            if not response.url.startswith(base):
-                raise ValueError(f"Unexpected redirect: {path}")
+        try:
+            with opener.open(request, timeout=25) as response:
+                raw = response.read()
+        except (URLError, TimeoutError, ValueError) as exc:
+            results.append({"path": path, "matches": False, "error": str(exc)})
+            continue
         expected = (root / path).read_bytes()
         results.append({"path": path, "matches": digest(raw) == digest(expected), "bytes": len(raw)})
     return results
