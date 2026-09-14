@@ -375,6 +375,7 @@
     "topics/topic-av.html",
     "topics/topic-av.html",
     "topics/topic-av.html",
+    "topics/topic-av.html",
     "topics/topic-b010a4c2d907.html",
     "topics/topic-b03ff91d92e0.html",
     "topics/topic-b0d4c6c28a4b.html",
@@ -565,7 +566,7 @@
   "counts": {
     "people": 322,
     "works": 232,
-    "topics": 1733
+    "topics": 1735
   },
   "people": [
     {
@@ -3014,7 +3015,7 @@
     },
     {
       "name": "AVサンプル",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "AVセール",
@@ -3318,7 +3319,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 39
+      "articles": 40
     },
     {
       "name": "MOODYZ DIVA",
@@ -3702,6 +3703,10 @@
     },
     {
       "name": "うつ伏せ",
+      "articles": 1
+    },
+    {
+      "name": "うんぱい",
       "articles": 1
     },
     {
@@ -5871,6 +5876,10 @@
     {
       "name": "主観",
       "articles": 3
+    },
+    {
+      "name": "主観映像",
+      "articles": 1
     },
     {
       "name": "乃木坂46",
