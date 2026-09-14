@@ -997,6 +997,9 @@ def run_quality_routines(site_root: Path, *, now: datetime | None = None) -> dic
             ran.append("monthly")
         if ran:
             _write(site_root, state)
+    if "daily" in ran:
+        from .reader_growth import write_growth_review
+        write_growth_review(site_root)
     return {"ran": ran, "mode": quality_mode(site_root, now=current)}
 
 

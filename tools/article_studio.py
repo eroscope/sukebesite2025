@@ -66,6 +66,7 @@ from indanya_desktop.social_profiles import (  # noqa: E402
 from indanya_desktop.visual_identity import (  # noqa: E402
     mark_payload_identity_research_state,
 )
+from indanya_desktop.reader_growth import provenance_markup
 
 
 SITE_ROOT = TOOLS_ROOT.parent
@@ -5839,25 +5840,17 @@ def _render_sidebar(
     articles = [item for item in articles if item.get("slug") != metadata["slug"]]
     if metadata["status"] == "published":
         articles.append(metadata)
-    articles.sort(key=lambda item: int(item.get("comments", 0)), reverse=True)
+    articles.sort(key=lambda item: str(item.get("published_at") or ""), reverse=True)
     ranks = []
     for number, item in enumerate(articles[:4], start=1):
         href = Path(str(item["url"])).name
         ranks.append(
             f'<div class="rank"><span class="rank-num">{number}</span><div>'
             f'<a href="{html.escape(href, quote=True)}">{html.escape(str(item["title"]))}</a>'
-            f'<span>{int(item.get("comments", 0))}コメント</span></div></div>'
+            f'<span>{html.escape(str(item.get("display_date") or ""))}</span></div></div>'
         )
     if not ranks:
-        ranks.append('<div class="rank"><span class="rank-num">新</span><div><a href="#">公開準備中</a><span>0コメント</span></div></div>')
-
-    comments = [block["text"].replace("\n", " ") for block in blocks if block["type"] == "post"][:3]
-    latest = []
-    for number, comment in enumerate(comments, start=1):
-        latest.append(
-            '<div class="rank"><span class="rank-num">新</span><div>'
-            f'<a href="#">{html.escape(comment[:34])}</a><span>{number:02d}:00</span></div></div>'
-        )
+        ranks.append('<p>新着記事はまだありません。</p>')
 
     recommendation = next((
         block for block in reversed(blocks)
@@ -5880,10 +5873,10 @@ def _render_sidebar(
     )
     return (
         '<aside class="sidebar">'
-        '<section class="sidebox"><h2 class="side-title">今日の人気記事</h2>'
+        '<section class="sidebox"><h2 class="side-title">新着記事</h2>'
         f'<div class="sidebody">{"".join(ranks)}</div></section>'
-        '<section class="sidebox"><h2 class="side-title">最新コメント</h2>'
-        f'<div class="sidebody">{"".join(latest)}</div></section>'
+        '<section class="sidebox"><h2 class="side-title">また読む</h2>'
+        '<div class="sidebody"><a href="../saved.html">保存・閲覧履歴</a><br><a href="../feed.xml">RSS</a></div></section>'
         f'{related_section}'
         '</aside>'
     )
@@ -6179,9 +6172,9 @@ def render_article(
         fixed_note = "レス本文は記事構成のための再構成です。"
         if "再構成" not in transparency:
             transparency = f"{transparency} {fixed_note}".strip()
-    # Keep source_url in private draft metadata for duplicate detection,
-    # auditing and media downloads. The public article must not expose the
-    # scraped page or look like a repost with a mandatory source footer.
+    reference = provenance_markup(payload)
+    if reference:
+        rendered_blocks.append(reference)
     if transparency:
         rendered_blocks.append(
             f'<div class="editorial-note">※{html.escape(transparency)}</div>'
@@ -6247,7 +6240,7 @@ def render_article(
   <div class="breadcrumb"><a href="{home_href}">淫談屋</a> ＞ {html.escape(str(metadata["category"]))} ＞ {html.escape(title)}</div>
   <div class="layout"><article class="article">
     <header class="article-head"><h1 class="article-title">{html.escape(title)}</h1>
-      <div class="article-meta"><span>{metadata["display_date"]}</span><span>{metadata["comments"]} コメント</span><span>{media_count_label}</span></div>
+      <div class="article-meta"><span>{metadata["display_date"]}</span><span>{media_count_label}</span></div>
     </header>
     <div class="thread">{"".join(rendered_blocks)}</div>
   </article>{sidebar}</div>

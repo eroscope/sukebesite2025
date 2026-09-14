@@ -19,6 +19,7 @@
     });
   }
   if (!document.body) return;
+  if (["localhost", "127.0.0.1"].includes(location.hostname)) return;
   document.documentElement.dataset.indanyaAnalyticsStatus = "body-ready";
 
   const ownerStorageKey = "indanya-ga4-owner-v2";
@@ -199,6 +200,18 @@
   }
 
   const isOwner = await ownerBrowser();
+  const isAgeCheck = location.pathname.endsWith("/age-check.html");
+  const pageLocation = new URL(location.pathname, location.origin);
+  let acquisition = new URL(location.href);
+  if (isAgeCheck) {
+    try {
+      const target = new URL(acquisition.searchParams.get("return"));
+      if (target.origin === location.origin) acquisition = target;
+    } catch { /* No return address. */ }
+  }
+  ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(key => {
+    if (acquisition.searchParams.has(key)) pageLocation.searchParams.set(key, acquisition.searchParams.get(key).slice(0, 100));
+  });
   const isArticle = /\/articles\/[^/]+\.html$/i.test(location.pathname);
   document.documentElement.dataset.indanyaAnalytics = isOwner ? "owner-local-v1" : "external-ga4-v1";
   document.documentElement.dataset.indanyaAnalyticsStatus = "identity-ready";
@@ -234,7 +247,8 @@
       article_slug: articleSlug,
       article_title: articleTitle,
       content_group: articleCategory || "未分類",
-      tracking_version: String(config.trackingVersion || "8"),
+      tracking_version: String(config.trackingVersion || "9"),
+      page_location: pageLocation.href,
       transport_type: "beacon",
     };
   }
@@ -278,15 +292,41 @@
     gtag = function () { window.dataLayer.push(arguments); };
     window.gtag = window.gtag || gtag;
     gtag("js", new Date());
-    gtag("config", measurementId, { send_page_view: false });
+    gtag("config", measurementId, { send_page_view: false, page_location: pageLocation.href });
   }
 
   function sendEvent(name, details) {
-    if (isOwner) queueOwnerEvent(name, details);
+    if (isOwner) {
+      if (["article_view", "article_visit", "article_pr_click", "article_pr_impression"].includes(name)) queueOwnerEvent(name, details);
+    }
     else gtag("event", name, details);
   }
 
   if (!isOwner) sendEvent("page_view", commonDetails());
+  if (isAgeCheck) sendEvent("age_gate_view", commonDetails());
+  const readerEvents = new Set(["article_save", "article_unsave"]);
+  document.addEventListener("indanya-reader-event", event => {
+    if (readerEvents.has(event.detail?.name)) sendEvent(event.detail.name, commonDetails());
+  });
+  document.addEventListener("click", event => {
+    if (event.target.closest("#ageEnter")) sendEvent("age_gate_enter", commonDetails());
+    const link = event.target.closest("a[href]");
+    if (!link) return;
+    let target;
+    try { target = new URL(link.href); } catch { return; }
+    let name = "";
+    if (link.dataset.readerReturn) name = "saved_article_open";
+    else if (link.closest(".article-static-discovery, .article-related, .article-entity-links")) name = "related_article_click";
+    else if (target.origin !== location.origin && link.closest(".person-discovery-links, [data-official-link]") && !isPromotionLink(link) && /https?:/.test(target.protocol)) name = "official_link_click";
+    else if (/\/feed\.xml$/.test(target.pathname)) name = "rss_open";
+    if (name) sendEvent(name, {...commonDetails(), link_domain: target.hostname, link_path: target.pathname, event_timeout: 1000});
+  }, {capture: true});
+  try {
+    const returnKey = `indanya-reader-return:${siteKey}`;
+    const last = Number(localStorage.getItem(returnKey) || 0);
+    if (last > 0 && last < Date.now() && new Date(last).toDateString() !== new Date().toDateString()) sendEvent("reader_return", commonDetails());
+    localStorage.setItem(returnKey, String(Date.now()));
+  } catch { /* Storage-disabled readers remain measurable through page events. */ }
   if (isArticle) {
     sendEvent("article_view", commonDetails());
     if (beginArticleVisit()) sendEvent("article_visit", commonDetails());

@@ -1475,7 +1475,7 @@ class ArticleStudioTests(unittest.TestCase):
 
         self.assertEqual(["フィギュア", "野球部ちゃん", "開脚"], payload["tags"])
 
-    def test_public_article_does_not_expose_source_url(self) -> None:
+    def test_public_article_links_to_its_source(self) -> None:
         source = article_studio.analyze_source_url(
             "https://news.example.com/cosplay/story",
             FakeSourceOpener(),
@@ -1485,8 +1485,8 @@ class ArticleStudioTests(unittest.TestCase):
 
         build = article_studio.build_article(payload, self.site_root)
 
-        self.assertNotIn(source["url"], build.article_html)
-        self.assertNotIn("元記事：", build.article_html)
+        self.assertIn(source["url"], build.article_html)
+        self.assertIn('class="article-source-reference"', build.article_html)
 
     def test_thumbnail_image_is_used_as_the_lead_article_image(self) -> None:
         source = article_studio.analyze_source_url(

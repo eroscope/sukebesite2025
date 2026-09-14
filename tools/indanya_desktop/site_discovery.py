@@ -11,7 +11,9 @@ from email.utils import format_datetime
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any, Iterable
-from urllib.parse import unquote, urljoin
+from urllib.parse import quote, unquote, urljoin
+
+from .reader_experience import refresh_reader_experience
 
 
 SEO_START = "<!-- INDANYA_SEO_START -->"
@@ -713,6 +715,7 @@ def _write_hubs(
     topics: dict[str, list[dict[str, Any]]],
 ) -> list[str]:
     generated: list[str] = []
+    featured_hubs: list[dict[str, Any]] = []
     definitions = (
         ("person", "people", "people.html", "人物から探す", "出演者・配信者・投稿者ごとに淫談屋の記事をまとめています。", people),
         ("work", "works", "works.html", "作品から探す", "作品番号ごとに画像・動画・公式ページを確認できる記事へ移動できます。", works),
@@ -728,7 +731,21 @@ def _write_hubs(
             href = f"{directory}/{slug}.html"
             detail_title = f"{label}の記事一覧"
             detail_description = f"{label}に関する画像・動画・作品情報の記事を新しい順に掲載しています。"
-            detail_body = _article_cards(group_articles, 1)
+            dates = sorted(filter(None, (_iso_date(row.get("published_at")) for row in group_articles)))
+            update = dates[-1] if dates else ""
+            codes = sorted({code for row in group_articles for code in article_entities(row)["works"]})
+            overview = (
+                '<section class="hub-overview"><h2>掲載情報</h2><dl>'
+                f'<dt>記事</dt><dd>{len(group_articles)}件</dd>'
+                f'<dt>最終掲載日</dt><dd>{html.escape(update)}</dd>'
+                '</dl><nav aria-label="この特集の関連ページ">'
+                + ''.join(f'<a href="../search.html?q={quote(code)}">{html.escape(code)}</a>' for code in codes[:8])
+                + '</nav></section>'
+            )
+            detail_body = overview + '<h2>新しい順に読む</h2>' + _article_cards(group_articles, 1)
+            quota = 3 if kind == "person" else 2 if kind == "topic" else 0
+            if sum(item["kind"] == kind for item in featured_hubs) < quota:
+                featured_hubs.append({"kind": kind, "label": label, "url": href, "articles": len(group_articles), "updated": update})
             detail_html = _hub_shell(
                 base_url,
                 href,
@@ -758,6 +775,9 @@ def _write_hubs(
         index_html = _hub_shell(base_url, index_path, title, description, body, 0)
         (repository / index_path).write_text(index_html, encoding="utf-8", newline="")
         generated.append(index_path)
+    hub_data = repository / "data" / "reader" / "hubs.json"
+    hub_data.parent.mkdir(parents=True, exist_ok=True)
+    hub_data.write_text(json.dumps(featured_hubs, ensure_ascii=False), encoding="utf-8")
     return generated
 
 
@@ -984,10 +1004,11 @@ def refresh_site_discovery(
             repository, public_url, article, published, people, works, topics
         )
 
-    _write_sitemaps(repository, public_url, published, generated, media_by_slug)
+    _augment_home(repository, public_url)
+    reader_pages = refresh_reader_experience(repository, public_url, published)
+    _write_sitemaps(repository, public_url, published, generated + reader_pages, media_by_slug)
     _write_feed(repository, public_url, published)
     _write_manifest(repository, generated, people, works, topics)
-    _augment_home(repository, public_url)
     return {
         "articles": len(published),
         "people": len(people),

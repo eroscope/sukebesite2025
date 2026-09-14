@@ -481,7 +481,7 @@ def _extend_sparse_checkout_if_enabled(
         _run_git(
             [
                 "sparse-checkout", "add",
-                "/index.html", "/articles/*.html",
+                "/index.html", "/latest*.html", "/data/reader/", "/articles/*.html",
                 f"/articles/{slug}.html", f"/assets/articles/{slug}/",
                 "/people.html", "/works.html", "/topics.html",
                 "/people/", "/works/", "/topics/",
@@ -490,7 +490,7 @@ def _extend_sparse_checkout_if_enabled(
                 "/assets/common/article-discovery.css",
                 "/assets/common/indanya-logo.png", "/assets/common/favicon.ico",
                 "/assets/common/analytics-config.js", "/assets/common/ga4.js",
-                "/assets/common/age-gate.js", "/privacy.html", "/partners.html",
+                "/assets/common/age-gate.js", "/assets/common/reader.*", "/saved.html", "/privacy.html", "/partners.html",
             ],
             cwd=repository,
             env=git_env,
@@ -542,7 +542,7 @@ def _prepare_cached_site(
                 "sparse-checkout", "set", "--no-cone",
                 "/data/articles.json", "/data/discovery.json",
                 "/sitemap.xml", "/sitemap-images.xml", "/sitemap-videos.xml",
-                "/feed.xml", "/robots.txt", "/index.html",
+                "/feed.xml", "/robots.txt", "/index.html", "/latest*.html", "/data/reader/",
                 "/articles/*.html", "/articles/pool-look-back.html",
                 f"/articles/{slug}.html", f"/assets/articles/{slug}/",
                 "/people.html", "/works.html", "/topics.html",
@@ -550,7 +550,7 @@ def _prepare_cached_site(
                 "/assets/common/article-discovery.css",
                 "/assets/common/indanya-logo.png", "/assets/common/favicon.ico",
                 "/assets/common/analytics-config.js", "/assets/common/ga4.js",
-                "/assets/common/age-gate.js", "/privacy.html", "/partners.html",
+                "/assets/common/age-gate.js", "/assets/common/reader.*", "/saved.html", "/privacy.html", "/partners.html",
             ],
             cwd=repository,
             env=git_env,
@@ -839,7 +839,7 @@ def publish_article(
     published["published_at"] = datetime.now(JST).isoformat(timespec="seconds")
     save_draft(published, draft_root)
     if sitemap_health.get("status") == "healthy":
-        progress(100, "公開とGoogle入口の反映確認が完了しました")
+        progress(100, "記事とサイトマップの公開反映を確認しました。Googleの取得・登録状況は別途確認が必要です")
     else:
         progress(100, "記事は公開済みです。サイトマップは公開反映を継続確認します")
     return {

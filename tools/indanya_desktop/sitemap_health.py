@@ -328,6 +328,9 @@ def load_sitemap_health(site_root: Path) -> dict[str, Any]:
 
 def save_sitemap_health(site_root: Path, report: dict[str, Any]) -> None:
     path = _health_path(site_root)
+    observed = (load_sitemap_health(site_root).get("search_console") or {})
+    if observed.get("observed_at") and not (report.get("search_console") or {}).get("observed_at"):
+        report = {**report, "search_console": observed}
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(".tmp")
     temporary.write_text(
@@ -335,6 +338,14 @@ def save_sitemap_health(site_root: Path, report: dict[str, Any]) -> None:
         encoding="utf-8",
     )
     temporary.replace(path)
+
+
+def record_search_console_observation(site_root: Path, observation: dict[str, Any]) -> None:
+    if not observation.get("observed_at") or observation.get("source") not in {"ui", "api"}:
+        raise ValueError("Search Console observation must include its time and source")
+    report = load_sitemap_health(site_root)
+    report["search_console"] = dict(observation)
+    save_sitemap_health(site_root, report)
 
 
 def combined_sitemap_health(
@@ -358,7 +369,7 @@ def combined_sitemap_health(
         "local": local,
         "public": public,
         "search_console": {
-            "status": "resubmit_required" if status == "healthy" else "waiting_for_public",
+            "status": "unverified" if status == "healthy" else "waiting_for_public",
         },
     }
 
@@ -370,8 +381,8 @@ def run_public_sitemap_health_check(site_root: Path, public_url: str) -> dict[st
     report = combined_sitemap_health(expected, public)
     previous_search = previous.get("search_console") or {}
     report["search_console"] = {
-        **(dict(previous_search) if isinstance(previous_search, dict) else {}),
         **report["search_console"],
+        **(dict(previous_search) if isinstance(previous_search, dict) else {}),
     }
     save_sitemap_health(site_root, report)
     return report

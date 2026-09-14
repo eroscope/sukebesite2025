@@ -145,7 +145,13 @@ class SiteIntegrityTests(unittest.TestCase):
         ):
             source = (ROOT / filename).read_text(encoding="utf-8")
             self.assertIn('action="search.html"', source)
-            self.assertIn("assets/common/catalog.js", source)
+            if filename == "latest.html":
+                self.assertNotIn("assets/common/catalog.js", source)
+                self.assertIn('data-reader-static="true"', source)
+                self.assertIn('href="articles/', source)
+                self.assertIn('rel="next" href="latest-2.html"', source)
+            else:
+                self.assertIn("assets/common/catalog.js", source)
         for filename in ("latest.html", "popular.html", "random.html", "search.html", "tags.html", "fanza.html"):
             source = (ROOT / filename).read_text(encoding="utf-8")
             self.assertIn('id="catalogPagination"', source)

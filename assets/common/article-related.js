@@ -78,7 +78,7 @@
   };
 
   const popularityScore = (item, index) =>
-    Number(item.comments || 0) +
+    0 +
     (item.featured ? 30 : 0) +
     Math.max(0, 20 - index);
 
@@ -113,7 +113,7 @@
 
     const meta = document.createElement("span");
     meta.className = "article-related-meta";
-    meta.textContent = `${item.category || "記事"}  ${Number(item.comments || 0)}コメント`;
+    meta.textContent = `${item.category || "記事"}  ${item.display_date || ""}`;
 
     const title = document.createElement("strong");
     title.textContent = item.title || "記事を読む";
@@ -166,7 +166,6 @@
     const popular = [...published]
       .filter(item => !isCurrent(item))
       .sort((left, right) =>
-        Number(right.comments || 0) - Number(left.comments || 0) ||
         Date.parse(right.published_at) - Date.parse(left.published_at)
       )
       .slice(0, 6);
@@ -185,7 +184,7 @@
         const title = document.createElement("strong");
         title.textContent = item.title;
         const meta = document.createElement("small");
-        meta.textContent = `${item.category} / ${item.comments}コメント`;
+        meta.textContent = `${item.category} / ${item.display_date || ""}`;
         copy.append(title, meta);
         link.append(image, copy);
         return link;
@@ -206,7 +205,8 @@
     sidebar.append(navigation);
   };
 
-  fetch(toRootUrl("data/articles.json"), { cache: "no-store" })
+  if (hasStaticDiscovery) return;
+  fetch(toRootUrl("data/reader/catalog.json"))
     .then(response => {
       if (!response.ok) throw new Error(`articles: ${response.status}`);
       return response.json();

@@ -1196,7 +1196,13 @@ class MainWindow(QMainWindow):
             self._ensure_startup_launcher()
         self.switch_page("dashboard")
         self.refresh_all()
+        self.reader_growth_attempted_at = None
+        self.reader_growth_timer = QTimer(self)
+        self.reader_growth_timer.setInterval(30 * 60_000)
+        self.reader_growth_timer.timeout.connect(self._reader_growth_tick)
         if not screenshot_mode:
+            self.reader_growth_timer.start()
+            QTimer.singleShot(8_000, self._reader_growth_tick)
             QTimer.singleShot(1_500, self._start_sitemap_health_check)
             QTimer.singleShot(4_000, self._scheduler_tick)
 
@@ -1429,7 +1435,7 @@ class MainWindow(QMainWindow):
         report = dict(report or load_sitemap_health(self.site.root))
         status = str(report.get("status") or "unknown")
         labels = {
-            "healthy": "正常: Googleへ渡す3本の入口が公開済み",
+            "healthy": "配信は正常: サイトマップ3本の公開を確認",
             "pending": "公開反映待ち: 記事は公開済み、入口を再確認中",
             "local_only": "ローカル検査済み: 公開先は未確認",
             "error": "要修正: サイトマップの生成検査に失敗",
@@ -1453,8 +1459,16 @@ class MainWindow(QMainWindow):
             detail += f" / 最終確認 {checked}"
         if errors:
             detail += " / " + errors[0]
-        elif status == "healthy":
-            detail += " / Search Consoleへ再送信できます"
+        search = report.get("search_console") or {}
+        search_labels = {
+            "fetch_failed": "Google側は取得失敗",
+            "unverified": "Google側の取得・登録は未確認",
+            "waiting_for_public": "Google側の取得・登録は未確認",
+        }
+        detail += " / " + search_labels.get(str(search.get("status") or ""), "Google側はSearch Consoleの確認記録を参照")
+        observed = str(search.get("observed_at") or "").replace("T", " ")[:19]
+        if observed:
+            detail += f"（確認日時 {observed}）"
         self.sitemap_health_detail.setText(detail)
 
     def _start_sitemap_health_check(self) -> None:
@@ -5037,6 +5051,26 @@ class MainWindow(QMainWindow):
 
     # Analytics v2 overrides the legacy Apps Script-era methods above. Both
     # audience pages are filled from the same response, so switching is local.
+    def _reader_growth_tick(self) -> None:
+        if not self._ga4_read_ready() or self.analytics_worker is not None:
+            return
+        now = datetime.now(JST)
+        previous = self.reader_growth_attempted_at
+        if previous and (now - previous).total_seconds() < 3600:
+            return
+        report = load_ga4_cache(self.site.root).get("historical") or {}
+        try:
+            stamp = datetime.fromisoformat(str(report.get("generated_at") or ""))
+            if stamp.astimezone(JST).date() == now.date() and (report.get("external") or {}).get("site_summary"):
+                return
+        except (ValueError, TypeError):
+            pass
+        self.reader_growth_attempted_at = now
+        self.analytics_worker = AnalyticsWorker(self.site.root, "growth", 7)
+        self.analytics_worker.signals.completed.connect(self._ga4_loaded)
+        self.analytics_worker.signals.failed.connect(self._ga4_failed)
+        self.thread_pool.start(self.analytics_worker)
+
     def _ga4_read_ready(self) -> bool:
         return bool(
             load_ga4_property_id(self.site.root)
@@ -5151,6 +5185,13 @@ class MainWindow(QMainWindow):
             "article_view": "記事閲覧",
             "pr_impression": "PR表示",
             "pr_click": "PRクリック",
+            "age_gate_view": "年齢確認表示",
+            "age_gate_enter": "年齢確認通過",
+            "related_article_click": "関連記事へ移動",
+            "official_link_click": "公式リンクへ移動",
+            "article_save": "記事保存",
+            "saved_article_open": "保存・履歴から閲覧",
+            "reader_return": "再訪",
         }
         result: list[dict] = []
         for row in rows if isinstance(rows, list) else []:
@@ -5225,7 +5266,7 @@ class MainWindow(QMainWindow):
                 {"eventCount", "activeUsers", "prImpressions", "prClicks"}, {"clickRate"},
             )
             self._fill_analytics_table(
-                tables["events"], self._analytics_event_labels(report.get("events")),
+                tables["events"], self._analytics_event_labels([*(report.get("events") or []), *(report.get("reader_events") or [])]),
                 ["eventName", "eventCount", "totalUsers"], {"eventCount", "totalUsers"}, set(),
             )
             self._fill_analytics_table(
@@ -5246,8 +5287,14 @@ class MainWindow(QMainWindow):
                 tables["daily"], report.get("daily"),
                 ["date", "eventCount", "activeUsers"], {"eventCount", "activeUsers"}, set(),
             )
+            site_summary = report.get("site_summary") or {}
+            site_note = (
+                f" / サイト全体(管理者除外): {site_summary.get('totalUsers', 0)}人・"
+                f"{site_summary.get('sessions', 0)}訪問・{site_summary.get('screenPageViews', 0)}PV"
+                if site_summary else " / サイト全体は未取得"
+            )
             view["report_status"].setText(
-                f"{source} {stamp} / {data.get('start_date')}〜{data.get('end_date')}"
+                f"{source} {stamp} / {data.get('start_date')}〜{data.get('end_date')} / 上の指標は記事のみ" + site_note
             )
 
     def _ga4_realtime_loaded(self, data: dict) -> None:

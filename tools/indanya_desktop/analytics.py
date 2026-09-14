@@ -19,7 +19,7 @@ from .owner_collector import (
 
 
 GA4_READ_SCOPE = "https://www.googleapis.com/auth/analytics.readonly"
-ANALYTICS_VERSION = 8
+ANALYTICS_VERSION = 9
 AUDIENCES = ("external", "all")
 
 ARTICLE_EVENTS = {
@@ -462,7 +462,7 @@ def fetch_ga4_report(site_root: Path, start_date: str = "6daysAgo", end_date: st
             date_ranges=[DateRange(start_date=start_date, end_date=end_date)],
             dimensions=[Dimension(name=item) for item in dimensions],
             metrics=[Metric(name=item) for item in metrics],
-            dimension_filter=event_filter(names),
+            dimension_filter=event_filter(names) if names else None,
             limit=limit,
             keep_empty_rows=False,
         )
@@ -471,6 +471,9 @@ def fetch_ga4_report(site_root: Path, start_date: str = "6daysAgo", end_date: st
     pr_events = ARTICLE_PR_EVENTS["external"]
     all_events = tuple(dict.fromkeys(page_events + ARTICLE_VISIT_EVENTS["external"] + pr_events))
     specs: list[tuple[str, list[str], list[str], tuple[str, ...], int]] = [
+        ("site_summary", [], ["totalUsers", "sessions", "screenPageViews", "engagedSessions"], (), 1),
+        ("reader_events", ["eventName"], ["eventCount", "totalUsers"], ("age_gate_view", "age_gate_enter", "related_article_click", "official_link_click", "article_save", "article_unsave", "saved_article_open", "reader_return", "rss_open"), 100),
+        ("acquisition", ["sessionSource", "sessionMedium", "sessionManualCampaignName"], ["sessions", "totalUsers", "screenPageViews"], (), 500),
         ("summary", [], ["eventCount", "activeUsers", "sessions"], page_events, 1),
         ("articles", ["pagePath", "pageTitle"], ["eventCount", "activeUsers"], page_events, 1000),
         ("article_pr", ["pagePath", "eventName"], ["eventCount"], pr_events, 2000),
@@ -484,6 +487,7 @@ def fetch_ga4_report(site_root: Path, start_date: str = "6daysAgo", end_date: st
                 "sessionManualAdContent",
                 "sessionManualCampaignName",
                 "pagePath",
+                "sessionSource",
             ],
             ["sessions", "activeUsers", "eventCount"],
             page_events,
@@ -523,6 +527,9 @@ def fetch_ga4_report(site_root: Path, start_date: str = "6daysAgo", end_date: st
     summary["clickRate"] = _percentage(summary["prClicks"], summary["pageViews"])
     summary["prCtr"] = _percentage(summary["prClicks"], summary["prImpressions"])
     external = {
+        "site_summary": _first_row(raw["site_summary"], ["totalUsers", "sessions", "screenPageViews", "engagedSessions"]),
+        "reader_events": raw["reader_events"],
+        "acquisition": raw["acquisition"],
         "summary": summary,
         "articles": _merge_article_rows(raw["articles"], raw["article_pr"]),
         "daily": raw["daily"],
@@ -532,7 +539,8 @@ def fetch_ga4_report(site_root: Path, start_date: str = "6daysAgo", end_date: st
             row for row in raw["x_posts"]
             if str(row.get("sessionManualAdContent") or "").strip()
             and str(row.get("sessionManualCampaignName") or "").strip()
-            in {"article_post", "owned_contest"}
+            not in {"(not set)", ""}
+            and str(row.get("sessionSource") or "").lower() in {"x", "twitter", "t.co", "x.com", "twitter.com"}
         ],
         "genres": raw["genres"],
         "events": event_rows,
@@ -541,6 +549,8 @@ def fetch_ga4_report(site_root: Path, start_date: str = "6daysAgo", end_date: st
     result["external"] = external
     result["all"] = _merge_historical_reports(external, owner)
     save_ga4_cache(site_root, "historical", result)
+    from .reader_growth import write_growth_review
+    write_growth_review(site_root, result)
     return result
 
 

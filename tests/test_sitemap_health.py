@@ -8,6 +8,10 @@ from unittest.mock import patch
 
 from indanya_desktop.sitemap_health import (
     check_public_sitemaps,
+    combined_sitemap_health,
+    load_sitemap_health,
+    record_search_console_observation,
+    save_sitemap_health,
     validate_local_sitemaps,
 )
 
@@ -22,6 +26,18 @@ def sitemap_xml(urls: list[str]) -> bytes:
 
 
 class SitemapHealthTests(unittest.TestCase):
+    def test_http_success_never_claims_google_success(self) -> None:
+        report = combined_sitemap_health({"status": "healthy"}, {"status": "healthy"})
+        self.assertEqual(report["search_console"]["status"], "unverified")
+        observation = {"status": "fetch_failed", "source": "ui", "observed_at": "2026-09-14T20:28:00+09:00"}
+        record_search_console_observation(self.root, observation)
+        save_sitemap_health(self.root, report)
+        self.assertEqual(load_sitemap_health(self.root)["search_console"], observation)
+
+    def test_search_observation_needs_time_and_source(self) -> None:
+        with self.assertRaises(ValueError):
+            record_search_console_observation(self.root, {"status": "success"})
+
     def setUp(self) -> None:
         self.temporary = tempfile.TemporaryDirectory()
         self.root = Path(self.temporary.name)

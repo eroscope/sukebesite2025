@@ -102,7 +102,7 @@ class AnalyticsTests(unittest.TestCase):
         age_page = (ROOT / "age-check.html").read_text(encoding="utf-8")
         self.assertIn("analytics-config.js", gate)
         self.assertIn("ga4.js", gate)
-        self.assertIn('analyticsLoaderVersion = "8"', gate)
+        self.assertIn('analyticsLoaderVersion = "9"', gate)
         self.assertIn('destination.searchParams.set("return", location.href)', gate)
         self.assertIn('new URLSearchParams(location.search).get("return")', age_page)
         self.assertNotIn("site-events.js", gate)
@@ -178,7 +178,9 @@ class AnalyticsTests(unittest.TestCase):
                     dimensions = [dimension.name for dimension in item.dimensions]
                     events = set(item.dimension_filter.filter.in_list_filter.values)
                     test.assertFalse(any(name.startswith("owner_") for name in events))
-                    if not dimensions:
+                    if not dimensions and item.metrics[0].name == "totalUsers":
+                        reports.append(test.response([([], ["10", "15", "34", "8"])]))
+                    elif not dimensions:
                         reports.append(test.response([([], ["5", "2", "3"])]))
                     elif dimensions == ["pagePath", "pageTitle"]:
                         reports.append(test.response([(["/site/articles/a.html", "記事A"], ["5", "2"])]))
@@ -219,7 +221,8 @@ class AnalyticsTests(unittest.TestCase):
                 with patch("tools.indanya_desktop.analytics._ga4_client", return_value=(client, "properties/1")):
                     data = fetch_ga4_report(root)
                 cache = load_ga4_cache(root)
-        self.assertEqual(client.calls, 2)
+        self.assertEqual(client.calls, 3)
+        self.assertEqual(data["external"]["site_summary"], {"totalUsers": 10, "sessions": 15, "screenPageViews": 34, "engagedSessions": 8})
         self.assertEqual(data["external"]["summary"]["pageViews"], 5)
         self.assertEqual(data["all"]["summary"]["pageViews"], 7)
         self.assertEqual(data["external"]["summary"]["activeUsers"], 2)
@@ -227,7 +230,7 @@ class AnalyticsTests(unittest.TestCase):
         self.assertEqual(data["external"]["summary"]["prClicks"], 1)
         self.assertEqual(data["all"]["summary"]["prClicks"], 2)
         self.assertEqual(data["all"]["articles"][0]["prImpressions"], 5)
-        self.assertEqual(cache["historical"]["version"], 8)
+        self.assertEqual(cache["historical"]["version"], 9)
 
     def test_realtime_report_switches_pages_without_second_fetch(self) -> None:
         test = self

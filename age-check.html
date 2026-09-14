@@ -7,6 +7,8 @@
 <meta name="description" content="淫談屋は18歳以上の方を対象とした成人向けサイトです。">
 <title>年齢確認｜淫談屋</title>
 <link rel="stylesheet" href="assets/common/catalog.css">
+<script src="assets/common/analytics-config.js?v=9" defer></script>
+<script src="assets/common/ga4.js?v=9" defer></script>
 </head>
 <body class="age-page">
 <main class="age-shell">
@@ -30,22 +32,23 @@
 (() => {
   "use strict";
   document.getElementById("ageEnter").addEventListener("click", () => {
-    try {
-      localStorage.setItem("indanya-age-confirmed", String(Date.now()));
-    } catch {
-      // The visitor can continue even when browser storage is disabled.
+    let persisted = false;
+    for (const name of ["localStorage", "sessionStorage"]) {
+      try { window[name].setItem("indanya-age-confirmed", String(Date.now())); persisted = true; }
+      catch { /* Continue with a one-time handoff if both stores are blocked. */ }
     }
     const requested = new URLSearchParams(location.search).get("return") || "";
     let destination = new URL("index.html", location.href);
     try {
       const candidate = new URL(requested);
       const siteRoot = new URL("./", location.href).pathname;
-      if (candidate.origin === location.origin && candidate.pathname.startsWith(siteRoot)) {
+      if (candidate.origin === location.origin && candidate.pathname.startsWith(siteRoot) && !candidate.pathname.endsWith("/age-check.html")) {
         destination = candidate;
       }
     } catch {
       // Keep the home page fallback.
     }
+    if (!persisted) destination.searchParams.set("age_passed", String(Date.now()));
     location.replace(destination.href);
   });
 })();

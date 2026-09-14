@@ -34,7 +34,7 @@
     body.className = "card-body";
     const meta = document.createElement("div");
     meta.className = "card-meta";
-    [article.category, article.display_date, `${article.comments}コメント`].forEach(value => {
+    [article.category, article.display_date].forEach(value => {
       const item = document.createElement("span");
       item.textContent = value;
       meta.append(item);
@@ -66,7 +66,7 @@
     const title = document.createElement("b");
     title.textContent = article.title;
     const count = document.createElement("span");
-    count.textContent = `${article.comments}コメント`;
+    count.textContent = article.display_date || "";
     copy.append(title, count);
     link.append(image, copy);
     return link;
@@ -186,9 +186,7 @@
   function render(articles) {
     const published = articles.filter(article => article.status === "published");
     const latest = [...published].sort((a, b) => Date.parse(b.published_at) - Date.parse(a.published_at));
-    const popular = [...published].sort((a, b) =>
-      b.comments - a.comments || Date.parse(b.published_at) - Date.parse(a.published_at)
-    );
+    const popular = latest;
     const heading = document.getElementById("pageTitle");
     const description = document.getElementById("pageDescription");
     const grid = document.getElementById("catalogGrid");
@@ -220,7 +218,14 @@
     }
 
     let selected = latest;
-    if (page === "popular") selected = popular;
+    if (page === "popular") {
+      selected = latest;
+      heading.textContent = "記事一覧";
+      description.textContent = "新着順";
+    }
+    document.querySelectorAll(".side-title").forEach(node => {
+      if (node.textContent.includes("人気")) node.textContent = "新着記事";
+    });
     if (page === "random") selected = [...published].sort(() => Math.random() - 0.5);
     if (page === "fanza") {
       selected = latest.filter(isFanzaArticle);
@@ -270,7 +275,8 @@
     document.documentElement.dataset.catalogLoaded = "true";
   }
 
-  fetch(`${rootPath}data/articles.json`, { cache: "no-cache" })
+  if (document.body.dataset.readerStatic === "true") return;
+  fetch(`${rootPath}data/reader/${page === "search" ? "search" : "catalog"}.json`)
     .then(response => {
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       return response.json();
