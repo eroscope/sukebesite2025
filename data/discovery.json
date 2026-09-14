@@ -556,8 +556,8 @@
   ],
   "counts": {
     "people": 318,
-    "works": 229,
-    "topics": 1723
+    "works": 230,
+    "topics": 1724
   },
   "people": [
     {
@@ -2499,6 +2499,10 @@
       "articles": 1
     },
     {
+      "code": "OFTR-011",
+      "articles": 1
+    },
+    {
       "code": "OPDA-001",
       "articles": 1
     },
@@ -4254,7 +4258,7 @@
     },
     {
       "name": "ギャル",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "ギャルインフルエンサー",
@@ -4450,7 +4454,7 @@
     },
     {
       "name": "サンプル動画",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "サンプル画像",
@@ -4926,7 +4930,7 @@
     },
     {
       "name": "ハーレム",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "バイク",
@@ -7071,6 +7075,10 @@
     {
       "name": "幼馴染",
       "articles": 3
+    },
+    {
+      "name": "引っ越し",
+      "articles": 1
     },
     {
       "name": "引っ越し密着",
