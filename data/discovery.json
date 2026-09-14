@@ -557,7 +557,7 @@
   "counts": {
     "people": 318,
     "works": 229,
-    "topics": 1722
+    "topics": 1723
   },
   "people": [
     {
@@ -5226,7 +5226,7 @@
     },
     {
       "name": "プール",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "ヘアヌード",
@@ -7330,7 +7330,7 @@
     },
     {
       "name": "撮影会",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "撮影演出",
@@ -7722,7 +7722,7 @@
     },
     {
       "name": "比較",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "比較画像",
@@ -7766,6 +7766,10 @@
     },
     {
       "name": "水着画像",
+      "articles": 1
+    },
+    {
+      "name": "水着風衣装",
       "articles": 1
     },
     {
