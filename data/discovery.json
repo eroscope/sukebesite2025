@@ -567,7 +567,7 @@
   "counts": {
     "people": 323,
     "works": 232,
-    "topics": 1738
+    "topics": 1742
   },
   "people": [
     {
@@ -3211,6 +3211,10 @@
       "articles": 11
     },
     {
+      "name": "GIF動画",
+      "articles": 1
+    },
+    {
       "name": "GIF動画あり",
       "articles": 1
     },
@@ -4892,7 +4896,7 @@
     },
     {
       "name": "ニット",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "ニュースウォッチ9",
@@ -6031,6 +6035,10 @@
       "articles": 1
     },
     {
+      "name": "今井春花",
+      "articles": 1
+    },
+    {
       "name": "介護士",
       "articles": 1
     },
@@ -6804,7 +6812,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 21
+      "articles": 22
     },
     {
       "name": "女子大生",
@@ -7727,6 +7735,10 @@
       "articles": 1
     },
     {
+      "name": "梨園",
+      "articles": 1
+    },
+    {
       "name": "森あやみ",
       "articles": 2
     },
@@ -7812,6 +7824,10 @@
     },
     {
       "name": "比較画像",
+      "articles": 1
+    },
+    {
+      "name": "気象予報士",
       "articles": 1
     },
     {
