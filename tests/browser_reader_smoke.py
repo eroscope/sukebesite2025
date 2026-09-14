@@ -12,7 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT.parents[1] / "outputs" / "reader-growth-qa"
 FIXTURE = '''<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <script src="../assets/common/age-gate.js?v=9" data-site-root="../" defer></script></head>
-<body><nav class="nav-inner"></nav><article class="article"><h1>テスト記事</h1><p>保存と履歴のテスト。</p></article></body></html>'''
+<body><nav class="nav-inner"><a href="../popular.html">人気記事</a></nav><article class="article"><h1>テスト記事</h1><div class="article-meta"><span>8 コメント</span></div><p>保存と履歴のテスト。</p></article>
+<aside class="sidebar"><section><h2 class="side-title">今日の人気記事</h2><div class="rank"><span>12コメント</span></div></section><section><h2 class="side-title">最新コメント</h2><div class="sidebody">Generated comments</div></section></aside></body></html>'''
 
 
 class QuietHandler(http.server.SimpleHTTPRequestHandler):
@@ -62,6 +63,10 @@ def main():
                 assert page.locator("#catalogGrid .post-card").count() == 24
                 assert page.locator('#catalogPagination a[rel="next"]').get_attribute("href") == "latest-3.html"
                 page.goto(base + "/articles/reader-qa-fixture.html", wait_until="networkidle")
+                assert page.locator('.article-meta').inner_text() == ""
+                assert "最新コメント" not in page.locator('.sidebar').inner_text()
+                assert page.locator('.nav-inner a[href$="popular.html"]').inner_text() == "記事一覧"
+                checks.append("legacy generated-comment counts and popularity labels removed")
                 page.get_by_role("button", name="この記事を保存", exact=True).click()
                 assert page.get_by_role("button", name="保存済み", exact=True).get_attribute("aria-pressed") == "true"
                 page.get_by_role("link", name="保存した記事", exact=True).click()
@@ -80,6 +85,7 @@ def main():
                 page = blocked.new_page()
                 page.goto(base + "/articles/reader-qa-fixture.html?utm_source=x", wait_until="networkidle")
                 assert "/age-check.html" in page.url
+                assert page.locator('script[data-reader-script]').count() == 0
                 page.locator("#ageEnter").click()
                 page.wait_for_url("**/articles/reader-qa-fixture.html**")
                 page.wait_for_load_state("networkidle")
