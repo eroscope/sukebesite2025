@@ -555,8 +555,8 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 316,
-    "works": 228,
+    "people": 317,
+    "works": 229,
     "topics": 1722
   },
   "people": [
@@ -1733,6 +1733,10 @@
       "articles": 4
     },
     {
+      "name": "釈アリス",
+      "articles": 1
+    },
+    {
       "name": "野々浦暖",
       "articles": 2
     },
@@ -1826,6 +1830,10 @@
     }
   ],
   "works": [
+    {
+      "code": "13DSVR-2032",
+      "articles": 1
+    },
     {
       "code": "1827590585802486247",
       "articles": 1
@@ -2990,7 +2998,7 @@
     },
     {
       "name": "AV作品",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "AV初出演",
@@ -3446,7 +3454,7 @@
     },
     {
       "name": "SOD",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "SOD Star",
@@ -3522,7 +3530,7 @@
     },
     {
       "name": "VR",
-      "articles": 86
+      "articles": 87
     },
     {
       "name": "VR CHANNEL 005",
@@ -5542,7 +5550,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 95
+      "articles": 96
     },
     {
       "name": "ラヴィット！",
