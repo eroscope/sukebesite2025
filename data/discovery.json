@@ -566,7 +566,7 @@
   "counts": {
     "people": 323,
     "works": 232,
-    "topics": 1735
+    "topics": 1737
   },
   "people": [
     {
@@ -4982,6 +4982,10 @@
       "articles": 1
     },
     {
+      "name": "ハーフ",
+      "articles": 1
+    },
+    {
       "name": "ハーレム",
       "articles": 12
     },
@@ -5196,6 +5200,10 @@
     {
       "name": "フィギュア",
       "articles": 3
+    },
+    {
+      "name": "フィリピン",
+      "articles": 1
     },
     {
       "name": "フェイスレス・ドロップアウト",
@@ -5615,7 +5623,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 99
+      "articles": 100
     },
     {
       "name": "ラヴィット！",
@@ -7827,7 +7835,7 @@
     },
     {
       "name": "水着",
-      "articles": 140
+      "articles": 141
     },
     {
       "name": "水着グラビア",
