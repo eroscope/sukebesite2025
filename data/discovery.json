@@ -194,6 +194,7 @@
     "topics/topic-42b682502372.html",
     "topics/topic-42eab7d23db3.html",
     "topics/topic-437075f9018d.html",
+    "topics/topic-4435a3b14df7.html",
     "topics/topic-4464f1058733.html",
     "topics/topic-459503174895.html",
     "topics/topic-45cec0322496.html",
@@ -562,7 +563,7 @@
   "counts": {
     "people": 320,
     "works": 232,
-    "topics": 1729
+    "topics": 1730
   },
   "people": [
     {
@@ -3342,6 +3343,10 @@
       "articles": 2
     },
     {
+      "name": "NHK",
+      "articles": 1
+    },
+    {
       "name": "NHKアナウンサー",
       "articles": 2
     },
@@ -4863,7 +4868,7 @@
     },
     {
       "name": "ニット",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "ニュースウォッチ9",
@@ -6763,7 +6768,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "女子大生",
@@ -7871,7 +7876,7 @@
     },
     {
       "name": "浅田春奈",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "浮気調査",
@@ -8839,7 +8844,7 @@
     },
     {
       "name": "胸元",
-      "articles": 36
+      "articles": 37
     },
     {
       "name": "胸出し",
