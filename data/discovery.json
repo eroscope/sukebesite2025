@@ -574,7 +574,7 @@
   "counts": {
     "people": 328,
     "works": 233,
-    "topics": 1773
+    "topics": 1774
   },
   "people": [
     {
@@ -3586,6 +3586,10 @@
       "articles": 1
     },
     {
+      "name": "Shika",
+      "articles": 1
+    },
+    {
       "name": "Sofmap",
       "articles": 1
     },
@@ -5699,7 +5703,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 102
+      "articles": 103
     },
     {
       "name": "ラヴィット！",
@@ -5939,7 +5943,7 @@
     },
     {
       "name": "中国",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "中国人女性",
