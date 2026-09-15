@@ -566,9 +566,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 325,
+    "people": 326,
     "works": 232,
-    "topics": 1749
+    "topics": 1751
   },
   "people": [
     {
@@ -677,6 +677,10 @@
     },
     {
       "name": "エル・花撫・マイヤー",
+      "articles": 1
+    },
+    {
+      "name": "エロフィギュア",
       "articles": 1
     },
     {
@@ -5229,7 +5233,7 @@
     },
     {
       "name": "フィギュア",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "フィリピン",
@@ -9252,6 +9256,10 @@
       "articles": 3
     },
     {
+      "name": "質感",
+      "articles": 1
+    },
+    {
       "name": "赤いリボン",
       "articles": 2
     },
@@ -9438,6 +9446,10 @@
     {
       "name": "銀髪",
       "articles": 2
+    },
+    {
+      "name": "鎧",
+      "articles": 1
     },
     {
       "name": "鏡撮り",
