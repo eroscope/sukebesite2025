@@ -573,7 +573,7 @@
   "counts": {
     "people": 328,
     "works": 233,
-    "topics": 1760
+    "topics": 1764
   },
   "people": [
     {
@@ -3053,6 +3053,10 @@
       "articles": 2
     },
     {
+      "name": "AVジャケット",
+      "articles": 1
+    },
+    {
       "name": "AVセール",
       "articles": 10
     },
@@ -3102,6 +3106,10 @@
     },
     {
       "name": "AV紹介",
+      "articles": 1
+    },
+    {
+      "name": "AV転身",
       "articles": 1
     },
     {
@@ -6805,6 +6813,10 @@
       "articles": 2
     },
     {
+      "name": "大物グラドル",
+      "articles": 1
+    },
+    {
       "name": "大胆衣装",
       "articles": 2
     },
@@ -7865,6 +7877,10 @@
       "articles": 1
     },
     {
+      "name": "正体発表",
+      "articles": 1
+    },
+    {
       "name": "正常位",
       "articles": 4
     },
@@ -8358,7 +8374,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 98
+      "articles": 99
     },
     {
       "name": "画像ギャラリー",
