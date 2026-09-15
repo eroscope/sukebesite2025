@@ -205,6 +205,7 @@
     "topics/topic-468a17f22ed9.html",
     "topics/topic-473c318725f8.html",
     "topics/topic-48313ee94b4d.html",
+    "topics/topic-493879fafdb2.html",
     "topics/topic-4a3fad303d05.html",
     "topics/topic-4aef12fcdc9a.html",
     "topics/topic-4b061baa4432.html",
@@ -570,9 +571,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 327,
+    "people": 328,
     "works": 233,
-    "topics": 1758
+    "topics": 1759
   },
   "people": [
     {
@@ -1321,6 +1322,10 @@
     },
     {
       "name": "村上悠華",
+      "articles": 1
+    },
+    {
+      "name": "東雲うみ",
       "articles": 1
     },
     {
@@ -5092,6 +5097,10 @@
       "articles": 1
     },
     {
+      "name": "バニー衣装",
+      "articles": 1
+    },
+    {
       "name": "バラライカ",
       "articles": 1
     },
@@ -7909,7 +7918,7 @@
     },
     {
       "name": "水着",
-      "articles": 145
+      "articles": 146
     },
     {
       "name": "水着グラビア",
@@ -9557,7 +9566,7 @@
     },
     {
       "name": "雑誌",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "雨宮ひびき",
