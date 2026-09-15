@@ -568,7 +568,7 @@
   "counts": {
     "people": 323,
     "works": 232,
-    "topics": 1742
+    "topics": 1745
   },
   "people": [
     {
@@ -3676,6 +3676,10 @@
       "articles": 1
     },
     {
+      "name": "sumire_live",
+      "articles": 1
+    },
+    {
       "name": "unfinished",
       "articles": 1
     },
@@ -3805,6 +3809,10 @@
     },
     {
       "name": "すみれ",
+      "articles": 1
+    },
+    {
+      "name": "すみれch",
       "articles": 1
     },
     {
@@ -4454,6 +4462,10 @@
     {
       "name": "コミケ",
       "articles": 5
+    },
+    {
+      "name": "コンビニ",
+      "articles": 1
     },
     {
       "name": "コンプリート",
@@ -5817,7 +5829,7 @@
     },
     {
       "name": "下着",
-      "articles": 73
+      "articles": 74
     },
     {
       "name": "下着ずらし",
