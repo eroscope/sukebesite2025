@@ -523,6 +523,7 @@
     "topics/topic-flash.html",
     "topics/topic-friday.html",
     "topics/topic-gif.html",
+    "topics/topic-gif.html",
     "topics/topic-grok.html",
     "topics/topic-i-mew.html",
     "topics/topic-ideapocket.html",
@@ -573,7 +574,7 @@
   "counts": {
     "people": 328,
     "works": 233,
-    "topics": 1764
+    "topics": 1767
   },
   "people": [
     {
@@ -3250,7 +3251,7 @@
     },
     {
       "name": "GIF動画",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "GIF動画あり",
@@ -5457,6 +5458,10 @@
       "articles": 1
     },
     {
+      "name": "ボーダー服",
+      "articles": 1
+    },
+    {
       "name": "ポケモン",
       "articles": 3
     },
@@ -6389,6 +6394,10 @@
       "articles": 10
     },
     {
+      "name": "冨田有紀",
+      "articles": 1
+    },
+    {
       "name": "凰華りん",
       "articles": 2
     },
@@ -6886,7 +6895,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 22
+      "articles": 23
     },
     {
       "name": "女子大生",
@@ -8710,6 +8719,10 @@
     },
     {
       "name": "競輪",
+      "articles": 1
+    },
+    {
+      "name": "競馬ロケ",
       "articles": 1
     },
     {
