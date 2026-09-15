@@ -1934,7 +1934,9 @@ class SocialXTests(unittest.TestCase):
         })
         save_x_posts(self.root, rows)
         status = x_av_shelf_schedule_status(self.root)
-        self.assertEqual(1, status["completed_entries"])
+        self.assertEqual(0, status["completed_entries"])
+        self.assertEqual(1, status["unavailable_entries"])
+        self.assertEqual(1, status["handled_entries"])
         self.assertEqual(8, status["remaining_entries"])
 
     def test_fanza_player_preview_accepts_compact_same_product_id_only(self) -> None:

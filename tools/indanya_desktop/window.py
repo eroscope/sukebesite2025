@@ -207,6 +207,7 @@ from indanya_desktop.x_account_health import (
 )
 from indanya_desktop.sitemap_health import (
     load_sitemap_health,
+    search_console_observation_summary,
     search_console_sitemaps_url,
 )
 from indanya_desktop.affiliate_opportunities import (
@@ -1462,15 +1463,7 @@ class MainWindow(QMainWindow):
         elif public.get("warnings"):
             detail += " / " + str(public["warnings"][0])
         search = report.get("search_console") or {}
-        search_labels = {
-            "fetch_failed": "Google側は取得失敗",
-            "unverified": "Google側の取得・登録は未確認",
-            "waiting_for_public": "Google側の取得・登録は未確認",
-        }
-        detail += " / " + search_labels.get(str(search.get("status") or ""), "Google側はSearch Consoleの確認記録を参照")
-        observed = str(search.get("observed_at") or "").replace("T", " ")[:19]
-        if observed:
-            detail += f"（確認日時 {observed}）"
+        detail += " / " + search_console_observation_summary(search)
         self.sitemap_health_detail.setText(detail)
 
     def _start_sitemap_health_check(self) -> None:
@@ -2445,10 +2438,8 @@ class MainWindow(QMainWindow):
         if unverified:
             detail += f" / 公開確認待ち {unverified}件（重複再送なし）"
         reach = dict(state.get("reach") or {})
-        if not reach.get("enabled"):
-            reach_detail = "拡散動画は制限解除と正常判定を待機"
-        elif reach.get("waiting_for_health_check"):
-            reach_detail = "拡散動画は直前投稿の10分後診断を待機"
+        if reach.get("blocking_reason"):
+            reach_detail = "拡散動画: " + str(reach["blocking_reason"])
         elif reach.get("due"):
             reach_detail = "拡散動画と引用リプを準備中"
         else:
@@ -2513,10 +2504,14 @@ class MainWindow(QMainWindow):
                 f"/{int(reply.get('daily_limit') or 1)}件"
             )
             reply_error = str(reply.get("last_error") or "").strip()
-            if reply_error:
-                reply_detail += f" / {reply_error[:140]}"
+            scan_error = str(reply.get("scan_error") or "").strip()
+            if scan_error:
+                reply_detail += f" / 検索エラー: {scan_error[:140]}"
+            elif reply_error:
+                reply_detail += f" / 前回候補確認: {reply_error[:140]}"
+            reply_detail += " / " + str(reply.get("scan_summary") or "")
             self.x_reply_schedule_label.setText(reply_detail)
-            self.x_reply_schedule_label.setToolTip(reply_error)
+            self.x_reply_schedule_label.setToolTip(scan_error or reply_error)
 
     def _refresh_x_trend_status(self) -> None:
         if not hasattr(self, "x_trend_state_label"):

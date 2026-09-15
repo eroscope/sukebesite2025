@@ -396,6 +396,28 @@ def record_search_console_observation(site_root: Path, observation: dict[str, An
     save_sitemap_health(site_root, report)
 
 
+def search_console_observation_summary(observation: dict[str, Any]) -> str:
+    labels = {
+        "fetch_failed": "Googleサイトマップ一覧: 取得失敗表示",
+        "unverified": "Google側の取得・登録は未確認",
+        "waiting_for_public": "Google側の取得・登録は未確認",
+    }
+    detail = labels.get(str(observation.get("status") or ""), "Google側は確認記録を参照")
+    observed = str(observation.get("observed_at") or "").replace("T", " ")[:19]
+    if observed:
+        detail += f"（画面確認 {observed}）"
+    live = observation.get("live_test") or {}
+    if live.get("page_fetch") == "successful":
+        tested = str(live.get("tested_at") or "").replace("T", " ")[:19]
+        detail += f" / Google実取得テスト: 成功（{tested or '日時未記録'}、登録成功とは別）"
+    indexing = observation.get("page_indexing") or {}
+    if "indexed_pages" in indexing:
+        report_date = str(indexing.get("report_date") or "")[:10]
+        date_label = f"{report_date}時点" if report_date else "集計日不明"
+        detail += f" / 登録数の記録: {indexing['indexed_pages']}件（{date_label}、現在値は未確認）"
+    return detail
+
+
 def combined_sitemap_health(
     local: dict[str, Any] | None,
     public: dict[str, Any] | None,

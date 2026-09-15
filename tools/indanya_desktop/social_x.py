@@ -31,6 +31,12 @@ from indanya_desktop.x_account_health import (
     effective_x_settings,
     load_x_health_state,
 )
+from indanya_desktop.x_search_health import (
+    load_reply_scan_health,
+    reply_scan_summary,
+    save_reply_scan_health,
+    search_page_state,
+)
 from indanya_desktop.publishing import _download_video
 from indanya_desktop.fanza_affiliate import (
     build_fanza_affiliate_url,
@@ -1227,7 +1233,8 @@ def _reply_traffic_score(item: dict[str, Any]) -> float:
     likes = max(0, int(item.get("likes") or 0))
     reposts = max(0, int(item.get("reposts") or 0))
     replies = max(0, int(item.get("replies") or 0))
-    age_hours = max(0.5, float(item.get("target_age_hours") or 24))
+    age = item.get("target_age_hours")
+    age_hours = max(0.5, float(age if age is not None else 24))
     velocity = views / age_hours
     recency = max(0.0, 15.0 - min(15.0, age_hours / 4.0))
     crowd_penalty = 8.0 if replies > max(300, likes * 0.8) else 0.0
@@ -1247,7 +1254,8 @@ def _reply_has_traffic(item: dict[str, Any], settings: dict[str, Any]) -> bool:
     likes = max(0, int(item.get("likes") or 0))
     reposts = max(0, int(item.get("reposts") or 0))
     replies = max(0, int(item.get("replies") or 0))
-    age_hours = max(0.5, float(item.get("target_age_hours") or 24))
+    age = item.get("target_age_hours")
+    age_hours = max(0.5, float(age if age is not None else 24))
     return bool(
         views >= int(settings.get("reply_min_views") or 5000)
         or likes >= int(settings.get("reply_min_likes") or 50)
@@ -1332,13 +1340,14 @@ def _reply_solicitation_text_allowed(text: Any) -> bool:
 
 
 def _tweet_status_url(tweet: Any) -> str:
-    links = tweet.locator('a[href*="/status/"]')
+    # Photo and quoted-post links can precede the outer post's timestamp.
+    links = tweet.locator('a[href*="/status/"]:has(time)')
     for index in range(links.count()):
         try:
             href = str(links.nth(index).get_attribute("href") or "")
         except Exception:
             continue
-        match = re.search(r"^(/[^/]+/status/\d+)", href)
+        match = re.search(r"^(?:https://(?:x\.com|twitter\.com))?(/[^/]+/status/\d+)(?:$|[/?#])", href)
         if match:
             return f"https://x.com{match.group(1)}"
     return ""
@@ -1471,31 +1480,45 @@ def _contest_sample(
     settings: dict[str, Any],
     *,
     allow_historical: bool = False,
+    rejections: dict[str, int] | None = None,
 ) -> dict[str, Any] | None:
+    def reject(reason: str) -> None:
+        if rejections is not None:
+            rejections[reason] = rejections.get(reason, 0) + 1
+
     try:
         text = str(tweet.locator('[data-testid="tweetText"]').first.inner_text() or "").strip()
         whole_text = str(tweet.inner_text() or "")
     except Exception:
+        reject("unreadable")
         return None
     if not _trend_text_allowed(text):
+        reject("not_topic")
         return None
     if not _reply_solicitation_text_allowed(text):
+        reject("not_solicitation")
         return None
     if "プロモーション" in whole_text or "Promoted" in whole_text:
+        reject("promoted")
         return None
     url = _tweet_status_url(tweet)
     if not url:
+        reject("missing_url")
         return None
     try:
         age_hours = (datetime.now(JST) - _x_status_created_at(url)).total_seconds() / 3600
     except (TypeError, ValueError):
+        reject("invalid_time")
         return None
     if age_hours < -1:
+        reject("invalid_time")
         return None
     handle = x_reply_target_handle(url)
     if handle == str(settings.get("account_handle") or "").casefold():
+        reject("self_or_blocked")
         return None
     if handle in set(settings.get("reply_blocked_handles") or []):
+        reject("self_or_blocked")
         return None
     lowered = text.casefold()
     requested_media = (
@@ -1513,11 +1536,13 @@ def _contest_sample(
         ),
     }
     active_for_reply = _reply_recruitment_active(age_hours, metrics, settings)
+    if not active_for_reply:
+        reject("inactive")
     if not active_for_reply and not allow_historical:
         return None
     return {
         "url": canonical_x_status_url(url),
-        "topic": re.sub(r"\s+", " ", text)[:180],
+        "topic": re.sub(r"\s+", " ", text),
         "requested_media": requested_media,
         **metrics,
         "target_handle": handle,
@@ -1547,11 +1572,40 @@ def collect_x_contest_candidates(
     site_root: Path,
     progress: ProgressCallback = lambda _value, _message: None,
 ) -> list[dict[str, Any]]:
+    report: dict[str, Any] = {
+        "status": "running", "scanned_rows": 0, "qualified_count": 0,
+        "page_states": {}, "rejections": {},
+    }
+    try:
+        result = _collect_x_contest_candidates(site_root, progress, report)
+        report["qualified_count"] = len(result)
+        states = report["page_states"]
+        if not (states.get("results") or states.get("empty")):
+            raise RuntimeError("募集検索の結果画面を読み取れませんでした。候補0件とは判定していません")
+        report["status"] = "partial" if any(
+            states.get(key) for key in ("load_error", "unverified")
+        ) else "checked"
+        return result
+    except Exception as exc:
+        report["status"] = "error"
+        report["error_type"] = type(exc).__name__
+        raise
+    finally:
+        save_reply_scan_health(site_root, report)
+
+
+def _collect_x_contest_candidates(
+    site_root: Path,
+    progress: ProgressCallback,
+    report: dict[str, Any],
+) -> list[dict[str, Any]]:
     if not x_login_ready():
-        return []
+        report["page_states"]["login_required"] = 1
+        raise RuntimeError("Xのログインが必要です。募集候補0件とは判定していません")
     settings = load_x_settings(site_root)
     collected: dict[str, dict[str, Any]] = {}
     historical: dict[str, dict[str, Any]] = {}
+    seen: set[str] = set()
     queries = list(dict.fromkeys([
         *X_CONTEST_QUERIES,
         *_known_recruiter_queries(site_root),
@@ -1590,15 +1644,29 @@ def collect_x_contest_candidates(
                     timeout=60_000,
                 )
                 page.wait_for_timeout(2200)
-                if "/i/flow/login" in page.url:
-                    raise RuntimeError("Xのログインが切れています")
+                count = page.locator('article[data-testid="tweet"]').count()
+                body = "" if count else page.locator("body").inner_text()
+                page_state = search_page_state(page.url, body, count)
+                report["page_states"][page_state] = report["page_states"].get(page_state, 0) + 1
+                if page_state in {"login_required", "rate_limited"}:
+                    raise RuntimeError("X検索がログイン要求または利用制限を返しました。再検索を中断します")
+                if page_state != "results":
+                    continue
                 for _ in range(3):
                     tweets = page.locator('article[data-testid="tweet"]')
                     for index in range(tweets.count()):
+                        tweet = tweets.nth(index)
+                        key = _tweet_status_url(tweet)
+                        if key and key in seen:
+                            continue
+                        if key:
+                            seen.add(key)
+                        report["scanned_rows"] += 1
                         candidate = _contest_sample(
-                            tweets.nth(index),
+                            tweet,
                             settings,
                             allow_historical=True,
+                            rejections=report["rejections"],
                         )
                         if candidate:
                             historical[candidate["url"]] = candidate
@@ -1630,6 +1698,9 @@ def collect_x_contest_candidates(
         item["traffic_score"] = _reply_traffic_score(item)
         if _reply_has_traffic(item, settings):
             qualified.append(item)
+        else:
+            reasons = report["rejections"]
+            reasons["low_traffic"] = reasons.get("low_traffic", 0) + 1
     result = sorted(
         qualified,
         key=lambda item: (
@@ -4308,6 +4379,8 @@ def x_reply_schedule_status(
         "waiting_for_trend": waiting_for_trend,
         "last_prepared_at": str(state.get("reply_last_prepared_at") or ""),
         "last_error": str(state.get("reply_last_error") or ""),
+        "scan_error": str(trend_state.get("reply_candidates_error") or ""),
+        "scan_summary": reply_scan_summary(load_reply_scan_health(site_root)),
     }
 
 
@@ -4803,6 +4876,12 @@ def x_av_shelf_schedule_status(
     )
     entries = _latest_av_shelf_campaign_entries(rows)
     completed_urls = _reach_shelf_urls(rows, completed_only=True)
+    unavailable_urls = {
+        str(row.get("reach_shelf_status_url") or "") for row in rows
+        if row.get("delivery_mode") == "reach"
+        and row.get("status") == "skipped"
+        and row.get("reach_source_unavailable")
+    }
     remaining = [
         entry for entry in entries
         if entry["status_url"] not in completed_urls
@@ -4821,7 +4900,12 @@ def x_av_shelf_schedule_status(
         "due": bool(enabled and needs_new and (retry_at is None or current >= retry_at)),
         "pending_post_id": str(pending.get("post_id") or "") if pending else "",
         "posted_entries": len(entries),
-        "completed_entries": len(entries) - len(remaining),
+        "completed_entries": sum(
+            entry["status_url"] in completed_urls and entry["status_url"] not in unavailable_urls
+            for entry in entries
+        ),
+        "unavailable_entries": sum(entry["status_url"] in unavailable_urls for entry in entries),
+        "handled_entries": len(entries) - len(remaining),
         "remaining_entries": len(remaining),
         "campaign_post_id": str(entries[0]["shelf_post_id"]) if entries else "",
         "shelf_size": int(settings["reach_shelf_size"]),
@@ -5312,6 +5396,32 @@ def x_reach_schedule_status(
         and current >= next_at
         and (retry_at is None or current >= retry_at)
     )
+    blockers: list[str] = []
+    if not settings.get("reach_funnel_enabled", True) or not settings.get("automatic_posting_enabled", True):
+        blockers.append("自動投稿設定が無効")
+    if settings.get("manual_delivery_only", False):
+        blockers.append("手動送信モード")
+    if str(health.get("classification") or "") != "healthy" or int(health.get("risk_level") or 0) > 1:
+        blockers.append("アカウント診断の正常判定待ち")
+    if int(settings.get("global_daily_action_limit") or 0) < 2:
+        blockers.append("本投稿と引用返信の2操作分を確保できません")
+    if pending is not None:
+        pending_status = str(pending.get("status") or "")
+        if pending_status == "delivery_unverified":
+            blockers.append("前の投稿の公開確認待ち（重複再送なし）")
+        elif pending_status == "failed":
+            blockers.append("前の投稿の送信失敗を確認待ち")
+        else:
+            blockers.append("前の投稿と引用返信が未完了")
+    if waiting_for_check:
+        blockers.append("直前投稿後のアカウント診断待ち")
+    if not available:
+        blockers.append("現在の作品棚に未使用の候補がありません")
+    if retry_at is not None and current < retry_at:
+        blockers.append("前回失敗後の再確認待ち")
+    if current < next_at:
+        blockers.append("投稿間隔の待機中")
+    effective_next = max(next_at, retry_at) if retry_at is not None else next_at
     return {
         "enabled": enabled,
         "due": due,
@@ -5319,7 +5429,10 @@ def x_reach_schedule_status(
         "available_products": len(available),
         "waiting_for_health_check": waiting_for_check,
         "interval_hours": interval_hours,
-        "next_at": next_at.isoformat(timespec="seconds"),
+        "next_at": effective_next.isoformat(timespec="seconds"),
+        "blockers": blockers,
+        "blocking_reason": " / ".join(blockers),
+        "previous_error": str(state.get("reach_last_error") or ""),
         "last_result": str(health.get("reach_last_result") or "未計測"),
         "clean_post_checks": int(health.get("reach_clean_post_checks") or 0),
         "last_error": str(state.get("reach_last_error") or ""),
