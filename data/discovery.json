@@ -53,6 +53,7 @@
     "people/person-99ce0abffefc.html",
     "people/person-9da0bab509f9.html",
     "people/person-a4891aa58898.html",
+    "people/person-a8da1485d939.html",
     "people/person-aa04b404801d.html",
     "people/person-ad98d03bd93a.html",
     "people/person-ae1a73ad3f6c.html",
@@ -570,8 +571,8 @@
   ],
   "counts": {
     "people": 327,
-    "works": 232,
-    "topics": 1756
+    "works": 233,
+    "topics": 1757
   },
   "people": [
     {
@@ -888,7 +889,7 @@
     },
     {
       "name": "全裸メイド",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "八木奈々",
@@ -2385,6 +2386,10 @@
       "articles": 1
     },
     {
+      "code": "MIDA-459",
+      "articles": 1
+    },
+    {
       "code": "MIDA-484",
       "articles": 1
     },
@@ -3348,7 +3353,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 41
+      "articles": 42
     },
     {
       "name": "MOODYZ DIVA",
@@ -8576,6 +8581,10 @@
     },
     {
       "name": "石原希望",
+      "articles": 1
+    },
+    {
+      "name": "石川澪",
       "articles": 1
     },
     {
