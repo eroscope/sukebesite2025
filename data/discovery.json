@@ -573,7 +573,7 @@
   "counts": {
     "people": 328,
     "works": 233,
-    "topics": 1759
+    "topics": 1760
   },
   "people": [
     {
@@ -3238,7 +3238,7 @@
     },
     {
       "name": "GIF",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "GIF動画",
@@ -4682,7 +4682,7 @@
     },
     {
       "name": "スーツ",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "スーパーリアル麻雀",
@@ -4774,7 +4774,7 @@
     },
     {
       "name": "ソファ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "ソファSEX",
@@ -8246,6 +8246,10 @@
     },
     {
       "name": "生け花",
+      "articles": 1
+    },
+    {
+      "name": "生保レディ",
       "articles": 1
     },
     {
