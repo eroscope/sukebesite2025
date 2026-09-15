@@ -572,7 +572,7 @@
   "counts": {
     "people": 327,
     "works": 233,
-    "topics": 1757
+    "topics": 1758
   },
   "people": [
     {
@@ -5468,6 +5468,10 @@
       "articles": 1
     },
     {
+      "name": "マシン",
+      "articles": 1
+    },
+    {
       "name": "マジックミラー",
       "articles": 1
     },
@@ -5673,7 +5677,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 101
+      "articles": 102
     },
     {
       "name": "ラヴィット！",
@@ -5861,7 +5865,7 @@
     },
     {
       "name": "下着",
-      "articles": 75
+      "articles": 76
     },
     {
       "name": "下着ずらし",
@@ -7905,7 +7909,7 @@
     },
     {
       "name": "水着",
-      "articles": 144
+      "articles": 145
     },
     {
       "name": "水着グラビア",
