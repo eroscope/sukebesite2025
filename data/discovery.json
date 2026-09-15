@@ -566,9 +566,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 323,
+    "people": 325,
     "works": 232,
-    "topics": 1748
+    "topics": 1749
   },
   "people": [
     {
@@ -577,6 +577,10 @@
     },
     {
       "name": "あきばもも",
+      "articles": 1
+    },
+    {
+      "name": "あやみピム",
       "articles": 1
     },
     {
@@ -1485,6 +1489,10 @@
     },
     {
       "name": "無無田",
+      "articles": 1
+    },
+    {
+      "name": "牛コス",
       "articles": 1
     },
     {
@@ -4009,6 +4017,10 @@
     },
     {
       "name": "アルコールセックス",
+      "articles": 1
+    },
+    {
+      "name": "アレス",
       "articles": 1
     },
     {
