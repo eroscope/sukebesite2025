@@ -72,7 +72,7 @@ def test_health_check_runs_every_twelve_hours_and_keeps_normal_limits() -> None:
         )["due"]
 
 
-def test_restriction_signal_keeps_one_measured_post_or_reply_active() -> None:
+def test_search_visibility_signal_does_not_impose_one_normal_post_per_day() -> None:
     with tempfile.TemporaryDirectory() as folder:
         root = Path(folder)
         now = datetime(2026, 9, 9, 8, 0, tzinfo=JST)
@@ -91,12 +91,13 @@ def test_restriction_signal_keeps_one_measured_post_or_reply_active() -> None:
         ):
             result = run_due_x_health_check(root, settings(), now=now)
         assert result["classification"] == "restricted"
-        assert result["risk_level"] == 3
-        assert result["effective_limits"]["daily_posts"] == 1
+        assert result["risk_level"] == 2
+        assert result["effective_limits"]["daily_posts"] == 5
         assert result["effective_limits"]["daily_replies"] == 1
         assert result["effective_limits"]["daily_follows"] == 0
-        assert result["effective_limits"]["daily_actions"] == 1
-        assert result["effective_limits"]["minimum_interval_minutes"] == 1440
+        assert result["effective_limits"]["daily_actions"] == 8
+        assert result["effective_limits"]["minimum_interval_minutes"] == 90
+        assert result["normal_pacing_basis"] == "search_visibility_only"
 
 
 def test_recovery_stage_allows_one_post_and_one_reply_without_follows() -> None:
@@ -236,7 +237,7 @@ def test_three_clean_checks_restore_only_one_level() -> None:
                     force=True,
                 )
         assert result["risk_level"] == 1
-        assert result["effective_limits"]["daily_posts"] == 3
+        assert result["effective_limits"]["daily_posts"] == 5
         assert result["effective_limits"]["daily_follows"] == 1
 
 

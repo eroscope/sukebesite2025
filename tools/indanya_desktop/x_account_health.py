@@ -184,8 +184,19 @@ def apply_x_health_limits(
     settings: dict[str, Any],
     state: dict[str, Any],
 ) -> dict[str, Any]:
-    """Apply learned safety limits without overwriting the user's base settings."""
+    """Keep search visibility observations separate from delivery restrictions."""
     result = dict(settings)
+    first_party = dict(state.get("first_party") or {})
+    warning = str(first_party.get("account_warning") or "")
+    if warning:
+        result.update({
+            "daily_post_limit": 0, "reply_daily_limit": 0,
+            "follow_daily_limit": 0, "global_daily_action_limit": 0,
+            "health_risk_level": 3, "health_classification": "restricted",
+            "normal_pacing_basis": "platform_warning",
+            "posting_block_reason": warning,
+        })
+        return result
     if not bool(settings.get("adaptive_pacing_enabled", True)):
         return result
     level = max(0, min(3, int(state.get("risk_level") or 0)))
@@ -272,6 +283,25 @@ def apply_x_health_limits(
         reach_interval = max(48, reach_interval)
     elif level == 1:
         reach_interval = max(24, reach_interval)
+    external = dict(state.get("external") or {})
+    signals = set(external.get("banned_signals") or [])
+    normal_pacing_basis = "adaptive_caution"
+    # A search-only observation is not evidence of a posting prohibition.
+    # Keep reply/follow/series safeguards; never raise the configured limits.
+    if (
+        level > 0 and state.get("status") == "checked"
+        and first_party.get("profile_accessible") is True
+        and int(first_party.get("profile_post_count") or 0) > 0
+        and _clean_handle(first_party.get("active_handle"))
+        == _clean_handle(settings.get("account_handle"))
+        and bool(_clean_handle(settings.get("account_handle")))
+        and signals.issubset({"search", "search_suggestion"})
+        and not any(external.get(key) for key in ("suspend", "protect", "not_found"))
+    ):
+        posts = configured_posts
+        global_limit = max(0, int(settings.get("global_daily_action_limit") or 0))
+        minimum_interval = max(90, int(settings.get("global_min_interval_minutes") or 90))
+        normal_pacing_basis = "search_visibility_only"
     result.update({
         "daily_post_limit": posts,
         "reply_daily_limit": replies,
@@ -282,6 +312,7 @@ def apply_x_health_limits(
         "follow_min_interval_hours": follow_interval,
         "health_risk_level": level,
         "health_classification": str(state.get("classification") or "unknown"),
+        "normal_pacing_basis": normal_pacing_basis,
         "reach_interval_hours": reach_interval,
         "reach_cadence_index": reach_index,
         "reach_clean_post_checks": int(
@@ -487,7 +518,10 @@ def _tweet_views(tweet: Any) -> int:
     return 0
 
 
-def _status_rows(page: Any, handle: str, scrolls: int = 2) -> dict[str, int]:
+def _status_rows(
+    page: Any, handle: str, scrolls: int = 2,
+    *, observations: list[dict[str, Any]] | None = None,
+) -> dict[str, int]:
     rows: dict[str, int] = {}
     pattern = re.compile(rf"^/{re.escape(handle)}/status/(\d+)", re.I)
     for _ in range(max(1, scrolls)):
@@ -504,6 +538,19 @@ def _status_rows(page: Any, handle: str, scrolls: int = 2) -> dict[str, int]:
                     break
             if status_id:
                 rows[status_id] = max(rows.get(status_id, 0), _tweet_views(tweet))
+                if observations is not None:
+                    # The timestamp link belongs to the outer post, not a quote.
+                    timestamp = tweet.locator('a[href*="/status/"] time').first
+                    text_node = tweet.locator('[data-testid="tweetText"]').first
+                    if timestamp.count() and text_node.count():
+                        href = str(timestamp.locator("..").get_attribute("href") or "")
+                        match = pattern.fullmatch(href)
+                        if match:
+                            observations.append({
+                                "url": f"https://x.com/{handle}/status/{match.group(1)}",
+                                "published_at": str(timestamp.get_attribute("datetime") or ""),
+                                "text": text_node.inner_text(),
+                            })
         page.mouse.wheel(0, 1400)
         page.wait_for_timeout(700)
     return rows
@@ -536,7 +583,8 @@ def _first_party_visibility(handle: str) -> dict[str, Any]:
                 (marker for marker in _ACCOUNT_WARNING_MARKERS if marker in lowered),
                 "",
             )
-            profile_rows = _status_rows(page, handle, 3)
+            observations: list[dict[str, Any]] = []
+            profile_rows = _status_rows(page, handle, 3, observations=observations)
             query = quote(f"from:{handle} -filter:replies")
             page.goto(
                 f"https://x.com/search?q={query}&src=typed_query&f=live",
@@ -571,6 +619,7 @@ def _first_party_visibility(handle: str) -> dict[str, Any]:
                 "search_ratio": ratio,
                 "search_available": search_available,
                 "median_visible_views": median_views,
+                "delivery_observations": observations,
             }
         finally:
             context.close()
@@ -632,7 +681,7 @@ def _parse_fia_checker_payload(payload: Any) -> dict[str, Any]:
     postban_verified = sum(
         1
         for item in original_posts
-        if item["status"] in {"AVAILABLE", "FORBIDDEN", "QUATE_FORBIDDEN"}
+        if item["status"] in {"AVAILABLE", "FORBIDDEN", "QUOTE_FORBIDDEN", "QUATE_FORBIDDEN"}
     )
     banned = sorted(key for key, value in checks.items() if value == "banned")
     verified = sum(1 for value in checks.values() if value in {"ok", "banned"})
@@ -655,6 +704,9 @@ def _parse_fia_checker_payload(payload: Any) -> dict[str, Any]:
         ),
         "tweets": tweets[:20],
         "rate_limited": rate_limited,
+        "suspend": bool(result.get("suspend")),
+        "protect": bool(result.get("protect")),
+        "not_found": bool(result.get("not_found")),
         "error": error,
     }
 
@@ -845,7 +897,7 @@ def _classify_health(
     ):
         return "restricted"
     if not first_party.get("profile_accessible", False):
-        return "restricted"
+        return "unknown"
     profile_count = int(first_party.get("profile_post_count") or 0)
     search_available = bool(first_party.get("search_available", False))
     ratio = first_party.get("search_ratio")
@@ -974,11 +1026,7 @@ def run_due_x_health_check(
     progress(75, "X内のプロフィールと検索表示を照合しました")
     activity = _activity_snapshot(site_root, handle, current)
     classification = _classify_health(external, first_party)
-    hard_restriction = bool(external.get("banned_signals")) or bool(
-        int(external.get("postban_checked") or 0) >= 3
-        and external.get("postban_forbidden_ratio") is not None
-        and float(external.get("postban_forbidden_ratio") or 0) >= 0.5
-    )
+    hard_restriction = bool(first_party.get("account_warning"))
     transition = _transition_state(
         previous,
         classification,
@@ -1034,6 +1082,7 @@ def run_due_x_health_check(
         "follow_interval_hours": int(effective.get("follow_min_interval_hours") or 0),
         "reach_interval_hours": int(effective.get("reach_interval_hours") or 0),
     }
+    state["normal_pacing_basis"] = str(effective.get("normal_pacing_basis") or "configured")
     history = list(previous.get("history") or [])
     history.append({
         "checked_at": checked_at,
@@ -1048,6 +1097,7 @@ def run_due_x_health_check(
         "activity": activity,
         "inferred_causes": causes,
         "effective_limits": state["effective_limits"],
+        "normal_pacing_basis": str(effective.get("normal_pacing_basis") or "configured"),
         "reach_cadence_index": int(state.get("reach_cadence_index") or 0),
         "reach_interval_hours": int(state.get("reach_interval_hours") or 0),
         "reach_clean_post_checks": int(
@@ -1057,6 +1107,13 @@ def run_due_x_health_check(
     })
     state["history"] = history[-90:]
     save_x_health_state(site_root, state)
+    if first_party.get("active_handle") == handle and not first_party.get("account_warning"):
+        from indanya_desktop.social_x import reconcile_x_delivery_observations
+
+        state["delivery_reconciliation"] = reconcile_x_delivery_observations(
+            site_root, handle, list(first_party.get("delivery_observations") or []),
+            now=current,
+        )
     if trigger_reason == "reach_post_delivery":
         _record_reach_health_result(
             site_root,

@@ -109,6 +109,7 @@ X_STATUSES = {
     "posted",
     "scheduling",
     "scheduled",
+    "delivery_unverified",
     "failed",
     "skipped",
 }
@@ -2985,18 +2986,20 @@ def _row_reserved_time(
     scheduled = _as_jst(row.get("scheduled_for"))
     if scheduled is not None and row.get("status") != "failed":
         return scheduled
-    if row.get("status") in {"posted", "posting"}:
+    if row.get("status") in {"posted", "posting", "delivery_unverified"}:
         return _effective_x_post_time(row)
     return None
 
 
 def _x_action_time(row: dict[str, Any]) -> datetime | None:
     if row.get("delivery_mode") == "reply":
+        if row.get("status") == "delivery_unverified":
+            return _as_jst(row.get("reply_completed_at")) or _as_jst(row.get("scheduled_at"))
         if row.get("status") != "posted" and not row.get("reply_completed_at"):
             return None
         return _reply_timestamp(row)
-    if row.get("status") in {"scheduled", "scheduling"}:
-        return _as_jst(row.get("scheduled_for"))
+    if row.get("status") in {"scheduled", "scheduling", "delivery_unverified"}:
+        return _as_jst(row.get("scheduled_for")) or _as_jst(row.get("scheduled_at"))
     if row.get("status") in {"posted", "posting"}:
         for key in ("posted_at", "scheduled_for", "scheduled_at"):
             parsed = _as_jst(row.get(key))
@@ -3430,10 +3433,10 @@ def _recover_stale_x_rows(
         started = _as_jst(row.get("scheduled_at")) or _as_jst(row.get("created_at"))
         if started is not None and now < started + timedelta(minutes=30):
             continue
-        row["status"] = "failed"
-        row["scheduled_for"] = ""
-        row["auto_retry_after"] = (now + timedelta(hours=1)).isoformat(timespec="seconds")
-        row["last_error"] = "前回のX投稿処理が完了せず停止したため、再試行待ちに戻しました"
+        row["status"] = "delivery_unverified"
+        row["auto_retry_after"] = ""
+        row["delivery_verification"] = "interrupted_delivery"
+        row["last_error"] = "前回のX投稿処理が完了せず停止しました。公開確認前の再送を防いでいます"
         changed = True
     return changed
 
@@ -3444,22 +3447,88 @@ def _complete_elapsed_x_schedules(
     *,
     grace_minutes: int = 30,
 ) -> bool:
-    """Mature reservations that X accepted and whose delivery time has elapsed."""
+    """Elapsed reservations need evidence, not an assumed delivery success."""
     changed = False
     cutoff = now - timedelta(minutes=max(0, grace_minutes))
     for row in rows:
-        if row.get("delivery_mode") != "post" or row.get("status") != "scheduled":
+        if row.get("delivery_mode") != "post":
+            continue
+        legacy_assumption = (
+            row.get("status") == "posted"
+            and row.get("delivery_verification") == "x_reservation_elapsed"
+            and not row.get("x_post_url")
+        )
+        if row.get("status") != "scheduled" and not legacy_assumption:
             continue
         scheduled_for = _as_jst(row.get("scheduled_for"))
         if scheduled_for is None or scheduled_for > cutoff:
             continue
-        row["status"] = "posted"
-        row["posted_at"] = scheduled_for.isoformat(timespec="seconds")
-        row["delivery_verification"] = "x_reservation_elapsed"
+        row["status"] = "delivery_unverified"
+        row["posted_at"] = ""
+        row["delivery_verification"] = "awaiting_profile_match"
         row["auto_retry_after"] = ""
-        row["last_error"] = ""
+        row["last_error"] = "予約時刻を経過しました。X上の投稿URLを確認するまで再送しません"
         changed = True
     return changed
+
+
+def reconcile_x_delivery_observations(
+    site_root: Path,
+    account_handle: str,
+    observations: list[dict[str, Any]],
+    *,
+    now: datetime | None = None,
+) -> dict[str, int]:
+    """Match scheduled text, owner and time to a unique visible profile post."""
+    current = (now or datetime.now(JST)).astimezone(JST)
+    rows = list_x_posts(site_root)
+    changed = _complete_elapsed_x_schedules(rows, current)
+    owner = re.sub(r"[^A-Za-z0-9_]", "", account_handle).casefold()
+    pattern = re.compile(rf"https://x\.com/{re.escape(owner)}/status/\d+$", re.I)
+    used = {str(row.get("x_post_url")) for row in rows if row.get("x_post_url")}
+    matched = 0
+    for row in rows:
+        if row.get("delivery_mode") != "post" or row.get("status") not in {
+            "scheduled", "delivery_unverified",
+        }:
+            continue
+        if str(row.get("account_handle") or "").lstrip("@").casefold() != owner:
+            continue
+        due = _as_jst(row.get("scheduled_for"))
+        expected = re.sub(r"\s+", "", re.sub(r"https?://\S+", "", str(row.get("post_text") or "")))
+        if due is None or len(expected) < 20:
+            continue
+        matches: dict[str, datetime] = {}
+        for observation in observations:
+            url = str(observation.get("url") or "")
+            published = _as_jst(observation.get("published_at"))
+            actual = re.sub(r"\s+", "", str(observation.get("text") or ""))
+            if (
+                pattern.fullmatch(url) and url not in used
+                and published is not None and published <= current
+                and abs((published - due).total_seconds()) <= 600
+                and actual.startswith(expected)
+            ):
+                matches[url] = published
+        if len(matches) != 1:
+            continue
+        url, published = next(iter(matches.items()))
+        row.update({
+            "status": "posted", "x_post_url": url,
+            "posted_at": published.isoformat(timespec="seconds"),
+            "delivery_verified_at": current.isoformat(timespec="seconds"),
+            "delivery_verification": "profile_text_and_time",
+            "last_error": "", "auto_retry_after": "",
+        })
+        used.add(url)
+        matched += 1
+        changed = True
+    if changed:
+        save_x_posts(site_root, rows)
+    return {
+        "matched": matched,
+        "unverified": sum(row.get("status") == "delivery_unverified" for row in rows),
+    }
 
 
 def _eligible_x_rows(
@@ -3573,7 +3642,8 @@ def select_x_daily_posts(
     # 公開処理以外で増えた記事も候補プールへ入れる。ここでは文章生成しない。
     prepare_x_candidates(site_root, public_url, limit=20)
     rows = list_x_posts(site_root)
-    if _recover_stale_x_rows(rows, current) or _complete_elapsed_x_schedules(rows, current):
+    stale_changed = _recover_stale_x_rows(rows, current)
+    if _complete_elapsed_x_schedules(rows, current) or stale_changed:
         save_x_posts(site_root, rows)
     prepared = _prepared_x_rows(rows, current)
     if prepared:
@@ -3620,7 +3690,8 @@ def x_daily_posting_status(
     reach = x_reach_schedule_status(site_root, current)
     state = load_x_auto_state(site_root)
     rows = list_x_posts(site_root)
-    if _recover_stale_x_rows(rows, current) or _complete_elapsed_x_schedules(rows, current):
+    stale_changed = _recover_stale_x_rows(rows, current)
+    if _complete_elapsed_x_schedules(rows, current) or stale_changed:
         save_x_posts(site_root, rows)
     pause_until = _as_jst(state.get("pause_until"))
     ran_today = _x_daily_batch_ran_today(state, current)
@@ -3658,6 +3729,8 @@ def x_daily_posting_status(
             else (prepared_slots or slots)
         ),
         "daily_post_limit": int(settings["daily_post_limit"]),
+        "normal_pacing_basis": str(settings.get("normal_pacing_basis") or "configured"),
+        "unverified_delivery_count": sum(row.get("status") == "delivery_unverified" for row in rows),
         "ran_today": ran_today,
         "reach_due": bool(reach.get("due")),
         "reach": reach,
@@ -4178,7 +4251,7 @@ def x_reply_schedule_status(
         row for row in rows
         if row.get("delivery_mode") == "reply"
         and row.get("status") in {
-            "copy_pending", "copy_ready", "posting", "scheduling", "scheduled",
+            "copy_pending", "copy_ready", "posting", "scheduling", "scheduled", "delivery_unverified",
         }
     ]
     completed_today = [

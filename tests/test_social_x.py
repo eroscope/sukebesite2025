@@ -563,10 +563,10 @@ class SocialXTests(unittest.TestCase):
         x_daily_posting_status(self.root, now=now)
 
         recovered = list_x_posts(self.root)[0]
-        self.assertEqual("failed", recovered["status"])
+        self.assertEqual("delivery_unverified", recovered["status"])
         self.assertIn("完了せず停止", recovered["last_error"])
 
-    def test_elapsed_x_reservation_becomes_posted_during_status_refresh(self) -> None:
+    def test_elapsed_x_reservation_waits_for_publication_evidence(self) -> None:
         now = datetime(2026, 9, 5, 12, 0, tzinfo=JST)
         post = prepare_x_candidates(self.root, "https://example.com/", limit=1)[0]
         update_x_post(
@@ -580,9 +580,10 @@ class SocialXTests(unittest.TestCase):
         x_daily_posting_status(self.root, now=now)
 
         matured = list_x_posts(self.root)[0]
-        self.assertEqual("posted", matured["status"])
-        self.assertEqual("x_reservation_elapsed", matured["delivery_verification"])
-        self.assertEqual((now - timedelta(hours=2)).isoformat(), matured["posted_at"])
+        self.assertEqual("delivery_unverified", matured["status"])
+        self.assertEqual("awaiting_profile_match", matured["delivery_verification"])
+        self.assertEqual("", matured["posted_at"])
+        self.assertEqual((now - timedelta(hours=2)).isoformat(), matured["scheduled_for"])
 
     def test_viral_reply_filter_rejects_unrelated_results_and_keeps_adult_topics(self) -> None:
         self.assertFalse(

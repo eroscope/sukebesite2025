@@ -2437,8 +2437,13 @@ class MainWindow(QMainWindow):
         )
         detail = (
             f"候補 {int(state.get('candidate_count') or 0)}件 / "
-            f"上限 {int(state.get('daily_post_limit') or 1)}件/日 / 送信方式: {delivery}"
+            f"上限 {int(state.get('daily_post_limit', 1))}件/日 / 送信方式: {delivery}"
         )
+        if state.get("normal_pacing_basis") == "search_visibility_only":
+            detail += " / 通常投稿は設定上限を維持・検索表示は別途記録"
+        unverified = int(state.get("unverified_delivery_count") or 0)
+        if unverified:
+            detail += f" / 公開確認待ち {unverified}件（重複再送なし）"
         reach = dict(state.get("reach") or {})
         if not reach.get("enabled"):
             reach_detail = "拡散動画は制限解除と正常判定を待機"
@@ -2812,6 +2817,7 @@ class MainWindow(QMainWindow):
             "posted": "投稿済み",
             "scheduling": "予約中",
             "scheduled": "予約済み",
+            "delivery_unverified": "公開確認待ち・再送なし",
             "failed": "要確認",
             "skipped": "除外",
         }.get(status, status)
