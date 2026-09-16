@@ -39,6 +39,7 @@
     "people/person-650731d956e5.html",
     "people/person-6a33f574374c.html",
     "people/person-6d838e6009c3.html",
+    "people/person-6d869b043874.html",
     "people/person-7496a897d663.html",
     "people/person-76ffd132d78b.html",
     "people/person-85c41d7ff936.html",
@@ -445,6 +446,7 @@
     "topics/topic-cec82fb864d9.html",
     "topics/topic-cff32acdf1c5.html",
     "topics/topic-crystal-vr.html",
+    "topics/topic-d00d6c817546.html",
     "topics/topic-d0a50a9ec866.html",
     "topics/topic-d0f68617ec6d.html",
     "topics/topic-d36caa93b02a.html",
@@ -579,8 +581,8 @@
   ],
   "counts": {
     "people": 335,
-    "works": 234,
-    "topics": 1794
+    "works": 235,
+    "topics": 1795
   },
   "people": [
     {
@@ -1165,7 +1167,7 @@
     },
     {
       "name": "山田さち",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "山田ゆり",
@@ -2670,6 +2672,10 @@
       "articles": 1
     },
     {
+      "code": "SDAM-179",
+      "articles": 1
+    },
+    {
       "code": "SDDE-769",
       "articles": 1
     },
@@ -3101,7 +3107,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 24
+      "articles": 25
     },
     {
       "name": "AVパッケージ",
@@ -6332,6 +6338,10 @@
       "articles": 2
     },
     {
+      "name": "借金設定",
+      "articles": 1
+    },
+    {
       "name": "停電",
       "articles": 1
     },
@@ -7357,7 +7367,7 @@
     },
     {
       "name": "引っ越し密着",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "引退記念",
