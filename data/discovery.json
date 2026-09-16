@@ -575,9 +575,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 332,
+    "people": 333,
     "works": 234,
-    "topics": 1790
+    "topics": 1792
   },
   "people": [
     {
@@ -654,6 +654,10 @@
     },
     {
       "name": "のら",
+      "articles": 1
+    },
+    {
+      "name": "のん",
       "articles": 1
     },
     {
@@ -3365,6 +3369,10 @@
       "articles": 4
     },
     {
+      "name": "MAPPA",
+      "articles": 1
+    },
+    {
       "name": "MARA",
       "articles": 1
     },
@@ -4110,7 +4118,7 @@
     },
     {
       "name": "イベント",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "イベント展示",
@@ -8573,6 +8581,10 @@
       "articles": 1
     },
     {
+      "name": "白ブラウス",
+      "articles": 1
+    },
+    {
       "name": "白リブ",
       "articles": 1
     },
@@ -9122,7 +9134,7 @@
     },
     {
       "name": "胸元",
-      "articles": 37
+      "articles": 38
     },
     {
       "name": "胸出し",
