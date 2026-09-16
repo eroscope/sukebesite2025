@@ -240,6 +240,7 @@
     "topics/topic-5ef5727d4453.html",
     "topics/topic-5fc9e30aedc2.html",
     "topics/topic-5fca074c8026.html",
+    "topics/topic-60257fe59557.html",
     "topics/topic-60bb2a31f7d3.html",
     "topics/topic-612e72ff9af8.html",
     "topics/topic-614189b3887e.html",
@@ -577,7 +578,7 @@
   "counts": {
     "people": 333,
     "works": 234,
-    "topics": 1792
+    "topics": 1793
   },
   "people": [
     {
@@ -3118,7 +3119,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 75
+      "articles": 76
     },
     {
       "name": "AV女優検索",
@@ -6210,7 +6211,7 @@
     },
     {
       "name": "似てる女優",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "住田紗里",
@@ -8073,6 +8074,10 @@
       "articles": 1
     },
     {
+      "name": "永野紬",
+      "articles": 1
+    },
+    {
       "name": "沈娜娜",
       "articles": 1
     },
@@ -9830,7 +9835,7 @@
     },
     {
       "name": "顔写真比較",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "顔出し",
