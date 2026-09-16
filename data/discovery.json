@@ -98,6 +98,7 @@
     "topics/topic-02dc6b1d733a.html",
     "topics/topic-0335284ae7e8.html",
     "topics/topic-035e321e6410.html",
+    "topics/topic-050fab733e97.html",
     "topics/topic-067328416c99.html",
     "topics/topic-07064bd9e47d.html",
     "topics/topic-09533f3c6030.html",
@@ -539,6 +540,7 @@
     "topics/topic-moodyz-diva.html",
     "topics/topic-moodyz.html",
     "topics/topic-nhk.html",
+    "topics/topic-nhk.html",
     "topics/topic-nia.html",
     "topics/topic-nicoface.html",
     "topics/topic-nikke.html",
@@ -578,7 +580,7 @@
   "counts": {
     "people": 335,
     "works": 234,
-    "topics": 1793
+    "topics": 1794
   },
   "people": [
     {
@@ -3443,7 +3445,7 @@
     },
     {
       "name": "NHK",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "NHKアナウンサー",
@@ -5011,7 +5013,7 @@
     },
     {
       "name": "ニット",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "ニュースウォッチ9",
@@ -6987,7 +6989,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 23
+      "articles": 24
     },
     {
       "name": "女子大生",
@@ -7975,7 +7977,7 @@
     },
     {
       "name": "横乳",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "横向き",
@@ -8499,7 +8501,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 101
+      "articles": 102
     },
     {
       "name": "画像ギャラリー",
@@ -10015,6 +10017,10 @@
     },
     {
       "name": "黒服",
+      "articles": 1
+    },
+    {
+      "name": "黒田菜月",
       "articles": 1
     },
     {
