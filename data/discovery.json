@@ -457,6 +457,7 @@
     "topics/topic-d0f68617ec6d.html",
     "topics/topic-d36caa93b02a.html",
     "topics/topic-d36e7a03fcec.html",
+    "topics/topic-d4c1fccff388.html",
     "topics/topic-d57207655b68.html",
     "topics/topic-d59bbe86d3e8.html",
     "topics/topic-d7209522408a.html",
@@ -592,7 +593,7 @@
   "counts": {
     "people": 338,
     "works": 235,
-    "topics": 1812
+    "topics": 1813
   },
   "people": [
     {
@@ -3709,7 +3710,7 @@
     },
     {
       "name": "VR",
-      "articles": 88
+      "articles": 89
     },
     {
       "name": "VR CHANNEL 005",
@@ -6592,6 +6593,10 @@
       "articles": 27
     },
     {
+      "name": "制服ギャル",
+      "articles": 1
+    },
+    {
       "name": "制服衣装",
       "articles": 1
     },
@@ -8637,7 +8642,7 @@
     },
     {
       "name": "痴女ヘブン",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "痴漢",
@@ -9669,7 +9674,7 @@
     },
     {
       "name": "逢沢みゆ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "遊戯王",
