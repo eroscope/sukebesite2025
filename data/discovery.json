@@ -576,7 +576,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 333,
+    "people": 334,
     "works": 234,
     "topics": 1793
   },
@@ -731,6 +731,10 @@
     },
     {
       "name": "パス",
+      "articles": 1
+    },
+    {
+      "name": "ビキニ",
       "articles": 1
     },
     {
@@ -4463,7 +4467,7 @@
     },
     {
       "name": "グラビアアイドル",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "グラビア動画",
@@ -8043,7 +8047,7 @@
     },
     {
       "name": "水着",
-      "articles": 148
+      "articles": 149
     },
     {
       "name": "水着グラビア",
@@ -8491,7 +8495,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 100
+      "articles": 101
     },
     {
       "name": "画像ギャラリー",
