@@ -592,7 +592,7 @@
   "counts": {
     "people": 337,
     "works": 235,
-    "topics": 1808
+    "topics": 1810
   },
   "people": [
     {
@@ -3348,6 +3348,10 @@
       "articles": 5
     },
     {
+      "name": "Hカップ時代",
+      "articles": 1
+    },
+    {
       "name": "IDEAPOCKET",
       "articles": 9
     },
@@ -4177,7 +4181,7 @@
     },
     {
       "name": "イメージビデオ",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "イラスト",
@@ -5817,7 +5821,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 104
+      "articles": 105
     },
     {
       "name": "ラヴィット！",
@@ -7992,6 +7996,10 @@
       "articles": 1
     },
     {
+      "name": "桐山瑠衣",
+      "articles": 1
+    },
+    {
       "name": "梅山恋和",
       "articles": 1
     },
@@ -8121,7 +8129,7 @@
     },
     {
       "name": "水着",
-      "articles": 149
+      "articles": 150
     },
     {
       "name": "水着グラビア",
