@@ -576,7 +576,7 @@
   "counts": {
     "people": 332,
     "works": 234,
-    "topics": 1787
+    "topics": 1788
   },
   "people": [
     {
@@ -3249,7 +3249,7 @@
     },
     {
       "name": "FLASH",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "FRIDAY",
@@ -7060,6 +7060,10 @@
       "articles": 1
     },
     {
+      "name": "姫野ひなの",
+      "articles": 1
+    },
+    {
       "name": "娘の彼氏",
       "articles": 1
     },
@@ -8021,7 +8025,7 @@
     },
     {
       "name": "水着",
-      "articles": 147
+      "articles": 148
     },
     {
       "name": "水着グラビア",
