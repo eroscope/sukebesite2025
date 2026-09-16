@@ -580,9 +580,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 335,
+    "people": 336,
     "works": 235,
-    "topics": 1797
+    "topics": 1800
   },
   "people": [
     {
@@ -1759,6 +1759,10 @@
     },
     {
       "name": "花瀬かりん",
+      "articles": 1
+    },
+    {
+      "name": "莉々はるか",
       "articles": 1
     },
     {
@@ -3327,7 +3331,7 @@
     },
     {
       "name": "Hカップ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "IDEAPOCKET",
@@ -3551,6 +3555,14 @@
     },
     {
       "name": "RUU",
+      "articles": 1
+    },
+    {
+      "name": "Re:",
+      "articles": 1
+    },
+    {
+      "name": "Re:ri",
       "articles": 1
     },
     {
@@ -5051,6 +5063,10 @@
     },
     {
       "name": "ヌードルストッパー",
+      "articles": 1
+    },
+    {
+      "name": "ヌード写真集",
       "articles": 1
     },
     {
