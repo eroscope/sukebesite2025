@@ -381,6 +381,7 @@
     "topics/topic-av.html",
     "topics/topic-av.html",
     "topics/topic-av.html",
+    "topics/topic-av.html",
     "topics/topic-b010a4c2d907.html",
     "topics/topic-b03ff91d92e0.html",
     "topics/topic-b0d4c6c28a4b.html",
@@ -575,7 +576,7 @@
   "counts": {
     "people": 332,
     "works": 234,
-    "topics": 1784
+    "topics": 1787
   },
   "people": [
     {
@@ -3044,7 +3045,7 @@
     },
     {
       "name": "AI顔認識",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "ASMR",
@@ -5903,6 +5904,10 @@
       "articles": 1
     },
     {
+      "name": "三葉せり",
+      "articles": 1
+    },
+    {
       "name": "上半身裸",
       "articles": 1
     },
@@ -6188,7 +6193,7 @@
     },
     {
       "name": "似てるAV女優",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "似てる女優",
@@ -6929,6 +6934,10 @@
     {
       "name": "女優",
       "articles": 2
+    },
+    {
+      "name": "女優比較",
+      "articles": 1
     },
     {
       "name": "女優系",
@@ -8624,6 +8633,10 @@
     },
     {
       "name": "相席居酒屋",
+      "articles": 1
+    },
+    {
+      "name": "相河めいな",
       "articles": 1
     },
     {
