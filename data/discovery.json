@@ -582,7 +582,7 @@
   "counts": {
     "people": 336,
     "works": 235,
-    "topics": 1800
+    "topics": 1803
   },
   "people": [
     {
@@ -5479,7 +5479,7 @@
     },
     {
       "name": "ベッドシーン",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "ベッド上",
@@ -6767,6 +6767,10 @@
     },
     {
       "name": "同棲報告",
+      "articles": 1
+    },
+    {
+      "name": "同棲生活",
       "articles": 1
     },
     {
@@ -8171,7 +8175,7 @@
     },
     {
       "name": "浴室",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "浴槽",
@@ -9230,6 +9234,10 @@
       "articles": 1
     },
     {
+      "name": "自宅撮影",
+      "articles": 1
+    },
+    {
       "name": "自慰",
       "articles": 1
     },
@@ -10003,6 +10011,10 @@
     },
     {
       "name": "黄色いドレス",
+      "articles": 1
+    },
+    {
+      "name": "黒いボディスーツ",
       "articles": 1
     },
     {
