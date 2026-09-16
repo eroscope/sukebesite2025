@@ -561,6 +561,7 @@
     "topics/topic-vr.html",
     "topics/topic-vr.html",
     "topics/topic-vtuber.html",
+    "topics/topic-xvideos.html",
     "topics/topic-youtube.html",
     "topics/topic-youtuber.html",
     "works.html",
@@ -572,9 +573,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 330,
+    "people": 331,
     "works": 234,
-    "topics": 1780
+    "topics": 1782
   },
   "people": [
     {
@@ -1895,6 +1896,10 @@
     },
     {
       "name": "麻倉瑞季",
+      "articles": 1
+    },
+    {
+      "name": "麻里梨夏",
       "articles": 1
     }
   ],
@@ -3671,7 +3676,7 @@
     },
     {
       "name": "XVIDEOS",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "YouTube",
@@ -4967,6 +4972,10 @@
     },
     {
       "name": "ナンパ企画",
+      "articles": 1
+    },
+    {
+      "name": "ナンパ作品",
       "articles": 1
     },
     {
@@ -6940,6 +6949,10 @@
     {
       "name": "女子大生",
       "articles": 4
+    },
+    {
+      "name": "女子大生設定",
+      "articles": 1
     },
     {
       "name": "女子社員",
