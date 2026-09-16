@@ -586,7 +586,7 @@
   "counts": {
     "people": 337,
     "works": 235,
-    "topics": 1803
+    "topics": 1805
   },
   "people": [
     {
@@ -4994,6 +4994,10 @@
       "articles": 1
     },
     {
+      "name": "ドイツ人コスプレイヤー",
+      "articles": 1
+    },
+    {
       "name": "ドッキリ",
       "articles": 1
     },
@@ -5091,6 +5095,10 @@
     },
     {
       "name": "ネットの反応",
+      "articles": 1
+    },
+    {
+      "name": "ノニ（noni）",
       "articles": 1
     },
     {
@@ -9035,7 +9043,7 @@
     },
     {
       "name": "縦動画",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "罰ゲーム",
