@@ -572,9 +572,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 328,
+    "people": 329,
     "works": 233,
-    "topics": 1774
+    "topics": 1777
   },
   "people": [
     {
@@ -600,6 +600,10 @@
     {
       "name": "えなこ",
       "articles": 2
+    },
+    {
+      "name": "えぬちゃん",
+      "articles": 1
     },
     {
       "name": "おっぱい",
@@ -3922,6 +3926,10 @@
       "articles": 8
     },
     {
+      "name": "ぷりっとえぬ",
+      "articles": 1
+    },
+    {
       "name": "まんこ画像",
       "articles": 1
     },
@@ -4083,6 +4091,10 @@
     },
     {
       "name": "イベント展示",
+      "articles": 1
+    },
+    {
+      "name": "イメージDVD",
       "articles": 1
     },
     {
@@ -4419,7 +4431,7 @@
     },
     {
       "name": "グラビアアイドル",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "グラビア動画",
@@ -7576,6 +7588,10 @@
     {
       "name": "新人",
       "articles": 4
+    },
+    {
+      "name": "新人グラドル",
+      "articles": 1
     },
     {
       "name": "新人声優",
