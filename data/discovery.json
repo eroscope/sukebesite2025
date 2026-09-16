@@ -573,8 +573,8 @@
   ],
   "counts": {
     "people": 329,
-    "works": 233,
-    "topics": 1778
+    "works": 234,
+    "topics": 1779
   },
   "people": [
     {
@@ -2812,6 +2812,10 @@
       "articles": 1
     },
     {
+      "code": "URVRSP-559",
+      "articles": 1
+    },
+    {
       "code": "URVRSP-561",
       "articles": 1
     },
@@ -2955,7 +2959,7 @@
     },
     {
       "name": "8K",
-      "articles": 26
+      "articles": 27
     },
     {
       "name": "8K VR",
@@ -3631,7 +3635,7 @@
     },
     {
       "name": "VR",
-      "articles": 87
+      "articles": 88
     },
     {
       "name": "VR CHANNEL 005",
@@ -5206,6 +5210,10 @@
       "articles": 1
     },
     {
+      "name": "パーティー",
+      "articles": 1
+    },
+    {
       "name": "ヒップ",
       "articles": 5
     },
@@ -6395,7 +6403,7 @@
     },
     {
       "name": "公式紹介画像",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "共同廊下",
@@ -6827,7 +6835,7 @@
     },
     {
       "name": "大人数",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "大学サークル",
