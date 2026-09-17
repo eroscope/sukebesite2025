@@ -278,6 +278,7 @@
     "topics/topic-73773dcb8f71.html",
     "topics/topic-73c3d99c8ce8.html",
     "topics/topic-73ef55f7fae4.html",
+    "topics/topic-75961d1236e9.html",
     "topics/topic-7617e3b447bc.html",
     "topics/topic-76faf7bb7608.html",
     "topics/topic-771bd1d57220.html",
@@ -597,8 +598,8 @@
   ],
   "counts": {
     "people": 341,
-    "works": 238,
-    "topics": 1829
+    "works": 239,
+    "topics": 1831
   },
   "people": [
     {
@@ -2268,6 +2269,10 @@
       "articles": 1
     },
     {
+      "code": "HOIZ-174",
+      "articles": 1
+    },
+    {
       "code": "HSODA-069",
       "articles": 1
     },
@@ -3343,7 +3348,7 @@
     },
     {
       "name": "GIF",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "GIF動画",
@@ -4703,7 +4708,7 @@
     },
     {
       "name": "サンプル画像",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "シチュエーション",
@@ -6824,6 +6829,10 @@
     {
       "name": "同人",
       "articles": 2
+    },
+    {
+      "name": "同人AV",
+      "articles": 1
     },
     {
       "name": "同人ゲーム",
@@ -9735,6 +9744,10 @@
     },
     {
       "name": "逆ナンパ",
+      "articles": 1
+    },
+    {
+      "name": "逆バニー",
       "articles": 1
     },
     {
