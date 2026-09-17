@@ -144,6 +144,7 @@
     "topics/topic-1fe8558fd940.html",
     "topics/topic-20.html",
     "topics/topic-202e70a44f7a.html",
+    "topics/topic-214e5536fe8b.html",
     "topics/topic-214f1d402588.html",
     "topics/topic-228da3a88d13.html",
     "topics/topic-22f7f7720786.html",
@@ -599,7 +600,7 @@
   "counts": {
     "people": 341,
     "works": 239,
-    "topics": 1835
+    "topics": 1839
   },
   "people": [
     {
@@ -3251,6 +3252,10 @@
       "articles": 1
     },
     {
+      "name": "C.ヴァイパー",
+      "articles": 1
+    },
+    {
       "name": "CA",
       "articles": 2
     },
@@ -3557,6 +3562,10 @@
     {
       "name": "OPPAI",
       "articles": 2
+    },
+    {
+      "name": "Outfit 4",
+      "articles": 1
     },
     {
       "name": "P-BOX VR",
@@ -4635,6 +4644,10 @@
       "articles": 5
     },
     {
+      "name": "ゲーム衣装",
+      "articles": 1
+    },
+    {
       "name": "コスプレ写真",
       "articles": 1
     },
@@ -4813,6 +4826,10 @@
     {
       "name": "ストッキング",
       "articles": 2
+    },
+    {
+      "name": "ストリートファイター6",
+      "articles": 1
     },
     {
       "name": "ストレッチ",
@@ -8068,7 +8085,7 @@
     },
     {
       "name": "格闘ゲーム",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "桃乃木かな",
