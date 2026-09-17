@@ -358,6 +358,7 @@
     "topics/topic-a4bee2b7440b.html",
     "topics/topic-a4fef6b7ddc8.html",
     "topics/topic-a539d32496c9.html",
+    "topics/topic-a55856791c43.html",
     "topics/topic-a6577e51aa03.html",
     "topics/topic-a6730f134ba7.html",
     "topics/topic-a786644a793d.html",
@@ -593,7 +594,7 @@
   "counts": {
     "people": 338,
     "works": 235,
-    "topics": 1813
+    "topics": 1814
   },
   "people": [
     {
@@ -5274,7 +5275,7 @@
     },
     {
       "name": "パッケージ画像",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "パッケージ紹介",
@@ -7761,6 +7762,10 @@
       "articles": 1
     },
     {
+      "name": "新作AV",
+      "articles": 1
+    },
+    {
       "name": "新卒OL",
       "articles": 3
     },
@@ -9706,7 +9711,7 @@
     },
     {
       "name": "配信開始",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "配達員",
