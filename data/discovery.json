@@ -593,8 +593,8 @@
   ],
   "counts": {
     "people": 339,
-    "works": 236,
-    "topics": 1819
+    "works": 237,
+    "topics": 1822
   },
   "people": [
     {
@@ -2864,6 +2864,10 @@
       "articles": 1
     },
     {
+      "code": "START-421",
+      "articles": 1
+    },
+    {
       "code": "START-498",
       "articles": 1
     },
@@ -3155,7 +3159,7 @@
     },
     {
       "name": "AV作品",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "AV初出演",
@@ -3651,7 +3655,7 @@
     },
     {
       "name": "SODSTAR",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "SODstar",
@@ -7338,6 +7342,10 @@
       "articles": 1
     },
     {
+      "name": "小倉由菜",
+      "articles": 1
+    },
+    {
       "name": "小悪魔ナース",
       "articles": 1
     },
@@ -9555,6 +9563,14 @@
     },
     {
       "name": "見下ろし",
+      "articles": 1
+    },
+    {
+      "name": "触手",
+      "articles": 1
+    },
+    {
+      "name": "触手-1グランプリ",
       "articles": 1
     },
     {
