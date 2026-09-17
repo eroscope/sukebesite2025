@@ -599,7 +599,7 @@
   "counts": {
     "people": 341,
     "works": 239,
-    "topics": 1831
+    "topics": 1835
   },
   "people": [
     {
@@ -3771,6 +3771,10 @@
       "articles": 1
     },
     {
+      "name": "WBS",
+      "articles": 1
+    },
+    {
       "name": "W女上司",
       "articles": 1
     },
@@ -6803,6 +6807,10 @@
       "articles": 6
     },
     {
+      "name": "古旗笑佳",
+      "articles": 1
+    },
+    {
       "name": "可愛まゆ",
       "articles": 1
     },
@@ -7128,7 +7136,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 24
+      "articles": 25
     },
     {
       "name": "女子大生",
@@ -7441,6 +7449,10 @@
     {
       "name": "屋外撮影",
       "articles": 2
+    },
+    {
+      "name": "屋根工事",
+      "articles": 1
     },
     {
       "name": "山本里菜",
@@ -8548,6 +8560,10 @@
     },
     {
       "name": "珍画像",
+      "articles": 1
+    },
+    {
+      "name": "現場リポート",
       "articles": 1
     },
     {
