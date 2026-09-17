@@ -62,6 +62,7 @@
     "people/person-bf2038bd812f.html",
     "people/person-c3e5fc6f482e.html",
     "people/person-c6f16d119136.html",
+    "people/person-c7aab7aaa847.html",
     "people/person-caa07f8734ff.html",
     "people/person-cbe1ad461cc6.html",
     "people/person-cea65373350d.html",
@@ -375,6 +376,7 @@
     "topics/topic-ac1b137d7e96.html",
     "topics/topic-ac5f468ffba4.html",
     "topics/topic-ac9d2eb7082c.html",
+    "topics/topic-ad4d9cc1b087.html",
     "topics/topic-ad614843cf44.html",
     "topics/topic-aecaac86ab2c.html",
     "topics/topic-ai.html",
@@ -601,7 +603,7 @@
   "counts": {
     "people": 341,
     "works": 239,
-    "topics": 1841
+    "topics": 1842
   },
   "people": [
     {
@@ -1326,7 +1328,7 @@
     },
     {
       "name": "月野江すい",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "朝妃りお",
@@ -5925,6 +5927,10 @@
       "articles": 1
     },
     {
+      "name": "リモコン玩具",
+      "articles": 1
+    },
+    {
       "name": "リョナ",
       "articles": 1
     },
@@ -7454,7 +7460,7 @@
     },
     {
       "name": "屋外",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "屋外リポート",
@@ -8718,7 +8724,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 107
+      "articles": 108
     },
     {
       "name": "画像ギャラリー",
@@ -9762,7 +9768,7 @@
     },
     {
       "name": "車内",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "車内プレイ",
