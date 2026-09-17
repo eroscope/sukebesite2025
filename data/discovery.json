@@ -533,6 +533,7 @@
     "topics/topic-fb1216f6e0ec.html",
     "topics/topic-fb9d4a0a9dcb.html",
     "topics/topic-fc917e94f5f9.html",
+    "topics/topic-fe08efde18da.html",
     "topics/topic-fe643b80ac5c.html",
     "topics/topic-ff3aea7d4828.html",
     "topics/topic-ffc18ca99215.html",
@@ -594,8 +595,8 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 340,
-    "works": 237,
+    "people": 341,
+    "works": 238,
     "topics": 1826
   },
   "people": [
@@ -1492,6 +1493,10 @@
       "articles": 1
     },
     {
+      "name": "水瀬なぎ",
+      "articles": 1
+    },
+    {
       "name": "永崎麗香",
       "articles": 1
     },
@@ -2195,6 +2200,10 @@
     },
     {
       "code": "EBWH-338",
+      "articles": 1
+    },
+    {
+      "code": "FEM-039",
       "articles": 1
     },
     {
@@ -3149,7 +3158,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 25
+      "articles": 26
     },
     {
       "name": "AVパッケージ",
@@ -8581,7 +8590,7 @@
     },
     {
       "name": "男の娘",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "男女",
