@@ -592,7 +592,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 338,
+    "people": 339,
     "works": 236,
     "topics": 1818
   },
@@ -1452,6 +1452,10 @@
     {
       "name": "楪カレン",
       "articles": 2
+    },
+    {
+      "name": "極小マイクロビキニ",
+      "articles": 1
     },
     {
       "name": "榊原萌",
@@ -8167,7 +8171,7 @@
     },
     {
       "name": "水着",
-      "articles": 151
+      "articles": 152
     },
     {
       "name": "水着グラビア",
@@ -8615,7 +8619,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 104
+      "articles": 105
     },
     {
       "name": "画像ギャラリー",
