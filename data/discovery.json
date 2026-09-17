@@ -593,8 +593,8 @@
   ],
   "counts": {
     "people": 338,
-    "works": 235,
-    "topics": 1816
+    "works": 236,
+    "topics": 1818
   },
   "people": [
     {
@@ -2208,6 +2208,10 @@
       "articles": 1
     },
     {
+      "code": "H-1745HRSM00160",
+      "articles": 1
+    },
+    {
       "code": "HJMO-741",
       "articles": 1
     },
@@ -2979,7 +2983,7 @@
     },
     {
       "name": "4P",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "50kg→84kg",
@@ -4671,7 +4675,7 @@
     },
     {
       "name": "サンプル動画",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "サンプル画像",
@@ -5351,6 +5355,10 @@
     },
     {
       "name": "ピアノ教師",
+      "articles": 1
+    },
+    {
+      "name": "ピンクコンパニオン",
       "articles": 1
     },
     {
@@ -7247,6 +7255,10 @@
     },
     {
       "name": "宮川みやび",
+      "articles": 1
+    },
+    {
+      "name": "宴会",
       "articles": 1
     },
     {
