@@ -594,7 +594,7 @@
   "counts": {
     "people": 338,
     "works": 235,
-    "topics": 1814
+    "topics": 1815
   },
   "people": [
     {
@@ -3295,7 +3295,7 @@
     },
     {
       "name": "FLASH",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "FRIDAY",
@@ -6023,7 +6023,7 @@
     },
     {
       "name": "下着",
-      "articles": 76
+      "articles": 77
     },
     {
       "name": "下着ずらし",
@@ -6547,7 +6547,7 @@
     },
     {
       "name": "写真集",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "冨田有紀",
@@ -7970,6 +7970,10 @@
       "articles": 1
     },
     {
+      "name": "柊宇",
+      "articles": 1
+    },
+    {
       "name": "柴崎はる",
       "articles": 1
     },
@@ -8147,7 +8151,7 @@
     },
     {
       "name": "水着",
-      "articles": 150
+      "articles": 151
     },
     {
       "name": "水着グラビア",
