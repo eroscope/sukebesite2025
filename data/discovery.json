@@ -314,6 +314,7 @@
     "topics/topic-8b2689c619bd.html",
     "topics/topic-8b43ace97b73.html",
     "topics/topic-8bb1bf8a8e8e.html",
+    "topics/topic-8bfb267eba49.html",
     "topics/topic-8bfcb96c6a53.html",
     "topics/topic-8c49bb441227.html",
     "topics/topic-8c77219f9a06.html",
@@ -600,7 +601,7 @@
   "counts": {
     "people": 341,
     "works": 239,
-    "topics": 1839
+    "topics": 1841
   },
   "people": [
     {
@@ -5021,7 +5022,7 @@
     },
     {
       "name": "テレビ朝日",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ディルド",
@@ -7153,7 +7154,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 25
+      "articles": 26
     },
     {
       "name": "女子大生",
@@ -7836,6 +7837,10 @@
       "articles": 1
     },
     {
+      "name": "斎藤ちはる",
+      "articles": 1
+    },
+    {
       "name": "料理",
       "articles": 1
     },
@@ -8513,6 +8518,10 @@
     },
     {
       "name": "瀬戸環奈",
+      "articles": 1
+    },
+    {
+      "name": "灰色ニット",
       "articles": 1
     },
     {
@@ -9361,7 +9370,7 @@
     },
     {
       "name": "胸元",
-      "articles": 40
+      "articles": 41
     },
     {
       "name": "胸出し",
