@@ -595,7 +595,7 @@
   "counts": {
     "people": 339,
     "works": 237,
-    "topics": 1822
+    "topics": 1823
   },
   "people": [
     {
@@ -5340,7 +5340,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 48
+      "articles": 49
     },
     {
       "name": "ビビアン",
@@ -6332,6 +6332,10 @@
     },
     {
       "name": "佐野秋帆",
+      "articles": 1
+    },
+    {
+      "name": "体型比較",
       "articles": 1
     },
     {
@@ -9152,7 +9156,7 @@
     },
     {
       "name": "美女",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "美女3人",
