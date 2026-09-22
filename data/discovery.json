@@ -611,7 +611,7 @@
   "counts": {
     "people": 346,
     "works": 243,
-    "topics": 1887
+    "topics": 1888
   },
   "people": [
     {
@@ -7479,6 +7479,10 @@
       "articles": 1
     },
     {
+      "name": "宮藤あどね",
+      "articles": 1
+    },
+    {
       "name": "宮野瞳",
       "articles": 1
     },
@@ -8896,7 +8900,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 112
+      "articles": 113
     },
     {
       "name": "画像ギャラリー",
@@ -9628,7 +9632,7 @@
     },
     {
       "name": "自撮り",
-      "articles": 25
+      "articles": 26
     },
     {
       "name": "自撮り動画",
@@ -10480,7 +10484,7 @@
     },
     {
       "name": "黒ビキニ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "黒ランジェリー",
