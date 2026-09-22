@@ -614,7 +614,7 @@
   "counts": {
     "people": 348,
     "works": 243,
-    "topics": 1891
+    "topics": 1893
   },
   "people": [
     {
@@ -4802,6 +4802,10 @@
       "articles": 1
     },
     {
+      "name": "サウナ",
+      "articles": 1
+    },
+    {
       "name": "サキュバスバニー",
       "articles": 1
     },
@@ -6759,7 +6763,7 @@
     },
     {
       "name": "写真集",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "冨田有紀",
@@ -8443,7 +8447,7 @@
     },
     {
       "name": "水着",
-      "articles": 158
+      "articles": 159
     },
     {
       "name": "水着グラビア",
@@ -10439,6 +10443,10 @@
     },
     {
       "name": "驚き顔",
+      "articles": 1
+    },
+    {
+      "name": "高梨瑞樹",
       "articles": 1
     },
     {
