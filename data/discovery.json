@@ -493,6 +493,7 @@
     "topics/topic-dlsite.html",
     "topics/topic-duga.html",
     "topics/topic-dvd.html",
+    "topics/topic-dvd.html",
     "topics/topic-e-body.html",
     "topics/topic-e042c2ead2f0.html",
     "topics/topic-e16d9671dc56.html",
@@ -609,7 +610,7 @@
   "counts": {
     "people": 344,
     "works": 241,
-    "topics": 1874
+    "topics": 1875
   },
   "people": [
     {
@@ -4278,7 +4279,7 @@
     },
     {
       "name": "イメージDVD",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "イメージビデオ",
@@ -6174,7 +6175,7 @@
     },
     {
       "name": "下着",
-      "articles": 77
+      "articles": 78
     },
     {
       "name": "下着ずらし",
@@ -8374,7 +8375,7 @@
     },
     {
       "name": "水着",
-      "articles": 157
+      "articles": 158
     },
     {
       "name": "水着グラビア",
@@ -10143,6 +10144,10 @@
     {
       "name": "雨宮ひびき",
       "articles": 2
+    },
+    {
+      "name": "雪野しお",
+      "articles": 1
     },
     {
       "name": "零",
