@@ -91,6 +91,7 @@
     "topics.html",
     "topics/topic-00034f2a3b00.html",
     "topics/topic-00b38f300f22.html",
+    "topics/topic-00cfa1670d73.html",
     "topics/topic-00d516cd674a.html",
     "topics/topic-0190762129db.html",
     "topics/topic-01ff051c4dd1.html",
@@ -492,6 +493,7 @@
     "topics/topic-ddb634c33c58.html",
     "topics/topic-de92f995f049.html",
     "topics/topic-dedcb64739e6.html",
+    "topics/topic-deep-s.html",
     "topics/topic-deff1678ad25.html",
     "topics/topic-dlsite.html",
     "topics/topic-duga.html",
@@ -615,7 +617,7 @@
   ],
   "counts": {
     "people": 348,
-    "works": 244,
+    "works": 245,
     "topics": 1901
   },
   "people": [
@@ -2242,6 +2244,10 @@
       "articles": 1
     },
     {
+      "code": "DVMM-435",
+      "articles": 1
+    },
+    {
       "code": "EBOD-513",
       "articles": 1
     },
@@ -3333,7 +3339,7 @@
     },
     {
       "name": "DEEP'S",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "DLsite",
@@ -5513,7 +5519,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 50
+      "articles": 51
     },
     {
       "name": "ビビアン",
@@ -5829,7 +5835,7 @@
     },
     {
       "name": "マジックミラー便",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "マジックミラー号",
