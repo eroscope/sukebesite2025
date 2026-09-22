@@ -507,6 +507,7 @@
     "topics/topic-e62af7c326d6.html",
     "topics/topic-e6913df3570f.html",
     "topics/topic-e80584208584.html",
+    "topics/topic-e80b7701b433.html",
     "topics/topic-e871a34a6e7e.html",
     "topics/topic-eba147c85e26.html",
     "topics/topic-ebd7df226cea.html",
@@ -602,9 +603,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 341,
+    "people": 342,
     "works": 240,
-    "topics": 1864
+    "topics": 1866
   },
   "people": [
     {
@@ -1225,6 +1226,10 @@
     },
     {
       "name": "幸田あかり",
+      "articles": 1
+    },
+    {
+      "name": "広瀬すず",
       "articles": 1
     },
     {
@@ -7185,7 +7190,7 @@
     },
     {
       "name": "女優",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "女優比較",
@@ -7530,6 +7535,10 @@
     {
       "name": "屋外ロケ",
       "articles": 2
+    },
+    {
+      "name": "屋外写真",
+      "articles": 1
     },
     {
       "name": "屋外撮影",
@@ -9900,6 +9909,10 @@
       "articles": 1
     },
     {
+      "name": "透け感",
+      "articles": 1
+    },
+    {
       "name": "透け感衣装",
       "articles": 1
     },
@@ -10313,7 +10326,7 @@
     },
     {
       "name": "黄色いドレス",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "黒いボディスーツ",
