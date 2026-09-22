@@ -262,6 +262,7 @@
     "topics/topic-62ac794272dd.html",
     "topics/topic-6314aa46097f.html",
     "topics/topic-6316987bee78.html",
+    "topics/topic-63226316c84c.html",
     "topics/topic-6331f298e52f.html",
     "topics/topic-647b618e55ca.html",
     "topics/topic-647bd4613bab.html",
@@ -609,8 +610,8 @@
   ],
   "counts": {
     "people": 345,
-    "works": 241,
-    "topics": 1877
+    "works": 242,
+    "topics": 1878
   },
   "people": [
     {
@@ -2932,6 +2933,10 @@
       "articles": 1
     },
     {
+      "code": "SVMGM-054",
+      "articles": 1
+    },
+    {
       "code": "TIKB-220",
       "articles": 1
     },
@@ -4610,6 +4615,10 @@
       "articles": 1
     },
     {
+      "name": "クレーンゲーム企画",
+      "articles": 1
+    },
+    {
       "name": "クンニ",
       "articles": 2
     },
@@ -5779,7 +5788,7 @@
     },
     {
       "name": "マジックミラー号",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "マスク女子",
@@ -6671,7 +6680,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 48
+      "articles": 49
     },
     {
       "name": "公式乳首",
