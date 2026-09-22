@@ -616,7 +616,7 @@
   "counts": {
     "people": 348,
     "works": 244,
-    "topics": 1899
+    "topics": 1901
   },
   "people": [
     {
@@ -3397,7 +3397,7 @@
     },
     {
       "name": "FLASH",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "FRIDAY",
@@ -4596,6 +4596,10 @@
       "articles": 1
     },
     {
+      "name": "キンタロー。",
+      "articles": 1
+    },
+    {
       "name": "ギャップ",
       "articles": 1
     },
@@ -4813,6 +4817,10 @@
     },
     {
       "name": "サキュバスバニー",
+      "articles": 1
+    },
+    {
+      "name": "サテン衣装",
       "articles": 1
     },
     {
@@ -10553,7 +10561,7 @@
     },
     {
       "name": "黒レース",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "黒ワンピース",
