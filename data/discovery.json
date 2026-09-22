@@ -586,6 +586,7 @@
     "topics/topic-s1-girls-collection.html",
     "topics/topic-s1-no-1-style.html",
     "topics/topic-s1.html",
+    "topics/topic-sm.html",
     "topics/topic-sod.html",
     "topics/topic-sod.html",
     "topics/topic-sod.html",
@@ -609,7 +610,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 346,
+    "people": 348,
     "works": 243,
     "topics": 1890
   },
@@ -1005,6 +1006,10 @@
     {
       "name": "博多彩葉",
       "articles": 2
+    },
+    {
+      "name": "友田彩也香",
+      "articles": 1
     },
     {
       "name": "古東まりこ",
@@ -1432,6 +1437,10 @@
     },
     {
       "name": "柏木雫",
+      "articles": 1
+    },
+    {
+      "name": "栗林里莉",
       "articles": 1
     },
     {
@@ -3560,7 +3569,7 @@
     },
     {
       "name": "M男",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "NHK",
@@ -3708,7 +3717,7 @@
     },
     {
       "name": "SM",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "SNS写真",
@@ -4548,7 +4557,7 @@
     },
     {
       "name": "キャプチャ画像",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "キャプ画像",
