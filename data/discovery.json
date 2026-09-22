@@ -611,7 +611,7 @@
   "counts": {
     "people": 346,
     "works": 243,
-    "topics": 1884
+    "topics": 1885
   },
   "people": [
     {
@@ -3228,7 +3228,7 @@
     },
     {
       "name": "AV作品",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "AV初出演",
@@ -3724,7 +3724,7 @@
     },
     {
       "name": "SOD",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "SOD Star",
@@ -6451,6 +6451,10 @@
       "articles": 1
     },
     {
+      "name": "企画AV",
+      "articles": 1
+    },
+    {
       "name": "企画物",
       "articles": 1
     },
@@ -8888,7 +8892,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 110
+      "articles": 111
     },
     {
       "name": "画像ギャラリー",
