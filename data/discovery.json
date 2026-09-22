@@ -105,6 +105,7 @@
     "topics/topic-07064bd9e47d.html",
     "topics/topic-07e40f87bd03.html",
     "topics/topic-0857c51434ee.html",
+    "topics/topic-088303c984d0.html",
     "topics/topic-09533f3c6030.html",
     "topics/topic-09f4175d8aff.html",
     "topics/topic-09fe90dec83a.html",
@@ -420,6 +421,7 @@
     "topics/topic-b54c4d3524c7.html",
     "topics/topic-b601a90b3d71.html",
     "topics/topic-b62b6f9bda9f.html",
+    "topics/topic-b7169c351554.html",
     "topics/topic-b75a38aae367.html",
     "topics/topic-b84b61e7e757.html",
     "topics/topic-b8981e960871.html",
@@ -612,7 +614,7 @@
   "counts": {
     "people": 348,
     "works": 243,
-    "topics": 1890
+    "topics": 1891
   },
   "people": [
     {
@@ -5041,7 +5043,7 @@
     },
     {
       "name": "ソファ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "ソファSEX",
@@ -7733,7 +7735,7 @@
     },
     {
       "name": "彼女の妹",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "彼女の姉",
@@ -8305,6 +8307,10 @@
     },
     {
       "name": "桐山瑠衣",
+      "articles": 1
+    },
+    {
+      "name": "桜井千春",
       "articles": 1
     },
     {
@@ -10373,7 +10379,7 @@
     },
     {
       "name": "顔騎",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "風俗",
