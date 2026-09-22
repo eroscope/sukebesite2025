@@ -610,8 +610,8 @@
   ],
   "counts": {
     "people": 346,
-    "works": 242,
-    "topics": 1883
+    "works": 243,
+    "topics": 1884
   },
   "people": [
     {
@@ -2957,6 +2957,10 @@
       "articles": 1
     },
     {
+      "code": "URVRSP-613",
+      "articles": 1
+    },
+    {
       "code": "UZU-038",
       "articles": 1
     },
@@ -3096,7 +3100,7 @@
     },
     {
       "name": "8K",
-      "articles": 28
+      "articles": 29
     },
     {
       "name": "8K VR",
@@ -3804,7 +3808,7 @@
     },
     {
       "name": "VR",
-      "articles": 90
+      "articles": 91
     },
     {
       "name": "VR CHANNEL 005",
@@ -7399,6 +7403,10 @@
       "articles": 1
     },
     {
+      "name": "学園設定",
+      "articles": 1
+    },
+    {
       "name": "宅トレ",
       "articles": 1
     },
@@ -8900,7 +8908,7 @@
     },
     {
       "name": "画像集",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "画像＋動画",
