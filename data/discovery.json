@@ -604,7 +604,7 @@
   "counts": {
     "people": 341,
     "works": 240,
-    "topics": 1862
+    "topics": 1864
   },
   "people": [
     {
@@ -4000,6 +4000,10 @@
       "articles": 2
     },
     {
+      "name": "しゃがみ姿",
+      "articles": 1
+    },
+    {
       "name": "すみれ",
       "articles": 1
     },
@@ -7209,7 +7213,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 26
+      "articles": 27
     },
     {
       "name": "女子ゴルフ",
@@ -7497,7 +7501,7 @@
     },
     {
       "name": "尻",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "尻画像",
@@ -10381,6 +10385,10 @@
     },
     {
       "name": "鼠蹊部",
+      "articles": 1
+    },
+    {
+      "name": "齋藤陽",
       "articles": 1
     }
   ]
