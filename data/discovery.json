@@ -618,7 +618,7 @@
   "counts": {
     "people": 349,
     "works": 246,
-    "topics": 1903
+    "topics": 1904
   },
   "people": [
     {
@@ -4275,7 +4275,7 @@
     },
     {
       "name": "アニメ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "アニメ・漫画",
@@ -4615,6 +4615,10 @@
     },
     {
       "name": "ギャップ",
+      "articles": 1
+    },
+    {
+      "name": "ギャラリー",
       "articles": 1
     },
     {
@@ -8979,7 +8983,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 114
+      "articles": 115
     },
     {
       "name": "画像ギャラリー",
