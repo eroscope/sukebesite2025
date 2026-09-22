@@ -611,7 +611,7 @@
   "counts": {
     "people": 346,
     "works": 243,
-    "topics": 1888
+    "topics": 1890
   },
   "people": [
     {
@@ -5440,7 +5440,7 @@
     },
     {
       "name": "パンチラ",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "パンツ",
@@ -8103,6 +8103,10 @@
       "articles": 1
     },
     {
+      "name": "昭和特撮",
+      "articles": 1
+    },
+    {
       "name": "昼呑み",
       "articles": 1
     },
@@ -8737,6 +8741,10 @@
     {
       "name": "爽香",
       "articles": 2
+    },
+    {
+      "name": "特撮ヒロイン",
+      "articles": 1
     },
     {
       "name": "猫を洗う",
