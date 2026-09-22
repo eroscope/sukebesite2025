@@ -603,9 +603,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 343,
+    "people": 344,
     "works": 241,
-    "topics": 1872
+    "topics": 1874
   },
   "people": [
     {
@@ -1106,6 +1106,10 @@
     },
     {
       "name": "宮沢ゆかり",
+      "articles": 1
+    },
+    {
+      "name": "宮藤あどね",
       "articles": 1
     },
     {
@@ -5889,6 +5893,10 @@
       "articles": 1
     },
     {
+      "name": "ヤングジャンプ",
+      "articles": 1
+    },
+    {
       "name": "ヤングマガジン",
       "articles": 2
     },
@@ -8362,7 +8370,7 @@
     },
     {
       "name": "水着",
-      "articles": 156
+      "articles": 157
     },
     {
       "name": "水着グラビア",
@@ -9858,6 +9866,10 @@
     },
     {
       "name": "赤ショートパンツ",
+      "articles": 1
+    },
+    {
+      "name": "赤ドレス",
       "articles": 1
     },
     {
