@@ -603,7 +603,7 @@
   "counts": {
     "people": 341,
     "works": 240,
-    "topics": 1856
+    "topics": 1858
   },
   "people": [
     {
@@ -3200,7 +3200,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 81
+      "articles": 82
     },
     {
       "name": "AV女優検索",
@@ -6696,7 +6696,7 @@
     },
     {
       "name": "制服",
-      "articles": 30
+      "articles": 31
     },
     {
       "name": "制服ギャル",
@@ -7372,6 +7372,10 @@
     },
     {
       "name": "宮川みやび",
+      "articles": 1
+    },
+    {
+      "name": "宮野瞳",
       "articles": 1
     },
     {
@@ -9571,6 +9575,10 @@
       "articles": 1
     },
     {
+      "name": "葵こはる",
+      "articles": 1
+    },
+    {
       "name": "蓮あおば",
       "articles": 1
     },
@@ -9668,7 +9676,7 @@
     },
     {
       "name": "裸身",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "複数プレイ",
