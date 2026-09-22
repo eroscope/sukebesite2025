@@ -616,9 +616,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 348,
-    "works": 245,
-    "topics": 1902
+    "people": 349,
+    "works": 246,
+    "topics": 1903
   },
   "people": [
     {
@@ -1043,6 +1043,10 @@
     },
     {
       "name": "和田海佑",
+      "articles": 1
+    },
+    {
+      "name": "唯井まひろ",
       "articles": 1
     },
     {
@@ -2956,6 +2960,10 @@
       "articles": 1
     },
     {
+      "code": "START-610",
+      "articles": 1
+    },
+    {
       "code": "START-621",
       "articles": 1
     },
@@ -4839,7 +4847,7 @@
     },
     {
       "name": "サンプル動画",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "サンプル画像",
@@ -7239,6 +7247,10 @@
     },
     {
       "name": "大家さん",
+      "articles": 1
+    },
+    {
+      "name": "大家設定",
       "articles": 1
     },
     {
