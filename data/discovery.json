@@ -605,7 +605,7 @@
   "counts": {
     "people": 342,
     "works": 240,
-    "topics": 1866
+    "topics": 1867
   },
   "people": [
     {
@@ -3746,6 +3746,10 @@
     },
     {
       "name": "TENGA",
+      "articles": 1
+    },
+    {
+      "name": "TGIF",
       "articles": 1
     },
     {
@@ -8342,7 +8346,7 @@
     },
     {
       "name": "水着",
-      "articles": 154
+      "articles": 155
     },
     {
       "name": "水着グラビア",
