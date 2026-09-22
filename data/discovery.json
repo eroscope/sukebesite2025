@@ -42,6 +42,7 @@
     "people/person-6d869b043874.html",
     "people/person-7496a897d663.html",
     "people/person-76ffd132d78b.html",
+    "people/person-7b601598aa66.html",
     "people/person-85c41d7ff936.html",
     "people/person-8763443e047c.html",
     "people/person-87b1b5f5efa7.html",
@@ -532,6 +533,7 @@
     "topics/topic-f1360f1c1058.html",
     "topics/topic-f1423036e503.html",
     "topics/topic-f215e675c450.html",
+    "topics/topic-f2431a40a151.html",
     "topics/topic-f4b53d5ab084.html",
     "topics/topic-f500c702a477.html",
     "topics/topic-f5c2cb45438d.html",
@@ -618,7 +620,7 @@
   "counts": {
     "people": 349,
     "works": 246,
-    "topics": 1904
+    "topics": 1906
   },
   "people": [
     {
@@ -951,7 +953,7 @@
     },
     {
       "name": "八木奈々",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "写真集",
@@ -5323,7 +5325,7 @@
     },
     {
       "name": "ネットの反応",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ノニ（noni）",
@@ -7139,6 +7141,10 @@
     },
     {
       "name": "四つん這い",
+      "articles": 1
+    },
+    {
+      "name": "地上波",
       "articles": 1
     },
     {
@@ -9652,6 +9658,10 @@
     {
       "name": "胸元",
       "articles": 41
+    },
+    {
+      "name": "胸元チラ見え",
+      "articles": 1
     },
     {
       "name": "胸出し",
