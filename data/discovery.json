@@ -605,7 +605,7 @@
   "counts": {
     "people": 343,
     "works": 241,
-    "topics": 1869
+    "topics": 1872
   },
   "people": [
     {
@@ -5078,7 +5078,7 @@
     },
     {
       "name": "テレビ朝日",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ディルド",
@@ -7238,7 +7238,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 27
+      "articles": 28
     },
     {
       "name": "女子ゴルフ",
@@ -8749,6 +8749,10 @@
       "articles": 1
     },
     {
+      "name": "田原萌々",
+      "articles": 1
+    },
+    {
       "name": "田村真子",
       "articles": 1
     },
@@ -9649,6 +9653,10 @@
       "articles": 1
     },
     {
+      "name": "街ロケ",
+      "articles": 1
+    },
+    {
       "name": "街中",
       "articles": 1
     },
@@ -10282,6 +10290,10 @@
     },
     {
       "name": "風船ゲーム",
+      "articles": 1
+    },
+    {
+      "name": "食レポ",
       "articles": 1
     },
     {
