@@ -539,6 +539,7 @@
     "topics/topic-f6d4b64ad1d4.html",
     "topics/topic-f713282a59b5.html",
     "topics/topic-f74a9e431b06.html",
+    "topics/topic-f75c9fcafa88.html",
     "topics/topic-f7e9cf65c854.html",
     "topics/topic-f7f4f3529b7b.html",
     "topics/topic-f8d4c83a4941.html",
@@ -564,6 +565,7 @@
     "topics/topic-instagram.html",
     "topics/topic-julia.html",
     "topics/topic-kawaii.html",
+    "topics/topic-kmpvr.html",
     "topics/topic-madonna.html",
     "topics/topic-madonnavr.html",
     "topics/topic-maika.html",
@@ -613,8 +615,8 @@
   ],
   "counts": {
     "people": 348,
-    "works": 243,
-    "topics": 1893
+    "works": 244,
+    "topics": 1894
   },
   "people": [
     {
@@ -2768,6 +2770,10 @@
       "articles": 1
     },
     {
+      "code": "SAVR-1096",
+      "articles": 1
+    },
+    {
       "code": "SAVR-1168",
       "articles": 1
     },
@@ -3491,7 +3497,7 @@
     },
     {
       "name": "KMPVR",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "Kカップ",
@@ -3819,7 +3825,7 @@
     },
     {
       "name": "VR",
-      "articles": 91
+      "articles": 92
     },
     {
       "name": "VR CHANNEL 005",
@@ -5004,6 +5010,10 @@
     {
       "name": "セフレ",
       "articles": 2
+    },
+    {
+      "name": "セフレ設定",
+      "articles": 1
     },
     {
       "name": "セミヌード",
@@ -9679,7 +9689,7 @@
     },
     {
       "name": "舌責め",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "航空機内",
