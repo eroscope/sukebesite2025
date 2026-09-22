@@ -603,7 +603,7 @@
   "counts": {
     "people": 341,
     "works": 240,
-    "topics": 1851
+    "topics": 1856
   },
   "people": [
     {
@@ -4275,6 +4275,10 @@
       "articles": 1
     },
     {
+      "name": "ウェア",
+      "articles": 1
+    },
+    {
       "name": "ウエディングドレス",
       "articles": 1
     },
@@ -4595,6 +4599,10 @@
       "articles": 1
     },
     {
+      "name": "グリーン",
+      "articles": 1
+    },
+    {
       "name": "グループセックス",
       "articles": 1
     },
@@ -4704,6 +4712,10 @@
     },
     {
       "name": "ゴルフコーチ",
+      "articles": 1
+    },
+    {
+      "name": "ゴルフ中継",
       "articles": 1
     },
     {
@@ -7183,6 +7195,10 @@
       "articles": 26
     },
     {
+      "name": "女子ゴルフ",
+      "articles": 1
+    },
+    {
       "name": "女子大生",
       "articles": 4
     },
@@ -8068,6 +8084,10 @@
     },
     {
       "name": "東條なつ",
+      "articles": 1
+    },
+    {
+      "name": "東海クラシック",
       "articles": 1
     },
     {
