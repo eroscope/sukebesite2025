@@ -609,7 +609,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 345,
+    "people": 346,
     "works": 242,
     "topics": 1883
   },
@@ -956,6 +956,10 @@
     },
     {
       "name": "凪ひかる",
+      "articles": 1
+    },
+    {
+      "name": "初乃ふみか",
       "articles": 1
     },
     {
@@ -3680,7 +3684,7 @@
     },
     {
       "name": "S-Cute",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "S1",
@@ -5672,7 +5676,7 @@
     },
     {
       "name": "ベッドシーン",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "ベッド上",
