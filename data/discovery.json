@@ -604,8 +604,8 @@
   ],
   "counts": {
     "people": 343,
-    "works": 240,
-    "topics": 1867
+    "works": 241,
+    "topics": 1869
   },
   "people": [
     {
@@ -2136,6 +2136,10 @@
     },
     {
       "code": "CJOD-528",
+      "articles": 1
+    },
+    {
+      "code": "CNSTV-035",
       "articles": 1
     },
     {
@@ -4150,6 +4154,10 @@
     },
     {
       "name": "ゆきぽよ",
+      "articles": 1
+    },
+    {
+      "name": "ゆりさん（仮名）",
       "articles": 1
     },
     {
@@ -6893,6 +6901,10 @@
       "articles": 6
     },
     {
+      "name": "古希",
+      "articles": 1
+    },
+    {
       "name": "古旗笑佳",
       "articles": 1
     },
@@ -8646,7 +8658,7 @@
     },
     {
       "name": "熟女",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "熟女AV",
