@@ -623,8 +623,8 @@
   ],
   "counts": {
     "people": 353,
-    "works": 249,
-    "topics": 1917
+    "works": 250,
+    "topics": 1918
   },
   "people": [
     {
@@ -2994,6 +2994,10 @@
       "articles": 1
     },
     {
+      "code": "START-602",
+      "articles": 1
+    },
+    {
       "code": "START-610",
       "articles": 1
     },
@@ -3309,7 +3313,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 84
+      "articles": 85
     },
     {
       "name": "AV女優検索",
@@ -3584,6 +3588,10 @@
       "articles": 13
     },
     {
+      "name": "MINAMO",
+      "articles": 1
+    },
+    {
       "name": "MIU",
       "articles": 1
     },
@@ -3813,7 +3821,7 @@
     },
     {
       "name": "SODstar",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "SODクリエイト",
