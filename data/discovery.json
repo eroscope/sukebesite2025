@@ -622,7 +622,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 352,
+    "people": 353,
     "works": 249,
     "topics": 1917
   },
@@ -1017,6 +1017,10 @@
     },
     {
       "name": "南沢海香",
+      "articles": 1
+    },
+    {
+      "name": "南波明花",
       "articles": 1
     },
     {
@@ -3877,7 +3881,7 @@
     },
     {
       "name": "VR",
-      "articles": 92
+      "articles": 93
     },
     {
       "name": "VR CHANNEL 005",
@@ -9641,7 +9645,7 @@
     },
     {
       "name": "義母",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "義父",
