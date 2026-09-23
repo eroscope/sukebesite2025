@@ -630,9 +630,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 358,
-    "works": 251,
-    "topics": 1930
+    "people": 359,
+    "works": 253,
+    "topics": 1933
   },
   "people": [
     {
@@ -1868,6 +1868,10 @@
       "articles": 1
     },
     {
+      "name": "羽生アリサ",
+      "articles": 1
+    },
+    {
       "name": "羽田カイラ",
       "articles": 1
     },
@@ -2343,6 +2347,14 @@
     },
     {
       "code": "H-1745HRSM00160",
+      "articles": 1
+    },
+    {
+      "code": "H-706NAAC00063B",
+      "articles": 1
+    },
+    {
+      "code": "H-706NAAC00075B",
       "articles": 1
     },
     {
@@ -3401,6 +3413,14 @@
     },
     {
       "name": "BSS",
+      "articles": 1
+    },
+    {
+      "name": "Best naked",
+      "articles": 1
+    },
+    {
+      "name": "Best naked 02",
       "articles": 1
     },
     {
@@ -8030,6 +8050,10 @@
     {
       "name": "成人向けアニメ",
       "articles": 2
+    },
+    {
+      "name": "成人向けイメージビデオ",
+      "articles": 1
     },
     {
       "name": "成人向けゲーム",
