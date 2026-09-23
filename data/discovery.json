@@ -624,7 +624,7 @@
   "counts": {
     "people": 351,
     "works": 249,
-    "topics": 1915
+    "topics": 1917
   },
   "people": [
     {
@@ -3230,6 +3230,10 @@
     {
       "name": "AI顔認識",
       "articles": 6
+    },
+    {
+      "name": "AKB48",
+      "articles": 1
     },
     {
       "name": "ASMR",
@@ -6097,7 +6101,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 107
+      "articles": 108
     },
     {
       "name": "ラヴィット！",
@@ -6849,7 +6853,7 @@
     },
     {
       "name": "写真集",
-      "articles": 15
+      "articles": 16
     },
     {
       "name": "冨田有紀",
@@ -7796,6 +7800,10 @@
       "articles": 1
     },
     {
+      "name": "平田侑希",
+      "articles": 1
+    },
+    {
       "name": "平野蒼",
       "articles": 1
     },
@@ -8557,7 +8565,7 @@
     },
     {
       "name": "水着",
-      "articles": 160
+      "articles": 161
     },
     {
       "name": "水着グラビア",
