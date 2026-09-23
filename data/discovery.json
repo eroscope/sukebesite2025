@@ -630,7 +630,7 @@
   ],
   "counts": {
     "people": 358,
-    "works": 250,
+    "works": 251,
     "topics": 1929
   },
   "people": [
@@ -2262,6 +2262,10 @@
     },
     {
       "code": "DLDSS-508",
+      "articles": 1
+    },
+    {
+      "code": "DOKVD-002",
       "articles": 1
     },
     {
@@ -4932,7 +4936,7 @@
     },
     {
       "name": "サンプル動画",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "サンプル画像",
@@ -6976,7 +6980,7 @@
     },
     {
       "name": "制服風衣装",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "前かがみ",
@@ -9632,7 +9636,7 @@
     },
     {
       "name": "罰ゲーム",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "罵倒",
@@ -10064,7 +10068,7 @@
     },
     {
       "name": "複数人",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "複数人プレイ",
