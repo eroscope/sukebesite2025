@@ -167,6 +167,7 @@
     "topics/topic-267582395238.html",
     "topics/topic-26ae114588d9.html",
     "topics/topic-287aa1efabef.html",
+    "topics/topic-29ba70710d50.html",
     "topics/topic-29d79cbdb69a.html",
     "topics/topic-29f8f0215964.html",
     "topics/topic-2a70c43e87b3.html",
@@ -628,7 +629,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 356,
+    "people": 357,
     "works": 250,
     "topics": 1928
   },
@@ -1743,6 +1744,10 @@
     },
     {
       "name": "真城はあと",
+      "articles": 1
+    },
+    {
+      "name": "矢澤サエ",
       "articles": 1
     },
     {
@@ -3423,7 +3428,7 @@
     },
     {
       "name": "DVD",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "DVD画像",
@@ -5011,7 +5016,7 @@
     },
     {
       "name": "スクール水着",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "スク水",
@@ -5623,7 +5628,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 53
+      "articles": 54
     },
     {
       "name": "ビビアン",
@@ -6151,7 +6156,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 108
+      "articles": 109
     },
     {
       "name": "ラヴィット！",
