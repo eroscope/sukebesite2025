@@ -391,6 +391,7 @@
     "topics/topic-ai.html",
     "topics/topic-ai.html",
     "topics/topic-ai.html",
+    "topics/topic-ai.html",
     "topics/topic-ani.html",
     "topics/topic-animates.html",
     "topics/topic-asmr.html",
@@ -621,7 +622,7 @@
   "counts": {
     "people": 349,
     "works": 248,
-    "topics": 1911
+    "topics": 1913
   },
   "people": [
     {
@@ -3202,7 +3203,7 @@
     },
     {
       "name": "AI画像",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "AI疑惑",
@@ -4989,6 +4990,10 @@
       "articles": 1
     },
     {
+      "name": "スパッツ",
+      "articles": 1
+    },
+    {
       "name": "スポーツウェア",
       "articles": 1
     },
@@ -5898,6 +5903,10 @@
     },
     {
       "name": "マネージャー",
+      "articles": 1
+    },
+    {
+      "name": "マラソン",
       "articles": 1
     },
     {
@@ -7678,7 +7687,7 @@
     },
     {
       "name": "尻",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "尻画像",
