@@ -279,6 +279,7 @@
     "topics/topic-66ea6e1db1a8.html",
     "topics/topic-699303adec9c.html",
     "topics/topic-6a0b30d36103.html",
+    "topics/topic-6a145b23c20d.html",
     "topics/topic-6a5a9a6c1012.html",
     "topics/topic-6a5e50e11eca.html",
     "topics/topic-6d1d803fccd8.html",
@@ -631,7 +632,7 @@
   "counts": {
     "people": 358,
     "works": 251,
-    "topics": 1929
+    "topics": 1930
   },
   "people": [
     {
@@ -5495,6 +5496,10 @@
       "articles": 1
     },
     {
+      "name": "バスケ",
+      "articles": 1
+    },
+    {
       "name": "バスケットボール",
       "articles": 1
     },
@@ -7844,7 +7849,7 @@
     },
     {
       "name": "川上しずく",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "川越にこ",
