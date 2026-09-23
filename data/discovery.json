@@ -627,7 +627,7 @@
   "counts": {
     "people": 354,
     "works": 250,
-    "topics": 1926
+    "topics": 1927
   },
   "people": [
     {
@@ -4616,7 +4616,7 @@
     },
     {
       "name": "キス",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "キス音",
@@ -6516,7 +6516,7 @@
     },
     {
       "name": "二次元",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "二次元キャラクター",
@@ -7923,6 +7923,10 @@
       "articles": 2
     },
     {
+      "name": "後輩ギャル",
+      "articles": 1
+    },
+    {
       "name": "復帰写真集",
       "articles": 1
     },
@@ -9096,7 +9100,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 115
+      "articles": 116
     },
     {
       "name": "画像ギャラリー",
@@ -9992,7 +9996,7 @@
     },
     {
       "name": "裸",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "裸の絡み",
