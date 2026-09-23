@@ -620,7 +620,7 @@
   "counts": {
     "people": 349,
     "works": 247,
-    "topics": 1907
+    "topics": 1909
   },
   "people": [
     {
@@ -3437,7 +3437,7 @@
     },
     {
       "name": "GIF",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "GIF動画",
@@ -4917,6 +4917,10 @@
     },
     {
       "name": "スイカ割り",
+      "articles": 1
+    },
+    {
+      "name": "スイス旅行",
       "articles": 1
     },
     {
@@ -9308,6 +9312,10 @@
       "articles": 2
     },
     {
+      "name": "稲村亜美",
+      "articles": 1
+    },
+    {
       "name": "稲森ゆう",
       "articles": 1
     },
@@ -9665,7 +9673,7 @@
     },
     {
       "name": "胸元",
-      "articles": 41
+      "articles": 42
     },
     {
       "name": "胸元チラ見え",
@@ -9737,7 +9745,7 @@
     },
     {
       "name": "自撮り",
-      "articles": 26
+      "articles": 27
     },
     {
       "name": "自撮り動画",
