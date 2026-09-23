@@ -629,9 +629,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 357,
+    "people": 358,
     "works": 250,
-    "topics": 1928
+    "topics": 1929
   },
   "people": [
     {
@@ -1965,6 +1965,10 @@
     {
       "name": "釈アリス",
       "articles": 2
+    },
+    {
+      "name": "野々宮すず",
+      "articles": 1
     },
     {
       "name": "野々浦暖",
@@ -5208,6 +5212,10 @@
     },
     {
       "name": "タイマー",
+      "articles": 1
+    },
+    {
+      "name": "タイムトライアル",
       "articles": 1
     },
     {
@@ -10660,7 +10668,7 @@
     },
     {
       "name": "騎乗位",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "驚き顔",
