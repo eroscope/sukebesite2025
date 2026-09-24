@@ -643,9 +643,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 366,
-    "works": 258,
-    "topics": 1966
+    "people": 367,
+    "works": 259,
+    "topics": 1967
   },
   "people": [
     {
@@ -851,6 +851,10 @@
     {
       "name": "七ツ森りり",
       "articles": 2
+    },
+    {
+      "name": "七嶋舞",
+      "articles": 1
     },
     {
       "name": "七沢みあ",
@@ -2201,6 +2205,10 @@
     {
       "code": "ABF-384",
       "articles": 2
+    },
+    {
+      "code": "ABF-388",
+      "articles": 1
     },
     {
       "code": "ACHJ-083",
@@ -3714,7 +3722,7 @@
     },
     {
       "name": "MGS",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "MINAMO",
@@ -3835,6 +3843,10 @@
     {
       "name": "PREMIUM",
       "articles": 2
+    },
+    {
+      "name": "PRESTIGE",
+      "articles": 1
     },
     {
       "name": "PR写真",
