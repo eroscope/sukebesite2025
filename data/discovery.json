@@ -632,8 +632,8 @@
   ],
   "counts": {
     "people": 359,
-    "works": 253,
-    "topics": 1941
+    "works": 254,
+    "topics": 1942
   },
   "people": [
     {
@@ -2843,6 +2843,10 @@
       "articles": 1
     },
     {
+      "code": "ROE-522",
+      "articles": 1
+    },
+    {
       "code": "ROE-558",
       "articles": 1
     },
@@ -3330,7 +3334,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 26
+      "articles": 27
     },
     {
       "name": "AVパッケージ",
@@ -6030,7 +6034,7 @@
     },
     {
       "name": "マドンナ",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "マネキン",
@@ -7299,6 +7303,10 @@
     {
       "name": "喘ぎ顔",
       "articles": 3
+    },
+    {
+      "name": "喜多美あいり",
+      "articles": 1
     },
     {
       "name": "喪服",
