@@ -632,7 +632,7 @@
   "counts": {
     "people": 359,
     "works": 253,
-    "topics": 1934
+    "topics": 1935
   },
   "people": [
     {
@@ -3697,7 +3697,7 @@
     },
     {
       "name": "NHK",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "NHKアナウンサー",
@@ -5096,6 +5096,10 @@
       "articles": 1
     },
     {
+      "name": "スポーツ番組",
+      "articles": 1
+    },
+    {
       "name": "スレンダー",
       "articles": 7
     },
@@ -5389,7 +5393,7 @@
     },
     {
       "name": "ニット",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "ニュースウォッチ9",
@@ -7505,7 +7509,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 29
+      "articles": 30
     },
     {
       "name": "女子ゴルフ",
@@ -8757,7 +8761,7 @@
     },
     {
       "name": "浅田春奈",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "浮気調査",
