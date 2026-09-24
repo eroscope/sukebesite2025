@@ -272,6 +272,7 @@
     "topics/topic-6188fdb6e5de.html",
     "topics/topic-61943548a743.html",
     "topics/topic-62ac794272dd.html",
+    "topics/topic-62b8a14c424c.html",
     "topics/topic-6314aa46097f.html",
     "topics/topic-6316987bee78.html",
     "topics/topic-63226316c84c.html",
@@ -635,8 +636,8 @@
   ],
   "counts": {
     "people": 362,
-    "works": 255,
-    "topics": 1953
+    "works": 257,
+    "topics": 1955
   },
   "people": [
     {
@@ -2358,6 +2359,10 @@
       "articles": 1
     },
     {
+      "code": "H-086JRZE00320",
+      "articles": 1
+    },
+    {
       "code": "H-113HR00012",
       "articles": 1
     },
@@ -2511,6 +2516,10 @@
     },
     {
       "code": "JBMD-160",
+      "articles": 1
+    },
+    {
+      "code": "JRZE-320",
       "articles": 1
     },
     {
@@ -5217,7 +5226,7 @@
     },
     {
       "name": "センタービレッジ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "セーラー服",
@@ -6641,6 +6650,10 @@
     },
     {
       "name": "二輪車",
+      "articles": 1
+    },
+    {
+      "name": "五十路妻",
       "articles": 1
     },
     {
@@ -8793,6 +8806,10 @@
     },
     {
       "name": "永野紬",
+      "articles": 1
+    },
+    {
+      "name": "江南美沙子",
       "articles": 1
     },
     {
