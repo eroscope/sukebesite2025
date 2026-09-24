@@ -243,6 +243,7 @@
     "topics/topic-53e5cddf2157.html",
     "topics/topic-545b57cf435b.html",
     "topics/topic-55258bc4d97a.html",
+    "topics/topic-552dd7033003.html",
     "topics/topic-56fd6f27e8b6.html",
     "topics/topic-57a6bb2bbdb0.html",
     "topics/topic-588128096173.html",
@@ -632,7 +633,7 @@
   "counts": {
     "people": 359,
     "works": 253,
-    "topics": 1935
+    "topics": 1937
   },
   "people": [
     {
@@ -4004,6 +4005,10 @@
       "articles": 1
     },
     {
+      "name": "Zガンダム",
+      "articles": 1
+    },
+    {
       "name": "elf",
       "articles": 1
     },
@@ -4381,7 +4386,7 @@
     },
     {
       "name": "アニメ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "アニメ・漫画",
@@ -4506,6 +4511,10 @@
     {
       "name": "エプロン",
       "articles": 3
+    },
+    {
+      "name": "エマ・シーン",
+      "articles": 1
     },
     {
       "name": "エロのスジガネ vol.04",
@@ -4645,7 +4654,7 @@
     },
     {
       "name": "ガンダム",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ガーター",
@@ -6997,7 +7006,7 @@
     },
     {
       "name": "制服",
-      "articles": 31
+      "articles": 32
     },
     {
       "name": "制服ギャル",
