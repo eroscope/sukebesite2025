@@ -551,6 +551,7 @@
     "topics/topic-eecd7740d9de.html",
     "topics/topic-ef05d333e3af.html",
     "topics/topic-efc8194a8e24.html",
+    "topics/topic-efe3390fc621.html",
     "topics/topic-f1360f1c1058.html",
     "topics/topic-f1423036e503.html",
     "topics/topic-f215e675c450.html",
@@ -643,7 +644,7 @@
   "counts": {
     "people": 365,
     "works": 257,
-    "topics": 1964
+    "topics": 1965
   },
   "people": [
     {
@@ -3768,7 +3769,7 @@
     },
     {
       "name": "NHK",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "NHKアナウンサー",
@@ -4448,7 +4449,7 @@
     },
     {
       "name": "アナウンサー",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "アナル",
@@ -5488,7 +5489,7 @@
     },
     {
       "name": "ニット",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "ニュースウォッチ9",
@@ -8900,7 +8901,7 @@
     },
     {
       "name": "浅田春奈",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "浮気調査",
@@ -10865,6 +10866,10 @@
     {
       "name": "首輪",
       "articles": 3
+    },
+    {
+      "name": "首都圏ネットワーク",
+      "articles": 1
     },
     {
       "name": "香水じゅん",
