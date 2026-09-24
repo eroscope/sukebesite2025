@@ -584,6 +584,7 @@
     "topics/topic-friday.html",
     "topics/topic-gif.html",
     "topics/topic-gif.html",
+    "topics/topic-gif.html",
     "topics/topic-grok.html",
     "topics/topic-hunter.html",
     "topics/topic-i-mew.html",
@@ -642,7 +643,7 @@
   "counts": {
     "people": 364,
     "works": 257,
-    "topics": 1962
+    "topics": 1963
   },
   "people": [
     {
@@ -3502,6 +3503,10 @@
       "articles": 2
     },
     {
+      "name": "DOC",
+      "articles": 1
+    },
+    {
       "name": "DOCUMENT SEX",
       "articles": 1
     },
@@ -3595,7 +3600,7 @@
     },
     {
       "name": "GIF画像",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "Grok",
@@ -5263,7 +5268,7 @@
     },
     {
       "name": "セール",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ソウルキャリバー",
