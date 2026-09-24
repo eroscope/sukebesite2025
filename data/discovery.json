@@ -641,7 +641,7 @@
   "counts": {
     "people": 362,
     "works": 257,
-    "topics": 1958
+    "topics": 1959
   },
   "people": [
     {
@@ -3477,6 +3477,10 @@
       "articles": 2
     },
     {
+      "name": "Cカップ",
+      "articles": 1
+    },
+    {
       "name": "DAS!",
       "articles": 3
     },
@@ -5746,7 +5750,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 54
+      "articles": 55
     },
     {
       "name": "ビビアン",
@@ -5814,7 +5818,7 @@
     },
     {
       "name": "フィギュア",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "フィリピン",
@@ -8786,7 +8790,7 @@
     },
     {
       "name": "水着",
-      "articles": 168
+      "articles": 169
     },
     {
       "name": "水着グラビア",
