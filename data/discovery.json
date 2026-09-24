@@ -632,9 +632,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 360,
+    "people": 361,
     "works": 254,
-    "topics": 1943
+    "topics": 1946
   },
   "people": [
     {
@@ -775,6 +775,10 @@
     },
     {
       "name": "ソフィーティア",
+      "articles": 1
+    },
+    {
+      "name": "ティファ",
       "articles": 1
     },
     {
@@ -3514,6 +3518,10 @@
       "articles": 1
     },
     {
+      "name": "FF7",
+      "articles": 1
+    },
+    {
       "name": "FLASH",
       "articles": 5
     },
@@ -3663,6 +3671,10 @@
     },
     {
       "name": "MM号",
+      "articles": 1
+    },
+    {
+      "name": "MOD",
       "articles": 1
     },
     {
@@ -4883,7 +4895,7 @@
     },
     {
       "name": "ゲーム動画",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ゲーム画像",
@@ -7795,6 +7807,10 @@
     },
     {
       "name": "対魔忍",
+      "articles": 1
+    },
+    {
+      "name": "対魔忍風衣装",
       "articles": 1
     },
     {
