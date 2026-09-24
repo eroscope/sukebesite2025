@@ -247,6 +247,7 @@
     "topics/topic-545b57cf435b.html",
     "topics/topic-55258bc4d97a.html",
     "topics/topic-552dd7033003.html",
+    "topics/topic-55f1125ce2fd.html",
     "topics/topic-56fd6f27e8b6.html",
     "topics/topic-57a6bb2bbdb0.html",
     "topics/topic-588128096173.html",
@@ -466,6 +467,7 @@
     "topics/topic-c4d273b77a52.html",
     "topics/topic-c5273e93ff14.html",
     "topics/topic-c53794778a50.html",
+    "topics/topic-c55b763f0448.html",
     "topics/topic-c5d344ad7025.html",
     "topics/topic-c79d6ca8cec1.html",
     "topics/topic-c85a37f5a170.html",
@@ -637,7 +639,7 @@
   "counts": {
     "people": 362,
     "works": 257,
-    "topics": 1955
+    "topics": 1957
   },
   "people": [
     {
@@ -5349,6 +5351,10 @@
       "articles": 3
     },
     {
+      "name": "テレビ出演",
+      "articles": 1
+    },
+    {
       "name": "テレビ朝日",
       "articles": 3
     },
@@ -7586,7 +7592,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 30
+      "articles": 31
     },
     {
       "name": "女子ゴルフ",
@@ -8822,7 +8828,7 @@
     },
     {
       "name": "河出奈都美",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "河北りょう",
@@ -9277,6 +9283,10 @@
       "articles": 5
     },
     {
+      "name": "画像動画",
+      "articles": 1
+    },
+    {
       "name": "画像検索",
       "articles": 1
     },
@@ -9350,7 +9360,7 @@
     },
     {
       "name": "白ニット",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "白ビキニ",
