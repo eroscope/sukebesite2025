@@ -639,7 +639,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 362,
+    "people": 363,
     "works": 257,
     "topics": 1959
   },
@@ -1754,6 +1754,10 @@
     },
     {
       "name": "皆川らん",
+      "articles": 1
+    },
+    {
+      "name": "相楽伊織",
       "articles": 1
     },
     {
@@ -6278,7 +6282,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 110
+      "articles": 111
     },
     {
       "name": "ラヴィット！",
@@ -7034,7 +7038,7 @@
     },
     {
       "name": "写真集",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "冨田有紀",
