@@ -178,6 +178,7 @@
     "topics/topic-2e494f665ea0.html",
     "topics/topic-2ec2be9eab78.html",
     "topics/topic-2ed10f6b9881.html",
+    "topics/topic-2f0913ed5df7.html",
     "topics/topic-2f91f5be8277.html",
     "topics/topic-2fb9014ffc21.html",
     "topics/topic-30782ee81e82.html",
@@ -633,9 +634,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 361,
+    "people": 362,
     "works": 255,
-    "topics": 1948
+    "topics": 1951
   },
   "people": [
     {
@@ -820,6 +821,10 @@
     },
     {
       "name": "ライブ配信",
+      "articles": 1
+    },
+    {
+      "name": "ラブドール",
       "articles": 1
     },
     {
@@ -3212,6 +3217,10 @@
     },
     {
       "name": "55％OFF",
+      "articles": 1
+    },
+    {
+      "name": "5ch",
       "articles": 1
     },
     {
@@ -6680,7 +6689,7 @@
     },
     {
       "name": "人形",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "人間そっくり",
@@ -7324,6 +7333,10 @@
     },
     {
       "name": "咥え顔",
+      "articles": 1
+    },
+    {
+      "name": "商品画像",
       "articles": 1
     },
     {
@@ -8140,6 +8153,10 @@
     },
     {
       "name": "成人向け同人",
+      "articles": 1
+    },
+    {
+      "name": "成人向け商品",
       "articles": 1
     },
     {
