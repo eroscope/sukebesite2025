@@ -647,7 +647,7 @@
   "counts": {
     "people": 368,
     "works": 259,
-    "topics": 1970
+    "topics": 1973
   },
   "people": [
     {
@@ -6540,7 +6540,7 @@
     },
     {
       "name": "下着",
-      "articles": 84
+      "articles": 85
     },
     {
       "name": "下着ずらし",
@@ -7229,6 +7229,10 @@
     {
       "name": "匿名掲示板",
       "articles": 10
+    },
+    {
+      "name": "匿名画像",
+      "articles": 1
     },
     {
       "name": "十味",
@@ -9815,6 +9819,10 @@
       "articles": 5
     },
     {
+      "name": "細身",
+      "articles": 1
+    },
+    {
       "name": "経理部員",
       "articles": 1
     },
@@ -10640,6 +10648,10 @@
     },
     {
       "name": "鎧",
+      "articles": 1
+    },
+    {
+      "name": "鏡セルフィー",
       "articles": 1
     },
     {
