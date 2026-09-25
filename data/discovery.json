@@ -648,7 +648,7 @@
   "counts": {
     "people": 368,
     "works": 259,
-    "topics": 1979
+    "topics": 1982
   },
   "people": [
     {
@@ -4476,6 +4476,10 @@
       "articles": 1
     },
     {
+      "name": "アオザイ",
+      "articles": 1
+    },
+    {
       "name": "アジア系",
       "articles": 2
     },
@@ -6032,6 +6036,10 @@
       "articles": 1
     },
     {
+      "name": "ベトナム",
+      "articles": 1
+    },
+    {
       "name": "ベロチュー",
       "articles": 1
     },
@@ -7249,7 +7257,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "匿名画像",
@@ -10314,6 +10322,10 @@
     {
       "name": "裸体",
       "articles": 67
+    },
+    {
+      "name": "裸体写真",
+      "articles": 1
     },
     {
       "name": "裸体描写",
