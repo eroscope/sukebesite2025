@@ -529,6 +529,7 @@
     "topics/topic-e18b1ea15d9c.html",
     "topics/topic-e1d3de16ea1d.html",
     "topics/topic-e2a6d2606a0a.html",
+    "topics/topic-e2eaf183e5bd.html",
     "topics/topic-e383833e382f.html",
     "topics/topic-e3c843a27e8c.html",
     "topics/topic-e3cd37ffc466.html",
@@ -647,7 +648,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 369,
+    "people": 370,
     "works": 259,
     "topics": 1983
   },
@@ -2006,6 +2007,10 @@
     },
     {
       "name": "赤名いと",
+      "articles": 1
+    },
+    {
+      "name": "趣里",
       "articles": 1
     },
     {
@@ -4710,7 +4715,7 @@
     },
     {
       "name": "オフショルダー",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "オフパコ",
@@ -5422,7 +5427,7 @@
     },
     {
       "name": "テレビキャプチャ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "テレビ出演",
@@ -7662,7 +7667,7 @@
     },
     {
       "name": "女優",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "女優比較",
@@ -10086,7 +10091,7 @@
     },
     {
       "name": "胸元",
-      "articles": 45
+      "articles": 46
     },
     {
       "name": "胸元チラ見え",
