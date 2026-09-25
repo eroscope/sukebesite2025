@@ -349,6 +349,7 @@
     "topics/topic-8c77219f9a06.html",
     "topics/topic-8cb46dad40c2.html",
     "topics/topic-8d4dd7372dbc.html",
+    "topics/topic-8df3991fb10f.html",
     "topics/topic-8ebb9422553f.html",
     "topics/topic-8k-vr.html",
     "topics/topic-8k.html",
@@ -661,7 +662,7 @@
   "counts": {
     "people": 375,
     "works": 260,
-    "topics": 1999
+    "topics": 2000
   },
   "people": [
     {
@@ -3666,7 +3667,7 @@
     },
     {
       "name": "GIF",
-      "articles": 15
+      "articles": 16
     },
     {
       "name": "GIF動画",
@@ -3850,7 +3851,7 @@
     },
     {
       "name": "NHK",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "NHKアナウンサー",
@@ -4546,7 +4547,7 @@
     },
     {
       "name": "アナウンサー",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "アナル",
@@ -5594,6 +5595,10 @@
     },
     {
       "name": "ニュースウォッチ9",
+      "articles": 1
+    },
+    {
+      "name": "ニュースウオッチ9",
       "articles": 1
     },
     {
@@ -9046,7 +9051,7 @@
     },
     {
       "name": "浅田春奈",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "浮気調査",
@@ -10930,7 +10935,7 @@
     },
     {
       "name": "青ニット",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "青姦",
