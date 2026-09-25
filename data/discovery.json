@@ -110,6 +110,7 @@
     "topics/topic-0335284ae7e8.html",
     "topics/topic-035e321e6410.html",
     "topics/topic-0378756290f5.html",
+    "topics/topic-04ef7bc3adc2.html",
     "topics/topic-050fab733e97.html",
     "topics/topic-067328416c99.html",
     "topics/topic-07064bd9e47d.html",
@@ -664,7 +665,7 @@
   "counts": {
     "people": 377,
     "works": 260,
-    "topics": 2001
+    "topics": 2002
   },
   "people": [
     {
@@ -4332,6 +4333,10 @@
       "articles": 1
     },
     {
+      "name": "お辞儀",
+      "articles": 1
+    },
+    {
       "name": "かいとうぴんく",
       "articles": 1
     },
@@ -6597,7 +6602,7 @@
     },
     {
       "name": "三山賀子",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "三浦恵理子",
@@ -7765,7 +7770,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 33
+      "articles": 34
     },
     {
       "name": "女子ゴルフ",
@@ -9573,7 +9578,7 @@
     },
     {
       "name": "白ニット",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "白ビキニ",
@@ -10189,7 +10194,7 @@
     },
     {
       "name": "胸元",
-      "articles": 47
+      "articles": 48
     },
     {
       "name": "胸元チラ見え",
