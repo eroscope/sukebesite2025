@@ -649,9 +649,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 371,
+    "people": 372,
     "works": 259,
-    "topics": 1984
+    "topics": 1985
   },
   "people": [
     {
@@ -1712,6 +1712,10 @@
     },
     {
       "name": "牛コス",
+      "articles": 1
+    },
+    {
+      "name": "猫耳ランジェリー",
       "articles": 1
     },
     {
@@ -6584,7 +6588,7 @@
     },
     {
       "name": "下着",
-      "articles": 86
+      "articles": 87
     },
     {
       "name": "下着ずらし",
@@ -9239,6 +9243,10 @@
       "articles": 1
     },
     {
+      "name": "猫コスプレ",
+      "articles": 1
+    },
+    {
       "name": "猫耳",
       "articles": 2
     },
@@ -9408,7 +9416,7 @@
     },
     {
       "name": "画像スレ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "画像動画",
