@@ -660,7 +660,7 @@
   "counts": {
     "people": 375,
     "works": 260,
-    "topics": 1997
+    "topics": 1998
   },
   "people": [
     {
@@ -3686,6 +3686,10 @@
     {
       "name": "Gカップ",
       "articles": 7
+    },
+    {
+      "name": "HKT48",
+      "articles": 1
     },
     {
       "name": "Han Baobao",
@@ -8957,7 +8961,7 @@
     },
     {
       "name": "水着",
-      "articles": 174
+      "articles": 175
     },
     {
       "name": "水着グラビア",
