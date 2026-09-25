@@ -648,7 +648,7 @@
   "counts": {
     "people": 368,
     "works": 259,
-    "topics": 1973
+    "topics": 1978
   },
   "people": [
     {
@@ -3732,6 +3732,10 @@
       "articles": 14
     },
     {
+      "name": "MGS動画",
+      "articles": 1
+    },
+    {
       "name": "MINAMO",
       "articles": 1
     },
@@ -5960,6 +5964,10 @@
       "articles": 1
     },
     {
+      "name": "プレステージ",
+      "articles": 1
+    },
+    {
       "name": "プレミアム",
       "articles": 1
     },
@@ -6469,6 +6477,10 @@
     },
     {
       "name": "七井瑞稀",
+      "articles": 1
+    },
+    {
+      "name": "七嶋舞",
       "articles": 1
     },
     {
@@ -7033,6 +7045,10 @@
     },
     {
       "name": "全身画像",
+      "articles": 1
+    },
+    {
+      "name": "八掛うみ",
       "articles": 1
     },
     {
@@ -10570,6 +10586,10 @@
     {
       "name": "配信",
       "articles": 2
+    },
+    {
+      "name": "配信作品",
+      "articles": 1
     },
     {
       "name": "配信者",
