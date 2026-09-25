@@ -81,6 +81,7 @@
     "people/person-df9cc108d456.html",
     "people/person-e4456d834472.html",
     "people/person-e5c60fa51860.html",
+    "people/person-e6ff6736ee0f.html",
     "people/person-e714d8df7815.html",
     "people/person-e796e68b08f6.html",
     "people/person-ea65df2aa4d6.html",
@@ -618,6 +619,7 @@
     "topics/topic-ol.html",
     "topics/topic-oppai.html",
     "topics/topic-premium.html",
+    "topics/topic-prestige.html",
     "topics/topic-re-ri.html",
     "topics/topic-re.html",
     "topics/topic-rookie.html",
@@ -643,6 +645,7 @@
     "works.html",
     "works/work-300mium-1364.html",
     "works/work-abf-384.html",
+    "works/work-abf-388.html",
     "works/work-jur-104.html",
     "works/work-jur-819.html",
     "works/work-snos-371.html",
@@ -860,7 +863,7 @@
     },
     {
       "name": "七嶋舞",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "七沢みあ",
@@ -2234,7 +2237,7 @@
     },
     {
       "code": "ABF-388",
-      "articles": 1
+      "articles": 2
     },
     {
       "code": "ACHJ-083",
@@ -3876,7 +3879,7 @@
     },
     {
       "name": "PRESTIGE",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "PR写真",
@@ -9416,7 +9419,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 125
+      "articles": 126
     },
     {
       "name": "画像ギャラリー",
