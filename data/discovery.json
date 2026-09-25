@@ -304,6 +304,7 @@
     "topics/topic-73773dcb8f71.html",
     "topics/topic-73c3d99c8ce8.html",
     "topics/topic-73ef55f7fae4.html",
+    "topics/topic-7464eb4ff510.html",
     "topics/topic-75961d1236e9.html",
     "topics/topic-7617e3b447bc.html",
     "topics/topic-76faf7bb7608.html",
@@ -430,6 +431,7 @@
     "topics/topic-b03ff91d92e0.html",
     "topics/topic-b0d4c6c28a4b.html",
     "topics/topic-b0edc46013e7.html",
+    "topics/topic-b1138b6ad6ce.html",
     "topics/topic-b188c5e30da5.html",
     "topics/topic-b1a702141e22.html",
     "topics/topic-b207f94ae263.html",
@@ -653,8 +655,8 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 372,
-    "works": 259,
+    "people": 373,
+    "works": 260,
     "topics": 1987
   },
   "people": [
@@ -1513,6 +1515,10 @@
     {
       "name": "林芽依",
       "articles": 2
+    },
+    {
+      "name": "枢木シエル",
+      "articles": 1
     },
     {
       "name": "柊もみじ",
@@ -2973,6 +2979,10 @@
       "articles": 1
     },
     {
+      "code": "SDAM-181",
+      "articles": 1
+    },
+    {
       "code": "SDDE-769",
       "articles": 1
     },
@@ -3432,7 +3442,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 27
+      "articles": 28
     },
     {
       "name": "AVパッケージ",
@@ -5404,7 +5414,7 @@
     },
     {
       "name": "タトゥー",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "タンクトップ",
@@ -10696,7 +10706,7 @@
     },
     {
       "name": "金髪",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "金髪ギャル",
@@ -11068,7 +11078,7 @@
     },
     {
       "name": "黒ギャル",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "黒ストッキング",
