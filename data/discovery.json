@@ -39,6 +39,7 @@
     "people/person-650731d956e5.html",
     "people/person-68e92c0c6847.html",
     "people/person-6a33f574374c.html",
+    "people/person-6bcea923163b.html",
     "people/person-6d838e6009c3.html",
     "people/person-6d869b043874.html",
     "people/person-7496a897d663.html",
@@ -334,6 +335,7 @@
     "topics/topic-84e02d8d7d24.html",
     "topics/topic-84fda3a3860c.html",
     "topics/topic-853de5ba07c7.html",
+    "topics/topic-8606c77a40d7.html",
     "topics/topic-86b19c9ac1d9.html",
     "topics/topic-86d13ac03a31.html",
     "topics/topic-8731d1fd5ecc.html",
@@ -662,7 +664,7 @@
   "counts": {
     "people": 376,
     "works": 260,
-    "topics": 2000
+    "topics": 2001
   },
   "people": [
     {
@@ -1507,7 +1509,7 @@
     },
     {
       "name": "東雲うみ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "松咲那奈",
@@ -5927,7 +5929,7 @@
     },
     {
       "name": "ピンク衣装",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ピースウォーカー",
@@ -8075,7 +8077,7 @@
     },
     {
       "name": "尻",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "尻画像",
@@ -8796,6 +8798,10 @@
     {
       "name": "格闘ゲーム",
       "articles": 2
+    },
+    {
+      "name": "桃",
+      "articles": 1
     },
     {
       "name": "桃乃木かな",
