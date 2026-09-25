@@ -655,9 +655,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 373,
+    "people": 374,
     "works": 260,
-    "topics": 1991
+    "topics": 1992
   },
   "people": [
     {
@@ -922,6 +922,10 @@
     },
     {
       "name": "九野ひなの",
+      "articles": 1
+    },
+    {
+      "name": "五日市芽依",
       "articles": 1
     },
     {
@@ -3670,7 +3674,7 @@
     },
     {
       "name": "Gカップ",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "Han Baobao",
@@ -7162,7 +7166,7 @@
     },
     {
       "name": "写真集",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "冨田有紀",
@@ -10763,6 +10767,10 @@
     {
       "name": "鏡撮り",
       "articles": 2
+    },
+    {
+      "name": "鏡越し",
+      "articles": 1
     },
     {
       "name": "長い舌",
