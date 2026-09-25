@@ -85,6 +85,7 @@
     "people/person-e6ff6736ee0f.html",
     "people/person-e714d8df7815.html",
     "people/person-e796e68b08f6.html",
+    "people/person-e7ed83c9fc14.html",
     "people/person-ea65df2aa4d6.html",
     "people/person-ecea1599b55a.html",
     "people/person-edded4fab735.html",
@@ -660,7 +661,7 @@
   "counts": {
     "people": 375,
     "works": 260,
-    "topics": 1998
+    "topics": 1999
   },
   "people": [
     {
@@ -1585,7 +1586,7 @@
     },
     {
       "name": "森ななこ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "森下茉莉",
@@ -3441,7 +3442,7 @@
     },
     {
       "name": "AVキャプチャ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "AVサンプル",
@@ -10445,7 +10446,7 @@
     },
     {
       "name": "複数人プレイ",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "複数出演",
@@ -10545,6 +10546,10 @@
     },
     {
       "name": "質感",
+      "articles": 1
+    },
+    {
+      "name": "赤いランジェリー",
       "articles": 1
     },
     {
