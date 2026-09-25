@@ -657,7 +657,7 @@
   "counts": {
     "people": 373,
     "works": 260,
-    "topics": 1987
+    "topics": 1988
   },
   "people": [
     {
@@ -7474,7 +7474,7 @@
     },
     {
       "name": "和室",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "和装",
@@ -7654,7 +7654,7 @@
     },
     {
       "name": "大胆衣装",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "天城ねね",
@@ -8002,6 +8002,10 @@
     },
     {
       "name": "専属女優",
+      "articles": 1
+    },
+    {
+      "name": "将棋",
       "articles": 1
     },
     {
