@@ -648,7 +648,7 @@
   "counts": {
     "people": 368,
     "works": 259,
-    "topics": 1978
+    "topics": 1979
   },
   "people": [
     {
@@ -1457,7 +1457,7 @@
     },
     {
       "name": "木村愛心",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "木村玲衣",
@@ -3717,7 +3717,7 @@
     },
     {
       "name": "Lカップ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "MAPPA",
@@ -5986,6 +5986,10 @@
     {
       "name": "プール",
       "articles": 11
+    },
+    {
+      "name": "プール撮影会",
+      "articles": 1
     },
     {
       "name": "ヘアヌード",
@@ -8873,7 +8877,7 @@
     },
     {
       "name": "水着",
-      "articles": 169
+      "articles": 170
     },
     {
       "name": "水着グラビア",
