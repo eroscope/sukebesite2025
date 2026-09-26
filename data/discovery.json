@@ -550,6 +550,7 @@
     "topics/topic-e424954ac043.html",
     "topics/topic-e440de03ac01.html",
     "topics/topic-e481339cc9aa.html",
+    "topics/topic-e50d15a37b39.html",
     "topics/topic-e53e94c377da.html",
     "topics/topic-e55126756e03.html",
     "topics/topic-e5b97b235e09.html",
@@ -667,7 +668,7 @@
   "counts": {
     "people": 377,
     "works": 260,
-    "topics": 2012
+    "topics": 2016
   },
   "people": [
     {
@@ -3855,6 +3856,10 @@
       "articles": 1
     },
     {
+      "name": "M字",
+      "articles": 1
+    },
+    {
       "name": "M字開脚",
       "articles": 4
     },
@@ -4024,6 +4029,10 @@
     },
     {
       "name": "SNS投稿",
+      "articles": 1
+    },
+    {
+      "name": "SNS自撮り",
       "articles": 1
     },
     {
@@ -5525,6 +5534,10 @@
     {
       "name": "デジタル写真集",
       "articles": 2
+    },
+    {
+      "name": "デニム",
+      "articles": 1
     },
     {
       "name": "デニムミニスカート",
@@ -9667,6 +9680,10 @@
       "articles": 1
     },
     {
+      "name": "白黒ブラウス",
+      "articles": 1
+    },
+    {
       "name": "白黒ボーダー",
       "articles": 1
     },
@@ -10880,7 +10897,7 @@
     },
     {
       "name": "長尺動画",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "長瀬智也",
