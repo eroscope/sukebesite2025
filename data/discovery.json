@@ -259,6 +259,7 @@
     "topics/topic-55258bc4d97a.html",
     "topics/topic-552dd7033003.html",
     "topics/topic-558f6a8bae4b.html",
+    "topics/topic-55e6df2d921b.html",
     "topics/topic-55f1125ce2fd.html",
     "topics/topic-56fd6f27e8b6.html",
     "topics/topic-57a6bb2bbdb0.html",
@@ -671,7 +672,7 @@
   "counts": {
     "people": 378,
     "works": 260,
-    "topics": 2026
+    "topics": 2028
   },
   "people": [
     {
@@ -5979,6 +5980,10 @@
       "articles": 1
     },
     {
+      "name": "ピックルボール",
+      "articles": 1
+    },
+    {
       "name": "ピンクコンパニオン",
       "articles": 1
     },
@@ -7484,7 +7489,7 @@
     },
     {
       "name": "古旗笑佳",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "可愛まゆ",
@@ -7840,7 +7845,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 35
+      "articles": 36
     },
     {
       "name": "女子ゴルフ",
@@ -8580,7 +8585,7 @@
     },
     {
       "name": "放送キャプチャ",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "放送事故",
@@ -11288,6 +11293,10 @@
     },
     {
       "name": "黒バニー",
+      "articles": 1
+    },
+    {
+      "name": "黒パンツ",
       "articles": 1
     },
     {
