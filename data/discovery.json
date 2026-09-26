@@ -677,9 +677,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 384,
+    "people": 385,
     "works": 264,
-    "topics": 2041
+    "topics": 2042
   },
   "people": [
     {
@@ -1136,6 +1136,10 @@
     },
     {
       "name": "和泉芳怜",
+      "articles": 1
+    },
+    {
+      "name": "和田桃音",
       "articles": 1
     },
     {
@@ -3556,7 +3560,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 98
+      "articles": 99
     },
     {
       "name": "AV女優検索",
@@ -6224,7 +6228,7 @@
     },
     {
       "name": "ベッドシーン",
-      "articles": 23
+      "articles": 24
     },
     {
       "name": "ベッド上",
@@ -10365,6 +10369,10 @@
     {
       "name": "背徳",
       "articles": 2
+    },
+    {
+      "name": "背徳シチュエーション",
+      "articles": 1
     },
     {
       "name": "背面騎乗位",
