@@ -675,9 +675,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 381,
-    "works": 262,
-    "topics": 2037
+    "people": 382,
+    "works": 263,
+    "topics": 2038
   },
   "people": [
     {
@@ -1762,6 +1762,10 @@
     },
     {
       "name": "牛コス",
+      "articles": 1
+    },
+    {
+      "name": "猫宮みみ",
       "articles": 1
     },
     {
@@ -2940,6 +2944,10 @@
     },
     {
       "code": "OFTR-011",
+      "articles": 1
+    },
+    {
+      "code": "OME-720",
       "articles": 1
     },
     {
@@ -9467,6 +9475,10 @@
     {
       "name": "猫耳",
       "articles": 2
+    },
+    {
+      "name": "猫耳衣装",
+      "articles": 1
     },
     {
       "name": "獣耳",
