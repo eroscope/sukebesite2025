@@ -439,6 +439,7 @@
     "topics/topic-av.html",
     "topics/topic-av.html",
     "topics/topic-av.html",
+    "topics/topic-av.html",
     "topics/topic-b010a4c2d907.html",
     "topics/topic-b03ff91d92e0.html",
     "topics/topic-b0d4c6c28a4b.html",
@@ -672,7 +673,7 @@
   "counts": {
     "people": 379,
     "works": 261,
-    "topics": 2030
+    "topics": 2032
   },
   "people": [
     {
@@ -3537,7 +3538,7 @@
     },
     {
       "name": "AV転身",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "Ani",
@@ -3850,6 +3851,10 @@
     {
       "name": "MOODYZ DIVA",
       "articles": 2
+    },
+    {
+      "name": "MUTEKI",
+      "articles": 1
     },
     {
       "name": "Madonna",
@@ -5729,7 +5734,7 @@
     },
     {
       "name": "ネットの反応",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ノニ（noni）",
@@ -10822,6 +10827,10 @@
     {
       "name": "逢沢みゆ",
       "articles": 6
+    },
+    {
+      "name": "週刊誌",
+      "articles": 1
     },
     {
       "name": "遊戯王",
