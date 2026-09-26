@@ -238,6 +238,7 @@
     "topics/topic-4501c278da8f.html",
     "topics/topic-459503174895.html",
     "topics/topic-45cec0322496.html",
+    "topics/topic-46.html",
     "topics/topic-468a17f22ed9.html",
     "topics/topic-473c318725f8.html",
     "topics/topic-48313ee94b4d.html",
@@ -677,7 +678,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 385,
+    "people": 386,
     "works": 264,
     "topics": 2042
   },
@@ -2089,6 +2090,10 @@
     {
       "name": "貴島明日香",
       "articles": 2
+    },
+    {
+      "name": "賀喜遥香",
+      "articles": 1
     },
     {
       "name": "赤名いと",
@@ -6868,7 +6873,7 @@
     },
     {
       "name": "乃木坂46",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "乃音のの",
