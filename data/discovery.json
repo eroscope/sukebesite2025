@@ -670,9 +670,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 378,
-    "works": 260,
-    "topics": 2028
+    "people": 379,
+    "works": 261,
+    "topics": 2029
   },
   "people": [
     {
@@ -1956,6 +1956,10 @@
       "articles": 1
     },
     {
+      "name": "義姉設定",
+      "articles": 1
+    },
+    {
       "name": "羽月乃蒼",
       "articles": 1
     },
@@ -2687,6 +2691,10 @@
     },
     {
       "code": "JUR-839",
+      "articles": 1
+    },
+    {
+      "code": "JUR-849",
       "articles": 1
     },
     {
@@ -5205,7 +5213,7 @@
     },
     {
       "name": "サンプル動画",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "サンプル画像",
@@ -7397,6 +7405,10 @@
     },
     {
       "name": "北川遥",
+      "articles": 1
+    },
+    {
+      "name": "北条麻妃",
       "articles": 1
     },
     {
@@ -10093,7 +10105,7 @@
     },
     {
       "name": "網タイツ",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "緊縛",
