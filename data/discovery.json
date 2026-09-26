@@ -665,7 +665,7 @@
   "counts": {
     "people": 377,
     "works": 260,
-    "topics": 2002
+    "topics": 2006
   },
   "people": [
     {
@@ -4917,6 +4917,10 @@
       "articles": 1
     },
     {
+      "name": "キングピジョン",
+      "articles": 1
+    },
+    {
       "name": "キンタロー",
       "articles": 1
     },
@@ -6373,6 +6377,10 @@
       "articles": 1
     },
     {
+      "name": "ヨガ",
+      "articles": 1
+    },
+    {
       "name": "ヨガポーズ",
       "articles": 1
     },
@@ -6490,6 +6498,10 @@
     },
     {
       "name": "レイプ描写",
+      "articles": 1
+    },
+    {
+      "name": "レギンス",
       "articles": 1
     },
     {
@@ -7770,7 +7782,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 34
+      "articles": 35
     },
     {
       "name": "女子ゴルフ",
@@ -9206,6 +9218,10 @@
     },
     {
       "name": "溝端葵",
+      "articles": 1
+    },
+    {
+      "name": "滝菜月",
       "articles": 1
     },
     {
