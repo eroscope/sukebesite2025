@@ -511,6 +511,7 @@
     "topics/topic-cbbfe762584e.html",
     "topics/topic-cc782a927d84.html",
     "topics/topic-ccb8c7242126.html",
+    "topics/topic-cd75deab60b8.html",
     "topics/topic-cd9b636b3770.html",
     "topics/topic-cde29f0f9c7e.html",
     "topics/topic-cec82fb864d9.html",
@@ -676,9 +677,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 383,
+    "people": 384,
     "works": 264,
-    "topics": 2040
+    "topics": 2041
   },
   "people": [
     {
@@ -776,6 +777,10 @@
     {
       "name": "めぐり",
       "articles": 2
+    },
+    {
+      "name": "めるる",
+      "articles": 1
     },
     {
       "name": "やんやん",
@@ -5595,7 +5600,7 @@
     },
     {
       "name": "テレビ出演",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "テレビ朝日",
@@ -8754,6 +8759,10 @@
       "articles": 1
     },
     {
+      "name": "旅フェス",
+      "articles": 1
+    },
+    {
       "name": "旅館",
       "articles": 3
     },
@@ -10379,7 +10388,7 @@
     },
     {
       "name": "胸元",
-      "articles": 48
+      "articles": 49
     },
     {
       "name": "胸元チラ見え",
