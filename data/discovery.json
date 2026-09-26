@@ -673,7 +673,7 @@
   "counts": {
     "people": 379,
     "works": 261,
-    "topics": 2032
+    "topics": 2033
   },
   "people": [
     {
@@ -5373,6 +5373,10 @@
       "articles": 8
     },
     {
+      "name": "スーパーJチャンネル",
+      "articles": 1
+    },
+    {
       "name": "スーパーリアル麻雀",
       "articles": 1
     },
@@ -5558,7 +5562,7 @@
     },
     {
       "name": "テレビ朝日",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ディルド",
@@ -5674,7 +5678,7 @@
     },
     {
       "name": "ニット",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "ニュースウォッチ9",
@@ -7862,7 +7866,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 36
+      "articles": 37
     },
     {
       "name": "女子ゴルフ",
@@ -8602,7 +8606,7 @@
     },
     {
       "name": "放送キャプチャ",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "放送事故",
@@ -8962,7 +8966,7 @@
     },
     {
       "name": "森山みなみ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "森日向子",
