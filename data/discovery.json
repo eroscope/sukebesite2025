@@ -671,9 +671,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 380,
+    "people": 381,
     "works": 261,
-    "topics": 2033
+    "topics": 2034
   },
   "people": [
     {
@@ -799,6 +799,10 @@
     {
       "name": "エロ配信",
       "articles": 2
+    },
+    {
+      "name": "コンパニオン",
+      "articles": 1
     },
     {
       "name": "ジヨンちゃん",
@@ -8842,6 +8846,10 @@
     },
     {
       "name": "東ふうか",
+      "articles": 1
+    },
+    {
+      "name": "東京ゲームショー",
       "articles": 1
     },
     {
