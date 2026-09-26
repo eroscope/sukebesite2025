@@ -666,7 +666,7 @@
   "counts": {
     "people": 377,
     "works": 260,
-    "topics": 2006
+    "topics": 2008
   },
   "people": [
     {
@@ -4094,6 +4094,10 @@
       "articles": 1
     },
     {
+      "name": "TikTok",
+      "articles": 1
+    },
+    {
       "name": "Tシャツ",
       "articles": 1
     },
@@ -5706,6 +5710,10 @@
       "articles": 6
     },
     {
+      "name": "ハプニング",
+      "articles": 1
+    },
+    {
       "name": "ハマーン・カーン",
       "articles": 1
     },
@@ -6075,7 +6083,7 @@
     },
     {
       "name": "プール",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "プール撮影会",
@@ -8951,7 +8959,7 @@
     },
     {
       "name": "母乳",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "母娘",
@@ -9859,7 +9867,7 @@
     },
     {
       "name": "競泳水着",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "競輪",
