@@ -155,6 +155,7 @@
     "topics/topic-1c7fff2e2e56.html",
     "topics/topic-1d4ebd368cf4.html",
     "topics/topic-1df59a08f37d.html",
+    "topics/topic-1e10c4140894.html",
     "topics/topic-1e20dd673d7a.html",
     "topics/topic-1e403857b0e9.html",
     "topics/topic-1f16cef238f0.html",
@@ -368,6 +369,7 @@
     "topics/topic-9382af5ea57b.html",
     "topics/topic-93e9014bb0f3.html",
     "topics/topic-93f835c72780.html",
+    "topics/topic-95071f7f9076.html",
     "topics/topic-957e62aa9027.html",
     "topics/topic-9630462d97a4.html",
     "topics/topic-9646e0741a71.html",
@@ -674,7 +676,7 @@
   "counts": {
     "people": 381,
     "works": 262,
-    "topics": 2035
+    "topics": 2037
   },
   "people": [
     {
@@ -3711,7 +3713,7 @@
     },
     {
       "name": "GIF",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "GIF動画",
@@ -4939,7 +4941,7 @@
     },
     {
       "name": "キャスター",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "キャバ嬢",
@@ -5531,7 +5533,7 @@
     },
     {
       "name": "タンクトップ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ダスッ！",
@@ -7502,6 +7504,10 @@
       "articles": 1
     },
     {
+      "name": "収録NG",
+      "articles": 1
+    },
+    {
       "name": "受付嬢",
       "articles": 1
     },
@@ -7551,6 +7557,10 @@
     },
     {
       "name": "合宿",
+      "articles": 1
+    },
+    {
+      "name": "吉井明子",
       "articles": 1
     },
     {
