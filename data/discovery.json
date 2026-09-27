@@ -71,6 +71,7 @@
     "people/person-b8d44d258dc4.html",
     "people/person-bf2038bd812f.html",
     "people/person-c3e5fc6f482e.html",
+    "people/person-c690c963d2f5.html",
     "people/person-c6f16d119136.html",
     "people/person-c7aab7aaa847.html",
     "people/person-caa07f8734ff.html",
@@ -574,6 +575,7 @@
     "topics/topic-e5b97b235e09.html",
     "topics/topic-e62af7c326d6.html",
     "topics/topic-e6913df3570f.html",
+    "topics/topic-e7b78e21a542.html",
     "topics/topic-e80584208584.html",
     "topics/topic-e80b7701b433.html",
     "topics/topic-e871a34a6e7e.html",
@@ -647,6 +649,7 @@
     "topics/topic-nicoface.html",
     "topics/topic-nikke.html",
     "topics/topic-nmb48.html",
+    "topics/topic-nmb48.html",
     "topics/topic-ntr.html",
     "topics/topic-ol.html",
     "topics/topic-ol.html",
@@ -687,7 +690,7 @@
   "counts": {
     "people": 392,
     "works": 264,
-    "topics": 2058
+    "topics": 2059
   },
   "people": [
     {
@@ -1160,7 +1163,7 @@
     },
     {
       "name": "和田海佑",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "唯井まひろ",
@@ -3988,7 +3991,7 @@
     },
     {
       "name": "NMB48",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "NTR",
@@ -5976,7 +5979,7 @@
     },
     {
       "name": "バニー衣装",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "バラライカ",
@@ -8721,6 +8724,10 @@
     {
       "name": "掲示板まとめ",
       "articles": 3
+    },
+    {
+      "name": "握手会",
+      "articles": 1
     },
     {
       "name": "搾精マシン",
