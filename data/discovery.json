@@ -79,6 +79,7 @@
     "people/person-caa07f8734ff.html",
     "people/person-cbe1ad461cc6.html",
     "people/person-cea65373350d.html",
+    "people/person-d1f5eb30f3f4.html",
     "people/person-d2b9c6056a6b.html",
     "people/person-d3174ace886f.html",
     "people/person-d32c2ccdd232.html",
@@ -693,8 +694,8 @@
   ],
   "counts": {
     "people": 393,
-    "works": 264,
-    "topics": 2074
+    "works": 265,
+    "topics": 2075
   },
   "people": [
     {
@@ -1499,7 +1500,7 @@
     },
     {
       "name": "星空ねる",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "星野みき",
@@ -2980,6 +2981,10 @@
       "articles": 1
     },
     {
+      "code": "OAE-317",
+      "articles": 1
+    },
+    {
       "code": "OFJE-524",
       "articles": 1
     },
@@ -3719,7 +3724,7 @@
     },
     {
       "name": "DVD",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "DVD画像",
@@ -4963,6 +4968,10 @@
     },
     {
       "name": "オーバンドルフ凜",
+      "articles": 1
+    },
+    {
+      "name": "オールヌード",
       "articles": 1
     },
     {
