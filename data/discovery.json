@@ -686,7 +686,7 @@
   "counts": {
     "people": 391,
     "works": 264,
-    "topics": 2048
+    "topics": 2052
   },
   "people": [
     {
@@ -4474,6 +4474,10 @@
       "articles": 2
     },
     {
+      "name": "くりぃむクイズミラクル9",
+      "articles": 1
+    },
+    {
       "name": "こおりちゃん",
       "articles": 2
     },
@@ -5338,6 +5342,10 @@
       "articles": 1
     },
     {
+      "name": "シースルー衣装",
+      "articles": 1
+    },
+    {
       "name": "ジム",
       "articles": 3
     },
@@ -5644,6 +5652,10 @@
     {
       "name": "テレビ朝日",
       "articles": 4
+    },
+    {
+      "name": "テレビ朝日アナウンサー",
+      "articles": 1
     },
     {
       "name": "ディルド",
@@ -6775,7 +6787,7 @@
     },
     {
       "name": "三山賀子",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "三浦恵理子",
@@ -9755,6 +9767,10 @@
     },
     {
       "name": "画像＋動画",
+      "articles": 1
+    },
+    {
+      "name": "番組キャプチャ",
       "articles": 1
     },
     {
