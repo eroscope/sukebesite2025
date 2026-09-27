@@ -685,9 +685,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 391,
+    "people": 392,
     "works": 264,
-    "topics": 2054
+    "topics": 2055
   },
   "people": [
     {
@@ -1496,6 +1496,10 @@
     },
     {
       "name": "春麗みにょん",
+      "articles": 1
+    },
+    {
+      "name": "最上ゆに",
       "articles": 1
     },
     {
@@ -3792,7 +3796,7 @@
     },
     {
       "name": "Gカップ",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "HKT48",
@@ -5772,7 +5776,7 @@
     },
     {
       "name": "ナース",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "ニット",
@@ -8556,6 +8560,10 @@
     },
     {
       "name": "成人グラビア",
+      "articles": 1
+    },
+    {
+      "name": "成人向けDVD",
       "articles": 1
     },
     {
