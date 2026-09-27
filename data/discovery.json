@@ -249,6 +249,7 @@
     "topics/topic-4aef12fcdc9a.html",
     "topics/topic-4b061baa4432.html",
     "topics/topic-4b086df348af.html",
+    "topics/topic-4bcbdeac3093.html",
     "topics/topic-4c5fc72da2ff.html",
     "topics/topic-4e6e4734b1b2.html",
     "topics/topic-4e72b30797c6.html",
@@ -684,7 +685,7 @@
   "counts": {
     "people": 391,
     "works": 264,
-    "topics": 2045
+    "topics": 2046
   },
   "people": [
     {
@@ -3549,7 +3550,7 @@
     },
     {
       "name": "AVサンプル",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "AVジャケット",
@@ -4137,7 +4138,7 @@
     },
     {
       "name": "SOD",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "SOD Star",
@@ -4669,7 +4670,7 @@
     },
     {
       "name": "アオザイ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "アジア系",
@@ -7717,6 +7718,10 @@
     },
     {
       "name": "咥え顔",
+      "articles": 1
+    },
+    {
+      "name": "咲田ラン",
       "articles": 1
     },
     {
