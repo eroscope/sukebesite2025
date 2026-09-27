@@ -232,6 +232,7 @@
     "topics/topic-42eab7d23db3.html",
     "topics/topic-433499bd3263.html",
     "topics/topic-437075f9018d.html",
+    "topics/topic-442b7e8e841d.html",
     "topics/topic-4435a3b14df7.html",
     "topics/topic-4464f1058733.html",
     "topics/topic-44a9ede3fb34.html",
@@ -683,7 +684,7 @@
   "counts": {
     "people": 390,
     "works": 264,
-    "topics": 2042
+    "topics": 2043
   },
   "people": [
     {
@@ -5416,7 +5417,7 @@
     },
     {
       "name": "スパッツ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "スポーツウェア",
@@ -6113,6 +6114,10 @@
     {
       "name": "フィギュア",
       "articles": 6
+    },
+    {
+      "name": "フィットネス",
+      "articles": 1
     },
     {
       "name": "フィリピン",
