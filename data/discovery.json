@@ -684,7 +684,7 @@
   "counts": {
     "people": 391,
     "works": 264,
-    "topics": 2044
+    "topics": 2045
   },
   "people": [
     {
@@ -3965,7 +3965,7 @@
     },
     {
       "name": "NHK",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "NHKアナウンサー",
@@ -7961,7 +7961,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 38
+      "articles": 39
     },
     {
       "name": "女子ゴルフ",
@@ -8069,6 +8069,10 @@
     },
     {
       "name": "姫野ひなの",
+      "articles": 1
+    },
+    {
+      "name": "姫野美南",
       "articles": 1
     },
     {
@@ -9805,7 +9809,7 @@
     },
     {
       "name": "白ニット",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "白ビキニ",
