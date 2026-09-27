@@ -693,7 +693,7 @@
   "counts": {
     "people": 393,
     "works": 264,
-    "topics": 2069
+    "topics": 2074
   },
   "people": [
     {
@@ -5133,6 +5133,10 @@
       "articles": 1
     },
     {
+      "name": "クラブ文化",
+      "articles": 1
+    },
+    {
       "name": "クルカイ",
       "articles": 1
     },
@@ -5398,6 +5402,10 @@
     },
     {
       "name": "ジャージ",
+      "articles": 1
+    },
+    {
+      "name": "ジュリアナ",
       "articles": 1
     },
     {
@@ -6013,6 +6021,10 @@
       "articles": 2
     },
     {
+      "name": "バブル期",
+      "articles": 1
+    },
+    {
       "name": "バラライカ",
       "articles": 1
     },
@@ -6386,6 +6398,10 @@
     },
     {
       "name": "ホラーゲーム",
+      "articles": 1
+    },
+    {
+      "name": "ボディコン",
       "articles": 1
     },
     {
@@ -8070,6 +8086,10 @@
     },
     {
       "name": "女性2人",
+      "articles": 1
+    },
+    {
+      "name": "女性ファッション誌",
       "articles": 1
     },
     {
