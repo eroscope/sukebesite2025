@@ -691,7 +691,7 @@
   "counts": {
     "people": 393,
     "works": 264,
-    "topics": 2059
+    "topics": 2060
   },
   "people": [
     {
@@ -3468,7 +3468,7 @@
     },
     {
       "name": "8KVR",
-      "articles": 15
+      "articles": 16
     },
     {
       "name": "8頭身",
@@ -3604,7 +3604,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 101
+      "articles": 102
     },
     {
       "name": "AV女優検索",
@@ -6779,6 +6779,10 @@
       "articles": 1
     },
     {
+      "name": "七ツ森りり",
+      "articles": 1
+    },
+    {
       "name": "七井瑞稀",
       "articles": 1
     },
@@ -8220,7 +8224,7 @@
     },
     {
       "name": "家庭教師",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "家庭訪問",
@@ -9776,7 +9780,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 130
+      "articles": 131
     },
     {
       "name": "画像ギャラリー",
