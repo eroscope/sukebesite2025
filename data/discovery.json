@@ -470,6 +470,7 @@
     "topics/topic-b3572870fb59.html",
     "topics/topic-b3ef159cd12f.html",
     "topics/topic-b426cff04d6b.html",
+    "topics/topic-b4aa2a32c1b3.html",
     "topics/topic-b4cfc5a67172.html",
     "topics/topic-b4da067dd417.html",
     "topics/topic-b540af64d774.html",
@@ -695,7 +696,7 @@
   "counts": {
     "people": 393,
     "works": 265,
-    "topics": 2075
+    "topics": 2077
   },
   "people": [
     {
@@ -3796,7 +3797,7 @@
     },
     {
       "name": "GIF",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "GIF動画",
@@ -4240,7 +4241,7 @@
     },
     {
       "name": "Tバック",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "UnfinishedVR",
@@ -6163,6 +6164,10 @@
       "articles": 1
     },
     {
+      "name": "ピンクのパンツ",
+      "articles": 1
+    },
+    {
       "name": "ピンクコンパニオン",
       "articles": 1
     },
@@ -7827,6 +7832,10 @@
       "articles": 1
     },
     {
+      "name": "商店街ロケ",
+      "articles": 1
+    },
+    {
       "name": "喘ぎ顔",
       "articles": 3
     },
@@ -8064,7 +8073,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 45
+      "articles": 46
     },
     {
       "name": "女子ゴルフ",
@@ -11024,7 +11033,7 @@
     },
     {
       "name": "足立夏保",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "足裏",
