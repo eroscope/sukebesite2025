@@ -691,7 +691,7 @@
   "counts": {
     "people": 393,
     "works": 264,
-    "topics": 2063
+    "topics": 2064
   },
   "people": [
     {
@@ -3984,7 +3984,7 @@
     },
     {
       "name": "NHKアナウンサー",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "NHK大阪",
@@ -8020,7 +8020,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 40
+      "articles": 41
     },
     {
       "name": "女子ゴルフ",
@@ -9352,7 +9352,7 @@
     },
     {
       "name": "浅田春奈",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "浮気調査",
@@ -10524,7 +10524,7 @@
     },
     {
       "name": "胸元",
-      "articles": 50
+      "articles": 51
     },
     {
       "name": "胸元チラ見え",
@@ -10904,6 +10904,10 @@
     },
     {
       "name": "質感",
+      "articles": 1
+    },
+    {
+      "name": "赤Vネック",
       "articles": 1
     },
     {
