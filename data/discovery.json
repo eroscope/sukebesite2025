@@ -682,9 +682,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 390,
+    "people": 391,
     "works": 264,
-    "topics": 2043
+    "topics": 2044
   },
   "people": [
     {
@@ -1610,6 +1610,10 @@
     {
       "name": "桃園怜奈",
       "articles": 3
+    },
+    {
+      "name": "桃月なしこ",
+      "articles": 1
     },
     {
       "name": "桃萌愛",
@@ -5112,6 +5116,10 @@
       "articles": 4
     },
     {
+      "name": "クールビューティー",
+      "articles": 1
+    },
+    {
       "name": "グラぱらっ！",
       "articles": 1
     },
@@ -6593,7 +6601,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 116
+      "articles": 117
     },
     {
       "name": "ラヴィット！",
@@ -9189,7 +9197,7 @@
     },
     {
       "name": "水着",
-      "articles": 181
+      "articles": 182
     },
     {
       "name": "水着グラビア",
