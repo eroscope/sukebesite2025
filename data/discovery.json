@@ -687,7 +687,7 @@
   "counts": {
     "people": 392,
     "works": 264,
-    "topics": 2055
+    "topics": 2058
   },
   "people": [
     {
@@ -5659,6 +5659,10 @@
       "articles": 2
     },
     {
+      "name": "テレビ北海道",
+      "articles": 1
+    },
+    {
       "name": "テレビ朝日",
       "articles": 4
     },
@@ -5780,7 +5784,7 @@
     },
     {
       "name": "ニット",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "ニュースウォッチ9",
@@ -6915,6 +6919,10 @@
       "articles": 1
     },
     {
+      "name": "中村秋季乃",
+      "articles": 1
+    },
+    {
       "name": "中華AV",
       "articles": 1
     },
@@ -7992,7 +8000,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 39
+      "articles": 40
     },
     {
       "name": "女子ゴルフ",
@@ -10117,6 +10125,10 @@
     {
       "name": "立ちバック",
       "articles": 3
+    },
+    {
+      "name": "立ち寝ボックス",
+      "articles": 1
     },
     {
       "name": "立場逆転",
