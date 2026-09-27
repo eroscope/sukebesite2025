@@ -531,6 +531,7 @@
     "topics/topic-d00d6c817546.html",
     "topics/topic-d0a50a9ec866.html",
     "topics/topic-d0f68617ec6d.html",
+    "topics/topic-d2758a85ba0e.html",
     "topics/topic-d36caa93b02a.html",
     "topics/topic-d36e7a03fcec.html",
     "topics/topic-d4c1fccff388.html",
@@ -692,7 +693,7 @@
   "counts": {
     "people": 393,
     "works": 264,
-    "topics": 2066
+    "topics": 2067
   },
   "people": [
     {
@@ -3785,7 +3786,7 @@
     },
     {
       "name": "GIF",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "GIF動画",
@@ -5620,6 +5621,10 @@
       "articles": 2
     },
     {
+      "name": "タイトスカート",
+      "articles": 1
+    },
+    {
       "name": "タイトワンピース",
       "articles": 1
     },
@@ -5805,7 +5810,7 @@
     },
     {
       "name": "ニット",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "ニュースウォッチ9",
@@ -8029,7 +8034,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 41
+      "articles": 42
     },
     {
       "name": "女子ゴルフ",
@@ -8141,7 +8146,7 @@
     },
     {
       "name": "姫野美南",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "娘の彼氏",
