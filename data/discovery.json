@@ -191,6 +191,7 @@
     "topics/topic-29f8f0215964.html",
     "topics/topic-2a70c43e87b3.html",
     "topics/topic-2b7e5d0c429c.html",
+    "topics/topic-2ba133618e18.html",
     "topics/topic-2c270423c58c.html",
     "topics/topic-2c3c1a1af8ad.html",
     "topics/topic-2e494f665ea0.html",
@@ -698,7 +699,7 @@
   "counts": {
     "people": 395,
     "works": 266,
-    "topics": 2079
+    "topics": 2083
   },
   "people": [
     {
@@ -5018,6 +5019,10 @@
       "articles": 1
     },
     {
+      "name": "カードイラスト",
+      "articles": 1
+    },
+    {
       "name": "カードバトル",
       "articles": 1
     },
@@ -5966,6 +5971,10 @@
       "articles": 1
     },
     {
+      "name": "ハーピィ",
+      "articles": 1
+    },
+    {
       "name": "ハーフ",
       "articles": 1
     },
@@ -6687,6 +6696,10 @@
     },
     {
       "name": "ラッキースケベ",
+      "articles": 1
+    },
+    {
+      "name": "ラッシュデュエル",
       "articles": 1
     },
     {
@@ -11127,6 +11140,10 @@
     },
     {
       "name": "遊戯王",
+      "articles": 2
+    },
+    {
+      "name": "遊戯王カード",
       "articles": 1
     },
     {
