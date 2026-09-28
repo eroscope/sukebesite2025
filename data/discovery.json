@@ -695,9 +695,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 394,
+    "people": 395,
     "works": 265,
-    "topics": 2077
+    "topics": 2078
   },
   "people": [
     {
@@ -1250,6 +1250,10 @@
     },
     {
       "name": "女性型ロボット",
+      "articles": 1
+    },
+    {
+      "name": "女社長",
       "articles": 1
     },
     {
@@ -4258,7 +4262,7 @@
     },
     {
       "name": "VR",
-      "articles": 96
+      "articles": 97
     },
     {
       "name": "VR CHANNEL 005",
@@ -6702,7 +6706,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 118
+      "articles": 119
     },
     {
       "name": "ラヴィット！",
@@ -11162,6 +11166,10 @@
     },
     {
       "name": "酩酊",
+      "articles": 1
+    },
+    {
+      "name": "釈アリス",
       "articles": 1
     },
     {
