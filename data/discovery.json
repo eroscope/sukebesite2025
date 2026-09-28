@@ -701,7 +701,7 @@
   "counts": {
     "people": 397,
     "works": 266,
-    "topics": 2089
+    "topics": 2090
   },
   "people": [
     {
@@ -6178,7 +6178,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 63
+      "articles": 64
     },
     {
       "name": "ビビアン",
@@ -6746,7 +6746,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 122
+      "articles": 123
     },
     {
       "name": "ラヴィット！",
@@ -6830,7 +6830,7 @@
     },
     {
       "name": "レースクイーン",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "ロイヤル",
@@ -8521,6 +8521,10 @@
       "articles": 2
     },
     {
+      "name": "川瀬もえ",
+      "articles": 1
+    },
+    {
       "name": "川越にこ",
       "articles": 1
     },
@@ -9386,7 +9390,7 @@
     },
     {
       "name": "水着",
-      "articles": 188
+      "articles": 189
     },
     {
       "name": "水着グラビア",
