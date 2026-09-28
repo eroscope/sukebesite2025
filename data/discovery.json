@@ -613,6 +613,7 @@
     "topics/topic-f713282a59b5.html",
     "topics/topic-f74a9e431b06.html",
     "topics/topic-f75c9fcafa88.html",
+    "topics/topic-f7d582adfffd.html",
     "topics/topic-f7e9cf65c854.html",
     "topics/topic-f7f4f3529b7b.html",
     "topics/topic-f8d4c83a4941.html",
@@ -696,7 +697,7 @@
   ],
   "counts": {
     "people": 395,
-    "works": 265,
+    "works": 266,
     "topics": 2078
   },
   "people": [
@@ -2972,6 +2973,10 @@
     },
     {
       "code": "NAMH-023",
+      "articles": 1
+    },
+    {
+      "code": "NAMH-077",
       "articles": 1
     },
     {
@@ -5838,7 +5843,7 @@
     },
     {
       "name": "ナース",
-      "articles": 15
+      "articles": 16
     },
     {
       "name": "ニット",
@@ -7322,7 +7327,7 @@
     },
     {
       "name": "倉木しおり",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "倉本すみれ",
@@ -9858,7 +9863,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 132
+      "articles": 133
     },
     {
       "name": "画像ギャラリー",
