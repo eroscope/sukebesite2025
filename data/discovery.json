@@ -160,6 +160,7 @@
     "topics/topic-1c08179d129d.html",
     "topics/topic-1c7fff2e2e56.html",
     "topics/topic-1d4ebd368cf4.html",
+    "topics/topic-1dcef0f9ba50.html",
     "topics/topic-1df59a08f37d.html",
     "topics/topic-1e10c4140894.html",
     "topics/topic-1e20dd673d7a.html",
@@ -700,9 +701,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 397,
+    "people": 398,
     "works": 266,
-    "topics": 2090
+    "topics": 2092
   },
   "people": [
     {
@@ -1863,6 +1864,10 @@
     },
     {
       "name": "璃音",
+      "articles": 1
+    },
+    {
+      "name": "生見愛瑠",
       "articles": 1
     },
     {
@@ -4679,7 +4684,7 @@
     },
     {
       "name": "めるる",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ももち",
@@ -5876,6 +5881,10 @@
     {
       "name": "ニット",
       "articles": 16
+    },
+    {
+      "name": "ニットワンピース",
+      "articles": 1
     },
     {
       "name": "ニュースウォッチ9",
@@ -10775,6 +10784,10 @@
     },
     {
       "name": "花守夏歩",
+      "articles": 1
+    },
+    {
+      "name": "芸能人",
       "articles": 1
     },
     {
