@@ -699,7 +699,7 @@
   "counts": {
     "people": 395,
     "works": 266,
-    "topics": 2083
+    "topics": 2085
   },
   "people": [
     {
@@ -4823,6 +4823,10 @@
       "articles": 1
     },
     {
+      "name": "インタビュー風",
+      "articles": 1
+    },
+    {
       "name": "インナー",
       "articles": 2
     },
@@ -5852,7 +5856,7 @@
     },
     {
       "name": "ニット",
-      "articles": 15
+      "articles": 16
     },
     {
       "name": "ニュースウォッチ9",
@@ -6820,6 +6824,10 @@
     },
     {
       "name": "ロッカー",
+      "articles": 1
+    },
+    {
+      "name": "ロングスカート",
       "articles": 1
     },
     {
