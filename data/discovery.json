@@ -701,7 +701,7 @@
   "counts": {
     "people": 396,
     "works": 266,
-    "topics": 2086
+    "topics": 2087
   },
   "people": [
     {
@@ -6170,7 +6170,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 61
+      "articles": 62
     },
     {
       "name": "ビビアン",
@@ -7526,7 +7526,7 @@
     },
     {
       "name": "写真集",
-      "articles": 23
+      "articles": 24
     },
     {
       "name": "冨田有紀",
@@ -8494,6 +8494,10 @@
     },
     {
       "name": "山田ゆり",
+      "articles": 1
+    },
+    {
+      "name": "岡本彩夏",
       "articles": 1
     },
     {
