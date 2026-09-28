@@ -709,7 +709,7 @@
   "counts": {
     "people": 398,
     "works": 266,
-    "topics": 2098
+    "topics": 2103
   },
   "people": [
     {
@@ -4053,6 +4053,10 @@
       "articles": 1
     },
     {
+      "name": "NHK青森",
+      "articles": 1
+    },
+    {
       "name": "NIKKE",
       "articles": 2
     },
@@ -4433,6 +4437,10 @@
       "articles": 1
     },
     {
+      "name": "あさイチ",
+      "articles": 1
+    },
+    {
       "name": "あや",
       "articles": 1
     },
@@ -4574,6 +4582,10 @@
     },
     {
       "name": "すみれch",
+      "articles": 1
+    },
+    {
+      "name": "たすき掛け",
       "articles": 1
     },
     {
@@ -4774,7 +4786,7 @@
     },
     {
       "name": "アナウンサー",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "アナル",
@@ -6861,6 +6873,10 @@
       "articles": 1
     },
     {
+      "name": "ロケ",
+      "articles": 1
+    },
+    {
       "name": "ロケ番組",
       "articles": 1
     },
@@ -7062,6 +7078,10 @@
     },
     {
       "name": "中川安奈",
+      "articles": 1
+    },
+    {
+      "name": "中村瑞季",
       "articles": 1
     },
     {
@@ -10694,7 +10714,7 @@
     },
     {
       "name": "胸元",
-      "articles": 54
+      "articles": 55
     },
     {
       "name": "胸元チラ見え",
