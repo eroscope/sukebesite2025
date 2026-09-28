@@ -701,7 +701,7 @@
   "counts": {
     "people": 396,
     "works": 266,
-    "topics": 2087
+    "topics": 2088
   },
   "people": [
     {
@@ -7310,7 +7310,7 @@
     },
     {
       "name": "作品パッケージ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "作品画像",
@@ -10390,6 +10390,10 @@
     },
     {
       "name": "素人風",
+      "articles": 1
+    },
+    {
+      "name": "素股",
       "articles": 1
     },
     {
