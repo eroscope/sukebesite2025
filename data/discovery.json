@@ -711,7 +711,7 @@
   "counts": {
     "people": 398,
     "works": 266,
-    "topics": 2108
+    "topics": 2110
   },
   "people": [
     {
@@ -5343,6 +5343,10 @@
       "articles": 1
     },
     {
+      "name": "コスプレAV",
+      "articles": 1
+    },
+    {
       "name": "コスプレ写真",
       "articles": 1
     },
@@ -7379,6 +7383,10 @@
       "articles": 6
     },
     {
+      "name": "作品談義",
+      "articles": 1
+    },
+    {
       "name": "佳苗るか",
       "articles": 1
     },
@@ -7732,7 +7740,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "匿名画像",
