@@ -722,7 +722,7 @@
   "counts": {
     "people": 407,
     "works": 268,
-    "topics": 2137
+    "topics": 2138
   },
   "people": [
     {
@@ -3883,7 +3883,7 @@
     },
     {
       "name": "FLASH",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "FRIDAY",
@@ -6303,7 +6303,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 72
+      "articles": 73
     },
     {
       "name": "ビビアン",
@@ -6879,7 +6879,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 127
+      "articles": 128
     },
     {
       "name": "ラヴィット！",
@@ -9587,7 +9587,7 @@
     },
     {
       "name": "水着",
-      "articles": 203
+      "articles": 204
     },
     {
       "name": "水着グラビア",
@@ -10443,6 +10443,10 @@
     },
     {
       "name": "禁欲解放",
+      "articles": 1
+    },
+    {
+      "name": "福井梨莉華",
       "articles": 1
     },
     {
