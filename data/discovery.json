@@ -718,7 +718,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 405,
+    "people": 406,
     "works": 267,
     "topics": 2125
   },
@@ -1758,6 +1758,10 @@
     {
       "name": "榊原萌",
       "articles": 3
+    },
+    {
+      "name": "樋口日奈",
+      "articles": 1
     },
     {
       "name": "横野すみれ",
@@ -11353,7 +11357,7 @@
     },
     {
       "name": "透け衣装",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "透け襦袢",
