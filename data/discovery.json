@@ -717,7 +717,7 @@
   "counts": {
     "people": 402,
     "works": 266,
-    "topics": 2119
+    "topics": 2120
   },
   "people": [
     {
@@ -1486,7 +1486,7 @@
     },
     {
       "name": "恋渕ももな",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "愛人役",
@@ -3674,7 +3674,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 107
+      "articles": 108
     },
     {
       "name": "AV女優検索",
@@ -4258,7 +4258,7 @@
     },
     {
       "name": "SODSTAR",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "SODstar",
@@ -10026,7 +10026,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 141
+      "articles": 142
     },
     {
       "name": "画像ギャラリー",
@@ -10350,6 +10350,10 @@
     },
     {
       "name": "禁欲チャレンジ",
+      "articles": 1
+    },
+    {
+      "name": "禁欲解放",
       "articles": 1
     },
     {
