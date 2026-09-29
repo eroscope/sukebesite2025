@@ -125,6 +125,7 @@
     "topics/topic-0535bf05778f.html",
     "topics/topic-067328416c99.html",
     "topics/topic-07064bd9e47d.html",
+    "topics/topic-071c6f8e47cc.html",
     "topics/topic-07e40f87bd03.html",
     "topics/topic-0857c51434ee.html",
     "topics/topic-088303c984d0.html",
@@ -721,7 +722,7 @@
   "counts": {
     "people": 407,
     "works": 268,
-    "topics": 2132
+    "topics": 2133
   },
   "people": [
     {
@@ -3946,7 +3947,7 @@
     },
     {
       "name": "Hカップ",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "Hカップ時代",
@@ -4858,6 +4859,10 @@
     },
     {
       "name": "アズールレーン",
+      "articles": 1
+    },
+    {
+      "name": "アダルト写真集",
       "articles": 1
     },
     {
@@ -8610,7 +8615,7 @@
     },
     {
       "name": "小日向みゆう",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "小松空",
