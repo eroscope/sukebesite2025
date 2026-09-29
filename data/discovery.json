@@ -720,7 +720,7 @@
   "counts": {
     "people": 404,
     "works": 267,
-    "topics": 2122
+    "topics": 2123
   },
   "people": [
     {
@@ -7797,7 +7797,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "匿名画像",
@@ -8293,6 +8293,10 @@
     },
     {
       "name": "女性モデル",
+      "articles": 1
+    },
+    {
+      "name": "女性写真",
       "articles": 1
     },
     {
@@ -9525,7 +9529,7 @@
     },
     {
       "name": "水着",
-      "articles": 195
+      "articles": 196
     },
     {
       "name": "水着グラビア",
@@ -10893,7 +10897,7 @@
     },
     {
       "name": "自撮り",
-      "articles": 31
+      "articles": 32
     },
     {
       "name": "自撮り動画",
