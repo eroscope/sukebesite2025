@@ -712,7 +712,7 @@
   "counts": {
     "people": 399,
     "works": 266,
-    "topics": 2114
+    "topics": 2115
   },
   "people": [
     {
@@ -5269,7 +5269,7 @@
     },
     {
       "name": "グラビアアイドル",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "グラビア動画",
@@ -9473,7 +9473,7 @@
     },
     {
       "name": "水着",
-      "articles": 191
+      "articles": 192
     },
     {
       "name": "水着グラビア",
@@ -9997,7 +9997,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 136
+      "articles": 137
     },
     {
       "name": "画像ギャラリー",
@@ -11498,6 +11498,10 @@
     {
       "name": "雑誌",
       "articles": 2
+    },
+    {
+      "name": "雑誌グラビア",
+      "articles": 1
     },
     {
       "name": "雑誌表紙",
