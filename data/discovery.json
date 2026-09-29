@@ -712,7 +712,7 @@
   "counts": {
     "people": 399,
     "works": 266,
-    "topics": 2112
+    "topics": 2114
   },
   "people": [
     {
@@ -3577,7 +3577,7 @@
     },
     {
       "name": "AI疑惑",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "AI顔検索",
@@ -8033,7 +8033,7 @@
     },
     {
       "name": "声優",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "売り子",
@@ -10016,6 +10016,10 @@
       "articles": 1
     },
     {
+      "name": "画像検証",
+      "articles": 1
+    },
+    {
       "name": "画像比較",
       "articles": 1
     },
@@ -10137,6 +10141,10 @@
     },
     {
       "name": "白石なみ",
+      "articles": 1
+    },
+    {
+      "name": "白石晴香",
       "articles": 1
     },
     {
@@ -10753,7 +10761,7 @@
     },
     {
       "name": "胸元",
-      "articles": 55
+      "articles": 56
     },
     {
       "name": "胸元チラ見え",
