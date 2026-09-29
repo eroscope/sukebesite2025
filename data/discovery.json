@@ -711,9 +711,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 399,
+    "people": 400,
     "works": 266,
-    "topics": 2115
+    "topics": 2116
   },
   "people": [
     {
@@ -1414,6 +1414,10 @@
     },
     {
       "name": "山田鈴奈",
+      "articles": 1
+    },
+    {
+      "name": "岡田紗佳",
       "articles": 1
     },
     {
@@ -5318,7 +5322,7 @@
     },
     {
       "name": "ゲーム",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "ゲームイラスト",
@@ -8127,6 +8131,10 @@
     {
       "name": "大胆衣装",
       "articles": 3
+    },
+    {
+      "name": "大開脚",
+      "articles": 1
     },
     {
       "name": "天城ねね",
@@ -11318,7 +11326,7 @@
     },
     {
       "name": "部屋着",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "配信",
