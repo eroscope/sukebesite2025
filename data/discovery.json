@@ -33,6 +33,7 @@
     "people/person-40b15a51b4b3.html",
     "people/person-42a87a2e7856.html",
     "people/person-4501c278da8f.html",
+    "people/person-458fea711331.html",
     "people/person-49bc196e54ed.html",
     "people/person-513e9a89694e.html",
     "people/person-528f252e9d78.html",
@@ -718,7 +719,7 @@
   ],
   "counts": {
     "people": 403,
-    "works": 266,
+    "works": 267,
     "topics": 2121
   },
   "people": [
@@ -2004,7 +2005,7 @@
     },
     {
       "name": "神木麗",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "福井梨莉華",
@@ -3365,6 +3366,10 @@
       "articles": 1
     },
     {
+      "code": "START-636",
+      "articles": 1
+    },
+    {
       "code": "SVMGM-054",
       "articles": 1
     },
@@ -3680,7 +3685,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 109
+      "articles": 110
     },
     {
       "name": "AV女優検索",
@@ -4264,7 +4269,7 @@
     },
     {
       "name": "SODSTAR",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "SODstar",
@@ -7404,7 +7409,7 @@
     },
     {
       "name": "作品サンプル",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "作品ジャケ",
