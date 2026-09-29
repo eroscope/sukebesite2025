@@ -720,7 +720,7 @@
   "counts": {
     "people": 405,
     "works": 267,
-    "topics": 2123
+    "topics": 2125
   },
   "people": [
     {
@@ -5104,6 +5104,10 @@
       "articles": 2
     },
     {
+      "name": "カップ数",
+      "articles": 1
+    },
+    {
       "name": "カナン様はあくまでチョロい",
       "articles": 1
     },
@@ -7077,7 +7081,7 @@
     },
     {
       "name": "下着",
-      "articles": 96
+      "articles": 97
     },
     {
       "name": "下着ずらし",
@@ -7801,7 +7805,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "匿名画像",
@@ -10814,6 +10818,10 @@
     {
       "name": "胸",
       "articles": 4
+    },
+    {
+      "name": "胸のサイズ比較",
+      "articles": 1
     },
     {
       "name": "胸への刺激",
