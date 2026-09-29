@@ -716,9 +716,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 402,
+    "people": 403,
     "works": 266,
-    "topics": 2120
+    "topics": 2121
   },
   "people": [
     {
@@ -1859,6 +1859,10 @@
     },
     {
       "name": "温泉回",
+      "articles": 1
+    },
+    {
+      "name": "澄田綾乃",
       "articles": 1
     },
     {
@@ -7066,6 +7070,10 @@
       "articles": 1
     },
     {
+      "name": "下着グラビア",
+      "articles": 1
+    },
+    {
       "name": "下着ライン",
       "articles": 1
     },
@@ -7631,7 +7639,7 @@
     },
     {
       "name": "写真集",
-      "articles": 24
+      "articles": 25
     },
     {
       "name": "冨田有紀",
@@ -9503,7 +9511,7 @@
     },
     {
       "name": "水着",
-      "articles": 193
+      "articles": 194
     },
     {
       "name": "水着グラビア",
