@@ -720,7 +720,7 @@
   "counts": {
     "people": 406,
     "works": 267,
-    "topics": 2125
+    "topics": 2128
   },
   "people": [
     {
@@ -4144,6 +4144,10 @@
       "articles": 2
     },
     {
+      "name": "Oha!4",
+      "articles": 1
+    },
+    {
       "name": "Outfit 4",
       "articles": 1
     },
@@ -5973,7 +5977,7 @@
     },
     {
       "name": "ニット",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "ニットワンピース",
@@ -6405,6 +6409,10 @@
     },
     {
       "name": "フリーハンド魂",
+      "articles": 1
+    },
+    {
+      "name": "フリーマーケット",
       "articles": 1
     },
     {
@@ -8265,7 +8273,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 49
+      "articles": 50
     },
     {
       "name": "女子ゴルフ",
@@ -9984,6 +9992,10 @@
       "articles": 1
     },
     {
+      "name": "田﨑さくら",
+      "articles": 1
+    },
+    {
       "name": "由良かな",
       "articles": 1
     },
@@ -10837,7 +10849,7 @@
     },
     {
       "name": "胸元",
-      "articles": 56
+      "articles": 57
     },
     {
       "name": "胸元チラ見え",
