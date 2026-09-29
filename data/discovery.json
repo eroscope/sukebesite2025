@@ -718,9 +718,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 403,
+    "people": 404,
     "works": 267,
-    "topics": 2121
+    "topics": 2122
   },
   "people": [
     {
@@ -1861,6 +1861,10 @@
     },
     {
       "name": "温泉回",
+      "articles": 1
+    },
+    {
+      "name": "溝端葵",
       "articles": 1
     },
     {
@@ -3417,6 +3421,10 @@
     },
     {
       "name": "161作品",
+      "articles": 1
+    },
+    {
+      "name": "163cm",
       "articles": 1
     },
     {
@@ -7645,7 +7653,7 @@
     },
     {
       "name": "写真集",
-      "articles": 25
+      "articles": 26
     },
     {
       "name": "冨田有紀",
@@ -9517,7 +9525,7 @@
     },
     {
       "name": "水着",
-      "articles": 194
+      "articles": 195
     },
     {
       "name": "水着グラビア",
