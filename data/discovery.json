@@ -722,7 +722,7 @@
   "counts": {
     "people": 407,
     "works": 268,
-    "topics": 2138
+    "topics": 2139
   },
   "people": [
     {
@@ -6303,7 +6303,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 73
+      "articles": 74
     },
     {
       "name": "ビビアン",
@@ -6879,7 +6879,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 128
+      "articles": 129
     },
     {
       "name": "ラヴィット！",
@@ -9587,7 +9587,7 @@
     },
     {
       "name": "水着",
-      "articles": 204
+      "articles": 205
     },
     {
       "name": "水着グラビア",
@@ -11428,6 +11428,10 @@
     {
       "name": "逢沢みゆ",
       "articles": 6
+    },
+    {
+      "name": "逢沢りな",
+      "articles": 1
     },
     {
       "name": "週刊誌",
