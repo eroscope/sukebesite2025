@@ -718,8 +718,8 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 406,
-    "works": 267,
+    "people": 407,
+    "works": 268,
     "topics": 2128
   },
   "people": [
@@ -937,6 +937,10 @@
     },
     {
       "name": "一ノ瀬瑠菜",
+      "articles": 1
+    },
+    {
+      "name": "一宮あい",
       "articles": 1
     },
     {
@@ -3099,6 +3103,10 @@
     },
     {
       "code": "OME-720",
+      "articles": 1
+    },
+    {
+      "code": "OME-725",
       "articles": 1
     },
     {
@@ -7093,7 +7101,7 @@
     },
     {
       "name": "下着",
-      "articles": 97
+      "articles": 98
     },
     {
       "name": "下着ずらし",
@@ -9549,7 +9557,7 @@
     },
     {
       "name": "水着",
-      "articles": 197
+      "articles": 198
     },
     {
       "name": "水着グラビア",
