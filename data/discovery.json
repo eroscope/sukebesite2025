@@ -722,7 +722,7 @@
   "counts": {
     "people": 407,
     "works": 268,
-    "topics": 2136
+    "topics": 2137
   },
   "people": [
     {
@@ -3923,7 +3923,7 @@
     },
     {
       "name": "Gカップ",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "HKT48",
@@ -6303,7 +6303,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 71
+      "articles": 72
     },
     {
       "name": "ビビアン",
@@ -8182,6 +8182,10 @@
       "articles": 4
     },
     {
+      "name": "大原優乃",
+      "articles": 1
+    },
+    {
       "name": "大学サークル",
       "articles": 1
     },
@@ -9583,7 +9587,7 @@
     },
     {
       "name": "水着",
-      "articles": 202
+      "articles": 203
     },
     {
       "name": "水着グラビア",
