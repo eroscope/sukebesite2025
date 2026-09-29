@@ -722,7 +722,7 @@
   "counts": {
     "people": 407,
     "works": 268,
-    "topics": 2133
+    "topics": 2136
   },
   "people": [
     {
@@ -7111,7 +7111,7 @@
     },
     {
       "name": "下着",
-      "articles": 98
+      "articles": 99
     },
     {
       "name": "下着ずらし",
@@ -7839,7 +7839,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "匿名画像",
@@ -8427,6 +8427,10 @@
     },
     {
       "name": "媚薬",
+      "articles": 1
+    },
+    {
+      "name": "嫁",
       "articles": 1
     },
     {
@@ -10446,6 +10450,10 @@
       "articles": 1
     },
     {
+      "name": "私生活写真",
+      "articles": 1
+    },
+    {
       "name": "私生活風",
       "articles": 1
     },
@@ -10935,6 +10943,10 @@
     },
     {
       "name": "腹筋トレーニング",
+      "articles": 1
+    },
+    {
+      "name": "臀部",
       "articles": 1
     },
     {
