@@ -712,9 +712,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 401,
+    "people": 402,
     "works": 266,
-    "topics": 2116
+    "topics": 2118
   },
   "people": [
     {
@@ -1403,6 +1403,10 @@
     },
     {
       "name": "山崎あみ",
+      "articles": 1
+    },
+    {
+      "name": "山本里菜",
       "articles": 1
     },
     {
@@ -6354,6 +6358,10 @@
       "articles": 12
     },
     {
+      "name": "フォトブック",
+      "articles": 1
+    },
+    {
       "name": "フランス人女性",
       "articles": 1
     },
@@ -7495,6 +7503,10 @@
     },
     {
       "name": "元TBS",
+      "articles": 1
+    },
+    {
+      "name": "元TBSアナウンサー",
       "articles": 1
     },
     {
@@ -9487,7 +9499,7 @@
     },
     {
       "name": "水着",
-      "articles": 192
+      "articles": 193
     },
     {
       "name": "水着グラビア",
