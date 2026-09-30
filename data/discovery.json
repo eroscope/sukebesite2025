@@ -731,7 +731,7 @@
   "counts": {
     "people": 413,
     "works": 269,
-    "topics": 2163
+    "topics": 2165
   },
   "people": [
     {
@@ -4148,7 +4148,7 @@
     },
     {
       "name": "NHKアナウンサー",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "NHK大阪",
@@ -6275,6 +6275,10 @@
       "articles": 1
     },
     {
+      "name": "パイスラ",
+      "articles": 1
+    },
+    {
       "name": "パイズリ",
       "articles": 12
     },
@@ -8376,7 +8380,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 50
+      "articles": 51
     },
     {
       "name": "女子ゴルフ",
@@ -11397,6 +11401,10 @@
     {
       "name": "谷間",
       "articles": 7
+    },
+    {
+      "name": "豊島実季",
+      "articles": 1
     },
     {
       "name": "豊満グラビア",
