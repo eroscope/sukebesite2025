@@ -63,6 +63,7 @@
     "people/person-922e61084667.html",
     "people/person-930b667e4b37.html",
     "people/person-93f83543950d.html",
+    "people/person-999a05dbad28.html",
     "people/person-99ce0abffefc.html",
     "people/person-9da0bab509f9.html",
     "people/person-a1c7c1fcbab3.html",
@@ -544,6 +545,7 @@
     "topics/topic-c968ce1187c8.html",
     "topics/topic-c97b84d127be.html",
     "topics/topic-c9b8d32f2216.html",
+    "topics/topic-c9c82166bd8d.html",
     "topics/topic-ca.html",
     "topics/topic-ca009cc76525.html",
     "topics/topic-cad0bf25d100.html",
@@ -733,7 +735,7 @@
   "counts": {
     "people": 416,
     "works": 269,
-    "topics": 2176
+    "topics": 2177
   },
   "people": [
     {
@@ -1362,7 +1364,7 @@
     },
     {
       "name": "小嶋陽菜",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "小川桃果",
@@ -12034,7 +12036,7 @@
     },
     {
       "name": "食事風景",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "飯尾夏帆",
@@ -12103,6 +12105,10 @@
     {
       "name": "黄色いドレス",
       "articles": 2
+    },
+    {
+      "name": "黄色いワンピース",
+      "articles": 1
     },
     {
       "name": "黒いボディスーツ",
