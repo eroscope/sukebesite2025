@@ -726,7 +726,7 @@
   "counts": {
     "people": 410,
     "works": 269,
-    "topics": 2150
+    "topics": 2152
   },
   "people": [
     {
@@ -8363,7 +8363,7 @@
     },
     {
       "name": "女性",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "女性2人",
@@ -9698,6 +9698,10 @@
       "articles": 1
     },
     {
+      "name": "法被",
+      "articles": 1
+    },
+    {
       "name": "波多野結衣",
       "articles": 1
     },
@@ -10171,7 +10175,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 144
+      "articles": 145
     },
     {
       "name": "画像ギャラリー",
@@ -10487,6 +10491,10 @@
     },
     {
       "name": "神姫PROJECT",
+      "articles": 1
+    },
+    {
+      "name": "祭り",
       "articles": 1
     },
     {
