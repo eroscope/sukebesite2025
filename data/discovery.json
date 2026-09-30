@@ -726,7 +726,7 @@
   "counts": {
     "people": 410,
     "works": 269,
-    "topics": 2153
+    "topics": 2155
   },
   "people": [
     {
@@ -4690,6 +4690,10 @@
       "articles": 1
     },
     {
+      "name": "ちびとり",
+      "articles": 1
+    },
+    {
       "name": "ちゃづり",
       "articles": 1
     },
@@ -6975,7 +6979,7 @@
     },
     {
       "name": "レズビアン",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "レポート",
@@ -7763,7 +7767,7 @@
     },
     {
       "name": "制服",
-      "articles": 32
+      "articles": 33
     },
     {
       "name": "制服ギャル",
@@ -9642,6 +9646,10 @@
       "articles": 1
     },
     {
+      "name": "水瀬ななこ",
+      "articles": 1
+    },
+    {
       "name": "水着",
       "articles": 215
     },
@@ -10107,7 +10115,7 @@
     },
     {
       "name": "男の娘",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "男女",
