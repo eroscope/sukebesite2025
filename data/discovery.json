@@ -724,9 +724,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 410,
+    "people": 411,
     "works": 269,
-    "topics": 2155
+    "topics": 2156
   },
   "people": [
     {
@@ -1907,6 +1907,10 @@
     },
     {
       "name": "無無田",
+      "articles": 1
+    },
+    {
+      "name": "熊田曜子",
       "articles": 1
     },
     {
@@ -3936,6 +3940,10 @@
     {
       "name": "GIF画像",
       "articles": 2
+    },
+    {
+      "name": "GRAVITYLESS",
+      "articles": 1
     },
     {
       "name": "Grok",
@@ -7723,7 +7731,7 @@
     },
     {
       "name": "写真集",
-      "articles": 27
+      "articles": 28
     },
     {
       "name": "冨田有紀",
@@ -9039,7 +9047,7 @@
     },
     {
       "name": "手ブラ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "手マン",
