@@ -722,7 +722,7 @@
   "counts": {
     "people": 407,
     "works": 268,
-    "topics": 2139
+    "topics": 2140
   },
   "people": [
     {
@@ -6879,7 +6879,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 130
+      "articles": 131
     },
     {
       "name": "ラヴィット！",
@@ -7559,7 +7559,7 @@
     },
     {
       "name": "元AKB48",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "元NMB48",
@@ -9587,7 +9587,7 @@
     },
     {
       "name": "水着",
-      "articles": 205
+      "articles": 206
     },
     {
       "name": "水着グラビア",
@@ -9767,6 +9767,10 @@
     },
     {
       "name": "清楚系",
+      "articles": 1
+    },
+    {
+      "name": "清水麻璃亜",
       "articles": 1
     },
     {
