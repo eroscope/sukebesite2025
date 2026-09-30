@@ -723,7 +723,7 @@
   "counts": {
     "people": 407,
     "works": 268,
-    "topics": 2142
+    "topics": 2143
   },
   "people": [
     {
@@ -6304,7 +6304,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 76
+      "articles": 77
     },
     {
       "name": "ビビアン",
@@ -9592,7 +9592,7 @@
     },
     {
       "name": "水着",
-      "articles": 209
+      "articles": 210
     },
     {
       "name": "水着グラビア",
@@ -11597,6 +11597,10 @@
     {
       "name": "長尺動画",
       "articles": 3
+    },
+    {
+      "name": "長澤まさみ",
+      "articles": 1
     },
     {
       "name": "長瀬智也",
