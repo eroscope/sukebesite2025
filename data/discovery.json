@@ -729,9 +729,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 413,
+    "people": 414,
     "works": 269,
-    "topics": 2169
+    "topics": 2170
   },
   "people": [
     {
@@ -1672,6 +1672,10 @@
     },
     {
       "name": "松本いちか",
+      "articles": 1
+    },
+    {
+      "name": "板野友美",
       "articles": 1
     },
     {
@@ -4283,6 +4287,10 @@
       "articles": 1
     },
     {
+      "name": "Rosyluce",
+      "articles": 1
+    },
+    {
       "name": "S-Cute",
       "articles": 4
     },
@@ -6364,7 +6372,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 84
+      "articles": 85
     },
     {
       "name": "ビビアン",
@@ -9704,7 +9712,7 @@
     },
     {
       "name": "水着",
-      "articles": 220
+      "articles": 221
     },
     {
       "name": "水着グラビア",
