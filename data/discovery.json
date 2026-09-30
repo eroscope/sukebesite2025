@@ -727,9 +727,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 412,
+    "people": 413,
     "works": 269,
-    "topics": 2161
+    "topics": 2163
   },
   "people": [
     {
@@ -1818,6 +1818,10 @@
     },
     {
       "name": "水瀬なぎ",
+      "articles": 1
+    },
+    {
+      "name": "水着グラビア",
       "articles": 1
     },
     {
@@ -5378,7 +5382,7 @@
     },
     {
       "name": "グラビアアイドル",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "グラビア動画",
@@ -6346,7 +6350,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 83
+      "articles": 84
     },
     {
       "name": "ビビアン",
@@ -6751,6 +6755,10 @@
     {
       "name": "ミスマガ",
       "articles": 3
+    },
+    {
+      "name": "ミスマガジン",
+      "articles": 1
     },
     {
       "name": "ミニスカ",
@@ -7743,6 +7751,10 @@
     {
       "name": "写真集",
       "articles": 28
+    },
+    {
+      "name": "冨永実里",
+      "articles": 1
     },
     {
       "name": "冨田有紀",
