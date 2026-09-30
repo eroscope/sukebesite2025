@@ -722,7 +722,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 407,
+    "people": 408,
     "works": 268,
     "topics": 2144
   },
@@ -1145,6 +1145,10 @@
     },
     {
       "name": "加藤愛梨",
+      "articles": 1
+    },
+    {
+      "name": "加藤玲菜",
       "articles": 1
     },
     {
@@ -6305,7 +6309,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 77
+      "articles": 78
     },
     {
       "name": "ビビアン",
@@ -6881,7 +6885,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 134
+      "articles": 135
     },
     {
       "name": "ラヴィット！",
