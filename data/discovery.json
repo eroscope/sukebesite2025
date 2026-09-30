@@ -723,7 +723,7 @@
   "counts": {
     "people": 407,
     "works": 268,
-    "topics": 2141
+    "topics": 2142
   },
   "people": [
     {
@@ -6304,7 +6304,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 75
+      "articles": 76
     },
     {
       "name": "ビビアン",
@@ -9592,7 +9592,7 @@
     },
     {
       "name": "水着",
-      "articles": 208
+      "articles": 209
     },
     {
       "name": "水着グラビア",
@@ -11268,6 +11268,10 @@
     },
     {
       "name": "谷原希美",
+      "articles": 1
+    },
+    {
+      "name": "谷澤恵里香",
       "articles": 1
     },
     {
