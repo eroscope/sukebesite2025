@@ -733,7 +733,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 416,
+    "people": 417,
     "works": 269,
     "topics": 2177
   },
@@ -2040,6 +2040,10 @@
     },
     {
       "name": "矢野あいみ",
+      "articles": 1
+    },
+    {
+      "name": "矢野ななか",
       "articles": 1
     },
     {
@@ -6400,7 +6404,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 87
+      "articles": 88
     },
     {
       "name": "ビビアン",
@@ -9744,7 +9748,7 @@
     },
     {
       "name": "水着",
-      "articles": 222
+      "articles": 223
     },
     {
       "name": "水着グラビア",
