@@ -460,6 +460,7 @@
     "topics/topic-ai.html",
     "topics/topic-ai.html",
     "topics/topic-akb48.html",
+    "topics/topic-akb48.html",
     "topics/topic-ani.html",
     "topics/topic-animates.html",
     "topics/topic-asmr.html",
@@ -723,7 +724,7 @@
   "counts": {
     "people": 407,
     "works": 268,
-    "topics": 2143
+    "topics": 2144
   },
   "people": [
     {
@@ -3644,7 +3645,7 @@
     },
     {
       "name": "AKB48",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ASMR",
@@ -6880,7 +6881,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 133
+      "articles": 134
     },
     {
       "name": "ラヴィット！",
@@ -8116,6 +8117,10 @@
     },
     {
       "name": "場面写真",
+      "articles": 1
+    },
+    {
+      "name": "増田有華",
       "articles": 1
     },
     {
@@ -9592,7 +9597,7 @@
     },
     {
       "name": "水着",
-      "articles": 210
+      "articles": 211
     },
     {
       "name": "水着グラビア",
