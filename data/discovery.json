@@ -722,7 +722,7 @@
   "counts": {
     "people": 407,
     "works": 268,
-    "topics": 2140
+    "topics": 2141
   },
   "people": [
     {
@@ -6303,7 +6303,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 74
+      "articles": 75
     },
     {
       "name": "ビビアン",
@@ -6879,7 +6879,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 131
+      "articles": 132
     },
     {
       "name": "ラヴィット！",
@@ -9182,6 +9182,10 @@
       "articles": 1
     },
     {
+      "name": "新谷姫加",
+      "articles": 1
+    },
+    {
       "name": "新高湯温泉",
       "articles": 1
     },
@@ -9587,7 +9591,7 @@
     },
     {
       "name": "水着",
-      "articles": 206
+      "articles": 207
     },
     {
       "name": "水着グラビア",
