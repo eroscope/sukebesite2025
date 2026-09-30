@@ -635,6 +635,7 @@
     "topics/topic-f4b53d5ab084.html",
     "topics/topic-f500c702a477.html",
     "topics/topic-f5c2cb45438d.html",
+    "topics/topic-f5da0ae6f566.html",
     "topics/topic-f62b608f9969.html",
     "topics/topic-f65c255c513f.html",
     "topics/topic-f688a71a55d5.html",
@@ -728,7 +729,7 @@
   "counts": {
     "people": 411,
     "works": 269,
-    "topics": 2158
+    "topics": 2160
   },
   "people": [
     {
@@ -6341,7 +6342,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 82
+      "articles": 83
     },
     {
       "name": "ビビアン",
@@ -6918,6 +6919,10 @@
     {
       "name": "ランジェリー",
       "articles": 137
+    },
+    {
+      "name": "ランジェリー風",
+      "articles": 1
     },
     {
       "name": "ラヴィット！",
@@ -9665,7 +9670,7 @@
     },
     {
       "name": "水着",
-      "articles": 217
+      "articles": 218
     },
     {
       "name": "水着グラビア",
@@ -11140,6 +11145,10 @@
       "articles": 1
     },
     {
+      "name": "葉月ゆめ",
+      "articles": 1
+    },
+    {
       "name": "葬式",
       "articles": 1
     },
@@ -11749,7 +11758,7 @@
     },
     {
       "name": "雑誌グラビア",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "雑誌表紙",
