@@ -40,6 +40,7 @@
     "people/person-55c8aa51ffe8.html",
     "people/person-5938e1add918.html",
     "people/person-5dfe83183689.html",
+    "people/person-5e0721bebbe4.html",
     "people/person-5f24314a7c10.html",
     "people/person-5fc9e30aedc2.html",
     "people/person-63f3b4145307.html",
@@ -724,7 +725,7 @@
   "counts": {
     "people": 410,
     "works": 269,
-    "topics": 2147
+    "topics": 2149
   },
   "people": [
     {
@@ -901,7 +902,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "プロフィール",
@@ -5804,6 +5805,10 @@
       "articles": 1
     },
     {
+      "name": "ソフマップ",
+      "articles": 1
+    },
+    {
       "name": "ソープ",
       "articles": 2
     },
@@ -8788,6 +8793,10 @@
       "articles": 1
     },
     {
+      "name": "平塚千瑛",
+      "articles": 1
+    },
+    {
       "name": "平田侑希",
       "articles": 1
     },
@@ -9625,7 +9634,7 @@
     },
     {
       "name": "水着",
-      "articles": 213
+      "articles": 214
     },
     {
       "name": "水着グラビア",
@@ -9773,7 +9782,7 @@
     },
     {
       "name": "海辺",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "消火栓",
