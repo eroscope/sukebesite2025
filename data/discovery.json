@@ -238,6 +238,7 @@
     "topics/topic-3dbb0d7317d1.html",
     "topics/topic-3dce044148e5.html",
     "topics/topic-3dvr.html",
+    "topics/topic-3e0c0cc25958.html",
     "topics/topic-3e440ff2345c.html",
     "topics/topic-3fe20114f34d.html",
     "topics/topic-3p.html",
@@ -732,7 +733,7 @@
   "counts": {
     "people": 415,
     "works": 269,
-    "topics": 2172
+    "topics": 2174
   },
   "people": [
     {
@@ -4449,7 +4450,7 @@
     },
     {
       "name": "VTuber",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "Venus Returns",
@@ -4549,6 +4550,10 @@
     },
     {
       "name": "あいみゅう",
+      "articles": 1
+    },
+    {
+      "name": "あおぎり高校",
       "articles": 1
     },
     {
@@ -8581,7 +8586,7 @@
     },
     {
       "name": "実写",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "実写リメイク",
@@ -10265,7 +10270,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 150
+      "articles": 151
     },
     {
       "name": "画像ギャラリー",
@@ -11538,6 +11543,10 @@
     {
       "name": "足裏",
       "articles": 2
+    },
+    {
+      "name": "身体",
+      "articles": 1
     },
     {
       "name": "車内",
