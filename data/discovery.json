@@ -187,6 +187,7 @@
     "topics/topic-202e70a44f7a.html",
     "topics/topic-214e5536fe8b.html",
     "topics/topic-214f1d402588.html",
+    "topics/topic-21f340a26762.html",
     "topics/topic-228da3a88d13.html",
     "topics/topic-22f7f7720786.html",
     "topics/topic-233ca36573b6.html",
@@ -745,7 +746,7 @@
   "counts": {
     "people": 426,
     "works": 272,
-    "topics": 2198
+    "topics": 2201
   },
   "people": [
     {
@@ -9785,6 +9786,10 @@
       "articles": 1
     },
     {
+      "name": "橋本環奈",
+      "articles": 1
+    },
+    {
       "name": "機内",
       "articles": 1
     },
@@ -9834,6 +9839,10 @@
     },
     {
       "name": "気象予報士",
+      "articles": 1
+    },
+    {
+      "name": "水中撮影",
       "articles": 1
     },
     {
@@ -10506,7 +10515,7 @@
     },
     {
       "name": "白ドレス",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "白ニット",
@@ -11406,6 +11415,10 @@
     },
     {
       "name": "街中",
+      "articles": 1
+    },
+    {
+      "name": "街角ショット",
       "articles": 1
     },
     {
