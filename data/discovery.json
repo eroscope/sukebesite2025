@@ -745,9 +745,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 428,
+    "people": 429,
     "works": 273,
-    "topics": 2206
+    "topics": 2207
   },
   "people": [
     {
@@ -804,6 +804,10 @@
     },
     {
       "name": "さとみ",
+      "articles": 1
+    },
+    {
+      "name": "すみぽん",
       "articles": 1
     },
     {
@@ -4572,7 +4576,7 @@
     },
     {
       "name": "YouTuber",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "YourDoll",
@@ -7100,7 +7104,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 144
+      "articles": 145
     },
     {
       "name": "ランジェリー風",
@@ -7924,7 +7928,7 @@
     },
     {
       "name": "写真集",
-      "articles": 30
+      "articles": 31
     },
     {
       "name": "冨永実里",
@@ -12256,6 +12260,10 @@
     },
     {
       "name": "驚き顔",
+      "articles": 1
+    },
+    {
+      "name": "高倉菫",
       "articles": 1
     },
     {
