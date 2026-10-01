@@ -745,9 +745,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 429,
+    "people": 430,
     "works": 273,
-    "topics": 2207
+    "topics": 2208
   },
   "people": [
     {
@@ -1880,6 +1880,10 @@
     },
     {
       "name": "永崎麗香",
+      "articles": 1
+    },
+    {
+      "name": "永野紬",
       "articles": 1
     },
     {
@@ -3820,7 +3824,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 28
+      "articles": 29
     },
     {
       "name": "AVパッケージ",
@@ -3848,7 +3852,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 116
+      "articles": 117
     },
     {
       "name": "AV女優検索",
@@ -7740,6 +7744,10 @@
     },
     {
       "name": "保育士",
+      "articles": 1
+    },
+    {
+      "name": "保育士設定",
       "articles": 1
     },
     {
