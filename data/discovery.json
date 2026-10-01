@@ -745,8 +745,8 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 426,
-    "works": 272,
+    "people": 427,
+    "works": 273,
     "topics": 2205
   },
   "people": [
@@ -2175,6 +2175,10 @@
       "articles": 1
     },
     {
+      "name": "綾瀬まりあ",
+      "articles": 1
+    },
+    {
       "name": "罵倒オナサポ",
       "articles": 1
     },
@@ -2782,6 +2786,10 @@
     },
     {
       "code": "HMN-898",
+      "articles": 1
+    },
+    {
+      "code": "HMN-918",
       "articles": 1
     },
     {
@@ -3832,7 +3840,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 115
+      "articles": 116
     },
     {
       "name": "AV女優検索",
@@ -4180,7 +4188,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 43
+      "articles": 44
     },
     {
       "name": "MOODYZ DIVA",
@@ -10428,7 +10436,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 157
+      "articles": 158
     },
     {
       "name": "画像ギャラリー",
