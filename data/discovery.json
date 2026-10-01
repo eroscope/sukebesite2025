@@ -736,9 +736,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 418,
+    "people": 419,
     "works": 271,
-    "topics": 2182
+    "topics": 2183
   },
   "people": [
     {
@@ -2035,6 +2035,10 @@
     },
     {
       "name": "真城はあと",
+      "articles": 1
+    },
+    {
+      "name": "真木今日子",
       "articles": 1
     },
     {
@@ -4146,6 +4150,10 @@
       "articles": 10
     },
     {
+      "name": "Madonna VR",
+      "articles": 1
+    },
+    {
       "name": "MadonnaVR",
       "articles": 2
     },
@@ -4455,7 +4463,7 @@
     },
     {
       "name": "VR",
-      "articles": 100
+      "articles": 101
     },
     {
       "name": "VR CHANNEL 005",
