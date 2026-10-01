@@ -746,7 +746,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 433,
+    "people": 434,
     "works": 274,
     "topics": 2209
   },
@@ -1749,6 +1749,10 @@
     },
     {
       "name": "柑橘めたる",
+      "articles": 1
+    },
+    {
+      "name": "柳いろは",
       "articles": 1
     },
     {
@@ -6529,7 +6533,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 93
+      "articles": 94
     },
     {
       "name": "ビビアン",
@@ -9933,7 +9937,7 @@
     },
     {
       "name": "水着",
-      "articles": 234
+      "articles": 235
     },
     {
       "name": "水着グラビア",
