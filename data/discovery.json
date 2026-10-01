@@ -740,9 +740,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 421,
+    "people": 422,
     "works": 272,
-    "topics": 2191
+    "topics": 2192
   },
   "people": [
     {
@@ -1863,6 +1863,10 @@
     },
     {
       "name": "江波りゅう",
+      "articles": 1
+    },
+    {
+      "name": "沖玲萌",
       "articles": 1
     },
     {
@@ -6455,7 +6459,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 88
+      "articles": 89
     },
     {
       "name": "ビビアン",
@@ -6571,6 +6575,10 @@
     },
     {
       "name": "フォトブック",
+      "articles": 1
+    },
+    {
+      "name": "フジコーズ",
       "articles": 1
     },
     {
@@ -9819,7 +9827,7 @@
     },
     {
       "name": "水着グラビア",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "水着コスプレ",
@@ -10355,7 +10363,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 153
+      "articles": 154
     },
     {
       "name": "画像ギャラリー",
