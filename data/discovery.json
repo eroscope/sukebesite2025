@@ -746,7 +746,7 @@
   "counts": {
     "people": 426,
     "works": 272,
-    "topics": 2203
+    "topics": 2205
   },
   "people": [
     {
@@ -6487,7 +6487,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 89
+      "articles": 90
     },
     {
       "name": "ビビアン",
@@ -6891,6 +6891,10 @@
     },
     {
       "name": "マルチャーナ",
+      "articles": 1
+    },
+    {
+      "name": "マンスジ",
       "articles": 1
     },
     {
@@ -9883,7 +9887,7 @@
     },
     {
       "name": "水着",
-      "articles": 229
+      "articles": 230
     },
     {
       "name": "水着グラビア",
@@ -10835,7 +10839,7 @@
     },
     {
       "name": "競泳水着",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "競輪",
@@ -12191,6 +12195,10 @@
     },
     {
       "name": "風船ゲーム",
+      "articles": 1
+    },
+    {
+      "name": "食い込み",
       "articles": 1
     },
     {
