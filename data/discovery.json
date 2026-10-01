@@ -736,7 +736,7 @@
   "counts": {
     "people": 417,
     "works": 270,
-    "topics": 2179
+    "topics": 2180
   },
   "people": [
     {
@@ -4617,7 +4617,7 @@
     },
     {
       "name": "えなこ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "えむっ娘ラボ",
@@ -6606,6 +6606,10 @@
     {
       "name": "プール",
       "articles": 16
+    },
+    {
+      "name": "プール撮影",
+      "articles": 1
     },
     {
       "name": "プール撮影会",
@@ -10705,7 +10709,7 @@
     },
     {
       "name": "競泳水着",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "競輪",
@@ -11625,7 +11629,7 @@
     },
     {
       "name": "透け感",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "透け感衣装",
