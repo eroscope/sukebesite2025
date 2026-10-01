@@ -388,6 +388,7 @@
     "topics/topic-89f5704bc74e.html",
     "topics/topic-8b2689c619bd.html",
     "topics/topic-8b43ace97b73.html",
+    "topics/topic-8b89c6d1813d.html",
     "topics/topic-8bb1bf8a8e8e.html",
     "topics/topic-8bfb267eba49.html",
     "topics/topic-8bfcb96c6a53.html",
@@ -740,7 +741,7 @@
   "counts": {
     "people": 420,
     "works": 271,
-    "topics": 2186
+    "topics": 2190
   },
   "people": [
     {
@@ -4632,6 +4633,10 @@
       "articles": 1
     },
     {
+      "name": "うどん",
+      "articles": 1
+    },
+    {
       "name": "うどん店",
       "articles": 1
     },
@@ -4813,6 +4818,10 @@
     },
     {
       "name": "ひむろっく",
+      "articles": 1
+    },
+    {
+      "name": "ひるおび！",
       "articles": 1
     },
     {
@@ -6477,6 +6486,10 @@
     },
     {
       "name": "ピンクトップス",
+      "articles": 1
+    },
+    {
+      "name": "ピンクニット",
       "articles": 1
     },
     {
@@ -8469,7 +8482,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 51
+      "articles": 52
     },
     {
       "name": "女子ゴルフ",
@@ -8613,6 +8626,10 @@
     },
     {
       "name": "学園設定",
+      "articles": 1
+    },
+    {
+      "name": "学食",
       "articles": 1
     },
     {
@@ -11265,7 +11282,7 @@
     },
     {
       "name": "若林有子",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "若桃",
