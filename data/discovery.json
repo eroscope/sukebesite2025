@@ -211,6 +211,7 @@
     "topics/topic-2f0913ed5df7.html",
     "topics/topic-2f91f5be8277.html",
     "topics/topic-2fb9014ffc21.html",
+    "topics/topic-3072f754860a.html",
     "topics/topic-30782ee81e82.html",
     "topics/topic-3081d7739206.html",
     "topics/topic-309200e20a10.html",
@@ -353,6 +354,7 @@
     "topics/topic-795d25e718e1.html",
     "topics/topic-797df32f29ec.html",
     "topics/topic-79bbc2e24b20.html",
+    "topics/topic-79fb63e5ec8e.html",
     "topics/topic-7a439a1175ee.html",
     "topics/topic-7aa488f78e72.html",
     "topics/topic-7b24795e07de.html",
@@ -736,7 +738,7 @@
   "counts": {
     "people": 418,
     "works": 271,
-    "topics": 2181
+    "topics": 2182
   },
   "people": [
     {
@@ -4453,7 +4455,7 @@
     },
     {
       "name": "VR",
-      "articles": 99
+      "articles": 100
     },
     {
       "name": "VR CHANNEL 005",
@@ -10845,7 +10847,7 @@
     },
     {
       "name": "素股",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "紫髪",
@@ -10861,6 +10863,10 @@
     },
     {
       "name": "結合部",
+      "articles": 1
+    },
+    {
+      "name": "結城花乃羽",
       "articles": 1
     },
     {
@@ -11001,7 +11007,7 @@
     },
     {
       "name": "義姉",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "義母",
