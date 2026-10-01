@@ -745,9 +745,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 427,
+    "people": 428,
     "works": 273,
-    "topics": 2205
+    "topics": 2206
   },
   "people": [
     {
@@ -2456,6 +2456,10 @@
     },
     {
       "name": "麻里梨夏",
+      "articles": 1
+    },
+    {
+      "name": "齋藤飛鳥",
       "articles": 1
     }
   ],
@@ -6244,7 +6248,7 @@
     },
     {
       "name": "ネットの反応",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "ノニ（noni）",
@@ -7428,7 +7432,7 @@
     },
     {
       "name": "乃木坂46",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "乃音のの",
@@ -12212,6 +12216,10 @@
     },
     {
       "name": "食レポ",
+      "articles": 1
+    },
+    {
+      "name": "食事シーン",
       "articles": 1
     },
     {
