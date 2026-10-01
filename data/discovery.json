@@ -746,7 +746,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 431,
+    "people": 432,
     "works": 274,
     "topics": 2208
   },
@@ -1494,6 +1494,10 @@
     {
       "name": "岡田紗佳",
       "articles": 2
+    },
+    {
+      "name": "岸明日香",
+      "articles": 1
     },
     {
       "name": "峯岸みなみ",
@@ -5121,7 +5125,7 @@
     },
     {
       "name": "イメージビデオ",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "イラスト",
@@ -7117,7 +7121,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 147
+      "articles": 148
     },
     {
       "name": "ランジェリー風",
@@ -9921,7 +9925,7 @@
     },
     {
       "name": "水着",
-      "articles": 231
+      "articles": 232
     },
     {
       "name": "水着グラビア",
