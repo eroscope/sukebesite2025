@@ -738,7 +738,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 419,
+    "people": 420,
     "works": 271,
     "topics": 2186
   },
@@ -977,6 +977,10 @@
     },
     {
       "name": "七海まの",
+      "articles": 1
+    },
+    {
+      "name": "七海まり",
       "articles": 1
     },
     {
@@ -7017,7 +7021,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 139
+      "articles": 140
     },
     {
       "name": "ランジェリー風",
@@ -7837,7 +7841,7 @@
     },
     {
       "name": "写真集",
-      "articles": 28
+      "articles": 29
     },
     {
       "name": "冨永実里",
@@ -9785,7 +9789,7 @@
     },
     {
       "name": "水着",
-      "articles": 225
+      "articles": 226
     },
     {
       "name": "水着グラビア",
