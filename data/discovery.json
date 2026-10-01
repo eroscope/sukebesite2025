@@ -744,7 +744,7 @@
   "counts": {
     "people": 425,
     "works": 272,
-    "topics": 2197
+    "topics": 2198
   },
   "people": [
     {
@@ -3681,7 +3681,7 @@
     },
     {
       "name": "8K",
-      "articles": 29
+      "articles": 30
     },
     {
       "name": "8K VR",
@@ -3825,7 +3825,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 113
+      "articles": 114
     },
     {
       "name": "AV女優検索",
@@ -4113,7 +4113,7 @@
     },
     {
       "name": "KMPVR",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "Kカップ",
@@ -4505,7 +4505,7 @@
     },
     {
       "name": "VR",
-      "articles": 101
+      "articles": 102
     },
     {
       "name": "VR CHANNEL 005",
@@ -8954,6 +8954,10 @@
     {
       "name": "川上しずく",
       "articles": 2
+    },
+    {
+      "name": "川上ゆう",
+      "articles": 1
     },
     {
       "name": "川瀬もえ",
