@@ -743,7 +743,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 425,
+    "people": 426,
     "works": 272,
     "topics": 2198
   },
@@ -1406,6 +1406,10 @@
     },
     {
       "name": "小栗操",
+      "articles": 1
+    },
+    {
+      "name": "小池里奈",
       "articles": 1
     },
     {
@@ -7078,7 +7082,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 142
+      "articles": 143
     },
     {
       "name": "ランジェリー風",
@@ -7898,7 +7902,7 @@
     },
     {
       "name": "写真集",
-      "articles": 29
+      "articles": 30
     },
     {
       "name": "冨永実里",
@@ -9862,7 +9866,7 @@
     },
     {
       "name": "水着",
-      "articles": 228
+      "articles": 229
     },
     {
       "name": "水着グラビア",
