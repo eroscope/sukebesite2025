@@ -744,7 +744,7 @@
   "counts": {
     "people": 422,
     "works": 272,
-    "topics": 2195
+    "topics": 2197
   },
   "people": [
     {
@@ -4736,6 +4736,10 @@
       "articles": 1
     },
     {
+      "name": "お色気シーン",
+      "articles": 1
+    },
+    {
       "name": "お色気画像",
       "articles": 1
     },
@@ -5013,7 +5017,7 @@
     },
     {
       "name": "アニメ",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "アニメ・漫画",
@@ -7437,7 +7441,7 @@
     },
     {
       "name": "乳首",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "乳首洗脳",
@@ -9516,6 +9520,10 @@
       "articles": 1
     },
     {
+      "name": "服ビリ",
+      "articles": 1
+    },
+    {
       "name": "服装",
       "articles": 1
     },
@@ -10089,7 +10097,7 @@
     },
     {
       "name": "漫画",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "漫画キャラクター",
@@ -10377,7 +10385,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 154
+      "articles": 155
     },
     {
       "name": "画像ギャラリー",
