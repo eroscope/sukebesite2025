@@ -43,6 +43,7 @@
     "people/person-5e0721bebbe4.html",
     "people/person-5f24314a7c10.html",
     "people/person-5fc9e30aedc2.html",
+    "people/person-62cf5090a36a.html",
     "people/person-63f3b4145307.html",
     "people/person-650731d956e5.html",
     "people/person-68e92c0c6847.html",
@@ -218,6 +219,7 @@
     "topics/topic-3189b4418993.html",
     "topics/topic-31cf0104d378.html",
     "topics/topic-32073fec122e.html",
+    "topics/topic-3214c0440640.html",
     "topics/topic-323450745cc2.html",
     "topics/topic-339b5a30e0a5.html",
     "topics/topic-346644279855.html",
@@ -738,7 +740,7 @@
   "counts": {
     "people": 419,
     "works": 271,
-    "topics": 2183
+    "topics": 2184
   },
   "people": [
     {
@@ -2335,7 +2337,7 @@
     },
     {
       "name": "鈴村あいり",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "長浜みつり",
@@ -4255,7 +4257,7 @@
     },
     {
       "name": "PRESTIGE",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "PR写真",
@@ -6107,7 +6109,7 @@
     },
     {
       "name": "ナース",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "ニット",
@@ -10475,7 +10477,7 @@
     },
     {
       "name": "白衣",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "白黒トップス",
@@ -11604,6 +11606,10 @@
     {
       "name": "足裏",
       "articles": 2
+    },
+    {
+      "name": "足責め",
+      "articles": 1
     },
     {
       "name": "身体",
