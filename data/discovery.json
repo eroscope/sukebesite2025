@@ -742,7 +742,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 423,
+    "people": 424,
     "works": 272,
     "topics": 2197
   },
@@ -1477,6 +1477,10 @@
     },
     {
       "name": "岡田紗佳",
+      "articles": 1
+    },
+    {
+      "name": "峯岸みなみ",
       "articles": 1
     },
     {
@@ -3749,7 +3753,7 @@
     },
     {
       "name": "AKB48",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ASMR",
@@ -7069,7 +7073,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 140
+      "articles": 141
     },
     {
       "name": "ランジェリー風",
@@ -9849,7 +9853,7 @@
     },
     {
       "name": "水着",
-      "articles": 227
+      "articles": 228
     },
     {
       "name": "水着グラビア",
