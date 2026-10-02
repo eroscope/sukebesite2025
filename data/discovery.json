@@ -129,6 +129,7 @@
     "topics/topic-04ef7bc3adc2.html",
     "topics/topic-050fab733e97.html",
     "topics/topic-0535bf05778f.html",
+    "topics/topic-061054efcd00.html",
     "topics/topic-067328416c99.html",
     "topics/topic-07064bd9e47d.html",
     "topics/topic-071c6f8e47cc.html",
@@ -750,7 +751,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 438,
+    "people": 439,
     "works": 277,
     "topics": 2225
   },
@@ -1534,6 +1535,10 @@
     {
       "name": "希望みう",
       "articles": 2
+    },
+    {
+      "name": "平野楓",
+      "articles": 1
     },
     {
       "name": "幸村泉希",
@@ -3881,7 +3886,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 31
+      "articles": 32
     },
     {
       "name": "AVパッケージ",
@@ -4257,7 +4262,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 45
+      "articles": 46
     },
     {
       "name": "MOODYZ DIVA",
@@ -6921,7 +6926,7 @@
     },
     {
       "name": "ポートレート",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "マイクロビキニ",
