@@ -753,7 +753,7 @@
   "counts": {
     "people": 440,
     "works": 277,
-    "topics": 2225
+    "topics": 2228
   },
   "people": [
     {
@@ -6790,7 +6790,7 @@
     },
     {
       "name": "プール",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "プール撮影",
@@ -9237,6 +9237,10 @@
       "articles": 5
     },
     {
+      "name": "後藤真希",
+      "articles": 1
+    },
+    {
       "name": "後輩",
       "articles": 2
     },
@@ -9986,6 +9990,10 @@
     },
     {
       "name": "気象予報士",
+      "articles": 1
+    },
+    {
+      "name": "水中写真",
       "articles": 1
     },
     {
@@ -11502,6 +11510,10 @@
     },
     {
       "name": "花守夏歩",
+      "articles": 1
+    },
+    {
+      "name": "芸能",
       "articles": 1
     },
     {
