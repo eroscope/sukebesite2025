@@ -753,7 +753,7 @@
   "counts": {
     "people": 440,
     "works": 277,
-    "topics": 2228
+    "topics": 2230
   },
   "people": [
     {
@@ -3918,7 +3918,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 118
+      "articles": 119
     },
     {
       "name": "AV女優検索",
@@ -3926,6 +3926,10 @@
     },
     {
       "name": "AV女優顔比較",
+      "articles": 1
+    },
+    {
+      "name": "AV男優",
       "articles": 1
     },
     {
@@ -9463,6 +9467,10 @@
     {
       "name": "掲示板まとめ",
       "articles": 4
+    },
+    {
+      "name": "掲示板反応",
+      "articles": 1
     },
     {
       "name": "握手会",
