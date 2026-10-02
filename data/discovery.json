@@ -8,6 +8,7 @@
     "people/person-08633b820b37.html",
     "people/person-0979d915b26e.html",
     "people/person-0b5c5c5ef71f.html",
+    "people/person-0b72ed29a2c8.html",
     "people/person-0df66632e9d9.html",
     "people/person-10970e1429a3.html",
     "people/person-12db991e1946.html",
@@ -470,6 +471,7 @@
     "topics/topic-ad4d9cc1b087.html",
     "topics/topic-ad614843cf44.html",
     "topics/topic-aecaac86ab2c.html",
+    "topics/topic-aee79e066391.html",
     "topics/topic-ai.html",
     "topics/topic-ai.html",
     "topics/topic-ai.html",
@@ -750,7 +752,7 @@
   "counts": {
     "people": 436,
     "works": 276,
-    "topics": 2223
+    "topics": 2224
   },
   "people": [
     {
@@ -1071,7 +1073,7 @@
     },
     {
       "name": "今田美桜",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "仲村みう",
@@ -6207,7 +6209,7 @@
     },
     {
       "name": "ドレス",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ドールズフロントライン2",
@@ -10891,6 +10893,10 @@
     },
     {
       "name": "福原みな",
+      "articles": 1
+    },
+    {
+      "name": "福岡モデル時代",
       "articles": 1
     },
     {
