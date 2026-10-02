@@ -751,7 +751,7 @@
   ],
   "counts": {
     "people": 438,
-    "works": 276,
+    "works": 277,
     "topics": 2225
   },
   "people": [
@@ -2671,6 +2671,10 @@
     },
     {
       "code": "CJOD-499",
+      "articles": 1
+    },
+    {
+      "code": "CJOD-513",
       "articles": 1
     },
     {
@@ -4813,7 +4817,7 @@
     },
     {
       "name": "お尻",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "お泊まり",
@@ -6565,7 +6569,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 94
+      "articles": 95
     },
     {
       "name": "ビビアン",
@@ -7173,7 +7177,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 152
+      "articles": 153
     },
     {
       "name": "ランジェリー風",
@@ -9013,7 +9017,7 @@
     },
     {
       "name": "尻",
-      "articles": 26
+      "articles": 27
     },
     {
       "name": "尻画像",
