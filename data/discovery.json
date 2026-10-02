@@ -754,7 +754,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 440,
+    "people": 441,
     "works": 277,
     "topics": 2232
   },
@@ -1845,6 +1845,10 @@
     },
     {
       "name": "森脇芹渚",
+      "articles": 1
+    },
+    {
+      "name": "森香澄",
       "articles": 1
     },
     {
@@ -7197,7 +7201,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 154
+      "articles": 155
     },
     {
       "name": "ランジェリー風",
@@ -7437,7 +7441,7 @@
     },
     {
       "name": "下着",
-      "articles": 111
+      "articles": 112
     },
     {
       "name": "下着ずらし",
