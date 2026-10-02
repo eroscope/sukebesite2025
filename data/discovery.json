@@ -750,7 +750,7 @@
   "counts": {
     "people": 435,
     "works": 275,
-    "topics": 2216
+    "topics": 2217
   },
   "people": [
     {
@@ -3819,7 +3819,7 @@
     },
     {
       "name": "AKB48",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ASMR",
@@ -7147,7 +7147,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 150
+      "articles": 151
     },
     {
       "name": "ランジェリー風",
@@ -8532,6 +8532,10 @@
     {
       "name": "大胆衣装",
       "articles": 3
+    },
+    {
+      "name": "大西桃香",
+      "articles": 1
     },
     {
       "name": "大開脚",
@@ -9967,7 +9971,7 @@
     },
     {
       "name": "水着",
-      "articles": 236
+      "articles": 237
     },
     {
       "name": "水着グラビア",
