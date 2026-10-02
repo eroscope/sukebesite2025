@@ -750,7 +750,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 437,
+    "people": 438,
     "works": 276,
     "topics": 2225
   },
@@ -1781,6 +1781,10 @@
     },
     {
       "name": "桃萌愛",
+      "articles": 1
+    },
+    {
+      "name": "桐原美月",
       "articles": 1
     },
     {
@@ -8013,7 +8017,7 @@
     },
     {
       "name": "写真集",
-      "articles": 32
+      "articles": 33
     },
     {
       "name": "冨永実里",
@@ -10005,7 +10009,7 @@
     },
     {
       "name": "水着",
-      "articles": 240
+      "articles": 241
     },
     {
       "name": "水着グラビア",
