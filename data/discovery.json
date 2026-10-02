@@ -173,6 +173,7 @@
     "topics/topic-1ae9cdbfb377.html",
     "topics/topic-1c08179d129d.html",
     "topics/topic-1c7fff2e2e56.html",
+    "topics/topic-1c9decee35fd.html",
     "topics/topic-1d4ebd368cf4.html",
     "topics/topic-1dcef0f9ba50.html",
     "topics/topic-1df59a08f37d.html",
@@ -758,7 +759,7 @@
   "counts": {
     "people": 444,
     "works": 278,
-    "topics": 2235
+    "topics": 2239
   },
   "people": [
     {
@@ -4139,7 +4140,7 @@
     },
     {
       "name": "GIF",
-      "articles": 22
+      "articles": 23
     },
     {
       "name": "GIF動画",
@@ -5059,6 +5060,10 @@
     },
     {
       "name": "めぐり",
+      "articles": 1
+    },
+    {
+      "name": "めざましテレビ",
       "articles": 1
     },
     {
@@ -6454,6 +6459,10 @@
       "articles": 1
     },
     {
+      "name": "バス",
+      "articles": 1
+    },
+    {
       "name": "バスケ",
       "articles": 1
     },
@@ -6643,7 +6652,7 @@
     },
     {
       "name": "ピタパン",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ピックルボール",
@@ -8450,6 +8459,10 @@
       "articles": 1
     },
     {
+      "name": "回転寿司",
+      "articles": 1
+    },
+    {
       "name": "地上波",
       "articles": 1
     },
@@ -8703,7 +8716,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 55
+      "articles": 56
     },
     {
       "name": "女子アナ設定",
@@ -9835,6 +9848,10 @@
     },
     {
       "name": "板野友美",
+      "articles": 1
+    },
+    {
+      "name": "林佑香",
       "articles": 1
     },
     {
