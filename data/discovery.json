@@ -217,6 +217,7 @@
     "topics/topic-2f0913ed5df7.html",
     "topics/topic-2f91f5be8277.html",
     "topics/topic-2fb9014ffc21.html",
+    "topics/topic-2fc8c5de1ca2.html",
     "topics/topic-3072f754860a.html",
     "topics/topic-30782ee81e82.html",
     "topics/topic-3081d7739206.html",
@@ -408,6 +409,7 @@
     "topics/topic-8k-vr.html",
     "topics/topic-8k.html",
     "topics/topic-8kvr.html",
+    "topics/topic-905ec4d2b774.html",
     "topics/topic-909a4929400c.html",
     "topics/topic-934370df8f88.html",
     "topics/topic-935eefe90081.html",
@@ -753,7 +755,7 @@
   "counts": {
     "people": 440,
     "works": 277,
-    "topics": 2230
+    "topics": 2231
   },
   "people": [
     {
@@ -5053,6 +5055,10 @@
       "articles": 1
     },
     {
+      "name": "ゆめみごこち",
+      "articles": 1
+    },
+    {
       "name": "ゆりさん（仮名）",
       "articles": 1
     },
@@ -6162,7 +6168,7 @@
     },
     {
       "name": "デジタル写真集",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "デニム",
@@ -6806,7 +6812,7 @@
     },
     {
       "name": "ヘアヌード",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ベアタ・モナリザ",
@@ -9022,7 +9028,7 @@
     },
     {
       "name": "小野六花",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "小野真弓",
