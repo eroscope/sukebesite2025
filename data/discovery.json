@@ -752,7 +752,7 @@
   "counts": {
     "people": 436,
     "works": 276,
-    "topics": 2224
+    "topics": 2225
   },
   "people": [
     {
@@ -3865,7 +3865,7 @@
     },
     {
       "name": "AVセール",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "AVデビュー",
@@ -5396,6 +5396,10 @@
       "articles": 1
     },
     {
+      "name": "ガチナンパ",
+      "articles": 1
+    },
+    {
       "name": "ガラス",
       "articles": 1
     },
@@ -6001,7 +6005,7 @@
     },
     {
       "name": "ソクミル",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "ソシャゲ",
@@ -7761,7 +7765,7 @@
     },
     {
       "name": "作品パッケージ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "作品画像",
