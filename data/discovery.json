@@ -749,8 +749,8 @@
   ],
   "counts": {
     "people": 435,
-    "works": 275,
-    "topics": 2217
+    "works": 276,
+    "topics": 2219
   },
   "people": [
     {
@@ -3316,6 +3316,10 @@
       "articles": 1
     },
     {
+      "code": "RCT-576",
+      "articles": 1
+    },
+    {
       "code": "RD-1372",
       "articles": 1
     },
@@ -3843,7 +3847,7 @@
     },
     {
       "name": "AVキャプチャ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "AVサンプル",
@@ -8734,6 +8738,10 @@
       "articles": 1
     },
     {
+      "name": "姉と従姉",
+      "articles": 1
+    },
+    {
       "name": "姉妹",
       "articles": 2
     },
@@ -10714,6 +10722,10 @@
       "articles": 1
     },
     {
+      "name": "目隠しゲーム",
+      "articles": 1
+    },
+    {
       "name": "直立",
       "articles": 1
     },
@@ -11587,7 +11599,7 @@
     },
     {
       "name": "裸体",
-      "articles": 81
+      "articles": 82
     },
     {
       "name": "裸体写真",
