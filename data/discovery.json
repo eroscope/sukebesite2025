@@ -750,7 +750,7 @@
   "counts": {
     "people": 435,
     "works": 276,
-    "topics": 2219
+    "topics": 2220
   },
   "people": [
     {
@@ -7151,7 +7151,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 151
+      "articles": 152
     },
     {
       "name": "ランジェリー風",
@@ -7887,6 +7887,10 @@
     },
     {
       "name": "先生と生徒",
+      "articles": 1
+    },
+    {
+      "name": "兒玉遥",
       "articles": 1
     },
     {
@@ -9979,7 +9983,7 @@
     },
     {
       "name": "水着",
-      "articles": 237
+      "articles": 238
     },
     {
       "name": "水着グラビア",
