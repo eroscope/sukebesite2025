@@ -758,9 +758,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 444,
+    "people": 445,
     "works": 279,
-    "topics": 2240
+    "topics": 2241
   },
   "people": [
     {
@@ -817,6 +817,10 @@
     },
     {
       "name": "さとみ",
+      "articles": 1
+    },
+    {
+      "name": "すずら",
       "articles": 1
     },
     {
@@ -9726,6 +9730,10 @@
     {
       "name": "時間停止",
       "articles": 2
+    },
+    {
+      "name": "晩餐会",
+      "articles": 1
     },
     {
       "name": "暑さ対策",
