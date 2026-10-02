@@ -748,9 +748,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 435,
+    "people": 436,
     "works": 276,
-    "topics": 2220
+    "topics": 2223
   },
   "people": [
     {
@@ -2147,6 +2147,10 @@
     },
     {
       "name": "竹内有紀",
+      "articles": 1
+    },
+    {
+      "name": "竹内由恵",
       "articles": 1
     },
     {
@@ -6682,6 +6686,10 @@
       "articles": 1
     },
     {
+      "name": "フリーアナウンサー",
+      "articles": 1
+    },
+    {
       "name": "フリーハンド魂",
       "articles": 1
     },
@@ -7384,6 +7392,10 @@
     {
       "name": "下乳",
       "articles": 5
+    },
+    {
+      "name": "下半身",
+      "articles": 1
     },
     {
       "name": "下着",
@@ -8627,7 +8639,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 54
+      "articles": 55
     },
     {
       "name": "女子アナ設定",
@@ -10632,6 +10644,10 @@
     {
       "name": "白ニット",
       "articles": 4
+    },
+    {
+      "name": "白パン線",
+      "articles": 1
     },
     {
       "name": "白ビキニ",
