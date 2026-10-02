@@ -748,7 +748,7 @@
   "counts": {
     "people": 434,
     "works": 274,
-    "topics": 2209
+    "topics": 2213
   },
   "people": [
     {
@@ -6560,6 +6560,10 @@
       "articles": 1
     },
     {
+      "name": "ピタパン",
+      "articles": 1
+    },
+    {
       "name": "ピックルボール",
       "articles": 1
     },
@@ -8593,7 +8597,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 52
+      "articles": 53
     },
     {
       "name": "女子ゴルフ",
@@ -8989,6 +8993,10 @@
     },
     {
       "name": "屋根工事",
+      "articles": 1
+    },
+    {
+      "name": "山口紗希",
       "articles": 1
     },
     {
@@ -10369,6 +10377,10 @@
     },
     {
       "name": "産後ママ",
+      "articles": 1
+    },
+    {
+      "name": "田んぼロケ",
       "articles": 1
     },
     {
@@ -11994,6 +12006,10 @@
     {
       "name": "長尺動画",
       "articles": 3
+    },
+    {
+      "name": "長崎・東彼杵町",
+      "articles": 1
     },
     {
       "name": "長澤まさみ",
