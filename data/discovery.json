@@ -198,6 +198,7 @@
     "topics/topic-246c05570841.html",
     "topics/topic-24c3b2d8dbdf.html",
     "topics/topic-24eb9cf57830.html",
+    "topics/topic-26527e7c3344.html",
     "topics/topic-265b59144445.html",
     "topics/topic-265d15fc856a.html",
     "topics/topic-267582395238.html",
@@ -755,7 +756,7 @@
   "counts": {
     "people": 440,
     "works": 277,
-    "topics": 2231
+    "topics": 2232
   },
   "people": [
     {
@@ -5928,7 +5929,7 @@
     },
     {
       "name": "スポーツウェア",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "スポーツ女子",
@@ -8040,7 +8041,7 @@
     },
     {
       "name": "写真集",
-      "articles": 33
+      "articles": 34
     },
     {
       "name": "冨永実里",
@@ -9683,6 +9684,10 @@
       "articles": 1
     },
     {
+      "name": "暫",
+      "articles": 1
+    },
+    {
       "name": "暴力万歳",
       "articles": 1
     },
@@ -10044,7 +10049,7 @@
     },
     {
       "name": "水着",
-      "articles": 241
+      "articles": 242
     },
     {
       "name": "水着グラビア",
