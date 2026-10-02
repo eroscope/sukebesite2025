@@ -516,6 +516,7 @@
     "topics/topic-b3572870fb59.html",
     "topics/topic-b3ef159cd12f.html",
     "topics/topic-b426cff04d6b.html",
+    "topics/topic-b44394677c9a.html",
     "topics/topic-b4aa2a32c1b3.html",
     "topics/topic-b4cfc5a67172.html",
     "topics/topic-b4da067dd417.html",
@@ -754,9 +755,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 442,
+    "people": 443,
     "works": 278,
-    "topics": 2234
+    "topics": 2235
   },
   "people": [
     {
@@ -1513,6 +1514,10 @@
     },
     {
       "name": "峯岸みなみ",
+      "articles": 1
+    },
+    {
+      "name": "川上ゆう",
       "articles": 1
     },
     {
@@ -4181,6 +4186,10 @@
     },
     {
       "name": "Hカップ時代",
+      "articles": 1
+    },
+    {
+      "name": "IANN-08",
       "articles": 1
     },
     {
@@ -10009,7 +10018,7 @@
     },
     {
       "name": "母親役",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "比較",
