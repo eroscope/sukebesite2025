@@ -253,6 +253,7 @@
     "topics/topic-3dvr.html",
     "topics/topic-3e0c0cc25958.html",
     "topics/topic-3e440ff2345c.html",
+    "topics/topic-3eacbc3bf943.html",
     "topics/topic-3fe20114f34d.html",
     "topics/topic-3p.html",
     "topics/topic-3p.html",
@@ -760,7 +761,7 @@
   "counts": {
     "people": 445,
     "works": 279,
-    "topics": 2241
+    "topics": 2243
   },
   "people": [
     {
@@ -5476,6 +5477,10 @@
       "articles": 1
     },
     {
+      "name": "ガチャ",
+      "articles": 1
+    },
+    {
       "name": "ガラス",
       "articles": 1
     },
@@ -5709,7 +5714,7 @@
     },
     {
       "name": "ゲームキャラ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ゲームキャラクター",
@@ -6085,7 +6090,7 @@
     },
     {
       "name": "ソシャゲ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ソシャゲコラボ",
@@ -7088,12 +7093,16 @@
       "articles": 1
     },
     {
+      "name": "ムチムチ",
+      "articles": 1
+    },
+    {
       "name": "ムーディーズ",
       "articles": 1
     },
     {
       "name": "メイド",
-      "articles": 21
+      "articles": 22
     },
     {
       "name": "メイドコスプレ",
@@ -7665,7 +7674,7 @@
     },
     {
       "name": "二次元",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "二次元キャラクター",
@@ -10109,7 +10118,7 @@
     },
     {
       "name": "水着",
-      "articles": 245
+      "articles": 246
     },
     {
       "name": "水着グラビア",
