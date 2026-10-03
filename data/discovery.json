@@ -355,6 +355,7 @@
     "topics/topic-70092af8e575.html",
     "topics/topic-710b57e0cad1.html",
     "topics/topic-71d84a4e08e8.html",
+    "topics/topic-72f2dfcdd9ed.html",
     "topics/topic-73773dcb8f71.html",
     "topics/topic-73c3d99c8ce8.html",
     "topics/topic-73ef55f7fae4.html",
@@ -766,7 +767,7 @@
   "counts": {
     "people": 446,
     "works": 280,
-    "topics": 2254
+    "topics": 2255
   },
   "people": [
     {
@@ -5955,7 +5956,7 @@
     },
     {
       "name": "スクール水着",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "スク水",
@@ -7391,7 +7392,7 @@
     },
     {
       "name": "ロッカー",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ロングスカート",
@@ -10143,6 +10144,10 @@
     },
     {
       "name": "水中撮影",
+      "articles": 1
+    },
+    {
+      "name": "水卜さくら",
       "articles": 1
     },
     {
