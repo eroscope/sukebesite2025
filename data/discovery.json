@@ -591,6 +591,7 @@
     "topics/topic-d00d6c817546.html",
     "topics/topic-d0a50a9ec866.html",
     "topics/topic-d0f68617ec6d.html",
+    "topics/topic-d13f4e57082c.html",
     "topics/topic-d2758a85ba0e.html",
     "topics/topic-d36caa93b02a.html",
     "topics/topic-d36e7a03fcec.html",
@@ -765,7 +766,7 @@
   "counts": {
     "people": 446,
     "works": 280,
-    "topics": 2253
+    "topics": 2254
   },
   "people": [
     {
@@ -5689,6 +5690,10 @@
       "articles": 1
     },
     {
+      "name": "グラマー",
+      "articles": 1
+    },
+    {
       "name": "グラマーボディ",
       "articles": 1
     },
@@ -7186,7 +7191,7 @@
     },
     {
       "name": "モデル",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ヤニねこ",
@@ -7522,7 +7527,7 @@
     },
     {
       "name": "下着",
-      "articles": 114
+      "articles": 115
     },
     {
       "name": "下着ずらし",
@@ -12310,7 +12315,7 @@
     },
     {
       "name": "集合写真",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "集団密着",
