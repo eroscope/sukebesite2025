@@ -159,6 +159,7 @@
     "topics/topic-11045b3190e8.html",
     "topics/topic-112da0c35486.html",
     "topics/topic-11c4c0e59e80.html",
+    "topics/topic-1232a9d8485f.html",
     "topics/topic-1321def3110d.html",
     "topics/topic-15690ba6bf52.html",
     "topics/topic-16288155e65c.html",
@@ -763,7 +764,7 @@
   "counts": {
     "people": 446,
     "works": 280,
-    "topics": 2248
+    "topics": 2252
   },
   "people": [
     {
@@ -5252,7 +5253,7 @@
     },
     {
       "name": "イラスト",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "イラストまとめ",
@@ -6451,6 +6452,10 @@
       "articles": 16
     },
     {
+      "name": "ハリー・ポッター",
+      "articles": 1
+    },
+    {
       "name": "ハンバーガー",
       "articles": 1
     },
@@ -7075,6 +7080,10 @@
       "articles": 1
     },
     {
+      "name": "マルフォイ",
+      "articles": 1
+    },
+    {
       "name": "マンスジ",
       "articles": 1
     },
@@ -7696,6 +7705,10 @@
     },
     {
       "name": "二次元キャラクター",
+      "articles": 1
+    },
+    {
+      "name": "二次創作",
       "articles": 1
     },
     {
@@ -8724,6 +8737,10 @@
     },
     {
       "name": "女体・性感帯図鑑",
+      "articles": 1
+    },
+    {
+      "name": "女体化",
       "articles": 1
     },
     {
