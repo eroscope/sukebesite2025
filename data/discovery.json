@@ -247,6 +247,7 @@
     "topics/topic-3ad6d9ebca93.html",
     "topics/topic-3b2ce5591771.html",
     "topics/topic-3c468e131bd3.html",
+    "topics/topic-3c5cbad8e493.html",
     "topics/topic-3cc515a34ee3.html",
     "topics/topic-3d9fa52eea90.html",
     "topics/topic-3dbb0d7317d1.html",
@@ -450,6 +451,7 @@
     "topics/topic-9cdef30322b5.html",
     "topics/topic-9de5bab4f2e7.html",
     "topics/topic-9dec44a3aaa7.html",
+    "topics/topic-9ea895fa1aa8.html",
     "topics/topic-9f1996918221.html",
     "topics/topic-9f387f9decd0.html",
     "topics/topic-9f6b62311a4c.html",
@@ -767,7 +769,7 @@
   "counts": {
     "people": 447,
     "works": 281,
-    "topics": 2261
+    "topics": 2262
   },
   "people": [
     {
@@ -5836,7 +5838,7 @@
     },
     {
       "name": "ゴルフ中継",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ゴルフ女子",
@@ -7136,7 +7138,7 @@
     },
     {
       "name": "ミニスカ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ミニスカート",
@@ -8820,7 +8822,7 @@
     },
     {
       "name": "女子ゴルフ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "女子大生",
@@ -9384,7 +9386,7 @@
     },
     {
       "name": "後ろ姿",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "後背位",
@@ -9772,6 +9774,10 @@
     },
     {
       "name": "日向由奈",
+      "articles": 1
+    },
+    {
+      "name": "日本女子オープン",
       "articles": 1
     },
     {
