@@ -770,7 +770,7 @@
   "counts": {
     "people": 447,
     "works": 281,
-    "topics": 2264
+    "topics": 2265
   },
   "people": [
     {
@@ -3983,7 +3983,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 121
+      "articles": 122
     },
     {
       "name": "AV女優検索",
@@ -4247,6 +4247,10 @@
     },
     {
       "name": "IFストーリー",
+      "articles": 1
+    },
+    {
+      "name": "IPPA",
       "articles": 1
     },
     {
@@ -9631,7 +9635,7 @@
     },
     {
       "name": "掲示板反応",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "握手会",
