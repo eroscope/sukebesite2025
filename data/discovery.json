@@ -759,9 +759,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 445,
+    "people": 446,
     "works": 280,
-    "topics": 2247
+    "topics": 2248
   },
   "people": [
     {
@@ -2271,6 +2271,10 @@
     {
       "name": "美園和花",
       "articles": 3
+    },
+    {
+      "name": "美少女フィギュア",
+      "articles": 1
     },
     {
       "name": "美谷朱音",
@@ -6614,7 +6618,7 @@
     },
     {
       "name": "パンツ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "パンツ交換",
@@ -6734,7 +6738,11 @@
     },
     {
       "name": "フィギュア",
-      "articles": 6
+      "articles": 7
+    },
+    {
+      "name": "フィギュア撮影",
+      "articles": 1
     },
     {
       "name": "フィットネス",
