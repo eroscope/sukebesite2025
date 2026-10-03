@@ -770,7 +770,7 @@
   "counts": {
     "people": 447,
     "works": 281,
-    "topics": 2262
+    "topics": 2264
   },
   "people": [
     {
@@ -7555,7 +7555,7 @@
     },
     {
       "name": "下着",
-      "articles": 115
+      "articles": 116
     },
     {
       "name": "下着ずらし",
@@ -8174,6 +8174,10 @@
       "articles": 2
     },
     {
+      "name": "冴木柚葉",
+      "articles": 1
+    },
+    {
       "name": "凰華りん",
       "articles": 2
     },
@@ -8631,6 +8635,10 @@
     },
     {
       "name": "変形水着",
+      "articles": 1
+    },
+    {
+      "name": "夏の余韻",
       "articles": 1
     },
     {
@@ -10215,7 +10223,7 @@
     },
     {
       "name": "水着",
-      "articles": 246
+      "articles": 247
     },
     {
       "name": "水着グラビア",
