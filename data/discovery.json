@@ -462,6 +462,7 @@
     "topics/topic-a53576038993.html",
     "topics/topic-a539d32496c9.html",
     "topics/topic-a55856791c43.html",
+    "topics/topic-a615e2a99a6f.html",
     "topics/topic-a6577e51aa03.html",
     "topics/topic-a6730f134ba7.html",
     "topics/topic-a77f1df74497.html",
@@ -764,7 +765,7 @@
   "counts": {
     "people": 446,
     "works": 280,
-    "topics": 2252
+    "topics": 2253
   },
   "people": [
     {
@@ -7281,7 +7282,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 156
+      "articles": 157
     },
     {
       "name": "ランジェリー風",
@@ -7521,7 +7522,7 @@
     },
     {
       "name": "下着",
-      "articles": 113
+      "articles": 114
     },
     {
       "name": "下着ずらし",
@@ -8281,7 +8282,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "匿名画像",
@@ -8885,7 +8886,7 @@
     },
     {
       "name": "妻",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "姉",
@@ -9138,6 +9139,10 @@
     {
       "name": "尻",
       "articles": 27
+    },
+    {
+      "name": "尻フェチ",
+      "articles": 1
     },
     {
       "name": "尻画像",
