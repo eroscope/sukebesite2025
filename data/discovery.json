@@ -761,7 +761,7 @@
   "counts": {
     "people": 445,
     "works": 279,
-    "topics": 2243
+    "topics": 2245
   },
   "people": [
     {
@@ -4405,6 +4405,10 @@
       "articles": 2
     },
     {
+      "name": "Nスタ",
+      "articles": 1
+    },
+    {
       "name": "OL",
       "articles": 12
     },
@@ -6190,7 +6194,7 @@
     },
     {
       "name": "テレビキャプチャ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "テレビ出演",
@@ -8738,7 +8742,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 56
+      "articles": 57
     },
     {
       "name": "女子アナ設定",
@@ -9690,6 +9694,10 @@
     },
     {
       "name": "日向由奈",
+      "articles": 1
+    },
+    {
+      "name": "日比麻音子",
       "articles": 1
     },
     {
@@ -11474,7 +11482,7 @@
     },
     {
       "name": "胸元",
-      "articles": 62
+      "articles": 63
     },
     {
       "name": "胸元チラ見え",
