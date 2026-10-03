@@ -768,9 +768,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 448,
-    "works": 282,
-    "topics": 2267
+    "people": 449,
+    "works": 283,
+    "topics": 2269
   },
   "people": [
     {
@@ -1392,6 +1392,10 @@
     {
       "name": "安達夕莉",
       "articles": 2
+    },
+    {
+      "name": "宍戸里帆",
+      "articles": 1
     },
     {
       "name": "宮下玲奈",
@@ -2705,6 +2709,10 @@
     },
     {
       "code": "CAWB-006",
+      "articles": 1
+    },
+    {
+      "code": "CAWB-021",
       "articles": 1
     },
     {
@@ -8930,6 +8938,10 @@
       "articles": 3
     },
     {
+      "name": "女芸人",
+      "articles": 1
+    },
+    {
       "name": "好み",
       "articles": 1
     },
@@ -9495,6 +9507,10 @@
     },
     {
       "name": "成人グラビア",
+      "articles": 1
+    },
+    {
+      "name": "成人作品",
       "articles": 1
     },
     {
