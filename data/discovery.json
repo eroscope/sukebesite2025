@@ -770,7 +770,7 @@
   "counts": {
     "people": 447,
     "works": 282,
-    "topics": 2265
+    "topics": 2267
   },
   "people": [
     {
@@ -4306,6 +4306,10 @@
       "articles": 6
     },
     {
+      "name": "M-OPPAI",
+      "articles": 1
+    },
+    {
       "name": "MADONNA",
       "articles": 1
     },
@@ -4599,7 +4603,7 @@
     },
     {
       "name": "SOD",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "SOD Star",
@@ -6131,7 +6135,7 @@
     },
     {
       "name": "セール",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "ソウルキャリバー",
@@ -8267,6 +8271,10 @@
     },
     {
       "name": "割れ目",
+      "articles": 1
+    },
+    {
+      "name": "割引",
       "articles": 1
     },
     {
