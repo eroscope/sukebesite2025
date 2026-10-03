@@ -767,7 +767,7 @@
   "counts": {
     "people": 446,
     "works": 280,
-    "topics": 2255
+    "topics": 2260
   },
   "people": [
     {
@@ -3715,6 +3715,10 @@
       "articles": 1
     },
     {
+      "name": "2026年秋アニメ",
+      "articles": 1
+    },
+    {
       "name": "20周年",
       "articles": 1
     },
@@ -4660,6 +4664,10 @@
     },
     {
       "name": "Uy Uy",
+      "articles": 1
+    },
+    {
+      "name": "VERTEX FORCE",
       "articles": 1
     },
     {
@@ -5859,6 +5867,10 @@
       "articles": 2
     },
     {
+      "name": "サービスカット",
+      "articles": 1
+    },
+    {
       "name": "シチュエーション",
       "articles": 1
     },
@@ -7036,6 +7048,10 @@
     },
     {
       "name": "マシン",
+      "articles": 1
+    },
+    {
+      "name": "マジカル★エクスプローラー",
       "articles": 1
     },
     {
@@ -10597,6 +10613,10 @@
     {
       "name": "生尻",
       "articles": 3
+    },
+    {
+      "name": "生徒会にも穴はある！",
+      "articles": 1
     },
     {
       "name": "生成AI",
