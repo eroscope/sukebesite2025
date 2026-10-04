@@ -145,6 +145,7 @@
     "topics/topic-0a0ea20a99a1.html",
     "topics/topic-0a4b018747ad.html",
     "topics/topic-0b312da6dd3f.html",
+    "topics/topic-0c519511b2e8.html",
     "topics/topic-0dff8343cfe0.html",
     "topics/topic-0e6797903b11.html",
     "topics/topic-0eb07ae3effa.html",
@@ -779,7 +780,7 @@
   "counts": {
     "people": 450,
     "works": 283,
-    "topics": 2289
+    "topics": 2291
   },
   "people": [
     {
@@ -5812,7 +5813,7 @@
     },
     {
       "name": "ゲームキャラクター",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ゲームコラボ",
@@ -6076,7 +6077,7 @@
     },
     {
       "name": "ストリートファイター6",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ストレッチ",
@@ -9931,6 +9932,10 @@
       "articles": 2
     },
     {
+      "name": "春麗",
+      "articles": 1
+    },
+    {
       "name": "昭和AV女優",
       "articles": 1
     },
@@ -10337,6 +10342,10 @@
     {
       "name": "水着グラビア",
       "articles": 9
+    },
+    {
+      "name": "水着コスチューム",
+      "articles": 1
     },
     {
       "name": "水着コスプレ",
