@@ -777,7 +777,7 @@
   "counts": {
     "people": 450,
     "works": 283,
-    "topics": 2285
+    "topics": 2288
   },
   "people": [
     {
@@ -6033,6 +6033,10 @@
       "articles": 2
     },
     {
+      "name": "スキンケア",
+      "articles": 1
+    },
+    {
       "name": "スクワット",
       "articles": 1
     },
@@ -6302,6 +6306,10 @@
     },
     {
       "name": "テレビ北海道",
+      "articles": 1
+    },
+    {
+      "name": "テレビ広告",
       "articles": 1
     },
     {
@@ -10453,6 +10461,10 @@
       "articles": 1
     },
     {
+      "name": "海外CM",
+      "articles": 1
+    },
+    {
       "name": "海外SNS",
       "articles": 1
     },
@@ -11970,7 +11982,7 @@
     },
     {
       "name": "裸体",
-      "articles": 84
+      "articles": 85
     },
     {
       "name": "裸体写真",
