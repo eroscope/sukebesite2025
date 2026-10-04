@@ -777,7 +777,7 @@
   "counts": {
     "people": 450,
     "works": 283,
-    "topics": 2284
+    "topics": 2285
   },
   "people": [
     {
@@ -5982,7 +5982,7 @@
     },
     {
       "name": "ジム",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ジャケット比較",
@@ -10357,6 +10357,10 @@
       "articles": 1
     },
     {
+      "name": "汗跡",
+      "articles": 1
+    },
+    {
       "name": "江南美沙子",
       "articles": 1
     },
@@ -11334,7 +11338,7 @@
     },
     {
       "name": "筋トレ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "筋肉",
@@ -11522,7 +11526,7 @@
     },
     {
       "name": "美女",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "美女3人",
