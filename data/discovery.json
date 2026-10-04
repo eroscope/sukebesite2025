@@ -609,6 +609,7 @@
     "topics/topic-d5ac2f996349.html",
     "topics/topic-d6576120d6c9.html",
     "topics/topic-d7209522408a.html",
+    "topics/topic-d770fd47aa4a.html",
     "topics/topic-d77f81e2b6d3.html",
     "topics/topic-d7b0db6974a0.html",
     "topics/topic-d7e2406282aa.html",
@@ -775,7 +776,7 @@
   "counts": {
     "people": 450,
     "works": 283,
-    "topics": 2282
+    "topics": 2284
   },
   "people": [
     {
@@ -4680,7 +4681,7 @@
     },
     {
       "name": "Steam",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "TAMEIKE",
@@ -5503,6 +5504,10 @@
       "articles": 1
     },
     {
+      "name": "オータムセール",
+      "articles": 1
+    },
+    {
       "name": "オーバンドルフ凜",
       "articles": 1
     },
@@ -5821,6 +5826,10 @@
     {
       "name": "ゲーム画像",
       "articles": 5
+    },
+    {
+      "name": "ゲーム紹介",
+      "articles": 1
     },
     {
       "name": "ゲーム衣装",
@@ -9584,7 +9593,7 @@
     },
     {
       "name": "成人向けゲーム",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "成人向けコミックス",
@@ -9716,7 +9725,7 @@
     },
     {
       "name": "掲示板まとめ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "掲示板反応",
