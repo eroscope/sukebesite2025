@@ -771,7 +771,7 @@
   "counts": {
     "people": 449,
     "works": 283,
-    "topics": 2274
+    "topics": 2275
   },
   "people": [
     {
@@ -4420,7 +4420,7 @@
     },
     {
       "name": "NHK",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "NHKアナウンサー",
@@ -5808,6 +5808,10 @@
     },
     {
       "name": "ゲーム衣装",
+      "articles": 1
+    },
+    {
+      "name": "コインランドリー",
       "articles": 1
     },
     {
@@ -8864,7 +8868,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 57
+      "articles": 58
     },
     {
       "name": "女子アナ設定",
@@ -9000,7 +9004,7 @@
     },
     {
       "name": "姫野美南",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "娘の彼氏",
@@ -10828,7 +10832,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 165
+      "articles": 166
     },
     {
       "name": "画像ギャラリー",
