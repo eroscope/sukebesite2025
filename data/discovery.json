@@ -770,9 +770,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 449,
+    "people": 450,
     "works": 283,
-    "topics": 2277
+    "topics": 2278
   },
   "people": [
     {
@@ -1633,6 +1633,10 @@
     },
     {
       "name": "手島優",
+      "articles": 1
+    },
+    {
+      "name": "斎藤恭代",
       "articles": 1
     },
     {
@@ -6576,6 +6580,10 @@
       "articles": 1
     },
     {
+      "name": "バスケ衣装",
+      "articles": 1
+    },
+    {
       "name": "バスツアー",
       "articles": 4
     },
@@ -10285,7 +10293,7 @@
     },
     {
       "name": "水着",
-      "articles": 248
+      "articles": 249
     },
     {
       "name": "水着グラビア",
@@ -10865,7 +10873,7 @@
     },
     {
       "name": "画像集",
-      "articles": 26
+      "articles": 27
     },
     {
       "name": "画像＋動画",
