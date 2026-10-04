@@ -475,6 +475,7 @@
     "topics/topic-a786644a793d.html",
     "topics/topic-a808e1aede8c.html",
     "topics/topic-a8e968517fcf.html",
+    "topics/topic-a90fc01fd71c.html",
     "topics/topic-aa511e6797a7.html",
     "topics/topic-aace97cc7e95.html",
     "topics/topic-ab67c0ff4bc5.html",
@@ -773,7 +774,7 @@
   "counts": {
     "people": 450,
     "works": 283,
-    "topics": 2281
+    "topics": 2282
   },
   "people": [
     {
@@ -8293,6 +8294,10 @@
       "articles": 7
     },
     {
+      "name": "剃毛",
+      "articles": 1
+    },
+    {
       "name": "前かがみ",
       "articles": 1
     },
@@ -8386,7 +8391,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "匿名画像",
@@ -12434,7 +12439,7 @@
     },
     {
       "name": "陰毛",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "陸上ウェア",
