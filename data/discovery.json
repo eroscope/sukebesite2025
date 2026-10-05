@@ -588,6 +588,7 @@
     "topics/topic-cb0581d4a2a9.html",
     "topics/topic-cb1b67b257cc.html",
     "topics/topic-cbbfe762584e.html",
+    "topics/topic-cc401f70f862.html",
     "topics/topic-cc782a927d84.html",
     "topics/topic-ccb8c7242126.html",
     "topics/topic-ccc33c6323a7.html",
@@ -780,7 +781,7 @@
   "counts": {
     "people": 453,
     "works": 283,
-    "topics": 2294
+    "topics": 2296
   },
   "people": [
     {
@@ -4785,7 +4786,7 @@
     },
     {
       "name": "YouTube",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "YouTuber",
@@ -9369,7 +9370,7 @@
     },
     {
       "name": "山田あい",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "山田ゆり",
@@ -9385,6 +9386,10 @@
     },
     {
       "name": "岩場",
+      "articles": 1
+    },
+    {
+      "name": "岸明日香",
       "articles": 1
     },
     {
@@ -9749,6 +9754,10 @@
     },
     {
       "name": "接吻性交",
+      "articles": 1
+    },
+    {
+      "name": "推し撮生会議",
       "articles": 1
     },
     {
