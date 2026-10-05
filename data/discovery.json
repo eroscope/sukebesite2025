@@ -789,7 +789,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 461,
+    "people": 462,
     "works": 283,
     "topics": 2322
   },
@@ -2404,6 +2404,10 @@
     },
     {
       "name": "莉々はるか",
+      "articles": 1
+    },
+    {
+      "name": "菊地姫奈",
       "articles": 1
     },
     {
@@ -8372,7 +8376,7 @@
     },
     {
       "name": "写真集",
-      "articles": 37
+      "articles": 38
     },
     {
       "name": "冨永実里",
@@ -10488,7 +10492,7 @@
     },
     {
       "name": "水着",
-      "articles": 259
+      "articles": 260
     },
     {
       "name": "水着グラビア",
