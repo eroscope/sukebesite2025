@@ -799,7 +799,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 468,
+    "people": 469,
     "works": 286,
     "topics": 2336
   },
@@ -1502,6 +1502,10 @@
     },
     {
       "name": "小松詩乃",
+      "articles": 1
+    },
+    {
+      "name": "小林萌花",
       "articles": 1
     },
     {
@@ -10562,7 +10566,7 @@
     },
     {
       "name": "水着",
-      "articles": 264
+      "articles": 265
     },
     {
       "name": "水着グラビア",
