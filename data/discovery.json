@@ -793,8 +793,8 @@
   ],
   "counts": {
     "people": 462,
-    "works": 283,
-    "topics": 2327
+    "works": 284,
+    "topics": 2328
   },
   "people": [
     {
@@ -1271,7 +1271,7 @@
     },
     {
       "name": "博多彩葉",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "友田彩也香",
@@ -3628,6 +3628,10 @@
       "articles": 1
     },
     {
+      "code": "SNOS-310",
+      "articles": 1
+    },
+    {
       "code": "SNOS-313",
       "articles": 1
     },
@@ -4079,7 +4083,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 127
+      "articles": 128
     },
     {
       "name": "AV女優検索",
@@ -4671,7 +4675,7 @@
     },
     {
       "name": "S1",
-      "articles": 29
+      "articles": 30
     },
     {
       "name": "S1 GIRLS COLLECTION",
@@ -6039,7 +6043,7 @@
     },
     {
       "name": "サンプル動画",
-      "articles": 15
+      "articles": 16
     },
     {
       "name": "サンプル画像",
@@ -12884,6 +12888,10 @@
     {
       "name": "風俗",
       "articles": 4
+    },
+    {
+      "name": "風俗プレイ",
+      "articles": 1
     },
     {
       "name": "風俗体験",
