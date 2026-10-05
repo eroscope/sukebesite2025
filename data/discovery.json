@@ -799,7 +799,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 469,
+    "people": 470,
     "works": 286,
     "topics": 2338
   },
@@ -1826,6 +1826,10 @@
     },
     {
       "name": "本間あさ美",
+      "articles": 1
+    },
+    {
+      "name": "杉本有美",
       "articles": 1
     },
     {
@@ -6946,7 +6950,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 107
+      "articles": 108
     },
     {
       "name": "ビビアン",
@@ -8442,7 +8446,7 @@
     },
     {
       "name": "写真集",
-      "articles": 38
+      "articles": 39
     },
     {
       "name": "冨永実里",
@@ -10570,7 +10574,7 @@
     },
     {
       "name": "水着",
-      "articles": 266
+      "articles": 267
     },
     {
       "name": "水着グラビア",
