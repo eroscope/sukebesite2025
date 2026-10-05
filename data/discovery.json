@@ -778,9 +778,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 450,
+    "people": 451,
     "works": 283,
-    "topics": 2291
+    "topics": 2293
   },
   "people": [
     {
@@ -2561,6 +2561,10 @@
     },
     {
       "name": "高城なぎさ",
+      "articles": 1
+    },
+    {
+      "name": "髙月りな",
       "articles": 1
     },
     {
@@ -6820,6 +6824,10 @@
       "articles": 1
     },
     {
+      "name": "ピンクビキニ",
+      "articles": 1
+    },
+    {
       "name": "ピンクボーダー",
       "articles": 1
     },
@@ -6897,6 +6905,10 @@
     },
     {
       "name": "フジコーズ",
+      "articles": 1
+    },
+    {
+      "name": "フラフープ",
       "articles": 1
     },
     {
