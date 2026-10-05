@@ -784,7 +784,7 @@
   "counts": {
     "people": 456,
     "works": 283,
-    "topics": 2303
+    "topics": 2305
   },
   "people": [
     {
@@ -3929,6 +3929,10 @@
     },
     {
       "name": "AIKA",
+      "articles": 1
+    },
+    {
+      "name": "AIアニメ",
       "articles": 1
     },
     {
@@ -7288,6 +7292,10 @@
       "articles": 1
     },
     {
+      "name": "ムチ",
+      "articles": 1
+    },
+    {
       "name": "ムチムチ",
       "articles": 1
     },
@@ -7453,7 +7461,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 161
+      "articles": 162
     },
     {
       "name": "ランジェリー風",
@@ -9661,7 +9669,7 @@
     },
     {
       "name": "成人向けアニメ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "成人向けイメージビデオ",
@@ -10841,7 +10849,7 @@
     },
     {
       "name": "生成AI",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "生挿入",
