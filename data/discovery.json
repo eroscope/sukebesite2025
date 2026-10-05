@@ -789,7 +789,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 459,
+    "people": 460,
     "works": 283,
     "topics": 2321
   },
@@ -1820,6 +1820,10 @@
     },
     {
       "name": "板野友美",
+      "articles": 1
+    },
+    {
+      "name": "林ゆめ",
       "articles": 1
     },
     {
@@ -7508,7 +7512,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 163
+      "articles": 164
     },
     {
       "name": "ランジェリー風",
@@ -10476,7 +10480,7 @@
     },
     {
       "name": "水着",
-      "articles": 258
+      "articles": 259
     },
     {
       "name": "水着グラビア",
