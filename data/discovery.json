@@ -796,11 +796,15 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 466,
+    "people": 467,
     "works": 286,
     "topics": 2335
   },
   "people": [
+    {
+      "name": "あかせあかり",
+      "articles": 1
+    },
     {
       "name": "あがりえひかり",
       "articles": 1
@@ -4343,7 +4347,7 @@
     },
     {
       "name": "Gカップ",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "HKT48",
@@ -6927,7 +6931,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 106
+      "articles": 107
     },
     {
       "name": "ビビアン",
@@ -10547,7 +10551,7 @@
     },
     {
       "name": "水着",
-      "articles": 263
+      "articles": 264
     },
     {
       "name": "水着グラビア",
