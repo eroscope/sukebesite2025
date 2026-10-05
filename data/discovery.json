@@ -779,9 +779,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 453,
+    "people": 454,
     "works": 283,
-    "topics": 2296
+    "topics": 2297
   },
   "people": [
     {
@@ -1999,6 +1999,10 @@
     {
       "name": "河北彩花",
       "articles": 3
+    },
+    {
+      "name": "泉里香",
+      "articles": 1
     },
     {
       "name": "波多野結衣",
@@ -5017,6 +5021,10 @@
       "articles": 3
     },
     {
+      "name": "くびれ",
+      "articles": 1
+    },
+    {
       "name": "くりぃむクイズミラクル9",
       "articles": 1
     },
@@ -6782,7 +6790,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 98
+      "articles": 99
     },
     {
       "name": "ビビアン",
@@ -10366,7 +10374,7 @@
     },
     {
       "name": "水着",
-      "articles": 252
+      "articles": 253
     },
     {
       "name": "水着グラビア",
