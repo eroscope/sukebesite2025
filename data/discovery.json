@@ -783,7 +783,7 @@
   "counts": {
     "people": 455,
     "works": 283,
-    "topics": 2300
+    "topics": 2302
   },
   "people": [
     {
@@ -2440,7 +2440,7 @@
     },
     {
       "name": "豊田ルナ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "貴島明日香",
@@ -5943,6 +5943,10 @@
       "articles": 1
     },
     {
+      "name": "サイン",
+      "articles": 1
+    },
+    {
       "name": "サウナ",
       "articles": 1
     },
@@ -6317,6 +6321,10 @@
     {
       "name": "チアリーダー",
       "articles": 2
+    },
+    {
+      "name": "チェキ",
+      "articles": 1
     },
     {
       "name": "チャイナドレス",
