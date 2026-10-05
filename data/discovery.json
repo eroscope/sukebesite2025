@@ -783,7 +783,7 @@
   "counts": {
     "people": 455,
     "works": 283,
-    "topics": 2298
+    "topics": 2300
   },
   "people": [
     {
@@ -2440,7 +2440,7 @@
     },
     {
       "name": "豊田ルナ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "貴島明日香",
@@ -7279,6 +7279,10 @@
       "articles": 1
     },
     {
+      "name": "メイキングムービー",
+      "articles": 1
+    },
+    {
       "name": "メイド",
       "articles": 22
     },
@@ -10500,7 +10504,7 @@
     },
     {
       "name": "浴槽",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "浴衣",
@@ -12216,6 +12220,10 @@
     },
     {
       "name": "赤いワンピース水着",
+      "articles": 1
+    },
+    {
+      "name": "赤い水着",
       "articles": 1
     },
     {
