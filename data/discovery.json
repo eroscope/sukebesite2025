@@ -799,7 +799,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 471,
+    "people": 472,
     "works": 287,
     "topics": 2340
   },
@@ -1594,6 +1594,10 @@
     },
     {
       "name": "山田鈴奈",
+      "articles": 1
+    },
+    {
+      "name": "岡田沙也加",
       "articles": 1
     },
     {
@@ -6622,7 +6626,7 @@
     },
     {
       "name": "ニット",
-      "articles": 21
+      "articles": 22
     },
     {
       "name": "ニットワンピース",
@@ -9134,7 +9138,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 61
+      "articles": 62
     },
     {
       "name": "女子アナ設定",
@@ -10538,7 +10542,7 @@
     },
     {
       "name": "気象予報士",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "水中写真",
@@ -11162,7 +11166,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 175
+      "articles": 176
     },
     {
       "name": "画像ギャラリー",
