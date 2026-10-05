@@ -801,7 +801,7 @@
   "counts": {
     "people": 469,
     "works": 286,
-    "topics": 2337
+    "topics": 2338
   },
   "people": [
     {
@@ -5153,6 +5153,10 @@
       "articles": 1
     },
     {
+      "name": "ご当地アイドル",
+      "articles": 1
+    },
+    {
       "name": "さくらみな",
       "articles": 1
     },
@@ -7582,7 +7586,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 165
+      "articles": 166
     },
     {
       "name": "ランジェリー風",
@@ -10566,7 +10570,7 @@
     },
     {
       "name": "水着",
-      "articles": 265
+      "articles": 266
     },
     {
       "name": "水着グラビア",
