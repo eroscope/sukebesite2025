@@ -789,9 +789,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 460,
+    "people": 461,
     "works": 283,
-    "topics": 2321
+    "topics": 2322
   },
   "people": [
     {
@@ -1525,6 +1525,10 @@
     {
       "name": "小野坂ゆいか",
       "articles": 2
+    },
+    {
+      "name": "小鈴みかん",
+      "articles": 1
     },
     {
       "name": "尾崎えりか",
@@ -4792,7 +4796,7 @@
     },
     {
       "name": "VR",
-      "articles": 103
+      "articles": 104
     },
     {
       "name": "VR CHANNEL 005",
@@ -8156,6 +8160,10 @@
     },
     {
       "name": "保育園の先生",
+      "articles": 1
+    },
+    {
+      "name": "保育園風セット",
       "articles": 1
     },
     {
