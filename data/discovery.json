@@ -784,7 +784,7 @@
   "counts": {
     "people": 456,
     "works": 283,
-    "topics": 2305
+    "topics": 2307
   },
   "people": [
     {
@@ -4793,6 +4793,10 @@
     },
     {
       "name": "WBS",
+      "articles": 1
+    },
+    {
+      "name": "WEB漫画",
       "articles": 1
     },
     {
@@ -9705,7 +9709,7 @@
     },
     {
       "name": "成人向け漫画",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "成人向け話題",
@@ -10681,7 +10685,7 @@
     },
     {
       "name": "漫画",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "漫画キャラクター",
@@ -10693,6 +10697,10 @@
     },
     {
       "name": "漫画サンプル",
+      "articles": 1
+    },
+    {
+      "name": "漫画家",
       "articles": 1
     },
     {
