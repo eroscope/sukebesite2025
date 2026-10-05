@@ -801,7 +801,7 @@
   "counts": {
     "people": 469,
     "works": 286,
-    "topics": 2336
+    "topics": 2337
   },
   "people": [
     {
@@ -5466,7 +5466,7 @@
     },
     {
       "name": "イラスト",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "イラストまとめ",
@@ -8006,7 +8006,7 @@
     },
     {
       "name": "二次元",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "二次元キャラクター",
@@ -9486,7 +9486,7 @@
     },
     {
       "name": "尻",
-      "articles": 27
+      "articles": 28
     },
     {
       "name": "尻フェチ",
@@ -11418,6 +11418,10 @@
     },
     {
       "name": "着物",
+      "articles": 1
+    },
+    {
+      "name": "着衣",
       "articles": 1
     },
     {
