@@ -778,7 +778,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 451,
+    "people": 452,
     "works": 283,
     "topics": 2293
   },
@@ -2482,6 +2482,10 @@
     {
       "name": "鈴の家りん",
       "articles": 3
+    },
+    {
+      "name": "鈴木ちなみ",
+      "articles": 1
     },
     {
       "name": "鈴木ふみ奈",
@@ -6773,7 +6777,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 97
+      "articles": 98
     },
     {
       "name": "ビビアン",
@@ -10349,7 +10353,7 @@
     },
     {
       "name": "水着",
-      "articles": 251
+      "articles": 252
     },
     {
       "name": "水着グラビア",
@@ -10913,7 +10917,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 167
+      "articles": 168
     },
     {
       "name": "画像ギャラリー",
