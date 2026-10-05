@@ -220,6 +220,7 @@
     "topics/topic-2ba133618e18.html",
     "topics/topic-2c270423c58c.html",
     "topics/topic-2c3c1a1af8ad.html",
+    "topics/topic-2d884d98abff.html",
     "topics/topic-2e494f665ea0.html",
     "topics/topic-2ec2be9eab78.html",
     "topics/topic-2ed10f6b9881.html",
@@ -784,7 +785,7 @@
   "counts": {
     "people": 457,
     "works": 283,
-    "topics": 2310
+    "topics": 2312
   },
   "people": [
     {
@@ -6505,7 +6506,7 @@
     },
     {
       "name": "ニット",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "ニットワンピース",
@@ -8932,6 +8933,10 @@
       "articles": 1
     },
     {
+      "name": "天気予報",
+      "articles": 1
+    },
+    {
       "name": "天沢ゆきね",
       "articles": 1
     },
@@ -9005,7 +9010,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 58
+      "articles": 59
     },
     {
       "name": "女子アナ設定",
@@ -9449,6 +9454,10 @@
     },
     {
       "name": "岡田桃佳",
+      "articles": 1
+    },
+    {
+      "name": "岡田沙也加",
       "articles": 1
     },
     {
@@ -10389,7 +10398,7 @@
     },
     {
       "name": "気象予報士",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "水中写真",
