@@ -801,7 +801,7 @@
   "counts": {
     "people": 471,
     "works": 287,
-    "topics": 2339
+    "topics": 2340
   },
   "people": [
     {
@@ -6958,7 +6958,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 108
+      "articles": 109
     },
     {
       "name": "ビビアン",
@@ -10582,7 +10582,7 @@
     },
     {
       "name": "水着",
-      "articles": 267
+      "articles": 268
     },
     {
       "name": "水着グラビア",
@@ -12742,6 +12742,10 @@
     },
     {
       "name": "長崎・東彼杵町",
+      "articles": 1
+    },
+    {
+      "name": "長月翠",
       "articles": 1
     },
     {
