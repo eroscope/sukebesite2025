@@ -694,6 +694,7 @@
     "topics/topic-f46f38bf91a3.html",
     "topics/topic-f4b53d5ab084.html",
     "topics/topic-f500c702a477.html",
+    "topics/topic-f52052e55ed1.html",
     "topics/topic-f5c2cb45438d.html",
     "topics/topic-f5da0ae6f566.html",
     "topics/topic-f62b608f9969.html",
@@ -793,8 +794,8 @@
   ],
   "counts": {
     "people": 462,
-    "works": 284,
-    "topics": 2328
+    "works": 285,
+    "topics": 2329
   },
   "people": [
     {
@@ -3492,6 +3493,10 @@
       "articles": 1
     },
     {
+      "code": "PXVR-499",
+      "articles": 1
+    },
+    {
       "code": "RCT-576",
       "articles": 1
     },
@@ -3839,6 +3844,10 @@
     },
     {
       "name": "2人乗り",
+      "articles": 1
+    },
+    {
+      "name": "31人",
       "articles": 1
     },
     {
@@ -4811,7 +4820,7 @@
     },
     {
       "name": "VR",
-      "articles": 104
+      "articles": 105
     },
     {
       "name": "VR CHANNEL 005",
@@ -9211,7 +9220,7 @@
     },
     {
       "name": "媚薬",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "嫁",
@@ -12283,7 +12292,7 @@
     },
     {
       "name": "調教",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "謎の光",
