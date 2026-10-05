@@ -352,6 +352,7 @@
     "topics/topic-6a5e50e11eca.html",
     "topics/topic-6d1d803fccd8.html",
     "topics/topic-6dc0f603699b.html",
+    "topics/topic-6dde1c3f590d.html",
     "topics/topic-6e7be2372480.html",
     "topics/topic-6ea7ac8bcee8.html",
     "topics/topic-6eac69881e67.html",
@@ -779,9 +780,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 454,
+    "people": 455,
     "works": 283,
-    "topics": 2297
+    "topics": 2298
   },
   "people": [
     {
@@ -2434,6 +2435,10 @@
     },
     {
       "name": "豊島心桜",
+      "articles": 1
+    },
+    {
+      "name": "豊田ルナ",
       "articles": 1
     },
     {
@@ -4430,6 +4435,10 @@
     },
     {
       "name": "Mina",
+      "articles": 1
+    },
+    {
+      "name": "MySPA!",
       "articles": 1
     },
     {
@@ -10374,7 +10383,7 @@
     },
     {
       "name": "水着",
-      "articles": 253
+      "articles": 254
     },
     {
       "name": "水着グラビア",
@@ -11594,7 +11603,7 @@
     },
     {
       "name": "美女地図",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "美女軍団",
