@@ -778,9 +778,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 452,
+    "people": 453,
     "works": 283,
-    "topics": 2293
+    "topics": 2294
   },
   "people": [
     {
@@ -1425,6 +1425,10 @@
     },
     {
       "name": "宮越虹海",
+      "articles": 1
+    },
+    {
+      "name": "寒川綾奈",
       "articles": 1
     },
     {
@@ -7409,7 +7413,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 160
+      "articles": 161
     },
     {
       "name": "ランジェリー風",
@@ -11569,6 +11573,10 @@
     },
     {
       "name": "美女3人",
+      "articles": 1
+    },
+    {
+      "name": "美女地図",
       "articles": 1
     },
     {
