@@ -793,8 +793,8 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 462,
-    "works": 285,
+    "people": 463,
+    "works": 286,
     "topics": 2329
   },
   "people": [
@@ -941,6 +941,10 @@
     {
       "name": "エロ配信",
       "articles": 2
+    },
+    {
+      "name": "コンカフェ",
+      "articles": 1
     },
     {
       "name": "コンパニオン",
@@ -3402,6 +3406,10 @@
     },
     {
       "code": "NIMA-078",
+      "articles": 1
+    },
+    {
+      "code": "NPJS-271",
       "articles": 1
     },
     {
@@ -6052,7 +6060,7 @@
     },
     {
       "name": "サンプル動画",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "サンプル画像",
@@ -7388,7 +7396,7 @@
     },
     {
       "name": "メイド",
-      "articles": 22
+      "articles": 23
     },
     {
       "name": "メイドコスプレ",
@@ -7900,7 +7908,7 @@
     },
     {
       "name": "乱交",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "乳フェチ",
