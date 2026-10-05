@@ -794,7 +794,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 465,
+    "people": 466,
     "works": 286,
     "topics": 2330
   },
@@ -1138,6 +1138,10 @@
     {
       "name": "伊織いお",
       "articles": 2
+    },
+    {
+      "name": "伊藤しほ乃",
+      "articles": 1
     },
     {
       "name": "伊藤百花",
@@ -5441,7 +5445,7 @@
     },
     {
       "name": "イメージビデオ",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "イラスト",
@@ -6917,7 +6921,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 105
+      "articles": 106
     },
     {
       "name": "ビビアン",
@@ -9853,7 +9857,7 @@
     },
     {
       "name": "手ブラ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "手マン",
