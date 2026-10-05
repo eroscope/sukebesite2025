@@ -5,6 +5,7 @@
     "people/person-009176ed9cb6.html",
     "people/person-01b978367f05.html",
     "people/person-071c6f8e47cc.html",
+    "people/person-076006cffcce.html",
     "people/person-08633b820b37.html",
     "people/person-0979d915b26e.html",
     "people/person-0b5c5c5ef71f.html",
@@ -790,7 +791,7 @@
   "counts": {
     "people": 458,
     "works": 283,
-    "topics": 2320
+    "topics": 2321
   },
   "people": [
     {
@@ -1927,7 +1928,7 @@
     },
     {
       "name": "森香澄",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "楓カレン",
@@ -4551,6 +4552,10 @@
     },
     {
       "name": "P-BOX VR",
+      "articles": 1
+    },
+    {
+      "name": "PEACH JOHN",
       "articles": 1
     },
     {
@@ -7499,7 +7504,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 162
+      "articles": 163
     },
     {
       "name": "ランジェリー風",
@@ -7739,7 +7744,7 @@
     },
     {
       "name": "下着",
-      "articles": 118
+      "articles": 119
     },
     {
       "name": "下着ずらし",
