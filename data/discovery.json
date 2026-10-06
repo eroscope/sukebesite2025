@@ -286,6 +286,7 @@
     "topics/topic-4464f1058733.html",
     "topics/topic-44a9ede3fb34.html",
     "topics/topic-4501c278da8f.html",
+    "topics/topic-45229929e160.html",
     "topics/topic-459503174895.html",
     "topics/topic-45cec0322496.html",
     "topics/topic-46.html",
@@ -814,7 +815,7 @@
   "counts": {
     "people": 484,
     "works": 288,
-    "topics": 2377
+    "topics": 2380
   },
   "people": [
     {
@@ -4658,6 +4659,10 @@
       "articles": 1
     },
     {
+      "name": "NHK長崎",
+      "articles": 1
+    },
+    {
       "name": "NHK青森",
       "articles": 1
     },
@@ -5187,7 +5192,7 @@
     },
     {
       "name": "お尻",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "お泊まり",
@@ -8610,6 +8615,10 @@
       "articles": 1
     },
     {
+      "name": "列島ニュース",
+      "articles": 1
+    },
+    {
       "name": "初VR",
       "articles": 1
     },
@@ -9715,7 +9724,7 @@
     },
     {
       "name": "山口紗希",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "山本里菜",
@@ -12719,6 +12728,10 @@
     },
     {
       "name": "農協職員風",
+      "articles": 1
+    },
+    {
+      "name": "農業レポート",
       "articles": 1
     },
     {
