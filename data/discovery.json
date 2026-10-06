@@ -801,9 +801,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 475,
+    "people": 476,
     "works": 287,
-    "topics": 2345
+    "topics": 2347
   },
   "people": [
     {
@@ -1948,6 +1948,10 @@
     },
     {
       "name": "桐谷まつり",
+      "articles": 1
+    },
+    {
+      "name": "桜本珠希",
       "articles": 1
     },
     {
@@ -4736,6 +4740,10 @@
     },
     {
       "name": "Redd@healsl9t",
+      "articles": 1
+    },
+    {
+      "name": "ReverseTokyo",
       "articles": 1
     },
     {
@@ -10107,6 +10115,10 @@
       "articles": 1
     },
     {
+      "name": "新体操",
+      "articles": 1
+    },
+    {
       "name": "新作",
       "articles": 1
     },
@@ -10612,7 +10624,7 @@
     },
     {
       "name": "水着グラビア",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "水着コスチューム",
