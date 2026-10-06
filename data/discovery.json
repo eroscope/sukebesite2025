@@ -808,7 +808,7 @@
   "counts": {
     "people": 483,
     "works": 288,
-    "topics": 2359
+    "topics": 2361
   },
   "people": [
     {
@@ -4633,7 +4633,7 @@
     },
     {
       "name": "NHK",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "NHKアナウンサー",
@@ -9124,6 +9124,10 @@
       "articles": 1
     },
     {
+      "name": "大谷舞風",
+      "articles": 1
+    },
+    {
       "name": "大開脚",
       "articles": 1
     },
@@ -9217,7 +9221,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 63
+      "articles": 64
     },
     {
       "name": "女子アナ設定",
@@ -10110,6 +10114,10 @@
     {
       "name": "放送事故",
       "articles": 2
+    },
+    {
+      "name": "放送画面",
+      "articles": 1
     },
     {
       "name": "教室",
@@ -12093,7 +12101,7 @@
     },
     {
       "name": "胸元",
-      "articles": 64
+      "articles": 65
     },
     {
       "name": "胸元チラ見え",
