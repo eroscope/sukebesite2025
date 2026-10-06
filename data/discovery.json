@@ -814,7 +814,7 @@
   "counts": {
     "people": 484,
     "works": 288,
-    "topics": 2376
+    "topics": 2377
   },
   "people": [
     {
@@ -7063,7 +7063,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 115
+      "articles": 116
     },
     {
       "name": "ビビアン",
@@ -9710,6 +9710,10 @@
       "articles": 1
     },
     {
+      "name": "山中知恵",
+      "articles": 1
+    },
+    {
       "name": "山口紗希",
       "articles": 1
     },
@@ -10739,7 +10743,7 @@
     },
     {
       "name": "水着",
-      "articles": 279
+      "articles": 280
     },
     {
       "name": "水着グラビア",
@@ -11323,7 +11327,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 184
+      "articles": 185
     },
     {
       "name": "画像ギャラリー",
