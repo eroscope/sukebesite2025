@@ -450,6 +450,7 @@
     "topics/topic-974a698e2fe9.html",
     "topics/topic-97603d7e1c16.html",
     "topics/topic-978473dda66d.html",
+    "topics/topic-97d2e2825721.html",
     "topics/topic-987379fc4da4.html",
     "topics/topic-98ef09539013.html",
     "topics/topic-99ce0abffefc.html",
@@ -801,7 +802,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 476,
+    "people": 477,
     "works": 287,
     "topics": 2347
   },
@@ -1993,6 +1994,10 @@
     {
       "name": "森香澄",
       "articles": 2
+    },
+    {
+      "name": "椿野ゆうこ",
+      "articles": 1
     },
     {
       "name": "楓カレン",
@@ -6716,7 +6721,7 @@
     },
     {
       "name": "ネットの反応",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "ノニ（noni）",
@@ -9088,7 +9093,7 @@
     },
     {
       "name": "天気予報",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "天沢ゆきね",
@@ -10576,7 +10581,7 @@
     },
     {
       "name": "気象予報士",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "水中写真",
