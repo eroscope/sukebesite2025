@@ -806,7 +806,7 @@
   "counts": {
     "people": 481,
     "works": 288,
-    "topics": 2350
+    "topics": 2352
   },
   "people": [
     {
@@ -4884,6 +4884,10 @@
     {
       "name": "TAMEIKE",
       "articles": 5
+    },
+    {
+      "name": "TBSニュース",
+      "articles": 1
     },
     {
       "name": "TENGA",
@@ -9115,7 +9119,7 @@
     },
     {
       "name": "天気予報",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "天沢ゆきね",
@@ -10607,7 +10611,7 @@
     },
     {
       "name": "気象予報士",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "水中写真",
@@ -11231,7 +11235,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 177
+      "articles": 178
     },
     {
       "name": "画像ギャラリー",
@@ -12155,6 +12159,10 @@
     },
     {
       "name": "自転車置き場",
+      "articles": 1
+    },
+    {
+      "name": "與猶茉穂",
       "articles": 1
     },
     {
