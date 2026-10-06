@@ -694,6 +694,7 @@
     "topics/topic-e854112cea12.html",
     "topics/topic-e871a34a6e7e.html",
     "topics/topic-e9800f84dbd8.html",
+    "topics/topic-ea8653fc014a.html",
     "topics/topic-eb809ce44c8e.html",
     "topics/topic-eb8a59fb9fbf.html",
     "topics/topic-eba147c85e26.html",
@@ -821,7 +822,7 @@
   "counts": {
     "people": 486,
     "works": 288,
-    "topics": 2387
+    "topics": 2389
   },
   "people": [
     {
@@ -6857,6 +6858,10 @@
       "articles": 2
     },
     {
+      "name": "ハイキック",
+      "articles": 1
+    },
+    {
       "name": "ハイレグ",
       "articles": 7
     },
@@ -7190,7 +7195,7 @@
     },
     {
       "name": "フィットネス",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "フィリピン",
@@ -10794,7 +10799,7 @@
     },
     {
       "name": "水着",
-      "articles": 285
+      "articles": 286
     },
     {
       "name": "水着グラビア",
@@ -11855,6 +11860,10 @@
     {
       "name": "筋トレ",
       "articles": 3
+    },
+    {
+      "name": "筋トレ女子",
+      "articles": 1
     },
     {
       "name": "筋肉",
