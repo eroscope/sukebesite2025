@@ -622,6 +622,7 @@
     "topics/topic-d0a50a9ec866.html",
     "topics/topic-d0f68617ec6d.html",
     "topics/topic-d13f4e57082c.html",
+    "topics/topic-d1748e32ee2b.html",
     "topics/topic-d2758a85ba0e.html",
     "topics/topic-d2ba985c6460.html",
     "topics/topic-d36caa93b02a.html",
@@ -803,7 +804,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 479,
+    "people": 480,
     "works": 288,
     "topics": 2348
   },
@@ -1334,6 +1335,10 @@
     },
     {
       "name": "同棲彼女",
+      "articles": 1
+    },
+    {
+      "name": "和地つかさ",
       "articles": 1
     },
     {
@@ -5354,7 +5359,7 @@
     },
     {
       "name": "むっちり",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "めい",
@@ -10638,7 +10643,7 @@
     },
     {
       "name": "水着",
-      "articles": 275
+      "articles": 276
     },
     {
       "name": "水着グラビア",
