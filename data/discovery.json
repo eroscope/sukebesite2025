@@ -804,9 +804,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 481,
+    "people": 482,
     "works": 288,
-    "topics": 2352
+    "topics": 2353
   },
   "people": [
     {
@@ -2127,6 +2127,10 @@
     },
     {
       "name": "浜辺美波",
+      "articles": 1
+    },
+    {
+      "name": "浦野モモ",
       "articles": 1
     },
     {
@@ -6539,7 +6543,7 @@
     },
     {
       "name": "テレビキャプチャ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "テレビ出演",
@@ -6680,6 +6684,10 @@
     {
       "name": "ニット",
       "articles": 22
+    },
+    {
+      "name": "ニットワンピ",
+      "articles": 1
     },
     {
       "name": "ニットワンピース",
@@ -9195,7 +9203,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 62
+      "articles": 63
     },
     {
       "name": "女子アナ設定",
@@ -12063,7 +12071,7 @@
     },
     {
       "name": "胸元",
-      "articles": 63
+      "articles": 64
     },
     {
       "name": "胸元チラ見え",
