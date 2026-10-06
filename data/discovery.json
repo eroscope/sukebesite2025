@@ -815,7 +815,7 @@
   "counts": {
     "people": 484,
     "works": 288,
-    "topics": 2380
+    "topics": 2382
   },
   "people": [
     {
@@ -4655,6 +4655,10 @@
       "articles": 6
     },
     {
+      "name": "NHKニュース7",
+      "articles": 1
+    },
+    {
       "name": "NHK大阪",
       "articles": 1
     },
@@ -6816,7 +6820,7 @@
     },
     {
       "name": "ノースリーブ",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "ノーハンドフェラ",
@@ -8683,6 +8687,10 @@
       "articles": 1
     },
     {
+      "name": "副島萌生",
+      "articles": 1
+    },
+    {
       "name": "割れ目",
       "articles": 1
     },
@@ -9280,7 +9288,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 64
+      "articles": 65
     },
     {
       "name": "女子アナ設定",
@@ -11336,7 +11344,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 187
+      "articles": 188
     },
     {
       "name": "画像ギャラリー",
