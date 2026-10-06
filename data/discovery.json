@@ -473,6 +473,7 @@
     "topics/topic-9d73266cbc88.html",
     "topics/topic-9de5bab4f2e7.html",
     "topics/topic-9dec44a3aaa7.html",
+    "topics/topic-9e9ebc8b882b.html",
     "topics/topic-9ea895fa1aa8.html",
     "topics/topic-9f1996918221.html",
     "topics/topic-9f387f9decd0.html",
@@ -806,7 +807,7 @@
   "counts": {
     "people": 483,
     "works": 288,
-    "topics": 2355
+    "topics": 2356
   },
   "people": [
     {
@@ -8527,7 +8528,7 @@
     },
     {
       "name": "写真集",
-      "articles": 41
+      "articles": 42
     },
     {
       "name": "冨永実里",
@@ -11003,7 +11004,7 @@
     },
     {
       "name": "瀬戸環奈",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "灰色ニット",
@@ -11391,6 +11392,10 @@
     },
     {
       "name": "白ワンピ",
+      "articles": 1
+    },
+    {
+      "name": "白ワンピース",
       "articles": 1
     },
     {
@@ -12935,7 +12940,7 @@
     },
     {
       "name": "雨と潮騒",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "雨宮ひびき",
