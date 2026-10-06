@@ -346,6 +346,7 @@
     "topics/topic-6178b11f2bab.html",
     "topics/topic-6188fdb6e5de.html",
     "topics/topic-61943548a743.html",
+    "topics/topic-62711d95aef4.html",
     "topics/topic-62754c6b059d.html",
     "topics/topic-62ac794272dd.html",
     "topics/topic-62b8a14c424c.html",
@@ -813,7 +814,7 @@
   "counts": {
     "people": 484,
     "works": 288,
-    "topics": 2374
+    "topics": 2376
   },
   "people": [
     {
@@ -4646,7 +4647,7 @@
     },
     {
       "name": "NHK",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "NHKアナウンサー",
@@ -5178,7 +5179,7 @@
     },
     {
       "name": "お天気お姉さん",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "お姉さん",
@@ -6590,6 +6591,10 @@
     },
     {
       "name": "テレビ朝日アナウンサー",
+      "articles": 1
+    },
+    {
+      "name": "テレビ画像",
       "articles": 1
     },
     {
@@ -10521,6 +10526,10 @@
       "articles": 1
     },
     {
+      "name": "栗拾い",
+      "articles": 1
+    },
+    {
       "name": "格闘ゲーム",
       "articles": 3
     },
@@ -12150,7 +12159,7 @@
     },
     {
       "name": "胸元",
-      "articles": 65
+      "articles": 66
     },
     {
       "name": "胸元チラ見え",
