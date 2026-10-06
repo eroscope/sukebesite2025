@@ -801,9 +801,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 474,
+    "people": 475,
     "works": 287,
-    "topics": 2344
+    "topics": 2345
   },
   "people": [
     {
@@ -1476,6 +1476,10 @@
     },
     {
       "name": "小坂ひまり",
+      "articles": 1
+    },
+    {
+      "name": "小宮有紗",
       "articles": 1
     },
     {
@@ -10604,7 +10608,7 @@
     },
     {
       "name": "水着",
-      "articles": 273
+      "articles": 274
     },
     {
       "name": "水着グラビア",
@@ -12737,6 +12741,10 @@
     {
       "name": "銀髪",
       "articles": 2
+    },
+    {
+      "name": "銀魂",
+      "articles": 1
     },
     {
       "name": "鎧",
