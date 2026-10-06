@@ -813,7 +813,7 @@
   "counts": {
     "people": 484,
     "works": 288,
-    "topics": 2370
+    "topics": 2371
   },
   "people": [
     {
@@ -4934,7 +4934,7 @@
     },
     {
       "name": "Tバック",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "UnfinishedVR",
@@ -8562,7 +8562,7 @@
     },
     {
       "name": "写真集",
-      "articles": 42
+      "articles": 43
     },
     {
       "name": "冨永実里",
@@ -12290,6 +12290,10 @@
     },
     {
       "name": "芸能人",
+      "articles": 1
+    },
+    {
+      "name": "芹那",
       "articles": 1
     },
     {
