@@ -568,6 +568,7 @@
     "topics/topic-b84b61e7e757.html",
     "topics/topic-b8981e960871.html",
     "topics/topic-b89d8be7513d.html",
+    "topics/topic-b8b44c97aaba.html",
     "topics/topic-b9b2957e3db9.html",
     "topics/topic-baf27cc23978.html",
     "topics/topic-bb69fdc44886.html",
@@ -811,7 +812,7 @@
   "counts": {
     "people": 484,
     "works": 288,
-    "topics": 2361
+    "topics": 2362
   },
   "people": [
     {
@@ -6052,7 +6053,7 @@
     },
     {
       "name": "ゲームキャラクター",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ゲームコラボ",
@@ -7128,7 +7129,7 @@
     },
     {
       "name": "フィギュア",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "フィギュア撮影",
@@ -7624,6 +7625,10 @@
     },
     {
       "name": "ライザのアトリエ",
+      "articles": 2
+    },
+    {
+      "name": "ライザリン・シュタウト",
       "articles": 1
     },
     {
@@ -9168,7 +9173,7 @@
     },
     {
       "name": "太もも",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "夫婦",
