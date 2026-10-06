@@ -803,7 +803,7 @@
   "counts": {
     "people": 474,
     "works": 287,
-    "topics": 2343
+    "topics": 2344
   },
   "people": [
     {
@@ -2148,7 +2148,7 @@
     },
     {
       "name": "瀬戸環奈",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "無無田",
@@ -4156,7 +4156,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 131
+      "articles": 132
     },
     {
       "name": "AV女優検索",
@@ -8468,7 +8468,7 @@
     },
     {
       "name": "写真集",
-      "articles": 39
+      "articles": 40
     },
     {
       "name": "冨永実里",
@@ -12852,6 +12852,10 @@
     },
     {
       "name": "雑誌表紙",
+      "articles": 1
+    },
+    {
+      "name": "雨と潮騒",
       "articles": 1
     },
     {
