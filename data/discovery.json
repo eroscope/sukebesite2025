@@ -804,9 +804,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 480,
+    "people": 481,
     "works": 288,
-    "topics": 2348
+    "topics": 2349
   },
   "people": [
     {
@@ -1279,6 +1279,10 @@
     },
     {
       "name": "千葉優花",
+      "articles": 1
+    },
+    {
+      "name": "南あみ",
       "articles": 1
     },
     {
@@ -5963,7 +5967,7 @@
     },
     {
       "name": "グラビアアイドル",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "グラビア動画",
@@ -10643,7 +10647,7 @@
     },
     {
       "name": "水着",
-      "articles": 276
+      "articles": 277
     },
     {
       "name": "水着グラビア",
@@ -10815,7 +10819,7 @@
     },
     {
       "name": "海辺",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "消火栓",
@@ -12956,6 +12960,10 @@
     {
       "name": "青ニット",
       "articles": 3
+    },
+    {
+      "name": "青ビキニ",
+      "articles": 1
     },
     {
       "name": "青姦",
