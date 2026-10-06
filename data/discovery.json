@@ -813,7 +813,7 @@
   "counts": {
     "people": 484,
     "works": 288,
-    "topics": 2372
+    "topics": 2374
   },
   "people": [
     {
@@ -4889,6 +4889,10 @@
       "articles": 1
     },
     {
+      "name": "Sakura",
+      "articles": 1
+    },
+    {
       "name": "Sheela A",
       "articles": 1
     },
@@ -6645,6 +6649,10 @@
       "articles": 2
     },
     {
+      "name": "トレーナー",
+      "articles": 1
+    },
+    {
       "name": "トレーニング",
       "articles": 2
     },
@@ -7050,7 +7058,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 114
+      "articles": 115
     },
     {
       "name": "ビビアン",
@@ -7274,7 +7282,7 @@
     },
     {
       "name": "プール",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "プール撮影",
@@ -10722,7 +10730,7 @@
     },
     {
       "name": "水着",
-      "articles": 278
+      "articles": 279
     },
     {
       "name": "水着グラビア",
