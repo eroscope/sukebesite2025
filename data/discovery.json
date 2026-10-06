@@ -814,7 +814,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 484,
+    "people": 485,
     "works": 288,
     "topics": 2382
   },
@@ -1625,6 +1625,10 @@
     },
     {
       "name": "山田鈴奈",
+      "articles": 1
+    },
+    {
+      "name": "岡田奈々",
       "articles": 1
     },
     {
@@ -4145,7 +4149,7 @@
     },
     {
       "name": "AKB48",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "ASMR",
@@ -8585,7 +8589,7 @@
     },
     {
       "name": "写真集",
-      "articles": 43
+      "articles": 44
     },
     {
       "name": "冨永実里",
@@ -10761,7 +10765,7 @@
     },
     {
       "name": "水着",
-      "articles": 281
+      "articles": 282
     },
     {
       "name": "水着グラビア",
