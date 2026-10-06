@@ -812,7 +812,7 @@
   "counts": {
     "people": 484,
     "works": 288,
-    "topics": 2362
+    "topics": 2364
   },
   "people": [
     {
@@ -8760,6 +8760,10 @@
       "articles": 1
     },
     {
+      "name": "原紗央莉",
+      "articles": 1
+    },
+    {
       "name": "収録NG",
       "articles": 1
     },
@@ -10081,7 +10085,7 @@
     },
     {
       "name": "掲示板",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "掲示板まとめ",
@@ -11037,6 +11041,10 @@
     },
     {
       "name": "無修正動画",
+      "articles": 1
+    },
+    {
+      "name": "無修正流出",
       "articles": 1
     },
     {
