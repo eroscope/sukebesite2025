@@ -499,6 +499,7 @@
     "topics/topic-a808e1aede8c.html",
     "topics/topic-a8e968517fcf.html",
     "topics/topic-a90fc01fd71c.html",
+    "topics/topic-a99917e86228.html",
     "topics/topic-aa511e6797a7.html",
     "topics/topic-aace97cc7e95.html",
     "topics/topic-ab67c0ff4bc5.html",
@@ -807,7 +808,7 @@
   "counts": {
     "people": 483,
     "works": 288,
-    "topics": 2356
+    "topics": 2359
   },
   "people": [
     {
@@ -4168,7 +4169,7 @@
     },
     {
       "name": "AVセール",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "AVデビュー",
@@ -8632,7 +8633,7 @@
     },
     {
       "name": "割引",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "動画あり",
@@ -11603,6 +11604,10 @@
       "articles": 1
     },
     {
+      "name": "神木麗",
+      "articles": 1
+    },
+    {
       "name": "祭り",
       "articles": 1
     },
@@ -12435,6 +12440,10 @@
       "articles": 1
     },
     {
+      "name": "西宮ゆめ",
+      "articles": 1
+    },
+    {
       "name": "覆面・マスク",
       "articles": 1
     },
@@ -13004,6 +13013,10 @@
     },
     {
       "name": "青姦",
+      "articles": 1
+    },
+    {
+      "name": "青空ひかり",
       "articles": 1
     },
     {
