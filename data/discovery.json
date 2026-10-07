@@ -835,7 +835,7 @@
   "counts": {
     "people": 496,
     "works": 291,
-    "topics": 2411
+    "topics": 2415
   },
   "people": [
     {
@@ -4195,6 +4195,10 @@
       "articles": 1
     },
     {
+      "name": "AIマットレス",
+      "articles": 1
+    },
+    {
       "name": "AI動画",
       "articles": 2
     },
@@ -6464,7 +6468,7 @@
     },
     {
       "name": "ストレッチ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "スパッツ",
@@ -7743,6 +7747,10 @@
       "articles": 3
     },
     {
+      "name": "モーニングショー",
+      "articles": 1
+    },
+    {
       "name": "ヤニねこ",
       "articles": 1
     },
@@ -8368,6 +8376,10 @@
     },
     {
       "name": "介護士",
+      "articles": 1
+    },
+    {
+      "name": "仰向け",
       "articles": 1
     },
     {
@@ -9432,7 +9444,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 65
+      "articles": 66
     },
     {
       "name": "女子アナ設定",
@@ -10656,6 +10668,10 @@
     },
     {
       "name": "松岡すず",
+      "articles": 1
+    },
+    {
+      "name": "松岡朱里",
       "articles": 1
     },
     {
