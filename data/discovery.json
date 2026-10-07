@@ -827,7 +827,7 @@
   "counts": {
     "people": 493,
     "works": 289,
-    "topics": 2395
+    "topics": 2396
   },
   "people": [
     {
@@ -7500,6 +7500,10 @@
     },
     {
       "name": "ポリコレ",
+      "articles": 1
+    },
+    {
+      "name": "ポルノ依存",
       "articles": 1
     },
     {
