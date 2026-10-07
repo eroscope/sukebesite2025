@@ -827,8 +827,8 @@
   ],
   "counts": {
     "people": 494,
-    "works": 289,
-    "topics": 2401
+    "works": 290,
+    "topics": 2403
   },
   "people": [
     {
@@ -3079,6 +3079,10 @@
     },
     {
       "code": "DVMM-435",
+      "articles": 1
+    },
+    {
+      "code": "DVMM-436",
       "articles": 1
     },
     {
@@ -5848,6 +5852,10 @@
       "articles": 2
     },
     {
+      "name": "カップル交換",
+      "articles": 1
+    },
+    {
       "name": "カップ数",
       "articles": 1
     },
@@ -6605,6 +6613,10 @@
     },
     {
       "name": "タイムトライアル",
+      "articles": 1
+    },
+    {
+      "name": "タオル一枚",
       "articles": 1
     },
     {
@@ -11057,7 +11069,7 @@
     },
     {
       "name": "混浴",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "清宮仁愛",
