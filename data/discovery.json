@@ -764,6 +764,7 @@
     "topics/topic-hkt48.html",
     "topics/topic-hunter.html",
     "topics/topic-i-mew.html",
+    "topics/topic-idea-pocket.html",
     "topics/topic-ideapocket.html",
     "topics/topic-instagram.html",
     "topics/topic-julia.html",
@@ -827,7 +828,7 @@
   "counts": {
     "people": 494,
     "works": 289,
-    "topics": 2398
+    "topics": 2401
   },
   "people": [
     {
@@ -4540,7 +4541,7 @@
     },
     {
       "name": "IDEA POCKET",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "IDEAPOCKET",
@@ -8923,6 +8924,10 @@
       "articles": 6
     },
     {
+      "name": "古川ほのか",
+      "articles": 1
+    },
+    {
       "name": "古希",
       "articles": 1
     },
@@ -8944,6 +8949,10 @@
     },
     {
       "name": "台湾FF",
+      "articles": 1
+    },
+    {
+      "name": "司書",
       "articles": 1
     },
     {
@@ -9084,6 +9093,10 @@
     },
     {
       "name": "回転寿司",
+      "articles": 1
+    },
+    {
+      "name": "図書館",
       "articles": 1
     },
     {
@@ -11700,7 +11713,7 @@
     },
     {
       "name": "眼鏡",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "眼鏡女子",
