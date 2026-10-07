@@ -840,7 +840,7 @@
   "counts": {
     "people": 499,
     "works": 292,
-    "topics": 2425
+    "topics": 2430
   },
   "people": [
     {
@@ -4473,6 +4473,10 @@
     },
     {
       "name": "FALENOstar",
+      "articles": 1
+    },
+    {
+      "name": "FANZA VR",
       "articles": 1
     },
     {
@@ -10188,6 +10192,10 @@
       "articles": 1
     },
     {
+      "name": "愛那あい",
+      "articles": 1
+    },
+    {
       "name": "懐かしAV",
       "articles": 1
     },
@@ -11378,6 +11386,14 @@
     {
       "name": "爽香",
       "articles": 2
+    },
+    {
+      "name": "牛丼店",
+      "articles": 1
+    },
+    {
+      "name": "牛柄ビキニ",
+      "articles": 1
     },
     {
       "name": "特撮ヒロイン",
@@ -13673,6 +13689,10 @@
     },
     {
       "name": "黒ワンピース",
+      "articles": 1
+    },
+    {
+      "name": "黒咲華",
       "articles": 1
     },
     {
