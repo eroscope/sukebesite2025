@@ -841,7 +841,7 @@
   "counts": {
     "people": 503,
     "works": 295,
-    "topics": 2438
+    "topics": 2439
   },
   "people": [
     {
@@ -1626,7 +1626,7 @@
     },
     {
       "name": "小鈴みかん",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "尾崎えりか",
@@ -7006,7 +7006,7 @@
     },
     {
       "name": "ノーブラ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ハイキック",
@@ -9963,6 +9963,10 @@
     {
       "name": "屋外撮影",
       "articles": 2
+    },
+    {
+      "name": "屋外露出",
+      "articles": 1
     },
     {
       "name": "屋根工事",
