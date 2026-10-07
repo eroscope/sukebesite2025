@@ -822,7 +822,7 @@
   "counts": {
     "people": 487,
     "works": 288,
-    "topics": 2391
+    "topics": 2392
   },
   "people": [
     {
@@ -5831,7 +5831,7 @@
     },
     {
       "name": "カルバン・クライン",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "カレーオフ会",
@@ -7995,7 +7995,7 @@
     },
     {
       "name": "下着",
-      "articles": 124
+      "articles": 125
     },
     {
       "name": "下着ずらし",
@@ -13491,6 +13491,10 @@
     },
     {
       "name": "齋藤陽",
+      "articles": 1
+    },
+    {
+      "name": "齋藤飛鳥",
       "articles": 1
     }
   ]
