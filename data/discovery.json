@@ -839,7 +839,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 502,
+    "people": 503,
     "works": 295,
     "topics": 2438
   },
@@ -1646,6 +1646,10 @@
     },
     {
       "name": "山本ゆう",
+      "articles": 1
+    },
+    {
+      "name": "山本舞衣子",
       "articles": 1
     },
     {
@@ -9514,7 +9518,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 66
+      "articles": 67
     },
     {
       "name": "女子アナ設定",
@@ -11642,7 +11646,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 197
+      "articles": 198
     },
     {
       "name": "画像ギャラリー",
