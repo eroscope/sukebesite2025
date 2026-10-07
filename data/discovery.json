@@ -835,7 +835,7 @@
   "counts": {
     "people": 495,
     "works": 291,
-    "topics": 2410
+    "topics": 2411
   },
   "people": [
     {
@@ -4700,6 +4700,10 @@
     },
     {
       "name": "Mina",
+      "articles": 1
+    },
+    {
+      "name": "MoeMi",
       "articles": 1
     },
     {
@@ -9200,7 +9204,7 @@
     },
     {
       "name": "声優",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "売り子",
@@ -12360,7 +12364,7 @@
     },
     {
       "name": "胸元",
-      "articles": 67
+      "articles": 68
     },
     {
       "name": "胸元チラ見え",
