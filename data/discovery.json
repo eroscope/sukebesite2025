@@ -839,7 +839,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 500,
+    "people": 501,
     "works": 294,
     "topics": 2436
   },
@@ -2167,6 +2167,10 @@
     {
       "name": "江波りゅう",
       "articles": 2
+    },
+    {
+      "name": "池本しおり",
+      "articles": 1
     },
     {
       "name": "池田エライザ",
@@ -7894,7 +7898,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 178
+      "articles": 179
     },
     {
       "name": "ランジェリー風",
@@ -11022,7 +11026,7 @@
     },
     {
       "name": "水着",
-      "articles": 292
+      "articles": 293
     },
     {
       "name": "水着グラビア",
