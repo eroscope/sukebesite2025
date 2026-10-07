@@ -833,7 +833,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 495,
+    "people": 496,
     "works": 291,
     "topics": 2411
   },
@@ -1997,6 +1997,10 @@
     {
       "name": "桃月なしこ",
       "articles": 3
+    },
+    {
+      "name": "桃田うた",
+      "articles": 1
     },
     {
       "name": "桃萌愛",
@@ -7072,7 +7076,7 @@
     },
     {
       "name": "バニー衣装",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "バブル期",
@@ -7184,7 +7188,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 119
+      "articles": 120
     },
     {
       "name": "ビビアン",
@@ -8708,7 +8712,7 @@
     },
     {
       "name": "写真集",
-      "articles": 45
+      "articles": 46
     },
     {
       "name": "冨永実里",
