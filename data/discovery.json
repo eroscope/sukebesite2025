@@ -839,7 +839,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 499,
+    "people": 500,
     "works": 294,
     "topics": 2436
   },
@@ -2703,6 +2703,10 @@
     {
       "name": "逢沢みゆ",
       "articles": 5
+    },
+    {
+      "name": "遠山景織子",
+      "articles": 1
     },
     {
       "name": "釈アリス",
@@ -8130,7 +8134,7 @@
     },
     {
       "name": "下着",
-      "articles": 130
+      "articles": 131
     },
     {
       "name": "下着ずらし",
@@ -9466,7 +9470,7 @@
     },
     {
       "name": "女優",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "女優比較",
