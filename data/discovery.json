@@ -71,6 +71,7 @@
     "people/person-930b667e4b37.html",
     "people/person-93f83543950d.html",
     "people/person-999a05dbad28.html",
+    "people/person-99ad91c62c12.html",
     "people/person-99ce0abffefc.html",
     "people/person-9da0bab509f9.html",
     "people/person-a1c7c1fcbab3.html",
@@ -822,7 +823,7 @@
   "counts": {
     "people": 487,
     "works": 288,
-    "topics": 2392
+    "topics": 2394
   },
   "people": [
     {
@@ -1007,7 +1008,7 @@
     },
     {
       "name": "トラウデン直美",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "パイスラ",
@@ -6611,7 +6612,7 @@
     },
     {
       "name": "テレビキャプチャ",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "テレビ出演",
@@ -10014,6 +10015,10 @@
       "articles": 1
     },
     {
+      "name": "情報番組",
+      "articles": 1
+    },
+    {
       "name": "愛人不倫",
       "articles": 1
     },
@@ -12695,6 +12700,10 @@
     },
     {
       "name": "赤Vネック",
+      "articles": 1
+    },
+    {
+      "name": "赤いドレス",
       "articles": 1
     },
     {
