@@ -427,6 +427,7 @@
     "topics/topic-8606c77a40d7.html",
     "topics/topic-86b19c9ac1d9.html",
     "topics/topic-86d13ac03a31.html",
+    "topics/topic-87168f2c7933.html",
     "topics/topic-8731d1fd5ecc.html",
     "topics/topic-87b1b5f5efa7.html",
     "topics/topic-89e4949f9542.html",
@@ -658,6 +659,7 @@
     "topics/topic-d8f933e9ab9e.html",
     "topics/topic-d9041f832b92.html",
     "topics/topic-da2a872c803c.html",
+    "topics/topic-da3aa3e3110e.html",
     "topics/topic-das.html",
     "topics/topic-db6a948c0161.html",
     "topics/topic-dc0613dae17b.html",
@@ -829,8 +831,8 @@
   ],
   "counts": {
     "people": 495,
-    "works": 290,
-    "topics": 2406
+    "works": 291,
+    "topics": 2407
   },
   "people": [
     {
@@ -3744,6 +3746,10 @@
       "articles": 1
     },
     {
+      "code": "SDAM-182",
+      "articles": 1
+    },
+    {
       "code": "SDDE-769",
       "articles": 1
     },
@@ -5715,7 +5721,7 @@
     },
     {
       "name": "エステ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "エスワン",
@@ -6627,7 +6633,7 @@
     },
     {
       "name": "タオル一枚",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "タトゥー",
@@ -7627,6 +7633,10 @@
     },
     {
       "name": "ミスマガジン",
+      "articles": 1
+    },
+    {
+      "name": "ミッション",
       "articles": 1
     },
     {
@@ -11123,7 +11133,7 @@
     },
     {
       "name": "温泉",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "温泉AV",
@@ -12667,7 +12677,7 @@
     },
     {
       "name": "複数出演",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "複数女性",
