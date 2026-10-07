@@ -149,6 +149,7 @@
     "topics/topic-067328416c99.html",
     "topics/topic-07064bd9e47d.html",
     "topics/topic-071c6f8e47cc.html",
+    "topics/topic-073eafeb0c95.html",
     "topics/topic-07e40f87bd03.html",
     "topics/topic-0857c51434ee.html",
     "topics/topic-088303c984d0.html",
@@ -672,6 +673,7 @@
     "topics/topic-dd327884d8c9.html",
     "topics/topic-dd8a0d3b585f.html",
     "topics/topic-ddb634c33c58.html",
+    "topics/topic-de1f09b6e96d.html",
     "topics/topic-de92f995f049.html",
     "topics/topic-dedcb64739e6.html",
     "topics/topic-deep-s.html",
@@ -834,9 +836,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 498,
+    "people": 499,
     "works": 292,
-    "topics": 2419
+    "topics": 2420
   },
   "people": [
     {
@@ -1917,6 +1919,10 @@
     },
     {
       "name": "本間あさ美",
+      "articles": 1
+    },
+    {
+      "name": "杉本彩",
       "articles": 1
     },
     {
@@ -5701,7 +5707,7 @@
     },
     {
       "name": "インタビュー",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "インタビュー風",
@@ -10024,6 +10030,10 @@
       "articles": 1
     },
     {
+      "name": "年齢差",
+      "articles": 1
+    },
+    {
       "name": "幸村泉希",
       "articles": 3
     },
@@ -12549,7 +12559,7 @@
     },
     {
       "name": "芸能",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "芸能人",
