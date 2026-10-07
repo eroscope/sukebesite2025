@@ -833,9 +833,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 497,
+    "people": 498,
     "works": 291,
-    "topics": 2417
+    "topics": 2418
   },
   "people": [
     {
@@ -1465,6 +1465,10 @@
     {
       "name": "奥田咲",
       "articles": 3
+    },
+    {
+      "name": "女性向けエロ漫画",
+      "articles": 1
     },
     {
       "name": "女性型ロボット",
@@ -8491,6 +8495,10 @@
       "articles": 6
     },
     {
+      "name": "作品表紙",
+      "articles": 1
+    },
+    {
       "name": "作品談義",
       "articles": 1
     },
@@ -9060,7 +9068,7 @@
     },
     {
       "name": "同人誌",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "同人音声",
@@ -10208,7 +10216,7 @@
     },
     {
       "name": "成人向け漫画",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "成人向け話題",
