@@ -821,8 +821,8 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 490,
-    "works": 288,
+    "people": 491,
+    "works": 289,
     "topics": 2394
   },
   "people": [
@@ -1268,6 +1268,10 @@
     },
     {
       "name": "前田のの",
+      "articles": 1
+    },
+    {
+      "name": "剱聖蓮",
       "articles": 1
     },
     {
@@ -2977,6 +2981,10 @@
       "articles": 1
     },
     {
+      "code": "CJOD-540",
+      "articles": 1
+    },
+    {
       "code": "CNSTV-035",
       "articles": 1
     },
@@ -4244,7 +4252,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 134
+      "articles": 135
     },
     {
       "name": "AV女優検索",
@@ -5988,7 +5996,7 @@
     },
     {
       "name": "ギャル",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "ギャルインフルエンサー",
@@ -11468,7 +11476,7 @@
     },
     {
       "name": "痴女",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "痴女ヘブン",
