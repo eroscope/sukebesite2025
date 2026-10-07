@@ -833,9 +833,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 496,
+    "people": 497,
     "works": 291,
-    "topics": 2415
+    "topics": 2416
   },
   "people": [
     {
@@ -1480,6 +1480,10 @@
     },
     {
       "name": "姫野らん",
+      "articles": 1
+    },
+    {
+      "name": "宇佐美みおん",
       "articles": 1
     },
     {
@@ -7452,7 +7456,7 @@
     },
     {
       "name": "ベッドシーン",
-      "articles": 27
+      "articles": 28
     },
     {
       "name": "ベッド上",
@@ -8092,7 +8096,7 @@
     },
     {
       "name": "下着",
-      "articles": 127
+      "articles": 128
     },
     {
       "name": "下着ずらし",
@@ -13376,6 +13380,10 @@
     },
     {
       "name": "顔まわり",
+      "articles": 1
+    },
+    {
+      "name": "顔モザイク",
       "articles": 1
     },
     {
