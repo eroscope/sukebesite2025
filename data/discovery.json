@@ -832,7 +832,7 @@
   "counts": {
     "people": 495,
     "works": 291,
-    "topics": 2407
+    "topics": 2410
   },
   "people": [
     {
@@ -4285,7 +4285,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 137
+      "articles": 138
     },
     {
       "name": "AV女優検索",
@@ -7301,7 +7301,7 @@
     },
     {
       "name": "フェラチオ",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "フォトブック",
@@ -8401,6 +8401,10 @@
     },
     {
       "name": "佐々木若葉",
+      "articles": 1
+    },
+    {
+      "name": "佐伯由美香",
       "articles": 1
     },
     {
@@ -10736,6 +10740,10 @@
       "articles": 1
     },
     {
+      "name": "桜井あゆ",
+      "articles": 1
+    },
+    {
       "name": "桜井千春",
       "articles": 1
     },
@@ -11853,6 +11861,10 @@
     },
     {
       "name": "神木麗",
+      "articles": 1
+    },
+    {
+      "name": "神納花",
       "articles": 1
     },
     {
