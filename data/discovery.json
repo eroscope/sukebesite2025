@@ -830,7 +830,7 @@
   "counts": {
     "people": 494,
     "works": 290,
-    "topics": 2403
+    "topics": 2405
   },
   "people": [
     {
@@ -4487,7 +4487,7 @@
     },
     {
       "name": "GIF",
-      "articles": 26
+      "articles": 27
     },
     {
       "name": "GIF動画",
@@ -5579,7 +5579,7 @@
     },
     {
       "name": "アナウンサー",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "アナル",
@@ -6330,6 +6330,10 @@
       "articles": 2
     },
     {
+      "name": "ショートレギンス",
+      "articles": 1
+    },
+    {
       "name": "ショート動画",
       "articles": 1
     },
@@ -6339,7 +6343,7 @@
     },
     {
       "name": "ジム",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "ジャケット比較",
@@ -6755,7 +6759,7 @@
     },
     {
       "name": "トレーニング",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "トレーニングウェア",
@@ -10987,6 +10991,10 @@
     },
     {
       "name": "流出風",
+      "articles": 1
+    },
+    {
+      "name": "浅倉美恩",
       "articles": 1
     },
     {
