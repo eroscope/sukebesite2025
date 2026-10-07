@@ -841,7 +841,7 @@
   "counts": {
     "people": 499,
     "works": 294,
-    "topics": 2434
+    "topics": 2436
   },
   "people": [
     {
@@ -8766,7 +8766,7 @@
     },
     {
       "name": "写真集",
-      "articles": 47
+      "articles": 48
     },
     {
       "name": "冨永実里",
@@ -9559,6 +9559,10 @@
     {
       "name": "女性同士",
       "articles": 3
+    },
+    {
+      "name": "女性声優",
+      "articles": 1
     },
     {
       "name": "女性幽霊",
@@ -10761,6 +10765,10 @@
       "articles": 1
     },
     {
+      "name": "林鼓子",
+      "articles": 1
+    },
+    {
       "name": "果南",
       "articles": 1
     },
@@ -11010,7 +11018,7 @@
     },
     {
       "name": "水着",
-      "articles": 291
+      "articles": 292
     },
     {
       "name": "水着グラビア",
