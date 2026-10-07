@@ -830,7 +830,7 @@
   "counts": {
     "people": 494,
     "works": 290,
-    "topics": 2405
+    "topics": 2406
   },
   "people": [
     {
@@ -5643,7 +5643,7 @@
     },
     {
       "name": "イメージビデオ",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "イラスト",
@@ -5963,7 +5963,7 @@
     },
     {
       "name": "キャプチャ画像",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "キャプ画像",
@@ -11414,6 +11414,10 @@
       "articles": 2
     },
     {
+      "name": "男女の絡み",
+      "articles": 1
+    },
+    {
       "name": "男水着",
       "articles": 1
     },
@@ -12623,7 +12627,7 @@
     },
     {
       "name": "裸体",
-      "articles": 91
+      "articles": 92
     },
     {
       "name": "裸体写真",
