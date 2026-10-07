@@ -839,7 +839,7 @@
   "counts": {
     "people": 499,
     "works": 292,
-    "topics": 2422
+    "topics": 2424
   },
   "people": [
     {
@@ -4316,7 +4316,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 138
+      "articles": 139
     },
     {
       "name": "AV女優検索",
@@ -8432,7 +8432,7 @@
     },
     {
       "name": "似てる女優",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "住田紗里",
@@ -8904,6 +8904,10 @@
     },
     {
       "name": "化粧品会社",
+      "articles": 1
+    },
+    {
+      "name": "北島愛菜",
       "articles": 1
     },
     {
@@ -9837,6 +9841,10 @@
     {
       "name": "小池里奈",
       "articles": 2
+    },
+    {
+      "name": "小谷アリサ",
+      "articles": 1
     },
     {
       "name": "小豆もち",
@@ -13448,7 +13456,7 @@
     },
     {
       "name": "顔比較",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "顔認識",
