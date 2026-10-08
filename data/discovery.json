@@ -853,7 +853,7 @@
   "counts": {
     "people": 512,
     "works": 298,
-    "topics": 2471
+    "topics": 2472
   },
   "people": [
     {
@@ -8018,7 +8018,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 184
+      "articles": 185
     },
     {
       "name": "ランジェリー風",
@@ -8902,7 +8902,7 @@
     },
     {
       "name": "写真集",
-      "articles": 48
+      "articles": 49
     },
     {
       "name": "冨永実里",
@@ -11178,7 +11178,7 @@
     },
     {
       "name": "水着",
-      "articles": 306
+      "articles": 307
     },
     {
       "name": "水着グラビア",
@@ -11963,6 +11963,10 @@
     {
       "name": "白衣",
       "articles": 3
+    },
+    {
+      "name": "白間美瑠",
+      "articles": 1
     },
     {
       "name": "白黒トップス",
