@@ -839,9 +839,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 504,
+    "people": 505,
     "works": 295,
-    "topics": 2440
+    "topics": 2442
   },
   "people": [
     {
@@ -974,6 +974,10 @@
     },
     {
       "name": "わんこ",
+      "articles": 1
+    },
+    {
+      "name": "エリマリ姉妹",
       "articles": 1
     },
     {
@@ -4497,6 +4501,10 @@
       "articles": 1
     },
     {
+      "name": "Erika",
+      "articles": 1
+    },
+    {
       "name": "FALENO",
       "articles": 2
     },
@@ -7918,7 +7926,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 180
+      "articles": 181
     },
     {
       "name": "ランジェリー風",
@@ -11050,7 +11058,7 @@
     },
     {
       "name": "水着",
-      "articles": 295
+      "articles": 296
     },
     {
       "name": "水着グラビア",
@@ -11842,6 +11850,10 @@
     },
     {
       "name": "百合",
+      "articles": 1
+    },
+    {
+      "name": "百瀬まりな",
       "articles": 1
     },
     {
