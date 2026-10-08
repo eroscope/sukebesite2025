@@ -850,7 +850,7 @@
   "counts": {
     "people": 512,
     "works": 298,
-    "topics": 2460
+    "topics": 2464
   },
   "people": [
     {
@@ -6622,6 +6622,10 @@
       "articles": 1
     },
     {
+      "name": "スマホ首",
+      "articles": 1
+    },
+    {
       "name": "スレンダー",
       "articles": 7
     },
@@ -9615,7 +9619,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 68
+      "articles": 69
     },
     {
       "name": "女子アナ設定",
@@ -9768,6 +9772,10 @@
     {
       "name": "姫野美南",
       "articles": 6
+    },
+    {
+      "name": "姿勢ケア",
+      "articles": 1
     },
     {
       "name": "娘の彼氏",
@@ -11834,6 +11842,10 @@
       "articles": 1
     },
     {
+      "name": "白T",
+      "articles": 1
+    },
+    {
       "name": "白い下着",
       "articles": 1
     },
@@ -12542,6 +12554,10 @@
       "articles": 1
     },
     {
+      "name": "羽田優里奈",
+      "articles": 1
+    },
+    {
       "name": "耐久",
       "articles": 1
     },
@@ -12623,7 +12639,7 @@
     },
     {
       "name": "胸元",
-      "articles": 68
+      "articles": 69
     },
     {
       "name": "胸元チラ見え",
