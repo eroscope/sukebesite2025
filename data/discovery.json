@@ -848,9 +848,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 511,
+    "people": 512,
     "works": 298,
-    "topics": 2459
+    "topics": 2460
   },
   "people": [
     {
@@ -2091,6 +2091,10 @@
     },
     {
       "name": "森下茉莉",
+      "articles": 1
+    },
+    {
+      "name": "森口博子",
       "articles": 1
     },
     {
@@ -4239,6 +4243,10 @@
     },
     {
       "name": "6作品収録",
+      "articles": 1
+    },
+    {
+      "name": "80年代アイドル",
       "articles": 1
     },
     {
@@ -7323,7 +7331,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 126
+      "articles": 127
     },
     {
       "name": "ビビアン",
@@ -11143,7 +11151,7 @@
     },
     {
       "name": "水着",
-      "articles": 301
+      "articles": 302
     },
     {
       "name": "水着グラビア",
