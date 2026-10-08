@@ -422,6 +422,7 @@
     "topics/topic-80aec901cf34.html",
     "topics/topic-80c89d2ed09f.html",
     "topics/topic-80f7a0365e69.html",
+    "topics/topic-815f56b2d4d2.html",
     "topics/topic-81608b3ac4fa.html",
     "topics/topic-81a5663bf989.html",
     "topics/topic-825d752cee99.html",
@@ -846,7 +847,7 @@
   "counts": {
     "people": 511,
     "works": 297,
-    "topics": 2452
+    "topics": 2454
   },
   "people": [
     {
@@ -5619,7 +5620,7 @@
     },
     {
       "name": "めざましテレビ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "めるる",
@@ -7490,6 +7491,10 @@
       "articles": 1
     },
     {
+      "name": "ブラウス",
+      "articles": 1
+    },
+    {
       "name": "ブラジャー",
       "articles": 1
     },
@@ -8435,6 +8440,10 @@
     },
     {
       "name": "井上咲楽",
+      "articles": 1
+    },
+    {
+      "name": "井上清華",
       "articles": 1
     },
     {
@@ -9591,7 +9600,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 67
+      "articles": 68
     },
     {
       "name": "女子アナ設定",
@@ -13195,7 +13204,7 @@
     },
     {
       "name": "透け感",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "透け感衣装",
