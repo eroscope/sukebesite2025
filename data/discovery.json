@@ -852,7 +852,7 @@
   ],
   "counts": {
     "people": 512,
-    "works": 298,
+    "works": 299,
     "topics": 2472
   },
   "people": [
@@ -3307,6 +3307,10 @@
       "articles": 1
     },
     {
+      "code": "HUNTC-592",
+      "articles": 1
+    },
+    {
       "code": "HUNTC-638",
       "articles": 1
     },
@@ -4674,7 +4678,7 @@
     },
     {
       "name": "Hunter",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "Hカップ",
@@ -5874,7 +5878,7 @@
     },
     {
       "name": "エステ",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "エスワン",
@@ -8850,7 +8854,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 28
+      "articles": 29
     },
     {
       "name": "公式サンプル動画",
@@ -10770,7 +10774,7 @@
     },
     {
       "name": "時間停止",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "晩餐会",
