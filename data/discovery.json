@@ -850,7 +850,7 @@
   "counts": {
     "people": 512,
     "works": 298,
-    "topics": 2465
+    "topics": 2467
   },
   "people": [
     {
@@ -2571,7 +2571,7 @@
     },
     {
       "name": "美園和花",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "美少女フィギュア",
@@ -4799,7 +4799,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 47
+      "articles": 48
     },
     {
       "name": "MOODYZ DIVA",
@@ -5179,7 +5179,7 @@
     },
     {
       "name": "VR",
-      "articles": 105
+      "articles": 106
     },
     {
       "name": "VR CHANNEL 005",
@@ -7618,6 +7618,10 @@
       "articles": 1
     },
     {
+      "name": "ベロキス",
+      "articles": 1
+    },
+    {
       "name": "ベロチュー",
       "articles": 1
     },
@@ -9315,6 +9319,10 @@
     },
     {
       "name": "四つん這い",
+      "articles": 1
+    },
+    {
+      "name": "回春エステ",
       "articles": 1
     },
     {
