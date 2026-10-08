@@ -846,7 +846,7 @@
   "counts": {
     "people": 511,
     "works": 297,
-    "topics": 2449
+    "topics": 2452
   },
   "people": [
     {
@@ -5715,7 +5715,7 @@
     },
     {
       "name": "アナウンサー",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "アナル",
@@ -8118,6 +8118,10 @@
       "articles": 1
     },
     {
+      "name": "ワールドビジネスサテライト",
+      "articles": 1
+    },
+    {
       "name": "一人称視点",
       "articles": 1
     },
@@ -9127,7 +9131,7 @@
     },
     {
       "name": "古旗笑佳",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "可愛まゆ",
@@ -12714,6 +12718,10 @@
       "articles": 1
     },
     {
+      "name": "船上取材",
+      "articles": 1
+    },
+    {
       "name": "艦船コス",
       "articles": 1
     },
@@ -13319,6 +13327,10 @@
     },
     {
       "name": "金髪美女",
+      "articles": 1
+    },
+    {
+      "name": "釣り",
       "articles": 1
     },
     {
