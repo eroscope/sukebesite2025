@@ -463,6 +463,7 @@
     "topics/topic-9062b51cd69c.html",
     "topics/topic-909a4929400c.html",
     "topics/topic-90f62f22f01e.html",
+    "topics/topic-931f5e0e2c56.html",
     "topics/topic-934370df8f88.html",
     "topics/topic-935eefe90081.html",
     "topics/topic-9382af5ea57b.html",
@@ -850,7 +851,7 @@
   "counts": {
     "people": 512,
     "works": 298,
-    "topics": 2467
+    "topics": 2469
   },
   "people": [
     {
@@ -4863,7 +4864,7 @@
     },
     {
       "name": "NHK",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "NHKアナウンサー",
@@ -5394,6 +5395,10 @@
       "articles": 1
     },
     {
+      "name": "おはよう日本",
+      "articles": 1
+    },
+    {
       "name": "おまんこ",
       "articles": 8
     },
@@ -5439,7 +5444,7 @@
     },
     {
       "name": "お辞儀",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "かいとうぴんく",
@@ -9627,7 +9632,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 69
+      "articles": 70
     },
     {
       "name": "女子アナ設定",
@@ -13172,6 +13177,10 @@
     {
       "name": "赤ランジェリー",
       "articles": 2
+    },
+    {
+      "name": "赤木野々花",
+      "articles": 1
     },
     {
       "name": "赤髪",
