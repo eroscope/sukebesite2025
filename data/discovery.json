@@ -839,9 +839,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 503,
+    "people": 504,
     "works": 295,
-    "topics": 2439
+    "topics": 2440
   },
   "people": [
     {
@@ -1142,6 +1142,10 @@
     },
     {
       "name": "上坂すみれ",
+      "articles": 1
+    },
+    {
+      "name": "上西怜",
       "articles": 1
     },
     {
@@ -7097,6 +7101,10 @@
       "articles": 1
     },
     {
+      "name": "バスタイム",
+      "articles": 1
+    },
+    {
       "name": "バスツアー",
       "articles": 4
     },
@@ -11042,7 +11050,7 @@
     },
     {
       "name": "水着",
-      "articles": 294
+      "articles": 295
     },
     {
       "name": "水着グラビア",
@@ -11158,7 +11166,7 @@
     },
     {
       "name": "浴室",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "浴槽",
