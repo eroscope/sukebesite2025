@@ -627,6 +627,7 @@
     "topics/topic-c9c82166bd8d.html",
     "topics/topic-ca.html",
     "topics/topic-ca009cc76525.html",
+    "topics/topic-ca4b7de4ac70.html",
     "topics/topic-cad0bf25d100.html",
     "topics/topic-cb0581d4a2a9.html",
     "topics/topic-cb1b67b257cc.html",
@@ -842,7 +843,7 @@
   "counts": {
     "people": 510,
     "works": 296,
-    "topics": 2447
+    "topics": 2448
   },
   "people": [
     {
@@ -8567,7 +8568,7 @@
     },
     {
       "name": "体液",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "体重変化",
@@ -9987,6 +9988,10 @@
     },
     {
       "name": "居酒屋",
+      "articles": 1
+    },
+    {
+      "name": "屋内ウォーク",
       "articles": 1
     },
     {
@@ -13599,7 +13604,7 @@
     },
     {
       "name": "顔射",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "顔比較",
