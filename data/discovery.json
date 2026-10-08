@@ -267,6 +267,7 @@
     "topics/topic-383f688ec1c4.html",
     "topics/topic-38c34338ee97.html",
     "topics/topic-38e8334f0533.html",
+    "topics/topic-3940a07133c6.html",
     "topics/topic-39dba7b0b3ad.html",
     "topics/topic-3ad6d9ebca93.html",
     "topics/topic-3b2ce5591771.html",
@@ -842,8 +843,8 @@
   ],
   "counts": {
     "people": 511,
-    "works": 296,
-    "topics": 2448
+    "works": 297,
+    "topics": 2449
   },
   "people": [
     {
@@ -3673,6 +3674,10 @@
       "articles": 1
     },
     {
+      "code": "NHDTC-256",
+      "articles": 1
+    },
+    {
       "code": "NIMA-078",
       "articles": 1
     },
@@ -4156,7 +4161,7 @@
     },
     {
       "name": "3P",
-      "articles": 15
+      "articles": 16
     },
     {
       "name": "3P・4P",
@@ -4833,6 +4838,10 @@
     {
       "name": "M男",
       "articles": 3
+    },
+    {
+      "name": "NATURALHIGH",
+      "articles": 1
     },
     {
       "name": "NHK",
@@ -8792,7 +8801,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 27
+      "articles": 28
     },
     {
       "name": "公式サンプル動画",
@@ -9992,7 +10001,7 @@
     },
     {
       "name": "居酒屋",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "屋内ウォーク",
