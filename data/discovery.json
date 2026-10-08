@@ -839,7 +839,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 506,
+    "people": 507,
     "works": 295,
     "topics": 2444
   },
@@ -2370,6 +2370,10 @@
     },
     {
       "name": "白石透羽",
+      "articles": 1
+    },
+    {
+      "name": "白石陽菜",
       "articles": 1
     },
     {
@@ -4602,7 +4606,7 @@
     },
     {
       "name": "Gカップ",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "HKT48",
@@ -7278,7 +7282,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 122
+      "articles": 123
     },
     {
       "name": "ビビアン",
@@ -11070,7 +11074,7 @@
     },
     {
       "name": "水着",
-      "articles": 297
+      "articles": 298
     },
     {
       "name": "水着グラビア",
