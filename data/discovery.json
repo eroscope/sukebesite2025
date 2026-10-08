@@ -841,8 +841,8 @@
   ],
   "counts": {
     "people": 510,
-    "works": 295,
-    "topics": 2445
+    "works": 296,
+    "topics": 2447
   },
   "people": [
     {
@@ -3209,6 +3209,10 @@
     },
     {
       "code": "H-113HR00012",
+      "articles": 1
+    },
+    {
+      "code": "H-1605STSK00246",
       "articles": 1
     },
     {
@@ -7606,6 +7610,10 @@
       "articles": 9
     },
     {
+      "name": "ホテルウーマン",
+      "articles": 1
+    },
+    {
       "name": "ホテル撮影",
       "articles": 1
     },
@@ -8779,7 +8787,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 26
+      "articles": 27
     },
     {
       "name": "公式サンプル動画",
@@ -8887,7 +8895,7 @@
     },
     {
       "name": "制服",
-      "articles": 33
+      "articles": 34
     },
     {
       "name": "制服ギャル",
@@ -13420,6 +13428,10 @@
     {
       "name": "集合写真",
       "articles": 2
+    },
+    {
+      "name": "集団劇",
+      "articles": 1
     },
     {
       "name": "集団密着",
