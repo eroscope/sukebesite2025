@@ -77,6 +77,7 @@
     "people/person-99ad91c62c12.html",
     "people/person-99ce0abffefc.html",
     "people/person-9da0bab509f9.html",
+    "people/person-9f25b8f39b65.html",
     "people/person-a1c7c1fcbab3.html",
     "people/person-a4891aa58898.html",
     "people/person-a8da1485d939.html",
@@ -847,7 +848,7 @@
   ],
   "counts": {
     "people": 511,
-    "works": 297,
+    "works": 298,
     "topics": 2459
   },
   "people": [
@@ -2685,7 +2686,7 @@
     },
     {
       "name": "角奈保",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "谷尻萌",
@@ -3131,6 +3132,10 @@
     },
     {
       "code": "DLDSS-508",
+      "articles": 1
+    },
+    {
+      "code": "DLDSS-559",
       "articles": 1
     },
     {
@@ -8457,7 +8462,7 @@
     },
     {
       "name": "人妻",
-      "articles": 52
+      "articles": 53
     },
     {
       "name": "人妻AV",
@@ -9865,7 +9870,7 @@
     },
     {
       "name": "家庭教師",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "家庭訪問",
