@@ -852,7 +852,7 @@
   "counts": {
     "people": 512,
     "works": 298,
-    "topics": 2469
+    "topics": 2470
   },
   "people": [
     {
@@ -8013,7 +8013,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 182
+      "articles": 183
     },
     {
       "name": "ランジェリー風",
@@ -11173,7 +11173,7 @@
     },
     {
       "name": "水着",
-      "articles": 304
+      "articles": 305
     },
     {
       "name": "水着グラビア",
@@ -12013,6 +12013,10 @@
     },
     {
       "name": "相席居酒屋",
+      "articles": 1
+    },
+    {
+      "name": "相楽伊織",
       "articles": 1
     },
     {
