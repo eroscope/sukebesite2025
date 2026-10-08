@@ -839,9 +839,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 508,
+    "people": 509,
     "works": 295,
-    "topics": 2444
+    "topics": 2445
   },
   "people": [
     {
@@ -2378,6 +2378,10 @@
     },
     {
       "name": "白石陽菜",
+      "articles": 1
+    },
+    {
+      "name": "白石麻衣",
       "articles": 1
     },
     {
@@ -5182,7 +5186,7 @@
     },
     {
       "name": "YouTube",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "YouTuber",
@@ -9775,6 +9779,10 @@
     {
       "name": "室内",
       "articles": 2
+    },
+    {
+      "name": "室内カット",
+      "articles": 1
     },
     {
       "name": "室内シーン",
