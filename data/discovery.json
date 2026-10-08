@@ -854,7 +854,7 @@
   "counts": {
     "people": 512,
     "works": 299,
-    "topics": 2473
+    "topics": 2476
   },
   "people": [
     {
@@ -9402,6 +9402,10 @@
       "articles": 1
     },
     {
+      "name": "報道ステーション",
+      "articles": 1
+    },
+    {
       "name": "場面カット",
       "articles": 1
     },
@@ -9571,7 +9575,7 @@
     },
     {
       "name": "天気予報",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "天沢ゆきね",
@@ -10879,6 +10883,10 @@
     },
     {
       "name": "東京ゲームショー",
+      "articles": 1
+    },
+    {
+      "name": "東京タワー",
       "articles": 1
     },
     {
@@ -12414,6 +12422,10 @@
       "articles": 6
     },
     {
+      "name": "細川栞",
+      "articles": 1
+    },
+    {
       "name": "細身",
       "articles": 1
     },
@@ -13295,7 +13307,7 @@
     },
     {
       "name": "透け感",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "透け感衣装",
