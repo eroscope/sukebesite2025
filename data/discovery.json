@@ -850,7 +850,7 @@
   "counts": {
     "people": 512,
     "works": 298,
-    "topics": 2464
+    "topics": 2465
   },
   "people": [
     {
@@ -7335,7 +7335,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 127
+      "articles": 128
     },
     {
       "name": "ビビアン",
@@ -11159,7 +11159,7 @@
     },
     {
       "name": "水着",
-      "articles": 302
+      "articles": 303
     },
     {
       "name": "水着グラビア",
@@ -11268,6 +11268,10 @@
     {
       "name": "浅田春奈",
       "articles": 7
+    },
+    {
+      "name": "浅野温子",
+      "articles": 1
     },
     {
       "name": "浮気調査",
