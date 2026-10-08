@@ -848,7 +848,7 @@
   "counts": {
     "people": 511,
     "works": 297,
-    "topics": 2456
+    "topics": 2459
   },
   "people": [
     {
@@ -6597,7 +6597,7 @@
     },
     {
       "name": "スポーツウェア",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "スポーツ女子",
@@ -9645,6 +9645,10 @@
     },
     {
       "name": "女性の表情",
+      "articles": 1
+    },
+    {
+      "name": "女性アスリート",
       "articles": 1
     },
     {
@@ -13164,6 +13168,10 @@
       "articles": 1
     },
     {
+      "name": "身体の悩み",
+      "articles": 1
+    },
+    {
       "name": "車内",
       "articles": 3
     },
@@ -13457,6 +13465,10 @@
     },
     {
       "name": "陸上ユニフォーム",
+      "articles": 1
+    },
+    {
+      "name": "陸上競技",
       "articles": 1
     },
     {
