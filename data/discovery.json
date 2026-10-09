@@ -864,7 +864,7 @@
   "counts": {
     "people": 515,
     "works": 300,
-    "topics": 2495
+    "topics": 2498
   },
   "people": [
     {
@@ -8048,6 +8048,10 @@
       "articles": 1
     },
     {
+      "name": "ラジオ",
+      "articles": 1
+    },
+    {
       "name": "ラジオ収録",
       "articles": 1
     },
@@ -8853,6 +8857,10 @@
     },
     {
       "name": "元人気AV女優",
+      "articles": 1
+    },
+    {
+      "name": "元櫻坂46",
       "articles": 1
     },
     {
@@ -11989,7 +11997,7 @@
     },
     {
       "name": "白シャツ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "白スカート",
@@ -13617,6 +13625,10 @@
     },
     {
       "name": "長澤茉里奈",
+      "articles": 1
+    },
+    {
+      "name": "長濱ねる",
       "articles": 1
     },
     {
