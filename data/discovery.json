@@ -845,6 +845,7 @@
     "topics/topic-vr.html",
     "topics/topic-vr.html",
     "topics/topic-vtuber.html",
+    "topics/topic-wbs.html",
     "topics/topic-xvideos.html",
     "topics/topic-youtube.html",
     "topics/topic-youtuber.html",
@@ -861,7 +862,7 @@
   "counts": {
     "people": 513,
     "works": 299,
-    "topics": 2490
+    "topics": 2492
   },
   "people": [
     {
@@ -4654,7 +4655,7 @@
     },
     {
       "name": "GIF動画",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "GIF動画あり",
@@ -5234,7 +5235,7 @@
     },
     {
       "name": "WBS",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "WEB漫画",
@@ -6963,6 +6964,10 @@
     {
       "name": "トップレス",
       "articles": 2
+    },
+    {
+      "name": "トレたま",
+      "articles": 1
     },
     {
       "name": "トレーナー",
@@ -9169,6 +9174,10 @@
       "articles": 1
     },
     {
+      "name": "卵ケース",
+      "articles": 1
+    },
+    {
       "name": "原紗央莉",
       "articles": 1
     },
@@ -9682,7 +9691,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 71
+      "articles": 72
     },
     {
       "name": "女子アナ設定",
