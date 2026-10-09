@@ -857,9 +857,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 512,
+    "people": 513,
     "works": 299,
-    "topics": 2483
+    "topics": 2485
   },
   "people": [
     {
@@ -2172,6 +2172,10 @@
     },
     {
       "name": "櫻木梨乃",
+      "articles": 1
+    },
+    {
+      "name": "武井咲",
       "articles": 1
     },
     {
@@ -9640,7 +9644,7 @@
     },
     {
       "name": "女優",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "女優比較",
@@ -12847,6 +12851,10 @@
       "articles": 2
     },
     {
+      "name": "舞台挨拶",
+      "articles": 1
+    },
+    {
       "name": "航空機内",
       "articles": 1
     },
@@ -12968,7 +12976,7 @@
     },
     {
       "name": "衣装",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "衣装トラブル",
@@ -13472,6 +13480,10 @@
     },
     {
       "name": "金髪美女",
+      "articles": 1
+    },
+    {
+      "name": "釜山国際映画祭",
       "articles": 1
     },
     {
