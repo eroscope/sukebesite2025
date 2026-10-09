@@ -864,7 +864,7 @@
   "counts": {
     "people": 515,
     "works": 300,
-    "topics": 2504
+    "topics": 2507
   },
   "people": [
     {
@@ -6092,6 +6092,10 @@
       "articles": 1
     },
     {
+      "name": "カラオケ",
+      "articles": 1
+    },
+    {
       "name": "カラスマル",
       "articles": 1
     },
@@ -7974,6 +7978,10 @@
     {
       "name": "メンズエステ",
       "articles": 9
+    },
+    {
+      "name": "モザイク動画",
+      "articles": 1
     },
     {
       "name": "モザイク比較",
@@ -13141,6 +13149,10 @@
     },
     {
       "name": "裸神",
+      "articles": 1
+    },
+    {
+      "name": "裸踊り",
       "articles": 1
     },
     {
