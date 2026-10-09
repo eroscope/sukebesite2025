@@ -872,7 +872,7 @@
   "counts": {
     "people": 518,
     "works": 301,
-    "topics": 2512
+    "topics": 2514
   },
   "people": [
     {
@@ -2073,7 +2073,7 @@
     },
     {
       "name": "桃月なしこ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "桃田うた",
@@ -8137,7 +8137,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 188
+      "articles": 189
     },
     {
       "name": "ランジェリー風",
@@ -10309,6 +10309,10 @@
     },
     {
       "name": "川越にこ",
+      "articles": 1
+    },
+    {
+      "name": "工場風背景",
       "articles": 1
     },
     {
@@ -14173,6 +14177,10 @@
     },
     {
       "name": "黒肌",
+      "articles": 1
+    },
+    {
+      "name": "黒革衣装",
       "articles": 1
     },
     {
