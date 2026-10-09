@@ -862,9 +862,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 514,
+    "people": 515,
     "works": 300,
-    "topics": 2493
+    "topics": 2494
   },
   "people": [
     {
@@ -1133,6 +1133,10 @@
     },
     {
       "name": "七海りお",
+      "articles": 1
+    },
+    {
+      "name": "七瀬なな",
       "articles": 1
     },
     {
@@ -4872,6 +4876,10 @@
       "articles": 1
     },
     {
+      "name": "MySPA",
+      "articles": 1
+    },
+    {
       "name": "MySPA!",
       "articles": 1
     },
@@ -8073,7 +8081,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 186
+      "articles": 187
     },
     {
       "name": "ランジェリー風",
@@ -12605,7 +12613,7 @@
     },
     {
       "name": "美女地図",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "美女軍団",
