@@ -859,7 +859,7 @@
   "counts": {
     "people": 513,
     "works": 299,
-    "topics": 2485
+    "topics": 2487
   },
   "people": [
     {
@@ -8920,7 +8920,7 @@
     },
     {
       "name": "共演",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "円盤",
@@ -9168,6 +9168,10 @@
     },
     {
       "name": "原紗央莉",
+      "articles": 1
+    },
+    {
+      "name": "双葉みお",
       "articles": 1
     },
     {
@@ -11147,6 +11151,10 @@
       "articles": 1
     },
     {
+      "name": "櫻木梨乃",
+      "articles": 1
+    },
+    {
       "name": "正体発表",
       "articles": 1
     },
@@ -11868,7 +11876,7 @@
     },
     {
       "name": "画像集",
-      "articles": 30
+      "articles": 31
     },
     {
       "name": "画像＋動画",
