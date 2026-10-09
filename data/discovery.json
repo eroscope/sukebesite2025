@@ -870,9 +870,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 517,
+    "people": 518,
     "works": 301,
-    "topics": 2511
+    "topics": 2512
   },
   "people": [
     {
@@ -2780,6 +2780,10 @@
       "articles": 1
     },
     {
+      "name": "赤間四季",
+      "articles": 1
+    },
+    {
       "name": "趣里",
       "articles": 1
     },
@@ -4589,6 +4593,10 @@
     },
     {
       "name": "DOCUMENT SEX",
+      "articles": 1
+    },
+    {
+      "name": "DOLCE",
       "articles": 1
     },
     {
@@ -6509,7 +6517,7 @@
     },
     {
       "name": "サウナ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "サキュバスバニー",
@@ -7445,7 +7453,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 136
+      "articles": 137
     },
     {
       "name": "ビビアン",
