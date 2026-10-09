@@ -864,7 +864,7 @@
   "counts": {
     "people": 515,
     "works": 300,
-    "topics": 2498
+    "topics": 2501
   },
   "people": [
     {
@@ -6104,6 +6104,10 @@
       "articles": 1
     },
     {
+      "name": "カーテン",
+      "articles": 1
+    },
+    {
       "name": "カードイラスト",
       "articles": 1
     },
@@ -9157,7 +9161,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 22
+      "articles": 23
     },
     {
       "name": "匿名画像",
@@ -10414,6 +10418,10 @@
     {
       "name": "性交",
       "articles": 9
+    },
+    {
+      "name": "性具",
+      "articles": 1
     },
     {
       "name": "性感帯診断",
@@ -11916,6 +11924,10 @@
       "articles": 12
     },
     {
+      "name": "画像ネタ",
+      "articles": 1
+    },
+    {
       "name": "画像動画",
       "articles": 1
     },
@@ -12353,7 +12365,7 @@
     },
     {
       "name": "窓辺",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "立ちんぼ",
