@@ -858,7 +858,7 @@
   "counts": {
     "people": 512,
     "works": 299,
-    "topics": 2479
+    "topics": 2480
   },
   "people": [
     {
@@ -7371,7 +7371,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 129
+      "articles": 130
     },
     {
       "name": "ビビアン",
@@ -10178,6 +10178,10 @@
       "articles": 1
     },
     {
+      "name": "岸みゆ",
+      "articles": 1
+    },
+    {
       "name": "岸明日香",
       "articles": 4
     },
@@ -11211,7 +11215,7 @@
     },
     {
       "name": "水着",
-      "articles": 308
+      "articles": 309
     },
     {
       "name": "水着グラビア",
@@ -11395,7 +11399,7 @@
     },
     {
       "name": "海辺",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "消火栓",
