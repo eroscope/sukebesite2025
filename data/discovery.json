@@ -449,6 +449,7 @@
     "topics/topic-87b1b5f5efa7.html",
     "topics/topic-89e4949f9542.html",
     "topics/topic-89f5704bc74e.html",
+    "topics/topic-8a2723d1c0e0.html",
     "topics/topic-8b2689c619bd.html",
     "topics/topic-8b43ace97b73.html",
     "topics/topic-8b89c6d1813d.html",
@@ -858,7 +859,7 @@
   "counts": {
     "people": 512,
     "works": 299,
-    "topics": 2480
+    "topics": 2483
   },
   "people": [
     {
@@ -4643,7 +4644,7 @@
     },
     {
       "name": "GIF",
-      "articles": 29
+      "articles": 30
     },
     {
       "name": "GIF動画",
@@ -6458,6 +6459,10 @@
       "articles": 1
     },
     {
+      "name": "サスペンダー",
+      "articles": 1
+    },
+    {
       "name": "サタデーウオッチ9",
       "articles": 1
     },
@@ -7019,7 +7024,7 @@
     },
     {
       "name": "ニット",
-      "articles": 22
+      "articles": 23
     },
     {
       "name": "ニットワンピ",
@@ -9667,7 +9672,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 70
+      "articles": 71
     },
     {
       "name": "女子アナ設定",
@@ -10986,12 +10991,16 @@
       "articles": 2
     },
     {
+      "name": "栗",
+      "articles": 1
+    },
+    {
       "name": "栗山莉緒",
       "articles": 1
     },
     {
       "name": "栗拾い",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "格闘ゲーム",
@@ -13363,6 +13372,10 @@
     },
     {
       "name": "過去写真",
+      "articles": 1
+    },
+    {
+      "name": "道上美璃",
       "articles": 1
     },
     {
