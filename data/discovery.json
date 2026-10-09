@@ -835,6 +835,7 @@
     "topics/topic-s1-girls-collection.html",
     "topics/topic-s1-no-1-style.html",
     "topics/topic-s1.html",
+    "topics/topic-sex.html",
     "topics/topic-sm.html",
     "topics/topic-sod.html",
     "topics/topic-sod.html",
@@ -865,8 +866,8 @@
   ],
   "counts": {
     "people": 515,
-    "works": 300,
-    "topics": 2510
+    "works": 301,
+    "topics": 2511
   },
   "people": [
     {
@@ -4128,6 +4129,10 @@
       "articles": 1
     },
     {
+      "code": "WAAA-698",
+      "articles": 1
+    },
+    {
       "code": "YUJ-073",
       "articles": 1
     }
@@ -4447,7 +4452,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 144
+      "articles": 145
     },
     {
       "name": "AV女優検索",
@@ -5099,7 +5104,7 @@
     },
     {
       "name": "SEX",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "SF",
@@ -10343,7 +10348,7 @@
     },
     {
       "name": "幸村泉希",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "幼馴染",
@@ -14159,6 +14164,10 @@
     },
     {
       "name": "黒髪ボブ",
+      "articles": 1
+    },
+    {
+      "name": "黒髪ロング",
       "articles": 1
     },
     {
