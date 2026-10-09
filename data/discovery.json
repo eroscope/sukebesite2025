@@ -857,7 +857,7 @@
   "counts": {
     "people": 512,
     "works": 299,
-    "topics": 2476
+    "topics": 2479
   },
   "people": [
     {
@@ -4169,6 +4169,10 @@
       "articles": 1
     },
     {
+      "name": "3DCG",
+      "articles": 1
+    },
+    {
       "name": "3DVR",
       "articles": 2
     },
@@ -4794,6 +4798,10 @@
     },
     {
       "name": "MLW Rena",
+      "articles": 1
+    },
+    {
+      "name": "MMD",
       "articles": 1
     },
     {
@@ -5922,6 +5930,10 @@
     },
     {
       "name": "エロコスプレイヤー",
+      "articles": 1
+    },
+    {
+      "name": "エロダンス",
       "articles": 1
     },
     {
