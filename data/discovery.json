@@ -526,6 +526,7 @@
     "topics/topic-a539d32496c9.html",
     "topics/topic-a55856791c43.html",
     "topics/topic-a57503a79991.html",
+    "topics/topic-a599e8b850d8.html",
     "topics/topic-a615e2a99a6f.html",
     "topics/topic-a6577e51aa03.html",
     "topics/topic-a6730f134ba7.html",
@@ -861,9 +862,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 513,
+    "people": 514,
     "works": 300,
-    "topics": 2492
+    "topics": 2493
   },
   "people": [
     {
@@ -2500,6 +2501,10 @@
     },
     {
       "name": "秋月夕",
+      "articles": 1
+    },
+    {
+      "name": "種付けプレス",
       "articles": 1
     },
     {
@@ -5631,6 +5636,10 @@
       "articles": 1
     },
     {
+      "name": "まんぐり返し",
+      "articles": 1
+    },
+    {
       "name": "まんこ画像",
       "articles": 1
     },
@@ -8664,7 +8673,7 @@
     },
     {
       "name": "体位",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "体型比較",
