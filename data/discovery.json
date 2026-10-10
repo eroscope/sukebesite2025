@@ -318,6 +318,7 @@
     "topics/topic-48313ee94b4d.html",
     "topics/topic-48420eefd3e6.html",
     "topics/topic-4888cb876cec.html",
+    "topics/topic-489bfaab9ddf.html",
     "topics/topic-49008ed602af.html",
     "topics/topic-493879fafdb2.html",
     "topics/topic-4a3fad303d05.html",
@@ -876,7 +877,7 @@
   "counts": {
     "people": 524,
     "works": 301,
-    "topics": 2520
+    "topics": 2523
   },
   "people": [
     {
@@ -4432,6 +4433,10 @@
       "articles": 6
     },
     {
+      "name": "APEX",
+      "articles": 1
+    },
+    {
       "name": "ASMR",
       "articles": 4
     },
@@ -5841,7 +5846,7 @@
     },
     {
       "name": "アズールレーン",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "アダルト写真集",
@@ -7573,7 +7578,7 @@
     },
     {
       "name": "フィギュア",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "フィギュア撮影",
@@ -11320,6 +11325,10 @@
       "articles": 1
     },
     {
+      "name": "武蔵",
+      "articles": 1
+    },
+    {
       "name": "歯磨き",
       "articles": 1
     },
@@ -12758,6 +12767,10 @@
     {
       "name": "美少女",
       "articles": 2
+    },
+    {
+      "name": "美少女フィギュア",
+      "articles": 1
     },
     {
       "name": "美少女女優",
