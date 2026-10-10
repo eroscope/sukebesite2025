@@ -874,9 +874,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 521,
+    "people": 522,
     "works": 301,
-    "topics": 2519
+    "topics": 2520
   },
   "people": [
     {
@@ -2305,6 +2305,10 @@
     },
     {
       "name": "涼宮のん",
+      "articles": 1
+    },
+    {
+      "name": "深キョン",
       "articles": 1
     },
     {
@@ -11381,7 +11385,7 @@
     },
     {
       "name": "水着",
-      "articles": 318
+      "articles": 319
     },
     {
       "name": "水着グラビア",
@@ -11789,6 +11793,10 @@
     },
     {
       "name": "特撮ヒロイン",
+      "articles": 1
+    },
+    {
+      "name": "犬",
       "articles": 1
     },
     {
@@ -12897,7 +12905,7 @@
     },
     {
       "name": "胸元",
-      "articles": 71
+      "articles": 72
     },
     {
       "name": "胸元チラ見え",
