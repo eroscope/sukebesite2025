@@ -876,9 +876,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 524,
+    "people": 525,
     "works": 301,
-    "topics": 2525
+    "topics": 2526
   },
   "people": [
     {
@@ -1596,6 +1596,10 @@
     {
       "name": "寒川綾奈",
       "articles": 2
+    },
+    {
+      "name": "寺本莉緒",
+      "articles": 1
     },
     {
       "name": "小坂ひまり",
@@ -4231,6 +4235,10 @@
     },
     {
       "name": "24時間テレビ",
+      "articles": 1
+    },
+    {
+      "name": "2nd写真集",
       "articles": 1
     },
     {
@@ -11403,7 +11411,7 @@
     },
     {
       "name": "水着",
-      "articles": 322
+      "articles": 323
     },
     {
       "name": "水着グラビア",
