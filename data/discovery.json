@@ -879,7 +879,7 @@
   "counts": {
     "people": 525,
     "works": 302,
-    "topics": 2533
+    "topics": 2534
   },
   "people": [
     {
@@ -8200,7 +8200,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 193
+      "articles": 194
     },
     {
       "name": "ランジェリー風",
@@ -11432,7 +11432,7 @@
     },
     {
       "name": "水着",
-      "articles": 323
+      "articles": 324
     },
     {
       "name": "水着グラビア",
@@ -11624,6 +11624,10 @@
     },
     {
       "name": "淫習村",
+      "articles": 1
+    },
+    {
+      "name": "深田恭子",
       "articles": 1
     },
     {
@@ -12060,7 +12064,7 @@
     },
     {
       "name": "画像スレ",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "画像ネタ",
