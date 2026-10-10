@@ -877,7 +877,7 @@
   "counts": {
     "people": 524,
     "works": 301,
-    "topics": 2523
+    "topics": 2524
   },
   "people": [
     {
@@ -11402,7 +11402,7 @@
     },
     {
       "name": "水着",
-      "articles": 321
+      "articles": 322
     },
     {
       "name": "水着グラビア",
@@ -13354,6 +13354,10 @@
     },
     {
       "name": "谷原希美",
+      "articles": 1
+    },
+    {
+      "name": "谷心愛",
       "articles": 1
     },
     {
