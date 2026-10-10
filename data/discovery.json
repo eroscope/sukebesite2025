@@ -878,7 +878,7 @@
   "counts": {
     "people": 525,
     "works": 301,
-    "topics": 2526
+    "topics": 2529
   },
   "people": [
     {
@@ -6051,7 +6051,7 @@
     },
     {
       "name": "エロ漫画",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "エロ画像",
@@ -6850,6 +6850,10 @@
       "articles": 1
     },
     {
+      "name": "セリフ",
+      "articles": 1
+    },
+    {
       "name": "センタービレッジ",
       "articles": 2
     },
@@ -7211,6 +7215,10 @@
     },
     {
       "name": "ネコ耳",
+      "articles": 1
+    },
+    {
+      "name": "ネタ",
       "articles": 1
     },
     {
@@ -13356,6 +13364,10 @@
     {
       "name": "誘惑",
       "articles": 2
+    },
+    {
+      "name": "誤植",
+      "articles": 1
     },
     {
       "name": "調教",
