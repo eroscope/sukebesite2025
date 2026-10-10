@@ -877,9 +877,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 525,
+    "people": 527,
     "works": 302,
-    "topics": 2534
+    "topics": 2535
   },
   "people": [
     {
@@ -1164,6 +1164,10 @@
     },
     {
       "name": "三好佑香",
+      "articles": 1
+    },
+    {
+      "name": "三山賀子",
       "articles": 1
     },
     {
@@ -2148,6 +2152,10 @@
     },
     {
       "name": "森咲智美",
+      "articles": 1
+    },
+    {
+      "name": "森山みなみ",
       "articles": 1
     },
     {
@@ -9848,7 +9856,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 72
+      "articles": 73
     },
     {
       "name": "女子アナ設定",
@@ -10796,7 +10804,7 @@
     },
     {
       "name": "放送キャプチャ",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "放送事故",
@@ -12980,6 +12988,10 @@
     },
     {
       "name": "胸元ハプニング",
+      "articles": 1
+    },
+    {
+      "name": "胸元比較",
       "articles": 1
     },
     {
