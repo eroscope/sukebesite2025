@@ -78,6 +78,7 @@
     "people/person-922e61084667.html",
     "people/person-930b667e4b37.html",
     "people/person-93f83543950d.html",
+    "people/person-98785340d069.html",
     "people/person-999a05dbad28.html",
     "people/person-99ad91c62c12.html",
     "people/person-99ce0abffefc.html",
@@ -879,7 +880,7 @@
   "counts": {
     "people": 527,
     "works": 302,
-    "topics": 2535
+    "topics": 2536
   },
   "people": [
     {
@@ -2356,7 +2357,7 @@
     },
     {
       "name": "溝端葵",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "澄田綾乃",
@@ -7524,7 +7525,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 141
+      "articles": 142
     },
     {
       "name": "ビビアン",
@@ -8212,6 +8213,10 @@
     },
     {
       "name": "ランジェリー風",
+      "articles": 1
+    },
+    {
+      "name": "ランジェリー風衣装",
       "articles": 1
     },
     {
@@ -9104,7 +9109,7 @@
     },
     {
       "name": "写真集",
-      "articles": 52
+      "articles": 53
     },
     {
       "name": "冨永実里",
