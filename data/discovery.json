@@ -874,7 +874,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 520,
+    "people": 521,
     "works": 301,
     "topics": 2518
   },
@@ -2385,6 +2385,10 @@
     },
     {
       "name": "生見愛瑠",
+      "articles": 1
+    },
+    {
+      "name": "田中れいな",
       "articles": 1
     },
     {
@@ -11985,7 +11989,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 206
+      "articles": 207
     },
     {
       "name": "画像ギャラリー",
@@ -13141,7 +13145,7 @@
     },
     {
       "name": "衣装",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "衣装トラブル",
