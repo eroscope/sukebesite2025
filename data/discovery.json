@@ -878,9 +878,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 527,
+    "people": 528,
     "works": 302,
-    "topics": 2536
+    "topics": 2538
   },
   "people": [
     {
@@ -1101,6 +1101,10 @@
     },
     {
       "name": "マリア・バレンタイン",
+      "articles": 1
+    },
+    {
+      "name": "モデル",
       "articles": 1
     },
     {
@@ -7289,7 +7293,7 @@
     },
     {
       "name": "ハプニング",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ハマーン・カーン",
@@ -10788,6 +10792,10 @@
       "articles": 1
     },
     {
+      "name": "撮影中",
+      "articles": 1
+    },
+    {
       "name": "撮影会",
       "articles": 4
     },
@@ -12997,6 +13005,10 @@
     },
     {
       "name": "胸元比較",
+      "articles": 1
+    },
+    {
+      "name": "胸元露出",
       "articles": 1
     },
     {
