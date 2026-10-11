@@ -888,7 +888,7 @@
   "counts": {
     "people": 537,
     "works": 305,
-    "topics": 2552
+    "topics": 2555
   },
   "people": [
     {
@@ -5968,6 +5968,10 @@
       "articles": 1
     },
     {
+      "name": "アメリカ",
+      "articles": 1
+    },
+    {
       "name": "アリスJAPAN",
       "articles": 1
     },
@@ -6293,6 +6297,10 @@
     },
     {
       "name": "ガラスプール",
+      "articles": 1
+    },
+    {
+      "name": "ガラス張りトラック",
       "articles": 1
     },
     {
@@ -10749,6 +10757,10 @@
     },
     {
       "name": "成人向けソシャゲ",
+      "articles": 1
+    },
+    {
+      "name": "成人向けネタ",
       "articles": 1
     },
     {
