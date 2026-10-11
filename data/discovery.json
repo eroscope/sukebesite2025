@@ -890,7 +890,7 @@
   "counts": {
     "people": 539,
     "works": 306,
-    "topics": 2562
+    "topics": 2563
   },
   "people": [
     {
@@ -7639,7 +7639,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 144
+      "articles": 145
     },
     {
       "name": "ビビアン",
@@ -10246,6 +10246,10 @@
       "articles": 2
     },
     {
+      "name": "宮崎ますみ",
+      "articles": 1
+    },
+    {
       "name": "宮川みやび",
       "articles": 1
     },
@@ -11591,7 +11595,7 @@
     },
     {
       "name": "水着",
-      "articles": 329
+      "articles": 330
     },
     {
       "name": "水着グラビア",
