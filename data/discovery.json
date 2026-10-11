@@ -887,8 +887,8 @@
   ],
   "counts": {
     "people": 537,
-    "works": 304,
-    "topics": 2551
+    "works": 305,
+    "topics": 2552
   },
   "people": [
     {
@@ -4126,6 +4126,10 @@
       "articles": 1
     },
     {
+      "code": "SNOS-392",
+      "articles": 1
+    },
+    {
       "code": "SNOS-409",
       "articles": 2
     },
@@ -4581,7 +4585,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 148
+      "articles": 149
     },
     {
       "name": "AV女優検索",
@@ -5225,7 +5229,7 @@
     },
     {
       "name": "S1",
-      "articles": 33
+      "articles": 34
     },
     {
       "name": "S1 GIRLS COLLECTION",
@@ -13865,6 +13869,10 @@
     },
     {
       "name": "野球部ちゃん",
+      "articles": 1
+    },
+    {
+      "name": "金松季歩",
       "articles": 1
     },
     {
