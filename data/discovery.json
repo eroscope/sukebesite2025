@@ -820,6 +820,7 @@
     "topics/topic-idea-pocket.html",
     "topics/topic-ideapocket.html",
     "topics/topic-instagram.html",
+    "topics/topic-ippa.html",
     "topics/topic-julia.html",
     "topics/topic-kawaii.html",
     "topics/topic-kmpvr.html",
@@ -881,7 +882,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 532,
+    "people": 533,
     "works": 303,
     "topics": 2543
   },
@@ -1020,6 +1021,10 @@
     },
     {
       "name": "わんこ",
+      "articles": 1
+    },
+    {
+      "name": "アーヤ",
       "articles": 1
     },
     {
@@ -4848,7 +4853,7 @@
     },
     {
       "name": "IPPA",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "Instagram",
@@ -7816,7 +7821,7 @@
     },
     {
       "name": "ベッド",
-      "articles": 40
+      "articles": 41
     },
     {
       "name": "ベッドシーン",
@@ -13624,7 +13629,7 @@
     },
     {
       "name": "車内",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "車内プレイ",
