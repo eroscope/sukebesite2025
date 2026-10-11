@@ -561,6 +561,7 @@
     "topics/topic-ac9d2eb7082c.html",
     "topics/topic-ad4d9cc1b087.html",
     "topics/topic-ad614843cf44.html",
+    "topics/topic-aec01ded3eaf.html",
     "topics/topic-aecaac86ab2c.html",
     "topics/topic-aee79e066391.html",
     "topics/topic-ai.html",
@@ -884,7 +885,7 @@
   "counts": {
     "people": 535,
     "works": 304,
-    "topics": 2548
+    "topics": 2550
   },
   "people": [
     {
@@ -8176,6 +8177,10 @@
       "articles": 1
     },
     {
+      "name": "モーニング娘。",
+      "articles": 1
+    },
+    {
       "name": "ヤニねこ",
       "articles": 1
     },
@@ -8529,7 +8534,7 @@
     },
     {
       "name": "下着",
-      "articles": 138
+      "articles": 139
     },
     {
       "name": "下着ずらし",
@@ -10132,6 +10137,10 @@
       "articles": 3
     },
     {
+      "name": "安倍なつみ",
+      "articles": 1
+    },
+    {
       "name": "完全主観",
       "articles": 1
     },
@@ -10601,7 +10610,7 @@
     },
     {
       "name": "後藤真希",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "後輩",
@@ -12889,7 +12898,7 @@
     },
     {
       "name": "美女",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "美女3人",
