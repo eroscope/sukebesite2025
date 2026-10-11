@@ -882,9 +882,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 533,
+    "people": 534,
     "works": 304,
-    "topics": 2544
+    "topics": 2546
   },
   "people": [
     {
@@ -1949,6 +1949,10 @@
     },
     {
       "name": "星野みき",
+      "articles": 1
+    },
+    {
+      "name": "映像特典",
       "articles": 1
     },
     {
@@ -5864,6 +5868,10 @@
       "articles": 1
     },
     {
+      "name": "れでぃ×ばと!",
+      "articles": 1
+    },
+    {
       "name": "わか菜ほの",
       "articles": 1
     },
@@ -5925,7 +5933,7 @@
     },
     {
       "name": "アニメ",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "アニメ・漫画",
@@ -6653,6 +6661,10 @@
     },
     {
       "name": "サービスカット",
+      "articles": 1
+    },
+    {
+      "name": "サービスシーン",
       "articles": 1
     },
     {
@@ -11497,7 +11509,7 @@
     },
     {
       "name": "水着",
-      "articles": 325
+      "articles": 326
     },
     {
       "name": "水着グラビア",
