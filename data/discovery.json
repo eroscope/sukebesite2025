@@ -769,6 +769,7 @@
     "topics/topic-ef817736039a.html",
     "topics/topic-efc8194a8e24.html",
     "topics/topic-efe3390fc621.html",
+    "topics/topic-f0e10f39ae25.html",
     "topics/topic-f1360f1c1058.html",
     "topics/topic-f1423036e503.html",
     "topics/topic-f215e675c450.html",
@@ -890,7 +891,7 @@
   "counts": {
     "people": 539,
     "works": 306,
-    "topics": 2563
+    "topics": 2566
   },
   "people": [
     {
@@ -9995,7 +9996,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 73
+      "articles": 74
     },
     {
       "name": "女子アナ設定",
@@ -10151,6 +10152,10 @@
     },
     {
       "name": "姿勢ケア",
+      "articles": 1
+    },
+    {
+      "name": "姿勢矯正",
       "articles": 1
     },
     {
@@ -12310,6 +12315,10 @@
       "articles": 1
     },
     {
+      "name": "白Tシャツ",
+      "articles": 1
+    },
+    {
       "name": "白い下着",
       "articles": 1
     },
@@ -13055,7 +13064,7 @@
     },
     {
       "name": "羽田優里奈",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "耐久",
@@ -14339,6 +14348,10 @@
     },
     {
       "name": "餃子の王将",
+      "articles": 1
+    },
+    {
+      "name": "首こり対策",
       "articles": 1
     },
     {
