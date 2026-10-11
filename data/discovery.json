@@ -886,9 +886,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 537,
+    "people": 538,
     "works": 305,
-    "topics": 2556
+    "topics": 2558
   },
   "people": [
     {
@@ -2573,6 +2573,10 @@
     },
     {
       "name": "石田佳蓮",
+      "articles": 1
+    },
+    {
+      "name": "礒部花凜",
       "articles": 1
     },
     {
@@ -7092,6 +7096,10 @@
       "articles": 1
     },
     {
+      "name": "テレビ",
+      "articles": 1
+    },
+    {
       "name": "テレビキャプ",
       "articles": 1
     },
@@ -9029,6 +9037,10 @@
     },
     {
       "name": "停電",
+      "articles": 1
+    },
+    {
+      "name": "健康企画",
       "articles": 1
     },
     {
