@@ -883,7 +883,7 @@
   ],
   "counts": {
     "people": 533,
-    "works": 303,
+    "works": 304,
     "topics": 2544
   },
   "people": [
@@ -3967,6 +3967,10 @@
     },
     {
       "code": "SAVR-1168",
+      "articles": 1
+    },
+    {
+      "code": "SCDC-011",
       "articles": 1
     },
     {
@@ -9101,7 +9105,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 30
+      "articles": 31
     },
     {
       "name": "公式サンプル動画",
@@ -13397,7 +13401,7 @@
     },
     {
       "name": "複数人プレイ",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "複数出演",
