@@ -888,9 +888,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 538,
-    "works": 305,
-    "topics": 2561
+    "people": 539,
+    "works": 306,
+    "topics": 2562
   },
   "people": [
     {
@@ -2922,6 +2922,10 @@
       "articles": 3
     },
     {
+      "name": "鈴原りこ",
+      "articles": 1
+    },
+    {
       "name": "鈴木ちなみ",
       "articles": 1
     },
@@ -3649,6 +3653,10 @@
     },
     {
       "code": "KWBD-422",
+      "articles": 1
+    },
+    {
+      "code": "LCDV-41456",
       "articles": 1
     },
     {
@@ -4871,6 +4879,10 @@
     },
     {
       "name": "Hカップ時代",
+      "articles": 1
+    },
+    {
+      "name": "I-ONE",
       "articles": 1
     },
     {
@@ -8323,7 +8335,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 196
+      "articles": 197
     },
     {
       "name": "ランジェリー風",
@@ -11579,7 +11591,7 @@
     },
     {
       "name": "水着",
-      "articles": 328
+      "articles": 329
     },
     {
       "name": "水着グラビア",
