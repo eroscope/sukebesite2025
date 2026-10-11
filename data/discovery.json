@@ -878,9 +878,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 529,
+    "people": 530,
     "works": 303,
-    "topics": 2540
+    "topics": 2541
   },
   "people": [
     {
@@ -2077,6 +2077,10 @@
     },
     {
       "name": "柑橘めたる",
+      "articles": 1
+    },
+    {
+      "name": "柚乃りか",
       "articles": 1
     },
     {
@@ -7529,7 +7533,7 @@
     },
     {
       "name": "ヒップ",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "ヒール",
@@ -7537,7 +7541,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 142
+      "articles": 143
     },
     {
       "name": "ビビアン",
@@ -8221,7 +8225,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 194
+      "articles": 195
     },
     {
       "name": "ランジェリー風",
@@ -11533,6 +11537,10 @@
     },
     {
       "name": "法被",
+      "articles": 1
+    },
+    {
+      "name": "泡",
       "articles": 1
     },
     {
