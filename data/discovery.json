@@ -888,7 +888,7 @@
   "counts": {
     "people": 538,
     "works": 305,
-    "topics": 2558
+    "topics": 2560
   },
   "people": [
     {
@@ -5176,6 +5176,10 @@
       "articles": 1
     },
     {
+      "name": "Queenie Chuppy",
+      "articles": 1
+    },
+    {
       "name": "Qカップ",
       "articles": 2
     },
@@ -7501,7 +7505,7 @@
     },
     {
       "name": "バニーガール",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "バニーナース",
@@ -13497,6 +13501,10 @@
     },
     {
       "name": "複数画像",
+      "articles": 1
+    },
+    {
+      "name": "褐色肌",
       "articles": 1
     },
     {
