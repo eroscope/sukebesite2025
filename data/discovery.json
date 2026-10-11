@@ -888,7 +888,7 @@
   "counts": {
     "people": 537,
     "works": 305,
-    "topics": 2555
+    "topics": 2556
   },
   "people": [
     {
@@ -7613,7 +7613,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 143
+      "articles": 144
     },
     {
       "name": "ビビアン",
@@ -11561,7 +11561,7 @@
     },
     {
       "name": "水着",
-      "articles": 327
+      "articles": 328
     },
     {
       "name": "水着グラビア",
@@ -12193,7 +12193,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 207
+      "articles": 208
     },
     {
       "name": "画像ギャラリー",
@@ -14074,6 +14074,10 @@
     {
       "name": "雨宮ひびき",
       "articles": 2
+    },
+    {
+      "name": "雪平莉左",
+      "articles": 1
     },
     {
       "name": "雪野しお",
