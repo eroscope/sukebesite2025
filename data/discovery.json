@@ -880,9 +880,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 530,
+    "people": 531,
     "works": 303,
-    "topics": 2541
+    "topics": 2542
   },
   "people": [
     {
@@ -2999,6 +2999,10 @@
     },
     {
       "name": "黒ギャル",
+      "articles": 1
+    },
+    {
+      "name": "黒嵜菜々子",
       "articles": 1
     },
     {
@@ -7758,6 +7762,10 @@
       "articles": 1
     },
     {
+      "name": "プロデューサー",
+      "articles": 1
+    },
+    {
       "name": "プロフィール",
       "articles": 6
     },
@@ -11467,7 +11475,7 @@
     },
     {
       "name": "水着",
-      "articles": 324
+      "articles": 325
     },
     {
       "name": "水着グラビア",
