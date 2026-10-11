@@ -882,9 +882,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 534,
+    "people": 535,
     "works": 304,
-    "topics": 2546
+    "topics": 2548
   },
   "people": [
     {
@@ -1009,6 +1009,10 @@
     },
     {
       "name": "やんやん",
+      "articles": 1
+    },
+    {
+      "name": "よむ",
       "articles": 1
     },
     {
@@ -4684,6 +4688,10 @@
       "articles": 1
     },
     {
+      "name": "DOAXVV",
+      "articles": 1
+    },
+    {
       "name": "DOC",
       "articles": 1
     },
@@ -6533,7 +6541,7 @@
     },
     {
       "name": "ゲーム画像",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "ゲーム紹介",
@@ -6566,6 +6574,10 @@
     {
       "name": "コミケ",
       "articles": 5
+    },
+    {
+      "name": "コラボ衣装",
+      "articles": 1
     },
     {
       "name": "コンビニ",
@@ -6989,7 +7001,7 @@
     },
     {
       "name": "タイツ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "タイトスカート",
