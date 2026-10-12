@@ -26,6 +26,7 @@
     "people/person-27b34ab347a7.html",
     "people/person-295be3bfe6df.html",
     "people/person-2a3db560d61a.html",
+    "people/person-2b1cd792a1d2.html",
     "people/person-2b6cb215f0bb.html",
     "people/person-2be830481955.html",
     "people/person-2d8b79755a1c.html",
@@ -910,7 +911,7 @@
   "counts": {
     "people": 551,
     "works": 311,
-    "topics": 2590
+    "topics": 2592
   },
   "people": [
     {
@@ -2451,7 +2452,7 @@
     },
     {
       "name": "澄田綾乃",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "瀬尾礼子",
@@ -8475,7 +8476,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 207
+      "articles": 208
     },
     {
       "name": "ランジェリー風",
@@ -9676,6 +9677,10 @@
     {
       "name": "古旗笑佳",
       "articles": 3
+    },
+    {
+      "name": "古着屋",
+      "articles": 1
     },
     {
       "name": "可愛まゆ",
@@ -12711,6 +12716,10 @@
     },
     {
       "name": "着替え",
+      "articles": 1
+    },
+    {
+      "name": "着替え動画",
       "articles": 1
     },
     {
