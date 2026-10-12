@@ -897,7 +897,7 @@
   "counts": {
     "people": 541,
     "works": 306,
-    "topics": 2571
+    "topics": 2573
   },
   "people": [
     {
@@ -5985,6 +5985,10 @@
       "articles": 1
     },
     {
+      "name": "アスリート",
+      "articles": 1
+    },
+    {
       "name": "アズールレーン",
       "articles": 2
     },
@@ -6910,7 +6914,7 @@
     },
     {
       "name": "スポーツウェア",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "スポーツ女子",
@@ -7566,6 +7570,10 @@
     },
     {
       "name": "バレエ",
+      "articles": 1
+    },
+    {
+      "name": "バレーボール",
       "articles": 1
     },
     {
