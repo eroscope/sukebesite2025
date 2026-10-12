@@ -904,7 +904,7 @@
   "counts": {
     "people": 550,
     "works": 309,
-    "topics": 2584
+    "topics": 2585
   },
   "people": [
     {
@@ -4601,7 +4601,7 @@
     },
     {
       "name": "AKB48",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "APEX",
@@ -9992,6 +9992,10 @@
       "articles": 1
     },
     {
+      "name": "大島優子",
+      "articles": 1
+    },
+    {
       "name": "大島優香",
       "articles": 1
     },
@@ -11737,7 +11741,7 @@
     },
     {
       "name": "水着",
-      "articles": 341
+      "articles": 342
     },
     {
       "name": "水着グラビア",
