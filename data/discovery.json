@@ -895,9 +895,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 541,
+    "people": 542,
     "works": 306,
-    "topics": 2573
+    "topics": 2574
   },
   "people": [
     {
@@ -1530,6 +1530,10 @@
     },
     {
       "name": "大原優乃",
+      "articles": 1
+    },
+    {
+      "name": "大島璃乃",
       "articles": 1
     },
     {
@@ -5265,6 +5269,10 @@
       "articles": 1
     },
     {
+      "name": "RiNo",
+      "articles": 1
+    },
+    {
       "name": "Rosyluce",
       "articles": 1
     },
@@ -8370,7 +8378,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 198
+      "articles": 199
     },
     {
       "name": "ランジェリー風",
@@ -9274,7 +9282,7 @@
     },
     {
       "name": "写真集",
-      "articles": 55
+      "articles": 56
     },
     {
       "name": "冨永実里",
@@ -11642,7 +11650,7 @@
     },
     {
       "name": "水着",
-      "articles": 333
+      "articles": 334
     },
     {
       "name": "水着グラビア",
