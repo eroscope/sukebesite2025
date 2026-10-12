@@ -901,9 +901,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 547,
+    "people": 548,
     "works": 308,
-    "topics": 2579
+    "topics": 2580
   },
   "people": [
     {
@@ -1760,6 +1760,10 @@
     },
     {
       "name": "山下紗和",
+      "articles": 1
+    },
+    {
+      "name": "山口真帆",
       "articles": 1
     },
     {
@@ -5131,6 +5135,10 @@
       "articles": 1
     },
     {
+      "name": "NGT48",
+      "articles": 1
+    },
+    {
       "name": "NHK",
       "articles": 14
     },
@@ -8416,7 +8424,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 202
+      "articles": 203
     },
     {
       "name": "ランジェリー風",
@@ -11700,7 +11708,7 @@
     },
     {
       "name": "水着",
-      "articles": 339
+      "articles": 340
     },
     {
       "name": "水着グラビア",
