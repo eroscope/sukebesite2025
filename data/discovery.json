@@ -913,7 +913,7 @@
   "counts": {
     "people": 552,
     "works": 311,
-    "topics": 2593
+    "topics": 2596
   },
   "people": [
     {
@@ -7433,6 +7433,10 @@
       "articles": 1
     },
     {
+      "name": "ニュース映像",
+      "articles": 1
+    },
+    {
       "name": "ニューハーフ",
       "articles": 3
     },
@@ -10174,7 +10178,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 75
+      "articles": 76
     },
     {
       "name": "女子アナ設定",
@@ -11514,6 +11518,10 @@
     },
     {
       "name": "林美希",
+      "articles": 1
+    },
+    {
+      "name": "林美桜",
       "articles": 1
     },
     {
@@ -14134,6 +14142,10 @@
     },
     {
       "name": "野球部ちゃん",
+      "articles": 1
+    },
+    {
+      "name": "野菜詰め放題",
       "articles": 1
     },
     {
