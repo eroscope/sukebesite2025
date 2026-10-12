@@ -872,6 +872,7 @@
     "topics/topic-s1.html",
     "topics/topic-sex.html",
     "topics/topic-sm.html",
+    "topics/topic-sns.html",
     "topics/topic-sod.html",
     "topics/topic-sod.html",
     "topics/topic-sod.html",
@@ -901,9 +902,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 548,
+    "people": 549,
     "works": 309,
-    "topics": 2580
+    "topics": 2582
   },
   "people": [
     {
@@ -944,6 +945,10 @@
     },
     {
       "name": "かさだまゆ",
+      "articles": 1
+    },
+    {
+      "name": "かんなちゃん",
       "articles": 1
     },
     {
@@ -5368,7 +5373,7 @@
     },
     {
       "name": "SNS自撮り",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "SOD",
@@ -5548,6 +5553,10 @@
     },
     {
       "name": "figma",
+      "articles": 1
+    },
+    {
+      "name": "huwa_hawawa",
       "articles": 1
     },
     {
@@ -6189,6 +6198,10 @@
     {
       "name": "エステ",
       "articles": 7
+    },
+    {
+      "name": "エステティシャン",
+      "articles": 1
     },
     {
       "name": "エスワン",
@@ -7504,7 +7517,7 @@
     },
     {
       "name": "ハメ撮り",
-      "articles": 21
+      "articles": 22
     },
     {
       "name": "ハメ撮り風",
