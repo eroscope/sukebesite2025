@@ -901,7 +901,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 546,
+    "people": 547,
     "works": 308,
     "topics": 2579
   },
@@ -2456,6 +2456,10 @@
     },
     {
       "name": "熊田曜子",
+      "articles": 1
+    },
+    {
+      "name": "片山萌美",
       "articles": 1
     },
     {
@@ -11696,7 +11700,7 @@
     },
     {
       "name": "水着",
-      "articles": 338
+      "articles": 339
     },
     {
       "name": "水着グラビア",
@@ -12328,7 +12332,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 208
+      "articles": 209
     },
     {
       "name": "画像ギャラリー",
@@ -13596,7 +13600,7 @@
     },
     {
       "name": "裸身",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "複数プレイ",
