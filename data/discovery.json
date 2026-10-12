@@ -913,7 +913,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 553,
+    "people": 554,
     "works": 311,
     "topics": 2598
   },
@@ -2304,6 +2304,10 @@
     },
     {
       "name": "櫻井おとの",
+      "articles": 1
+    },
+    {
+      "name": "櫻井淳子",
       "articles": 1
     },
     {
@@ -7796,7 +7800,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 150
+      "articles": 151
     },
     {
       "name": "ビビアン",
@@ -11812,7 +11816,7 @@
     },
     {
       "name": "水着",
-      "articles": 344
+      "articles": 345
     },
     {
       "name": "水着グラビア",
