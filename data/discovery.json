@@ -897,7 +897,7 @@
   "counts": {
     "people": 541,
     "works": 306,
-    "topics": 2567
+    "topics": 2571
   },
   "people": [
     {
@@ -4329,6 +4329,10 @@
       "articles": 1
     },
     {
+      "name": "2000年代",
+      "articles": 1
+    },
+    {
       "name": "2026年秋アニメ",
       "articles": 1
     },
@@ -5162,6 +5166,10 @@
     },
     {
       "name": "P-BOX VR",
+      "articles": 1
+    },
+    {
+      "name": "PCゲーム",
       "articles": 1
     },
     {
@@ -6154,7 +6162,7 @@
     },
     {
       "name": "エロゲー",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "エロコスプレ",
@@ -7378,6 +7386,10 @@
     },
     {
       "name": "ノニ（noni）",
+      "articles": 1
+    },
+    {
+      "name": "ノベルゲーム",
       "articles": 1
     },
     {
@@ -10774,6 +10786,10 @@
     },
     {
       "name": "懐かしAV",
+      "articles": 1
+    },
+    {
+      "name": "懐古",
       "articles": 1
     },
     {
