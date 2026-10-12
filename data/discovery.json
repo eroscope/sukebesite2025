@@ -904,7 +904,7 @@
   "counts": {
     "people": 550,
     "works": 309,
-    "topics": 2582
+    "topics": 2583
   },
   "people": [
     {
@@ -9404,6 +9404,10 @@
       "articles": 4
     },
     {
+      "name": "別れ話",
+      "articles": 1
+    },
+    {
       "name": "制服",
       "articles": 34
     },
@@ -11057,7 +11061,7 @@
     },
     {
       "name": "掲示板反応",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "握手会",
@@ -12281,7 +12285,7 @@
     },
     {
       "name": "男女",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "男女の絡み",
@@ -13281,7 +13285,7 @@
     },
     {
       "name": "胸元",
-      "articles": 73
+      "articles": 74
     },
     {
       "name": "胸元チラ見え",
