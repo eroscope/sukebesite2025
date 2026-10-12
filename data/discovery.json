@@ -898,7 +898,7 @@
   "counts": {
     "people": 542,
     "works": 306,
-    "topics": 2574
+    "topics": 2577
   },
   "people": [
     {
@@ -2955,7 +2955,7 @@
     },
     {
       "name": "鈴木希",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "鈴木紗理奈",
@@ -5283,7 +5283,7 @@
     },
     {
       "name": "S1",
-      "articles": 34
+      "articles": 35
     },
     {
       "name": "S1 GIRLS COLLECTION",
@@ -9966,6 +9966,10 @@
       "articles": 1
     },
     {
+      "name": "天気キャスター",
+      "articles": 1
+    },
+    {
       "name": "天気予報",
       "articles": 4
     },
@@ -10187,6 +10191,10 @@
     },
     {
       "name": "姉弟設定",
+      "articles": 1
+    },
+    {
+      "name": "始発電車",
       "articles": 1
     },
     {
@@ -13804,6 +13812,10 @@
     {
       "name": "車内",
       "articles": 4
+    },
+    {
+      "name": "車内シチュ",
+      "articles": 1
     },
     {
       "name": "車内プレイ",
