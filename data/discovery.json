@@ -901,8 +901,8 @@
   ],
   "counts": {
     "people": 546,
-    "works": 307,
-    "topics": 2578
+    "works": 308,
+    "topics": 2579
   },
   "people": [
     {
@@ -4024,6 +4024,10 @@
       "articles": 1
     },
     {
+      "code": "ROE-570",
+      "articles": 1
+    },
+    {
       "code": "ROYD-190",
       "articles": 1
     },
@@ -5067,7 +5071,7 @@
     },
     {
       "name": "Madonna",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "Madonna VR",
@@ -10358,6 +10362,10 @@
       "articles": 1
     },
     {
+      "name": "家庭内ハーレム",
+      "articles": 1
+    },
+    {
       "name": "家庭教師",
       "articles": 5
     },
@@ -13135,7 +13143,7 @@
     },
     {
       "name": "義母",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "義父",
