@@ -17,6 +17,7 @@
     "people/person-12db991e1946.html",
     "people/person-1bb0ee5a4e03.html",
     "people/person-1bf8c0e47455.html",
+    "people/person-1dcef0f9ba50.html",
     "people/person-213207dd268f.html",
     "people/person-217023b46127.html",
     "people/person-22656f555de3.html",
@@ -177,6 +178,7 @@
     "topics/topic-0a4b018747ad.html",
     "topics/topic-0b312da6dd3f.html",
     "topics/topic-0b5c5c5ef71f.html",
+    "topics/topic-0b814efb2b27.html",
     "topics/topic-0c519511b2e8.html",
     "topics/topic-0dff8343cfe0.html",
     "topics/topic-0e6797903b11.html",
@@ -905,7 +907,7 @@
   "counts": {
     "people": 551,
     "works": 309,
-    "topics": 2585
+    "topics": 2587
   },
   "people": [
     {
@@ -1034,7 +1036,7 @@
     },
     {
       "name": "めるる",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "やんやん",
@@ -7157,6 +7159,10 @@
       "articles": 1
     },
     {
+      "name": "タイトドレス",
+      "articles": 1
+    },
+    {
       "name": "タイトワンピース",
       "articles": 1
     },
@@ -7829,6 +7835,10 @@
       "articles": 1
     },
     {
+      "name": "ファンイベント",
+      "articles": 1
+    },
+    {
       "name": "ファンサ",
       "articles": 1
     },
@@ -8098,7 +8108,7 @@
     },
     {
       "name": "ボディライン",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ボトムレス",
@@ -12394,7 +12404,7 @@
     },
     {
       "name": "画像動画",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "画像検索",
