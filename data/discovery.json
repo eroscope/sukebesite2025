@@ -896,7 +896,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 542,
+    "people": 543,
     "works": 306,
     "topics": 2577
   },
@@ -2187,6 +2187,10 @@
     },
     {
       "name": "梨々花",
+      "articles": 1
+    },
+    {
+      "name": "森くるみ",
       "articles": 1
     },
     {
@@ -7683,7 +7687,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 146
+      "articles": 147
     },
     {
       "name": "ビビアン",
@@ -8379,7 +8383,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 199
+      "articles": 200
     },
     {
       "name": "ランジェリー風",
@@ -9359,7 +9363,7 @@
     },
     {
       "name": "制服風衣装",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "剃毛",
