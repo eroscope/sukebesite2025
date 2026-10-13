@@ -924,9 +924,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 564,
+    "people": 565,
     "works": 317,
-    "topics": 2631
+    "topics": 2632
   },
   "people": [
     {
@@ -3039,6 +3039,10 @@
     },
     {
       "name": "野上のいこ",
+      "articles": 1
+    },
+    {
+      "name": "金村美玖",
       "articles": 1
     },
     {
@@ -8871,7 +8875,7 @@
     },
     {
       "name": "下着",
-      "articles": 141
+      "articles": 142
     },
     {
       "name": "下着ずらし",
@@ -11466,6 +11470,10 @@
       "articles": 1
     },
     {
+      "name": "日向坂46",
+      "articles": 1
+    },
+    {
       "name": "日向由奈",
       "articles": 1
     },
@@ -11991,7 +11999,7 @@
     },
     {
       "name": "水着",
-      "articles": 352
+      "articles": 353
     },
     {
       "name": "水着グラビア",
