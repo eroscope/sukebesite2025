@@ -926,7 +926,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 567,
+    "people": 568,
     "works": 317,
     "topics": 2641
   },
@@ -2601,6 +2601,10 @@
     },
     {
       "name": "白川未奈",
+      "articles": 1
+    },
+    {
+      "name": "白波瀬海来",
       "articles": 1
     },
     {
@@ -4937,7 +4941,7 @@
     },
     {
       "name": "DVD",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "DVD画像",
@@ -8653,7 +8657,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 212
+      "articles": 213
     },
     {
       "name": "ランジェリー風",
@@ -9561,7 +9565,7 @@
     },
     {
       "name": "写真集",
-      "articles": 60
+      "articles": 61
     },
     {
       "name": "冨永実里",
