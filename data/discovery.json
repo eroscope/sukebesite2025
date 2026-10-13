@@ -928,7 +928,7 @@
   "counts": {
     "people": 567,
     "works": 317,
-    "topics": 2640
+    "topics": 2641
   },
   "people": [
     {
@@ -4937,7 +4937,7 @@
     },
     {
       "name": "DVD",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "DVD画像",
@@ -8653,7 +8653,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 211
+      "articles": 212
     },
     {
       "name": "ランジェリー風",
@@ -9561,7 +9561,7 @@
     },
     {
       "name": "写真集",
-      "articles": 59
+      "articles": 60
     },
     {
       "name": "冨永実里",
@@ -12033,7 +12033,7 @@
     },
     {
       "name": "水着",
-      "articles": 355
+      "articles": 356
     },
     {
       "name": "水着グラビア",
@@ -12845,6 +12845,10 @@
     },
     {
       "name": "白手袋",
+      "articles": 1
+    },
+    {
+      "name": "白波瀬海来",
       "articles": 1
     },
     {
