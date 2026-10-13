@@ -440,6 +440,7 @@
     "topics/topic-7464eb4ff510.html",
     "topics/topic-75961d1236e9.html",
     "topics/topic-7617e3b447bc.html",
+    "topics/topic-76f8bf7feab1.html",
     "topics/topic-76faf7bb7608.html",
     "topics/topic-771bd1d57220.html",
     "topics/topic-7762d3aed2fb.html",
@@ -915,9 +916,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 555,
-    "works": 312,
-    "topics": 2602
+    "people": 556,
+    "works": 314,
+    "topics": 2604
   },
   "people": [
     {
@@ -1279,6 +1280,10 @@
     {
       "name": "乙アリス",
       "articles": 2
+    },
+    {
+      "name": "九井スナオ",
+      "articles": 1
     },
     {
       "name": "九野ひなの",
@@ -3327,6 +3332,10 @@
       "articles": 1
     },
     {
+      "code": "CHETV-001",
+      "articles": 1
+    },
+    {
       "code": "CHIKUWABU-1016",
       "articles": 1
     },
@@ -3480,6 +3489,10 @@
     },
     {
       "code": "H-113HR00012",
+      "articles": 1
+    },
+    {
+      "code": "H-1472CHETV00001",
       "articles": 1
     },
     {
@@ -4979,6 +4992,10 @@
     {
       "name": "HKT48",
       "articles": 2
+    },
+    {
+      "name": "HMN WORKS",
+      "articles": 1
     },
     {
       "name": "Han Baobao",
@@ -7382,7 +7399,7 @@
     },
     {
       "name": "ドM",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ドイツ人コスプレイヤー",
@@ -8994,7 +9011,7 @@
     },
     {
       "name": "人妻",
-      "articles": 58
+      "articles": 59
     },
     {
       "name": "人妻AV",
@@ -11882,6 +11899,10 @@
     },
     {
       "name": "汗跡",
+      "articles": 1
+    },
+    {
+      "name": "江の島",
       "articles": 1
     },
     {
