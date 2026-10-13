@@ -928,7 +928,7 @@
   "counts": {
     "people": 566,
     "works": 317,
-    "topics": 2633
+    "topics": 2636
   },
   "people": [
     {
@@ -10284,6 +10284,10 @@
       "articles": 4
     },
     {
+      "name": "太腿",
+      "articles": 1
+    },
+    {
       "name": "夫婦",
       "articles": 1
     },
@@ -12520,6 +12524,10 @@
       "articles": 1
     },
     {
+      "name": "生足",
+      "articles": 1
+    },
+    {
       "name": "生配信",
       "articles": 4
     },
@@ -13452,6 +13460,10 @@
       "articles": 1
     },
     {
+      "name": "美脚",
+      "articles": 1
+    },
+    {
       "name": "美谷朱音",
       "articles": 1
     },
@@ -13761,7 +13773,7 @@
     },
     {
       "name": "芸能人",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "芹那",
