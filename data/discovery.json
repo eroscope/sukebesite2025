@@ -915,7 +915,7 @@
   "counts": {
     "people": 554,
     "works": 311,
-    "topics": 2599
+    "topics": 2601
   },
   "people": [
     {
@@ -7800,7 +7800,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 151
+      "articles": 152
     },
     {
       "name": "ビビアン",
@@ -10571,6 +10571,10 @@
       "articles": 1
     },
     {
+      "name": "小出広美",
+      "articles": 1
+    },
+    {
       "name": "小川桃果",
       "articles": 1
     },
@@ -11363,6 +11367,10 @@
       "articles": 1
     },
     {
+      "name": "昭和グラビア",
+      "articles": 1
+    },
+    {
       "name": "昭和特撮",
       "articles": 1
     },
@@ -11820,7 +11828,7 @@
     },
     {
       "name": "水着",
-      "articles": 346
+      "articles": 347
     },
     {
       "name": "水着グラビア",
