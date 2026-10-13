@@ -917,9 +917,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 559,
+    "people": 560,
     "works": 314,
-    "topics": 2614
+    "topics": 2615
   },
   "people": [
     {
@@ -1328,6 +1328,10 @@
     },
     {
       "name": "伊藤しほ乃",
+      "articles": 1
+    },
+    {
+      "name": "伊藤寧々",
       "articles": 1
     },
     {
@@ -9347,6 +9351,10 @@
       "articles": 1
     },
     {
+      "name": "元乃木坂46",
+      "articles": 1
+    },
+    {
       "name": "元人気AV女優",
       "articles": 1
     },
@@ -11908,7 +11916,7 @@
     },
     {
       "name": "水着",
-      "articles": 349
+      "articles": 350
     },
     {
       "name": "水着グラビア",
