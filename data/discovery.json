@@ -916,9 +916,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 556,
+    "people": 557,
     "works": 314,
-    "topics": 2604
+    "topics": 2606
   },
   "people": [
     {
@@ -1235,6 +1235,10 @@
     },
     {
       "name": "三枝れい",
+      "articles": 1
+    },
+    {
+      "name": "三橋くん",
       "articles": 1
     },
     {
@@ -6674,6 +6678,10 @@
       "articles": 13
     },
     {
+      "name": "グラビアン魂",
+      "articles": 1
+    },
+    {
       "name": "グラビア動画",
       "articles": 1
     },
@@ -8343,6 +8351,10 @@
     },
     {
       "name": "ムーディーズ",
+      "articles": 1
+    },
+    {
+      "name": "メイキング",
       "articles": 1
     },
     {
