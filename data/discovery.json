@@ -925,7 +925,7 @@
   "counts": {
     "people": 561,
     "works": 317,
-    "topics": 2622
+    "topics": 2627
   },
   "people": [
     {
@@ -6353,6 +6353,10 @@
       "articles": 1
     },
     {
+      "name": "エロゲ",
+      "articles": 1
+    },
+    {
       "name": "エロゲー",
       "articles": 3
     },
@@ -6846,6 +6850,10 @@
     },
     {
       "name": "コラボ衣装",
+      "articles": 1
+    },
+    {
+      "name": "コレクション",
       "articles": 1
     },
     {
@@ -7386,6 +7394,10 @@
     },
     {
       "name": "テレビ画像",
+      "articles": 1
+    },
+    {
+      "name": "テレホンカード",
       "articles": 1
     },
     {
@@ -12381,6 +12393,10 @@
       "articles": 1
     },
     {
+      "name": "特典",
+      "articles": 1
+    },
+    {
       "name": "特撮ヒロイン",
       "articles": 1
     },
@@ -13363,6 +13379,10 @@
     {
       "name": "美少女",
       "articles": 2
+    },
+    {
+      "name": "美少女ゲーム",
+      "articles": 1
     },
     {
       "name": "美少女フィギュア",
