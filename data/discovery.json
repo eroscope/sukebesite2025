@@ -387,6 +387,7 @@
     "topics/topic-5ef5727d4453.html",
     "topics/topic-5fc9e30aedc2.html",
     "topics/topic-5fca074c8026.html",
+    "topics/topic-600c97e1fdb7.html",
     "topics/topic-60257fe59557.html",
     "topics/topic-60418371049e.html",
     "topics/topic-60bb2a31f7d3.html",
@@ -918,7 +919,7 @@
   "counts": {
     "people": 557,
     "works": 314,
-    "topics": 2606
+    "topics": 2610
   },
   "people": [
     {
@@ -5906,6 +5907,10 @@
       "articles": 1
     },
     {
+      "name": "ちーまき",
+      "articles": 1
+    },
+    {
       "name": "つばさ舞",
       "articles": 1
     },
@@ -9447,7 +9452,7 @@
     },
     {
       "name": "写真集",
-      "articles": 58
+      "articles": 59
     },
     {
       "name": "冨永実里",
@@ -9647,7 +9652,7 @@
     },
     {
       "name": "十味",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "十束るう",
@@ -11634,6 +11639,10 @@
       "articles": 2
     },
     {
+      "name": "根本凪",
+      "articles": 1
+    },
+    {
       "name": "格闘ゲーム",
       "articles": 3
     },
@@ -11739,6 +11748,10 @@
     },
     {
       "name": "極小水着",
+      "articles": 1
+    },
+    {
+      "name": "極旬撮GIRL",
       "articles": 1
     },
     {
@@ -11871,7 +11884,7 @@
     },
     {
       "name": "水着",
-      "articles": 347
+      "articles": 348
     },
     {
       "name": "水着グラビア",
@@ -13647,6 +13660,10 @@
     },
     {
       "name": "葵こはる",
+      "articles": 1
+    },
+    {
+      "name": "蓬莱舞",
       "articles": 1
     },
     {
