@@ -920,7 +920,7 @@
   "counts": {
     "people": 560,
     "works": 316,
-    "topics": 2616
+    "topics": 2617
   },
   "people": [
     {
@@ -5245,7 +5245,7 @@
     },
     {
       "name": "NHK",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "NHKアナウンサー",
@@ -7098,6 +7098,10 @@
     {
       "name": "スポーツウェア",
       "articles": 4
+    },
+    {
+      "name": "スポーツ中継",
+      "articles": 1
     },
     {
       "name": "スポーツ女子",
@@ -10277,7 +10281,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 77
+      "articles": 78
     },
     {
       "name": "女子アナ設定",
@@ -12045,7 +12049,7 @@
     },
     {
       "name": "浅田春奈",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "浅野温子",
@@ -14533,7 +14537,7 @@
     },
     {
       "name": "青ニット",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "青ビキニ",
