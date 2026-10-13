@@ -915,7 +915,7 @@
   "counts": {
     "people": 554,
     "works": 311,
-    "topics": 2598
+    "topics": 2599
   },
   "people": [
     {
@@ -1136,7 +1136,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "プロフィール",
@@ -9707,6 +9707,10 @@
       "articles": 1
     },
     {
+      "name": "可愛かずみ",
+      "articles": 1
+    },
+    {
       "name": "可愛まゆ",
       "articles": 2
     },
@@ -11816,7 +11820,7 @@
     },
     {
       "name": "水着",
-      "articles": 345
+      "articles": 346
     },
     {
       "name": "水着グラビア",
