@@ -928,7 +928,7 @@
   "counts": {
     "people": 566,
     "works": 317,
-    "topics": 2636
+    "topics": 2637
   },
   "people": [
     {
@@ -5305,7 +5305,7 @@
     },
     {
       "name": "NIKKE",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "NMB48",
@@ -6860,6 +6860,10 @@
       "articles": 1
     },
     {
+      "name": "コスプレ画像",
+      "articles": 1
+    },
+    {
       "name": "コス衣装",
       "articles": 1
     },
@@ -8385,7 +8389,7 @@
     },
     {
       "name": "マルチャーナ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "マルフォイ",
@@ -12025,7 +12029,7 @@
     },
     {
       "name": "水着コスプレ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "水着セックス",
