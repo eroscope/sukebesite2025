@@ -308,6 +308,7 @@
     "topics/topic-3d9fa52eea90.html",
     "topics/topic-3dbb0d7317d1.html",
     "topics/topic-3dce044148e5.html",
+    "topics/topic-3df471dd86a7.html",
     "topics/topic-3dvr.html",
     "topics/topic-3e0c0cc25958.html",
     "topics/topic-3e440ff2345c.html",
@@ -928,7 +929,7 @@
   "counts": {
     "people": 568,
     "works": 317,
-    "topics": 2641
+    "topics": 2644
   },
   "people": [
     {
@@ -6724,6 +6725,10 @@
       "articles": 1
     },
     {
+      "name": "クライミング",
+      "articles": 1
+    },
+    {
       "name": "クラウディア",
       "articles": 1
     },
@@ -6753,6 +6758,10 @@
     },
     {
       "name": "クールビューティー",
+      "articles": 1
+    },
+    {
+      "name": "グッド！モーニング",
       "articles": 1
     },
     {
@@ -7973,7 +7982,7 @@
     },
     {
       "name": "ピタパン",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ピックルボール",
@@ -8301,6 +8310,10 @@
     },
     {
       "name": "ボトムレス",
+      "articles": 1
+    },
+    {
+      "name": "ボルダリング",
       "articles": 1
     },
     {
@@ -9181,7 +9194,7 @@
     },
     {
       "name": "今井春花",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "今井美優",
