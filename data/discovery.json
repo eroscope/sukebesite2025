@@ -318,6 +318,7 @@
     "topics/topic-403ce6a9e7dc.html",
     "topics/topic-4099fd9114e8.html",
     "topics/topic-40a54b21f9f0.html",
+    "topics/topic-40bd92596d03.html",
     "topics/topic-40ee0275c9cf.html",
     "topics/topic-413a5d423268.html",
     "topics/topic-42b682502372.html",
@@ -924,7 +925,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 565,
+    "people": 566,
     "works": 317,
     "topics": 2632
   },
@@ -2551,6 +2552,10 @@
     },
     {
       "name": "璃音",
+      "articles": 1
+    },
+    {
+      "name": "生田絵梨花",
       "articles": 1
     },
     {
@@ -8979,7 +8984,7 @@
     },
     {
       "name": "乃木坂46",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "乃音のの",
@@ -13575,7 +13580,7 @@
     },
     {
       "name": "胸元",
-      "articles": 76
+      "articles": 77
     },
     {
       "name": "胸元チラ見え",
@@ -13751,7 +13756,7 @@
     },
     {
       "name": "芸能人",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "芹那",
