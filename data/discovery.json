@@ -934,7 +934,7 @@
   "counts": {
     "people": 568,
     "works": 318,
-    "topics": 2655
+    "topics": 2656
   },
   "people": [
     {
@@ -7963,7 +7963,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 152
+      "articles": 153
     },
     {
       "name": "ビビアン",
@@ -9599,7 +9599,7 @@
     },
     {
       "name": "写真集",
-      "articles": 61
+      "articles": 62
     },
     {
       "name": "冨永実里",
@@ -10279,6 +10279,10 @@
     },
     {
       "name": "大島優香",
+      "articles": 1
+    },
+    {
+      "name": "大島璃乃",
       "articles": 1
     },
     {
@@ -12087,7 +12091,7 @@
     },
     {
       "name": "水着",
-      "articles": 359
+      "articles": 360
     },
     {
       "name": "水着グラビア",
