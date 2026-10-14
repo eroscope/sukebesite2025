@@ -100,6 +100,7 @@
     "people/person-ad98d03bd93a.html",
     "people/person-ae1a73ad3f6c.html",
     "people/person-b4420d308399.html",
+    "people/person-b601a90b3d71.html",
     "people/person-b6b849d11595.html",
     "people/person-b8d44d258dc4.html",
     "people/person-bd3ac5bc1a37.html",
@@ -934,7 +935,7 @@
   "counts": {
     "people": 568,
     "works": 318,
-    "topics": 2656
+    "topics": 2658
   },
   "people": [
     {
@@ -2395,7 +2396,7 @@
     },
     {
       "name": "水着グラビア",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "水野朝陽",
@@ -5510,6 +5511,10 @@
       "articles": 1
     },
     {
+      "name": "SKE48",
+      "articles": 1
+    },
+    {
       "name": "SM",
       "articles": 2
     },
@@ -7963,7 +7968,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 153
+      "articles": 154
     },
     {
       "name": "ビビアン",
@@ -10287,6 +10292,10 @@
     },
     {
       "name": "大川ぶくぶ",
+      "articles": 1
+    },
+    {
+      "name": "大村杏",
       "articles": 1
     },
     {
