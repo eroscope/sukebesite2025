@@ -940,9 +940,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 572,
+    "people": 573,
     "works": 319,
-    "topics": 2667
+    "topics": 2668
   },
   "people": [
     {
@@ -2087,6 +2087,10 @@
     },
     {
       "name": "月城莉奈",
+      "articles": 1
+    },
+    {
+      "name": "月見若葉",
       "articles": 1
     },
     {
@@ -7791,6 +7795,10 @@
     },
     {
       "name": "ハリー・ポッター",
+      "articles": 1
+    },
+    {
+      "name": "ハロウィン",
       "articles": 1
     },
     {
@@ -13751,7 +13759,7 @@
     },
     {
       "name": "胸元",
-      "articles": 78
+      "articles": 79
     },
     {
       "name": "胸元チラ見え",
