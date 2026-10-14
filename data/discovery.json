@@ -244,6 +244,7 @@
     "topics/topic-233ca36573b6.html",
     "topics/topic-2344234a7152.html",
     "topics/topic-246c05570841.html",
+    "topics/topic-2480f81734f4.html",
     "topics/topic-24c3b2d8dbdf.html",
     "topics/topic-24eb9cf57830.html",
     "topics/topic-26527e7c3344.html",
@@ -932,8 +933,8 @@
   ],
   "counts": {
     "people": 568,
-    "works": 317,
-    "topics": 2648
+    "works": 318,
+    "topics": 2649
   },
   "people": [
     {
@@ -4151,6 +4152,10 @@
       "articles": 1
     },
     {
+      "code": "PXVR-506",
+      "articles": 1
+    },
+    {
       "code": "RCT-576",
       "articles": 1
     },
@@ -5626,7 +5631,7 @@
     },
     {
       "name": "VR",
-      "articles": 108
+      "articles": 109
     },
     {
       "name": "VR CHANNEL 005",
@@ -6274,7 +6279,7 @@
     },
     {
       "name": "イチャラブ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "イベント",
@@ -8221,6 +8226,10 @@
       "articles": 4
     },
     {
+      "name": "ベスト作品",
+      "articles": 1
+    },
+    {
       "name": "ベスト盤",
       "articles": 3
     },
@@ -9554,7 +9563,7 @@
     },
     {
       "name": "公式紹介画像",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "共同廊下",
