@@ -564,6 +564,7 @@
     "topics/topic-a3744f95b338.html",
     "topics/topic-a389c389eddc.html",
     "topics/topic-a4132cb3bd7c.html",
+    "topics/topic-a43fd5655fe1.html",
     "topics/topic-a4bee2b7440b.html",
     "topics/topic-a4fef6b7ddc8.html",
     "topics/topic-a53576038993.html",
@@ -930,7 +931,7 @@
   "counts": {
     "people": 568,
     "works": 317,
-    "topics": 2647
+    "topics": 2648
   },
   "people": [
     {
@@ -10383,7 +10384,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 80
+      "articles": 81
     },
     {
       "name": "女子アナ設定",
@@ -11642,6 +11643,10 @@
       "articles": 1
     },
     {
+      "name": "朝番組",
+      "articles": 1
+    },
+    {
       "name": "木下凛々子",
       "articles": 1
     },
@@ -12587,7 +12592,7 @@
     },
     {
       "name": "田原萌々",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "田村真子",
@@ -12815,7 +12820,7 @@
     },
     {
       "name": "白ニット",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "白パン線",
@@ -13811,7 +13816,7 @@
     },
     {
       "name": "花店ロケ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "花柄ビキニ",
