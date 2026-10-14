@@ -942,7 +942,7 @@
   "counts": {
     "people": 573,
     "works": 319,
-    "topics": 2669
+    "topics": 2670
   },
   "people": [
     {
@@ -7643,7 +7643,7 @@
     },
     {
       "name": "ニット",
-      "articles": 25
+      "articles": 26
     },
     {
       "name": "ニットワンピ",
@@ -10010,6 +10010,10 @@
       "articles": 1
     },
     {
+      "name": "吉岡恵麻",
+      "articles": 1
+    },
+    {
       "name": "吉田莉桜",
       "articles": 1
     },
@@ -10491,7 +10495,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 82
+      "articles": 83
     },
     {
       "name": "女子アナ設定",
@@ -11495,7 +11499,7 @@
     },
     {
       "name": "放送キャプチャ",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "放送事故",
