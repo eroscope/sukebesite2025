@@ -934,7 +934,7 @@
   "counts": {
     "people": 568,
     "works": 318,
-    "topics": 2654
+    "topics": 2655
   },
   "people": [
     {
@@ -5327,7 +5327,7 @@
     },
     {
       "name": "NMB48",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "NTR",
@@ -10034,6 +10034,10 @@
       "articles": 16
     },
     {
+      "name": "和田海佑",
+      "articles": 1
+    },
+    {
       "name": "和装",
       "articles": 2
     },
@@ -12083,7 +12087,7 @@
     },
     {
       "name": "水着",
-      "articles": 358
+      "articles": 359
     },
     {
       "name": "水着グラビア",
