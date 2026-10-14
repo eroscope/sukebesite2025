@@ -937,13 +937,14 @@
     "works/work-jur-819.html",
     "works/work-jux-246.html",
     "works/work-lcdv-41456.html",
+    "works/work-namh-077.html",
     "works/work-snos-371.html",
     "works/work-snos-409.html"
   ],
   "counts": {
     "people": 573,
     "works": 319,
-    "topics": 2674
+    "topics": 2675
   },
   "people": [
     {
@@ -4054,7 +4055,7 @@
     },
     {
       "code": "NAMH-077",
-      "articles": 1
+      "articles": 2
     },
     {
       "code": "NHDTC-147",
@@ -7640,7 +7641,7 @@
     },
     {
       "name": "ナース",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "ナース服",
@@ -9464,7 +9465,7 @@
     },
     {
       "name": "倉木しおり",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "倉本すみれ",
@@ -12848,6 +12849,10 @@
     },
     {
       "name": "画像ネタ",
+      "articles": 1
+    },
+    {
+      "name": "画像・動画",
       "articles": 1
     },
     {
