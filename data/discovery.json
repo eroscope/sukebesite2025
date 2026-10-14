@@ -934,9 +934,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 569,
+    "people": 570,
     "works": 318,
-    "topics": 2658
+    "topics": 2659
   },
   "people": [
     {
@@ -1313,6 +1313,10 @@
     },
     {
       "name": "九野ひなの",
+      "articles": 1
+    },
+    {
+      "name": "亀井京子",
       "articles": 1
     },
     {
@@ -7460,6 +7464,10 @@
       "articles": 1
     },
     {
+      "name": "テレビ東京",
+      "articles": 1
+    },
+    {
       "name": "テレビ画像",
       "articles": 1
     },
@@ -10429,7 +10437,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 81
+      "articles": 82
     },
     {
       "name": "女子アナ設定",
@@ -13693,7 +13701,7 @@
     },
     {
       "name": "胸元",
-      "articles": 77
+      "articles": 78
     },
     {
       "name": "胸元チラ見え",
