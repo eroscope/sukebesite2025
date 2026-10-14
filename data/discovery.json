@@ -934,7 +934,7 @@
   "counts": {
     "people": 568,
     "works": 318,
-    "topics": 2649
+    "topics": 2651
   },
   "people": [
     {
@@ -8314,6 +8314,10 @@
       "articles": 1
     },
     {
+      "name": "ホラー風景",
+      "articles": 1
+    },
+    {
       "name": "ボディコン",
       "articles": 2
     },
@@ -8667,7 +8671,7 @@
     },
     {
       "name": "ラブドール",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "ラブホ",
@@ -11359,7 +11363,7 @@
     },
     {
       "name": "掲示板反応",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "握手会",
@@ -14024,6 +14028,10 @@
     {
       "name": "裸身",
       "articles": 10
+    },
+    {
+      "name": "製造工場",
+      "articles": 1
     },
     {
       "name": "複数プレイ",
