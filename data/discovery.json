@@ -930,7 +930,7 @@
   "counts": {
     "people": 568,
     "works": 317,
-    "topics": 2645
+    "topics": 2647
   },
   "people": [
     {
@@ -6319,7 +6319,7 @@
     },
     {
       "name": "インナー",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "インナーちら見え",
@@ -10383,7 +10383,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 79
+      "articles": 80
     },
     {
       "name": "女子アナ設定",
@@ -11774,6 +11774,10 @@
       "articles": 1
     },
     {
+      "name": "枝もの",
+      "articles": 1
+    },
+    {
       "name": "柊もみじ",
       "articles": 1
     },
@@ -12583,7 +12587,7 @@
     },
     {
       "name": "田原萌々",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "田村真子",
@@ -12811,7 +12815,7 @@
     },
     {
       "name": "白ニット",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "白パン線",
@@ -13803,6 +13807,10 @@
     },
     {
       "name": "花守夏歩",
+      "articles": 1
+    },
+    {
+      "name": "花店ロケ",
       "articles": 1
     },
     {
