@@ -944,7 +944,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 574,
+    "people": 575,
     "works": 319,
     "topics": 2676
   },
@@ -2903,6 +2903,10 @@
     },
     {
       "name": "羽田カイラ",
+      "articles": 1
+    },
+    {
+      "name": "羽賀朱音",
       "articles": 1
     },
     {
@@ -12847,7 +12851,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 220
+      "articles": 221
     },
     {
       "name": "画像ギャラリー",
@@ -14071,7 +14075,7 @@
     },
     {
       "name": "衣装",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "衣装トラブル",
