@@ -901,6 +901,7 @@
     "topics/topic-s1-no-1-style.html",
     "topics/topic-s1.html",
     "topics/topic-sex.html",
+    "topics/topic-ske48.html",
     "topics/topic-sm.html",
     "topics/topic-sns.html",
     "topics/topic-sns.html",
@@ -933,7 +934,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 568,
+    "people": 569,
     "works": 318,
     "topics": 2658
   },
@@ -2164,6 +2165,10 @@
     },
     {
       "name": "松本いちか",
+      "articles": 1
+    },
+    {
+      "name": "松村香織",
       "articles": 1
     },
     {
@@ -5512,7 +5517,7 @@
     },
     {
       "name": "SKE48",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "SM",
@@ -8696,7 +8701,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 215
+      "articles": 216
     },
     {
       "name": "ランジェリー風",
@@ -12100,7 +12105,7 @@
     },
     {
       "name": "水着",
-      "articles": 360
+      "articles": 361
     },
     {
       "name": "水着グラビア",
