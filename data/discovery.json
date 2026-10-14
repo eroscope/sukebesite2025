@@ -930,7 +930,7 @@
   "counts": {
     "people": 568,
     "works": 317,
-    "topics": 2644
+    "topics": 2645
   },
   "people": [
     {
@@ -4707,7 +4707,7 @@
     },
     {
       "name": "AI生成",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "AI画像",
@@ -10383,7 +10383,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 78
+      "articles": 79
     },
     {
       "name": "女子アナ設定",
@@ -12051,7 +12051,7 @@
     },
     {
       "name": "水着",
-      "articles": 357
+      "articles": 358
     },
     {
       "name": "水着グラビア",
@@ -13912,6 +13912,10 @@
     {
       "name": "衣装トラブル",
       "articles": 2
+    },
+    {
+      "name": "衣装交換",
+      "articles": 1
     },
     {
       "name": "表情",
