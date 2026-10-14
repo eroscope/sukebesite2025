@@ -944,9 +944,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 573,
+    "people": 574,
     "works": 319,
-    "topics": 2675
+    "topics": 2676
   },
   "people": [
     {
@@ -2479,6 +2479,10 @@
     },
     {
       "name": "浜田由梨",
+      "articles": 1
+    },
+    {
+      "name": "浜田翔子",
       "articles": 1
     },
     {
@@ -6346,6 +6350,10 @@
       "articles": 17
     },
     {
+      "name": "イメージ映像",
+      "articles": 1
+    },
+    {
       "name": "イラスト",
       "articles": 3
     },
@@ -8763,7 +8771,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 219
+      "articles": 220
     },
     {
       "name": "ランジェリー風",
@@ -12191,7 +12199,7 @@
     },
     {
       "name": "水着",
-      "articles": 364
+      "articles": 365
     },
     {
       "name": "水着グラビア",
