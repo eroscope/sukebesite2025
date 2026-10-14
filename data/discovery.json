@@ -935,7 +935,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 571,
+    "people": 572,
     "works": 318,
     "topics": 2663
   },
@@ -2594,6 +2594,10 @@
     },
     {
       "name": "田中美久",
+      "articles": 1
+    },
+    {
+      "name": "田崎さん",
       "articles": 1
     },
     {
@@ -4798,7 +4802,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 39
+      "articles": 40
     },
     {
       "name": "AVパッケージ",
@@ -4826,7 +4830,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 160
+      "articles": 161
     },
     {
       "name": "AV女優検索",
@@ -12778,7 +12782,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 218
+      "articles": 219
     },
     {
       "name": "画像ギャラリー",
