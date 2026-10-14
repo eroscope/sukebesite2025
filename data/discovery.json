@@ -937,7 +937,7 @@
   "counts": {
     "people": 571,
     "works": 318,
-    "topics": 2659
+    "topics": 2661
   },
   "people": [
     {
@@ -6858,7 +6858,7 @@
     },
     {
       "name": "ゲーム",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "ゲームイラスト",
@@ -7562,6 +7562,10 @@
     },
     {
       "name": "ドッキリ",
+      "articles": 1
+    },
+    {
+      "name": "ドラゴンクエスト",
       "articles": 1
     },
     {
@@ -9818,7 +9822,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 25
+      "articles": 26
     },
     {
       "name": "匿名画像",
@@ -11278,6 +11282,10 @@
     },
     {
       "name": "成人向けネタ",
+      "articles": 1
+    },
+    {
+      "name": "成人向け二次創作",
       "articles": 1
     },
     {
