@@ -969,7 +969,7 @@
   "counts": {
     "people": 583,
     "works": 323,
-    "topics": 2716
+    "topics": 2720
   },
   "people": [
     {
@@ -6797,6 +6797,10 @@
       "articles": 4
     },
     {
+      "name": "キャストオフ",
+      "articles": 1
+    },
+    {
       "name": "キャバ嬢",
       "articles": 1
     },
@@ -8254,7 +8258,7 @@
     },
     {
       "name": "フィギュア",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "フィギュア撮影",
@@ -10557,6 +10561,10 @@
       "articles": 1
     },
     {
+      "name": "天使",
+      "articles": 1
+    },
+    {
       "name": "天城ねね",
       "articles": 1
     },
@@ -11450,6 +11458,10 @@
     },
     {
       "name": "情報番組",
+      "articles": 1
+    },
+    {
+      "name": "愛と繁栄の天使プリエル",
       "articles": 1
     },
     {
@@ -15310,6 +15322,10 @@
     },
     {
       "name": "鬱展開",
+      "articles": 1
+    },
+    {
+      "name": "魔太郎",
       "articles": 1
     },
     {
