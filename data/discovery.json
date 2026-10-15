@@ -594,6 +594,7 @@
     "topics/topic-a615e2a99a6f.html",
     "topics/topic-a6577e51aa03.html",
     "topics/topic-a6730f134ba7.html",
+    "topics/topic-a6e1ba7f4504.html",
     "topics/topic-a752b496de30.html",
     "topics/topic-a77f1df74497.html",
     "topics/topic-a785dab026f2.html",
@@ -957,7 +958,7 @@
   "counts": {
     "people": 577,
     "works": 319,
-    "topics": 2696
+    "topics": 2699
   },
   "people": [
     {
@@ -7289,6 +7290,10 @@
       "articles": 1
     },
     {
+      "name": "スポーツ体験",
+      "articles": 1
+    },
+    {
       "name": "スポーツ女子",
       "articles": 1
     },
@@ -8122,7 +8127,7 @@
     },
     {
       "name": "ピックルボール",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ピンクのパンツ",
@@ -9119,6 +9124,10 @@
     {
       "name": "不知火舞",
       "articles": 2
+    },
+    {
+      "name": "並木雲楓",
+      "articles": 1
     },
     {
       "name": "中丸未来",
@@ -10578,7 +10587,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 87
+      "articles": 88
     },
     {
       "name": "女子アナ設定",
@@ -15263,6 +15272,10 @@
     {
       "name": "黒ビキニ",
       "articles": 5
+    },
+    {
+      "name": "黒ポロシャツ",
+      "articles": 1
     },
     {
       "name": "黒ランジェリー",
