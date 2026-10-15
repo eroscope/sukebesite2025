@@ -950,7 +950,7 @@
   "counts": {
     "people": 576,
     "works": 319,
-    "topics": 2686
+    "topics": 2689
   },
   "people": [
     {
@@ -7687,7 +7687,7 @@
     },
     {
       "name": "ニット",
-      "articles": 26
+      "articles": 27
     },
     {
       "name": "ニットワンピ",
@@ -7959,6 +7959,10 @@
     },
     {
       "name": "バラライカ",
+      "articles": 1
+    },
+    {
+      "name": "バラ園",
       "articles": 1
     },
     {
@@ -10458,6 +10462,10 @@
       "articles": 1
     },
     {
+      "name": "天気中継",
+      "articles": 1
+    },
+    {
       "name": "天気予報",
       "articles": 4
     },
@@ -10547,7 +10555,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 84
+      "articles": 85
     },
     {
       "name": "女子アナ設定",
@@ -13983,6 +13991,10 @@
     },
     {
       "name": "舞台挨拶",
+      "articles": 1
+    },
+    {
+      "name": "舩橋沙貴",
       "articles": 1
     },
     {
