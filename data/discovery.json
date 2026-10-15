@@ -951,7 +951,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 576,
+    "people": 577,
     "works": 319,
     "topics": 2695
   },
@@ -2622,6 +2622,10 @@
     },
     {
       "name": "田中美久",
+      "articles": 1
+    },
+    {
+      "name": "田丸麻紀",
       "articles": 1
     },
     {
@@ -8698,7 +8702,7 @@
     },
     {
       "name": "モデル",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "モーニングショー",
@@ -10534,7 +10538,7 @@
     },
     {
       "name": "女優",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "女優比較",
@@ -12958,7 +12962,7 @@
     },
     {
       "name": "画像集",
-      "articles": 34
+      "articles": 35
     },
     {
       "name": "画像＋動画",
