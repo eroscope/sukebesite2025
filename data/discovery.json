@@ -947,7 +947,7 @@
   "counts": {
     "people": 575,
     "works": 319,
-    "topics": 2679
+    "topics": 2680
   },
   "people": [
     {
@@ -4872,7 +4872,7 @@
     },
     {
       "name": "AV画像",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "AV画像まとめ",
@@ -5004,7 +5004,7 @@
     },
     {
       "name": "E-BODY",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "Emika 3",
@@ -5116,7 +5116,7 @@
     },
     {
       "name": "Gカップ",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "HKT48",
@@ -7880,7 +7880,7 @@
     },
     {
       "name": "バスケ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "バスケットボール",
@@ -11696,6 +11696,10 @@
     },
     {
       "name": "日焼け跡",
+      "articles": 1
+    },
+    {
+      "name": "早瀬セイナ",
       "articles": 1
     },
     {
