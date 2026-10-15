@@ -947,7 +947,7 @@
   "counts": {
     "people": 575,
     "works": 319,
-    "topics": 2680
+    "topics": 2682
   },
   "people": [
     {
@@ -5563,6 +5563,10 @@
       "articles": 1
     },
     {
+      "name": "SHACHI",
+      "articles": 1
+    },
+    {
       "name": "SKE48",
       "articles": 2
     },
@@ -8763,6 +8767,10 @@
       "articles": 1
     },
     {
+      "name": "ラッパー",
+      "articles": 1
+    },
+    {
       "name": "ラバースーツ",
       "articles": 1
     },
@@ -8784,7 +8792,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 221
+      "articles": 222
     },
     {
       "name": "ランジェリー風",
@@ -12220,7 +12228,7 @@
     },
     {
       "name": "水着",
-      "articles": 366
+      "articles": 367
     },
     {
       "name": "水着グラビア",
