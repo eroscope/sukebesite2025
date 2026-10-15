@@ -867,6 +867,7 @@
     "topics/topic-fb1216f6e0ec.html",
     "topics/topic-fb23e7155faf.html",
     "topics/topic-fb9d4a0a9dcb.html",
+    "topics/topic-fbb50ec15953.html",
     "topics/topic-fc2-ppv.html",
     "topics/topic-fc2ppv.html",
     "topics/topic-fc917e94f5f9.html",
@@ -962,7 +963,7 @@
   "counts": {
     "people": 581,
     "works": 320,
-    "topics": 2712
+    "topics": 2713
   },
   "people": [
     {
@@ -6915,7 +6916,7 @@
     },
     {
       "name": "グラドル",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "グラビアアイドル",
@@ -8854,6 +8855,10 @@
       "articles": 1
     },
     {
+      "name": "ラバー衣装",
+      "articles": 1
+    },
+    {
       "name": "ラブドール",
       "articles": 5
     },
@@ -9119,7 +9124,7 @@
     },
     {
       "name": "下着",
-      "articles": 149
+      "articles": 150
     },
     {
       "name": "下着ずらし",
@@ -14039,7 +14044,7 @@
     },
     {
       "name": "腹筋",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "腹筋トレーニング",
