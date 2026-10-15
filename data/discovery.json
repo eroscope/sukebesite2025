@@ -470,6 +470,7 @@
     "topics/topic-79fb63e5ec8e.html",
     "topics/topic-7a439a1175ee.html",
     "topics/topic-7aa488f78e72.html",
+    "topics/topic-7afb558c786b.html",
     "topics/topic-7b24795e07de.html",
     "topics/topic-7bf35e1b0bf7.html",
     "topics/topic-7de26771526d.html",
@@ -947,7 +948,7 @@
   "counts": {
     "people": 575,
     "works": 319,
-    "topics": 2682
+    "topics": 2683
   },
   "people": [
     {
@@ -8688,7 +8689,7 @@
     },
     {
       "name": "ヤングジャンプ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ヤングマガジン",
@@ -11811,6 +11812,10 @@
       "articles": 1
     },
     {
+      "name": "望月風花",
+      "articles": 1
+    },
+    {
       "name": "朝番組",
       "articles": 1
     },
@@ -12228,7 +12233,7 @@
     },
     {
       "name": "水着",
-      "articles": 367
+      "articles": 368
     },
     {
       "name": "水着グラビア",
