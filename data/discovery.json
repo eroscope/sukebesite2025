@@ -317,6 +317,7 @@
     "topics/topic-3c468e131bd3.html",
     "topics/topic-3c5cbad8e493.html",
     "topics/topic-3cc515a34ee3.html",
+    "topics/topic-3d382d51932d.html",
     "topics/topic-3d9fa52eea90.html",
     "topics/topic-3dbb0d7317d1.html",
     "topics/topic-3dce044148e5.html",
@@ -968,8 +969,8 @@
   ],
   "counts": {
     "people": 583,
-    "works": 323,
-    "topics": 2720
+    "works": 324,
+    "topics": 2721
   },
   "people": [
     {
@@ -3619,6 +3620,10 @@
       "articles": 1
     },
     {
+      "code": "DVMM-453",
+      "articles": 1
+    },
+    {
       "code": "EBOD-513",
       "articles": 1
     },
@@ -5034,7 +5039,7 @@
     },
     {
       "name": "DEEP'S",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "DLsite",
@@ -8598,7 +8603,7 @@
     },
     {
       "name": "マジックミラー",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "マジックミラー便",
@@ -8787,6 +8792,10 @@
     {
       "name": "モデル",
       "articles": 6
+    },
+    {
+      "name": "モニタリングAV",
+      "articles": 1
     },
     {
       "name": "モリガンコスプレ",
@@ -9894,7 +9903,7 @@
     },
     {
       "name": "制服",
-      "articles": 35
+      "articles": 36
     },
     {
       "name": "制服ギャル",
@@ -14398,7 +14407,7 @@
     },
     {
       "name": "複数プレイ",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "複数人",
@@ -15190,7 +15199,7 @@
     },
     {
       "name": "顔射",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "顔比較",
