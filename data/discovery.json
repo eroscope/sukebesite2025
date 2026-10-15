@@ -816,6 +816,7 @@
     "topics/topic-ec5ce7442ea8.html",
     "topics/topic-ecb45d8a1cc4.html",
     "topics/topic-ed80051258ef.html",
+    "topics/topic-ee552f0f2293.html",
     "topics/topic-ee5c9d2cf8b2.html",
     "topics/topic-ee7e3a59c1a9.html",
     "topics/topic-eecd7740d9de.html",
@@ -958,7 +959,7 @@
   "counts": {
     "people": 579,
     "works": 319,
-    "topics": 2704
+    "topics": 2706
   },
   "people": [
     {
@@ -4819,7 +4820,7 @@
     },
     {
       "name": "ASMR",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "ATTACKERS",
@@ -5739,7 +5740,7 @@
     },
     {
       "name": "VTuber",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "Venus Returns",
@@ -11566,6 +11567,10 @@
       "articles": 5
     },
     {
+      "name": "接吻亭",
+      "articles": 1
+    },
+    {
       "name": "接吻性交",
       "articles": 1
     },
@@ -12495,6 +12500,10 @@
     },
     {
       "name": "海外露出",
+      "articles": 1
+    },
+    {
+      "name": "海月みゆき",
       "articles": 1
     },
     {
@@ -15043,7 +15052,7 @@
     },
     {
       "name": "音声作品",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "音琴るい",
