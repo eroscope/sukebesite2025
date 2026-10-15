@@ -956,7 +956,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 577,
+    "people": 578,
     "works": 319,
     "topics": 2701
   },
@@ -1315,6 +1315,10 @@
     },
     {
       "name": "上坂すみれ",
+      "articles": 1
+    },
+    {
+      "name": "上戸彩",
       "articles": 1
     },
     {
@@ -13715,7 +13719,7 @@
     },
     {
       "name": "美女",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "美女3人",
