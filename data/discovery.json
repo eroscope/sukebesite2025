@@ -345,6 +345,7 @@
     "topics/topic-459503174895.html",
     "topics/topic-45cec0322496.html",
     "topics/topic-46.html",
+    "topics/topic-46.html",
     "topics/topic-468a17f22ed9.html",
     "topics/topic-473c318725f8.html",
     "topics/topic-478d4c170a36.html",
@@ -951,7 +952,7 @@
   "counts": {
     "people": 576,
     "works": 319,
-    "topics": 2693
+    "topics": 2694
   },
   "people": [
     {
@@ -11716,7 +11717,7 @@
     },
     {
       "name": "日向坂46",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "日向由奈",
@@ -12264,7 +12265,7 @@
     },
     {
       "name": "水着",
-      "articles": 369
+      "articles": 370
     },
     {
       "name": "水着グラビア",
@@ -14692,6 +14693,10 @@
     },
     {
       "name": "野菜詰め放題",
+      "articles": 1
+    },
+    {
+      "name": "金村美玖",
       "articles": 1
     },
     {
