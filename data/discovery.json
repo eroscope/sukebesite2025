@@ -573,6 +573,7 @@
     "topics/topic-9f6b62311a4c.html",
     "topics/topic-a0349bb5970e.html",
     "topics/topic-a04d5bfd17ef.html",
+    "topics/topic-a0a419b64f6f.html",
     "topics/topic-a1708ab4d3ce.html",
     "topics/topic-a3744f95b338.html",
     "topics/topic-a389c389eddc.html",
@@ -949,7 +950,7 @@
   "counts": {
     "people": 576,
     "works": 319,
-    "topics": 2683
+    "topics": 2686
   },
   "people": [
     {
@@ -6653,6 +6654,10 @@
       "articles": 1
     },
     {
+      "name": "カードマジック",
+      "articles": 1
+    },
+    {
       "name": "ガチナンパ",
       "articles": 1
     },
@@ -10542,7 +10547,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 83
+      "articles": 84
     },
     {
       "name": "女子アナ設定",
@@ -11078,7 +11083,7 @@
     },
     {
       "name": "岩田絵里奈",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "岸みゆ",
@@ -11262,6 +11267,10 @@
     },
     {
       "name": "復帰希望",
+      "articles": 1
+    },
+    {
+      "name": "徹子の部屋",
       "articles": 1
     },
     {
@@ -15191,6 +15200,10 @@
     {
       "name": "黒ドレス",
       "articles": 3
+    },
+    {
+      "name": "黒ニット",
+      "articles": 1
     },
     {
       "name": "黒バニー",
