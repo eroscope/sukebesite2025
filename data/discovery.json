@@ -951,7 +951,7 @@
   "counts": {
     "people": 576,
     "works": 319,
-    "topics": 2692
+    "topics": 2693
   },
   "people": [
     {
@@ -12264,7 +12264,7 @@
     },
     {
       "name": "水着",
-      "articles": 368
+      "articles": 369
     },
     {
       "name": "水着グラビア",
@@ -15264,6 +15264,10 @@
     },
     {
       "name": "黒服",
+      "articles": 1
+    },
+    {
+      "name": "黒江こはる",
       "articles": 1
     },
     {
