@@ -967,8 +967,8 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 582,
-    "works": 322,
+    "people": 583,
+    "works": 323,
     "topics": 2716
   },
   "people": [
@@ -1283,6 +1283,10 @@
     {
       "name": "七瀬アリス",
       "articles": 2
+    },
+    {
+      "name": "三佳詩",
+      "articles": 1
     },
     {
       "name": "三好佑香",
@@ -3435,6 +3439,10 @@
       "articles": 1
     },
     {
+      "code": "ABF-394",
+      "articles": 1
+    },
+    {
       "code": "ACHJ-083",
       "articles": 1
     },
@@ -5302,7 +5310,7 @@
     },
     {
       "name": "MGS",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "MGS動画",
@@ -5446,7 +5454,7 @@
     },
     {
       "name": "NTR",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "NTRエステ",
