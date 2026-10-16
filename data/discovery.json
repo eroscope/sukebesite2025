@@ -975,7 +975,7 @@
   "counts": {
     "people": 586,
     "works": 324,
-    "topics": 2733
+    "topics": 2734
   },
   "people": [
     {
@@ -7820,7 +7820,7 @@
     },
     {
       "name": "ニット",
-      "articles": 32
+      "articles": 33
     },
     {
       "name": "ニットワンピ",
@@ -8428,6 +8428,10 @@
     },
     {
       "name": "プレステージ",
+      "articles": 1
+    },
+    {
+      "name": "プレバト",
       "articles": 1
     },
     {
@@ -9284,7 +9288,7 @@
     },
     {
       "name": "中川安奈",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "中村瑞季",
@@ -10724,7 +10728,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 93
+      "articles": 94
     },
     {
       "name": "女子アナ設定",
@@ -14084,7 +14088,7 @@
     },
     {
       "name": "胸元",
-      "articles": 85
+      "articles": 86
     },
     {
       "name": "胸元チラ見え",
