@@ -972,7 +972,7 @@
   "counts": {
     "people": 586,
     "works": 324,
-    "topics": 2731
+    "topics": 2732
   },
   "people": [
     {
@@ -9869,7 +9869,7 @@
     },
     {
       "name": "写真集",
-      "articles": 66
+      "articles": 67
     },
     {
       "name": "冨永実里",
@@ -12457,7 +12457,7 @@
     },
     {
       "name": "水着",
-      "articles": 376
+      "articles": 377
     },
     {
       "name": "水着グラビア",
@@ -13293,6 +13293,10 @@
     },
     {
       "name": "白波瀬海来",
+      "articles": 1
+    },
+    {
+      "name": "白濱美兎",
       "articles": 1
     },
     {
