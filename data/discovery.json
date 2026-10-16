@@ -983,7 +983,7 @@
   "counts": {
     "people": 590,
     "works": 327,
-    "topics": 2758
+    "topics": 2759
   },
   "people": [
     {
@@ -4984,7 +4984,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 169
+      "articles": 170
     },
     {
       "name": "AV女優検索",
@@ -8844,7 +8844,7 @@
     },
     {
       "name": "メイド",
-      "articles": 26
+      "articles": 27
     },
     {
       "name": "メイドコスプレ",
@@ -15544,6 +15544,10 @@
     },
     {
       "name": "魔法少女まどか☆マギカ",
+      "articles": 1
+    },
+    {
+      "name": "麻倉憂",
       "articles": 1
     },
     {
