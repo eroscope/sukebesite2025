@@ -970,7 +970,7 @@
   "counts": {
     "people": 585,
     "works": 324,
-    "topics": 2723
+    "topics": 2726
   },
   "people": [
     {
@@ -5734,6 +5734,10 @@
       "articles": 3
     },
     {
+      "name": "S☆1",
+      "articles": 1
+    },
+    {
       "name": "TAMEIKE",
       "articles": 5
     },
@@ -7326,6 +7330,10 @@
       "articles": 3
     },
     {
+      "name": "スタジオ画像",
+      "articles": 1
+    },
+    {
       "name": "ステージ",
       "articles": 1
     },
@@ -7795,7 +7803,7 @@
     },
     {
       "name": "ニット",
-      "articles": 29
+      "articles": 30
     },
     {
       "name": "ニットワンピ",
@@ -10691,7 +10699,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 91
+      "articles": 92
     },
     {
       "name": "女子アナ設定",
@@ -11407,6 +11415,10 @@
     },
     {
       "name": "後輩ギャル",
+      "articles": 1
+    },
+    {
+      "name": "御手洗菜々",
       "articles": 1
     },
     {
