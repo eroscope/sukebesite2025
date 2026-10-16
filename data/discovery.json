@@ -980,7 +980,7 @@
   "counts": {
     "people": 589,
     "works": 327,
-    "topics": 2753
+    "topics": 2756
   },
   "people": [
     {
@@ -8557,7 +8557,7 @@
     },
     {
       "name": "ベッド",
-      "articles": 46
+      "articles": 47
     },
     {
       "name": "ベッドシーン",
@@ -8841,7 +8841,7 @@
     },
     {
       "name": "メイド服",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "メイド風衣装",
@@ -9024,7 +9024,15 @@
       "articles": 3
     },
     {
+      "name": "ラブマリン",
+      "articles": 1
+    },
+    {
       "name": "ラブラブH",
+      "articles": 1
+    },
+    {
+      "name": "ラプラス",
       "articles": 1
     },
     {
@@ -12561,7 +12569,7 @@
     },
     {
       "name": "水着",
-      "articles": 382
+      "articles": 383
     },
     {
       "name": "水着グラビア",
@@ -12934,6 +12942,10 @@
     {
       "name": "瀬戸環奈",
       "articles": 6
+    },
+    {
+      "name": "瀬戸真凜",
+      "articles": 1
     },
     {
       "name": "灰色ニット",
