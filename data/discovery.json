@@ -978,7 +978,7 @@
   "counts": {
     "people": 588,
     "works": 326,
-    "topics": 2746
+    "topics": 2750
   },
   "people": [
     {
@@ -7150,6 +7150,10 @@
       "articles": 1
     },
     {
+      "name": "コンカフェ",
+      "articles": 1
+    },
+    {
       "name": "コンビニ",
       "articles": 2
     },
@@ -7208,6 +7212,10 @@
     {
       "name": "サウナ",
       "articles": 4
+    },
+    {
+      "name": "サキュバス",
+      "articles": 1
     },
     {
       "name": "サキュバスバニー",
@@ -7291,6 +7299,10 @@
     },
     {
       "name": "ショート動画",
+      "articles": 1
+    },
+    {
+      "name": "シーシャバー",
       "articles": 1
     },
     {
@@ -11940,6 +11952,10 @@
     {
       "name": "新婚",
       "articles": 2
+    },
+    {
+      "name": "新宿",
+      "articles": 1
     },
     {
       "name": "新村あかり",
