@@ -977,7 +977,7 @@
   "counts": {
     "people": 588,
     "works": 326,
-    "topics": 2743
+    "topics": 2745
   },
   "people": [
     {
@@ -5202,7 +5202,7 @@
     },
     {
       "name": "GIF",
-      "articles": 35
+      "articles": 36
     },
     {
       "name": "GIF動画",
@@ -6126,6 +6126,10 @@
     },
     {
       "name": "きみと歩実",
+      "articles": 1
+    },
+    {
+      "name": "きょうの健康",
       "articles": 1
     },
     {
@@ -7850,7 +7854,7 @@
     },
     {
       "name": "ニット",
-      "articles": 33
+      "articles": 34
     },
     {
       "name": "ニットワンピ",
@@ -10770,7 +10774,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 94
+      "articles": 95
     },
     {
       "name": "女子アナ設定",
@@ -11323,6 +11327,10 @@
     {
       "name": "岸明日香",
       "articles": 4
+    },
+    {
+      "name": "島津咲苗",
+      "articles": 1
     },
     {
       "name": "川上しずく",
