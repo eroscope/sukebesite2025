@@ -547,6 +547,7 @@
     "topics/topic-905ec4d2b774.html",
     "topics/topic-9062b51cd69c.html",
     "topics/topic-909a4929400c.html",
+    "topics/topic-90e991a03771.html",
     "topics/topic-90f62f22f01e.html",
     "topics/topic-931f5e0e2c56.html",
     "topics/topic-934370df8f88.html",
@@ -982,7 +983,7 @@
   "counts": {
     "people": 590,
     "works": 327,
-    "topics": 2756
+    "topics": 2758
   },
   "people": [
     {
@@ -5146,6 +5147,10 @@
       "articles": 1
     },
     {
+      "name": "Evie Serena",
+      "articles": 1
+    },
+    {
       "name": "FAIR&WAY",
       "articles": 4
     },
@@ -8344,6 +8349,10 @@
     {
       "name": "ピンク衣装",
       "articles": 3
+    },
+    {
+      "name": "ピンク髪",
+      "articles": 1
     },
     {
       "name": "ピースウォーカー",
@@ -13539,7 +13548,7 @@
     },
     {
       "name": "眼鏡",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "眼鏡女子",
@@ -14727,7 +14736,7 @@
     },
     {
       "name": "豊満ボディ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "豊熟",
