@@ -657,6 +657,7 @@
     "topics/topic-av.html",
     "topics/topic-av.html",
     "topics/topic-av.html",
+    "topics/topic-av.html",
     "topics/topic-b010a4c2d907.html",
     "topics/topic-b03ff91d92e0.html",
     "topics/topic-b0d4c6c28a4b.html",
@@ -976,7 +977,7 @@
   "counts": {
     "people": 588,
     "works": 326,
-    "topics": 2739
+    "topics": 2742
   },
   "people": [
     {
@@ -4941,7 +4942,7 @@
     },
     {
       "name": "AVパッケージ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "AVランキング",
@@ -9108,6 +9109,10 @@
       "articles": 2
     },
     {
+      "name": "ロバート秋山",
+      "articles": 1
+    },
+    {
       "name": "ロングスカート",
       "articles": 1
     },
@@ -11101,6 +11106,10 @@
     },
     {
       "name": "寮母",
+      "articles": 1
+    },
+    {
+      "name": "寮母シリーズ",
       "articles": 1
     },
     {
@@ -14369,6 +14378,10 @@
     },
     {
       "name": "薄着",
+      "articles": 1
+    },
+    {
+      "name": "藤木みず江",
       "articles": 1
     },
     {
