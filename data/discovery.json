@@ -968,7 +968,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 585,
+    "people": 586,
     "works": 324,
     "topics": 2728
   },
@@ -1171,6 +1171,10 @@
     },
     {
       "name": "ソフィーティア",
+      "articles": 1
+    },
+    {
+      "name": "チェキ",
       "articles": 1
     },
     {
@@ -9191,7 +9195,7 @@
     },
     {
       "name": "下着",
-      "articles": 151
+      "articles": 152
     },
     {
       "name": "下着ずらし",
@@ -14059,7 +14063,7 @@
     },
     {
       "name": "胸元",
-      "articles": 84
+      "articles": 85
     },
     {
       "name": "胸元チラ見え",
