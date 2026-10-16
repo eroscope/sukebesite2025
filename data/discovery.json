@@ -976,8 +976,8 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 588,
-    "works": 326,
+    "people": 589,
+    "works": 327,
     "topics": 2750
   },
   "people": [
@@ -2650,6 +2650,10 @@
       "articles": 1
     },
     {
+      "name": "玉井晴香",
+      "articles": 1
+    },
+    {
       "name": "玉木璃子",
       "articles": 1
     },
@@ -3960,6 +3964,10 @@
       "articles": 1
     },
     {
+      "code": "JUR-904",
+      "articles": 1
+    },
+    {
       "code": "JUTA-198",
       "articles": 1
     },
@@ -4967,7 +4975,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 168
+      "articles": 169
     },
     {
       "name": "AV女優検索",
@@ -8723,7 +8731,7 @@
     },
     {
       "name": "マドンナ",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "マネキン",
@@ -11159,7 +11167,7 @@
     },
     {
       "name": "専属デビュー",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "専属女優",
