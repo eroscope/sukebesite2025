@@ -211,6 +211,7 @@
     "topics/topic-1295e22914be.html",
     "topics/topic-1321def3110d.html",
     "topics/topic-14b93ea24248.html",
+    "topics/topic-1536d20dc959.html",
     "topics/topic-15690ba6bf52.html",
     "topics/topic-16288155e65c.html",
     "topics/topic-1647288711c1.html",
@@ -362,6 +363,7 @@
     "topics/topic-489bfaab9ddf.html",
     "topics/topic-49008ed602af.html",
     "topics/topic-493879fafdb2.html",
+    "topics/topic-4a2f6b643acd.html",
     "topics/topic-4a3fad303d05.html",
     "topics/topic-4aef12fcdc9a.html",
     "topics/topic-4b061baa4432.html",
@@ -973,7 +975,7 @@
   "counts": {
     "people": 586,
     "works": 324,
-    "topics": 2732
+    "topics": 2733
   },
   "people": [
     {
@@ -6037,6 +6039,10 @@
       "articles": 2
     },
     {
+      "name": "お天気キャスター",
+      "articles": 1
+    },
+    {
       "name": "お姉さん",
       "articles": 12
     },
@@ -6966,7 +6972,7 @@
     },
     {
       "name": "グッド！モーニング",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "グラぱらっ！",
@@ -7814,7 +7820,7 @@
     },
     {
       "name": "ニット",
-      "articles": 31
+      "articles": 32
     },
     {
       "name": "ニットワンピ",
@@ -8094,7 +8100,7 @@
     },
     {
       "name": "バラ園",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "バレエ",
@@ -14222,7 +14228,7 @@
     },
     {
       "name": "舩橋沙貴",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "航空機内",
