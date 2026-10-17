@@ -569,6 +569,7 @@
     "topics/topic-9832b0190026.html",
     "topics/topic-987379fc4da4.html",
     "topics/topic-98ef09539013.html",
+    "topics/topic-99b588cd177d.html",
     "topics/topic-99ce0abffefc.html",
     "topics/topic-9a2ecb8463a8.html",
     "topics/topic-9a36f427a8c8.html",
@@ -726,6 +727,7 @@
     "topics/topic-c53794778a50.html",
     "topics/topic-c55b763f0448.html",
     "topics/topic-c5d344ad7025.html",
+    "topics/topic-c7044228bce8.html",
     "topics/topic-c79d6ca8cec1.html",
     "topics/topic-c85a37f5a170.html",
     "topics/topic-c938dc37d822.html",
@@ -986,7 +988,7 @@
   "counts": {
     "people": 591,
     "works": 327,
-    "topics": 2770
+    "topics": 2771
   },
   "people": [
     {
@@ -7238,6 +7240,10 @@
       "articles": 1
     },
     {
+      "name": "サイズ比較",
+      "articles": 1
+    },
+    {
       "name": "サイン",
       "articles": 1
     },
@@ -7991,7 +7997,7 @@
     },
     {
       "name": "ネット反応",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ノニ（noni）",
@@ -14551,7 +14557,7 @@
     },
     {
       "name": "街頭インタビュー",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "衣装",
@@ -15387,7 +15393,7 @@
     },
     {
       "name": "韓国",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "韓国BJ",
