@@ -863,6 +863,7 @@
     "topics/topic-f215e675c450.html",
     "topics/topic-f2431a40a151.html",
     "topics/topic-f283cbbe5cad.html",
+    "topics/topic-f3255b3073cf.html",
     "topics/topic-f3d5ba4101a0.html",
     "topics/topic-f46f38bf91a3.html",
     "topics/topic-f4a9f2b6f332.html",
@@ -995,7 +996,7 @@
   "counts": {
     "people": 595,
     "works": 329,
-    "topics": 2783
+    "topics": 2785
   },
   "people": [
     {
@@ -5939,6 +5940,10 @@
       "articles": 1
     },
     {
+      "name": "X画像",
+      "articles": 1
+    },
+    {
       "name": "YouTube",
       "articles": 5
     },
@@ -8039,6 +8044,10 @@
       "articles": 9
     },
     {
+      "name": "ネットの誤認",
+      "articles": 1
+    },
+    {
       "name": "ネット反応",
       "articles": 2
     },
@@ -8348,7 +8357,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 167
+      "articles": 168
     },
     {
       "name": "ビビアン",
@@ -12000,7 +12009,7 @@
     },
     {
       "name": "教室",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "教室設定",
