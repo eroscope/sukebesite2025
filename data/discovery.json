@@ -991,7 +991,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 592,
+    "people": 593,
     "works": 328,
     "topics": 2778
   },
@@ -3230,6 +3230,10 @@
     },
     {
       "name": "鈴木ふみ奈",
+      "articles": 1
+    },
+    {
+      "name": "鈴木優香",
       "articles": 1
     },
     {
@@ -8326,7 +8330,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 165
+      "articles": 166
     },
     {
       "name": "ビビアン",
@@ -9098,7 +9102,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 235
+      "articles": 236
     },
     {
       "name": "ランジェリー風",
@@ -12666,7 +12670,7 @@
     },
     {
       "name": "水着",
-      "articles": 389
+      "articles": 390
     },
     {
       "name": "水着グラビア",
