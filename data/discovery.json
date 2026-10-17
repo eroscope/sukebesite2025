@@ -986,7 +986,7 @@
   "counts": {
     "people": 591,
     "works": 327,
-    "topics": 2769
+    "topics": 2770
   },
   "people": [
     {
@@ -11574,6 +11574,10 @@
       "articles": 9
     },
     {
+      "name": "後藤ゆきこ",
+      "articles": 1
+    },
+    {
       "name": "後藤真希",
       "articles": 2
     },
@@ -12619,7 +12623,7 @@
     },
     {
       "name": "水着",
-      "articles": 388
+      "articles": 389
     },
     {
       "name": "水着グラビア",
@@ -13291,7 +13295,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 236
+      "articles": 237
     },
     {
       "name": "画像ギャラリー",
