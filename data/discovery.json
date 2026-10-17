@@ -647,6 +647,7 @@
     "topics/topic-ai.html",
     "topics/topic-ai.html",
     "topics/topic-ai.html",
+    "topics/topic-ai.html",
     "topics/topic-akb48.html",
     "topics/topic-akb48.html",
     "topics/topic-ani.html",
@@ -989,7 +990,7 @@
   "counts": {
     "people": 592,
     "works": 327,
-    "topics": 2773
+    "topics": 2776
   },
   "people": [
     {
@@ -4870,7 +4871,7 @@
     },
     {
       "name": "AI",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "AIKA",
@@ -5254,6 +5255,10 @@
     },
     {
       "name": "GRAVITYLESS",
+      "articles": 1
+    },
+    {
+      "name": "Gemini",
       "articles": 1
     },
     {
@@ -8929,6 +8934,10 @@
       "articles": 1
     },
     {
+      "name": "モガドール",
+      "articles": 1
+    },
+    {
       "name": "モザイク動画",
       "articles": 1
     },
@@ -11766,6 +11775,10 @@
     },
     {
       "name": "成人向け商品",
+      "articles": 1
+    },
+    {
+      "name": "成人向け小説",
       "articles": 1
     },
     {
