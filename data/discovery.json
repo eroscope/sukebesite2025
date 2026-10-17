@@ -253,6 +253,7 @@
     "topics/topic-21f340a26762.html",
     "topics/topic-21f680fe544a.html",
     "topics/topic-221a718b20d3.html",
+    "topics/topic-228358702427.html",
     "topics/topic-228da3a88d13.html",
     "topics/topic-22f7f7720786.html",
     "topics/topic-233ca36573b6.html",
@@ -986,7 +987,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 591,
+    "people": 592,
     "works": 327,
     "topics": 2773
   },
@@ -1266,6 +1267,10 @@
     {
       "name": "ローラ",
       "articles": 3
+    },
+    {
+      "name": "一ノ瀬りおん",
+      "articles": 1
     },
     {
       "name": "一ノ瀬瑠菜",
@@ -8733,7 +8738,7 @@
     },
     {
       "name": "マイクロビキニ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "マクドナルド風",
@@ -10521,7 +10526,7 @@
     },
     {
       "name": "地下アイドル",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "地味子",
@@ -12641,7 +12646,7 @@
     },
     {
       "name": "水着グラビア",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "水着コスチューム",
