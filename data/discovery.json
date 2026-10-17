@@ -983,7 +983,7 @@
   "counts": {
     "people": 590,
     "works": 327,
-    "topics": 2761
+    "topics": 2763
   },
   "people": [
     {
@@ -7187,6 +7187,10 @@
       "articles": 1
     },
     {
+      "name": "ゴゴスマ",
+      "articles": 1
+    },
+    {
       "name": "ゴシック",
       "articles": 1
     },
@@ -7892,7 +7896,7 @@
     },
     {
       "name": "ニット",
-      "articles": 34
+      "articles": 35
     },
     {
       "name": "ニットワンピ",
@@ -10235,6 +10239,10 @@
       "articles": 1
     },
     {
+      "name": "友廣南実",
+      "articles": 1
+    },
+    {
       "name": "友達以上。",
       "articles": 3
     },
@@ -10832,7 +10840,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 95
+      "articles": 96
     },
     {
       "name": "女子アナ設定",
@@ -13260,7 +13268,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 232
+      "articles": 233
     },
     {
       "name": "画像ギャラリー",
