@@ -996,7 +996,7 @@
   "counts": {
     "people": 595,
     "works": 329,
-    "topics": 2785
+    "topics": 2786
   },
   "people": [
     {
@@ -7953,7 +7953,7 @@
     },
     {
       "name": "ニット",
-      "articles": 35
+      "articles": 36
     },
     {
       "name": "ニットワンピ",
@@ -10921,7 +10921,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 97
+      "articles": 98
     },
     {
       "name": "女子アナ設定",
@@ -11532,6 +11532,10 @@
       "articles": 1
     },
     {
+      "name": "市村紗弥香",
+      "articles": 1
+    },
+    {
       "name": "希望みう",
       "articles": 1
     },
@@ -11997,7 +12001,7 @@
     },
     {
       "name": "放送キャプチャ",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "放送事故",
@@ -12661,7 +12665,7 @@
     },
     {
       "name": "気象予報士",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "水中写真",
