@@ -425,6 +425,7 @@
     "topics/topic-60efab3b375e.html",
     "topics/topic-612e72ff9af8.html",
     "topics/topic-6135a0ea5456.html",
+    "topics/topic-613e877867b2.html",
     "topics/topic-614189b3887e.html",
     "topics/topic-616794ab0faa.html",
     "topics/topic-6178b11f2bab.html",
@@ -993,7 +994,7 @@
   "counts": {
     "people": 594,
     "works": 329,
-    "topics": 2779
+    "topics": 2781
   },
   "people": [
     {
@@ -4974,7 +4975,7 @@
     },
     {
       "name": "AVキャプチャ",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "AVサンプル",
@@ -7965,6 +7966,10 @@
       "articles": 1
     },
     {
+      "name": "ニュース番組風",
+      "articles": 1
+    },
+    {
       "name": "ニューハーフ",
       "articles": 3
     },
@@ -10906,7 +10911,7 @@
     },
     {
       "name": "女子アナ設定",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "女子ゴルフ",
@@ -11079,6 +11084,10 @@
     {
       "name": "媚薬",
       "articles": 2
+    },
+    {
+      "name": "媚薬設定",
+      "articles": 1
     },
     {
       "name": "嫁",
