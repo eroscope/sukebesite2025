@@ -984,7 +984,7 @@
   "counts": {
     "people": 591,
     "works": 327,
-    "topics": 2767
+    "topics": 2768
   },
   "people": [
     {
@@ -5213,7 +5213,7 @@
     },
     {
       "name": "FRIDAY",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "FRUITS ZIPPER",
@@ -9065,7 +9065,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 232
+      "articles": 233
     },
     {
       "name": "ランジェリー風",
@@ -9650,6 +9650,10 @@
     {
       "name": "似てる女優",
       "articles": 11
+    },
+    {
+      "name": "似鳥沙也加",
+      "articles": 1
     },
     {
       "name": "住田紗里",
@@ -12613,7 +12617,7 @@
     },
     {
       "name": "水着",
-      "articles": 386
+      "articles": 387
     },
     {
       "name": "水着グラビア",
@@ -13285,7 +13289,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 234
+      "articles": 235
     },
     {
       "name": "画像ギャラリー",
