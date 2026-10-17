@@ -984,7 +984,7 @@
   "counts": {
     "people": 591,
     "works": 327,
-    "topics": 2766
+    "topics": 2767
   },
   "people": [
     {
@@ -8297,7 +8297,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 163
+      "articles": 164
     },
     {
       "name": "ビビアン",
@@ -12613,7 +12613,7 @@
     },
     {
       "name": "水着",
-      "articles": 385
+      "articles": 386
     },
     {
       "name": "水着グラビア",
@@ -13285,7 +13285,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 233
+      "articles": 234
     },
     {
       "name": "画像ギャラリー",
@@ -14458,6 +14458,10 @@
     {
       "name": "莉々はるか",
       "articles": 2
+    },
+    {
+      "name": "菊地姫奈",
+      "articles": 1
     },
     {
       "name": "華道",
