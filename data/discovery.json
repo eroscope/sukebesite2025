@@ -18,6 +18,7 @@
     "people/person-12db991e1946.html",
     "people/person-1bb0ee5a4e03.html",
     "people/person-1bf8c0e47455.html",
+    "people/person-1d831a17b1b4.html",
     "people/person-1dcef0f9ba50.html",
     "people/person-213207dd268f.html",
     "people/person-217023b46127.html",
@@ -994,7 +995,7 @@
   "counts": {
     "people": 595,
     "works": 329,
-    "topics": 2782
+    "topics": 2783
   },
   "people": [
     {
@@ -2159,7 +2160,7 @@
     },
     {
       "name": "星野琴",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "映像特典",
@@ -5163,7 +5164,7 @@
     },
     {
       "name": "DVD",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "DVD画像",
@@ -9119,7 +9120,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 238
+      "articles": 239
     },
     {
       "name": "ランジェリー風",
@@ -12695,7 +12696,7 @@
     },
     {
       "name": "水着",
-      "articles": 392
+      "articles": 393
     },
     {
       "name": "水着グラビア",
@@ -12775,6 +12776,10 @@
     },
     {
       "name": "泡",
+      "articles": 1
+    },
+    {
+      "name": "泡風呂",
       "articles": 1
     },
     {
