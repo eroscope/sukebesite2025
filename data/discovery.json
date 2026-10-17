@@ -991,7 +991,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 593,
+    "people": 594,
     "works": 329,
     "topics": 2779
   },
@@ -2466,6 +2466,10 @@
     },
     {
       "name": "橋本環奈",
+      "articles": 1
+    },
+    {
+      "name": "橘春花",
       "articles": 1
     },
     {
@@ -4986,7 +4990,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 44
+      "articles": 45
     },
     {
       "name": "AVパッケージ",
@@ -5330,7 +5334,7 @@
     },
     {
       "name": "IDEAPOCKET",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "IFストーリー",
@@ -13350,7 +13354,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 238
+      "articles": 239
     },
     {
       "name": "画像ギャラリー",
