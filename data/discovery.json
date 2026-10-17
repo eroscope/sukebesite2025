@@ -992,9 +992,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 594,
+    "people": 595,
     "works": 329,
-    "topics": 2781
+    "topics": 2782
   },
   "people": [
     {
@@ -2155,6 +2155,10 @@
     },
     {
       "name": "星野みき",
+      "articles": 1
+    },
+    {
+      "name": "星野琴",
       "articles": 1
     },
     {
@@ -5159,7 +5163,7 @@
     },
     {
       "name": "DVD",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "DVD画像",
@@ -8343,7 +8347,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 166
+      "articles": 167
     },
     {
       "name": "ビビアン",
@@ -9115,7 +9119,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 237
+      "articles": 238
     },
     {
       "name": "ランジェリー風",
@@ -13060,6 +13064,10 @@
     {
       "name": "濡れ場",
       "articles": 2
+    },
+    {
+      "name": "濡れ肌",
+      "articles": 1
     },
     {
       "name": "濡れ透け",
