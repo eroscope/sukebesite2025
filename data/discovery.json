@@ -992,7 +992,7 @@
   ],
   "counts": {
     "people": 593,
-    "works": 328,
+    "works": 329,
     "topics": 2778
   },
   "people": [
@@ -1786,7 +1786,7 @@
     },
     {
       "name": "宮下玲奈",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "宮沢ゆかり",
@@ -4131,6 +4131,10 @@
       "articles": 1
     },
     {
+      "code": "MIDA-823",
+      "articles": 1
+    },
+    {
       "code": "MIDV-461",
       "articles": 1
     },
@@ -5010,7 +5014,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 173
+      "articles": 174
     },
     {
       "name": "AV女優検索",
@@ -5438,7 +5442,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 51
+      "articles": 52
     },
     {
       "name": "MOODYZ DIVA",
