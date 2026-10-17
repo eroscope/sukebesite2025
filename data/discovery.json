@@ -988,7 +988,7 @@
   "counts": {
     "people": 591,
     "works": 327,
-    "topics": 2771
+    "topics": 2773
   },
   "people": [
     {
@@ -5009,7 +5009,7 @@
     },
     {
       "name": "AV画像",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "AV画像まとめ",
@@ -5141,7 +5141,7 @@
     },
     {
       "name": "E-BODY",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "Emika 3",
@@ -5565,6 +5565,10 @@
     },
     {
       "name": "Outfit 4",
+      "articles": 1
+    },
+    {
+      "name": "Oカップ",
       "articles": 1
     },
     {
@@ -12041,6 +12045,10 @@
     },
     {
       "name": "新村あかり",
+      "articles": 1
+    },
+    {
+      "name": "新田雪",
       "articles": 1
     },
     {
