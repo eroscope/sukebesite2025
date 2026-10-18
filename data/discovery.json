@@ -996,7 +996,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 596,
+    "people": 597,
     "works": 329,
     "topics": 2794
   },
@@ -1608,6 +1608,10 @@
     {
       "name": "博多彩葉",
       "articles": 3
+    },
+    {
+      "name": "原菜乃華",
+      "articles": 1
     },
     {
       "name": "及川奈央",
@@ -7795,7 +7799,7 @@
     },
     {
       "name": "テレビキャプチャ",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "テレビ出演",
@@ -13419,7 +13423,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 242
+      "articles": 243
     },
     {
       "name": "画像ギャラリー",
@@ -14391,7 +14395,7 @@
     },
     {
       "name": "胸元",
-      "articles": 87
+      "articles": 88
     },
     {
       "name": "胸元チラ見え",
