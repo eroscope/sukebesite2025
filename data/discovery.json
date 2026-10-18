@@ -283,6 +283,7 @@
     "topics/topic-2c270423c58c.html",
     "topics/topic-2c3c1a1af8ad.html",
     "topics/topic-2d884d98abff.html",
+    "topics/topic-2dbe53e68646.html",
     "topics/topic-2e494f665ea0.html",
     "topics/topic-2ec2be9eab78.html",
     "topics/topic-2ed10f6b9881.html",
@@ -818,6 +819,7 @@
     "topics/topic-e042c2ead2f0.html",
     "topics/topic-e16d9671dc56.html",
     "topics/topic-e18b1ea15d9c.html",
+    "topics/topic-e1991f4edc65.html",
     "topics/topic-e1d3de16ea1d.html",
     "topics/topic-e273e3404eb0.html",
     "topics/topic-e2a6d2606a0a.html",
@@ -860,6 +862,7 @@
     "topics/topic-ef817736039a.html",
     "topics/topic-efc8194a8e24.html",
     "topics/topic-efe3390fc621.html",
+    "topics/topic-elf.html",
     "topics/topic-erika.html",
     "topics/topic-f0e10f39ae25.html",
     "topics/topic-f1360f1c1058.html",
@@ -1000,7 +1003,7 @@
   "counts": {
     "people": 600,
     "works": 329,
-    "topics": 2802
+    "topics": 2806
   },
   "people": [
     {
@@ -5984,6 +5987,10 @@
       "articles": 1
     },
     {
+      "name": "YU-NO",
+      "articles": 1
+    },
+    {
       "name": "YouTube",
       "articles": 5
     },
@@ -6009,7 +6016,7 @@
     },
     {
       "name": "elf",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "figma",
@@ -6737,7 +6744,7 @@
     },
     {
       "name": "エロゲ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "エロゲー",
@@ -9448,6 +9455,10 @@
       "articles": 1
     },
     {
+      "name": "下級生",
+      "articles": 1
+    },
+    {
       "name": "不倫",
       "articles": 10
     },
@@ -10529,6 +10540,10 @@
     },
     {
       "name": "同級生",
+      "articles": 1
+    },
+    {
+      "name": "同級生3",
       "articles": 1
     },
     {
@@ -15197,7 +15212,7 @@
     },
     {
       "name": "遺作",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "避難シミュレーション",
@@ -15769,6 +15784,10 @@
     },
     {
       "name": "鬱展開",
+      "articles": 1
+    },
+    {
+      "name": "鬼作",
       "articles": 1
     },
     {
