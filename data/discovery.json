@@ -997,9 +997,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 598,
+    "people": 599,
     "works": 329,
-    "topics": 2796
+    "topics": 2797
   },
   "people": [
     {
@@ -2336,6 +2336,10 @@
     },
     {
       "name": "柳いろは",
+      "articles": 1
+    },
+    {
+      "name": "栗原舞優",
       "articles": 1
     },
     {
@@ -12756,7 +12760,7 @@
     },
     {
       "name": "水着グラビア",
-      "articles": 15
+      "articles": 16
     },
     {
       "name": "水着コスチューム",
@@ -14673,6 +14677,10 @@
     {
       "name": "藤田美咲",
       "articles": 2
+    },
+    {
+      "name": "虹のコンキスタドール",
+      "articles": 1
     },
     {
       "name": "蛙吹梅雨",
