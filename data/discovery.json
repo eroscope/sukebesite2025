@@ -336,6 +336,7 @@
     "topics/topic-3e440ff2345c.html",
     "topics/topic-3eacbc3bf943.html",
     "topics/topic-3f6efeaea921.html",
+    "topics/topic-3fde562fbbcc.html",
     "topics/topic-3fe20114f34d.html",
     "topics/topic-3p.html",
     "topics/topic-3p.html",
@@ -997,7 +998,7 @@
   "counts": {
     "people": 596,
     "works": 329,
-    "topics": 2792
+    "topics": 2794
   },
   "people": [
     {
@@ -6738,7 +6739,7 @@
     },
     {
       "name": "エロ漫画",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "エロ画像",
@@ -7626,7 +7627,7 @@
     },
     {
       "name": "セフレ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "セフレ設定",
@@ -10553,6 +10554,10 @@
       "articles": 1
     },
     {
+      "name": "商業漫画",
+      "articles": 1
+    },
+    {
       "name": "喘ぎ顔",
       "articles": 3
     },
@@ -13070,6 +13075,10 @@
     },
     {
       "name": "漫画画像",
+      "articles": 1
+    },
+    {
+      "name": "漫画表紙",
       "articles": 1
     },
     {
@@ -15718,7 +15727,7 @@
     },
     {
       "name": "魔法少女",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "魔法少女まどか☆マギカ",
