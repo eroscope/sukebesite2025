@@ -1004,7 +1004,7 @@
   "counts": {
     "people": 601,
     "works": 329,
-    "topics": 2809
+    "topics": 2810
   },
   "people": [
     {
@@ -5425,7 +5425,7 @@
     },
     {
       "name": "Kカップ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "LUNA",
@@ -5601,7 +5601,7 @@
     },
     {
       "name": "NTR",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "NTRエステ",
@@ -6777,7 +6777,7 @@
     },
     {
       "name": "エロ漫画",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "エロ画像",
@@ -7149,7 +7149,7 @@
     },
     {
       "name": "グラドル",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "グラビアアイドル",
@@ -10505,7 +10505,7 @@
     },
     {
       "name": "同人漫画",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "同人誌",
@@ -12921,6 +12921,10 @@
     },
     {
       "name": "浅野温子",
+      "articles": 1
+    },
+    {
+      "name": "浮気",
       "articles": 1
     },
     {
