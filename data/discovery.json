@@ -513,6 +513,7 @@
     "topics/topic-815f56b2d4d2.html",
     "topics/topic-81608b3ac4fa.html",
     "topics/topic-81a5663bf989.html",
+    "topics/topic-824ba99d17dc.html",
     "topics/topic-825d752cee99.html",
     "topics/topic-828860e753a8.html",
     "topics/topic-82e081465000.html",
@@ -998,7 +999,7 @@
   "counts": {
     "people": 597,
     "works": 329,
-    "topics": 2794
+    "topics": 2795
   },
   "people": [
     {
@@ -7810,6 +7811,10 @@
       "articles": 1
     },
     {
+      "name": "テレビ収録",
+      "articles": 1
+    },
+    {
       "name": "テレビ広告",
       "articles": 1
     },
@@ -10951,7 +10956,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 98
+      "articles": 99
     },
     {
       "name": "女子アナ設定",
@@ -11503,7 +11508,7 @@
     },
     {
       "name": "岩田絵里奈",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "岸みゆ",
@@ -14395,7 +14400,7 @@
     },
     {
       "name": "胸元",
-      "articles": 88
+      "articles": 89
     },
     {
       "name": "胸元チラ見え",
@@ -15799,7 +15804,7 @@
     },
     {
       "name": "黒ニット",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "黒バニー",
