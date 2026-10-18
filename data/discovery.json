@@ -11,6 +11,7 @@
     "people/person-0a5f256712b0.html",
     "people/person-0b5c5c5ef71f.html",
     "people/person-0b72ed29a2c8.html",
+    "people/person-0c3daef82d52.html",
     "people/person-0d8974d78f47.html",
     "people/person-0df66632e9d9.html",
     "people/person-1079f216d93a.html",
@@ -1004,7 +1005,7 @@
   "counts": {
     "people": 601,
     "works": 329,
-    "topics": 2810
+    "topics": 2812
   },
   "people": [
     {
@@ -2789,7 +2790,7 @@
     },
     {
       "name": "白波瀬海来",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "白濱美兎",
@@ -5129,6 +5130,10 @@
     },
     {
       "name": "BLACK MANIA",
+      "articles": 1
+    },
+    {
+      "name": "BLUE SIGHT",
       "articles": 1
     },
     {
@@ -8788,6 +8793,10 @@
       "articles": 2
     },
     {
+      "name": "ボディボード",
+      "articles": 1
+    },
+    {
       "name": "ボディライン",
       "articles": 2
     },
@@ -10129,7 +10138,7 @@
     },
     {
       "name": "写真集",
-      "articles": 72
+      "articles": 73
     },
     {
       "name": "冨永実里",
