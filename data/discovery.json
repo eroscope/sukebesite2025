@@ -997,7 +997,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 597,
+    "people": 598,
     "works": 329,
     "topics": 2795
   },
@@ -2284,6 +2284,10 @@
     },
     {
       "name": "松本いちか",
+      "articles": 1
+    },
+    {
+      "name": "松本圭世",
       "articles": 1
     },
     {
@@ -9156,7 +9160,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 240
+      "articles": 241
     },
     {
       "name": "ランジェリー風",
@@ -10956,7 +10960,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 99
+      "articles": 100
     },
     {
       "name": "女子アナ設定",
@@ -12744,7 +12748,7 @@
     },
     {
       "name": "水着",
-      "articles": 394
+      "articles": 395
     },
     {
       "name": "水着グラビア",
