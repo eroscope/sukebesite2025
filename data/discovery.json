@@ -997,7 +997,7 @@
   "counts": {
     "people": 596,
     "works": 329,
-    "topics": 2791
+    "topics": 2792
   },
   "people": [
     {
@@ -8374,7 +8374,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 168
+      "articles": 169
     },
     {
       "name": "ビビアン",
@@ -9698,6 +9698,10 @@
     },
     {
       "name": "仰向け",
+      "articles": 1
+    },
+    {
+      "name": "仲村まひろ",
       "articles": 1
     },
     {
@@ -12726,7 +12730,7 @@
     },
     {
       "name": "水着",
-      "articles": 393
+      "articles": 394
     },
     {
       "name": "水着グラビア",
@@ -13406,7 +13410,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 241
+      "articles": 242
     },
     {
       "name": "画像ギャラリー",
