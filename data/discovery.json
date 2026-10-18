@@ -819,6 +819,7 @@
     "topics/topic-e16d9671dc56.html",
     "topics/topic-e18b1ea15d9c.html",
     "topics/topic-e1d3de16ea1d.html",
+    "topics/topic-e273e3404eb0.html",
     "topics/topic-e2a6d2606a0a.html",
     "topics/topic-e2e0c7d6bcea.html",
     "topics/topic-e2eaf183e5bd.html",
@@ -997,9 +998,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 599,
+    "people": 600,
     "works": 329,
-    "topics": 2798
+    "topics": 2802
   },
   "people": [
     {
@@ -1749,6 +1750,10 @@
     {
       "name": "奥田咲",
       "articles": 3
+    },
+    {
+      "name": "女子アナ",
+      "articles": 1
     },
     {
       "name": "女性向けエロ漫画",
@@ -4963,6 +4968,10 @@
       "articles": 1
     },
     {
+      "name": "AI防災",
+      "articles": 1
+    },
+    {
       "name": "AI顔検索",
       "articles": 1
     },
@@ -5136,6 +5145,10 @@
     },
     {
       "name": "CANDY TUNE",
+      "articles": 1
+    },
+    {
+      "name": "CEATEC",
       "articles": 1
     },
     {
@@ -8584,7 +8597,7 @@
     },
     {
       "name": "ブラウス",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ブラジャー",
@@ -11480,6 +11493,10 @@
     },
     {
       "name": "屋根工事",
+      "articles": 1
+    },
+    {
+      "name": "展示会",
       "articles": 1
     },
     {
@@ -15180,6 +15197,10 @@
     },
     {
       "name": "遺作",
+      "articles": 1
+    },
+    {
+      "name": "避難シミュレーション",
       "articles": 1
     },
     {
