@@ -278,6 +278,7 @@
     "topics/topic-29d79cbdb69a.html",
     "topics/topic-29f8f0215964.html",
     "topics/topic-2a70c43e87b3.html",
+    "topics/topic-2a9b6b05c4ed.html",
     "topics/topic-2b7e5d0c429c.html",
     "topics/topic-2ba133618e18.html",
     "topics/topic-2c270423c58c.html",
@@ -1001,9 +1002,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 600,
+    "people": 601,
     "works": 329,
-    "topics": 2806
+    "topics": 2808
   },
   "people": [
     {
@@ -1248,6 +1249,10 @@
     },
     {
       "name": "ポートレート",
+      "articles": 1
+    },
+    {
+      "name": "マッサージ",
       "articles": 1
     },
     {
@@ -10792,7 +10797,7 @@
     },
     {
       "name": "大人ネタ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "大人向け",
@@ -12940,6 +12945,10 @@
     },
     {
       "name": "海パン",
+      "articles": 1
+    },
+    {
+      "name": "海外",
       "articles": 1
     },
     {
@@ -15528,6 +15537,10 @@
     },
     {
       "name": "電動オナホール",
+      "articles": 1
+    },
+    {
+      "name": "電動マッサージ",
       "articles": 1
     },
     {
