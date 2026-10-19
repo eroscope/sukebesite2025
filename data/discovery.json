@@ -1008,7 +1008,7 @@
   "counts": {
     "people": 602,
     "works": 331,
-    "topics": 2826
+    "topics": 2829
   },
   "people": [
     {
@@ -7904,6 +7904,10 @@
       "articles": 1
     },
     {
+      "name": "テレビ番組",
+      "articles": 1
+    },
+    {
       "name": "テレホンカード",
       "articles": 1
     },
@@ -12160,6 +12164,10 @@
       "articles": 1
     },
     {
+      "name": "放送規制",
+      "articles": 1
+    },
+    {
       "name": "教室",
       "articles": 2
     },
@@ -14853,6 +14861,10 @@
     },
     {
       "name": "表情フェチ",
+      "articles": 1
+    },
+    {
+      "name": "表現規制",
       "articles": 1
     },
     {
