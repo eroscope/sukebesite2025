@@ -1006,7 +1006,7 @@
   "counts": {
     "people": 601,
     "works": 330,
-    "topics": 2819
+    "topics": 2822
   },
   "people": [
     {
@@ -6706,6 +6706,10 @@
       "articles": 1
     },
     {
+      "name": "ウイングマン",
+      "articles": 1
+    },
+    {
       "name": "ウェア",
       "articles": 1
     },
@@ -8407,6 +8411,10 @@
     },
     {
       "name": "パンツ交換",
+      "articles": 1
+    },
+    {
+      "name": "パンツ描写",
       "articles": 1
     },
     {
@@ -12590,6 +12598,10 @@
       "articles": 3
     },
     {
+      "name": "桂正和",
+      "articles": 1
+    },
+    {
       "name": "桃",
       "articles": 1
     },
@@ -13155,7 +13167,7 @@
     },
     {
       "name": "漫画",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "漫画キャラクター",
@@ -14331,7 +14343,7 @@
     },
     {
       "name": "美少女",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "美少女ゲーム",
