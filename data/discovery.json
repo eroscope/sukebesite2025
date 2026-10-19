@@ -1009,7 +1009,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 603,
+    "people": 604,
     "works": 331,
     "topics": 2832
   },
@@ -2956,6 +2956,10 @@
     },
     {
       "name": "篠田あゆみ",
+      "articles": 1
+    },
+    {
+      "name": "篠田ゆう",
       "articles": 1
     },
     {
@@ -7612,7 +7616,7 @@
     },
     {
       "name": "ストレッチ",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "スパッツ",
@@ -8584,7 +8588,7 @@
     },
     {
       "name": "フィットネス",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "フィリピン",
