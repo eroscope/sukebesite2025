@@ -1006,7 +1006,7 @@
   "counts": {
     "people": 601,
     "works": 329,
-    "topics": 2813
+    "topics": 2816
   },
   "people": [
     {
@@ -7990,6 +7990,10 @@
       "articles": 1
     },
     {
+      "name": "ドール比較",
+      "articles": 1
+    },
+    {
       "name": "ナイトプール",
       "articles": 2
     },
@@ -9179,7 +9183,7 @@
     },
     {
       "name": "ラブドール",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "ラブホ",
@@ -13298,6 +13302,10 @@
       "articles": 2
     },
     {
+      "name": "猫耳メイド",
+      "articles": 1
+    },
+    {
       "name": "猫耳衣装",
       "articles": 1
     },
@@ -15035,6 +15043,10 @@
     },
     {
       "name": "質感",
+      "articles": 1
+    },
+    {
+      "name": "購入報告",
       "articles": 1
     },
     {
