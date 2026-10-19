@@ -1009,9 +1009,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 604,
+    "people": 605,
     "works": 331,
-    "topics": 2833
+    "topics": 2835
   },
   "people": [
     {
@@ -1508,6 +1508,10 @@
     },
     {
       "name": "倉木華",
+      "articles": 1
+    },
+    {
+      "name": "元ヤンママ",
       "articles": 1
     },
     {
@@ -10019,6 +10023,10 @@
       "articles": 1
     },
     {
+      "name": "借金返済",
+      "articles": 1
+    },
+    {
       "name": "停電",
       "articles": 1
     },
@@ -13600,7 +13608,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 244
+      "articles": 245
     },
     {
       "name": "画像ギャラリー",
@@ -15760,6 +15768,10 @@
     },
     {
       "name": "響蓮",
+      "articles": 1
+    },
+    {
+      "name": "須藤かおる",
       "articles": 1
     },
     {
