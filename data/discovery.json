@@ -1011,7 +1011,7 @@
   "counts": {
     "people": 603,
     "works": 331,
-    "topics": 2830
+    "topics": 2832
   },
   "people": [
     {
@@ -5551,6 +5551,10 @@
       "articles": 2
     },
     {
+      "name": "Miina",
+      "articles": 1
+    },
+    {
       "name": "Mina",
       "articles": 1
     },
@@ -9260,7 +9264,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 242
+      "articles": 243
     },
     {
       "name": "ランジェリー風",
@@ -13277,6 +13281,10 @@
     {
       "name": "濡れ透け",
       "articles": 2
+    },
+    {
+      "name": "濡れ髪",
+      "articles": 1
     },
     {
       "name": "瀬戸環奈",
