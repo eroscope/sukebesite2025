@@ -1011,7 +1011,7 @@
   "counts": {
     "people": 604,
     "works": 331,
-    "topics": 2832
+    "topics": 2833
   },
   "people": [
     {
@@ -5368,7 +5368,7 @@
     },
     {
       "name": "Gカップ",
-      "articles": 22
+      "articles": 23
     },
     {
       "name": "HKT48",
@@ -8317,6 +8317,10 @@
     {
       "name": "バスト104cm",
       "articles": 2
+    },
+    {
+      "name": "バスト比較",
+      "articles": 1
     },
     {
       "name": "バック",
@@ -14676,7 +14680,7 @@
     },
     {
       "name": "自撮り",
-      "articles": 42
+      "articles": 43
     },
     {
       "name": "自撮り動画",
