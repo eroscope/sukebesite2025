@@ -1014,8 +1014,8 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 612,
-    "works": 333,
+    "people": 613,
+    "works": 335,
     "topics": 2847
   },
   "people": [
@@ -1718,6 +1718,10 @@
     {
       "name": "園梨音",
       "articles": 2
+    },
+    {
+      "name": "土屋和香",
+      "articles": 1
     },
     {
       "name": "夏希まろん",
@@ -3838,6 +3842,10 @@
       "articles": 1
     },
     {
+      "code": "H-086JRZE00325",
+      "articles": 1
+    },
+    {
       "code": "H-113HR00012",
       "articles": 1
     },
@@ -4019,6 +4027,10 @@
     },
     {
       "code": "JRZE-320",
+      "articles": 1
+    },
+    {
+      "code": "JRZE-325",
       "articles": 1
     },
     {
@@ -5137,7 +5149,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 178
+      "articles": 179
     },
     {
       "name": "AV女優検索",
@@ -9829,7 +9841,7 @@
     },
     {
       "name": "人妻",
-      "articles": 69
+      "articles": 70
     },
     {
       "name": "人妻AV",
