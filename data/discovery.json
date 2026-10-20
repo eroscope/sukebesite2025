@@ -441,6 +441,7 @@
     "topics/topic-60257fe59557.html",
     "topics/topic-60418371049e.html",
     "topics/topic-60bb2a31f7d3.html",
+    "topics/topic-60d900a4769e.html",
     "topics/topic-60efab3b375e.html",
     "topics/topic-612e72ff9af8.html",
     "topics/topic-6135a0ea5456.html",
@@ -1030,7 +1031,7 @@
   "counts": {
     "people": 617,
     "works": 336,
-    "topics": 2874
+    "topics": 2876
   },
   "people": [
     {
@@ -10558,6 +10559,10 @@
       "articles": 2
     },
     {
+      "name": "医療番組",
+      "articles": 1
+    },
+    {
       "name": "匿名女性",
       "articles": 2
     },
@@ -11263,7 +11268,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 104
+      "articles": 105
     },
     {
       "name": "女子アナ設定",
@@ -12363,7 +12368,7 @@
     },
     {
       "name": "放送キャプ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "放送キャプチャ",
@@ -14755,6 +14760,10 @@
     },
     {
       "name": "股間露出",
+      "articles": 1
+    },
+    {
+      "name": "股関節",
       "articles": 1
     },
     {
