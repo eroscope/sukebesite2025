@@ -1013,7 +1013,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 609,
+    "people": 610,
     "works": 333,
     "topics": 2845
   },
@@ -3312,6 +3312,10 @@
     },
     {
       "name": "鈴木ふみ奈",
+      "articles": 1
+    },
+    {
+      "name": "鈴木ゆき",
       "articles": 1
     },
     {
@@ -6724,7 +6728,7 @@
     },
     {
       "name": "イメージビデオ",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "イメージ映像",
@@ -9568,7 +9572,7 @@
     },
     {
       "name": "下着",
-      "articles": 160
+      "articles": 161
     },
     {
       "name": "下着ずらし",
@@ -12952,7 +12956,7 @@
     },
     {
       "name": "水着",
-      "articles": 402
+      "articles": 403
     },
     {
       "name": "水着グラビア",
