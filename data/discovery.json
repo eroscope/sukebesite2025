@@ -1014,7 +1014,7 @@
   "counts": {
     "people": 608,
     "works": 333,
-    "topics": 2840
+    "topics": 2842
   },
   "people": [
     {
@@ -9303,7 +9303,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 245
+      "articles": 246
     },
     {
       "name": "ランジェリー風",
@@ -9571,6 +9571,10 @@
     },
     {
       "name": "下着ライン",
+      "articles": 1
+    },
+    {
+      "name": "下着画像",
       "articles": 1
     },
     {
@@ -13810,6 +13814,10 @@
       "articles": 2
     },
     {
+      "name": "白下着",
+      "articles": 1
+    },
+    {
       "name": "白人女性",
       "articles": 2
     },
@@ -14451,7 +14459,7 @@
     },
     {
       "name": "美少女",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "美少女ゲーム",
