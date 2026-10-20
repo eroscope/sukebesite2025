@@ -1024,7 +1024,7 @@
   "counts": {
     "people": 616,
     "works": 336,
-    "topics": 2867
+    "topics": 2869
   },
   "people": [
     {
@@ -5548,6 +5548,10 @@
       "articles": 6
     },
     {
+      "name": "LINA VELINA",
+      "articles": 1
+    },
+    {
       "name": "LUNA",
       "articles": 1
     },
@@ -7997,7 +8001,7 @@
     },
     {
       "name": "テレビ出演",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "テレビ北海道",
@@ -11297,6 +11301,10 @@
     },
     {
       "name": "女性モデル",
+      "articles": 1
+    },
+    {
+      "name": "女性ラッパー",
       "articles": 1
     },
     {
@@ -14769,7 +14777,7 @@
     },
     {
       "name": "胸元",
-      "articles": 90
+      "articles": 91
     },
     {
       "name": "胸元チラ見え",
