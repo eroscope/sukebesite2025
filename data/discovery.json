@@ -1021,7 +1021,7 @@
   "counts": {
     "people": 615,
     "works": 336,
-    "topics": 2862
+    "topics": 2863
   },
   "people": [
     {
@@ -5914,7 +5914,7 @@
     },
     {
       "name": "SKE48",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "SM",
@@ -9382,7 +9382,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 250
+      "articles": 251
     },
     {
       "name": "ランジェリー風",
@@ -10651,6 +10651,10 @@
     {
       "name": "古旗笑佳",
       "articles": 3
+    },
+    {
+      "name": "古畑奈和",
+      "articles": 1
     },
     {
       "name": "古着屋",
@@ -13046,7 +13050,7 @@
     },
     {
       "name": "水着",
-      "articles": 409
+      "articles": 410
     },
     {
       "name": "水着グラビア",
