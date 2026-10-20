@@ -336,6 +336,7 @@
     "topics/topic-3c5cbad8e493.html",
     "topics/topic-3cc515a34ee3.html",
     "topics/topic-3d382d51932d.html",
+    "topics/topic-3d6fe03412e9.html",
     "topics/topic-3d9fa52eea90.html",
     "topics/topic-3dbb0d7317d1.html",
     "topics/topic-3dce044148e5.html",
@@ -1017,7 +1018,7 @@
   "counts": {
     "people": 615,
     "works": 335,
-    "topics": 2852
+    "topics": 2854
   },
   "people": [
     {
@@ -5598,7 +5599,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 53
+      "articles": 54
     },
     {
       "name": "MOODYZ DIVA",
@@ -6054,7 +6055,7 @@
     },
     {
       "name": "VR",
-      "articles": 114
+      "articles": 115
     },
     {
       "name": "VR CHANNEL 005",
@@ -8197,6 +8198,10 @@
       "articles": 1
     },
     {
+      "name": "ニート",
+      "articles": 1
+    },
+    {
       "name": "ニーハイ",
       "articles": 1
     },
@@ -9838,7 +9843,7 @@
     },
     {
       "name": "井上もも",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "井上咲楽",
@@ -10810,6 +10815,10 @@
     },
     {
       "name": "喜多美あいり",
+      "articles": 1
+    },
+    {
+      "name": "喪女",
       "articles": 1
     },
     {
