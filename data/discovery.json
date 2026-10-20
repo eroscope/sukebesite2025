@@ -1019,9 +1019,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 615,
+    "people": 616,
     "works": 336,
-    "topics": 2865
+    "topics": 2866
   },
   "people": [
     {
@@ -2390,6 +2390,10 @@
     },
     {
       "name": "柳いろは",
+      "articles": 1
+    },
+    {
+      "name": "柴崎はる",
       "articles": 1
     },
     {
@@ -5950,7 +5954,7 @@
     },
     {
       "name": "SODSTAR",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "SODVR",
@@ -12362,6 +12366,10 @@
     },
     {
       "name": "数学教師",
+      "articles": 1
+    },
+    {
+      "name": "整備工場",
       "articles": 1
     },
     {
