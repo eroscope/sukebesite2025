@@ -1017,7 +1017,7 @@
   "counts": {
     "people": 615,
     "works": 335,
-    "topics": 2851
+    "topics": 2852
   },
   "people": [
     {
@@ -5702,7 +5702,7 @@
     },
     {
       "name": "NMB48",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "NO.1STYLE",
@@ -9362,7 +9362,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 249
+      "articles": 250
     },
     {
       "name": "ランジェリー風",
@@ -13006,7 +13006,7 @@
     },
     {
       "name": "水着",
-      "articles": 405
+      "articles": 406
     },
     {
       "name": "水着グラビア",
@@ -14874,6 +14874,10 @@
     },
     {
       "name": "花柄ビキニ",
+      "articles": 1
+    },
+    {
+      "name": "芳賀礼",
       "articles": 1
     },
     {
