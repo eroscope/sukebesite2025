@@ -1021,7 +1021,7 @@
   "counts": {
     "people": 615,
     "works": 336,
-    "topics": 2861
+    "topics": 2862
   },
   "people": [
     {
@@ -8850,7 +8850,7 @@
     },
     {
       "name": "プール",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "プール撮影",
@@ -13046,7 +13046,7 @@
     },
     {
       "name": "水着",
-      "articles": 408
+      "articles": 409
     },
     {
       "name": "水着グラビア",
@@ -14538,6 +14538,10 @@
     },
     {
       "name": "美優",
+      "articles": 1
+    },
+    {
+      "name": "美勇伝",
       "articles": 1
     },
     {
