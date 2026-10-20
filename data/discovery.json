@@ -939,6 +939,7 @@
     "topics/topic-gif.html",
     "topics/topic-gif.html",
     "topics/topic-grok.html",
+    "topics/topic-himari.html",
     "topics/topic-hkt48.html",
     "topics/topic-hunter.html",
     "topics/topic-i-mew.html",
@@ -1014,7 +1015,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 614,
+    "people": 615,
     "works": 335,
     "topics": 2851
   },
@@ -1241,6 +1242,10 @@
     },
     {
       "name": "パイスラ",
+      "articles": 1
+    },
+    {
+      "name": "パイズリ",
       "articles": 1
     },
     {
@@ -5453,7 +5458,7 @@
     },
     {
       "name": "Himari",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "Hunter",
@@ -5593,7 +5598,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 52
+      "articles": 53
     },
     {
       "name": "MOODYZ DIVA",
@@ -11793,7 +11798,7 @@
     },
     {
       "name": "巨乳",
-      "articles": 138
+      "articles": 139
     },
     {
       "name": "巨乳星人",
@@ -13709,7 +13714,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 247
+      "articles": 248
     },
     {
       "name": "画像ギャラリー",
