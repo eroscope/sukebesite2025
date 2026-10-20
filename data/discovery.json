@@ -220,6 +220,7 @@
     "topics/topic-14b93ea24248.html",
     "topics/topic-1536d20dc959.html",
     "topics/topic-15690ba6bf52.html",
+    "topics/topic-15af117d0572.html",
     "topics/topic-16288155e65c.html",
     "topics/topic-1647288711c1.html",
     "topics/topic-17.html",
@@ -1011,7 +1012,7 @@
   ],
   "counts": {
     "people": 608,
-    "works": 331,
+    "works": 332,
     "topics": 2837
   },
   "people": [
@@ -3467,6 +3468,10 @@
     },
     {
       "code": "200GANA-3366",
+      "articles": 1
+    },
+    {
+      "code": "200GANA-3370",
       "articles": 1
     },
     {
@@ -8257,7 +8262,7 @@
     },
     {
       "name": "ハロウィン",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ハンバーガー",
@@ -13585,7 +13590,7 @@
     },
     {
       "name": "画像17枚",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "画像20枚",
@@ -14257,7 +14262,7 @@
     },
     {
       "name": "素人",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "素人AV",
@@ -15017,7 +15022,7 @@
     },
     {
       "name": "複数人プレイ",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "複数出演",
