@@ -1013,9 +1013,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 610,
+    "people": 611,
     "works": 333,
-    "topics": 2845
+    "topics": 2846
   },
   "people": [
     {
@@ -2033,6 +2033,10 @@
     {
       "name": "工藤れいか",
       "articles": 2
+    },
+    {
+      "name": "工藤理子",
+      "articles": 1
     },
     {
       "name": "工藤美桜",
@@ -5935,6 +5939,10 @@
       "articles": 1
     },
     {
+      "name": "STU48",
+      "articles": 1
+    },
+    {
       "name": "Sakura",
       "articles": 1
     },
@@ -8536,7 +8544,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 170
+      "articles": 171
     },
     {
       "name": "ビビアン",
@@ -9320,7 +9328,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 246
+      "articles": 247
     },
     {
       "name": "ランジェリー風",
@@ -12960,7 +12968,7 @@
     },
     {
       "name": "水着グラビア",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "水着コスチューム",
