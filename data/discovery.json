@@ -762,6 +762,7 @@
     "topics/topic-cad0bf25d100.html",
     "topics/topic-cb0581d4a2a9.html",
     "topics/topic-cb1b67b257cc.html",
+    "topics/topic-cbac2971604d.html",
     "topics/topic-cbbfe762584e.html",
     "topics/topic-cc2e8744bb4a.html",
     "topics/topic-cc401f70f862.html",
@@ -1014,7 +1015,7 @@
   "counts": {
     "people": 609,
     "works": 333,
-    "topics": 2842
+    "topics": 2845
   },
   "people": [
     {
@@ -6374,6 +6375,10 @@
       "articles": 1
     },
     {
+      "name": "しゃがみポーズ",
+      "articles": 1
+    },
+    {
       "name": "しゃがみ姿",
       "articles": 1
     },
@@ -7979,7 +7984,7 @@
     },
     {
       "name": "デニム",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "デニムミニスカート",
@@ -8516,6 +8521,10 @@
     {
       "name": "ヒップ",
       "articles": 10
+    },
+    {
+      "name": "ヒップライン",
+      "articles": 1
     },
     {
       "name": "ヒール",
@@ -15579,6 +15588,10 @@
     },
     {
       "name": "鏡越し",
+      "articles": 1
+    },
+    {
+      "name": "鏡越し自撮り",
       "articles": 1
     },
     {
