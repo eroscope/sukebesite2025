@@ -1021,7 +1021,7 @@
   "counts": {
     "people": 615,
     "works": 336,
-    "topics": 2860
+    "topics": 2861
   },
   "people": [
     {
@@ -5006,7 +5006,7 @@
     },
     {
       "name": "8K VR",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "8KVR",
@@ -5534,7 +5534,7 @@
     },
     {
       "name": "KMPVR",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "Kカップ",
@@ -12586,6 +12586,10 @@
     },
     {
       "name": "月嶋ちか",
+      "articles": 1
+    },
+    {
+      "name": "月野江すい",
       "articles": 1
     },
     {
