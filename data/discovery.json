@@ -1020,7 +1020,7 @@
   "counts": {
     "people": 615,
     "works": 335,
-    "topics": 2854
+    "topics": 2856
   },
   "people": [
     {
@@ -7560,6 +7560,10 @@
       "articles": 2
     },
     {
+      "name": "シューイチ",
+      "articles": 1
+    },
+    {
       "name": "ショートカット",
       "articles": 2
     },
@@ -8161,7 +8165,7 @@
     },
     {
       "name": "ニット",
-      "articles": 36
+      "articles": 37
     },
     {
       "name": "ニットワンピ",
@@ -11209,7 +11213,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 102
+      "articles": 103
     },
     {
       "name": "女子アナ設定",
@@ -13413,6 +13417,10 @@
     },
     {
       "name": "濡れ髪",
+      "articles": 1
+    },
+    {
+      "name": "瀧口麻衣",
       "articles": 1
     },
     {
