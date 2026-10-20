@@ -1014,7 +1014,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 611,
+    "people": 612,
     "works": 333,
     "topics": 2846
   },
@@ -3397,6 +3397,10 @@
     },
     {
       "name": "音無鈴",
+      "articles": 1
+    },
+    {
+      "name": "音羽美奈",
       "articles": 1
     },
     {
@@ -10281,7 +10285,7 @@
     },
     {
       "name": "写真集",
-      "articles": 76
+      "articles": 77
     },
     {
       "name": "冨永実里",
@@ -13789,7 +13793,7 @@
     },
     {
       "name": "白ドレス",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "白ニット",
