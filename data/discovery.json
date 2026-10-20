@@ -1021,7 +1021,7 @@
   "counts": {
     "people": 615,
     "works": 336,
-    "topics": 2858
+    "topics": 2860
   },
   "people": [
     {
@@ -6661,6 +6661,10 @@
       "articles": 8
     },
     {
+      "name": "アイドリング!!!",
+      "articles": 1
+    },
+    {
       "name": "アイドルマスター",
       "articles": 1
     },
@@ -11965,6 +11969,10 @@
       "articles": 2
     },
     {
+      "name": "後藤郁",
+      "articles": 1
+    },
+    {
       "name": "後輩",
       "articles": 2
     },
@@ -13034,7 +13042,7 @@
     },
     {
       "name": "水着",
-      "articles": 407
+      "articles": 408
     },
     {
       "name": "水着グラビア",
