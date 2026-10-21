@@ -1040,9 +1040,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 620,
+    "people": 621,
     "works": 340,
-    "topics": 2898
+    "topics": 2900
   },
   "people": [
     {
@@ -2351,6 +2351,10 @@
     },
     {
       "name": "村重杏奈",
+      "articles": 1
+    },
+    {
+      "name": "東京ゲームショー",
       "articles": 1
     },
     {
@@ -7442,6 +7446,10 @@
       "articles": 9
     },
     {
+      "name": "ゲームイベント",
+      "articles": 1
+    },
+    {
       "name": "ゲームイラスト",
       "articles": 1
     },
@@ -7515,6 +7523,10 @@
     },
     {
       "name": "コンカフェ",
+      "articles": 1
+    },
+    {
+      "name": "コンパニオン",
       "articles": 1
     },
     {
