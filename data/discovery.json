@@ -332,6 +332,7 @@
     "topics/topic-37a2c98c7a9b.html",
     "topics/topic-37adb70c085d.html",
     "topics/topic-37fd56e46ccf.html",
+    "topics/topic-382a75488bd1.html",
     "topics/topic-382b0f502734.html",
     "topics/topic-383f688ec1c4.html",
     "topics/topic-38c34338ee97.html",
@@ -1044,7 +1045,7 @@
   "counts": {
     "people": 622,
     "works": 340,
-    "topics": 2904
+    "topics": 2905
   },
   "people": [
     {
@@ -7797,7 +7798,7 @@
     },
     {
       "name": "ステージ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ステージパフォーマンス",
@@ -13164,6 +13165,10 @@
       "articles": 1
     },
     {
+      "name": "歌唱",
+      "articles": 1
+    },
+    {
       "name": "正体発表",
       "articles": 1
     },
@@ -13969,7 +13974,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 252
+      "articles": 253
     },
     {
       "name": "画像ギャラリー",
@@ -14961,7 +14966,7 @@
     },
     {
       "name": "胸元",
-      "articles": 93
+      "articles": 94
     },
     {
       "name": "胸元チラ見え",
@@ -15001,7 +15006,7 @@
     },
     {
       "name": "脚",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "脚コキ",
