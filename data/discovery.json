@@ -1043,7 +1043,7 @@
   "counts": {
     "people": 621,
     "works": 340,
-    "topics": 2901
+    "topics": 2904
   },
   "people": [
     {
@@ -7783,6 +7783,10 @@
       "articles": 3
     },
     {
+      "name": "スタジオキャプチャ",
+      "articles": 1
+    },
+    {
       "name": "スタジオ画像",
       "articles": 1
     },
@@ -10831,6 +10835,10 @@
       "articles": 1
     },
     {
+      "name": "台風30号",
+      "articles": 1
+    },
+    {
       "name": "司書",
       "articles": 1
     },
@@ -11292,7 +11300,7 @@
     },
     {
       "name": "天気予報",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "天沢ゆきね",
@@ -11384,7 +11392,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 107
+      "articles": 108
     },
     {
       "name": "女子アナ設定",
@@ -13192,6 +13200,10 @@
     },
     {
       "name": "比較画像",
+      "articles": 1
+    },
+    {
+      "name": "気象キャスター",
       "articles": 1
     },
     {
