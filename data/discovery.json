@@ -155,6 +155,7 @@
     "people/person-e796e68b08f6.html",
     "people/person-e7ed83c9fc14.html",
     "people/person-ea65df2aa4d6.html",
+    "people/person-eb809ce44c8e.html",
     "people/person-ecea1599b55a.html",
     "people/person-edded4fab735.html",
     "people/person-ee7e3a59c1a9.html",
@@ -1048,7 +1049,7 @@
   "counts": {
     "people": 623,
     "works": 340,
-    "topics": 2918
+    "topics": 2919
   },
   "people": [
     {
@@ -1525,7 +1526,7 @@
     },
     {
       "name": "佐々木さき",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "佐伯里桜",
@@ -5249,7 +5250,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 182
+      "articles": 183
     },
     {
       "name": "AV女優検索",
@@ -9329,7 +9330,7 @@
     },
     {
       "name": "メイド",
-      "articles": 27
+      "articles": 28
     },
     {
       "name": "メイドコスプレ",
@@ -9545,7 +9546,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 255
+      "articles": 256
     },
     {
       "name": "ランジェリー風",
@@ -10589,7 +10590,7 @@
     },
     {
       "name": "制服",
-      "articles": 37
+      "articles": 38
     },
     {
       "name": "制服ギャル",
@@ -13449,7 +13450,7 @@
     },
     {
       "name": "浴室",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "浴槽",
@@ -15625,6 +15626,10 @@
     },
     {
       "name": "赤いワンピース水着",
+      "articles": 1
+    },
+    {
+      "name": "赤い悪魔コス",
       "articles": 1
     },
     {
