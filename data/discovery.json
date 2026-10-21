@@ -1007,6 +1007,7 @@
     "topics/topic-sod.html",
     "topics/topic-sodstar.html",
     "topics/topic-sodstar.html",
+    "topics/topic-sodvr.html",
     "topics/topic-steam.html",
     "topics/topic-tameike.html",
     "topics/topic-tiktok.html",
@@ -1032,7 +1033,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 617,
+    "people": 618,
     "works": 336,
     "topics": 2878
   },
@@ -2359,6 +2360,10 @@
     },
     {
       "name": "松村香織",
+      "articles": 1
+    },
+    {
+      "name": "松永あかり",
       "articles": 1
     },
     {
@@ -5983,7 +5988,7 @@
     },
     {
       "name": "SODVR",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "SODstar",
@@ -6091,7 +6096,7 @@
     },
     {
       "name": "VR",
-      "articles": 115
+      "articles": 116
     },
     {
       "name": "VR CHANNEL 005",
@@ -10443,7 +10448,7 @@
     },
     {
       "name": "制服",
-      "articles": 36
+      "articles": 37
     },
     {
       "name": "制服ギャル",
@@ -13831,7 +13836,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 251
+      "articles": 252
     },
     {
       "name": "画像ギャラリー",
