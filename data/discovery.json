@@ -1048,9 +1048,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 623,
+    "people": 624,
     "works": 340,
-    "topics": 2919
+    "topics": 2923
   },
   "people": [
     {
@@ -1219,6 +1219,10 @@
     },
     {
       "name": "エロコスプレ",
+      "articles": 1
+    },
+    {
+      "name": "エロビデオ",
       "articles": 1
     },
     {
@@ -5098,6 +5102,10 @@
       "articles": 1
     },
     {
+      "name": "90年代",
+      "articles": 1
+    },
+    {
       "name": "A10ピストンSA",
       "articles": 1
     },
@@ -6151,6 +6159,10 @@
     },
     {
       "name": "VERTEX FORCE",
+      "articles": 1
+    },
+    {
+      "name": "VHS",
       "articles": 1
     },
     {
@@ -12378,6 +12390,10 @@
       "articles": 1
     },
     {
+      "name": "成人向け映像",
+      "articles": 1
+    },
+    {
       "name": "成人向け漫画",
       "articles": 8
     },
@@ -12779,6 +12795,10 @@
     },
     {
       "name": "春麗",
+      "articles": 1
+    },
+    {
+      "name": "昭和",
       "articles": 1
     },
     {
