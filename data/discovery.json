@@ -1035,7 +1035,7 @@
   "counts": {
     "people": 618,
     "works": 336,
-    "topics": 2881
+    "topics": 2885
   },
   "people": [
     {
@@ -5127,6 +5127,10 @@
       "articles": 7
     },
     {
+      "name": "AOYAMA BATON",
+      "articles": 1
+    },
+    {
       "name": "APEX",
       "articles": 1
     },
@@ -8487,6 +8491,10 @@
       "articles": 1
     },
     {
+      "name": "バトントワリング",
+      "articles": 1
+    },
+    {
       "name": "バナナ",
       "articles": 2
     },
@@ -9921,6 +9929,10 @@
     {
       "name": "井上清華",
       "articles": 3
+    },
+    {
+      "name": "交通安全ゴールデンパレード",
+      "articles": 1
     },
     {
       "name": "交通誘導員",
@@ -15768,6 +15780,10 @@
     },
     {
       "name": "鈴村あいり",
+      "articles": 1
+    },
+    {
+      "name": "銀座",
       "articles": 1
     },
     {
