@@ -1035,7 +1035,7 @@
   "counts": {
     "people": 618,
     "works": 336,
-    "topics": 2878
+    "topics": 2881
   },
   "people": [
     {
@@ -6595,6 +6595,10 @@
       "articles": 1
     },
     {
+      "name": "みあん",
+      "articles": 1
+    },
+    {
       "name": "みちょぱ",
       "articles": 1
     },
@@ -7336,7 +7340,7 @@
     },
     {
       "name": "グラビアアイドル",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "グラビアン魂",
@@ -8576,6 +8580,10 @@
     },
     {
       "name": "パッケージ紹介",
+      "articles": 1
+    },
+    {
+      "name": "パティシエ",
       "articles": 1
     },
     {
@@ -11067,6 +11075,10 @@
       "articles": 1
     },
     {
+      "name": "大きめグラビア",
+      "articles": 1
+    },
+    {
       "name": "大乱交",
       "articles": 1
     },
@@ -12364,7 +12376,7 @@
     },
     {
       "name": "撮影会",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "撮影演出",
