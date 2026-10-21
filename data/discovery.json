@@ -1035,7 +1035,7 @@
   "counts": {
     "people": 618,
     "works": 336,
-    "topics": 2885
+    "topics": 2887
   },
   "people": [
     {
@@ -7760,7 +7760,7 @@
     },
     {
       "name": "ストレッチ",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "スパッツ",
@@ -7769,6 +7769,10 @@
     {
       "name": "スポーツウェア",
       "articles": 4
+    },
+    {
+      "name": "スポーツジム",
+      "articles": 1
     },
     {
       "name": "スポーツニュース",
@@ -9508,6 +9512,10 @@
     },
     {
       "name": "レイプ描写",
+      "articles": 1
+    },
+    {
+      "name": "レオタード",
       "articles": 1
     },
     {
@@ -14848,7 +14856,7 @@
     },
     {
       "name": "胸元",
-      "articles": 91
+      "articles": 92
     },
     {
       "name": "胸元チラ見え",
