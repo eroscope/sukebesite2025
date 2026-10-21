@@ -1043,9 +1043,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 622,
+    "people": 623,
     "works": 340,
-    "topics": 2905
+    "topics": 2906
   },
   "people": [
     {
@@ -2362,6 +2362,10 @@
     },
     {
       "name": "東京ゲームショー",
+      "articles": 1
+    },
+    {
+      "name": "東峯日奈子",
       "articles": 1
     },
     {
@@ -5398,7 +5402,7 @@
     },
     {
       "name": "E-BODY",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "Emika 3",
@@ -12862,6 +12866,10 @@
     },
     {
       "name": "杉原凜",
+      "articles": 1
+    },
+    {
+      "name": "村おこし",
       "articles": 1
     },
     {
