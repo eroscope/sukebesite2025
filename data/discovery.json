@@ -1041,8 +1041,8 @@
   ],
   "counts": {
     "people": 619,
-    "works": 339,
-    "topics": 2897
+    "works": 340,
+    "topics": 2898
   },
   "people": [
     {
@@ -4628,6 +4628,10 @@
       "articles": 1
     },
     {
+      "code": "SDMM-243",
+      "articles": 1
+    },
+    {
       "code": "SDNM-499",
       "articles": 1
     },
@@ -5211,7 +5215,7 @@
     },
     {
       "name": "AV作品",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "AV初出演",
@@ -6003,7 +6007,7 @@
     },
     {
       "name": "SOD",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "SOD Star",
@@ -6451,6 +6455,10 @@
     },
     {
       "name": "きょうの健康",
+      "articles": 1
+    },
+    {
+      "name": "くすぐり",
       "articles": 1
     },
     {
@@ -7095,7 +7103,7 @@
     },
     {
       "name": "カップル",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "カップル交換",
@@ -9147,7 +9155,7 @@
     },
     {
       "name": "マジックミラー号",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "マスク女子",
@@ -10395,7 +10403,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 33
+      "articles": 34
     },
     {
       "name": "公式サンプル動画",
