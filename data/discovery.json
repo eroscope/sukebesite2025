@@ -198,6 +198,7 @@
     "topics/topic-0857c51434ee.html",
     "topics/topic-088303c984d0.html",
     "topics/topic-08ad0d22ad5c.html",
+    "topics/topic-0926f2ba4820.html",
     "topics/topic-09533f3c6030.html",
     "topics/topic-09f4175d8aff.html",
     "topics/topic-09fe90dec83a.html",
@@ -1049,7 +1050,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 624,
+    "people": 625,
     "works": 340,
     "topics": 2925
   },
@@ -1568,6 +1569,10 @@
     },
     {
       "name": "兒玉七海",
+      "articles": 1
+    },
+    {
+      "name": "入間ゆい",
       "articles": 1
     },
     {
@@ -8028,7 +8033,7 @@
     },
     {
       "name": "ソフマップ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ソープ",
@@ -8772,7 +8777,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 174
+      "articles": 175
     },
     {
       "name": "ビビアン",
@@ -13340,7 +13345,7 @@
     },
     {
       "name": "水着",
-      "articles": 417
+      "articles": 418
     },
     {
       "name": "水着グラビア",
