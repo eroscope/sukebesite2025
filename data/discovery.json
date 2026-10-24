@@ -1054,7 +1054,7 @@
   "counts": {
     "people": 627,
     "works": 340,
-    "topics": 2928
+    "topics": 2930
   },
   "people": [
     {
@@ -5195,7 +5195,7 @@
     },
     {
       "name": "AI顔認識",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "AKB48",
@@ -5275,7 +5275,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 184
+      "articles": 185
     },
     {
       "name": "AV女優検索",
@@ -10195,7 +10195,7 @@
     },
     {
       "name": "似てる女優",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "似鳥沙也加",
@@ -13202,6 +13202,10 @@
       "articles": 1
     },
     {
+      "name": "椎名りく",
+      "articles": 1
+    },
+    {
       "name": "椎名心春",
       "articles": 1
     },
@@ -15279,6 +15283,10 @@
     },
     {
       "name": "芹那",
+      "articles": 1
+    },
+    {
+      "name": "芽衣奈",
       "articles": 1
     },
     {
