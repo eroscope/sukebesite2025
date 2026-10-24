@@ -1054,7 +1054,7 @@
   "counts": {
     "people": 627,
     "works": 340,
-    "topics": 2926
+    "topics": 2927
   },
   "people": [
     {
@@ -2247,7 +2247,7 @@
     },
     {
       "name": "早坂奏音",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "早瀬セイナ",
@@ -6003,7 +6003,7 @@
     },
     {
       "name": "S1",
-      "articles": 38
+      "articles": 39
     },
     {
       "name": "S1 GIRLS COLLECTION",
@@ -10263,7 +10263,7 @@
     },
     {
       "name": "作品サンプル",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "作品ジャケ",
@@ -10623,7 +10623,7 @@
     },
     {
       "name": "制服",
-      "articles": 38
+      "articles": 39
     },
     {
       "name": "制服ギャル",
@@ -11095,6 +11095,10 @@
     },
     {
       "name": "回転寿司",
+      "articles": 1
+    },
+    {
+      "name": "図書室",
       "articles": 1
     },
     {
