@@ -1054,7 +1054,7 @@
   "counts": {
     "people": 627,
     "works": 340,
-    "topics": 2927
+    "topics": 2928
   },
   "people": [
     {
@@ -8343,7 +8343,7 @@
     },
     {
       "name": "ニット",
-      "articles": 39
+      "articles": 40
     },
     {
       "name": "ニットワンピ",
@@ -10230,6 +10230,10 @@
       "articles": 1
     },
     {
+      "name": "佐藤真知子",
+      "articles": 1
+    },
+    {
       "name": "佐野秋帆",
       "articles": 1
     },
@@ -11475,7 +11479,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 110
+      "articles": 111
     },
     {
       "name": "女子アナ設定",
@@ -15075,7 +15079,7 @@
     },
     {
       "name": "胸元",
-      "articles": 94
+      "articles": 95
     },
     {
       "name": "胸元チラ見え",
