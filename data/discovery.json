@@ -18,6 +18,7 @@
     "people/person-1079f216d93a.html",
     "people/person-10970e1429a3.html",
     "people/person-12db991e1946.html",
+    "people/person-1aed1c7f60d1.html",
     "people/person-1b9bdb1b962a.html",
     "people/person-1bb0ee5a4e03.html",
     "people/person-1bf8c0e47455.html",
@@ -990,6 +991,7 @@
     "topics/topic-mgs.html",
     "topics/topic-moodyz-diva.html",
     "topics/topic-moodyz.html",
+    "topics/topic-myspa.html",
     "topics/topic-nhk.html",
     "topics/topic-nhk.html",
     "topics/topic-nia.html",
@@ -1052,7 +1054,7 @@
   "counts": {
     "people": 627,
     "works": 340,
-    "topics": 2925
+    "topics": 2926
   },
   "people": [
     {
@@ -3261,7 +3263,7 @@
     },
     {
       "name": "蓬莱舞",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "蓮実クレア",
@@ -5761,7 +5763,7 @@
     },
     {
       "name": "MySPA",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "MySPA!",
@@ -9577,7 +9579,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 259
+      "articles": 260
     },
     {
       "name": "ランジェリー風",
@@ -12785,6 +12787,10 @@
     },
     {
       "name": "早瀬セイナ",
+      "articles": 1
+    },
+    {
+      "name": "旬撮ガール",
       "articles": 1
     },
     {
