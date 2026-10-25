@@ -770,6 +770,7 @@
     "topics/topic-bf56a156e7b1.html",
     "topics/topic-c09e84345235.html",
     "topics/topic-c0cf0e4547e2.html",
+    "topics/topic-c0ee72079bb0.html",
     "topics/topic-c1691dcecad4.html",
     "topics/topic-c23ddf4b8f73.html",
     "topics/topic-c2cb2dad220d.html",
@@ -1065,7 +1066,7 @@
   "counts": {
     "people": 637,
     "works": 345,
-    "topics": 2957
+    "topics": 2959
   },
   "people": [
     {
@@ -7534,7 +7535,7 @@
     },
     {
       "name": "グッド！モーニング",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "グラぱらっ！",
@@ -9313,6 +9314,10 @@
       "articles": 2
     },
     {
+      "name": "ボーダーニット",
+      "articles": 1
+    },
+    {
       "name": "ボーダー服",
       "articles": 1
     },
@@ -10266,7 +10271,7 @@
     },
     {
       "name": "今井春花",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "今井美優",
@@ -11514,7 +11519,7 @@
     },
     {
       "name": "天気中継",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "天気予報",
@@ -13478,7 +13483,7 @@
     },
     {
       "name": "気象予報士",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "水中写真",
@@ -14342,6 +14347,10 @@
     },
     {
       "name": "白い衣装",
+      "articles": 1
+    },
+    {
+      "name": "白みりんミュージアム",
       "articles": 1
     },
     {
