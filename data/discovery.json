@@ -229,6 +229,7 @@
     "topics/topic-112da0c35486.html",
     "topics/topic-11c4c0e59e80.html",
     "topics/topic-1232a9d8485f.html",
+    "topics/topic-123f3edc9d43.html",
     "topics/topic-1295e22914be.html",
     "topics/topic-1321def3110d.html",
     "topics/topic-1437c6a99bb6.html",
@@ -1069,7 +1070,7 @@
   "counts": {
     "people": 643,
     "works": 345,
-    "topics": 2964
+    "topics": 2967
   },
   "people": [
     {
@@ -5929,6 +5930,10 @@
       "articles": 1
     },
     {
+      "name": "NHK旭川",
+      "articles": 1
+    },
+    {
       "name": "NHK長崎",
       "articles": 1
     },
@@ -8970,7 +8975,7 @@
     },
     {
       "name": "ピタパン",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ピックルボール",
@@ -10766,7 +10771,7 @@
     },
     {
       "name": "列島ニュース",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "初VR",
@@ -11994,6 +11999,10 @@
     },
     {
       "name": "密着性交",
+      "articles": 1
+    },
+    {
+      "name": "富永結",
       "articles": 1
     },
     {
@@ -13891,6 +13900,10 @@
     {
       "name": "滝菜月",
       "articles": 2
+    },
+    {
+      "name": "漁港レポート",
+      "articles": 1
     },
     {
       "name": "演奏動画",
