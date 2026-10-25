@@ -1064,7 +1064,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 640,
+    "people": 641,
     "works": 345,
     "topics": 2961
   },
@@ -1772,6 +1772,10 @@
     {
       "name": "吉木りさ",
       "articles": 2
+    },
+    {
+      "name": "吉田里深",
+      "articles": 1
     },
     {
       "name": "同棲彼女",
@@ -8623,7 +8627,7 @@
     },
     {
       "name": "ハイレグ",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "ハッカ油",
@@ -13543,7 +13547,7 @@
     },
     {
       "name": "水着",
-      "articles": 431
+      "articles": 432
     },
     {
       "name": "水着グラビア",
@@ -14263,7 +14267,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 259
+      "articles": 260
     },
     {
       "name": "画像ギャラリー",
