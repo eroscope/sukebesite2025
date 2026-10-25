@@ -1059,7 +1059,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 633,
+    "people": 634,
     "works": 343,
     "topics": 2954
   },
@@ -2710,6 +2710,10 @@
     },
     {
       "name": "水野朝陽",
+      "articles": 1
+    },
+    {
+      "name": "永尾まりや",
       "articles": 1
     },
     {
@@ -5242,7 +5246,7 @@
     },
     {
       "name": "AKB48",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "AOYAMA BATON",
@@ -9666,7 +9670,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 263
+      "articles": 264
     },
     {
       "name": "ランジェリー風",
@@ -13482,7 +13486,7 @@
     },
     {
       "name": "水着",
-      "articles": 425
+      "articles": 426
     },
     {
       "name": "水着グラビア",
