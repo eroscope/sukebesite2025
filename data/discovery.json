@@ -1060,8 +1060,8 @@
   ],
   "counts": {
     "people": 633,
-    "works": 342,
-    "topics": 2953
+    "works": 343,
+    "topics": 2954
   },
   "people": [
     {
@@ -4404,6 +4404,10 @@
     },
     {
       "code": "MIGD-569",
+      "articles": 1
+    },
+    {
+      "code": "MIKR-039",
       "articles": 1
     },
     {
@@ -8869,6 +8873,10 @@
       "articles": 175
     },
     {
+      "name": "ビジネススーツ",
+      "articles": 1
+    },
+    {
       "name": "ビビアン",
       "articles": 3
     },
@@ -11510,7 +11518,7 @@
     },
     {
       "name": "女上司",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "女主人公",
@@ -12254,7 +12262,7 @@
     },
     {
       "name": "幸村泉希",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "幼馴染",
