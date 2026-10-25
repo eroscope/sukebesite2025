@@ -1059,7 +1059,7 @@
   "counts": {
     "people": 627,
     "works": 340,
-    "topics": 2941
+    "topics": 2943
   },
   "people": [
     {
@@ -5523,6 +5523,10 @@
       "articles": 3
     },
     {
+      "name": "FRIDAYデジタル写真集",
+      "articles": 1
+    },
+    {
       "name": "FRUITS ZIPPER",
       "articles": 1
     },
@@ -5648,7 +5652,7 @@
     },
     {
       "name": "JULIA",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "JYUKU RICH",
@@ -6288,6 +6292,10 @@
     },
     {
       "name": "figma",
+      "articles": 1
+    },
+    {
+      "name": "graceful",
       "articles": 1
     },
     {
@@ -10580,7 +10588,7 @@
     },
     {
       "name": "写真集",
-      "articles": 81
+      "articles": 82
     },
     {
       "name": "冨永実里",
