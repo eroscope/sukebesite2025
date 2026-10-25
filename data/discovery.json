@@ -580,6 +580,7 @@
     "topics/topic-8c77219f9a06.html",
     "topics/topic-8cb46dad40c2.html",
     "topics/topic-8d4dd7372dbc.html",
+    "topics/topic-8d58a45addf3.html",
     "topics/topic-8df3991fb10f.html",
     "topics/topic-8e4fde305aa4.html",
     "topics/topic-8ebb9422553f.html",
@@ -1057,7 +1058,7 @@
   "counts": {
     "people": 627,
     "works": 340,
-    "topics": 2939
+    "topics": 2941
   },
   "people": [
     {
@@ -6226,7 +6227,7 @@
     },
     {
       "name": "WBS",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "WEB漫画",
@@ -8278,7 +8279,7 @@
     },
     {
       "name": "トレたま",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "トレーナー",
@@ -10765,6 +10766,10 @@
       "articles": 1
     },
     {
+      "name": "北川莉央",
+      "articles": 1
+    },
+    {
       "name": "北川遥",
       "articles": 1
     },
@@ -11498,7 +11503,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 111
+      "articles": 112
     },
     {
       "name": "女子アナ設定",
@@ -14754,6 +14759,10 @@
     },
     {
       "name": "紗東みお",
+      "articles": 1
+    },
+    {
+      "name": "紙の人工芝",
       "articles": 1
     },
     {
