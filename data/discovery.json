@@ -455,6 +455,7 @@
     "topics/topic-60257fe59557.html",
     "topics/topic-60418371049e.html",
     "topics/topic-60bb2a31f7d3.html",
+    "topics/topic-60d891fd6cb5.html",
     "topics/topic-60d900a4769e.html",
     "topics/topic-60efab3b375e.html",
     "topics/topic-612e72ff9af8.html",
@@ -1060,7 +1061,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 635,
+    "people": 636,
     "works": 345,
     "topics": 2956
   },
@@ -3099,6 +3100,10 @@
     },
     {
       "name": "篠宮なほ",
+      "articles": 1
+    },
+    {
+      "name": "篠崎こころ",
       "articles": 1
     },
     {
@@ -6451,7 +6456,7 @@
     },
     {
       "name": "うさ耳",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "うつ伏せ",
@@ -8891,7 +8896,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 175
+      "articles": 176
     },
     {
       "name": "ビジネススーツ",
@@ -9691,7 +9696,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 264
+      "articles": 265
     },
     {
       "name": "ランジェリー風",
