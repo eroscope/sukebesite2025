@@ -1064,9 +1064,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 639,
+    "people": 640,
     "works": 345,
-    "topics": 2960
+    "topics": 2961
   },
   "people": [
     {
@@ -1423,6 +1423,10 @@
     },
     {
       "name": "三山賀子",
+      "articles": 1
+    },
+    {
+      "name": "三島ゆう",
       "articles": 1
     },
     {
@@ -5507,7 +5511,7 @@
     },
     {
       "name": "DVD",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "DVD画像",
@@ -9719,7 +9723,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 267
+      "articles": 268
     },
     {
       "name": "ランジェリー風",
@@ -16316,6 +16320,10 @@
     {
       "name": "開脚",
       "articles": 11
+    },
+    {
+      "name": "開花",
+      "articles": 1
     },
     {
       "name": "陰毛",
