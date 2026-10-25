@@ -1061,7 +1061,7 @@
   "counts": {
     "people": 631,
     "works": 341,
-    "topics": 2951
+    "topics": 2953
   },
   "people": [
     {
@@ -5202,7 +5202,7 @@
     },
     {
       "name": "AI画像",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "AI疑惑",
@@ -13381,6 +13381,14 @@
       "articles": 1
     },
     {
+      "name": "歯科治療",
+      "articles": 1
+    },
+    {
+      "name": "歯科衛生士",
+      "articles": 1
+    },
+    {
       "name": "段ボール",
       "articles": 1
     },
@@ -15158,7 +15166,7 @@
     },
     {
       "name": "胸",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "胸のサイズ比較",
