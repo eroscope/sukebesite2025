@@ -1057,9 +1057,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 627,
+    "people": 628,
     "works": 341,
-    "topics": 2945
+    "topics": 2946
   },
   "people": [
     {
@@ -1284,6 +1284,10 @@
     },
     {
       "name": "トリンドル玲奈",
+      "articles": 1
+    },
+    {
+      "name": "ハロウィン軍師彼岸",
       "articles": 1
     },
     {
@@ -7548,7 +7552,7 @@
     },
     {
       "name": "ゲームキャラ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ゲームキャラクター",
@@ -8060,7 +8064,7 @@
     },
     {
       "name": "ソシャゲ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ソシャゲコラボ",
@@ -16568,6 +16572,10 @@
     },
     {
       "name": "魔法少女まどか☆マギカ",
+      "articles": 1
+    },
+    {
+      "name": "魔界戦記ディスガイアRPG",
       "articles": 1
     },
     {
