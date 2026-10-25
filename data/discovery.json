@@ -1059,7 +1059,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 631,
+    "people": 632,
     "works": 342,
     "topics": 2953
   },
@@ -1183,6 +1183,10 @@
     {
       "name": "ひなの花音",
       "articles": 3
+    },
+    {
+      "name": "まりんぽみるく",
+      "articles": 1
     },
     {
       "name": "まるやそら",
@@ -9650,7 +9654,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 262
+      "articles": 263
     },
     {
       "name": "ランジェリー風",
@@ -15298,7 +15302,7 @@
     },
     {
       "name": "自撮り",
-      "articles": 46
+      "articles": 47
     },
     {
       "name": "自撮り動画",
