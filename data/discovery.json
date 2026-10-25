@@ -678,6 +678,7 @@
     "topics/topic-acce4b96d208.html",
     "topics/topic-ad4d9cc1b087.html",
     "topics/topic-ad614843cf44.html",
+    "topics/topic-adbe16412641.html",
     "topics/topic-add4f5af9612.html",
     "topics/topic-aec01ded3eaf.html",
     "topics/topic-aecaac86ab2c.html",
@@ -1054,7 +1055,7 @@
   "counts": {
     "people": 627,
     "works": 340,
-    "topics": 2930
+    "topics": 2932
   },
   "people": [
     {
@@ -5251,7 +5252,7 @@
     },
     {
       "name": "AVパッケージ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "AVランキング",
@@ -5467,6 +5468,10 @@
     },
     {
       "name": "FANZA VR",
+      "articles": 1
+    },
+    {
+      "name": "FANZA10円セール",
       "articles": 1
     },
     {
@@ -12083,7 +12088,7 @@
     },
     {
       "name": "川越にこ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "工場風背景",
@@ -14676,6 +14681,10 @@
     {
       "name": "篠崎愛",
       "articles": 2
+    },
+    {
+      "name": "篠田ゆう",
+      "articles": 1
     },
     {
       "name": "篠真有",
