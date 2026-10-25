@@ -1060,7 +1060,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 634,
+    "people": 635,
     "works": 345,
     "topics": 2956
   },
@@ -3514,6 +3514,10 @@
       "articles": 1
     },
     {
+      "name": "青木みずほ",
+      "articles": 1
+    },
+    {
       "name": "青水着",
       "articles": 1
     },
@@ -5331,7 +5335,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 187
+      "articles": 188
     },
     {
       "name": "AV女優検索",
@@ -7007,7 +7011,7 @@
     },
     {
       "name": "イメージビデオ",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "イメージ映像",
@@ -10691,7 +10695,7 @@
     },
     {
       "name": "出演作品",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "出演者ランキング",
