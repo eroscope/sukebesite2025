@@ -1064,9 +1064,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 641,
+    "people": 642,
     "works": 345,
-    "topics": 2961
+    "topics": 2962
   },
   "people": [
     {
@@ -2963,6 +2963,10 @@
     },
     {
       "name": "白人女性",
+      "articles": 1
+    },
+    {
+      "name": "白川愛梨",
       "articles": 1
     },
     {
@@ -5743,7 +5747,7 @@
     },
     {
       "name": "Jカップ",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "KMP",
@@ -7046,6 +7050,10 @@
       "articles": 21
     },
     {
+      "name": "イメージ作品",
+      "articles": 1
+    },
+    {
       "name": "イメージ映像",
       "articles": 1
     },
@@ -7811,7 +7819,7 @@
     },
     {
       "name": "サンプル動画",
-      "articles": 22
+      "articles": 23
     },
     {
       "name": "サンプル画像",
@@ -9727,7 +9735,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 268
+      "articles": 269
     },
     {
       "name": "ランジェリー風",
@@ -13547,7 +13555,7 @@
     },
     {
       "name": "水着",
-      "articles": 432
+      "articles": 433
     },
     {
       "name": "水着グラビア",
