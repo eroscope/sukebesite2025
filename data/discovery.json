@@ -1064,9 +1064,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 642,
+    "people": 643,
     "works": 345,
-    "topics": 2962
+    "topics": 2964
   },
   "people": [
     {
@@ -3291,6 +3291,10 @@
     },
     {
       "name": "花瀬かりん",
+      "articles": 1
+    },
+    {
+      "name": "芹澤優",
       "articles": 1
     },
     {
@@ -10718,6 +10722,10 @@
       "articles": 1
     },
     {
+      "name": "写真",
+      "articles": 1
+    },
+    {
       "name": "写真集",
       "articles": 83
     },
@@ -11351,7 +11359,11 @@
     },
     {
       "name": "声優",
-      "articles": 11
+      "articles": 12
+    },
+    {
+      "name": "声優と夜あそび",
+      "articles": 1
     },
     {
       "name": "売り子",
