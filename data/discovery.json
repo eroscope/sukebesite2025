@@ -1059,7 +1059,7 @@
   "counts": {
     "people": 628,
     "works": 341,
-    "topics": 2946
+    "topics": 2947
   },
   "people": [
     {
@@ -1304,7 +1304,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "プロフィール",
@@ -5576,7 +5576,7 @@
     },
     {
       "name": "Gカップ",
-      "articles": 23
+      "articles": 24
     },
     {
       "name": "HKT48",
@@ -13428,7 +13428,7 @@
     },
     {
       "name": "水着",
-      "articles": 422
+      "articles": 423
     },
     {
       "name": "水着グラビア",
@@ -15316,6 +15316,10 @@
     },
     {
       "name": "色白",
+      "articles": 1
+    },
+    {
+      "name": "花咲ひより",
       "articles": 1
     },
     {
