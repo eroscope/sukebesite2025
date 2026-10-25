@@ -445,6 +445,7 @@
     "topics/topic-5b111165660c.html",
     "topics/topic-5b3ab36e05cb.html",
     "topics/topic-5b592521cfcd.html",
+    "topics/topic-5c57b67662fa.html",
     "topics/topic-5c88029735ed.html",
     "topics/topic-5ch.html",
     "topics/topic-5df792d395a0.html",
@@ -1070,7 +1071,7 @@
   "counts": {
     "people": 643,
     "works": 345,
-    "topics": 2967
+    "topics": 2968
   },
   "people": [
     {
@@ -5614,6 +5615,10 @@
       "articles": 8
     },
     {
+      "name": "FMヨコハマ",
+      "articles": 1
+    },
+    {
       "name": "FRIDAY",
       "articles": 3
     },
@@ -5635,7 +5640,7 @@
     },
     {
       "name": "GIF",
-      "articles": 37
+      "articles": 38
     },
     {
       "name": "GIF動画",
@@ -8975,7 +8980,7 @@
     },
     {
       "name": "ピタパン",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "ピックルボール",
@@ -11663,7 +11668,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 115
+      "articles": 116
     },
     {
       "name": "女子アナ設定",
@@ -14207,7 +14212,7 @@
     },
     {
       "name": "田﨑さくら",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "由良かな",
