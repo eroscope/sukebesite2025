@@ -303,6 +303,7 @@
     "topics/topic-2ba133618e18.html",
     "topics/topic-2c270423c58c.html",
     "topics/topic-2c3c1a1af8ad.html",
+    "topics/topic-2c88d9db542a.html",
     "topics/topic-2d884d98abff.html",
     "topics/topic-2dbe53e68646.html",
     "topics/topic-2e405f854753.html",
@@ -1061,7 +1062,7 @@
   "counts": {
     "people": 634,
     "works": 343,
-    "topics": 2954
+    "topics": 2955
   },
   "people": [
     {
@@ -7921,6 +7922,10 @@
       "articles": 3
     },
     {
+      "name": "スタジオ",
+      "articles": 1
+    },
+    {
       "name": "スタジオキャプチャ",
       "articles": 1
     },
@@ -8942,7 +8947,7 @@
     },
     {
       "name": "ピンク衣装",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ピンク髪",
@@ -11574,7 +11579,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 113
+      "articles": 114
     },
     {
       "name": "女子アナ設定",
@@ -14754,7 +14759,7 @@
     },
     {
       "name": "竹俣紅",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "竹生島",
@@ -15206,7 +15211,7 @@
     },
     {
       "name": "胸元",
-      "articles": 96
+      "articles": 97
     },
     {
       "name": "胸元チラ見え",
