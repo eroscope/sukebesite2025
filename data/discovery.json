@@ -1060,7 +1060,7 @@
   ],
   "counts": {
     "people": 631,
-    "works": 341,
+    "works": 342,
     "topics": 2953
   },
   "people": [
@@ -4068,6 +4068,10 @@
     },
     {
       "code": "HUNTC-658",
+      "articles": 1
+    },
+    {
+      "code": "HUNTC-678",
       "articles": 1
     },
     {
@@ -10694,7 +10698,7 @@
     },
     {
       "name": "制服",
-      "articles": 40
+      "articles": 41
     },
     {
       "name": "制服ギャル",
@@ -12706,7 +12710,7 @@
     },
     {
       "name": "教室",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "教室設定",
@@ -15622,7 +15626,7 @@
     },
     {
       "name": "複数人",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "複数人プレイ",
