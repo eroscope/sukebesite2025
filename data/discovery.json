@@ -1088,7 +1088,7 @@
   "counts": {
     "people": 656,
     "works": 349,
-    "topics": 2999
+    "topics": 3000
   },
   "people": [
     {
@@ -14005,7 +14005,7 @@
     },
     {
       "name": "海辺",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "消火栓",
@@ -14633,6 +14633,10 @@
     },
     {
       "name": "白ストッキング",
+      "articles": 1
+    },
+    {
+      "name": "白トップス",
       "articles": 1
     },
     {
@@ -15329,7 +15333,7 @@
     },
     {
       "name": "美女",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "美女3人",
