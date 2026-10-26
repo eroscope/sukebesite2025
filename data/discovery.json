@@ -1085,7 +1085,7 @@
   "counts": {
     "people": 653,
     "works": 349,
-    "topics": 2993
+    "topics": 2995
   },
   "people": [
     {
@@ -5718,7 +5718,7 @@
     },
     {
       "name": "GIF",
-      "articles": 38
+      "articles": 39
     },
     {
       "name": "GIF動画",
@@ -6654,6 +6654,10 @@
     },
     {
       "name": "おはよう日本",
+      "articles": 1
+    },
+    {
+      "name": "おはボイス",
       "articles": 1
     },
     {
@@ -9269,6 +9273,10 @@
       "articles": 1
     },
     {
+      "name": "ブラ線",
+      "articles": 1
+    },
+    {
       "name": "ブラ透け",
       "articles": 1
     },
@@ -11818,7 +11826,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 116
+      "articles": 117
     },
     {
       "name": "女子アナ設定",
@@ -13818,7 +13826,7 @@
     },
     {
       "name": "河出奈都美",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "河北りょう",
