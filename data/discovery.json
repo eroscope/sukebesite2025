@@ -1071,9 +1071,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 643,
+    "people": 644,
     "works": 345,
-    "topics": 2973
+    "topics": 2974
   },
   "people": [
     {
@@ -2726,6 +2726,10 @@
     },
     {
       "name": "水世桃愛",
+      "articles": 1
+    },
+    {
+      "name": "水咲優美",
       "articles": 1
     },
     {
@@ -6218,6 +6222,10 @@
     },
     {
       "name": "SOFT ON DEMAND",
+      "articles": 1
+    },
+    {
+      "name": "SPA!",
       "articles": 1
     },
     {
@@ -13606,7 +13614,7 @@
     },
     {
       "name": "水着",
-      "articles": 435
+      "articles": 436
     },
     {
       "name": "水着グラビア",
