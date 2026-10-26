@@ -1083,9 +1083,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 652,
+    "people": 653,
     "works": 349,
-    "topics": 2992
+    "topics": 2993
   },
   "people": [
     {
@@ -2071,6 +2071,10 @@
     {
       "name": "小豆もち",
       "articles": 2
+    },
+    {
+      "name": "小貫莉奈",
+      "articles": 1
     },
     {
       "name": "小那海あや",
@@ -9870,7 +9874,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 277
+      "articles": 278
     },
     {
       "name": "ランジェリー風",
@@ -10467,6 +10471,10 @@
     {
       "name": "介護士",
       "articles": 3
+    },
+    {
+      "name": "仮面ライダー",
+      "articles": 1
     },
     {
       "name": "仰向け",
@@ -13742,7 +13750,7 @@
     },
     {
       "name": "水着",
-      "articles": 440
+      "articles": 441
     },
     {
       "name": "水着グラビア",
