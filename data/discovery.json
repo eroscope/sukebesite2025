@@ -1072,7 +1072,7 @@
   "counts": {
     "people": 643,
     "works": 345,
-    "topics": 2970
+    "topics": 2971
   },
   "people": [
     {
@@ -1157,7 +1157,7 @@
     },
     {
       "name": "ちとせよしの",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ちなぷぷ",
@@ -6444,6 +6444,10 @@
       "articles": 1
     },
     {
+      "name": "sabra",
+      "articles": 1
+    },
+    {
       "name": "sumire_live",
       "articles": 1
     },
@@ -9753,7 +9757,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 271
+      "articles": 272
     },
     {
       "name": "ランジェリー風",
@@ -13593,7 +13597,7 @@
     },
     {
       "name": "水着",
-      "articles": 434
+      "articles": 435
     },
     {
       "name": "水着グラビア",
