@@ -1079,7 +1079,7 @@
   "counts": {
     "people": 648,
     "works": 347,
-    "topics": 2979
+    "topics": 2980
   },
   "people": [
     {
@@ -1572,7 +1572,7 @@
     },
     {
       "name": "似鳥沙也加",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "佐々木あき",
@@ -9843,6 +9843,10 @@
       "articles": 2
     },
     {
+      "name": "リボンクッション",
+      "articles": 1
+    },
+    {
       "name": "リメイク",
       "articles": 1
     },
@@ -16220,7 +16224,7 @@
     },
     {
       "name": "部屋着",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "郵便ポスト",
