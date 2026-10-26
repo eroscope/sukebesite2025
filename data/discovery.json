@@ -1083,7 +1083,7 @@
   "counts": {
     "people": 650,
     "works": 347,
-    "topics": 2984
+    "topics": 2987
   },
   "people": [
     {
@@ -7331,6 +7331,10 @@
       "articles": 2
     },
     {
+      "name": "オナホ",
+      "articles": 1
+    },
+    {
       "name": "オフィス",
       "articles": 12
     },
@@ -11583,6 +11587,10 @@
       "articles": 1
     },
     {
+      "name": "大型オナホール",
+      "articles": 1
+    },
+    {
       "name": "大学サークル",
       "articles": 1
     },
@@ -12691,6 +12699,10 @@
       "articles": 1
     },
     {
+      "name": "成人向けグッズ",
+      "articles": 1
+    },
+    {
       "name": "成人向けゲーム",
       "articles": 2
     },
@@ -12868,7 +12880,7 @@
     },
     {
       "name": "掲示板まとめ",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "掲示板反応",
