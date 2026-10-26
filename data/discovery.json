@@ -91,6 +91,7 @@
     "people/person-82df35791f52.html",
     "people/person-8348d5ad5052.html",
     "people/person-8350292f5114.html",
+    "people/person-841925aa2b08.html",
     "people/person-85c41d7ff936.html",
     "people/person-8763443e047c.html",
     "people/person-87b1b5f5efa7.html",
@@ -1072,7 +1073,7 @@
   "counts": {
     "people": 643,
     "works": 345,
-    "topics": 2971
+    "topics": 2973
   },
   "people": [
     {
@@ -3581,7 +3582,7 @@
     },
     {
       "name": "音羽美奈",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "音音ねお",
@@ -6753,6 +6754,10 @@
     },
     {
       "name": "ねぐりえ",
+      "articles": 1
+    },
+    {
+      "name": "のび太風",
       "articles": 1
     },
     {
@@ -10117,6 +10122,10 @@
     },
     {
       "name": "中華AV",
+      "articles": 1
+    },
+    {
+      "name": "丸メガネ",
       "articles": 1
     },
     {
@@ -13601,7 +13610,7 @@
     },
     {
       "name": "水着グラビア",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "水着コスチューム",
