@@ -1072,7 +1072,7 @@
   "counts": {
     "people": 643,
     "works": 345,
-    "topics": 2968
+    "topics": 2970
   },
   "people": [
     {
@@ -5333,7 +5333,7 @@
     },
     {
       "name": "AVキャプチャ",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "AVサンプル",
@@ -10633,7 +10633,7 @@
     },
     {
       "name": "入浴",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "入浴シーン",
@@ -11824,6 +11824,10 @@
       "articles": 1
     },
     {
+      "name": "姉役",
+      "articles": 1
+    },
+    {
       "name": "始発電車",
       "articles": 1
     },
@@ -12025,7 +12029,7 @@
     },
     {
       "name": "寝室",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "寮母",
@@ -12381,6 +12385,10 @@
     },
     {
       "name": "引退記念",
+      "articles": 1
+    },
+    {
+      "name": "弟役",
       "articles": 1
     },
     {
@@ -13725,7 +13733,7 @@
     },
     {
       "name": "浴室",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "浴槽",
