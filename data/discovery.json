@@ -1077,7 +1077,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 648,
+    "people": 649,
     "works": 347,
     "topics": 2980
   },
@@ -1560,6 +1560,10 @@
     },
     {
       "name": "伊藤寧々",
+      "articles": 1
+    },
+    {
+      "name": "伊藤理々杏",
       "articles": 1
     },
     {
@@ -10208,7 +10212,7 @@
     },
     {
       "name": "乃木坂46",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "乃音のの",
@@ -14428,7 +14432,7 @@
     },
     {
       "name": "画像集",
-      "articles": 43
+      "articles": 44
     },
     {
       "name": "画像＋動画",
