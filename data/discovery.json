@@ -668,6 +668,7 @@
     "topics/topic-a4bee2b7440b.html",
     "topics/topic-a4fef6b7ddc8.html",
     "topics/topic-a53576038993.html",
+    "topics/topic-a53590982398.html",
     "topics/topic-a539d32496c9.html",
     "topics/topic-a55856791c43.html",
     "topics/topic-a57503a79991.html",
@@ -1084,9 +1085,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 654,
+    "people": 655,
     "works": 349,
-    "topics": 2998
+    "topics": 2999
   },
   "people": [
     {
@@ -1599,6 +1600,10 @@
     },
     {
       "name": "佐倉みこ",
+      "articles": 1
+    },
+    {
+      "name": "佐山由依",
       "articles": 1
     },
     {
@@ -5443,7 +5448,7 @@
     },
     {
       "name": "AV作品",
-      "articles": 15
+      "articles": 16
     },
     {
       "name": "AV初出演",
@@ -7715,7 +7720,7 @@
     },
     {
       "name": "グラマラスボディ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "グラマー",
@@ -10623,6 +10628,10 @@
     },
     {
       "name": "作品談義",
+      "articles": 1
+    },
+    {
+      "name": "作業着風衣装",
       "articles": 1
     },
     {
