@@ -794,6 +794,7 @@
     "topics/topic-c53794778a50.html",
     "topics/topic-c55b763f0448.html",
     "topics/topic-c5d344ad7025.html",
+    "topics/topic-c66ab2ffc32a.html",
     "topics/topic-c7044228bce8.html",
     "topics/topic-c79d6ca8cec1.html",
     "topics/topic-c7b2d07ad291.html",
@@ -1071,7 +1072,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 644,
+    "people": 645,
     "works": 345,
     "topics": 2974
   },
@@ -3523,6 +3524,10 @@
     {
       "name": "長浜みつり",
       "articles": 5
+    },
+    {
+      "name": "長澤まさみ",
+      "articles": 1
     },
     {
       "name": "長瀬百合",
@@ -8526,7 +8531,7 @@
     },
     {
       "name": "ニットワンピース",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ニュースウォッチ9",
