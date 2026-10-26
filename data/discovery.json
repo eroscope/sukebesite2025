@@ -1075,7 +1075,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 646,
+    "people": 647,
     "works": 347,
     "topics": 2979
   },
@@ -1098,6 +1098,10 @@
     },
     {
       "name": "あんづ杏",
+      "articles": 1
+    },
+    {
+      "name": "いくみ",
       "articles": 1
     },
     {
@@ -9802,7 +9806,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 274
+      "articles": 275
     },
     {
       "name": "ランジェリー風",
