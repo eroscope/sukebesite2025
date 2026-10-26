@@ -716,6 +716,7 @@
     "topics/topic-ani.html",
     "topics/topic-animates.html",
     "topics/topic-asmr.html",
+    "topics/topic-attackers.html",
     "topics/topic-av.html",
     "topics/topic-av.html",
     "topics/topic-av.html",
@@ -1082,7 +1083,7 @@
   "counts": {
     "people": 650,
     "works": 347,
-    "topics": 2981
+    "topics": 2984
   },
   "people": [
     {
@@ -5363,7 +5364,7 @@
     },
     {
       "name": "ATTACKERS",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "AV DEBUT",
@@ -5584,6 +5585,10 @@
     {
       "name": "E-BODY",
       "articles": 13
+    },
+    {
+      "name": "ED治療",
+      "articles": 1
     },
     {
       "name": "Emika 3",
@@ -6367,7 +6372,7 @@
     },
     {
       "name": "VR",
-      "articles": 117
+      "articles": 118
     },
     {
       "name": "VR CHANNEL 005",
@@ -8192,6 +8197,10 @@
     {
       "name": "セックス",
       "articles": 36
+    },
+    {
+      "name": "セックスカウンセラー",
+      "articles": 1
     },
     {
       "name": "セックス画像",
@@ -13891,6 +13900,10 @@
     },
     {
       "name": "海月みゆき",
+      "articles": 1
+    },
+    {
+      "name": "海老咲あお",
       "articles": 1
     },
     {
