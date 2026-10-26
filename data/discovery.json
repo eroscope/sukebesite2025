@@ -975,6 +975,7 @@
     "topics/topic-fbb50ec15953.html",
     "topics/topic-fc2-ppv.html",
     "topics/topic-fc2ppv.html",
+    "topics/topic-fc627a2e53cd.html",
     "topics/topic-fc917e94f5f9.html",
     "topics/topic-fc9715642edd.html",
     "topics/topic-fd69400bc7b9.html",
@@ -1075,8 +1076,8 @@
   ],
   "counts": {
     "people": 646,
-    "works": 346,
-    "topics": 2977
+    "works": 347,
+    "topics": 2979
   },
   "people": [
     {
@@ -4478,6 +4479,10 @@
       "articles": 1
     },
     {
+      "code": "MIDV-725",
+      "articles": 1
+    },
+    {
       "code": "MIGD-568",
       "articles": 1
     },
@@ -5712,6 +5717,10 @@
       "articles": 2
     },
     {
+      "name": "How to SEX",
+      "articles": 1
+    },
+    {
       "name": "Hunter",
       "articles": 4
     },
@@ -5865,7 +5874,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 54
+      "articles": 55
     },
     {
       "name": "MOODYZ DIVA",
@@ -10113,6 +10122,10 @@
     },
     {
       "name": "並木雲楓",
+      "articles": 1
+    },
+    {
+      "name": "中イキ",
       "articles": 1
     },
     {
@@ -14737,7 +14750,7 @@
     },
     {
       "name": "石原希望",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "石川澪",
