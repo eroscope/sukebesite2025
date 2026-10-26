@@ -1074,7 +1074,7 @@
   "counts": {
     "people": 645,
     "works": 345,
-    "topics": 2974
+    "topics": 2975
   },
   "people": [
     {
@@ -1103,7 +1103,7 @@
     },
     {
       "name": "えなこ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "えぬちゃん",
@@ -7954,6 +7954,10 @@
       "articles": 1
     },
     {
+      "name": "ジュリ",
+      "articles": 1
+    },
+    {
       "name": "ジュリアナ",
       "articles": 1
     },
@@ -8047,7 +8051,7 @@
     },
     {
       "name": "ストリートファイター6",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ストレッチ",
