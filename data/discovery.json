@@ -794,6 +794,7 @@
     "topics/topic-c0cf0e4547e2.html",
     "topics/topic-c0ee72079bb0.html",
     "topics/topic-c1691dcecad4.html",
+    "topics/topic-c180b273ec0b.html",
     "topics/topic-c23ddf4b8f73.html",
     "topics/topic-c2cb2dad220d.html",
     "topics/topic-c2e18b7bad5e.html",
@@ -1096,7 +1097,7 @@
   "counts": {
     "people": 667,
     "works": 350,
-    "topics": 3017
+    "topics": 3019
   },
   "people": [
     {
@@ -9049,7 +9050,7 @@
     },
     {
       "name": "バレー部",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "バンドリ",
@@ -13512,6 +13513,10 @@
       "articles": 1
     },
     {
+      "name": "東堂",
+      "articles": 1
+    },
+    {
       "name": "東実果",
       "articles": 1
     },
@@ -14237,7 +14242,7 @@
     },
     {
       "name": "漫画",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "漫画キャラクター",
@@ -15342,6 +15347,10 @@
     {
       "name": "細身",
       "articles": 3
+    },
+    {
+      "name": "終末のハーレム",
+      "articles": 1
     },
     {
       "name": "経理部員",
