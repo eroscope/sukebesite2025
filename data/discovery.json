@@ -1103,8 +1103,8 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 673,
-    "works": 351,
+    "people": 674,
+    "works": 352,
     "topics": 3037
   },
   "people": [
@@ -3149,6 +3149,10 @@
       "articles": 2
     },
     {
+      "name": "相沢みなみ",
+      "articles": 1
+    },
+    {
       "name": "相河めいな",
       "articles": 1
     },
@@ -4324,6 +4328,10 @@
     },
     {
       "code": "IPVR-372",
+      "articles": 1
+    },
+    {
+      "code": "IPX-666",
       "articles": 1
     },
     {
@@ -6166,7 +6174,7 @@
     },
     {
       "name": "NTR",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "NTRエステ",
@@ -7182,7 +7190,7 @@
     },
     {
       "name": "アイデアポケット",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "アイドリング!!!",
@@ -11026,7 +11034,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 39
+      "articles": 40
     },
     {
       "name": "公式サンプル動画",
