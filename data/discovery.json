@@ -13,6 +13,7 @@
     "people/person-0b5c5c5ef71f.html",
     "people/person-0b72ed29a2c8.html",
     "people/person-0c3daef82d52.html",
+    "people/person-0d2251ee9f09.html",
     "people/person-0d82c0749416.html",
     "people/person-0d8974d78f47.html",
     "people/person-0df66632e9d9.html",
@@ -1091,7 +1092,7 @@
   "counts": {
     "people": 660,
     "works": 350,
-    "topics": 3002
+    "topics": 3003
   },
   "people": [
     {
@@ -2092,7 +2093,7 @@
     },
     {
       "name": "小貫莉奈",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "小那海あや",
@@ -7915,6 +7916,10 @@
       "articles": 2
     },
     {
+      "name": "ゴルフカート",
+      "articles": 1
+    },
+    {
       "name": "ゴルフコーチ",
       "articles": 1
     },
@@ -9104,7 +9109,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 178
+      "articles": 179
     },
     {
       "name": "ビジネススーツ",
@@ -9924,7 +9929,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 281
+      "articles": 282
     },
     {
       "name": "ランジェリー風",
@@ -13820,7 +13825,7 @@
     },
     {
       "name": "水着",
-      "articles": 442
+      "articles": 443
     },
     {
       "name": "水着グラビア",
