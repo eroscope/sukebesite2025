@@ -1093,9 +1093,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 664,
+    "people": 665,
     "works": 350,
-    "topics": 3010
+    "topics": 3013
   },
   "people": [
     {
@@ -2784,6 +2784,10 @@
     },
     {
       "name": "武田玲奈",
+      "articles": 1
+    },
+    {
+      "name": "武藤十夢",
       "articles": 1
     },
     {
@@ -6811,6 +6815,10 @@
       "articles": 1
     },
     {
+      "name": "きたろう",
+      "articles": 1
+    },
+    {
       "name": "きみと歩実",
       "articles": 1
     },
@@ -9179,6 +9187,10 @@
       "articles": 6
     },
     {
+      "name": "ピチT",
+      "articles": 1
+    },
+    {
       "name": "ピックルボール",
       "articles": 2
     },
@@ -10816,7 +10828,7 @@
     },
     {
       "name": "元AKB48",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "元NMB48",
@@ -14327,6 +14339,10 @@
       "articles": 1
     },
     {
+      "name": "焼き鳥",
+      "articles": 1
+    },
+    {
       "name": "煮卵",
       "articles": 1
     },
@@ -15604,7 +15620,7 @@
     },
     {
       "name": "胸元",
-      "articles": 98
+      "articles": 99
     },
     {
       "name": "胸元チラ見え",
