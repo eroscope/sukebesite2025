@@ -1102,7 +1102,7 @@
   "counts": {
     "people": 669,
     "works": 351,
-    "topics": 3028
+    "topics": 3029
   },
   "people": [
     {
@@ -5527,7 +5527,7 @@
     },
     {
       "name": "AV作品",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "AV初出演",
@@ -5711,7 +5711,7 @@
     },
     {
       "name": "E-BODY",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "ED治療",
@@ -8703,7 +8703,7 @@
     },
     {
       "name": "ドラマ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ドルフィンパンツ",
@@ -10394,6 +10394,10 @@
       "articles": 3
     },
     {
+      "name": "中村彩",
+      "articles": 1
+    },
+    {
       "name": "中村瑞季",
       "articles": 1
     },
@@ -10995,7 +10999,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 38
+      "articles": 39
     },
     {
       "name": "公式サンプル動画",
