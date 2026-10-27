@@ -1105,7 +1105,7 @@
   "counts": {
     "people": 673,
     "works": 351,
-    "topics": 3036
+    "topics": 3037
   },
   "people": [
     {
@@ -9726,7 +9726,7 @@
     },
     {
       "name": "マッサージ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "マッチングアプリ",
@@ -9886,7 +9886,7 @@
     },
     {
       "name": "メンズエステ",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "メンヘラ",
@@ -12374,7 +12374,7 @@
     },
     {
       "name": "密着",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "密着SEX",
@@ -13354,6 +13354,10 @@
     },
     {
       "name": "新高湯温泉",
+      "articles": 1
+    },
+    {
+      "name": "施術",
       "articles": 1
     },
     {
