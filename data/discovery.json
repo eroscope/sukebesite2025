@@ -506,6 +506,7 @@
     "topics/topic-6a145b23c20d.html",
     "topics/topic-6a5a9a6c1012.html",
     "topics/topic-6a5e50e11eca.html",
+    "topics/topic-6a74301f83e1.html",
     "topics/topic-6d1d803fccd8.html",
     "topics/topic-6da3c9243540.html",
     "topics/topic-6dc0f603699b.html",
@@ -1095,7 +1096,7 @@
   "counts": {
     "people": 665,
     "works": 350,
-    "topics": 3013
+    "topics": 3014
   },
   "people": [
     {
@@ -5784,7 +5785,7 @@
     },
     {
       "name": "GIF",
-      "articles": 40
+      "articles": 41
     },
     {
       "name": "GIF動画",
@@ -7948,7 +7949,7 @@
     },
     {
       "name": "ゴルフ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ゴルフウェア",
@@ -9712,7 +9713,7 @@
     },
     {
       "name": "ミニスカート",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ミホ（仮名）",
@@ -11619,6 +11620,10 @@
       "articles": 1
     },
     {
+      "name": "増田紗織",
+      "articles": 1
+    },
+    {
       "name": "増田陽名",
       "articles": 1
     },
@@ -11932,7 +11937,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 118
+      "articles": 119
     },
     {
       "name": "女子アナ設定",
@@ -15620,7 +15625,7 @@
     },
     {
       "name": "胸元",
-      "articles": 99
+      "articles": 100
     },
     {
       "name": "胸元チラ見え",
@@ -15660,7 +15665,7 @@
     },
     {
       "name": "脚",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "脚コキ",
