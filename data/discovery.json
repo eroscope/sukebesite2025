@@ -1095,7 +1095,7 @@
   "counts": {
     "people": 664,
     "works": 350,
-    "topics": 3006
+    "topics": 3009
   },
   "people": [
     {
@@ -6395,6 +6395,10 @@
       "articles": 1
     },
     {
+      "name": "SpankBang",
+      "articles": 1
+    },
+    {
       "name": "Steam",
       "articles": 3
     },
@@ -7165,6 +7169,10 @@
     {
       "name": "アニメ・漫画",
       "articles": 2
+    },
+    {
+      "name": "アニメ動画",
+      "articles": 1
     },
     {
       "name": "アヘ顔",
@@ -10659,6 +10667,10 @@
       "articles": 2
     },
     {
+      "name": "体育教師",
+      "articles": 1
+    },
+    {
       "name": "体重変化",
       "articles": 1
     },
@@ -12260,7 +12272,7 @@
     },
     {
       "name": "寝取られ",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "寝取り",
@@ -12840,7 +12852,7 @@
     },
     {
       "name": "成人向けアニメ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "成人向けイメージビデオ",
