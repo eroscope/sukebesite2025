@@ -1093,7 +1093,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 663,
+    "people": 664,
     "works": 350,
     "topics": 3006
   },
@@ -1644,6 +1644,10 @@
     },
     {
       "name": "兒玉七海",
+      "articles": 1
+    },
+    {
+      "name": "入江あんな",
       "articles": 1
     },
     {
@@ -5776,7 +5780,7 @@
     },
     {
       "name": "GIF",
-      "articles": 39
+      "articles": 40
     },
     {
       "name": "GIF動画",
@@ -7740,7 +7744,7 @@
     },
     {
       "name": "グッド！モーニング",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "グラぱらっ！",
@@ -9096,7 +9100,7 @@
     },
     {
       "name": "パン線",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "パーソナルジム",
@@ -9160,7 +9164,7 @@
     },
     {
       "name": "ピタパン",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "ピックルボール",
@@ -11900,7 +11904,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 117
+      "articles": 118
     },
     {
       "name": "女子アナ設定",
@@ -12680,7 +12684,7 @@
     },
     {
       "name": "後ろ姿",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "後背位",
