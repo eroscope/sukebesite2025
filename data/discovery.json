@@ -1101,7 +1101,7 @@
   "counts": {
     "people": 668,
     "works": 351,
-    "topics": 3027
+    "topics": 3028
   },
   "people": [
     {
@@ -7245,6 +7245,10 @@
       "articles": 1
     },
     {
+      "name": "アンジェラ芽衣",
+      "articles": 1
+    },
+    {
       "name": "アンテナ",
       "articles": 1
     },
@@ -10022,7 +10026,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 285
+      "articles": 286
     },
     {
       "name": "ランジェリー風",
@@ -13946,7 +13950,7 @@
     },
     {
       "name": "水着",
-      "articles": 444
+      "articles": 445
     },
     {
       "name": "水着グラビア",
@@ -14714,7 +14718,7 @@
     },
     {
       "name": "画像集",
-      "articles": 52
+      "articles": 53
     },
     {
       "name": "画像＋動画",
