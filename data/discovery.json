@@ -1087,6 +1087,7 @@
     "works/work-jur-819.html",
     "works/work-jux-246.html",
     "works/work-lcdv-41456.html",
+    "works/work-mida-823.html",
     "works/work-namh-077.html",
     "works/work-snos-371.html",
     "works/work-snos-409.html"
@@ -1094,7 +1095,7 @@
   "counts": {
     "people": 663,
     "works": 350,
-    "topics": 3005
+    "topics": 3006
   },
   "people": [
     {
@@ -1979,7 +1980,7 @@
     },
     {
       "name": "宮下玲奈",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "宮沢ゆかり",
@@ -4569,7 +4570,7 @@
     },
     {
       "code": "MIDA-823",
-      "articles": 1
+      "articles": 2
     },
     {
       "code": "MIDV-461",
@@ -5463,7 +5464,7 @@
     },
     {
       "name": "AVサンプル",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "AVジャケット",
@@ -5983,7 +5984,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 55
+      "articles": 56
     },
     {
       "name": "MOODYZ DIVA",
@@ -12030,6 +12031,10 @@
       "articles": 1
     },
     {
+      "name": "妹役",
+      "articles": 1
+    },
+    {
       "name": "妹設定",
       "articles": 1
     },
@@ -15267,7 +15272,7 @@
     },
     {
       "name": "素股",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "紫髪",
