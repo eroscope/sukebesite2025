@@ -925,6 +925,7 @@
     "topics/topic-e5b97b235e09.html",
     "topics/topic-e62af7c326d6.html",
     "topics/topic-e6913df3570f.html",
+    "topics/topic-e79087a84664.html",
     "topics/topic-e7b78e21a542.html",
     "topics/topic-e80584208584.html",
     "topics/topic-e80b7701b433.html",
@@ -1102,7 +1103,7 @@
   "counts": {
     "people": 669,
     "works": 351,
-    "topics": 3029
+    "topics": 3030
   },
   "people": [
     {
@@ -5343,7 +5344,7 @@
     },
     {
       "name": "5chまとめ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "5ch風",
@@ -9195,7 +9196,7 @@
     },
     {
       "name": "ヒップ",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "ヒップライン",
@@ -9331,7 +9332,7 @@
     },
     {
       "name": "フェチ",
-      "articles": 31
+      "articles": 32
     },
     {
       "name": "フェチ企画",
@@ -9787,7 +9788,7 @@
     },
     {
       "name": "ムチムチ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ムーディーズ",
@@ -14724,6 +14725,10 @@
     {
       "name": "画像比較",
       "articles": 2
+    },
+    {
+      "name": "画像生成AI",
+      "articles": 1
     },
     {
       "name": "画像集",
