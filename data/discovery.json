@@ -973,6 +973,7 @@
     "topics/topic-f5da0ae6f566.html",
     "topics/topic-f62b608f9969.html",
     "topics/topic-f65c255c513f.html",
+    "topics/topic-f68217923583.html",
     "topics/topic-f688a71a55d5.html",
     "topics/topic-f6d4b64ad1d4.html",
     "topics/topic-f713282a59b5.html",
@@ -1101,9 +1102,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 670,
+    "people": 671,
     "works": 351,
-    "topics": 3031
+    "topics": 3032
   },
   "people": [
     {
@@ -3156,6 +3157,10 @@
     },
     {
       "name": "真央",
+      "articles": 1
+    },
+    {
+      "name": "真木よう子",
       "articles": 1
     },
     {
@@ -14376,7 +14381,7 @@
     },
     {
       "name": "濡れ髪",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "瀧口麻衣",
@@ -16688,6 +16693,10 @@
     },
     {
       "name": "銀座",
+      "articles": 1
+    },
+    {
+      "name": "銀色ドレス",
       "articles": 1
     },
     {
