@@ -1105,7 +1105,7 @@
   "counts": {
     "people": 672,
     "works": 351,
-    "topics": 3034
+    "topics": 3035
   },
   "people": [
     {
@@ -2470,7 +2470,7 @@
     },
     {
       "name": "木村愛心",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "木村玲衣",
@@ -5514,7 +5514,7 @@
     },
     {
       "name": "AVサンプル",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "AVジャケット",
@@ -5986,7 +5986,7 @@
     },
     {
       "name": "Lカップ",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "M-OPPAI",
@@ -6326,7 +6326,7 @@
     },
     {
       "name": "S1",
-      "articles": 44
+      "articles": 45
     },
     {
       "name": "S1 GIRLS COLLECTION",
@@ -9675,6 +9675,10 @@
     {
       "name": "マイクロビキニ",
       "articles": 6
+    },
+    {
+      "name": "マイクロ水着",
+      "articles": 1
     },
     {
       "name": "マクドナルド風",
