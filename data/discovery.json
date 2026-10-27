@@ -1030,6 +1030,7 @@
     "topics/topic-madonnavr.html",
     "topics/topic-maika.html",
     "topics/topic-mgs.html",
+    "topics/topic-miru.html",
     "topics/topic-moodyz-diva.html",
     "topics/topic-moodyz.html",
     "topics/topic-myspa.html",
@@ -1097,7 +1098,7 @@
   "counts": {
     "people": 667,
     "works": 350,
-    "topics": 3019
+    "topics": 3020
   },
   "people": [
     {
@@ -5510,7 +5511,7 @@
     },
     {
       "name": "AV作品",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "AV初出演",
@@ -6294,7 +6295,7 @@
     },
     {
       "name": "S1 NO.1 STYLE",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "SERINA",
@@ -6594,7 +6595,7 @@
     },
     {
       "name": "miru",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "news23",
@@ -10954,7 +10955,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 36
+      "articles": 37
     },
     {
       "name": "公式サンプル動画",
@@ -11031,6 +11032,10 @@
     {
       "name": "出張",
       "articles": 4
+    },
+    {
+      "name": "出張エステ",
+      "articles": 1
     },
     {
       "name": "出演作品",
