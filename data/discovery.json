@@ -457,6 +457,7 @@
     "topics/topic-5b111165660c.html",
     "topics/topic-5b3ab36e05cb.html",
     "topics/topic-5b592521cfcd.html",
+    "topics/topic-5bd4aee87c10.html",
     "topics/topic-5c57b67662fa.html",
     "topics/topic-5c88029735ed.html",
     "topics/topic-5ch.html",
@@ -1104,7 +1105,7 @@
   "counts": {
     "people": 672,
     "works": 351,
-    "topics": 3032
+    "topics": 3034
   },
   "people": [
     {
@@ -7701,7 +7702,7 @@
     },
     {
       "name": "キャプチャ画像",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "キャプ画",
@@ -11553,7 +11554,7 @@
     },
     {
       "name": "和室",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "和田海佑",
@@ -12181,7 +12182,7 @@
     },
     {
       "name": "姉役",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "始発電車",
@@ -12945,6 +12946,10 @@
     },
     {
       "name": "成人作品",
+      "articles": 1
+    },
+    {
+      "name": "成人向けAV",
       "articles": 1
     },
     {
@@ -16005,6 +16010,10 @@
     },
     {
       "name": "藤井由依",
+      "articles": 1
+    },
+    {
+      "name": "藤嶋唯",
       "articles": 1
     },
     {
