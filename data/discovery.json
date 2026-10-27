@@ -1100,7 +1100,7 @@
   "counts": {
     "people": 668,
     "works": 350,
-    "topics": 3024
+    "topics": 3027
   },
   "people": [
     {
@@ -5560,6 +5560,10 @@
       "articles": 1
     },
     {
+      "name": "AV談義",
+      "articles": 1
+    },
+    {
       "name": "AV転身",
       "articles": 2
     },
@@ -5633,6 +5637,10 @@
     },
     {
       "name": "CEATEC",
+      "articles": 1
+    },
+    {
+      "name": "COOL JAPAN",
       "articles": 1
     },
     {
@@ -7013,7 +7021,7 @@
     },
     {
       "name": "ぽっちゃり",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "まいきち",
@@ -7853,6 +7861,10 @@
     },
     {
       "name": "ケモノ",
+      "articles": 1
+    },
+    {
+      "name": "ケリー・モトヤマ",
       "articles": 1
     },
     {
@@ -11245,7 +11257,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 34
+      "articles": 35
     },
     {
       "name": "匿名画像",
