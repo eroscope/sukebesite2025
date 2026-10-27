@@ -463,6 +463,7 @@
     "topics/topic-5e50e502dbc3.html",
     "topics/topic-5ef5727d4453.html",
     "topics/topic-5f0f7f053fed.html",
+    "topics/topic-5f209a48d6c6.html",
     "topics/topic-5fc9e30aedc2.html",
     "topics/topic-5fca074c8026.html",
     "topics/topic-6001166cb2a2.html",
@@ -911,6 +912,7 @@
     "topics/topic-e45020993075.html",
     "topics/topic-e481339cc9aa.html",
     "topics/topic-e4871f450ac3.html",
+    "topics/topic-e49e8517e62f.html",
     "topics/topic-e50d15a37b39.html",
     "topics/topic-e53e94c377da.html",
     "topics/topic-e55126756e03.html",
@@ -1090,9 +1092,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 660,
+    "people": 661,
     "works": 350,
-    "topics": 3003
+    "topics": 3004
   },
   "people": [
     {
@@ -3454,6 +3456,10 @@
     {
       "name": "角奈保",
       "articles": 2
+    },
+    {
+      "name": "譜久村聖",
+      "articles": 1
     },
     {
       "name": "谷尻萌",
@@ -8848,6 +8854,10 @@
       "articles": 2
     },
     {
+      "name": "ハロプロ",
+      "articles": 1
+    },
+    {
       "name": "ハンバーガー",
       "articles": 1
     },
@@ -9801,7 +9811,7 @@
     },
     {
       "name": "モーニング娘。",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ヤニねこ",
@@ -13913,7 +13923,7 @@
     },
     {
       "name": "泡風呂",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "波多野結衣",
