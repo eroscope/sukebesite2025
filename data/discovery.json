@@ -1096,7 +1096,7 @@
   "counts": {
     "people": 665,
     "works": 350,
-    "topics": 3014
+    "topics": 3016
   },
   "people": [
     {
@@ -11576,6 +11576,10 @@
       "articles": 1
     },
     {
+      "name": "地雷系女子",
+      "articles": 1
+    },
+    {
       "name": "坂本りお",
       "articles": 1
     },
@@ -12025,7 +12029,7 @@
     },
     {
       "name": "女性画像",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "女性芸能人",
@@ -15433,7 +15437,7 @@
     },
     {
       "name": "美女",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "美女3人",
@@ -16541,6 +16545,10 @@
     },
     {
       "name": "野菜詰め放題",
+      "articles": 1
+    },
+    {
+      "name": "量産型",
       "articles": 1
     },
     {
