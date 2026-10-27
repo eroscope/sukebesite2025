@@ -1104,9 +1104,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 675,
+    "people": 676,
     "works": 352,
-    "topics": 3038
+    "topics": 3039
   },
   "people": [
     {
@@ -2771,6 +2771,10 @@
     },
     {
       "name": "橋本環奈",
+      "articles": 1
+    },
+    {
+      "name": "橘メアリー",
       "articles": 1
     },
     {
@@ -5559,7 +5563,7 @@
     },
     {
       "name": "AV作品",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "AV初出演",
@@ -8119,7 +8123,7 @@
     },
     {
       "name": "サンプル画像",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "サービスカット",
@@ -16863,6 +16867,10 @@
     },
     {
       "name": "際どい衣装",
+      "articles": 1
+    },
+    {
+      "name": "隣人",
       "articles": 1
     },
     {
