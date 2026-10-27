@@ -815,6 +815,7 @@
     "topics/topic-c66ab2ffc32a.html",
     "topics/topic-c7044228bce8.html",
     "topics/topic-c79d6ca8cec1.html",
+    "topics/topic-c7aab7aaa847.html",
     "topics/topic-c7b2d07ad291.html",
     "topics/topic-c85a37f5a170.html",
     "topics/topic-c938dc37d822.html",
@@ -1099,7 +1100,7 @@
   ],
   "counts": {
     "people": 668,
-    "works": 350,
+    "works": 351,
     "topics": 3027
   },
   "people": [
@@ -4198,6 +4199,10 @@
       "articles": 1
     },
     {
+      "code": "HMN-606",
+      "articles": 1
+    },
+    {
       "code": "HMN-811",
       "articles": 1
     },
@@ -5517,7 +5522,7 @@
     },
     {
       "name": "AV作品",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "AV初出演",
@@ -8733,7 +8738,7 @@
     },
     {
       "name": "ナース",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "ナース服",
@@ -13449,7 +13454,7 @@
     },
     {
       "name": "月野江すい",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "有名人",
@@ -13497,7 +13502,7 @@
     },
     {
       "name": "本中",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "本田姉妹",
