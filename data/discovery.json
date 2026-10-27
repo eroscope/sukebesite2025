@@ -583,6 +583,7 @@
     "topics/topic-84e02d8d7d24.html",
     "topics/topic-84fda3a3860c.html",
     "topics/topic-853de5ba07c7.html",
+    "topics/topic-853e154f5041.html",
     "topics/topic-856e81f16abe.html",
     "topics/topic-857a29544417.html",
     "topics/topic-8606c77a40d7.html",
@@ -1107,7 +1108,7 @@
   "counts": {
     "people": 676,
     "works": 352,
-    "topics": 3041
+    "topics": 3042
   },
   "people": [
     {
@@ -5408,7 +5409,7 @@
     },
     {
       "name": "8KVR",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "8頭身",
@@ -6544,7 +6545,7 @@
     },
     {
       "name": "VR",
-      "articles": 120
+      "articles": 121
     },
     {
       "name": "VR CHANNEL 005",
@@ -10848,7 +10849,7 @@
     },
     {
       "name": "保健室",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "保母",
@@ -14444,6 +14445,10 @@
     },
     {
       "name": "瀬戸真凜",
+      "articles": 1
+    },
+    {
+      "name": "瀬田一花",
       "articles": 1
     },
     {
