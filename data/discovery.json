@@ -313,6 +313,7 @@
     "topics/topic-2a308d05ca6f.html",
     "topics/topic-2a70c43e87b3.html",
     "topics/topic-2a9b6b05c4ed.html",
+    "topics/topic-2b284767096d.html",
     "topics/topic-2b7e5d0c429c.html",
     "topics/topic-2ba133618e18.html",
     "topics/topic-2c270423c58c.html",
@@ -1106,7 +1107,7 @@
   "counts": {
     "people": 676,
     "works": 352,
-    "topics": 3039
+    "topics": 3040
   },
   "people": [
     {
@@ -7376,6 +7377,10 @@
     {
       "name": "インナーちら見え",
       "articles": 3
+    },
+    {
+      "name": "インフルエンサー",
+      "articles": 1
     },
     {
       "name": "ウィスパー",
@@ -15767,7 +15772,7 @@
     },
     {
       "name": "胸元",
-      "articles": 100
+      "articles": 101
     },
     {
       "name": "胸元チラ見え",
@@ -15879,7 +15884,7 @@
     },
     {
       "name": "自撮り",
-      "articles": 48
+      "articles": 49
     },
     {
       "name": "自撮り動画",
@@ -16619,7 +16624,7 @@
     },
     {
       "name": "配信者",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "配信開始",
