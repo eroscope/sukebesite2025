@@ -1108,7 +1108,7 @@
   "counts": {
     "people": 676,
     "works": 352,
-    "topics": 3042
+    "topics": 3044
   },
   "people": [
     {
@@ -6525,7 +6525,7 @@
     },
     {
       "name": "Tバック",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "UnfinishedVR",
@@ -6613,7 +6613,7 @@
     },
     {
       "name": "YouTuber",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "YourDoll",
@@ -8580,6 +8580,10 @@
       "articles": 2
     },
     {
+      "name": "チア衣装",
+      "articles": 1
+    },
+    {
       "name": "チェキ",
       "articles": 2
     },
@@ -10353,7 +10357,7 @@
     },
     {
       "name": "下着",
-      "articles": 184
+      "articles": 185
     },
     {
       "name": "下着ずらし",
@@ -14621,6 +14625,10 @@
     },
     {
       "name": "生放送",
+      "articles": 1
+    },
+    {
+      "name": "生着替え",
       "articles": 1
     },
     {
