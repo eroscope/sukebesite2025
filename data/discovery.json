@@ -464,6 +464,7 @@
     "topics/topic-5ef5727d4453.html",
     "topics/topic-5f0f7f053fed.html",
     "topics/topic-5f209a48d6c6.html",
+    "topics/topic-5f2a6bf186cf.html",
     "topics/topic-5fc9e30aedc2.html",
     "topics/topic-5fca074c8026.html",
     "topics/topic-6001166cb2a2.html",
@@ -1098,7 +1099,7 @@
   "counts": {
     "people": 668,
     "works": 350,
-    "topics": 3022
+    "topics": 3024
   },
   "people": [
     {
@@ -5463,7 +5464,7 @@
     },
     {
       "name": "ASMR",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "ATTACKERS",
@@ -5651,7 +5652,7 @@
     },
     {
       "name": "DLsite",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "DMM動画",
@@ -11443,7 +11444,7 @@
     },
     {
       "name": "同人音声",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "同居",
@@ -11803,6 +11804,10 @@
     },
     {
       "name": "大容量",
+      "articles": 1
+    },
+    {
+      "name": "大山チロル",
       "articles": 1
     },
     {
@@ -16647,6 +16652,10 @@
     },
     {
       "name": "銀魂",
+      "articles": 1
+    },
+    {
+      "name": "鍛冶屋のお姉さん",
       "articles": 1
     },
     {
