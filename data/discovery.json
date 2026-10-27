@@ -1095,7 +1095,7 @@
   "counts": {
     "people": 664,
     "works": 350,
-    "topics": 3009
+    "topics": 3010
   },
   "people": [
     {
@@ -5660,7 +5660,7 @@
     },
     {
       "name": "DVD",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "DVDサンプル",
@@ -5904,7 +5904,7 @@
     },
     {
       "name": "Jカップ",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "KMP",
@@ -6636,6 +6636,10 @@
     },
     {
       "name": "あぐら",
+      "articles": 1
+    },
+    {
+      "name": "あげは",
       "articles": 1
     },
     {
@@ -9140,7 +9144,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 179
+      "articles": 180
     },
     {
       "name": "ビジネススーツ",
@@ -9960,7 +9964,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 282
+      "articles": 283
     },
     {
       "name": "ランジェリー風",
