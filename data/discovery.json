@@ -1094,9 +1094,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 665,
+    "people": 666,
     "works": 350,
-    "topics": 3016
+    "topics": 3017
   },
   "people": [
     {
@@ -1478,6 +1478,10 @@
     {
       "name": "三橋くん",
       "articles": 3
+    },
+    {
+      "name": "三浦るい",
+      "articles": 1
     },
     {
       "name": "三浦恵理子",
@@ -7533,6 +7537,10 @@
     },
     {
       "name": "カラスマル",
+      "articles": 1
+    },
+    {
+      "name": "カリビアンコム",
       "articles": 1
     },
     {
@@ -15365,7 +15373,7 @@
     },
     {
       "name": "網タイツ",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "緊縛",
