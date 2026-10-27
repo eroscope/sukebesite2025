@@ -1096,9 +1096,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 667,
+    "people": 668,
     "works": 350,
-    "topics": 3020
+    "topics": 3022
   },
   "people": [
     {
@@ -2963,6 +2963,10 @@
     },
     {
       "name": "瀬戸真凜",
+      "articles": 1
+    },
+    {
+      "name": "瀬田一花",
       "articles": 1
     },
     {
@@ -5483,7 +5487,7 @@
     },
     {
       "name": "AVサンプル",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "AVジャケット",
@@ -6506,6 +6510,10 @@
       "articles": 1
     },
     {
+      "name": "WANZ",
+      "articles": 1
+    },
+    {
       "name": "WBS",
       "articles": 3
     },
@@ -7463,6 +7471,10 @@
     },
     {
       "name": "オフィスシチュエーション",
+      "articles": 1
+    },
+    {
+      "name": "オフィス設定",
       "articles": 1
     },
     {
