@@ -1121,9 +1121,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 682,
+    "people": 683,
     "works": 356,
-    "topics": 3069
+    "topics": 3070
   },
   "people": [
     {
@@ -1168,6 +1168,10 @@
     },
     {
       "name": "かさだまゆ",
+      "articles": 1
+    },
+    {
+      "name": "かれしちゃん",
       "articles": 1
     },
     {
@@ -9352,7 +9356,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 182
+      "articles": 183
     },
     {
       "name": "ビジネススーツ",
@@ -14480,6 +14484,10 @@
     },
     {
       "name": "湯気",
+      "articles": 1
+    },
+    {
+      "name": "湯船",
       "articles": 1
     },
     {
