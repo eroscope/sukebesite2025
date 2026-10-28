@@ -1112,7 +1112,7 @@
   ],
   "counts": {
     "people": 682,
-    "works": 355,
+    "works": 356,
     "topics": 3057
   },
   "people": [
@@ -4760,6 +4760,10 @@
     },
     {
       "code": "MURIKURI-010",
+      "articles": 1
+    },
+    {
+      "code": "MURIKURI-015",
       "articles": 1
     },
     {
@@ -11126,7 +11130,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 42
+      "articles": 43
     },
     {
       "name": "公式サンプル動画",
@@ -11254,7 +11258,7 @@
     },
     {
       "name": "制服",
-      "articles": 42
+      "articles": 43
     },
     {
       "name": "制服ギャル",
@@ -16322,7 +16326,7 @@
     },
     {
       "name": "複数人",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "複数人プレイ",
