@@ -1110,7 +1110,7 @@
   "counts": {
     "people": 678,
     "works": 353,
-    "topics": 3047
+    "topics": 3049
   },
   "people": [
     {
@@ -7010,6 +7010,10 @@
       "articles": 1
     },
     {
+      "name": "つゆだくバナナの家",
+      "articles": 1
+    },
+    {
       "name": "てーきゅう",
       "articles": 1
     },
@@ -9131,7 +9135,7 @@
     },
     {
       "name": "バニーガール",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "バニーコス",
@@ -9183,7 +9187,7 @@
     },
     {
       "name": "パイズリ",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "パイズリ男優オーディション",
@@ -11414,6 +11418,10 @@
       "articles": 1
     },
     {
+      "name": "原美ぱこ",
+      "articles": 1
+    },
+    {
       "name": "参考画像",
       "articles": 1
     },
@@ -13083,7 +13091,7 @@
     },
     {
       "name": "成人向け漫画",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "成人向け画像集",
@@ -17227,7 +17235,7 @@
     },
     {
       "name": "騎乗位",
-      "articles": 25
+      "articles": 26
     },
     {
       "name": "驚き顔",
