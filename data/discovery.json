@@ -1121,8 +1121,8 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 683,
-    "works": 356,
+    "people": 684,
+    "works": 357,
     "topics": 3070
   },
   "people": [
@@ -2656,6 +2656,10 @@
     },
     {
       "name": "根尾あかり",
+      "articles": 1
+    },
+    {
+      "name": "桃乃木かな",
       "articles": 1
     },
     {
@@ -4393,6 +4397,10 @@
       "articles": 1
     },
     {
+      "code": "IPZZ-293",
+      "articles": 1
+    },
+    {
       "code": "IPZZ-644",
       "articles": 1
     },
@@ -6000,7 +6008,7 @@
     },
     {
       "name": "IDEAPOCKET",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "IFストーリー",
@@ -8368,7 +8376,7 @@
     },
     {
       "name": "スクール水着",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "スク水",
@@ -15464,7 +15472,7 @@
     },
     {
       "name": "競泳水着",
-      "articles": 21
+      "articles": 22
     },
     {
       "name": "競輪",
