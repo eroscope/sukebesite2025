@@ -201,6 +201,7 @@
     "topics/topic-0378756290f5.html",
     "topics/topic-04ef7bc3adc2.html",
     "topics/topic-050fab733e97.html",
+    "topics/topic-0525273f4cfd.html",
     "topics/topic-0535bf05778f.html",
     "topics/topic-061054efcd00.html",
     "topics/topic-067328416c99.html",
@@ -1111,7 +1112,7 @@
   "counts": {
     "people": 679,
     "works": 354,
-    "topics": 3054
+    "topics": 3056
   },
   "people": [
     {
@@ -5884,7 +5885,7 @@
     },
     {
       "name": "GIF",
-      "articles": 42
+      "articles": 43
     },
     {
       "name": "GIF動画",
@@ -7184,7 +7185,7 @@
     },
     {
       "name": "めざましテレビ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "めるる",
@@ -7296,7 +7297,7 @@
     },
     {
       "name": "アナウンサー",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "アナル",
@@ -9300,7 +9301,7 @@
     },
     {
       "name": "ヒップライン",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ヒール",
@@ -15443,6 +15444,10 @@
       "articles": 1
     },
     {
+      "name": "米俵投げ",
+      "articles": 1
+    },
+    {
       "name": "米袋",
       "articles": 1
     },
@@ -17276,6 +17281,10 @@
     },
     {
       "name": "高崎かなみ",
+      "articles": 1
+    },
+    {
+      "name": "高崎春",
       "articles": 1
     },
     {
