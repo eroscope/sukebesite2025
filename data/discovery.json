@@ -1131,7 +1131,7 @@
   "counts": {
     "people": 685,
     "works": 359,
-    "topics": 3079
+    "topics": 3081
   },
   "people": [
     {
@@ -6803,6 +6803,10 @@
       "articles": 1
     },
     {
+      "name": "yunocy",
+      "articles": 1
+    },
+    {
       "name": "あいさん",
       "articles": 2
     },
@@ -8445,6 +8449,10 @@
     {
       "name": "ストリートファイター6",
       "articles": 3
+    },
+    {
+      "name": "ストリーマー",
+      "articles": 1
     },
     {
       "name": "ストレッチ",
@@ -10228,7 +10236,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 295
+      "articles": 296
     },
     {
       "name": "ランジェリー風",
