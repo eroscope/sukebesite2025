@@ -1110,7 +1110,7 @@
   "counts": {
     "people": 678,
     "works": 353,
-    "topics": 3049
+    "topics": 3050
   },
   "people": [
     {
@@ -2259,7 +2259,7 @@
     },
     {
       "name": "希望みう",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "平嶋夏海",
@@ -6198,6 +6198,10 @@
       "articles": 6
     },
     {
+      "name": "NO.1 STYLE",
+      "articles": 1
+    },
+    {
       "name": "NO.1STYLE",
       "articles": 1
     },
@@ -6563,7 +6567,7 @@
     },
     {
       "name": "VR",
-      "articles": 121
+      "articles": 122
     },
     {
       "name": "VR CHANNEL 005",
