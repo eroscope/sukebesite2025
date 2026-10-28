@@ -1126,7 +1126,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 684,
+    "people": 685,
     "works": 359,
     "topics": 3074
   },
@@ -1830,6 +1830,10 @@
     {
       "name": "博多彩葉",
       "articles": 3
+    },
+    {
+      "name": "原つむぎ",
+      "articles": 1
     },
     {
       "name": "原菜乃華",
@@ -10213,7 +10217,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 294
+      "articles": 295
     },
     {
       "name": "ランジェリー風",
@@ -11733,7 +11737,7 @@
     },
     {
       "name": "和室",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "和田海佑",
