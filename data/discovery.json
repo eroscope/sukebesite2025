@@ -292,6 +292,7 @@
     "topics/topic-20a0d6b107e3.html",
     "topics/topic-214e5536fe8b.html",
     "topics/topic-214f1d402588.html",
+    "topics/topic-21cb05b20200.html",
     "topics/topic-21f340a26762.html",
     "topics/topic-21f680fe544a.html",
     "topics/topic-221a718b20d3.html",
@@ -1121,7 +1122,7 @@
   "counts": {
     "people": 682,
     "works": 356,
-    "topics": 3067
+    "topics": 3068
   },
   "people": [
     {
@@ -6202,7 +6203,7 @@
     },
     {
       "name": "NHK",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "NHKアナウンサー",
@@ -6802,7 +6803,7 @@
     },
     {
       "name": "あさイチ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "あや",
@@ -8702,7 +8703,7 @@
     },
     {
       "name": "テレビキャプチャ",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "テレビ出演",
@@ -12170,7 +12171,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 122
+      "articles": 123
     },
     {
       "name": "女子アナ設定",
@@ -13958,6 +13959,10 @@
     },
     {
       "name": "森田みゆ",
+      "articles": 1
+    },
+    {
+      "name": "森田茉里恵",
       "articles": 1
     },
     {
