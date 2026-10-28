@@ -1110,7 +1110,7 @@
   "counts": {
     "people": 679,
     "works": 354,
-    "topics": 3051
+    "topics": 3054
   },
   "people": [
     {
@@ -5559,7 +5559,7 @@
     },
     {
       "name": "AVサンプル",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "AVジャケット",
@@ -6362,6 +6362,10 @@
       "articles": 2
     },
     {
+      "name": "Re:start！",
+      "articles": 1
+    },
+    {
       "name": "Redd@healsl9t",
       "articles": 1
     },
@@ -6395,7 +6399,7 @@
     },
     {
       "name": "S1 NO.1 STYLE",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "SERINA",
@@ -14147,6 +14151,14 @@
     },
     {
       "name": "河北りょう",
+      "articles": 1
+    },
+    {
+      "name": "河北彩伽",
+      "articles": 1
+    },
+    {
+      "name": "河北彩花",
       "articles": 1
     },
     {
