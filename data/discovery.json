@@ -197,6 +197,7 @@
     "topics/topic-020f766d5b23.html",
     "topics/topic-02369abf0527.html",
     "topics/topic-024cb129435e.html",
+    "topics/topic-025819fd34d1.html",
     "topics/topic-02dc6b1d733a.html",
     "topics/topic-030bcd19fe14.html",
     "topics/topic-0335284ae7e8.html",
@@ -1122,7 +1123,7 @@
   "counts": {
     "people": 682,
     "works": 356,
-    "topics": 3068
+    "topics": 3069
   },
   "people": [
     {
@@ -1443,7 +1444,7 @@
     },
     {
       "name": "一ノ瀬瑠菜",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "一宮あい",
@@ -9907,7 +9908,7 @@
     },
     {
       "name": "ミスマガジン",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ミッション",
@@ -10059,6 +10060,10 @@
     },
     {
       "name": "ヤニねこ",
+      "articles": 1
+    },
+    {
+      "name": "ヤングキングBULL",
       "articles": 1
     },
     {
@@ -14151,7 +14156,7 @@
     },
     {
       "name": "水着",
-      "articles": 458
+      "articles": 459
     },
     {
       "name": "水着グラビア",
