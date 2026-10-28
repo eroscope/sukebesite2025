@@ -950,6 +950,7 @@
     "topics/topic-eca137a7bc5f.html",
     "topics/topic-ecb45d8a1cc4.html",
     "topics/topic-ecea1599b55a.html",
+    "topics/topic-ed429b1b84d7.html",
     "topics/topic-ed80051258ef.html",
     "topics/topic-ee552f0f2293.html",
     "topics/topic-ee5c9d2cf8b2.html",
@@ -1113,7 +1114,7 @@
   "counts": {
     "people": 682,
     "works": 356,
-    "topics": 3057
+    "topics": 3058
   },
   "people": [
     {
@@ -8878,7 +8879,7 @@
     },
     {
       "name": "ニット",
-      "articles": 40
+      "articles": 41
     },
     {
       "name": "ニットワンピ",
@@ -10846,7 +10847,7 @@
     },
     {
       "name": "佐藤真知子",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "佐野秋帆",
@@ -11893,6 +11894,10 @@
       "articles": 1
     },
     {
+      "name": "夜バゲット",
+      "articles": 1
+    },
+    {
       "name": "夜道",
       "articles": 1
     },
@@ -12142,7 +12147,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 120
+      "articles": 121
     },
     {
       "name": "女子アナ設定",
@@ -16658,7 +16663,7 @@
     },
     {
       "name": "透け衣装",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "透け襦袢",
