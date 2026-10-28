@@ -1111,7 +1111,7 @@
   ],
   "counts": {
     "people": 679,
-    "works": 354,
+    "works": 355,
     "topics": 3056
   },
   "people": [
@@ -2753,7 +2753,7 @@
     },
     {
       "name": "楪カレン",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "極小マイクロビキニ",
@@ -4862,6 +4862,10 @@
       "articles": 1
     },
     {
+      "code": "PPPE-097",
+      "articles": 1
+    },
+    {
       "code": "PPPE-404",
       "articles": 1
     },
@@ -6253,7 +6257,7 @@
     },
     {
       "name": "OPPAI",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "Oha!4",
@@ -11105,7 +11109,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 41
+      "articles": 42
     },
     {
       "name": "公式サンプル動画",
