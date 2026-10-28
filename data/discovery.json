@@ -32,6 +32,7 @@
     "people/person-22656f555de3.html",
     "people/person-233ca36573b6.html",
     "people/person-236dc419b29a.html",
+    "people/person-25c385cb07dd.html",
     "people/person-27b34ab347a7.html",
     "people/person-295be3bfe6df.html",
     "people/person-2a3db560d61a.html",
@@ -1109,7 +1110,7 @@
   "counts": {
     "people": 678,
     "works": 353,
-    "topics": 3046
+    "topics": 3047
   },
   "people": [
     {
@@ -1226,7 +1227,7 @@
     },
     {
       "name": "のん",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "はのんまゆ",
@@ -6041,6 +6042,10 @@
       "articles": 1
     },
     {
+      "name": "MAPPA EXPO",
+      "articles": 1
+    },
+    {
       "name": "MARA",
       "articles": 1
     },
@@ -7334,7 +7339,7 @@
     },
     {
       "name": "イベント",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "イベント展示",
@@ -14906,7 +14911,7 @@
     },
     {
       "name": "白シャツ",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "白スカート",
@@ -15810,7 +15815,7 @@
     },
     {
       "name": "胸元",
-      "articles": 103
+      "articles": 104
     },
     {
       "name": "胸元チラ見え",
