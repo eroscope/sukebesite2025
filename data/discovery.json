@@ -101,6 +101,7 @@
     "people/person-8348d5ad5052.html",
     "people/person-8350292f5114.html",
     "people/person-841925aa2b08.html",
+    "people/person-84d347d06fe0.html",
     "people/person-85c41d7ff936.html",
     "people/person-8763443e047c.html",
     "people/person-87b1b5f5efa7.html",
@@ -1127,7 +1128,7 @@
   "counts": {
     "people": 684,
     "works": 359,
-    "topics": 3072
+    "topics": 3073
   },
   "people": [
     {
@@ -3680,7 +3681,7 @@
     },
     {
       "name": "鈴木ふみ奈",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "鈴木ゆき",
@@ -9376,7 +9377,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 184
+      "articles": 185
     },
     {
       "name": "ビジネススーツ",
@@ -10357,6 +10358,10 @@
     {
       "name": "ローター",
       "articles": 2
+    },
+    {
+      "name": "ローラースケート",
+      "articles": 1
     },
     {
       "name": "ワキ",
