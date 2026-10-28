@@ -4,6 +4,7 @@
     "people.html",
     "people/person-009176ed9cb6.html",
     "people/person-01b978367f05.html",
+    "people/person-06ac427cf69d.html",
     "people/person-071c6f8e47cc.html",
     "people/person-076006cffcce.html",
     "people/person-08633b820b37.html",
@@ -1125,7 +1126,7 @@
   "counts": {
     "people": 684,
     "works": 359,
-    "topics": 3071
+    "topics": 3072
   },
   "people": [
     {
@@ -3802,7 +3803,7 @@
     },
     {
       "name": "風吹ケイ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "香水じゅん",
@@ -9374,7 +9375,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 183
+      "articles": 184
     },
     {
       "name": "ビジネススーツ",
@@ -14317,6 +14318,10 @@
       "articles": 1
     },
     {
+      "name": "浮き輪",
+      "articles": 1
+    },
+    {
       "name": "浮気",
       "articles": 1
     },
@@ -16046,7 +16051,7 @@
     },
     {
       "name": "腹筋",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "腹筋トレーニング",
