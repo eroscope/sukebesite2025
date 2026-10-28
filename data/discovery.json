@@ -1130,7 +1130,7 @@
   "counts": {
     "people": 685,
     "works": 359,
-    "topics": 3075
+    "topics": 3079
   },
   "people": [
     {
@@ -8286,6 +8286,10 @@
       "articles": 3
     },
     {
+      "name": "ショーケース",
+      "articles": 1
+    },
+    {
       "name": "ショートカット",
       "articles": 2
     },
@@ -8584,6 +8588,10 @@
     {
       "name": "セール",
       "articles": 7
+    },
+    {
+      "name": "ソウル",
+      "articles": 1
     },
     {
       "name": "ソウルキャリバー",
@@ -14422,6 +14430,10 @@
       "articles": 1
     },
     {
+      "name": "海外風俗",
+      "articles": 1
+    },
+    {
       "name": "海月みゆき",
       "articles": 1
     },
@@ -17231,7 +17243,7 @@
     },
     {
       "name": "韓国",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "韓国BJ",
@@ -17339,6 +17351,10 @@
     },
     {
       "name": "風俗店",
+      "articles": 1
+    },
+    {
+      "name": "風俗街",
       "articles": 1
     },
     {
