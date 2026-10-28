@@ -114,6 +114,7 @@
     "people/person-99ad91c62c12.html",
     "people/person-99ce0abffefc.html",
     "people/person-9da0bab509f9.html",
+    "people/person-9eabc2c5960a.html",
     "people/person-9f25b8f39b65.html",
     "people/person-a1c7c1fcbab3.html",
     "people/person-a4891aa58898.html",
@@ -1122,7 +1123,7 @@
   ],
   "counts": {
     "people": 684,
-    "works": 358,
+    "works": 359,
     "topics": 3071
   },
   "people": [
@@ -3360,7 +3361,7 @@
     },
     {
       "name": "結城花乃羽",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "結城麻紀",
@@ -4486,6 +4487,10 @@
     },
     {
       "code": "JUR-016",
+      "articles": 1
+    },
+    {
+      "code": "JUR-065",
       "articles": 1
     },
     {
@@ -9872,7 +9877,7 @@
     },
     {
       "name": "マドンナ",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "マネキン",
@@ -10768,7 +10773,7 @@
     },
     {
       "name": "人妻秘書",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "人妻系",
@@ -15348,7 +15353,7 @@
     },
     {
       "name": "社長室",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "神姫PROJECT",
