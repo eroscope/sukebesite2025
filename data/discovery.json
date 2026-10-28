@@ -1118,7 +1118,7 @@
   "counts": {
     "people": 682,
     "works": 356,
-    "topics": 3058
+    "topics": 3059
   },
   "people": [
     {
@@ -5911,7 +5911,7 @@
     },
     {
       "name": "GIF",
-      "articles": 43
+      "articles": 44
     },
     {
       "name": "GIF動画",
@@ -8399,7 +8399,7 @@
     },
     {
       "name": "ストレッチ",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "スパッツ",
@@ -10035,7 +10035,7 @@
     },
     {
       "name": "モーニングショー",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "モーニング娘。",
@@ -10435,6 +10435,10 @@
     },
     {
       "name": "下半身",
+      "articles": 1
+    },
+    {
+      "name": "下村彩里",
       "articles": 1
     },
     {
@@ -12151,7 +12155,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 121
+      "articles": 122
     },
     {
       "name": "女子アナ設定",
