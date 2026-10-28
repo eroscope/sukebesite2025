@@ -1119,7 +1119,7 @@
   "counts": {
     "people": 682,
     "works": 356,
-    "topics": 3060
+    "topics": 3062
   },
   "people": [
     {
@@ -6136,7 +6136,7 @@
     },
     {
       "name": "Madonna",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "Madonna VR",
@@ -6612,7 +6612,7 @@
     },
     {
       "name": "VR",
-      "articles": 123
+      "articles": 124
     },
     {
       "name": "VR CHANNEL 005",
@@ -13059,6 +13059,10 @@
       "articles": 1
     },
     {
+      "name": "愛弓りょう",
+      "articles": 1
+    },
+    {
       "name": "愛才りあ",
       "articles": 1
     },
@@ -15441,6 +15445,10 @@
     {
       "name": "竹俣紅",
       "articles": 2
+    },
+    {
+      "name": "竹内有紀",
+      "articles": 1
     },
     {
       "name": "竹生島",
