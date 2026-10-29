@@ -1148,8 +1148,8 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 693,
-    "works": 362,
+    "people": 694,
+    "works": 363,
     "topics": 3103
   },
   "people": [
@@ -2087,6 +2087,10 @@
     },
     {
       "name": "宮越虹海",
+      "articles": 1
+    },
+    {
+      "name": "家庭教師",
       "articles": 1
     },
     {
@@ -4192,6 +4196,10 @@
       "articles": 1
     },
     {
+      "code": "DASS-463",
+      "articles": 1
+    },
+    {
       "code": "DASS-670",
       "articles": 1
     },
@@ -5687,7 +5695,7 @@
     },
     {
       "name": "AVサンプル",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "AVジャケット",
@@ -12199,7 +12207,7 @@
     },
     {
       "name": "大槻ひびき",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "大橋未歩",
