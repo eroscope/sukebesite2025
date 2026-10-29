@@ -1148,7 +1148,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 698,
+    "people": 699,
     "works": 363,
     "topics": 3108
   },
@@ -1959,6 +1959,10 @@
     },
     {
       "name": "土屋和香",
+      "articles": 1
+    },
+    {
+      "name": "堀江りほ",
       "articles": 1
     },
     {
@@ -9219,7 +9223,7 @@
     },
     {
       "name": "ハイレグ",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "ハッカ油",
@@ -9791,7 +9795,7 @@
     },
     {
       "name": "プール",
-      "articles": 26
+      "articles": 27
     },
     {
       "name": "プール撮影",
@@ -14375,7 +14379,7 @@
     },
     {
       "name": "水着",
-      "articles": 470
+      "articles": 471
     },
     {
       "name": "水着グラビア",
