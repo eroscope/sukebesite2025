@@ -923,6 +923,7 @@
     "topics/topic-df078c9020a8.html",
     "topics/topic-df4a10e38d0b.html",
     "topics/topic-dlsite.html",
+    "topics/topic-dmm.html",
     "topics/topic-duga.html",
     "topics/topic-dvd.html",
     "topics/topic-dvd.html",
@@ -1136,9 +1137,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 686,
-    "works": 359,
-    "topics": 3083
+    "people": 687,
+    "works": 360,
+    "topics": 3084
   },
   "people": [
     {
@@ -2907,6 +2908,10 @@
     },
     {
       "name": "水野朝陽",
+      "articles": 1
+    },
+    {
+      "name": "永尾あかね",
       "articles": 1
     },
     {
@@ -5076,6 +5081,10 @@
       "articles": 1
     },
     {
+      "code": "SDNM-554",
+      "articles": 1
+    },
+    {
       "code": "SIRO-5732",
       "articles": 1
     },
@@ -5647,7 +5656,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 50
+      "articles": 51
     },
     {
       "name": "AVパッケージ",
@@ -5675,7 +5684,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 202
+      "articles": 203
     },
     {
       "name": "AV女優検索",
@@ -5815,7 +5824,7 @@
     },
     {
       "name": "DMM動画",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "DOAXVV",
@@ -11222,6 +11231,10 @@
       "articles": 1
     },
     {
+      "name": "公務員人妻",
+      "articles": 1
+    },
+    {
       "name": "公園",
       "articles": 2
     },
@@ -16139,7 +16152,7 @@
     },
     {
       "name": "自撮り",
-      "articles": 49
+      "articles": 50
     },
     {
       "name": "自撮り動画",
