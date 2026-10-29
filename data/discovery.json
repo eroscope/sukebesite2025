@@ -1148,9 +1148,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 695,
+    "people": 696,
     "works": 363,
-    "topics": 3104
+    "topics": 3106
   },
   "people": [
     {
@@ -3179,6 +3179,10 @@
     },
     {
       "name": "痴漢ごっこ",
+      "articles": 1
+    },
+    {
+      "name": "白スク水",
       "articles": 1
     },
     {
@@ -9775,7 +9779,7 @@
     },
     {
       "name": "プール",
-      "articles": 25
+      "articles": 26
     },
     {
       "name": "プール撮影",
@@ -14310,6 +14314,10 @@
       "articles": 7
     },
     {
+      "name": "水中カメラ",
+      "articles": 1
+    },
+    {
       "name": "水中写真",
       "articles": 1
     },
@@ -17087,6 +17095,10 @@
     },
     {
       "name": "野球部ちゃん",
+      "articles": 1
+    },
+    {
+      "name": "野田彩加",
       "articles": 1
     },
     {
