@@ -1148,9 +1148,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 694,
+    "people": 695,
     "works": 363,
-    "topics": 3103
+    "topics": 3104
   },
   "people": [
     {
@@ -2815,6 +2815,10 @@
     },
     {
       "name": "椎名えみ",
+      "articles": 1
+    },
+    {
+      "name": "椎名香奈江",
       "articles": 1
     },
     {
@@ -9199,7 +9203,7 @@
     },
     {
       "name": "ハイレグ",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "ハッカ油",
@@ -15119,7 +15123,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 266
+      "articles": 267
     },
     {
       "name": "画像ギャラリー",
@@ -15279,6 +15283,10 @@
     },
     {
       "name": "白リブ",
+      "articles": 1
+    },
+    {
+      "name": "白レオタード",
       "articles": 1
     },
     {
