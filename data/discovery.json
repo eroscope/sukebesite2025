@@ -1142,7 +1142,7 @@
   "counts": {
     "people": 690,
     "works": 361,
-    "topics": 3090
+    "topics": 3091
   },
   "people": [
     {
@@ -6383,7 +6383,7 @@
     },
     {
       "name": "PREMIUM",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "PRESTIGE",
@@ -11267,7 +11267,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 43
+      "articles": 44
     },
     {
       "name": "公式サンプル動画",
@@ -12395,7 +12395,7 @@
     },
     {
       "name": "女教師",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "女男女",
@@ -14115,6 +14115,10 @@
     },
     {
       "name": "楓ふうあ",
+      "articles": 1
+    },
+    {
+      "name": "楪カレン",
       "articles": 1
     },
     {
