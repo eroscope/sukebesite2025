@@ -1147,7 +1147,7 @@
   "counts": {
     "people": 690,
     "works": 362,
-    "topics": 3097
+    "topics": 3098
   },
   "people": [
     {
@@ -8240,7 +8240,7 @@
     },
     {
       "name": "ゴルフウェア",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ゴルフカート",
@@ -8552,6 +8552,10 @@
     },
     {
       "name": "スポーツ番組",
+      "articles": 1
+    },
+    {
+      "name": "スポーツ美女",
       "articles": 1
     },
     {
@@ -12324,7 +12328,7 @@
     },
     {
       "name": "女子ゴルフ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "女子大生",
