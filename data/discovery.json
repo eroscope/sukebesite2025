@@ -1150,7 +1150,7 @@
   "counts": {
     "people": 693,
     "works": 362,
-    "topics": 3102
+    "topics": 3103
   },
   "people": [
     {
@@ -2139,7 +2139,7 @@
     },
     {
       "name": "小日向みゆう",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "小日向ゆか",
@@ -6071,7 +6071,7 @@
     },
     {
       "name": "Hカップ",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "Hカップ時代",
@@ -14600,6 +14600,10 @@
     {
       "name": "混浴",
       "articles": 8
+    },
+    {
+      "name": "清原みゆう",
+      "articles": 1
     },
     {
       "name": "清宮仁愛",
