@@ -730,6 +730,7 @@
     "topics/topic-a8e968517fcf.html",
     "topics/topic-a90fc01fd71c.html",
     "topics/topic-a99917e86228.html",
+    "topics/topic-aa1e58535722.html",
     "topics/topic-aa511e6797a7.html",
     "topics/topic-aace97cc7e95.html",
     "topics/topic-ab67c0ff4bc5.html",
@@ -1145,7 +1146,7 @@
   "counts": {
     "people": 690,
     "works": 361,
-    "topics": 3095
+    "topics": 3096
   },
   "people": [
     {
@@ -2398,7 +2399,7 @@
     },
     {
       "name": "新川空",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "新木希空",
@@ -6570,7 +6571,7 @@
     },
     {
       "name": "SODSTAR",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "SODVR",
@@ -7474,7 +7475,7 @@
     },
     {
       "name": "アンドロイド",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "イカセ",
@@ -17219,6 +17220,10 @@
     {
       "name": "集合写真",
       "articles": 2
+    },
+    {
+      "name": "集団プレイ",
+      "articles": 1
     },
     {
       "name": "集団劇",
