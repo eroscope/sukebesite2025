@@ -1148,9 +1148,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 692,
+    "people": 693,
     "works": 362,
-    "topics": 3101
+    "topics": 3102
   },
   "people": [
     {
@@ -1583,6 +1583,10 @@
     },
     {
       "name": "中山ふみか",
+      "articles": 1
+    },
+    {
+      "name": "丸山ひなた",
       "articles": 1
     },
     {
@@ -5647,7 +5651,7 @@
     },
     {
       "name": "AKB48",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "AOYAMA BATON",
@@ -8511,6 +8515,10 @@
     },
     {
       "name": "ステージパフォーマンス",
+      "articles": 1
+    },
+    {
+      "name": "ステージ写真",
       "articles": 1
     },
     {
