@@ -1142,7 +1142,7 @@
   "counts": {
     "people": 690,
     "works": 361,
-    "topics": 3089
+    "topics": 3090
   },
   "people": [
     {
@@ -3055,7 +3055,7 @@
     },
     {
       "name": "瀬戸環奈",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "瀬戸真凜",
@@ -11323,7 +11323,7 @@
     },
     {
       "name": "写真集",
-      "articles": 89
+      "articles": 90
     },
     {
       "name": "冨永実里",
@@ -11523,6 +11523,10 @@
     },
     {
       "name": "北条麻妃",
+      "articles": 1
+    },
+    {
+      "name": "北海道ロケ",
       "articles": 1
     },
     {
