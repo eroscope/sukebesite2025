@@ -1149,7 +1149,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 700,
+    "people": 701,
     "works": 363,
     "topics": 3110
   },
@@ -2268,6 +2268,10 @@
     },
     {
       "name": "山田あい",
+      "articles": 1
+    },
+    {
+      "name": "山田かな",
       "articles": 1
     },
     {
@@ -6072,7 +6076,7 @@
     },
     {
       "name": "Gカップ",
-      "articles": 24
+      "articles": 25
     },
     {
       "name": "HKT48",
@@ -9528,7 +9532,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 191
+      "articles": 192
     },
     {
       "name": "ビジネススーツ",
@@ -14388,7 +14392,7 @@
     },
     {
       "name": "水着",
-      "articles": 473
+      "articles": 474
     },
     {
       "name": "水着グラビア",
@@ -15488,7 +15492,7 @@
     },
     {
       "name": "眼鏡",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "眼鏡女子",
