@@ -176,6 +176,7 @@
     "people/person-e4456d834472.html",
     "people/person-e4c050e6a627.html",
     "people/person-e5c60fa51860.html",
+    "people/person-e684adf3d630.html",
     "people/person-e6b8e413f9c3.html",
     "people/person-e6ff6736ee0f.html",
     "people/person-e714d8df7815.html",
@@ -1148,7 +1149,7 @@
   "counts": {
     "people": 690,
     "works": 362,
-    "topics": 3098
+    "topics": 3099
   },
   "people": [
     {
@@ -3541,7 +3542,7 @@
     },
     {
       "name": "菜月アンナ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "菜那セシル",
@@ -6112,6 +6113,10 @@
       "articles": 1
     },
     {
+      "name": "JUF D-338",
+      "articles": 1
+    },
+    {
       "name": "JULIA",
       "articles": 4
     },
@@ -7921,7 +7926,7 @@
     },
     {
       "name": "キャプチャ画像",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "キャプ画",
@@ -16569,7 +16574,7 @@
     },
     {
       "name": "複数人プレイ",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "複数出演",
