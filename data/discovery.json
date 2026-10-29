@@ -1149,9 +1149,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 701,
+    "people": 702,
     "works": 363,
-    "topics": 3110
+    "topics": 3111
   },
   "people": [
     {
@@ -1588,6 +1588,10 @@
     },
     {
       "name": "中山ふみか",
+      "articles": 1
+    },
+    {
+      "name": "中澤チュリン",
       "articles": 1
     },
     {
@@ -5720,7 +5724,7 @@
     },
     {
       "name": "AVキャプチャ",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "AVサンプル",
@@ -9108,7 +9112,7 @@
     },
     {
       "name": "ニューハーフ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ニンフォマニアック",
@@ -9576,6 +9580,10 @@
     },
     {
       "name": "ピンクのパンツ",
+      "articles": 1
+    },
+    {
+      "name": "ピンクの寝室",
       "articles": 1
     },
     {
@@ -11912,7 +11920,7 @@
     },
     {
       "name": "和室",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "和田海佑",
