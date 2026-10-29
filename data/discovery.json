@@ -1148,9 +1148,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 699,
+    "people": 700,
     "works": 363,
-    "topics": 3109
+    "topics": 3110
   },
   "people": [
     {
@@ -2963,6 +2963,10 @@
     },
     {
       "name": "永崎麗香",
+      "articles": 1
+    },
+    {
+      "name": "永瀬永茉",
       "articles": 1
     },
     {
@@ -9223,7 +9227,7 @@
     },
     {
       "name": "ハイレグ",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "ハッカ油",
@@ -14383,7 +14387,7 @@
     },
     {
       "name": "水着",
-      "articles": 471
+      "articles": 472
     },
     {
       "name": "水着グラビア",
@@ -14540,6 +14544,10 @@
     {
       "name": "浴室",
       "articles": 22
+    },
+    {
+      "name": "浴室撮影",
+      "articles": 1
     },
     {
       "name": "浴槽",
