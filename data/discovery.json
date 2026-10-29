@@ -1115,6 +1115,7 @@
     "topics/topic-stu48.html",
     "topics/topic-tameike.html",
     "topics/topic-tiktok.html",
+    "topics/topic-vhs.html",
     "topics/topic-vr.html",
     "topics/topic-vr.html",
     "topics/topic-vr.html",
@@ -1144,7 +1145,7 @@
   "counts": {
     "people": 690,
     "works": 361,
-    "topics": 3091
+    "topics": 3093
   },
   "people": [
     {
@@ -6689,7 +6690,7 @@
     },
     {
       "name": "VHS",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "VR",
@@ -8381,6 +8382,10 @@
     },
     {
       "name": "ジムウェア",
+      "articles": 1
+    },
+    {
+      "name": "ジャケット",
       "articles": 1
     },
     {
@@ -13433,7 +13438,7 @@
     },
     {
       "name": "掲示板",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "掲示板まとめ",
@@ -16349,6 +16354,10 @@
     },
     {
       "name": "蒔埜ひな",
+      "articles": 1
+    },
+    {
+      "name": "蒼井すず",
       "articles": 1
     },
     {
