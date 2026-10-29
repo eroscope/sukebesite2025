@@ -69,6 +69,7 @@
     "people/person-513e9a89694e.html",
     "people/person-518dde86f016.html",
     "people/person-528f252e9d78.html",
+    "people/person-5564921277b0.html",
     "people/person-55c8aa51ffe8.html",
     "people/person-5938e1add918.html",
     "people/person-5dfe83183689.html",
@@ -662,6 +663,7 @@
     "topics/topic-98ef09539013.html",
     "topics/topic-99b588cd177d.html",
     "topics/topic-99ce0abffefc.html",
+    "topics/topic-99d695d9da51.html",
     "topics/topic-9a2ecb8463a8.html",
     "topics/topic-9a36f427a8c8.html",
     "topics/topic-9b328f765a9c.html",
@@ -1133,7 +1135,7 @@
   "counts": {
     "people": 685,
     "works": 359,
-    "topics": 3081
+    "topics": 3083
   },
   "people": [
     {
@@ -3346,7 +3348,7 @@
     },
     {
       "name": "紅羽祐美",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "純白彩永",
@@ -6214,7 +6216,7 @@
     },
     {
       "name": "M字",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "M字ポーズ",
@@ -10386,6 +10388,10 @@
     },
     {
       "name": "ローラースケート",
+      "articles": 1
+    },
+    {
+      "name": "ワインセラー",
       "articles": 1
     },
     {
@@ -17219,6 +17225,10 @@
     {
       "name": "青い衣装",
       "articles": 4
+    },
+    {
+      "name": "青ドレス",
+      "articles": 1
     },
     {
       "name": "青ニット",
