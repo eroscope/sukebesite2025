@@ -1146,7 +1146,7 @@
   "counts": {
     "people": 690,
     "works": 361,
-    "topics": 3096
+    "topics": 3097
   },
   "people": [
     {
@@ -5679,7 +5679,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 51
+      "articles": 52
     },
     {
       "name": "AVパッケージ",
@@ -6583,7 +6583,7 @@
     },
     {
       "name": "SODクリエイト",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "SOD女子社員",
@@ -8311,7 +8311,7 @@
     },
     {
       "name": "サンプル画像",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "サービスカット",
@@ -11595,6 +11595,10 @@
     },
     {
       "name": "卒業式",
+      "articles": 1
+    },
+    {
+      "name": "南あいり",
       "articles": 1
     },
     {
