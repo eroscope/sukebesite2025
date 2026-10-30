@@ -1167,7 +1167,7 @@
   ],
   "counts": {
     "people": 713,
-    "works": 368,
+    "works": 369,
     "topics": 3154
   },
   "people": [
@@ -1537,7 +1537,7 @@
     },
     {
       "name": "七瀬アリス",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "三佳詩",
@@ -4958,6 +4958,10 @@
       "articles": 1
     },
     {
+      "code": "MNGS-068",
+      "articles": 1
+    },
+    {
       "code": "MNGS-071",
       "articles": 1
     },
@@ -5853,7 +5857,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 211
+      "articles": 212
     },
     {
       "name": "AV女優検索",
@@ -6357,7 +6361,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 59
+      "articles": 60
     },
     {
       "name": "MOODYZ DIVA",
@@ -14145,7 +14149,7 @@
     },
     {
       "name": "本中",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "本田姉妹",
