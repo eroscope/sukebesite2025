@@ -1157,9 +1157,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 709,
+    "people": 710,
     "works": 367,
-    "topics": 3138
+    "topics": 3139
   },
   "people": [
     {
@@ -1764,6 +1764,10 @@
     },
     {
       "name": "兵頭百華",
+      "articles": 1
+    },
+    {
+      "name": "内田真礼",
       "articles": 1
     },
     {
@@ -7955,6 +7959,10 @@
       "articles": 1
     },
     {
+      "name": "カルバンクライン",
+      "articles": 1
+    },
+    {
       "name": "カルバン・クライン",
       "articles": 3
     },
@@ -10748,7 +10756,7 @@
     },
     {
       "name": "下着",
-      "articles": 192
+      "articles": 193
     },
     {
       "name": "下着ずらし",
