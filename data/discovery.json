@@ -564,6 +564,7 @@
     "topics/topic-73773dcb8f71.html",
     "topics/topic-73c3d99c8ce8.html",
     "topics/topic-73ef55f7fae4.html",
+    "topics/topic-745d44a229e9.html",
     "topics/topic-7464eb4ff510.html",
     "topics/topic-74c0b3b48283.html",
     "topics/topic-752b487231e2.html",
@@ -1159,7 +1160,7 @@
   "counts": {
     "people": 710,
     "works": 367,
-    "topics": 3139
+    "topics": 3140
   },
   "people": [
     {
@@ -6004,7 +6005,7 @@
     },
     {
       "name": "E-BODY",
-      "articles": 15
+      "articles": 16
     },
     {
       "name": "ED治療",
@@ -16560,7 +16561,7 @@
     },
     {
       "name": "芸能マネージャー設定",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "芸能人",
@@ -17469,6 +17470,10 @@
     {
       "name": "開花",
       "articles": 2
+    },
+    {
+      "name": "限定作品",
+      "articles": 1
     },
     {
       "name": "陰毛",
