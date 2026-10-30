@@ -22,6 +22,7 @@
     "people/person-1079f216d93a.html",
     "people/person-10970e1429a3.html",
     "people/person-12db991e1946.html",
+    "people/person-1809624e16f3.html",
     "people/person-1aed1c7f60d1.html",
     "people/person-1b9bdb1b962a.html",
     "people/person-1bb0ee5a4e03.html",
@@ -1161,7 +1162,7 @@
   "counts": {
     "people": 710,
     "works": 367,
-    "topics": 3142
+    "topics": 3143
   },
   "people": [
     {
@@ -3214,7 +3215,7 @@
     },
     {
       "name": "田中美久",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "田丸麻紀",
@@ -10470,7 +10471,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 314
+      "articles": 315
     },
     {
       "name": "ランジェリー風",
@@ -11359,6 +11360,10 @@
     {
       "name": "元AKB48",
       "articles": 4
+    },
+    {
+      "name": "元HKT48",
+      "articles": 1
     },
     {
       "name": "元NMB48",
@@ -14546,7 +14551,7 @@
     },
     {
       "name": "水着",
-      "articles": 482
+      "articles": 483
     },
     {
       "name": "水着グラビア",
