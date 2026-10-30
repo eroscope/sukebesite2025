@@ -1167,8 +1167,8 @@
   ],
   "counts": {
     "people": 715,
-    "works": 370,
-    "topics": 3155
+    "works": 371,
+    "topics": 3156
   },
   "people": [
     {
@@ -4930,6 +4930,10 @@
       "articles": 1
     },
     {
+      "code": "MIMK-156",
+      "articles": 1
+    },
+    {
       "code": "MIMK-272",
       "articles": 1
     },
@@ -5829,7 +5833,7 @@
     },
     {
       "name": "AVサンプル",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "AVジャケット",
@@ -14109,6 +14113,10 @@
     },
     {
       "name": "月嶋ちか",
+      "articles": 1
+    },
+    {
+      "name": "月野かすみ",
       "articles": 1
     },
     {
