@@ -1152,7 +1152,7 @@
   "counts": {
     "people": 704,
     "works": 364,
-    "topics": 3117
+    "topics": 3119
   },
   "people": [
     {
@@ -5613,7 +5613,7 @@
     },
     {
       "name": "8KVR",
-      "articles": 28
+      "articles": 29
     },
     {
       "name": "8頭身",
@@ -6777,7 +6777,7 @@
     },
     {
       "name": "VR",
-      "articles": 128
+      "articles": 129
     },
     {
       "name": "VR CHANNEL 005",
@@ -6894,6 +6894,10 @@
     {
       "name": "kawaii*",
       "articles": 10
+    },
+    {
+      "name": "kawaii*VR",
+      "articles": 1
     },
     {
       "name": "kawaii*新人デビュ→",
@@ -11098,6 +11102,10 @@
     {
       "name": "佐藤真知子",
       "articles": 2
+    },
+    {
+      "name": "佐野ゆま",
+      "articles": 1
     },
     {
       "name": "佐野秋帆",
