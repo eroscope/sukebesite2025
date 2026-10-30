@@ -1151,7 +1151,7 @@
   "counts": {
     "people": 702,
     "works": 363,
-    "topics": 3111
+    "topics": 3112
   },
   "people": [
     {
@@ -10376,7 +10376,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 306
+      "articles": 307
     },
     {
       "name": "ランジェリー風",
@@ -10444,6 +10444,10 @@
     },
     {
       "name": "レイプ描写",
+      "articles": 1
+    },
+    {
+      "name": "レイヤー",
       "articles": 1
     },
     {
