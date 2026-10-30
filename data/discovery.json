@@ -1165,9 +1165,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 711,
+    "people": 712,
     "works": 368,
-    "topics": 3151
+    "topics": 3153
   },
   "people": [
     {
@@ -3273,6 +3273,10 @@
     {
       "name": "白波瀬海来",
       "articles": 2
+    },
+    {
+      "name": "白浜さち",
+      "articles": 1
     },
     {
       "name": "白濱美兎",
@@ -9201,6 +9205,10 @@
     {
       "name": "ニットワンピース",
       "articles": 2
+    },
+    {
+      "name": "ニプレス",
+      "articles": 1
     },
     {
       "name": "ニュースウォッチ9",
@@ -15513,6 +15521,10 @@
     {
       "name": "白ニット",
       "articles": 8
+    },
+    {
+      "name": "白ハイレグ",
+      "articles": 1
     },
     {
       "name": "白パンツ",
