@@ -317,6 +317,7 @@
     "topics/topic-221a718b20d3.html",
     "topics/topic-228358702427.html",
     "topics/topic-228da3a88d13.html",
+    "topics/topic-22924e269981.html",
     "topics/topic-22f7f7720786.html",
     "topics/topic-233ca36573b6.html",
     "topics/topic-2344234a7152.html",
@@ -1165,7 +1166,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 712,
+    "people": 713,
     "works": 368,
     "topics": 3153
   },
@@ -3896,6 +3897,10 @@
     },
     {
       "name": "雪平莉左",
+      "articles": 1
+    },
+    {
+      "name": "露出コスプレ",
       "articles": 1
     },
     {
@@ -8456,7 +8461,7 @@
     },
     {
       "name": "サキュバス",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "サキュバスバニー",
@@ -9388,7 +9393,7 @@
     },
     {
       "name": "ハロウィン",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ハロプロ",
@@ -10508,7 +10513,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 317
+      "articles": 318
     },
     {
       "name": "ランジェリー風",
