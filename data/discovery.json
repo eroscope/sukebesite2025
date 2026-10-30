@@ -1166,8 +1166,8 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 713,
-    "works": 369,
+    "people": 714,
+    "works": 370,
     "topics": 3154
   },
   "people": [
@@ -1538,6 +1538,10 @@
     {
       "name": "七瀬アリス",
       "articles": 3
+    },
+    {
+      "name": "三上悠亜",
+      "articles": 1
     },
     {
       "name": "三佳詩",
@@ -5402,6 +5406,10 @@
       "articles": 1
     },
     {
+      "code": "SSIS-365",
+      "articles": 1
+    },
+    {
       "code": "SSIS-760",
       "articles": 1
     },
@@ -8505,7 +8513,7 @@
     },
     {
       "name": "サンプル画像",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "サービスカット",
@@ -9993,7 +10001,7 @@
     },
     {
       "name": "ベッドシーン",
-      "articles": 35
+      "articles": 36
     },
     {
       "name": "ベッド上",
