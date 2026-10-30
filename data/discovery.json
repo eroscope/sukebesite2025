@@ -1162,7 +1162,7 @@
   "counts": {
     "people": 710,
     "works": 367,
-    "topics": 3143
+    "topics": 3144
   },
   "people": [
     {
@@ -6007,7 +6007,7 @@
     },
     {
       "name": "E-BODY",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "ED治療",
@@ -8467,7 +8467,7 @@
     },
     {
       "name": "サンプル動画",
-      "articles": 25
+      "articles": 26
     },
     {
       "name": "サンプル画像",
@@ -11764,6 +11764,10 @@
     {
       "name": "匿名掲示板",
       "articles": 37
+    },
+    {
+      "name": "匿名新人",
+      "articles": 1
     },
     {
       "name": "匿名画像",
@@ -16575,7 +16579,7 @@
     },
     {
       "name": "芸能マネージャー設定",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "芸能人",
