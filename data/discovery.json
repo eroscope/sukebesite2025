@@ -1152,7 +1152,7 @@
   "counts": {
     "people": 704,
     "works": 364,
-    "topics": 3119
+    "topics": 3122
   },
   "people": [
     {
@@ -7248,6 +7248,10 @@
       "articles": 1
     },
     {
+      "name": "なないろ日和！",
+      "articles": 1
+    },
+    {
       "name": "なるみん",
       "articles": 1
     },
@@ -12433,7 +12437,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 125
+      "articles": 126
     },
     {
       "name": "女子アナ設定",
@@ -12613,6 +12617,10 @@
     },
     {
       "name": "姿勢ケア",
+      "articles": 1
+    },
+    {
+      "name": "姿勢改善",
       "articles": 1
     },
     {
@@ -13053,6 +13061,10 @@
     },
     {
       "name": "島津咲苗",
+      "articles": 1
+    },
+    {
+      "name": "嶺百花",
       "articles": 1
     },
     {
@@ -16249,7 +16261,7 @@
     },
     {
       "name": "胸元",
-      "articles": 106
+      "articles": 107
     },
     {
       "name": "胸元チラ見え",
