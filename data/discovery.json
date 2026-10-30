@@ -1155,7 +1155,7 @@
   "counts": {
     "people": 709,
     "works": 367,
-    "topics": 3133
+    "topics": 3134
   },
   "people": [
     {
@@ -9884,7 +9884,7 @@
     },
     {
       "name": "プール",
-      "articles": 27
+      "articles": 28
     },
     {
       "name": "プール撮影",
@@ -14508,7 +14508,7 @@
     },
     {
       "name": "水着",
-      "articles": 481
+      "articles": 482
     },
     {
       "name": "水着グラビア",
@@ -14937,6 +14937,10 @@
     {
       "name": "濡れ場",
       "articles": 2
+    },
+    {
+      "name": "濡れ水着",
+      "articles": 1
     },
     {
       "name": "濡れ肌",
@@ -15840,7 +15844,7 @@
     },
     {
       "name": "競泳水着",
-      "articles": 22
+      "articles": 23
     },
     {
       "name": "競輪",
