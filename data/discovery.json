@@ -463,6 +463,7 @@
     "topics/topic-52e3f725480b.html",
     "topics/topic-536c40f98792.html",
     "topics/topic-5371a2c1f391.html",
+    "topics/topic-5387a4dd3e89.html",
     "topics/topic-53e5cddf2157.html",
     "topics/topic-545b57cf435b.html",
     "topics/topic-54b977088b2f.html",
@@ -1158,7 +1159,7 @@
   "counts": {
     "people": 709,
     "works": 367,
-    "topics": 3134
+    "topics": 3135
   },
   "people": [
     {
@@ -10451,7 +10452,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 313
+      "articles": 314
     },
     {
       "name": "ランジェリー風",
@@ -10523,7 +10524,7 @@
     },
     {
       "name": "レイヤー",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "レオタード",
@@ -12979,6 +12980,10 @@
     },
     {
       "name": "小田倉れいか",
+      "articles": 1
+    },
+    {
+      "name": "小空Sora",
       "articles": 1
     },
     {
