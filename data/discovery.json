@@ -1164,9 +1164,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 710,
+    "people": 711,
     "works": 368,
-    "topics": 3148
+    "topics": 3150
   },
   "people": [
     {
@@ -3435,6 +3435,10 @@
     },
     {
       "name": "篠原みなみ",
+      "articles": 1
+    },
+    {
+      "name": "篠原冴美",
       "articles": 1
     },
     {
@@ -8223,7 +8227,7 @@
     },
     {
       "name": "グラビアアイドル",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "グラビアン魂",
@@ -9915,6 +9919,10 @@
     },
     {
       "name": "プロフィール画像",
+      "articles": 1
+    },
+    {
+      "name": "プロ雀士",
       "articles": 1
     },
     {
@@ -17032,6 +17040,10 @@
     {
       "name": "赤いドレス",
       "articles": 2
+    },
+    {
+      "name": "赤いビキニ",
+      "articles": 1
     },
     {
       "name": "赤いランジェリー",
