@@ -1152,7 +1152,7 @@
   "counts": {
     "people": 704,
     "works": 364,
-    "topics": 3115
+    "topics": 3117
   },
   "people": [
     {
@@ -8905,7 +8905,7 @@
     },
     {
       "name": "テレビキャプチャ",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "テレビ出演",
@@ -12425,7 +12425,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 124
+      "articles": 125
     },
     {
       "name": "女子アナ設定",
@@ -15088,6 +15088,10 @@
       "articles": 1
     },
     {
+      "name": "田中瞳",
+      "articles": 1
+    },
+    {
       "name": "田原萌々",
       "articles": 4
     },
@@ -15201,7 +15205,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 268
+      "articles": 269
     },
     {
       "name": "画像ギャラリー",
@@ -16565,6 +16569,10 @@
     },
     {
       "name": "街中",
+      "articles": 1
+    },
+    {
+      "name": "街歩き",
       "articles": 1
     },
     {
