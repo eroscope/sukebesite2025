@@ -1161,8 +1161,8 @@
   ],
   "counts": {
     "people": 710,
-    "works": 367,
-    "topics": 3144
+    "works": 368,
+    "topics": 3146
   },
   "people": [
     {
@@ -4540,6 +4540,10 @@
       "articles": 1
     },
     {
+      "code": "IMPRESSION-196",
+      "articles": 1
+    },
+    {
       "code": "IPOK-014",
       "articles": 1
     },
@@ -5803,7 +5807,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 53
+      "articles": 54
     },
     {
       "name": "AVパッケージ",
@@ -6106,6 +6110,10 @@
       "articles": 1
     },
     {
+      "name": "First Impression 196",
+      "articles": 1
+    },
+    {
       "name": "Fitch",
       "articles": 5
     },
@@ -6191,7 +6199,7 @@
     },
     {
       "name": "IDEA POCKET",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "IDEAPOCKET",
@@ -12312,6 +12320,10 @@
     {
       "name": "大人数",
       "articles": 4
+    },
+    {
+      "name": "大原伶菜",
+      "articles": 1
     },
     {
       "name": "大原優乃",
