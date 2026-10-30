@@ -1154,7 +1154,7 @@
   "counts": {
     "people": 707,
     "works": 367,
-    "topics": 3132
+    "topics": 3133
   },
   "people": [
     {
@@ -6059,7 +6059,7 @@
     },
     {
       "name": "FC2PPV",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "FF7",
@@ -11202,6 +11202,10 @@
       "articles": 1
     },
     {
+      "name": "作品番号",
+      "articles": 1
+    },
+    {
       "name": "作品紹介",
       "articles": 8
     },
@@ -11719,7 +11723,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 36
+      "articles": 37
     },
     {
       "name": "匿名画像",
@@ -15275,7 +15279,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 272
+      "articles": 273
     },
     {
       "name": "画像ギャラリー",
