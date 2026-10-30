@@ -9,6 +9,7 @@
     "people/person-076006cffcce.html",
     "people/person-08633b820b37.html",
     "people/person-0979d915b26e.html",
+    "people/person-09f4175d8aff.html",
     "people/person-0a547520d6ee.html",
     "people/person-0a5f256712b0.html",
     "people/person-0b5c5c5ef71f.html",
@@ -1153,7 +1154,7 @@
   "counts": {
     "people": 707,
     "works": 367,
-    "topics": 3131
+    "topics": 3132
   },
   "people": [
     {
@@ -3570,7 +3571,7 @@
     },
     {
       "name": "自撮り",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "芦田希空",
@@ -8106,7 +8107,7 @@
     },
     {
       "name": "ギャル",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "ギャルインフルエンサー",
@@ -14494,7 +14495,7 @@
     },
     {
       "name": "水着",
-      "articles": 478
+      "articles": 479
     },
     {
       "name": "水着グラビア",
@@ -16610,6 +16611,10 @@
     },
     {
       "name": "藤木みず江",
+      "articles": 1
+    },
+    {
+      "name": "藤田もも",
       "articles": 1
     },
     {
