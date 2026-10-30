@@ -1152,7 +1152,7 @@
   "counts": {
     "people": 705,
     "works": 365,
-    "topics": 3125
+    "topics": 3126
   },
   "people": [
     {
@@ -3377,7 +3377,7 @@
     },
     {
       "name": "福田ゆあ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "秋月夕",
@@ -6293,7 +6293,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 58
+      "articles": 59
     },
     {
       "name": "MOODYZ DIVA",
@@ -6609,7 +6609,7 @@
     },
     {
       "name": "SEX",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "SEX撮影",
@@ -12713,6 +12713,10 @@
     },
     {
       "name": "実写動画",
+      "articles": 1
+    },
+    {
+      "name": "実写化",
       "articles": 1
     },
     {
