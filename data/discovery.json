@@ -1150,7 +1150,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 704,
+    "people": 705,
     "works": 364,
     "topics": 3125
   },
@@ -2957,6 +2957,10 @@
     },
     {
       "name": "水泳大会",
+      "articles": 1
+    },
+    {
+      "name": "水瀬あいり",
       "articles": 1
     },
     {
@@ -10513,7 +10517,7 @@
     },
     {
       "name": "レースクイーン",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "ロイヤル",
@@ -15233,7 +15237,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 270
+      "articles": 271
     },
     {
       "name": "画像ギャラリー",
