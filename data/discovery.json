@@ -1161,7 +1161,7 @@
   "counts": {
     "people": 710,
     "works": 367,
-    "topics": 3140
+    "topics": 3142
   },
   "people": [
     {
@@ -6827,6 +6827,10 @@
     {
       "name": "VR",
       "articles": 129
+    },
+    {
+      "name": "VR AV",
+      "articles": 1
     },
     {
       "name": "VR CHANNEL 005",
@@ -12629,6 +12633,10 @@
       "articles": 3
     },
     {
+      "name": "女神ジュン",
+      "articles": 1
+    },
+    {
       "name": "女芸人",
       "articles": 1
     },
@@ -14990,7 +14998,7 @@
     },
     {
       "name": "瀬戸環奈",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "瀬戸真凜",
