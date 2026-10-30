@@ -1150,8 +1150,8 @@
   ],
   "counts": {
     "people": 704,
-    "works": 363,
-    "topics": 3112
+    "works": 364,
+    "topics": 3115
   },
   "people": [
     {
@@ -4153,6 +4153,10 @@
       "articles": 1
     },
     {
+      "code": "AED-267",
+      "articles": 1
+    },
+    {
       "code": "BABD-026",
       "articles": 1
     },
@@ -5635,6 +5639,10 @@
       "articles": 1
     },
     {
+      "name": "ACROSS",
+      "articles": 1
+    },
+    {
       "name": "AI",
       "articles": 2
     },
@@ -5776,7 +5784,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 207
+      "articles": 208
     },
     {
       "name": "AV女優検索",
@@ -12275,6 +12283,10 @@
       "articles": 1
     },
     {
+      "name": "大石忍",
+      "articles": 1
+    },
+    {
       "name": "大胆衣装",
       "articles": 3
     },
@@ -17056,6 +17068,10 @@
     },
     {
       "name": "避難シミュレーション",
+      "articles": 1
+    },
+    {
+      "name": "還暦超え",
       "articles": 1
     },
     {
