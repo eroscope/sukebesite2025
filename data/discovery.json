@@ -1166,9 +1166,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 715,
+    "people": 716,
     "works": 371,
-    "topics": 3156
+    "topics": 3157
   },
   "people": [
     {
@@ -4006,6 +4006,10 @@
     {
       "name": "鷲尾めい",
       "articles": 2
+    },
+    {
+      "name": "鷲見玲奈",
+      "articles": 1
     },
     {
       "name": "麻倉まりな",
@@ -9689,7 +9693,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 196
+      "articles": 197
     },
     {
       "name": "ビジネススーツ",
@@ -14809,7 +14813,7 @@
     },
     {
       "name": "海",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "海パン",
@@ -17266,6 +17270,10 @@
     {
       "name": "透け感",
       "articles": 5
+    },
+    {
+      "name": "透け感トップス",
+      "articles": 1
     },
     {
       "name": "透け感衣装",
