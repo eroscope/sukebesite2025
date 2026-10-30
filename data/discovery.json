@@ -1152,7 +1152,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 707,
+    "people": 708,
     "works": 367,
     "topics": 3133
   },
@@ -3467,6 +3467,10 @@
     },
     {
       "name": "紫月ゆかり",
+      "articles": 1
+    },
+    {
+      "name": "細川直美",
       "articles": 1
     },
     {
@@ -10439,7 +10443,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 311
+      "articles": 312
     },
     {
       "name": "ランジェリー風",
@@ -12451,7 +12455,7 @@
     },
     {
       "name": "女優",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "女優比較",
@@ -14499,7 +14503,7 @@
     },
     {
       "name": "水着",
-      "articles": 480
+      "articles": 481
     },
     {
       "name": "水着グラビア",
