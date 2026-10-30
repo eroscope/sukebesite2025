@@ -1152,7 +1152,7 @@
   "counts": {
     "people": 704,
     "works": 364,
-    "topics": 3124
+    "topics": 3125
   },
   "people": [
     {
@@ -8240,6 +8240,10 @@
       "articles": 3
     },
     {
+      "name": "ゲーム実況",
+      "articles": 1
+    },
+    {
       "name": "ゲーム画像",
       "articles": 6
     },
@@ -12937,7 +12941,7 @@
     },
     {
       "name": "尻",
-      "articles": 45
+      "articles": 46
     },
     {
       "name": "尻フェチ",
@@ -14449,7 +14453,7 @@
     },
     {
       "name": "水着",
-      "articles": 475
+      "articles": 476
     },
     {
       "name": "水着グラビア",
@@ -15229,7 +15233,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 269
+      "articles": 270
     },
     {
       "name": "画像ギャラリー",
