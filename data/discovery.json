@@ -1151,8 +1151,8 @@
   ],
   "counts": {
     "people": 705,
-    "works": 366,
-    "topics": 3128
+    "works": 367,
+    "topics": 3129
   },
   "people": [
     {
@@ -5440,6 +5440,10 @@
     {
       "code": "YUJ-073",
       "articles": 1
+    },
+    {
+      "code": "ZODY-001",
+      "articles": 1
     }
   ],
   "topics": [
@@ -5973,7 +5977,7 @@
     },
     {
       "name": "E-BODY",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "ED治療",
@@ -8421,7 +8425,7 @@
     },
     {
       "name": "サンプル動画",
-      "articles": 24
+      "articles": 25
     },
     {
       "name": "サンプル画像",
@@ -15253,7 +15257,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 271
+      "articles": 272
     },
     {
       "name": "画像ギャラリー",
@@ -16490,6 +16494,10 @@
     {
       "name": "芸能",
       "articles": 2
+    },
+    {
+      "name": "芸能マネージャー設定",
+      "articles": 1
     },
     {
       "name": "芸能人",
