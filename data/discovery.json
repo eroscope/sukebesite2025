@@ -1172,7 +1172,7 @@
   "counts": {
     "people": 721,
     "works": 373,
-    "topics": 3164
+    "topics": 3165
   },
   "people": [
     {
@@ -6417,7 +6417,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 60
+      "articles": 61
     },
     {
       "name": "MOODYZ DIVA",
@@ -8557,7 +8557,7 @@
     },
     {
       "name": "サンプル動画",
-      "articles": 26
+      "articles": 27
     },
     {
       "name": "サンプル画像",
@@ -13377,6 +13377,10 @@
     },
     {
       "name": "平田裕香",
+      "articles": 1
+    },
+    {
+      "name": "平野楓",
       "articles": 1
     },
     {
