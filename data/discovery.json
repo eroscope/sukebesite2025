@@ -1168,7 +1168,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 717,
+    "people": 718,
     "works": 371,
     "topics": 3157
   },
@@ -3427,6 +3427,10 @@
     },
     {
       "name": "種付けプレス",
+      "articles": 1
+    },
+    {
+      "name": "立花繭子",
       "articles": 1
     },
     {
@@ -10547,7 +10551,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 320
+      "articles": 321
     },
     {
       "name": "ランジェリー風",
@@ -10655,7 +10659,7 @@
     },
     {
       "name": "レースクイーン",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "ロイヤル",
