@@ -1170,7 +1170,7 @@
   "counts": {
     "people": 719,
     "works": 372,
-    "topics": 3158
+    "topics": 3160
   },
   "people": [
     {
@@ -6187,7 +6187,7 @@
     },
     {
       "name": "GIF動画",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "GIF動画あり",
@@ -6475,7 +6475,7 @@
     },
     {
       "name": "NHK",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "NHKアナウンサー",
@@ -12034,6 +12034,10 @@
       "articles": 1
     },
     {
+      "name": "吉岡真央",
+      "articles": 1
+    },
+    {
       "name": "吉田あかり",
       "articles": 1
     },
@@ -12623,7 +12627,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 127
+      "articles": 128
     },
     {
       "name": "女子アナ設定",
@@ -13435,7 +13439,7 @@
     },
     {
       "name": "後ろ姿",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "後背位",
@@ -15583,6 +15587,10 @@
     },
     {
       "name": "白ハイレグ",
+      "articles": 1
+    },
+    {
+      "name": "白パン",
       "articles": 1
     },
     {
