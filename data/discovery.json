@@ -1171,7 +1171,7 @@
   ],
   "counts": {
     "people": 721,
-    "works": 372,
+    "works": 373,
     "topics": 3163
   },
   "people": [
@@ -5402,6 +5402,10 @@
       "articles": 2
     },
     {
+      "code": "SONE-068",
+      "articles": 1
+    },
+    {
       "code": "SONE-529",
       "articles": 1
     },
@@ -5865,7 +5869,7 @@
     },
     {
       "name": "AVサンプル",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "AVジャケット",
@@ -6713,7 +6717,7 @@
     },
     {
       "name": "S1",
-      "articles": 48
+      "articles": 49
     },
     {
       "name": "S1 GIRLS COLLECTION",
@@ -7045,7 +7049,7 @@
     },
     {
       "name": "miru",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "news23",
@@ -17997,7 +18001,7 @@
     },
     {
       "name": "騎乗位",
-      "articles": 28
+      "articles": 29
     },
     {
       "name": "驚き顔",
