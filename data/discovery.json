@@ -1176,8 +1176,8 @@
   ],
   "counts": {
     "people": 723,
-    "works": 376,
-    "topics": 3182
+    "works": 377,
+    "topics": 3183
   },
   "people": [
     {
@@ -4640,6 +4640,10 @@
     },
     {
       "code": "IPZZ-293",
+      "articles": 1
+    },
+    {
+      "code": "IPZZ-401",
       "articles": 1
     },
     {
@@ -11262,7 +11266,7 @@
     },
     {
       "name": "介護士",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "仮面ライダー",
@@ -13219,6 +13223,10 @@
     {
       "name": "小野六花",
       "articles": 4
+    },
+    {
+      "name": "小野坂ゆいか",
+      "articles": 1
     },
     {
       "name": "小野真弓",
