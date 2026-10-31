@@ -1174,9 +1174,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 721,
+    "people": 722,
     "works": 374,
-    "topics": 3174
+    "topics": 3176
   },
   "people": [
     {
@@ -1405,6 +1405,10 @@
     },
     {
       "name": "ソフィーティア",
+      "articles": 1
+    },
+    {
+      "name": "チアコス",
       "articles": 1
     },
     {
@@ -7385,6 +7389,10 @@
     },
     {
       "name": "ちゃづり",
+      "articles": 1
+    },
+    {
+      "name": "ちゅちゅ",
       "articles": 1
     },
     {
@@ -14133,6 +14141,10 @@
     },
     {
       "name": "春菜はな",
+      "articles": 1
+    },
+    {
+      "name": "春蝶",
       "articles": 1
     },
     {
