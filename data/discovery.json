@@ -1176,8 +1176,8 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 723,
-    "works": 378,
+    "people": 724,
+    "works": 379,
     "topics": 3188
   },
   "people": [
@@ -1403,6 +1403,10 @@
     },
     {
       "name": "スナックママ",
+      "articles": 1
+    },
+    {
+      "name": "スポーツ女子",
       "articles": 1
     },
     {
@@ -5328,6 +5332,10 @@
       "articles": 1
     },
     {
+      "code": "SIRO-4825",
+      "articles": 1
+    },
+    {
       "code": "SIRO-5732",
       "articles": 1
     },
@@ -5903,7 +5911,7 @@
     },
     {
       "name": "AVサンプル",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "AVジャケット",
@@ -9523,7 +9531,7 @@
     },
     {
       "name": "ハメ撮り",
-      "articles": 37
+      "articles": 38
     },
     {
       "name": "ハメ撮り風",
@@ -18131,7 +18139,7 @@
     },
     {
       "name": "騎乗位",
-      "articles": 29
+      "articles": 30
     },
     {
       "name": "驚き顔",
