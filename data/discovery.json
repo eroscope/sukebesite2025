@@ -1170,9 +1170,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 719,
+    "people": 720,
     "works": 372,
-    "topics": 3160
+    "topics": 3161
   },
   "people": [
     {
@@ -3001,6 +3001,10 @@
     },
     {
       "name": "水瀬あいり",
+      "articles": 1
+    },
+    {
+      "name": "水瀬さらら",
       "articles": 1
     },
     {
@@ -6309,6 +6313,10 @@
     },
     {
       "name": "JYUKU RICH",
+      "articles": 1
+    },
+    {
+      "name": "Jams Collection",
       "articles": 1
     },
     {
@@ -10561,7 +10569,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 323
+      "articles": 324
     },
     {
       "name": "ランジェリー風",
@@ -14665,7 +14673,7 @@
     },
     {
       "name": "水着",
-      "articles": 486
+      "articles": 487
     },
     {
       "name": "水着グラビア",
