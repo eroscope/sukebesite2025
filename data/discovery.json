@@ -1169,8 +1169,8 @@
   ],
   "counts": {
     "people": 718,
-    "works": 371,
-    "topics": 3157
+    "works": 372,
+    "topics": 3158
   },
   "people": [
     {
@@ -4349,6 +4349,10 @@
     },
     {
       "code": "DOKVD-002",
+      "articles": 1
+    },
+    {
+      "code": "DSAM-002",
       "articles": 1
     },
     {
@@ -8875,7 +8879,7 @@
     },
     {
       "name": "セーラー服",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "セーラー服風",
@@ -13815,7 +13819,7 @@
     },
     {
       "name": "撮影会",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "撮影演出",
@@ -17504,6 +17508,10 @@
     {
       "name": "銀色ドレス",
       "articles": 2
+    },
+    {
+      "name": "銀色衣装",
+      "articles": 1
     },
     {
       "name": "銀髪",
