@@ -1173,8 +1173,8 @@
   ],
   "counts": {
     "people": 721,
-    "works": 373,
-    "topics": 3169
+    "works": 374,
+    "topics": 3170
   },
   "people": [
     {
@@ -4936,6 +4936,10 @@
       "articles": 2
     },
     {
+      "code": "MIDA-839",
+      "articles": 1
+    },
+    {
       "code": "MIDV-461",
       "articles": 1
     },
@@ -5911,7 +5915,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 214
+      "articles": 215
     },
     {
       "name": "AV女優検索",
@@ -6067,6 +6071,10 @@
     },
     {
       "name": "DOLCE",
+      "articles": 1
+    },
+    {
+      "name": "DREAM WOMAN",
       "articles": 1
     },
     {
@@ -6419,7 +6427,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 61
+      "articles": 62
     },
     {
       "name": "MOODYZ DIVA",
@@ -13159,7 +13167,7 @@
     },
     {
       "name": "小野六花",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "小野真弓",
