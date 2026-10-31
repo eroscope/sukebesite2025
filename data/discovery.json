@@ -1176,9 +1176,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 724,
+    "people": 725,
     "works": 379,
-    "topics": 3188
+    "topics": 3189
   },
   "people": [
     {
@@ -2072,6 +2072,10 @@
     {
       "name": "天羽希純",
       "articles": 2
+    },
+    {
+      "name": "太田しずく",
+      "articles": 1
     },
     {
       "name": "奏たまき",
@@ -8367,7 +8371,7 @@
     },
     {
       "name": "グラビアアイドル",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "グラビアン魂",
@@ -10390,6 +10394,10 @@
       "articles": 2
     },
     {
+      "name": "ミスマガジン2025",
+      "articles": 1
+    },
+    {
       "name": "ミッション",
       "articles": 1
     },
@@ -11743,7 +11751,7 @@
     },
     {
       "name": "写真集",
-      "articles": 93
+      "articles": 94
     },
     {
       "name": "冨永実里",
@@ -14811,7 +14819,7 @@
     },
     {
       "name": "水着グラビア",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "水着コスチューム",
