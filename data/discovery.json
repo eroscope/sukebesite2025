@@ -1176,7 +1176,7 @@
   "counts": {
     "people": 722,
     "works": 374,
-    "topics": 3176
+    "topics": 3177
   },
   "people": [
     {
@@ -8313,7 +8313,7 @@
     },
     {
       "name": "グラドル",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "グラビアアイドル",
@@ -15521,7 +15521,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 278
+      "articles": 279
     },
     {
       "name": "画像ギャラリー",
@@ -17685,6 +17685,10 @@
     },
     {
       "name": "長舌",
+      "articles": 1
+    },
+    {
+      "name": "長袖衣装",
       "articles": 1
     },
     {
