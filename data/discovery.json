@@ -800,6 +800,7 @@
     "topics/topic-b02310aeefca.html",
     "topics/topic-b03ff91d92e0.html",
     "topics/topic-b0d4c6c28a4b.html",
+    "topics/topic-b0e1bd70bb06.html",
     "topics/topic-b0edc46013e7.html",
     "topics/topic-b1138b6ad6ce.html",
     "topics/topic-b188c5e30da5.html",
@@ -1172,7 +1173,7 @@
   "counts": {
     "people": 721,
     "works": 373,
-    "topics": 3166
+    "topics": 3169
   },
   "people": [
     {
@@ -8572,6 +8573,10 @@
       "articles": 2
     },
     {
+      "name": "サーフィン",
+      "articles": 1
+    },
+    {
       "name": "シチュエーション",
       "articles": 1
     },
@@ -12437,7 +12442,7 @@
     },
     {
       "name": "大原優乃",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "大友さゆり",
@@ -15030,6 +15035,10 @@
     {
       "name": "湊みそら",
       "articles": 2
+    },
+    {
+      "name": "湘南",
+      "articles": 1
     },
     {
       "name": "湯気",
@@ -18173,6 +18182,10 @@
     },
     {
       "name": "黒服",
+      "articles": 1
+    },
+    {
+      "name": "黒水着",
       "articles": 1
     },
     {
