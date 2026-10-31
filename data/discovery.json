@@ -1178,7 +1178,7 @@
   "counts": {
     "people": 723,
     "works": 378,
-    "topics": 3184
+    "topics": 3187
   },
   "people": [
     {
@@ -9094,6 +9094,10 @@
       "articles": 5
     },
     {
+      "name": "ダンス動画",
+      "articles": 1
+    },
+    {
       "name": "チアガール",
       "articles": 1
     },
@@ -10551,6 +10555,10 @@
     },
     {
       "name": "ヤンマガ",
+      "articles": 1
+    },
+    {
+      "name": "ユニフォーム",
       "articles": 1
     },
     {
@@ -12107,6 +12115,10 @@
     },
     {
       "name": "台湾FF",
+      "articles": 1
+    },
+    {
+      "name": "台湾チア",
       "articles": 1
     },
     {
