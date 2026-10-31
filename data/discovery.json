@@ -1176,7 +1176,7 @@
   "counts": {
     "people": 721,
     "works": 374,
-    "topics": 3173
+    "topics": 3174
   },
   "people": [
     {
@@ -9109,7 +9109,7 @@
     },
     {
       "name": "テレビ朝日",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "テレビ朝日アナウンサー",
@@ -9281,7 +9281,7 @@
     },
     {
       "name": "ニット",
-      "articles": 42
+      "articles": 43
     },
     {
       "name": "ニットワンピ",
@@ -11300,6 +11300,10 @@
       "articles": 1
     },
     {
+      "name": "佐藤ちひろ",
+      "articles": 1
+    },
+    {
       "name": "佐藤愛瑠",
       "articles": 1
     },
@@ -12669,7 +12673,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 128
+      "articles": 129
     },
     {
       "name": "女子アナ設定",
@@ -15505,7 +15509,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 277
+      "articles": 278
     },
     {
       "name": "画像ギャラリー",
