@@ -1178,7 +1178,7 @@
   "counts": {
     "people": 725,
     "works": 379,
-    "topics": 3189
+    "topics": 3190
   },
   "people": [
     {
@@ -9515,7 +9515,7 @@
     },
     {
       "name": "ハイレグ",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "ハッカ油",
@@ -14815,7 +14815,7 @@
     },
     {
       "name": "水着",
-      "articles": 491
+      "articles": 492
     },
     {
       "name": "水着グラビア",
@@ -15643,7 +15643,7 @@
     },
     {
       "name": "画像集",
-      "articles": 62
+      "articles": 63
     },
     {
       "name": "画像＋動画",
@@ -16231,6 +16231,10 @@
     },
     {
       "name": "篠真有",
+      "articles": 1
+    },
+    {
+      "name": "篠見星奈",
       "articles": 1
     },
     {
