@@ -1176,8 +1176,8 @@
   ],
   "counts": {
     "people": 723,
-    "works": 375,
-    "topics": 3179
+    "works": 376,
+    "topics": 3182
   },
   "people": [
     {
@@ -4323,6 +4323,10 @@
       "articles": 1
     },
     {
+      "code": "CJOD-527",
+      "articles": 1
+    },
+    {
       "code": "CJOD-528",
       "articles": 1
     },
@@ -6053,6 +6057,10 @@
       "articles": 2
     },
     {
+      "name": "Calvin Klein",
+      "articles": 1
+    },
+    {
       "name": "Cカップ",
       "articles": 1
     },
@@ -6166,6 +6174,10 @@
     },
     {
       "name": "FANZA公式画像",
+      "articles": 1
+    },
+    {
+      "name": "FANZA動画",
       "articles": 1
     },
     {
@@ -7734,6 +7746,10 @@
     },
     {
       "name": "アンジェラ芽衣",
+      "articles": 1
+    },
+    {
+      "name": "アンダーウェア",
       "articles": 1
     },
     {
@@ -10918,7 +10934,7 @@
     },
     {
       "name": "下着",
-      "articles": 193
+      "articles": 194
     },
     {
       "name": "下着ずらし",
