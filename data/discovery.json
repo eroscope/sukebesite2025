@@ -1174,7 +1174,7 @@
   "counts": {
     "people": 721,
     "works": 374,
-    "topics": 3170
+    "topics": 3171
   },
   "people": [
     {
@@ -9743,7 +9743,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 201
+      "articles": 202
     },
     {
       "name": "ビジネススーツ",
@@ -14707,7 +14707,7 @@
     },
     {
       "name": "水着",
-      "articles": 489
+      "articles": 490
     },
     {
       "name": "水着グラビア",
@@ -15495,7 +15495,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 276
+      "articles": 277
     },
     {
       "name": "画像ギャラリー",
@@ -17107,6 +17107,10 @@
     },
     {
       "name": "谷原希美",
+      "articles": 1
+    },
+    {
+      "name": "谷夢花",
       "articles": 1
     },
     {
