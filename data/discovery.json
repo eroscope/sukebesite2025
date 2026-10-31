@@ -1178,7 +1178,7 @@
   "counts": {
     "people": 723,
     "works": 378,
-    "topics": 3187
+    "topics": 3188
   },
   "people": [
     {
@@ -7326,6 +7326,10 @@
       "articles": 2
     },
     {
+      "name": "かとゆり",
+      "articles": 1
+    },
+    {
       "name": "かな",
       "articles": 1
     },
@@ -9803,7 +9807,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 203
+      "articles": 204
     },
     {
       "name": "ビジネススーツ",
@@ -14795,7 +14799,7 @@
     },
     {
       "name": "水着",
-      "articles": 490
+      "articles": 491
     },
     {
       "name": "水着グラビア",
@@ -16367,7 +16371,7 @@
     },
     {
       "name": "網タイツ",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "緊縛",
