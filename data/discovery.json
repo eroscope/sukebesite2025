@@ -1168,7 +1168,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 718,
+    "people": 719,
     "works": 372,
     "topics": 3158
   },
@@ -3031,6 +3031,10 @@
     },
     {
       "name": "永野紬",
+      "articles": 1
+    },
+    {
+      "name": "江口いちご",
       "articles": 1
     },
     {
@@ -10555,7 +10559,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 321
+      "articles": 322
     },
     {
       "name": "ランジェリー風",
@@ -17599,7 +17603,7 @@
     },
     {
       "name": "開脚",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "開花",
