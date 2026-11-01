@@ -1180,7 +1180,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 728,
+    "people": 729,
     "works": 380,
     "topics": 3194
   },
@@ -1247,6 +1247,10 @@
     },
     {
       "name": "くれは",
+      "articles": 1
+    },
+    {
+      "name": "くろがねさら",
       "articles": 1
     },
     {
@@ -9847,7 +9851,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 204
+      "articles": 205
     },
     {
       "name": "ビジネススーツ",
@@ -14847,7 +14851,7 @@
     },
     {
       "name": "水着",
-      "articles": 495
+      "articles": 496
     },
     {
       "name": "水着グラビア",
