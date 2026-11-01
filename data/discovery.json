@@ -448,6 +448,7 @@
     "topics/topic-48fc9b609b8f.html",
     "topics/topic-49008ed602af.html",
     "topics/topic-493879fafdb2.html",
+    "topics/topic-4983f26021f6.html",
     "topics/topic-4a2f6b643acd.html",
     "topics/topic-4a3fad303d05.html",
     "topics/topic-4aef12fcdc9a.html",
@@ -1179,8 +1180,8 @@
   ],
   "counts": {
     "people": 727,
-    "works": 379,
-    "topics": 3193
+    "works": 380,
+    "topics": 3194
   },
   "people": [
     {
@@ -5302,6 +5303,10 @@
       "articles": 1
     },
     {
+      "code": "SAVR-1219",
+      "articles": 1
+    },
+    {
       "code": "SCDC-011",
       "articles": 1
     },
@@ -6981,7 +6986,7 @@
     },
     {
       "name": "VR",
-      "articles": 132
+      "articles": 133
     },
     {
       "name": "VR AV",
@@ -8985,6 +8990,10 @@
     },
     {
       "name": "セリフ",
+      "articles": 1
+    },
+    {
+      "name": "セレブ妻",
       "articles": 1
     },
     {
@@ -11729,7 +11738,7 @@
     },
     {
       "name": "公式画像",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "公式紹介画像",
@@ -16409,7 +16418,7 @@
     },
     {
       "name": "網タイツ",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "緊縛",
