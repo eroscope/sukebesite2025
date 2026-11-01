@@ -830,6 +830,7 @@
     "topics/topic-b4da067dd417.html",
     "topics/topic-b540af64d774.html",
     "topics/topic-b54c4d3524c7.html",
+    "topics/topic-b5cc7db7eb55.html",
     "topics/topic-b601a90b3d71.html",
     "topics/topic-b62b6f9bda9f.html",
     "topics/topic-b6e70ae14651.html",
@@ -1188,7 +1189,7 @@
   "counts": {
     "people": 738,
     "works": 383,
-    "topics": 3206
+    "topics": 3208
   },
   "people": [
     {
@@ -10205,7 +10206,7 @@
     },
     {
       "name": "プール",
-      "articles": 28
+      "articles": 29
     },
     {
       "name": "プール撮影",
@@ -14949,7 +14950,7 @@
     },
     {
       "name": "水着グラビア",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "水着コスチューム",
@@ -15493,7 +15494,7 @@
     },
     {
       "name": "特撮ヒロイン",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "犬",
@@ -16297,7 +16298,7 @@
     },
     {
       "name": "競泳水着",
-      "articles": 23
+      "articles": 24
     },
     {
       "name": "競輪",
@@ -17296,6 +17297,10 @@
       "articles": 1
     },
     {
+      "name": "西緒りり",
+      "articles": 1
+    },
+    {
       "name": "覆面・マスク",
       "articles": 1
     },
@@ -17930,6 +17935,10 @@
     {
       "name": "開脚",
       "articles": 13
+    },
+    {
+      "name": "開脚ポーズ",
+      "articles": 1
     },
     {
       "name": "開花",
