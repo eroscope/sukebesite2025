@@ -1192,7 +1192,7 @@
   "counts": {
     "people": 739,
     "works": 384,
-    "topics": 3214
+    "topics": 3215
   },
   "people": [
     {
@@ -6037,7 +6037,7 @@
     },
     {
       "name": "AV作品",
-      "articles": 27
+      "articles": 28
     },
     {
       "name": "AV初出演",
@@ -6429,7 +6429,7 @@
     },
     {
       "name": "IDEAPOCKET",
-      "articles": 21
+      "articles": 22
     },
     {
       "name": "IFストーリー",
@@ -6493,7 +6493,7 @@
     },
     {
       "name": "Kカップ",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "LINA VELINA",
@@ -13600,6 +13600,10 @@
       "articles": 1
     },
     {
+      "name": "希月あまね",
+      "articles": 1
+    },
+    {
       "name": "希望みう",
       "articles": 2
     },
@@ -15769,7 +15773,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 286
+      "articles": 287
     },
     {
       "name": "画像ギャラリー",
