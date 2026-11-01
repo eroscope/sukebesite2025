@@ -1181,7 +1181,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 731,
+    "people": 732,
     "works": 382,
     "topics": 3197
   },
@@ -2224,6 +2224,10 @@
     },
     {
       "name": "小岩井ことり",
+      "articles": 1
+    },
+    {
+      "name": "小島みなみ",
       "articles": 1
     },
     {
@@ -7016,7 +7020,7 @@
     },
     {
       "name": "VR",
-      "articles": 133
+      "articles": 134
     },
     {
       "name": "VR AV",
@@ -12764,7 +12768,7 @@
     },
     {
       "name": "女上司",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "女主人公",
@@ -15668,7 +15672,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 282
+      "articles": 283
     },
     {
       "name": "画像ギャラリー",
