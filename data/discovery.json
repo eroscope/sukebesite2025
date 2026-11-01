@@ -295,6 +295,7 @@
     "topics/topic-1d4ebd368cf4.html",
     "topics/topic-1da263320b97.html",
     "topics/topic-1dcef0f9ba50.html",
+    "topics/topic-1dec9772cd49.html",
     "topics/topic-1df59a08f37d.html",
     "topics/topic-1e10c4140894.html",
     "topics/topic-1e20dd673d7a.html",
@@ -1182,7 +1183,7 @@
   "counts": {
     "people": 731,
     "works": 382,
-    "topics": 3196
+    "topics": 3197
   },
   "people": [
     {
@@ -10263,7 +10264,7 @@
     },
     {
       "name": "ホラー",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ホラーゲーム",
@@ -10711,7 +10712,7 @@
     },
     {
       "name": "ラブドール",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "ラブホ",
@@ -14227,6 +14228,10 @@
     },
     {
       "name": "日向由奈",
+      "articles": 1
+    },
+    {
+      "name": "日常",
       "articles": 1
     },
     {
