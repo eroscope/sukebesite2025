@@ -1184,9 +1184,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 735,
+    "people": 736,
     "works": 383,
-    "topics": 3201
+    "topics": 3204
   },
   "people": [
     {
@@ -3695,6 +3695,10 @@
     },
     {
       "name": "自慰",
+      "articles": 1
+    },
+    {
+      "name": "自慰シーン",
       "articles": 1
     },
     {
@@ -7826,6 +7830,10 @@
       "articles": 1
     },
     {
+      "name": "アニメ画像",
+      "articles": 1
+    },
+    {
       "name": "アヘ顔",
       "articles": 1
     },
@@ -10958,6 +10966,10 @@
       "articles": 1
     },
     {
+      "name": "一般アニメ",
+      "articles": 1
+    },
+    {
       "name": "一般漫画",
       "articles": 2
     },
@@ -13759,6 +13771,10 @@
     },
     {
       "name": "性癖談義",
+      "articles": 1
+    },
+    {
+      "name": "性的描写",
       "articles": 1
     },
     {
