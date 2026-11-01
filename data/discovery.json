@@ -1191,7 +1191,7 @@
   "counts": {
     "people": 739,
     "works": 383,
-    "topics": 3210
+    "topics": 3212
   },
   "people": [
     {
@@ -9975,6 +9975,10 @@
       "articles": 2
     },
     {
+      "name": "ピョ・ウンジ",
+      "articles": 1
+    },
+    {
       "name": "ピンクのパンツ",
       "articles": 1
     },
@@ -10796,7 +10800,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 331
+      "articles": 332
     },
     {
       "name": "ランジェリー風",
@@ -18136,7 +18140,7 @@
     },
     {
       "name": "韓国",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "韓国BJ",
@@ -18524,6 +18528,10 @@
     },
     {
       "name": "齋藤飛鳥",
+      "articles": 1
+    },
+    {
+      "name": "표은지",
       "articles": 1
     }
   ]
