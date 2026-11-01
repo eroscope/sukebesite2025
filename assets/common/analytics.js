@@ -1,6 +1,16 @@
 (() => {
   "use strict";
 
+  const qaKey = `indanya-qa:${new URL(document.currentScript?.src || location.href).pathname.replace(/assets\/common\/[^/]+$/, "")}`;
+  const qaMode = new URLSearchParams(location.search).get("indanya_qa");
+  let qaExcluded = qaMode === "1";
+  try {
+    if (qaMode === "0") sessionStorage.removeItem(qaKey);
+    if (qaMode === "1") sessionStorage.setItem(qaKey, "1");
+    qaExcluded = qaExcluded || sessionStorage.getItem(qaKey) === "1";
+  } catch { /* No storage. */ }
+  if (qaExcluded || document.documentElement.dataset.indanyaAnalyticsStatus === "qa-excluded") return;
+
   const endpoint = "https://script.google.com/macros/s/AKfycbySRayJ_unUhGOsUA-iDyHn4TDZNrtz7O3YHCSRcbxBl0Nuhnb8PG-wxxtcsfz5H487VA/exec";
   const collectorToken = "indanya-analytics-20260803-v1";
   const articleSlug = document.body.dataset.articleSlug || pageSlug();

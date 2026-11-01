@@ -5,9 +5,17 @@
   const siteRoot = script?.dataset.siteRoot || "";
   const storageKey = "indanya-age-confirmed";
   const maxAge = 30 * 24 * 60 * 60 * 1000;
-  const analyticsLoaderVersion = "9";
+  const analyticsLoaderVersion = "10";
+  const qaKey = `indanya-qa:${new URL(script?.src || location.href).pathname.replace(/assets\/common\/[^/]+$/, "")}`;
+  const qaMode = new URLSearchParams(location.search).get("indanya_qa");
+  try {
+    if (qaMode === "0") sessionStorage.removeItem(qaKey);
+    if (qaMode === "1") sessionStorage.setItem(qaKey, "1");
+    if (qaMode === "1" || sessionStorage.getItem(qaKey) === "1") document.documentElement.dataset.indanyaAnalyticsStatus = "qa-excluded";
+  } catch { if (qaMode === "1") document.documentElement.dataset.indanyaAnalyticsStatus = "qa-excluded"; }
 
   function startAnalytics() {
+    if (document.documentElement.dataset.indanyaAnalyticsStatus === "qa-excluded") return;
     if (document.querySelector('script[data-indanya-ga4]')) return;
     const config = document.createElement("script");
     config.src = `${siteRoot}assets/common/analytics-config.js?v=${analyticsLoaderVersion}`;

@@ -1,6 +1,19 @@
 (async () => {
   "use strict";
 
+  const qaKey = `indanya-qa:${new URL(document.currentScript?.src || location.href).pathname.replace(/assets\/common\/[^/]+$/, "")}`;
+  const qaMode = new URLSearchParams(location.search).get("indanya_qa");
+  let qaExcluded = qaMode === "1";
+  try {
+    if (qaMode === "0") sessionStorage.removeItem(qaKey);
+    if (qaMode === "1") sessionStorage.setItem(qaKey, "1");
+    qaExcluded = qaExcluded || sessionStorage.getItem(qaKey) === "1";
+  } catch { /* The explicit query flag still works without storage. */ }
+  if (qaExcluded) {
+    document.documentElement.dataset.indanyaAnalyticsStatus = "qa-excluded";
+    return;
+  }
+
   const config = window.INDANYA_GA4 || {};
   const measurementId = String(config.measurementId || "").trim();
   const siteKey = String(config.ownerSiteKey || "").trim();
@@ -272,7 +285,7 @@
   function isPromotionLink(link) {
     if (link.classList.contains("fanza-product-button")) return true;
     if ((link.rel || "").split(/\s+/).includes("sponsored")) return true;
-    try { return /(^|\.)(?:dmm|fanza)\.co\.jp$/i.test(new URL(link.href).hostname); }
+    try { return /(^|\.)dmm\.(?:com|co\.jp)$|(^|\.)fanza\.co\.jp$/i.test(new URL(link.href).hostname); }
     catch { return false; }
   }
 
