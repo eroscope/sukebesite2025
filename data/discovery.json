@@ -1190,8 +1190,8 @@
   ],
   "counts": {
     "people": 739,
-    "works": 383,
-    "topics": 3212
+    "works": 384,
+    "topics": 3213
   },
   "people": [
     {
@@ -4526,6 +4526,10 @@
     },
     {
       "code": "EBOD-513",
+      "articles": 1
+    },
+    {
+      "code": "EBOD-953",
       "articles": 1
     },
     {
@@ -8740,7 +8744,7 @@
     },
     {
       "name": "サンプル画像",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "サービスカット",
@@ -14628,6 +14632,10 @@
     },
     {
       "name": "柊宇",
+      "articles": 1
+    },
+    {
+      "name": "柏木こなつ",
       "articles": 1
     },
     {
