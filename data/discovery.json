@@ -1193,7 +1193,7 @@
   "counts": {
     "people": 740,
     "works": 384,
-    "topics": 3222
+    "topics": 3223
   },
   "people": [
     {
@@ -7669,6 +7669,10 @@
       "articles": 1
     },
     {
+      "name": "まるぴ",
+      "articles": 1
+    },
+    {
       "name": "まんぐり返し",
       "articles": 2
     },
@@ -9958,7 +9962,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 205
+      "articles": 206
     },
     {
       "name": "ビジネススーツ",
@@ -14998,7 +15002,7 @@
     },
     {
       "name": "水着",
-      "articles": 502
+      "articles": 503
     },
     {
       "name": "水着グラビア",
@@ -15798,7 +15802,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 287
+      "articles": 288
     },
     {
       "name": "画像ギャラリー",
