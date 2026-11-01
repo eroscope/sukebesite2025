@@ -1192,7 +1192,7 @@
   "counts": {
     "people": 739,
     "works": 384,
-    "topics": 3219
+    "topics": 3220
   },
   "people": [
     {
@@ -6349,7 +6349,7 @@
     },
     {
       "name": "GIF",
-      "articles": 46
+      "articles": 47
     },
     {
       "name": "GIF動画",
@@ -9297,7 +9297,7 @@
     },
     {
       "name": "テレビ朝日",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "テレビ朝日アナウンサー",
@@ -9501,6 +9501,10 @@
     },
     {
       "name": "ニュース映像",
+      "articles": 1
+    },
+    {
+      "name": "ニュース番組",
       "articles": 1
     },
     {
@@ -12893,7 +12897,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 131
+      "articles": 132
     },
     {
       "name": "女子アナ設定",
@@ -14761,7 +14765,7 @@
     },
     {
       "name": "森山みなみ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "森日向子",
@@ -16837,7 +16841,7 @@
     },
     {
       "name": "胸元",
-      "articles": 109
+      "articles": 110
     },
     {
       "name": "胸元チラ見え",
