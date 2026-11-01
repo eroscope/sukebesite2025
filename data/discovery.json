@@ -1190,7 +1190,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 739,
+    "people": 740,
     "works": 384,
     "topics": 3221
   },
@@ -3529,6 +3529,10 @@
     },
     {
       "name": "立花繭子",
+      "articles": 1
+    },
+    {
+      "name": "竹中知華",
       "articles": 1
     },
     {
@@ -12897,7 +12901,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 132
+      "articles": 133
     },
     {
       "name": "女子アナ設定",
@@ -14989,7 +14993,7 @@
     },
     {
       "name": "水着",
-      "articles": 500
+      "articles": 501
     },
     {
       "name": "水着グラビア",
