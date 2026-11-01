@@ -1181,7 +1181,7 @@
   ],
   "counts": {
     "people": 731,
-    "works": 381,
+    "works": 382,
     "topics": 3196
   },
   "people": [
@@ -2463,7 +2463,7 @@
     },
     {
       "name": "彩月七緒",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "役野満里奈",
@@ -4764,6 +4764,10 @@
       "articles": 1
     },
     {
+      "code": "JUFE-626",
+      "articles": 1
+    },
+    {
       "code": "JUNY-160",
       "articles": 1
     },
@@ -5951,7 +5955,7 @@
     },
     {
       "name": "AVサンプル",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "AVジャケット",
@@ -10271,7 +10275,7 @@
     },
     {
       "name": "ボディコン",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ボディボード",
