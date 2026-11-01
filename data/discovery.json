@@ -1180,9 +1180,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 729,
-    "works": 380,
-    "topics": 3194
+    "people": 730,
+    "works": 381,
+    "topics": 3196
   },
   "people": [
     {
@@ -3322,6 +3322,10 @@
       "articles": 1
     },
     {
+      "name": "白峰ミウ",
+      "articles": 1
+    },
+    {
       "name": "白川愛梨",
       "articles": 1
     },
@@ -4289,6 +4293,10 @@
     },
     {
       "code": "AED-267",
+      "articles": 1
+    },
+    {
+      "code": "ATID-705",
       "articles": 1
     },
     {
@@ -5959,6 +5967,10 @@
     },
     {
       "name": "AVランキング",
+      "articles": 1
+    },
+    {
+      "name": "AVレビュー",
       "articles": 1
     },
     {
@@ -7744,6 +7756,10 @@
     {
       "name": "アズールレーン",
       "articles": 2
+    },
+    {
+      "name": "アタッカーズ",
+      "articles": 1
     },
     {
       "name": "アタッカーズVR",
@@ -12895,7 +12911,7 @@
     },
     {
       "name": "女教師",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "女男女",
