@@ -1009,6 +1009,7 @@
     "topics/topic-eb8a59fb9fbf.html",
     "topics/topic-eba147c85e26.html",
     "topics/topic-ebd7df226cea.html",
+    "topics/topic-ec40bfc1f4ba.html",
     "topics/topic-ec5ce7442ea8.html",
     "topics/topic-eca137a7bc5f.html",
     "topics/topic-ecb45d8a1cc4.html",
@@ -1185,9 +1186,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 737,
+    "people": 738,
     "works": 383,
-    "topics": 3205
+    "topics": 3206
   },
   "people": [
     {
@@ -2624,6 +2625,10 @@
     },
     {
       "name": "春麗みにょん",
+      "articles": 1
+    },
+    {
+      "name": "晴こころ",
       "articles": 1
     },
     {
@@ -14940,7 +14945,7 @@
     },
     {
       "name": "水着",
-      "articles": 498
+      "articles": 499
     },
     {
       "name": "水着グラビア",
@@ -15232,6 +15237,10 @@
     },
     {
       "name": "清水麻璃亜",
+      "articles": 1
+    },
+    {
+      "name": "渓流",
       "articles": 1
     },
     {
@@ -16976,7 +16985,7 @@
     },
     {
       "name": "花柄ビキニ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "芳賀礼",
