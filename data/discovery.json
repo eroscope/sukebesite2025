@@ -1183,7 +1183,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 733,
+    "people": 734,
     "works": 383,
     "topics": 3199
   },
@@ -1558,6 +1558,10 @@
     },
     {
       "name": "七海りお",
+      "articles": 1
+    },
+    {
+      "name": "七瀬つむぎ",
       "articles": 1
     },
     {
@@ -11826,7 +11830,7 @@
     },
     {
       "name": "写真集",
-      "articles": 94
+      "articles": 95
     },
     {
       "name": "冨永実里",
@@ -12506,7 +12510,7 @@
     },
     {
       "name": "声優",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "声優と夜あそび",
