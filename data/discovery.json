@@ -897,6 +897,7 @@
     "topics/topic-cbac2971604d.html",
     "topics/topic-cbbfe762584e.html",
     "topics/topic-cc2e8744bb4a.html",
+    "topics/topic-cc361ee2bbe8.html",
     "topics/topic-cc401f70f862.html",
     "topics/topic-cc782a927d84.html",
     "topics/topic-ccb8c7242126.html",
@@ -1054,6 +1055,7 @@
     "topics/topic-f7e9cf65c854.html",
     "topics/topic-f7f4f3529b7b.html",
     "topics/topic-f8d4c83a4941.html",
+    "topics/topic-f905591ecd3d.html",
     "topics/topic-f95663eb069c.html",
     "topics/topic-f9b64a2cfb8c.html",
     "topics/topic-fa18c6a2f594.html",
@@ -1183,7 +1185,7 @@
   "counts": {
     "people": 732,
     "works": 382,
-    "topics": 3197
+    "topics": 3198
   },
   "people": [
     {
@@ -12048,7 +12050,7 @@
     },
     {
       "name": "匿名画像",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "十味",
@@ -12588,7 +12590,7 @@
     },
     {
       "name": "大人の玩具",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "大人ネタ",
@@ -16828,6 +16830,10 @@
     },
     {
       "name": "自慰画像",
+      "articles": 1
+    },
+    {
+      "name": "自慰行為",
       "articles": 1
     },
     {
