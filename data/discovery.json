@@ -1199,7 +1199,7 @@
   "counts": {
     "people": 745,
     "works": 388,
-    "topics": 3233
+    "topics": 3235
   },
   "people": [
     {
@@ -6351,6 +6351,10 @@
       "articles": 1
     },
     {
+      "name": "FC2",
+      "articles": 1
+    },
+    {
       "name": "FC2-PPV",
       "articles": 2
     },
@@ -8028,7 +8032,7 @@
     },
     {
       "name": "インタビュー",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "インタビュー風",
@@ -14188,7 +14192,7 @@
     },
     {
       "name": "掲示板反応",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "揉みシーン",
@@ -15316,6 +15320,10 @@
     },
     {
       "name": "消火栓",
+      "articles": 1
+    },
+    {
+      "name": "涙",
       "articles": 1
     },
     {
