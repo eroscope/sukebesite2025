@@ -1199,7 +1199,7 @@
   "counts": {
     "people": 745,
     "works": 388,
-    "topics": 3235
+    "topics": 3236
   },
   "people": [
     {
@@ -8620,7 +8620,7 @@
     },
     {
       "name": "ゲーム",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "ゲームイベント",
@@ -10412,7 +10412,7 @@
     },
     {
       "name": "ホラー",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ホラーゲーム",
@@ -15456,7 +15456,7 @@
     },
     {
       "name": "漫画",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "漫画キャラクター",
@@ -15932,6 +15932,10 @@
     },
     {
       "name": "番組キャプチャ",
+      "articles": 1
+    },
+    {
+      "name": "異形",
       "articles": 1
     },
     {
