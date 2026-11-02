@@ -1198,8 +1198,8 @@
   ],
   "counts": {
     "people": 745,
-    "works": 387,
-    "topics": 3229
+    "works": 388,
+    "topics": 3231
   },
   "people": [
     {
@@ -4698,6 +4698,10 @@
     },
     {
       "code": "HSODA-069",
+      "articles": 1
+    },
+    {
+      "code": "HUBLK-073",
       "articles": 1
     },
     {
@@ -11896,7 +11900,7 @@
     },
     {
       "name": "公式サンプル",
-      "articles": 47
+      "articles": 48
     },
     {
       "name": "公式サンプル動画",
@@ -13184,6 +13188,10 @@
     },
     {
       "name": "孕ませオンナ絶対宅配クラブ",
+      "articles": 1
+    },
+    {
+      "name": "学園ドラマ",
       "articles": 1
     },
     {
@@ -14500,7 +14508,7 @@
     },
     {
       "name": "時間停止",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "晩餐会",
@@ -18132,6 +18140,10 @@
     },
     {
       "name": "集団密着",
+      "articles": 1
+    },
+    {
+      "name": "集団時間停止レ×プ2",
       "articles": 1
     },
     {

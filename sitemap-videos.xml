@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
+    <loc>https://eroscope.github.io/sukebesite2025/articles/url-video-dmm-co-jp-78c53e27.html</loc>
+    <video:video>
+      <video:thumbnail_loc>https://eroscope.github.io/sukebesite2025/assets/articles/url-video-dmm-co-jp-78c53e27/image-01.jpg</video:thumbnail_loc>
+      <video:title>【画像＋動画】学園の仕返し劇を時間停止リモコンで止める『集団時間停止レ×プ2』 動画1</video:title>
+      <video:description>制服姿の人物が集まる教室から図書室、机上、床上へと舞台が変わり、時間停止を軸にした学園ドラマの濃い場面が続く。パッケージと公式紹介画像だけでも、群像劇と身体を強調した演出の両方が見える。</video:description>
+      <video:player_loc>https://www.dmm.co.jp/service/digitalapi/-/html5_player/=/cid=hublk00073/mtype=AhRVShI_/service=litevideo/mode=part/width=720/height=480/</video:player_loc>
+      <video:publication_date>2026-11-03T00:07:39+09:00</video:publication_date>
+      <video:family_friendly>no</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
     <loc>https://eroscope.github.io/sukebesite2025/articles/url-bakufu-jp-425a3454.html</loc>
     <video:video>
       <video:thumbnail_loc>https://eroscope.github.io/sukebesite2025/assets/articles/url-bakufu-jp-425a3454/image-01.jpg</video:thumbnail_loc>
