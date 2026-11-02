@@ -1199,7 +1199,7 @@
   "counts": {
     "people": 745,
     "works": 388,
-    "topics": 3231
+    "topics": 3233
   },
   "people": [
     {
@@ -3268,7 +3268,7 @@
     },
     {
       "name": "瀬戸環奈",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "瀬戸真凜",
@@ -11956,7 +11956,7 @@
     },
     {
       "name": "写真集",
-      "articles": 95
+      "articles": 96
     },
     {
       "name": "冨永実里",
@@ -15531,6 +15531,10 @@
       "articles": 1
     },
     {
+      "name": "瀬戸内",
+      "articles": 1
+    },
+    {
       "name": "瀬戸環奈",
       "articles": 7
     },
@@ -17756,6 +17760,10 @@
     },
     {
       "name": "透け感トップス",
+      "articles": 1
+    },
+    {
+      "name": "透け感ワンピース",
       "articles": 1
     },
     {
