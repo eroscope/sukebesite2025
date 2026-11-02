@@ -308,6 +308,7 @@
     "topics/topic-1fdbd8b413bd.html",
     "topics/topic-1fe8558fd940.html",
     "topics/topic-20.html",
+    "topics/topic-2000.html",
     "topics/topic-202e70a44f7a.html",
     "topics/topic-203fd65980fe.html",
     "topics/topic-20a0d6b107e3.html",
@@ -1198,7 +1199,7 @@
   "counts": {
     "people": 745,
     "works": 387,
-    "topics": 3228
+    "topics": 3229
   },
   "people": [
     {
@@ -5775,7 +5776,7 @@
     },
     {
       "name": "2000年代",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "2026年秋アニメ",
@@ -6571,6 +6572,10 @@
     },
     {
       "name": "MARA",
+      "articles": 1
+    },
+    {
+      "name": "MEGUMI",
       "articles": 1
     },
     {
@@ -15059,7 +15064,7 @@
     },
     {
       "name": "水着",
-      "articles": 506
+      "articles": 507
     },
     {
       "name": "水着グラビア",
@@ -18135,7 +18140,7 @@
     },
     {
       "name": "雑誌",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "雑誌グラビア",
