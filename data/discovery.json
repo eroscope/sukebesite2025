@@ -354,6 +354,7 @@
     "topics/topic-2c88d9db542a.html",
     "topics/topic-2d884d98abff.html",
     "topics/topic-2dbe53e68646.html",
+    "topics/topic-2dc867eb37c6.html",
     "topics/topic-2e405f854753.html",
     "topics/topic-2e494f665ea0.html",
     "topics/topic-2ec2be9eab78.html",
@@ -1193,7 +1194,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 743,
+    "people": 744,
     "works": 386,
     "topics": 3228
   },
@@ -1708,6 +1709,10 @@
     },
     {
       "name": "五芭",
+      "articles": 1
+    },
+    {
+      "name": "井上もも",
       "articles": 1
     },
     {
@@ -6076,7 +6081,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 221
+      "articles": 222
     },
     {
       "name": "AV女優検索",
@@ -6596,7 +6601,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 65
+      "articles": 66
     },
     {
       "name": "MOODYZ DIVA",
@@ -11008,7 +11013,7 @@
     },
     {
       "name": "ローション",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ローター",
