@@ -245,6 +245,7 @@
     "topics/topic-0b312da6dd3f.html",
     "topics/topic-0b5c5c5ef71f.html",
     "topics/topic-0b814efb2b27.html",
+    "topics/topic-0bc7e781faf5.html",
     "topics/topic-0c519511b2e8.html",
     "topics/topic-0df66632e9d9.html",
     "topics/topic-0dff8343cfe0.html",
@@ -1202,7 +1203,7 @@
   "counts": {
     "people": 747,
     "works": 388,
-    "topics": 3241
+    "topics": 3243
   },
   "people": [
     {
@@ -9927,7 +9928,7 @@
     },
     {
       "name": "パイスラ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "パイズリ",
@@ -10472,6 +10473,10 @@
     {
       "name": "ボーイッシュ",
       "articles": 3
+    },
+    {
+      "name": "ボーダー",
+      "articles": 1
     },
     {
       "name": "ボーダーニット",
@@ -12967,7 +12972,7 @@
     },
     {
       "name": "女優",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "女優比較",
@@ -17176,6 +17181,10 @@
     {
       "name": "花柄ビキニ",
       "articles": 2
+    },
+    {
+      "name": "芳根京子",
+      "articles": 1
     },
     {
       "name": "芳賀礼",
