@@ -1199,7 +1199,7 @@
   "counts": {
     "people": 745,
     "works": 388,
-    "topics": 3236
+    "topics": 3237
   },
   "people": [
     {
@@ -10888,7 +10888,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 334
+      "articles": 335
     },
     {
       "name": "ランジェリー風",
@@ -15131,6 +15131,10 @@
       "articles": 1
     },
     {
+      "name": "江口いちご",
+      "articles": 1
+    },
+    {
       "name": "沈娜娜",
       "articles": 1
     },
@@ -18096,7 +18100,7 @@
     },
     {
       "name": "開脚",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "開脚ポーズ",
