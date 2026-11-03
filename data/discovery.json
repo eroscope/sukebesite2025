@@ -466,6 +466,7 @@
     "topics/topic-4b5deed8e0e1.html",
     "topics/topic-4bcbdeac3093.html",
     "topics/topic-4c5fc72da2ff.html",
+    "topics/topic-4d46b8b87f7e.html",
     "topics/topic-4e45410697dc.html",
     "topics/topic-4e6e4734b1b2.html",
     "topics/topic-4e72b30797c6.html",
@@ -1204,7 +1205,7 @@
   "counts": {
     "people": 747,
     "works": 388,
-    "topics": 3244
+    "topics": 3245
   },
   "people": [
     {
@@ -6281,7 +6282,7 @@
     },
     {
       "name": "DVD",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "DVDサンプル",
@@ -14009,7 +14010,7 @@
     },
     {
       "name": "懐古",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "成人グラビア",
@@ -14217,7 +14218,7 @@
     },
     {
       "name": "掲示板",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "掲示板まとめ",
@@ -14469,6 +14470,10 @@
     },
     {
       "name": "日焼け跡",
+      "articles": 1
+    },
+    {
+      "name": "旧作",
       "articles": 1
     },
     {
