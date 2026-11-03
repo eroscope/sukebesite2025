@@ -1204,7 +1204,7 @@
   "counts": {
     "people": 747,
     "works": 388,
-    "topics": 3243
+    "topics": 3244
   },
   "people": [
     {
@@ -8833,7 +8833,7 @@
     },
     {
       "name": "サンプル動画",
-      "articles": 27
+      "articles": 28
     },
     {
       "name": "サンプル画像",
@@ -9189,7 +9189,7 @@
     },
     {
       "name": "セーラー服",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "セーラー服風",
@@ -18485,6 +18485,10 @@
     },
     {
       "name": "餃子の王将",
+      "articles": 1
+    },
+    {
+      "name": "餅田麦",
       "articles": 1
     },
     {
