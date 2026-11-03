@@ -1197,9 +1197,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 745,
+    "people": 746,
     "works": 388,
-    "topics": 3237
+    "topics": 3238
   },
   "people": [
     {
@@ -2036,6 +2036,10 @@
     },
     {
       "name": "同棲彼女",
+      "articles": 1
+    },
+    {
+      "name": "名取くるみ",
       "articles": 1
     },
     {
@@ -11627,6 +11631,10 @@
       "articles": 1
     },
     {
+      "name": "体操服風衣装",
+      "articles": 1
+    },
+    {
       "name": "体格差",
       "articles": 1
     },
@@ -15656,7 +15664,7 @@
     },
     {
       "name": "猫耳",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "猫耳メイド",
