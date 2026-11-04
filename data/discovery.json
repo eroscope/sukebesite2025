@@ -995,6 +995,7 @@
     "topics/topic-e273e3404eb0.html",
     "topics/topic-e2a6d2606a0a.html",
     "topics/topic-e2e0c7d6bcea.html",
+    "topics/topic-e2e7065c936e.html",
     "topics/topic-e2eaf183e5bd.html",
     "topics/topic-e383833e382f.html",
     "topics/topic-e3c843a27e8c.html",
@@ -1209,7 +1210,7 @@
   "counts": {
     "people": 753,
     "works": 389,
-    "topics": 3248
+    "topics": 3249
   },
   "people": [
     {
@@ -9362,7 +9363,7 @@
     },
     {
       "name": "ダンス動画",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "チアガール",
@@ -10018,7 +10019,7 @@
     },
     {
       "name": "パンチラ",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "パンツ",
@@ -10818,7 +10819,7 @@
     },
     {
       "name": "モーニング娘。",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ヤニねこ",
@@ -13831,6 +13832,10 @@
     {
       "name": "幼馴染",
       "articles": 4
+    },
+    {
+      "name": "弓桁朱琴",
+      "articles": 1
     },
     {
       "name": "引っ越し",
