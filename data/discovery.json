@@ -1210,7 +1210,7 @@
   "counts": {
     "people": 754,
     "works": 389,
-    "topics": 3249
+    "topics": 3252
   },
   "people": [
     {
@@ -6066,6 +6066,10 @@
       "articles": 7
     },
     {
+      "name": "AI高画質化",
+      "articles": 1
+    },
+    {
       "name": "AKB48",
       "articles": 9
     },
@@ -8195,7 +8199,7 @@
     },
     {
       "name": "エロゲー",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "エロコスプレ",
@@ -8547,6 +8551,10 @@
     },
     {
       "name": "ギャルインフルエンサー",
+      "articles": 1
+    },
+    {
+      "name": "ギャルゲー",
       "articles": 1
     },
     {
@@ -11056,6 +11064,10 @@
     {
       "name": "レズビアン",
       "articles": 4
+    },
+    {
+      "name": "レトロゲーム",
+      "articles": 1
     },
     {
       "name": "レポート",
@@ -16011,7 +16023,7 @@
     },
     {
       "name": "画像比較",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "画像生成AI",
