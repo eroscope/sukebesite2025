@@ -1206,7 +1206,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 751,
+    "people": 752,
     "works": 389,
     "topics": 3247
   },
@@ -1754,6 +1754,10 @@
     {
       "name": "伊織いお",
       "articles": 2
+    },
+    {
+      "name": "伊織みあ",
+      "articles": 1
     },
     {
       "name": "伊藤しほ乃",
@@ -8045,7 +8049,7 @@
     },
     {
       "name": "イメージビデオ",
-      "articles": 24
+      "articles": 25
     },
     {
       "name": "イメージ作品",
@@ -15145,7 +15149,7 @@
     },
     {
       "name": "水着",
-      "articles": 510
+      "articles": 511
     },
     {
       "name": "水着グラビア",
