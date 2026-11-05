@@ -3,6 +3,7 @@
   "generated_files": [
     "people.html",
     "people/person-009176ed9cb6.html",
+    "people/person-017a73409446.html",
     "people/person-01b978367f05.html",
     "people/person-06ac427cf69d.html",
     "people/person-071c6f8e47cc.html",
@@ -1210,7 +1211,7 @@
   "counts": {
     "people": 754,
     "works": 389,
-    "topics": 3252
+    "topics": 3254
   },
   "people": [
     {
@@ -3639,7 +3640,7 @@
     },
     {
       "name": "篠田あゆみ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "篠田ゆう",
@@ -15918,6 +15919,10 @@
       "articles": 1
     },
     {
+      "name": "男女の設定写真",
+      "articles": 1
+    },
+    {
       "name": "男水着",
       "articles": 1
     },
@@ -16831,6 +16836,10 @@
     },
     {
       "name": "美人お姉さん",
+      "articles": 1
+    },
+    {
+      "name": "美人ママ",
       "articles": 1
     },
     {
