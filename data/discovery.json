@@ -1216,7 +1216,7 @@
   "counts": {
     "people": 758,
     "works": 392,
-    "topics": 3262
+    "topics": 3263
   },
   "people": [
     {
@@ -6377,7 +6377,7 @@
     },
     {
       "name": "E-BODY",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "ED治療",
@@ -16101,7 +16101,7 @@
     },
     {
       "name": "画像＋動画",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "番組キャプチャ",
@@ -16844,6 +16844,10 @@
       "articles": 1
     },
     {
+      "name": "絶版BODY",
+      "articles": 1
+    },
+    {
       "name": "続編",
       "articles": 1
     },
@@ -17337,7 +17341,7 @@
     },
     {
       "name": "芸能マネージャー設定",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "芸能人",
