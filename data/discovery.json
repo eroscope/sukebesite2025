@@ -1213,7 +1213,7 @@
   "counts": {
     "people": 757,
     "works": 391,
-    "topics": 3260
+    "topics": 3261
   },
   "people": [
     {
@@ -15226,7 +15226,7 @@
     },
     {
       "name": "水着",
-      "articles": 513
+      "articles": 514
     },
     {
       "name": "水着グラビア",
@@ -15470,7 +15470,7 @@
     },
     {
       "name": "海辺",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "消火栓",
@@ -16794,7 +16794,7 @@
     },
     {
       "name": "細身",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "終末のハーレム",
@@ -18722,6 +18722,10 @@
     },
     {
       "name": "黄色いワンピース",
+      "articles": 1
+    },
+    {
+      "name": "黄色ビキニ",
       "articles": 1
     },
     {
