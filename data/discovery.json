@@ -1218,8 +1218,8 @@
   ],
   "counts": {
     "people": 759,
-    "works": 392,
-    "topics": 3265
+    "works": 393,
+    "topics": 3267
   },
   "people": [
     {
@@ -5282,6 +5282,10 @@
     },
     {
       "code": "MURIKURI-016",
+      "articles": 1
+    },
+    {
+      "code": "MURIKURI-020",
       "articles": 1
     },
     {
@@ -9591,6 +9595,10 @@
       "articles": 1
     },
     {
+      "name": "トロンボーン",
+      "articles": 1
+    },
+    {
       "name": "ドM",
       "articles": 2
     },
@@ -12056,7 +12064,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 52
+      "articles": 53
     },
     {
       "name": "公式スチル",
@@ -12208,7 +12216,7 @@
     },
     {
       "name": "制服風衣装",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "刺激",
@@ -12624,6 +12632,10 @@
     },
     {
       "name": "吸引玩具",
+      "articles": 1
+    },
+    {
+      "name": "吹奏楽部",
       "articles": 1
     },
     {
@@ -17620,7 +17632,7 @@
     },
     {
       "name": "複数人",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "複数人プレイ",
