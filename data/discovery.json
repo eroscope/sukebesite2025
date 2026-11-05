@@ -1212,8 +1212,8 @@
   ],
   "counts": {
     "people": 754,
-    "works": 389,
-    "topics": 3256
+    "works": 390,
+    "topics": 3258
   },
   "people": [
     {
@@ -4235,6 +4235,10 @@
   ],
   "works": [
     {
+      "code": "13DSVR-2031",
+      "articles": 1
+    },
+    {
       "code": "13DSVR-2032",
       "articles": 1
     },
@@ -5869,6 +5873,10 @@
       "articles": 1
     },
     {
+      "name": "3DSVR-2031",
+      "articles": 1
+    },
+    {
       "name": "3DSVR-2033",
       "articles": 1
     },
@@ -5966,7 +5974,7 @@
     },
     {
       "name": "8K",
-      "articles": 35
+      "articles": 36
     },
     {
       "name": "8K VR",
@@ -7046,7 +7054,7 @@
     },
     {
       "name": "SOD",
-      "articles": 14
+      "articles": 15
     },
     {
       "name": "SOD Star",
@@ -7194,7 +7202,7 @@
     },
     {
       "name": "VR",
-      "articles": 135
+      "articles": 136
     },
     {
       "name": "VR AV",
@@ -12139,6 +12147,10 @@
     {
       "name": "制服コスプレ",
       "articles": 2
+    },
+    {
+      "name": "制服姿",
+      "articles": 1
     },
     {
       "name": "制服衣装",
@@ -17550,7 +17562,7 @@
     },
     {
       "name": "複数人",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "複数人プレイ",
