@@ -1211,9 +1211,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 755,
+    "people": 756,
     "works": 391,
-    "topics": 3259
+    "topics": 3260
   },
   "people": [
     {
@@ -2126,6 +2126,10 @@
     },
     {
       "name": "大島璃乃",
+      "articles": 1
+    },
+    {
+      "name": "大崎菜緒",
       "articles": 1
     },
     {
@@ -13205,6 +13209,10 @@
       "articles": 5
     },
     {
+      "name": "女流雀士",
+      "articles": 1
+    },
+    {
       "name": "女男女",
       "articles": 1
     },
@@ -18246,7 +18254,7 @@
     },
     {
       "name": "長身",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "開脚",
