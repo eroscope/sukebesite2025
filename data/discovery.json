@@ -1214,7 +1214,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 757,
+    "people": 758,
     "works": 392,
     "topics": 3262
   },
@@ -1690,6 +1690,10 @@
     {
       "name": "上西怜",
       "articles": 2
+    },
+    {
+      "name": "下平玲夏",
+      "articles": 1
     },
     {
       "name": "中山ふみか",
@@ -8925,7 +8929,7 @@
     },
     {
       "name": "サンプル動画",
-      "articles": 31
+      "articles": 32
     },
     {
       "name": "サンプル画像",
@@ -10133,7 +10137,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 208
+      "articles": 209
     },
     {
       "name": "ビジネススーツ",
@@ -15237,7 +15241,7 @@
     },
     {
       "name": "水着",
-      "articles": 514
+      "articles": 515
     },
     {
       "name": "水着グラビア",
