@@ -1211,9 +1211,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 754,
+    "people": 755,
     "works": 390,
-    "topics": 3258
+    "topics": 3259
   },
   "people": [
     {
@@ -1898,6 +1898,10 @@
     },
     {
       "name": "初乃ふみか",
+      "articles": 1
+    },
+    {
+      "name": "初樱",
       "articles": 1
     },
     {
@@ -6286,6 +6290,10 @@
     },
     {
       "name": "Calvin Klein",
+      "articles": 1
+    },
+    {
+      "name": "Chu Ying",
       "articles": 1
     },
     {
@@ -10906,7 +10914,7 @@
     },
     {
       "name": "ライブチャット",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ライブ配信",
@@ -11354,7 +11362,7 @@
     },
     {
       "name": "中国",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "中国SNS",
