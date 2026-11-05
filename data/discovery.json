@@ -351,6 +351,7 @@
     "topics/topic-29c2f60c9cc8.html",
     "topics/topic-29d79cbdb69a.html",
     "topics/topic-29f8f0215964.html",
+    "topics/topic-2a20f7506fdd.html",
     "topics/topic-2a308d05ca6f.html",
     "topics/topic-2a70c43e87b3.html",
     "topics/topic-2a9b6b05c4ed.html",
@@ -1212,7 +1213,7 @@
   "counts": {
     "people": 754,
     "works": 389,
-    "topics": 3255
+    "topics": 3256
   },
   "people": [
     {
@@ -9617,7 +9618,7 @@
     },
     {
       "name": "ニット",
-      "articles": 45
+      "articles": 46
     },
     {
       "name": "ニットワンピ",
@@ -12712,6 +12713,10 @@
       "articles": 1
     },
     {
+      "name": "報道番組",
+      "articles": 1
+    },
+    {
       "name": "場面カット",
       "articles": 1
     },
@@ -13069,7 +13074,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 133
+      "articles": 134
     },
     {
       "name": "女子アナ設定",
@@ -18613,7 +18618,7 @@
     },
     {
       "name": "高崎春",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "高梨瑞樹",
