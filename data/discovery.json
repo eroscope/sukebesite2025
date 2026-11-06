@@ -1231,7 +1231,7 @@
   "counts": {
     "people": 763,
     "works": 395,
-    "topics": 3289
+    "topics": 3290
   },
   "people": [
     {
@@ -9928,7 +9928,7 @@
     },
     {
       "name": "ハプニング",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ハマーン・カーン",
@@ -16052,7 +16052,7 @@
     },
     {
       "name": "生配信",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "産後ママ",
@@ -17264,7 +17264,7 @@
     },
     {
       "name": "胸元",
-      "articles": 111
+      "articles": 112
     },
     {
       "name": "胸元チラ見え",
@@ -18192,6 +18192,10 @@
     },
     {
       "name": "配信作品",
+      "articles": 1
+    },
+    {
+      "name": "配信画面",
       "articles": 1
     },
     {
