@@ -971,6 +971,7 @@
     "topics/topic-d8ebd4edc5b5.html",
     "topics/topic-d8f933e9ab9e.html",
     "topics/topic-d9041f832b92.html",
+    "topics/topic-d9b6ded59a15.html",
     "topics/topic-da2a872c803c.html",
     "topics/topic-da3aa3e3110e.html",
     "topics/topic-das.html",
@@ -1220,9 +1221,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 760,
+    "people": 761,
     "works": 394,
-    "topics": 3270
+    "topics": 3273
   },
   "people": [
     {
@@ -1432,6 +1433,10 @@
     {
       "name": "エロ配信",
       "articles": 2
+    },
+    {
+      "name": "カフェ",
+      "articles": 1
     },
     {
       "name": "コンカフェ",
@@ -6890,6 +6895,10 @@
       "articles": 2
     },
     {
+      "name": "Nina Coffee",
+      "articles": 1
+    },
+    {
       "name": "Nカップ",
       "articles": 2
     },
@@ -7163,6 +7172,10 @@
     },
     {
       "name": "Sakura",
+      "articles": 1
+    },
+    {
+      "name": "Sexy Angel",
       "articles": 1
     },
     {
@@ -9387,7 +9400,7 @@
     },
     {
       "name": "タイ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "タイツ",
@@ -17603,6 +17616,10 @@
     },
     {
       "name": "裸エプロン",
+      "articles": 1
+    },
+    {
+      "name": "裸エプロン風",
       "articles": 1
     },
     {
