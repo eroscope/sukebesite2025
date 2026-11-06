@@ -1228,7 +1228,7 @@
   "counts": {
     "people": 763,
     "works": 395,
-    "topics": 3283
+    "topics": 3285
   },
   "people": [
     {
@@ -6121,7 +6121,7 @@
     },
     {
       "name": "AI生成",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "AI画像",
@@ -7666,6 +7666,10 @@
     {
       "name": "かおり",
       "articles": 2
+    },
+    {
+      "name": "かき氷",
+      "articles": 1
     },
     {
       "name": "かとゆり",
@@ -13952,6 +13956,10 @@
       "articles": 1
     },
     {
+      "name": "市民プール",
+      "articles": 1
+    },
+    {
       "name": "希月あまね",
       "articles": 1
     },
@@ -15357,7 +15365,7 @@
     },
     {
       "name": "水着",
-      "articles": 517
+      "articles": 518
     },
     {
       "name": "水着グラビア",
