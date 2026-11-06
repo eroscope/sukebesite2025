@@ -1147,6 +1147,7 @@
     "topics/topic-moodyz-diva.html",
     "topics/topic-moodyz.html",
     "topics/topic-myspa.html",
+    "topics/topic-naturalhigh.html",
     "topics/topic-nhk.html",
     "topics/topic-nhk.html",
     "topics/topic-nia.html",
@@ -1220,8 +1221,8 @@
   ],
   "counts": {
     "people": 760,
-    "works": 393,
-    "topics": 3269
+    "works": 394,
+    "topics": 3270
   },
   "people": [
     {
@@ -5323,6 +5324,10 @@
       "articles": 1
     },
     {
+      "code": "NHDTC-255",
+      "articles": 1
+    },
+    {
       "code": "NHDTC-256",
       "articles": 1
     },
@@ -6814,7 +6819,7 @@
     },
     {
       "name": "NATURALHIGH",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "NGT48",
@@ -12230,7 +12235,7 @@
     },
     {
       "name": "制服風衣装",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "刺激",
@@ -12890,6 +12895,10 @@
     },
     {
       "name": "夜バゲット",
+      "articles": 1
+    },
+    {
+      "name": "夜行バス",
       "articles": 1
     },
     {
