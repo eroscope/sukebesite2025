@@ -298,6 +298,7 @@
     "topics/topic-1c08179d129d.html",
     "topics/topic-1c7fff2e2e56.html",
     "topics/topic-1c9decee35fd.html",
+    "topics/topic-1c9eda06c628.html",
     "topics/topic-1cf81933c06b.html",
     "topics/topic-1d4ebd368cf4.html",
     "topics/topic-1da263320b97.html",
@@ -1217,9 +1218,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 759,
+    "people": 760,
     "works": 393,
-    "topics": 3268
+    "topics": 3269
   },
   "people": [
     {
@@ -1452,6 +1453,10 @@
     },
     {
       "name": "スポーツ女子",
+      "articles": 1
+    },
+    {
+      "name": "セクシー衣装",
       "articles": 1
     },
     {
@@ -6237,6 +6242,10 @@
     {
       "name": "AV転身",
       "articles": 2
+    },
+    {
+      "name": "AliExpress",
+      "articles": 1
     },
     {
       "name": "Ani",
@@ -11036,7 +11045,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 340
+      "articles": 341
     },
     {
       "name": "ランジェリー風",
@@ -12676,7 +12685,7 @@
     },
     {
       "name": "商品画像",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "商店街ロケ",
