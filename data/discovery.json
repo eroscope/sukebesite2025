@@ -1223,8 +1223,8 @@
   ],
   "counts": {
     "people": 761,
-    "works": 394,
-    "topics": 3276
+    "works": 395,
+    "topics": 3278
   },
   "people": [
     {
@@ -4850,6 +4850,10 @@
       "articles": 1
     },
     {
+      "code": "IMPRESSION-197",
+      "articles": 1
+    },
+    {
       "code": "IPOK-014",
       "articles": 1
     },
@@ -6185,7 +6189,7 @@
     },
     {
       "name": "AVデビュー",
-      "articles": 56
+      "articles": 57
     },
     {
       "name": "AVパッケージ",
@@ -6496,6 +6500,10 @@
       "articles": 1
     },
     {
+      "name": "FIRST IMPRESSION 197",
+      "articles": 1
+    },
+    {
       "name": "FLASH",
       "articles": 8
     },
@@ -6605,7 +6613,7 @@
     },
     {
       "name": "IDEA POCKET",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "IDEAPOCKET",
@@ -15177,6 +15185,10 @@
     },
     {
       "name": "橘メアリー",
+      "articles": 1
+    },
+    {
+      "name": "橘春花",
       "articles": 1
     },
     {
