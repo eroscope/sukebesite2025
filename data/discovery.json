@@ -1233,7 +1233,7 @@
   "counts": {
     "people": 764,
     "works": 395,
-    "topics": 3291
+    "topics": 3292
   },
   "people": [
     {
@@ -6205,6 +6205,10 @@
       "articles": 15
     },
     {
+      "name": "AVサンプル風",
+      "articles": 1
+    },
+    {
       "name": "AVジャケット",
       "articles": 1
     },
@@ -9338,7 +9342,7 @@
     },
     {
       "name": "セックス",
-      "articles": 43
+      "articles": 44
     },
     {
       "name": "セックスカウンセラー",
@@ -12778,7 +12782,7 @@
     },
     {
       "name": "喘ぎ顔",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "喜多川みら",
@@ -17654,7 +17658,7 @@
     },
     {
       "name": "表情",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "表情フェチ",
