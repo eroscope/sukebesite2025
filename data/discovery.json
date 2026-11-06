@@ -1052,6 +1052,7 @@
     "topics/topic-ee7e3a59c1a9.html",
     "topics/topic-eecd7740d9de.html",
     "topics/topic-ef05d333e3af.html",
+    "topics/topic-ef162ea8895d.html",
     "topics/topic-ef817736039a.html",
     "topics/topic-efacc27bc2dc.html",
     "topics/topic-efc8194a8e24.html",
@@ -1223,9 +1224,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 761,
+    "people": 762,
     "works": 395,
-    "topics": 3281
+    "topics": 3282
   },
   "people": [
     {
@@ -2914,6 +2915,10 @@
     },
     {
       "name": "栗原舞優",
+      "articles": 1
+    },
+    {
+      "name": "栗山ことね",
       "articles": 1
     },
     {
@@ -8734,7 +8739,7 @@
     },
     {
       "name": "グラビア動画",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "グラビア画像",
@@ -9042,7 +9047,7 @@
     },
     {
       "name": "ショートパンツ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ショートヘア",
@@ -9714,6 +9719,10 @@
     },
     {
       "name": "ナース服",
+      "articles": 1
+    },
+    {
+      "name": "ニコニコ動画",
       "articles": 1
     },
     {
@@ -17290,7 +17299,7 @@
     },
     {
       "name": "脱衣",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "脱衣麻雀",
