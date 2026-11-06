@@ -992,6 +992,7 @@
     "topics/topic-df4a10e38d0b.html",
     "topics/topic-dlsite.html",
     "topics/topic-dmm.html",
+    "topics/topic-doc.html",
     "topics/topic-duga.html",
     "topics/topic-dvd.html",
     "topics/topic-dvd.html",
@@ -1224,7 +1225,7 @@
   "counts": {
     "people": 761,
     "works": 395,
-    "topics": 3279
+    "topics": 3281
   },
   "people": [
     {
@@ -6381,7 +6382,7 @@
     },
     {
       "name": "DOC",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "DOCUMENT SEX",
@@ -7897,6 +7898,10 @@
     },
     {
       "name": "みちょぱ",
+      "articles": 1
+    },
+    {
+      "name": "みつき",
       "articles": 1
     },
     {
@@ -10525,7 +10530,7 @@
     },
     {
       "name": "ベッドシーン",
-      "articles": 40
+      "articles": 41
     },
     {
       "name": "ベッド上",
@@ -14413,6 +14418,10 @@
     },
     {
       "name": "接吻性交",
+      "articles": 1
+    },
+    {
+      "name": "接待",
       "articles": 1
     },
     {
