@@ -1228,7 +1228,7 @@
   "counts": {
     "people": 763,
     "works": 395,
-    "topics": 3285
+    "topics": 3286
   },
   "people": [
     {
@@ -3349,7 +3349,7 @@
     },
     {
       "name": "瀬戸環奈",
-      "articles": 17
+      "articles": 18
     },
     {
       "name": "瀬戸真凜",
@@ -7081,7 +7081,7 @@
     },
     {
       "name": "S1",
-      "articles": 52
+      "articles": 53
     },
     {
       "name": "S1 GIRLS COLLECTION",
@@ -11228,6 +11228,10 @@
       "articles": 1
     },
     {
+      "name": "ロケバス",
+      "articles": 1
+    },
+    {
       "name": "ロケ番組",
       "articles": 1
     },
@@ -11877,7 +11881,7 @@
     },
     {
       "name": "作品サンプル",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "作品ジャケ",
