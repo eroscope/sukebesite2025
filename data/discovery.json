@@ -1205,6 +1205,7 @@
     "works/work-abf-384.html",
     "works/work-abf-388.html",
     "works/work-abf-396.html",
+    "works/work-abf-398.html",
     "works/work-cjod-540.html",
     "works/work-flash-2026.html",
     "works/work-jufe-626.html",
@@ -1223,7 +1224,7 @@
   "counts": {
     "people": 761,
     "works": 394,
-    "topics": 3275
+    "topics": 3276
   },
   "people": [
     {
@@ -4446,7 +4447,7 @@
     },
     {
       "code": "ABF-398",
-      "articles": 1
+      "articles": 2
     },
     {
       "code": "ACHJ-083",
@@ -6216,7 +6217,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 223
+      "articles": 224
     },
     {
       "name": "AV女優検索",
@@ -6716,7 +6717,7 @@
     },
     {
       "name": "MGS",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "MGS動画",
@@ -13288,7 +13289,7 @@
     },
     {
       "name": "女教師",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "女流雀士",
@@ -18156,6 +18157,10 @@
     },
     {
       "name": "重機",
+      "articles": 1
+    },
+    {
+      "name": "野々浦暖",
       "articles": 1
     },
     {
