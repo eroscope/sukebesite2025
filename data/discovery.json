@@ -647,6 +647,7 @@
     "topics/topic-824ba99d17dc.html",
     "topics/topic-825d752cee99.html",
     "topics/topic-828860e753a8.html",
+    "topics/topic-828f40fa9409.html",
     "topics/topic-82e081465000.html",
     "topics/topic-835b5e2ef19e.html",
     "topics/topic-843a2b7c59e8.html",
@@ -842,6 +843,7 @@
     "topics/topic-b0d4c6c28a4b.html",
     "topics/topic-b0e1bd70bb06.html",
     "topics/topic-b0edc46013e7.html",
+    "topics/topic-b109d2d34c0e.html",
     "topics/topic-b1138b6ad6ce.html",
     "topics/topic-b188c5e30da5.html",
     "topics/topic-b1a702141e22.html",
@@ -1237,7 +1239,7 @@
   "counts": {
     "people": 766,
     "works": 395,
-    "topics": 3302
+    "topics": 3306
   },
   "people": [
     {
@@ -8889,6 +8891,10 @@
       "articles": 1
     },
     {
+      "name": "ゲーム雑誌",
+      "articles": 1
+    },
+    {
       "name": "コインランドリー",
       "articles": 2
     },
@@ -9326,7 +9332,7 @@
     },
     {
       "name": "スーパーリアル麻雀",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "スーパーリアル麻雀VR",
@@ -9411,6 +9417,10 @@
     {
       "name": "セール",
       "articles": 7
+    },
+    {
+      "name": "ゼロヨンチャンプ",
+      "articles": 1
     },
     {
       "name": "ソウル",
@@ -11254,7 +11264,7 @@
     },
     {
       "name": "レトロゲーム",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "レポート",
@@ -17401,6 +17411,10 @@
       "articles": 10
     },
     {
+      "name": "脱衣ゲーム",
+      "articles": 1
+    },
+    {
       "name": "脱衣麻雀",
       "articles": 3
     },
@@ -17743,6 +17757,10 @@
     {
       "name": "裏垢女子",
       "articles": 2
+    },
+    {
+      "name": "裏技",
+      "articles": 1
     },
     {
       "name": "裸",
