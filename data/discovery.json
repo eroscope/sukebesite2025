@@ -1239,7 +1239,7 @@
   "counts": {
     "people": 766,
     "works": 395,
-    "topics": 3306
+    "topics": 3307
   },
   "people": [
     {
@@ -9623,6 +9623,10 @@
       "articles": 2
     },
     {
+      "name": "テレビ風",
+      "articles": 1
+    },
+    {
       "name": "テレホンカード",
       "articles": 1
     },
@@ -10280,7 +10284,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 209
+      "articles": 210
     },
     {
       "name": "ビジネススーツ",
@@ -10568,7 +10572,7 @@
     },
     {
       "name": "プール",
-      "articles": 31
+      "articles": 32
     },
     {
       "name": "プール撮影",
@@ -15452,7 +15456,7 @@
     },
     {
       "name": "水着",
-      "articles": 521
+      "articles": 522
     },
     {
       "name": "水着グラビア",
@@ -16104,7 +16108,7 @@
     },
     {
       "name": "生成AI",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "生挿入",
