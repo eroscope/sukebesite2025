@@ -1241,7 +1241,7 @@
   "counts": {
     "people": 766,
     "works": 395,
-    "topics": 3308
+    "topics": 3310
   },
   "people": [
     {
@@ -8138,7 +8138,7 @@
     },
     {
       "name": "アニメ",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "アニメ・漫画",
@@ -9562,6 +9562,10 @@
     },
     {
       "name": "チェック柄",
+      "articles": 1
+    },
+    {
+      "name": "チェンソーマン",
       "articles": 1
     },
     {
@@ -11269,6 +11273,10 @@
       "articles": 4
     },
     {
+      "name": "レゼ編",
+      "articles": 1
+    },
+    {
       "name": "レトロゲーム",
       "articles": 2
     },
@@ -11710,7 +11718,7 @@
     },
     {
       "name": "二次創作",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "二輪車",
