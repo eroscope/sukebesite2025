@@ -1237,7 +1237,7 @@
   "counts": {
     "people": 766,
     "works": 395,
-    "topics": 3301
+    "topics": 3302
   },
   "people": [
     {
@@ -9578,7 +9578,7 @@
     },
     {
       "name": "テレビ出演",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "テレビ北海道",
@@ -13290,7 +13290,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 135
+      "articles": 136
     },
     {
       "name": "女子アナ設定",
@@ -15481,6 +15481,10 @@
       "articles": 1
     },
     {
+      "name": "永田莉紗",
+      "articles": 1
+    },
+    {
       "name": "永野紬",
       "articles": 1
     },
@@ -16398,7 +16402,7 @@
     },
     {
       "name": "白ニット",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "白ハイレグ",
@@ -17326,7 +17330,7 @@
     },
     {
       "name": "胸元",
-      "articles": 112
+      "articles": 113
     },
     {
       "name": "胸元チラ見え",
