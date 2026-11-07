@@ -1186,6 +1186,7 @@
     "topics/topic-s1-vr.html",
     "topics/topic-s1.html",
     "topics/topic-sex.html",
+    "topics/topic-shika.html",
     "topics/topic-ske48.html",
     "topics/topic-sm.html",
     "topics/topic-sns.html",
@@ -1234,7 +1235,7 @@
   "counts": {
     "people": 764,
     "works": 395,
-    "topics": 3295
+    "topics": 3296
   },
   "people": [
     {
@@ -6442,6 +6443,10 @@
       "articles": 1
     },
     {
+      "name": "Dear my Deer",
+      "articles": 1
+    },
+    {
       "name": "E-BODY",
       "articles": 18
     },
@@ -7231,7 +7236,7 @@
     },
     {
       "name": "Shika",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "Smiley！",
@@ -9831,7 +9836,7 @@
     },
     {
       "name": "ヌード",
-      "articles": 123
+      "articles": 124
     },
     {
       "name": "ヌードDVD",
@@ -11439,7 +11444,7 @@
     },
     {
       "name": "下着",
-      "articles": 209
+      "articles": 210
     },
     {
       "name": "下着ずらし",
