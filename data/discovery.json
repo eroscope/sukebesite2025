@@ -836,6 +836,7 @@
     "topics/topic-av.html",
     "topics/topic-av.html",
     "topics/topic-av.html",
+    "topics/topic-av.html",
     "topics/topic-b010a4c2d907.html",
     "topics/topic-b012e9f891cc.html",
     "topics/topic-b02310aeefca.html",
@@ -884,6 +885,7 @@
     "topics/topic-bbf72a1513be.html",
     "topics/topic-bc05f5741558.html",
     "topics/topic-bc1a2abb16e0.html",
+    "topics/topic-bc416684f298.html",
     "topics/topic-bcbb5cf07fb9.html",
     "topics/topic-bd64b0c8f1f4.html",
     "topics/topic-be9e5cbc0419.html",
@@ -1239,7 +1241,7 @@
   "counts": {
     "people": 766,
     "works": 395,
-    "topics": 3307
+    "topics": 3308
   },
   "people": [
     {
@@ -6296,7 +6298,7 @@
     },
     {
       "name": "AV談義",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "AV転身",
@@ -9244,7 +9246,7 @@
     },
     {
       "name": "ステージ写真",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ステージ動画",
@@ -12504,7 +12506,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 38
+      "articles": 39
     },
     {
       "name": "匿名新人",
@@ -14256,6 +14258,10 @@
     },
     {
       "name": "性癖談義",
+      "articles": 1
+    },
+    {
+      "name": "性的嗜好",
       "articles": 1
     },
     {
