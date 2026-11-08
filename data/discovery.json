@@ -1244,7 +1244,7 @@
   "counts": {
     "people": 767,
     "works": 395,
-    "topics": 3323
+    "topics": 3326
   },
   "people": [
     {
@@ -9176,6 +9176,10 @@
       "articles": 1
     },
     {
+      "name": "ジャパネットたかた",
+      "articles": 1
+    },
+    {
       "name": "ジャージ",
       "articles": 1
     },
@@ -9646,6 +9650,10 @@
     {
       "name": "テレビ番組",
       "articles": 2
+    },
+    {
+      "name": "テレビ通販",
+      "articles": 1
     },
     {
       "name": "テレビ風",
@@ -13760,6 +13768,10 @@
       "articles": 1
     },
     {
+      "name": "寝具家電",
+      "articles": 1
+    },
+    {
       "name": "寝取られ",
       "articles": 9
     },
@@ -14669,7 +14681,7 @@
     },
     {
       "name": "放送事故",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "放送画面",
@@ -17405,7 +17417,7 @@
     },
     {
       "name": "胸元",
-      "articles": 114
+      "articles": 115
     },
     {
       "name": "胸元チラ見え",
