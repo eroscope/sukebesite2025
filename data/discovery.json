@@ -1244,7 +1244,7 @@
   "counts": {
     "people": 767,
     "works": 395,
-    "topics": 3318
+    "topics": 3321
   },
   "people": [
     {
@@ -8164,6 +8164,10 @@
       "articles": 1
     },
     {
+      "name": "アニメ系",
+      "articles": 1
+    },
+    {
       "name": "アバンチュール",
       "articles": 1
     },
@@ -9768,6 +9772,10 @@
       "articles": 2
     },
     {
+      "name": "ドール",
+      "articles": 1
+    },
+    {
       "name": "ドールズフロントライン2",
       "articles": 1
     },
@@ -11165,7 +11173,7 @@
     },
     {
       "name": "ラブドール",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "ラブホ",
@@ -11609,6 +11617,10 @@
     },
     {
       "name": "中華AV",
+      "articles": 1
+    },
+    {
+      "name": "中華製",
       "articles": 1
     },
     {
