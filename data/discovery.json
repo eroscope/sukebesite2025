@@ -278,6 +278,7 @@
     "topics/topic-1321def3110d.html",
     "topics/topic-1437c6a99bb6.html",
     "topics/topic-14b93ea24248.html",
+    "topics/topic-14d8a6e85f54.html",
     "topics/topic-1536d20dc959.html",
     "topics/topic-15690ba6bf52.html",
     "topics/topic-15af117d0572.html",
@@ -1244,7 +1245,7 @@
   "counts": {
     "people": 767,
     "works": 395,
-    "topics": 3326
+    "topics": 3327
   },
   "people": [
     {
@@ -6741,7 +6742,7 @@
     },
     {
       "name": "Kカップ",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "LINA VELINA",
@@ -8953,7 +8954,7 @@
     },
     {
       "name": "コンカフェ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "コンパニオン",
@@ -11437,6 +11438,10 @@
     },
     {
       "name": "七嶋舞",
+      "articles": 1
+    },
+    {
+      "name": "七武ななみ",
       "articles": 1
     },
     {
@@ -17541,7 +17546,7 @@
     },
     {
       "name": "自撮り",
-      "articles": 61
+      "articles": 62
     },
     {
       "name": "自撮り動画",
