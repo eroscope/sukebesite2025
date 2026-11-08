@@ -1244,7 +1244,7 @@
   "counts": {
     "people": 767,
     "works": 395,
-    "topics": 3321
+    "topics": 3322
   },
   "people": [
     {
@@ -6289,7 +6289,7 @@
     },
     {
       "name": "AV画像",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "AV画像まとめ",
@@ -7129,7 +7129,7 @@
     },
     {
       "name": "S1",
-      "articles": 54
+      "articles": 55
     },
     {
       "name": "S1 GIRLS COLLECTION",
@@ -16897,7 +16897,7 @@
     },
     {
       "name": "競泳水着",
-      "articles": 24
+      "articles": 25
     },
     {
       "name": "競輪",
@@ -18670,6 +18670,10 @@
     {
       "name": "雑誌表紙",
       "articles": 2
+    },
+    {
+      "name": "雛形みくる",
+      "articles": 1
     },
     {
       "name": "雨と潮騒",
