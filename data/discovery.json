@@ -1247,7 +1247,7 @@
   "counts": {
     "people": 767,
     "works": 395,
-    "topics": 3329
+    "topics": 3331
   },
   "people": [
     {
@@ -5971,6 +5971,10 @@
       "articles": 1
     },
     {
+      "name": "2児のママ",
+      "articles": 1
+    },
+    {
       "name": "31人",
       "articles": 1
     },
@@ -9164,7 +9168,7 @@
     },
     {
       "name": "ジム",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "ジムウェア",
@@ -10321,6 +10325,10 @@
     {
       "name": "ヒップ",
       "articles": 12
+    },
+    {
+      "name": "ヒップアブダクション",
+      "articles": 1
     },
     {
       "name": "ヒップライン",
@@ -16968,7 +16976,7 @@
     },
     {
       "name": "筋トレ",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "筋トレ女子",
