@@ -1242,7 +1242,7 @@
   "counts": {
     "people": 767,
     "works": 395,
-    "topics": 3316
+    "topics": 3317
   },
   "people": [
     {
@@ -10026,6 +10026,10 @@
       "articles": 1
     },
     {
+      "name": "ハートポーズ",
+      "articles": 1
+    },
+    {
       "name": "ハーネス",
       "articles": 1
     },
@@ -13095,7 +13099,7 @@
     },
     {
       "name": "大人ネタ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "大人向け",
@@ -13359,7 +13363,7 @@
     },
     {
       "name": "女性",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "女性2人",
@@ -17363,7 +17367,7 @@
     },
     {
       "name": "胸",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "胸のサイズ比較",
