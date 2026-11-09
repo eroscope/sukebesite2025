@@ -1248,9 +1248,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 767,
+    "people": 768,
     "works": 395,
-    "topics": 3338
+    "topics": 3339
   },
   "people": [
     {
@@ -3419,6 +3419,10 @@
     },
     {
       "name": "玉木璃子",
+      "articles": 1
+    },
+    {
+      "name": "王林",
       "articles": 1
     },
     {
@@ -9283,7 +9287,7 @@
     },
     {
       "name": "ステージ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "ステージパフォーマンス",
@@ -9639,7 +9643,7 @@
     },
     {
       "name": "テレビ出演",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "テレビ北海道",
@@ -10960,6 +10964,10 @@
     {
       "name": "ミニスカート",
       "articles": 2
+    },
+    {
+      "name": "ミニ丈",
+      "articles": 1
     },
     {
       "name": "ミホ（仮名）",
@@ -17511,7 +17519,7 @@
     },
     {
       "name": "脚",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "脚コキ",
