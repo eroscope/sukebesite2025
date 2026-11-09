@@ -1248,9 +1248,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 768,
+    "people": 769,
     "works": 395,
-    "topics": 3340
+    "topics": 3342
   },
   "people": [
     {
@@ -2779,6 +2779,10 @@
     },
     {
       "name": "朝比奈祐未",
+      "articles": 1
+    },
+    {
+      "name": "朝霧いのり",
       "articles": 1
     },
     {
@@ -9095,7 +9099,7 @@
     },
     {
       "name": "サンプル動画",
-      "articles": 34
+      "articles": 35
     },
     {
       "name": "サンプル画像",
@@ -13634,6 +13638,10 @@
       "articles": 1
     },
     {
+      "name": "学園",
+      "articles": 1
+    },
+    {
       "name": "学園ドラマ",
       "articles": 1
     },
@@ -16755,7 +16763,7 @@
     },
     {
       "name": "着エロ",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "着替え",
@@ -18375,6 +18383,10 @@
     },
     {
       "name": "遊戯王カード",
+      "articles": 1
+    },
+    {
+      "name": "運動部",
       "articles": 1
     },
     {
