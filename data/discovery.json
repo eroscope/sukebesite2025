@@ -1248,9 +1248,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 773,
+    "people": 774,
     "works": 396,
-    "topics": 3345
+    "topics": 3346
   },
   "people": [
     {
@@ -1547,6 +1547,10 @@
     },
     {
       "name": "パス",
+      "articles": 1
+    },
+    {
+      "name": "パンツ",
       "articles": 1
     },
     {
@@ -8915,7 +8919,7 @@
     },
     {
       "name": "ゲーム",
-      "articles": 12
+      "articles": 13
     },
     {
       "name": "ゲームイベント",
@@ -9275,7 +9279,7 @@
     },
     {
       "name": "スカート",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "スカートめくり",
@@ -11431,7 +11435,7 @@
     },
     {
       "name": "ローアングル",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "ローカルAI",
@@ -18063,6 +18067,10 @@
     },
     {
       "name": "見下ろし",
+      "articles": 1
+    },
+    {
+      "name": "規制",
       "articles": 1
     },
     {
