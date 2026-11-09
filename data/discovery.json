@@ -1250,7 +1250,7 @@
   "counts": {
     "people": 771,
     "works": 395,
-    "topics": 3343
+    "topics": 3345
   },
   "people": [
     {
@@ -9054,6 +9054,10 @@
       "articles": 1
     },
     {
+      "name": "ゴールドビキニ",
+      "articles": 1
+    },
+    {
       "name": "サイズ比較",
       "articles": 1
     },
@@ -15595,7 +15599,7 @@
     },
     {
       "name": "水着",
-      "articles": 526
+      "articles": 527
     },
     {
       "name": "水着グラビア",
@@ -18544,6 +18548,10 @@
     {
       "name": "金松季歩",
       "articles": 3
+    },
+    {
+      "name": "金色ビキニ",
+      "articles": 1
     },
     {
       "name": "金髪",
