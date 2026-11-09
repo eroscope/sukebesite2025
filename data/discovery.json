@@ -1250,7 +1250,7 @@
   "counts": {
     "people": 767,
     "works": 395,
-    "topics": 3334
+    "topics": 3338
   },
   "people": [
     {
@@ -6279,7 +6279,7 @@
     },
     {
       "name": "AV動画",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "AV女優",
@@ -12494,6 +12494,10 @@
       "articles": 1
     },
     {
+      "name": "剣道",
+      "articles": 1
+    },
+    {
       "name": "剣道女子",
       "articles": 1
     },
@@ -15210,6 +15214,10 @@
       "articles": 1
     },
     {
+      "name": "枢木あおい",
+      "articles": 1
+    },
+    {
       "name": "柊もみじ",
       "articles": 1
     },
@@ -17116,6 +17124,10 @@
     {
       "name": "素人風",
       "articles": 2
+    },
+    {
+      "name": "素振り",
+      "articles": 1
     },
     {
       "name": "素股",
@@ -19040,6 +19052,10 @@
     {
       "name": "高崎春",
       "articles": 2
+    },
+    {
+      "name": "高杉麻里",
+      "articles": 1
     },
     {
       "name": "高梨瑞樹",
