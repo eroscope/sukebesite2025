@@ -1250,7 +1250,7 @@
   "counts": {
     "people": 768,
     "works": 395,
-    "topics": 3339
+    "topics": 3340
   },
   "people": [
     {
@@ -10183,7 +10183,7 @@
     },
     {
       "name": "バニーガール",
-      "articles": 15
+      "articles": 16
     },
     {
       "name": "バニーコス",
@@ -14654,6 +14654,10 @@
       "articles": 1
     },
     {
+      "name": "控室",
+      "articles": 1
+    },
+    {
       "name": "推し撮生会議",
       "articles": 3
     },
@@ -16399,7 +16403,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 294
+      "articles": 295
     },
     {
       "name": "画像ギャラリー",
