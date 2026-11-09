@@ -1249,7 +1249,7 @@
   ],
   "counts": {
     "people": 773,
-    "works": 395,
+    "works": 396,
     "topics": 3345
   },
   "people": [
@@ -3891,7 +3891,7 @@
     },
     {
       "name": "花井美理",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "花咲ゆら",
@@ -5485,6 +5485,10 @@
     },
     {
       "code": "OME-728",
+      "articles": 1
+    },
+    {
+      "code": "OME-729",
       "articles": 1
     },
     {
@@ -8279,7 +8283,7 @@
     },
     {
       "name": "イメージDVD",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "イメージビデオ",
@@ -11271,7 +11275,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 347
+      "articles": 348
     },
     {
       "name": "ランジェリー風",
@@ -15607,7 +15611,7 @@
     },
     {
       "name": "水着",
-      "articles": 527
+      "articles": 528
     },
     {
       "name": "水着グラビア",
