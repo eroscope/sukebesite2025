@@ -1248,7 +1248,7 @@
   "counts": {
     "people": 767,
     "works": 395,
-    "topics": 3333
+    "topics": 3334
   },
   "people": [
     {
@@ -6833,7 +6833,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 66
+      "articles": 67
     },
     {
       "name": "MOODYZ DIVA",
@@ -13877,6 +13877,10 @@
     },
     {
       "name": "小出広美",
+      "articles": 1
+    },
+    {
+      "name": "小向美奈子",
       "articles": 1
     },
     {
