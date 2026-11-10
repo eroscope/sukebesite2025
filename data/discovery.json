@@ -1049,6 +1049,7 @@
     "topics/topic-e5b97b235e09.html",
     "topics/topic-e62af7c326d6.html",
     "topics/topic-e6913df3570f.html",
+    "topics/topic-e6ff6736ee0f.html",
     "topics/topic-e78e1c022981.html",
     "topics/topic-e79087a84664.html",
     "topics/topic-e7b78e21a542.html",
@@ -1251,8 +1252,8 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 775,
-    "works": 396,
+    "people": 776,
+    "works": 397,
     "topics": 3352
   },
   "people": [
@@ -2318,6 +2319,10 @@
     },
     {
       "name": "家庭教師",
+      "articles": 1
+    },
+    {
+      "name": "密着エステ",
       "articles": 1
     },
     {
@@ -4529,6 +4534,10 @@
     {
       "code": "ABF-396",
       "articles": 2
+    },
+    {
+      "code": "ABF-397",
+      "articles": 1
     },
     {
       "code": "ABF-398",
@@ -6838,7 +6847,7 @@
     },
     {
       "name": "MGS",
-      "articles": 21
+      "articles": 22
     },
     {
       "name": "MGS動画",
@@ -7074,7 +7083,7 @@
     },
     {
       "name": "PRESTIGE",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "PR写真",
@@ -11518,7 +11527,7 @@
     },
     {
       "name": "七嶋舞",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "七武ななみ",
