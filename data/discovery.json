@@ -1252,7 +1252,7 @@
   "counts": {
     "people": 774,
     "works": 396,
-    "topics": 3348
+    "topics": 3350
   },
   "people": [
     {
@@ -14416,6 +14416,10 @@
       "articles": 1
     },
     {
+      "name": "性的リアクション",
+      "articles": 1
+    },
+    {
       "name": "性的嗜好",
       "articles": 1
     },
@@ -14425,7 +14429,7 @@
     },
     {
       "name": "性行為",
-      "articles": 11
+      "articles": 12
     },
     {
       "name": "性行為画像",
@@ -14713,7 +14717,7 @@
     },
     {
       "name": "掲示板まとめ",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "掲示板反応",
@@ -16525,6 +16529,10 @@
     },
     {
       "name": "病院設定",
+      "articles": 1
+    },
+    {
+      "name": "痙攣",
       "articles": 1
     },
     {
