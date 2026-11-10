@@ -1024,6 +1024,7 @@
     "topics/topic-dvd.html",
     "topics/topic-e-body.html",
     "topics/topic-e042c2ead2f0.html",
+    "topics/topic-e04e0e6e4bc8.html",
     "topics/topic-e0a39e1860d0.html",
     "topics/topic-e0eab0927198.html",
     "topics/topic-e16d9671dc56.html",
@@ -1255,7 +1256,7 @@
   "counts": {
     "people": 777,
     "works": 397,
-    "topics": 3354
+    "topics": 3355
   },
   "people": [
     {
@@ -9476,7 +9477,7 @@
     },
     {
       "name": "セックス",
-      "articles": 44
+      "articles": 45
     },
     {
       "name": "セックスカウンセラー",
@@ -10556,7 +10557,7 @@
     },
     {
       "name": "フェチ",
-      "articles": 36
+      "articles": 37
     },
     {
       "name": "フェチ企画",
@@ -14695,6 +14696,10 @@
       "articles": 1
     },
     {
+      "name": "挿入",
+      "articles": 1
+    },
+    {
       "name": "挿入部",
       "articles": 1
     },
@@ -17256,7 +17261,7 @@
     },
     {
       "name": "結合部",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "結城花乃羽",
