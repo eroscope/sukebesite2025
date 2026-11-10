@@ -1258,7 +1258,7 @@
   "counts": {
     "people": 778,
     "works": 397,
-    "topics": 3356
+    "topics": 3358
   },
   "people": [
     {
@@ -17294,6 +17294,10 @@
       "articles": 1
     },
     {
+      "name": "絶叫マシン",
+      "articles": 1
+    },
+    {
       "name": "絶版BODY",
       "articles": 1
     },
@@ -17575,7 +17579,7 @@
     },
     {
       "name": "胸元",
-      "articles": 115
+      "articles": 116
     },
     {
       "name": "胸元チラ見え",
@@ -18924,6 +18928,10 @@
     {
       "name": "露出",
       "articles": 6
+    },
+    {
+      "name": "露出ハプニング",
+      "articles": 1
     },
     {
       "name": "露出垢",
