@@ -1254,7 +1254,7 @@
   "counts": {
     "people": 776,
     "works": 397,
-    "topics": 3352
+    "topics": 3353
   },
   "people": [
     {
@@ -9674,6 +9674,10 @@
       "articles": 1
     },
     {
+      "name": "チャイナ服",
+      "articles": 1
+    },
+    {
       "name": "ツナマヨ",
       "articles": 2
     },
@@ -10107,7 +10111,7 @@
     },
     {
       "name": "ハメ撮り",
-      "articles": 40
+      "articles": 41
     },
     {
       "name": "ハメ撮り風",
@@ -10119,7 +10123,7 @@
     },
     {
       "name": "ハロウィン",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "ハロプロ",
@@ -18051,7 +18055,7 @@
     },
     {
       "name": "複数人",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "複数人プレイ",
