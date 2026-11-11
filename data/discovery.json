@@ -871,6 +871,7 @@
     "topics/topic-b242f222724f.html",
     "topics/topic-b2ca881a56fd.html",
     "topics/topic-b2ffdf43441b.html",
+    "topics/topic-b32758e000a0.html",
     "topics/topic-b3572870fb59.html",
     "topics/topic-b3ef159cd12f.html",
     "topics/topic-b426cff04d6b.html",
@@ -1261,9 +1262,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 781,
+    "people": 782,
     "works": 398,
-    "topics": 3365
+    "topics": 3366
   },
   "people": [
     {
@@ -1409,6 +1410,10 @@
     {
       "name": "ひなの花音",
       "articles": 3
+    },
+    {
+      "name": "ほのか",
+      "articles": 1
     },
     {
       "name": "まりんぽみるく",
@@ -7520,7 +7525,7 @@
     },
     {
       "name": "YouTube",
-      "articles": 7
+      "articles": 8
     },
     {
       "name": "YouTuber",
@@ -14923,6 +14928,10 @@
       "articles": 1
     },
     {
+      "name": "料理動画",
+      "articles": 1
+    },
+    {
       "name": "料理教室の先生",
       "articles": 1
     },
@@ -18072,7 +18081,7 @@
     },
     {
       "name": "裸エプロン",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "裸エプロン風",
