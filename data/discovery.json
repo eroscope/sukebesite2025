@@ -1259,9 +1259,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 780,
+    "people": 781,
     "works": 398,
-    "topics": 3363
+    "topics": 3364
   },
   "people": [
     {
@@ -2182,6 +2182,10 @@
     },
     {
       "name": "堀江りほ",
+      "articles": 1
+    },
+    {
+      "name": "塩地美澄",
       "articles": 1
     },
     {
@@ -11662,7 +11666,7 @@
     },
     {
       "name": "下着",
-      "articles": 215
+      "articles": 216
     },
     {
       "name": "下着ずらし",
@@ -17614,7 +17618,7 @@
     },
     {
       "name": "胸元",
-      "articles": 117
+      "articles": 118
     },
     {
       "name": "胸元チラ見え",
@@ -19367,6 +19371,10 @@
     {
       "name": "黒ワンピース",
       "articles": 2
+    },
+    {
+      "name": "黒下着",
+      "articles": 1
     },
     {
       "name": "黒咲華",
