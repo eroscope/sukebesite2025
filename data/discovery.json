@@ -1264,7 +1264,7 @@
   "counts": {
     "people": 784,
     "works": 398,
-    "topics": 3367
+    "topics": 3368
   },
   "people": [
     {
@@ -8060,6 +8060,10 @@
       "articles": 1
     },
     {
+      "name": "ほしのあき",
+      "articles": 1
+    },
+    {
       "name": "ぽっちゃり",
       "articles": 4
     },
@@ -11681,7 +11685,7 @@
     },
     {
       "name": "下着",
-      "articles": 217
+      "articles": 218
     },
     {
       "name": "下着ずらし",
@@ -15729,7 +15733,7 @@
     },
     {
       "name": "水着",
-      "articles": 533
+      "articles": 534
     },
     {
       "name": "水着グラビア",
