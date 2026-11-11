@@ -1261,7 +1261,7 @@
   "counts": {
     "people": 780,
     "works": 398,
-    "topics": 3362
+    "topics": 3363
   },
   "people": [
     {
@@ -7585,6 +7585,10 @@
       "articles": 5
     },
     {
+      "name": "mochi",
+      "articles": 1
+    },
+    {
       "name": "news23",
       "articles": 1
     },
@@ -10774,7 +10778,7 @@
     },
     {
       "name": "ベッドシーン",
-      "articles": 43
+      "articles": 44
     },
     {
       "name": "ベッド上",
@@ -17338,7 +17342,7 @@
     },
     {
       "name": "網タイツ",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "緊縛",
