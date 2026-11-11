@@ -992,6 +992,7 @@
     "topics/topic-d57d0ac4a1ce.html",
     "topics/topic-d59bbe86d3e8.html",
     "topics/topic-d5ac2f996349.html",
+    "topics/topic-d5b9accbc19f.html",
     "topics/topic-d5ffda537a24.html",
     "topics/topic-d6576120d6c9.html",
     "topics/topic-d7209522408a.html",
@@ -1264,7 +1265,7 @@
   "counts": {
     "people": 784,
     "works": 398,
-    "topics": 3368
+    "topics": 3369
   },
   "people": [
     {
@@ -9069,7 +9070,7 @@
     },
     {
       "name": "コミケ",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "コラボ衣装",
@@ -13205,7 +13206,7 @@
     },
     {
       "name": "売り子",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "売上ランキング",
@@ -16297,6 +16298,10 @@
     },
     {
       "name": "牛丼店",
+      "articles": 1
+    },
+    {
+      "name": "牛柄",
       "articles": 1
     },
     {
