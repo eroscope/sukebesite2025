@@ -1261,7 +1261,7 @@
   "counts": {
     "people": 779,
     "works": 398,
-    "topics": 3360
+    "topics": 3361
   },
   "people": [
     {
@@ -8330,7 +8330,7 @@
     },
     {
       "name": "イメージDVD",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "イメージビデオ",
@@ -10438,7 +10438,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 213
+      "articles": 214
     },
     {
       "name": "ビジネススーツ",
@@ -14393,6 +14393,10 @@
       "articles": 15
     },
     {
+      "name": "後藤まつり",
+      "articles": 1
+    },
+    {
       "name": "後藤ゆきこ",
       "articles": 1
     },
@@ -15690,7 +15694,7 @@
     },
     {
       "name": "水着",
-      "articles": 532
+      "articles": 533
     },
     {
       "name": "水着グラビア",
