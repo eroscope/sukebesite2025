@@ -801,6 +801,7 @@
     "topics/topic-a90fc01fd71c.html",
     "topics/topic-a99917e86228.html",
     "topics/topic-aa1e58535722.html",
+    "topics/topic-aa404321a779.html",
     "topics/topic-aa511e6797a7.html",
     "topics/topic-aa9a2167fdc4.html",
     "topics/topic-aa9c6f135e29.html",
@@ -1259,7 +1260,7 @@
   ],
   "counts": {
     "people": 779,
-    "works": 397,
+    "works": 398,
     "topics": 3360
   },
   "people": [
@@ -5454,6 +5455,10 @@
       "articles": 1
     },
     {
+      "code": "NHDTC-262",
+      "articles": 1
+    },
+    {
       "code": "NIMA-078",
       "articles": 1
     },
@@ -6973,7 +6978,7 @@
     },
     {
       "name": "NATURALHIGH",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "NGT48",
@@ -8717,7 +8722,7 @@
     },
     {
       "name": "キス",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "キス音",
@@ -12393,7 +12398,7 @@
     },
     {
       "name": "公式サンプル動画",
-      "articles": 53
+      "articles": 54
     },
     {
       "name": "公式スチル",
@@ -12521,7 +12526,7 @@
     },
     {
       "name": "制服",
-      "articles": 45
+      "articles": 46
     },
     {
       "name": "制服ギャル",
@@ -16053,7 +16058,7 @@
     },
     {
       "name": "満員電車",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "溝端葵",
