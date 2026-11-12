@@ -105,6 +105,7 @@
     "people/person-76ffd132d78b.html",
     "people/person-779cdb0ad2c8.html",
     "people/person-7b601598aa66.html",
+    "people/person-7bdce876bda7.html",
     "people/person-7d0bb2a214ff.html",
     "people/person-7eb6effa37c0.html",
     "people/person-81e09aa80be7.html",
@@ -424,6 +425,7 @@
     "topics/topic-3ad6d9ebca93.html",
     "topics/topic-3b2ce5591771.html",
     "topics/topic-3b9aed326527.html",
+    "topics/topic-3ba65077f045.html",
     "topics/topic-3c291067e075.html",
     "topics/topic-3c468e131bd3.html",
     "topics/topic-3c5cbad8e493.html",
@@ -1268,7 +1270,7 @@
   "counts": {
     "people": 787,
     "works": 400,
-    "topics": 3375
+    "topics": 3376
   },
   "people": [
     {
@@ -4233,7 +4235,7 @@
     },
     {
       "name": "鈴木聖",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "鈴村あいり",
@@ -9533,7 +9535,7 @@
     },
     {
       "name": "セクシー",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "セクシーゲーム",
@@ -16377,7 +16379,7 @@
     },
     {
       "name": "猫耳メイド",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "猫耳衣装",
@@ -19438,6 +19440,10 @@
     {
       "name": "黒ビキニ",
       "articles": 7
+    },
+    {
+      "name": "黒ビスチェ",
+      "articles": 1
     },
     {
       "name": "黒ポロシャツ",
