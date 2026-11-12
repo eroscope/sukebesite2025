@@ -1268,7 +1268,7 @@
   "counts": {
     "people": 786,
     "works": 400,
-    "topics": 3373
+    "topics": 3375
   },
   "people": [
     {
@@ -15769,7 +15769,7 @@
     },
     {
       "name": "水着",
-      "articles": 534
+      "articles": 535
     },
     {
       "name": "水着グラビア",
@@ -16009,6 +16009,10 @@
     },
     {
       "name": "海月みゆき",
+      "articles": 1
+    },
+    {
+      "name": "海水浴場",
       "articles": 1
     },
     {
@@ -16433,7 +16437,7 @@
     },
     {
       "name": "生成AI",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "生挿入",
@@ -18258,6 +18262,10 @@
     {
       "name": "視線",
       "articles": 2
+    },
+    {
+      "name": "親子風",
+      "articles": 1
     },
     {
       "name": "触手",
