@@ -1264,7 +1264,7 @@
   ],
   "counts": {
     "people": 784,
-    "works": 398,
+    "works": 399,
     "topics": 3369
   },
   "people": [
@@ -5675,6 +5675,10 @@
       "articles": 1
     },
     {
+      "code": "SAVR-1199",
+      "articles": 1
+    },
+    {
       "code": "SAVR-1210",
       "articles": 1
     },
@@ -6182,7 +6186,7 @@
     },
     {
       "name": "8K",
-      "articles": 36
+      "articles": 37
     },
     {
       "name": "8K VR",
@@ -6846,7 +6850,7 @@
     },
     {
       "name": "KMPVR",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "Kカップ",
@@ -7462,7 +7466,7 @@
     },
     {
       "name": "VR",
-      "articles": 136
+      "articles": 137
     },
     {
       "name": "VR AV",
@@ -12450,7 +12454,7 @@
     },
     {
       "name": "公式商品紹介",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "公式画像",
