@@ -1268,8 +1268,8 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 787,
-    "works": 400,
+    "people": 788,
+    "works": 401,
     "topics": 3379
   },
   "people": [
@@ -3438,6 +3438,10 @@
       "articles": 3
     },
     {
+      "name": "瀧本雫葉",
+      "articles": 1
+    },
+    {
       "name": "瀬名ひかり",
       "articles": 1
     },
@@ -4602,6 +4606,10 @@
     {
       "code": "ABF-398",
       "articles": 2
+    },
+    {
+      "code": "ABF-400",
+      "articles": 1
     },
     {
       "code": "ACHJ-083",
@@ -6827,7 +6835,7 @@
     },
     {
       "name": "Instagram",
-      "articles": 25
+      "articles": 26
     },
     {
       "name": "I’mew",
@@ -6919,7 +6927,7 @@
     },
     {
       "name": "MGS",
-      "articles": 22
+      "articles": 23
     },
     {
       "name": "MGS動画",
