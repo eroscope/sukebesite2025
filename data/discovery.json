@@ -1039,6 +1039,7 @@
     "topics/topic-e16d9671dc56.html",
     "topics/topic-e18b1ea15d9c.html",
     "topics/topic-e1991f4edc65.html",
+    "topics/topic-e1cc95aec3bf.html",
     "topics/topic-e1d3de16ea1d.html",
     "topics/topic-e273e3404eb0.html",
     "topics/topic-e2a6d2606a0a.html",
@@ -1265,7 +1266,7 @@
   "counts": {
     "people": 784,
     "works": 399,
-    "topics": 3369
+    "topics": 3370
   },
   "people": [
     {
@@ -9758,7 +9759,7 @@
     },
     {
       "name": "テレビキャプチャ",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "テレビ出演",
@@ -11498,7 +11499,7 @@
     },
     {
       "name": "ロケ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ロケバス",
@@ -11546,6 +11547,10 @@
     },
     {
       "name": "ワインセラー",
+      "articles": 1
+    },
+    {
+      "name": "ワインレッド衣装",
       "articles": 1
     },
     {
@@ -13538,7 +13543,7 @@
     },
     {
       "name": "女子アナ",
-      "articles": 137
+      "articles": 138
     },
     {
       "name": "女子アナ設定",
@@ -17558,7 +17563,7 @@
     },
     {
       "name": "羽田優里奈",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "耐久",
