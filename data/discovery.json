@@ -1270,7 +1270,7 @@
   "counts": {
     "people": 788,
     "works": 401,
-    "topics": 3379
+    "topics": 3383
   },
   "people": [
     {
@@ -7718,6 +7718,10 @@
       "articles": 3
     },
     {
+      "name": "あすか120%",
+      "articles": 1
+    },
+    {
       "name": "あや",
       "articles": 1
     },
@@ -8526,6 +8530,10 @@
       "articles": 1
     },
     {
+      "name": "エデンズリッターグレンツェ",
+      "articles": 1
+    },
+    {
       "name": "エビ反り",
       "articles": 1
     },
@@ -9120,6 +9128,10 @@
     {
       "name": "コミケ",
       "articles": 6
+    },
+    {
+      "name": "コラボ",
+      "articles": 1
     },
     {
       "name": "コラボ衣装",
@@ -14687,7 +14699,7 @@
     },
     {
       "name": "成人向けゲーム",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "成人向けコミックス",
@@ -18820,6 +18832,10 @@
     {
       "name": "鈴木ふみ奈",
       "articles": 2
+    },
+    {
+      "name": "鈴木めぐみ",
+      "articles": 1
     },
     {
       "name": "鈴木心春",
