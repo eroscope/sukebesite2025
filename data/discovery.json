@@ -456,6 +456,7 @@
     "topics/topic-42b682502372.html",
     "topics/topic-42eab7d23db3.html",
     "topics/topic-433499bd3263.html",
+    "topics/topic-435e2a09bbef.html",
     "topics/topic-437075f9018d.html",
     "topics/topic-442b7e8e841d.html",
     "topics/topic-4435a3b14df7.html",
@@ -1265,7 +1266,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 785,
+    "people": 786,
     "works": 400,
     "topics": 3373
   },
@@ -4028,6 +4029,10 @@
     },
     {
       "name": "藍沢優葉",
+      "articles": 1
+    },
+    {
+      "name": "藤乃あおい",
       "articles": 1
     },
     {
@@ -8968,7 +8973,7 @@
     },
     {
       "name": "グラビア動画",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "グラビア画像",
@@ -9136,7 +9141,7 @@
     },
     {
       "name": "ゴスロリ",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ゴブリンスレイヤー",
@@ -11164,7 +11169,7 @@
     },
     {
       "name": "メイド服",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "メイド風衣装",
