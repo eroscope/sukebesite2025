@@ -1265,8 +1265,8 @@
   ],
   "counts": {
     "people": 784,
-    "works": 399,
-    "topics": 3370
+    "works": 400,
+    "topics": 3372
   },
   "people": [
     {
@@ -4828,6 +4828,10 @@
       "articles": 1
     },
     {
+      "code": "GUILD-286",
+      "articles": 1
+    },
+    {
       "code": "GVH-855",
       "articles": 1
     },
@@ -6567,7 +6571,7 @@
     },
     {
       "name": "DVD",
-      "articles": 18
+      "articles": 19
     },
     {
       "name": "DVDサンプル",
@@ -7966,6 +7970,10 @@
       "articles": 1
     },
     {
+      "name": "つぶらあい",
+      "articles": 1
+    },
+    {
       "name": "つゆだくバナナの家",
       "articles": 1
     },
@@ -8350,6 +8358,10 @@
       "articles": 1
     },
     {
+      "name": "イケない従順",
+      "articles": 1
+    },
+    {
       "name": "イタリア人",
       "articles": 1
     },
@@ -8371,7 +8383,7 @@
     },
     {
       "name": "イメージビデオ",
-      "articles": 31
+      "articles": 32
     },
     {
       "name": "イメージ作品",
@@ -11371,7 +11383,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 350
+      "articles": 351
     },
     {
       "name": "ランジェリー風",
