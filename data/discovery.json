@@ -627,6 +627,7 @@
     "topics/topic-7762d3aed2fb.html",
     "topics/topic-77bf3dd73ea1.html",
     "topics/topic-787d9ce94632.html",
+    "topics/topic-78a43a548c26.html",
     "topics/topic-795d25e718e1.html",
     "topics/topic-7971dc2a54e2.html",
     "topics/topic-797df32f29ec.html",
@@ -1264,7 +1265,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 784,
+    "people": 785,
     "works": 400,
     "topics": 3373
   },
@@ -1451,6 +1452,10 @@
     },
     {
       "name": "わんこ",
+      "articles": 1
+    },
+    {
+      "name": "アグネス・ラム",
       "articles": 1
     },
     {
@@ -10495,7 +10500,7 @@
     },
     {
       "name": "ビキニ",
-      "articles": 214
+      "articles": 215
     },
     {
       "name": "ビジネススーツ",
@@ -15155,7 +15160,7 @@
     },
     {
       "name": "昭和",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "昭和AV女優",
