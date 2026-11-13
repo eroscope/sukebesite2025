@@ -1272,7 +1272,7 @@
   "counts": {
     "people": 788,
     "works": 401,
-    "topics": 3387
+    "topics": 3388
   },
   "people": [
     {
@@ -6413,7 +6413,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 234
+      "articles": 235
     },
     {
       "name": "AV女優検索",
@@ -12805,7 +12805,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 41
+      "articles": 42
     },
     {
       "name": "匿名新人",
@@ -19046,6 +19046,10 @@
     {
       "name": "雑誌表紙",
       "articles": 2
+    },
+    {
+      "name": "雑談",
+      "articles": 1
     },
     {
       "name": "雛形みくる",
