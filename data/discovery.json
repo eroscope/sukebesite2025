@@ -1270,7 +1270,7 @@
   "counts": {
     "people": 788,
     "works": 401,
-    "topics": 3385
+    "topics": 3386
   },
   "people": [
     {
@@ -6658,6 +6658,10 @@
       "articles": 1
     },
     {
+      "name": "FANZAライブチャット",
+      "articles": 1
+    },
+    {
       "name": "FANZA作品",
       "articles": 2
     },
@@ -7971,7 +7975,7 @@
     },
     {
       "name": "すみれch",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "たすき掛け",
@@ -10367,7 +10371,7 @@
     },
     {
       "name": "バニーガール",
-      "articles": 16
+      "articles": 17
     },
     {
       "name": "バニーコス",
@@ -15811,7 +15815,7 @@
     },
     {
       "name": "水着",
-      "articles": 535
+      "articles": 536
     },
     {
       "name": "水着グラビア",
