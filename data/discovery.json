@@ -1270,7 +1270,7 @@
   "counts": {
     "people": 788,
     "works": 401,
-    "topics": 3383
+    "topics": 3385
   },
   "people": [
     {
@@ -9110,6 +9110,10 @@
       "articles": 1
     },
     {
+      "name": "コスプレイベント",
+      "articles": 1
+    },
+    {
       "name": "コスプレ写真",
       "articles": 1
     },
@@ -11583,7 +11587,7 @@
     },
     {
       "name": "ローアングル",
-      "articles": 4
+      "articles": 5
     },
     {
       "name": "ローカルAI",
@@ -18859,7 +18863,7 @@
     },
     {
       "name": "銀髪",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "銀魂",
@@ -19527,6 +19531,10 @@
     },
     {
       "name": "黒肌",
+      "articles": 1
+    },
+    {
+      "name": "黒衣装",
       "articles": 1
     },
     {
