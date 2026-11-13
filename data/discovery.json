@@ -1273,9 +1273,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 789,
+    "people": 790,
     "works": 401,
-    "topics": 3392
+    "topics": 3393
   },
   "people": [
     {
@@ -3640,6 +3640,10 @@
     },
     {
       "name": "白鳥怜",
+      "articles": 1
+    },
+    {
+      "name": "百合川サシャ",
       "articles": 1
     },
     {
@@ -6820,7 +6824,7 @@
     },
     {
       "name": "I-ONE",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "IANN-08",
@@ -7992,6 +7996,10 @@
     },
     {
       "name": "たすき掛け",
+      "articles": 1
+    },
+    {
+      "name": "だって好きなんだもん",
       "articles": 1
     },
     {
@@ -12264,7 +12272,7 @@
     },
     {
       "name": "作品サンプル",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "作品ジャケ",
