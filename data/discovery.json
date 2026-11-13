@@ -1275,7 +1275,7 @@
   "counts": {
     "people": 790,
     "works": 401,
-    "topics": 3393
+    "topics": 3394
   },
   "people": [
     {
@@ -3400,7 +3400,7 @@
     },
     {
       "name": "涼森れむ",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "深キョン",
@@ -6619,6 +6619,10 @@
       "articles": 1
     },
     {
+      "name": "Darling.",
+      "articles": 1
+    },
+    {
       "name": "Dear my Deer",
       "articles": 1
     },
@@ -6852,7 +6856,7 @@
     },
     {
       "name": "Instagram",
-      "articles": 26
+      "articles": 27
     },
     {
       "name": "I’mew",
@@ -12592,7 +12596,7 @@
     },
     {
       "name": "写真集",
-      "articles": 96
+      "articles": 97
     },
     {
       "name": "冨永実里",
