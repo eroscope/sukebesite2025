@@ -235,6 +235,7 @@
     "topics/topic-050fab733e97.html",
     "topics/topic-0525273f4cfd.html",
     "topics/topic-0535bf05778f.html",
+    "topics/topic-05e365a620a3.html",
     "topics/topic-061054efcd00.html",
     "topics/topic-067328416c99.html",
     "topics/topic-07064bd9e47d.html",
@@ -858,6 +859,7 @@
     "topics/topic-av.html",
     "topics/topic-av.html",
     "topics/topic-av.html",
+    "topics/topic-av.html",
     "topics/topic-b010a4c2d907.html",
     "topics/topic-b012e9f891cc.html",
     "topics/topic-b02310aeefca.html",
@@ -1270,7 +1272,7 @@
   "counts": {
     "people": 788,
     "works": 401,
-    "topics": 3386
+    "topics": 3387
   },
   "people": [
     {
@@ -6371,7 +6373,7 @@
     },
     {
       "name": "AVジャケット",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "AVセール",
@@ -6882,8 +6884,12 @@
       "articles": 1
     },
     {
+      "name": "KMP25周年100円セール",
+      "articles": 1
+    },
+    {
       "name": "KMPVR",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "Kカップ",
@@ -17635,7 +17641,7 @@
     },
     {
       "name": "羽月乃蒼",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "羽田優里奈",
