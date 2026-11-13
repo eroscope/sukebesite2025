@@ -508,6 +508,7 @@
     "topics/topic-50f8f8ad8f34.html",
     "topics/topic-5112ff0d458b.html",
     "topics/topic-51138b9db6a2.html",
+    "topics/topic-513e9a89694e.html",
     "topics/topic-52bc074edf26.html",
     "topics/topic-52e3f725480b.html",
     "topics/topic-536c40f98792.html",
@@ -1275,7 +1276,7 @@
   "counts": {
     "people": 790,
     "works": 401,
-    "topics": 3394
+    "topics": 3396
   },
   "people": [
     {
@@ -12176,7 +12177,7 @@
     },
     {
       "name": "似てる女優",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "似鳥沙也加",
@@ -12892,7 +12893,7 @@
     },
     {
       "name": "博多彩葉",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "卵ケース",
@@ -14196,6 +14197,10 @@
     },
     {
       "name": "小豆もち",
+      "articles": 1
+    },
+    {
+      "name": "小那海あや",
       "articles": 1
     },
     {
@@ -16919,6 +16924,10 @@
       "articles": 1
     },
     {
+      "name": "白浜のぞみ",
+      "articles": 1
+    },
+    {
       "name": "白濱美兎",
       "articles": 1
     },
@@ -19272,7 +19281,7 @@
     },
     {
       "name": "顔比較",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "顔認識",
