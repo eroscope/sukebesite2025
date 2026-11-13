@@ -1276,7 +1276,7 @@
   "counts": {
     "people": 790,
     "works": 401,
-    "topics": 3396
+    "topics": 3398
   },
   "people": [
     {
@@ -7117,7 +7117,7 @@
     },
     {
       "name": "NTR",
-      "articles": 19
+      "articles": 20
     },
     {
       "name": "NTRエステ",
@@ -14069,7 +14069,7 @@
     },
     {
       "name": "寝取られ",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "寝取り",
@@ -14793,7 +14793,7 @@
     },
     {
       "name": "成人向け漫画",
-      "articles": 9
+      "articles": 10
     },
     {
       "name": "成人向け画像集",
@@ -17384,6 +17384,10 @@
       "articles": 1
     },
     {
+      "name": "純愛",
+      "articles": 1
+    },
+    {
       "name": "純白彩永",
       "articles": 1
     },
@@ -18389,6 +18393,10 @@
     },
     {
       "name": "誤植",
+      "articles": 1
+    },
+    {
+      "name": "読者の反応",
       "articles": 1
     },
     {
