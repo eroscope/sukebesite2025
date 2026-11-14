@@ -1284,7 +1284,7 @@
   "counts": {
     "people": 792,
     "works": 402,
-    "topics": 3416
+    "topics": 3417
   },
   "people": [
     {
@@ -9661,7 +9661,7 @@
     },
     {
       "name": "セックス画像",
-      "articles": 20
+      "articles": 21
     },
     {
       "name": "セフレ",
@@ -13757,6 +13757,10 @@
     },
     {
       "name": "女性ラッパー",
+      "articles": 1
+    },
+    {
+      "name": "女性主導",
       "articles": 1
     },
     {
@@ -19493,7 +19497,7 @@
     },
     {
       "name": "騎乗位",
-      "articles": 34
+      "articles": 35
     },
     {
       "name": "驚き顔",
