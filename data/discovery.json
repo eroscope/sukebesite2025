@@ -1285,7 +1285,7 @@
   "counts": {
     "people": 793,
     "works": 402,
-    "topics": 3421
+    "topics": 3423
   },
   "people": [
     {
@@ -8634,7 +8634,7 @@
     },
     {
       "name": "エロゲ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "エロゲー",
@@ -9170,6 +9170,10 @@
     },
     {
       "name": "ゲーム衣装",
+      "articles": 1
+    },
+    {
+      "name": "ゲーム談義",
       "articles": 1
     },
     {
@@ -14709,6 +14713,10 @@
       "articles": 1
     },
     {
+      "name": "性的シーン",
+      "articles": 1
+    },
+    {
       "name": "性的リアクション",
       "articles": 1
     },
@@ -14826,7 +14834,7 @@
     },
     {
       "name": "成人向けゲーム",
-      "articles": 3
+      "articles": 4
     },
     {
       "name": "成人向けコミックス",
