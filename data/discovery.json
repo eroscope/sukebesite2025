@@ -719,6 +719,7 @@
     "topics/topic-90e991a03771.html",
     "topics/topic-90f62f22f01e.html",
     "topics/topic-931f5e0e2c56.html",
+    "topics/topic-9326ee7e8fe1.html",
     "topics/topic-934370df8f88.html",
     "topics/topic-935eefe90081.html",
     "topics/topic-9382af5ea57b.html",
@@ -1274,9 +1275,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 790,
+    "people": 791,
     "works": 401,
-    "topics": 3402
+    "topics": 3405
   },
   "people": [
     {
@@ -2214,6 +2215,10 @@
     {
       "name": "夏希まろん",
       "articles": 2
+    },
+    {
+      "name": "夜の繁華街",
+      "articles": 1
     },
     {
       "name": "夢乃あいか",
@@ -9665,7 +9670,7 @@
     },
     {
       "name": "セーラー服風",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "セーラー風衣装",
@@ -9741,7 +9746,7 @@
     },
     {
       "name": "タイ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "タイツ",
@@ -10180,6 +10185,10 @@
       "articles": 1
     },
     {
+      "name": "ネオン街",
+      "articles": 1
+    },
+    {
       "name": "ネクタイ",
       "articles": 1
     },
@@ -10489,6 +10498,10 @@
     },
     {
       "name": "パッケージ紹介",
+      "articles": 1
+    },
+    {
+      "name": "パッタヤー",
       "articles": 1
     },
     {
@@ -14478,6 +14491,10 @@
     {
       "name": "幼馴染",
       "articles": 4
+    },
+    {
+      "name": "店前の女性",
+      "articles": 1
     },
     {
       "name": "弓桁朱琴",
