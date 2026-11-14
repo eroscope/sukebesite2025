@@ -1285,7 +1285,7 @@
   "counts": {
     "people": 793,
     "works": 402,
-    "topics": 3418
+    "topics": 3421
   },
   "people": [
     {
@@ -8445,6 +8445,10 @@
       "articles": 1
     },
     {
+      "name": "アンケート",
+      "articles": 1
+    },
+    {
       "name": "アンジェラ芽衣",
       "articles": 1
     },
@@ -9686,6 +9690,10 @@
     },
     {
       "name": "セリフ",
+      "articles": 1
+    },
+    {
+      "name": "セルフプレジャー",
       "articles": 1
     },
     {
@@ -11897,6 +11905,10 @@
       "articles": 2
     },
     {
+      "name": "世代比較",
+      "articles": 1
+    },
+    {
       "name": "並木雲楓",
       "articles": 1
     },
@@ -13738,7 +13750,7 @@
     },
     {
       "name": "女性",
-      "articles": 10
+      "articles": 11
     },
     {
       "name": "女性2人",
@@ -17998,7 +18010,7 @@
     },
     {
       "name": "自慰",
-      "articles": 5
+      "articles": 6
     },
     {
       "name": "自慰画像",
