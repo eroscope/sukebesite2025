@@ -1282,7 +1282,7 @@
   "counts": {
     "people": 792,
     "works": 401,
-    "topics": 3411
+    "topics": 3415
   },
   "people": [
     {
@@ -6480,6 +6480,10 @@
     {
       "name": "AV転身",
       "articles": 2
+    },
+    {
+      "name": "AV雑談",
+      "articles": 1
     },
     {
       "name": "AliExpress",
@@ -15250,6 +15254,10 @@
       "articles": 1
     },
     {
+      "name": "昔のAV",
+      "articles": 1
+    },
+    {
       "name": "昔のアニメ",
       "articles": 1
     },
@@ -15703,6 +15711,10 @@
     },
     {
       "name": "椅子",
+      "articles": 1
+    },
+    {
+      "name": "椎名そら",
       "articles": 1
     },
     {
@@ -19047,6 +19059,10 @@
     },
     {
       "name": "長濱ねる",
+      "articles": 1
+    },
+    {
+      "name": "長瀬愛",
       "articles": 1
     },
     {
