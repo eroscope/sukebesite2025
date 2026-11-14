@@ -450,6 +450,7 @@
     "topics/topic-3p.html",
     "topics/topic-4018296bb921.html",
     "topics/topic-403ce6a9e7dc.html",
+    "topics/topic-4089fe138a1e.html",
     "topics/topic-4099fd9114e8.html",
     "topics/topic-40a54b21f9f0.html",
     "topics/topic-40bd92596d03.html",
@@ -494,6 +495,7 @@
     "topics/topic-4bcbdeac3093.html",
     "topics/topic-4c5fc72da2ff.html",
     "topics/topic-4d46b8b87f7e.html",
+    "topics/topic-4de08282d22f.html",
     "topics/topic-4e45410697dc.html",
     "topics/topic-4e6e4734b1b2.html",
     "topics/topic-4e72b30797c6.html",
@@ -1280,7 +1282,7 @@
   "counts": {
     "people": 792,
     "works": 401,
-    "topics": 3409
+    "topics": 3411
   },
   "people": [
     {
@@ -10893,7 +10895,7 @@
     },
     {
       "name": "プール",
-      "articles": 33
+      "articles": 34
     },
     {
       "name": "プール撮影",
@@ -11697,7 +11699,7 @@
     },
     {
       "name": "ワールドビジネスサテライト",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "一人称視点",
@@ -12829,7 +12831,7 @@
     },
     {
       "name": "北川莉央",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "北川遥",
@@ -14249,7 +14251,7 @@
     },
     {
       "name": "尻",
-      "articles": 56
+      "articles": 57
     },
     {
       "name": "尻フェチ",
@@ -15884,6 +15886,10 @@
       "articles": 1
     },
     {
+      "name": "水害対策",
+      "articles": 1
+    },
+    {
       "name": "水泳インストラクター",
       "articles": 1
     },
@@ -16053,6 +16059,10 @@
     },
     {
       "name": "浮き輪",
+      "articles": 1
+    },
+    {
+      "name": "浮力スーツ",
       "articles": 1
     },
     {
