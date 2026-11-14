@@ -1282,9 +1282,9 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 792,
+    "people": 793,
     "works": 402,
-    "topics": 3417
+    "topics": 3418
   },
   "people": [
     {
@@ -3766,6 +3766,10 @@
     {
       "name": "福井梨莉華",
       "articles": 4
+    },
+    {
+      "name": "福永幸海",
+      "articles": 1
     },
     {
       "name": "福田ゆあ",
@@ -7480,6 +7484,10 @@
       "articles": 3
     },
     {
+      "name": "Sweet Love",
+      "articles": 1
+    },
+    {
       "name": "Sweet Story",
       "articles": 1
     },
@@ -9329,7 +9337,7 @@
     },
     {
       "name": "サンプル動画",
-      "articles": 39
+      "articles": 40
     },
     {
       "name": "サンプル画像",
@@ -11513,7 +11521,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 355
+      "articles": 356
     },
     {
       "name": "ランジェリー風",
