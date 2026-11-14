@@ -1080,6 +1080,7 @@
     "topics/topic-e80b7701b433.html",
     "topics/topic-e854112cea12.html",
     "topics/topic-e871a34a6e7e.html",
+    "topics/topic-e88982e276df.html",
     "topics/topic-e93dd057cfd7.html",
     "topics/topic-e9800f84dbd8.html",
     "topics/topic-ea65df2aa4d6.html",
@@ -1277,7 +1278,7 @@
   "counts": {
     "people": 791,
     "works": 401,
-    "topics": 3405
+    "topics": 3406
   },
   "people": [
     {
@@ -6309,6 +6310,10 @@
       "articles": 3
     },
     {
+      "name": "AI映像",
+      "articles": 1
+    },
+    {
       "name": "AI生成",
       "articles": 4
     },
@@ -10286,7 +10291,7 @@
     },
     {
       "name": "ハメ撮り風",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ハリー・ポッター",
@@ -16562,7 +16567,7 @@
     },
     {
       "name": "生成AI",
-      "articles": 8
+      "articles": 9
     },
     {
       "name": "生挿入",
