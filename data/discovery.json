@@ -1276,7 +1276,7 @@
   "counts": {
     "people": 790,
     "works": 401,
-    "topics": 3401
+    "topics": 3402
   },
   "people": [
     {
@@ -8453,7 +8453,7 @@
     },
     {
       "name": "イメージビデオ",
-      "articles": 32
+      "articles": 33
     },
     {
       "name": "イメージ作品",
@@ -15620,6 +15620,10 @@
       "articles": 1
     },
     {
+      "name": "桜庭みゅう",
+      "articles": 1
+    },
+    {
       "name": "梅山恋和",
       "articles": 1
     },
@@ -15869,7 +15873,7 @@
     },
     {
       "name": "水着",
-      "articles": 538
+      "articles": 539
     },
     {
       "name": "水着グラビア",
