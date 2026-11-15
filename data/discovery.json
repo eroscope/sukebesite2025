@@ -1288,7 +1288,7 @@
   "counts": {
     "people": 794,
     "works": 403,
-    "topics": 3430
+    "topics": 3434
   },
   "people": [
     {
@@ -7028,6 +7028,10 @@
       "articles": 2
     },
     {
+      "name": "MONDOTV",
+      "articles": 1
+    },
+    {
       "name": "MONROE",
       "articles": 1
     },
@@ -8712,6 +8716,10 @@
       "articles": 1
     },
     {
+      "name": "オッパブ",
+      "articles": 1
+    },
+    {
       "name": "オトナのたしなみ",
       "articles": 1
     },
@@ -9662,6 +9670,10 @@
     {
       "name": "スーパーリアル麻雀VR",
       "articles": 2
+    },
+    {
+      "name": "セクキャバ",
+      "articles": 1
     },
     {
       "name": "セクシー",
@@ -12929,7 +12941,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 44
+      "articles": 45
     },
     {
       "name": "匿名新人",
@@ -19486,6 +19498,10 @@
     {
       "name": "風俗体験",
       "articles": 2
+    },
+    {
+      "name": "風俗体験談",
+      "articles": 1
     },
     {
       "name": "風俗店",
