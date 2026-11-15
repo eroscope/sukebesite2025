@@ -1287,7 +1287,7 @@
   "counts": {
     "people": 794,
     "works": 403,
-    "topics": 3426
+    "topics": 3429
   },
   "people": [
     {
@@ -9347,6 +9347,10 @@
       "articles": 1
     },
     {
+      "name": "サムネイル",
+      "articles": 1
+    },
+    {
       "name": "サムネイル考察",
       "articles": 1
     },
@@ -14907,6 +14911,10 @@
       "articles": 1
     },
     {
+      "name": "成人向け配信",
+      "articles": 1
+    },
+    {
       "name": "成人向け音声",
       "articles": 1
     },
@@ -17933,6 +17941,10 @@
     {
       "name": "胸元ハプニング",
       "articles": 2
+    },
+    {
+      "name": "胸元接写",
+      "articles": 1
     },
     {
       "name": "胸元比較",
