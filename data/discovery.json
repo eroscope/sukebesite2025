@@ -1284,7 +1284,7 @@
     "works/work-snos-409.html"
   ],
   "counts": {
-    "people": 793,
+    "people": 794,
     "works": 402,
     "topics": 3423
   },
@@ -2219,6 +2219,10 @@
     },
     {
       "name": "塩地美澄",
+      "articles": 1
+    },
+    {
+      "name": "増あすか",
       "articles": 1
     },
     {
@@ -9347,7 +9351,7 @@
     },
     {
       "name": "サンプル動画",
-      "articles": 40
+      "articles": 41
     },
     {
       "name": "サンプル画像",
@@ -11535,7 +11539,7 @@
     },
     {
       "name": "ランジェリー",
-      "articles": 357
+      "articles": 358
     },
     {
       "name": "ランジェリー風",
