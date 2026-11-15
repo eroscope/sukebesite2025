@@ -1288,7 +1288,7 @@
   "counts": {
     "people": 794,
     "works": 403,
-    "topics": 3429
+    "topics": 3430
   },
   "people": [
     {
@@ -6465,7 +6465,7 @@
     },
     {
       "name": "AV女優",
-      "articles": 239
+      "articles": 240
     },
     {
       "name": "AV女優検索",
@@ -7865,6 +7865,10 @@
     },
     {
       "name": "おすすめ機能",
+      "articles": 1
+    },
+    {
+      "name": "おすすめ談義",
       "articles": 1
     },
     {
@@ -12925,7 +12929,7 @@
     },
     {
       "name": "匿名掲示板",
-      "articles": 43
+      "articles": 44
     },
     {
       "name": "匿名新人",
