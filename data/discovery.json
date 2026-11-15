@@ -1205,6 +1205,7 @@
     "topics/topic-maika.html",
     "topics/topic-mgs.html",
     "topics/topic-miru.html",
+    "topics/topic-mod.html",
     "topics/topic-moodyz-diva.html",
     "topics/topic-moodyz.html",
     "topics/topic-myspa.html",
@@ -1286,7 +1287,7 @@
   "counts": {
     "people": 794,
     "works": 403,
-    "topics": 3424
+    "topics": 3426
   },
   "people": [
     {
@@ -7023,7 +7024,7 @@
     },
     {
       "name": "MOD",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "MONROE",
@@ -9135,7 +9136,7 @@
     },
     {
       "name": "ゲーム",
-      "articles": 13
+      "articles": 14
     },
     {
       "name": "ゲームイベント",
@@ -9167,6 +9168,10 @@
     },
     {
       "name": "ゲーム実況",
+      "articles": 1
+    },
+    {
+      "name": "ゲーム改造",
       "articles": 1
     },
     {
@@ -12568,6 +12573,10 @@
     {
       "name": "全裸",
       "articles": 39
+    },
+    {
+      "name": "全裸MOD",
+      "articles": 1
     },
     {
       "name": "全裸グラビア",
