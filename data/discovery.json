@@ -1022,6 +1022,7 @@
     "topics/topic-d7b0db6974a0.html",
     "topics/topic-d7e2406282aa.html",
     "topics/topic-d803bce0f78a.html",
+    "topics/topic-d8a0b77ca510.html",
     "topics/topic-d8ebd4edc5b5.html",
     "topics/topic-d8f933e9ab9e.html",
     "topics/topic-d9041f832b92.html",
@@ -1289,7 +1290,7 @@
   "counts": {
     "people": 796,
     "works": 403,
-    "topics": 3435
+    "topics": 3437
   },
   "people": [
     {
@@ -8518,7 +8519,7 @@
     },
     {
       "name": "イメージDVD",
-      "articles": 6
+      "articles": 7
     },
     {
       "name": "イメージビデオ",
@@ -10190,7 +10191,7 @@
     },
     {
       "name": "ニプレス",
-      "articles": 1
+      "articles": 2
     },
     {
       "name": "ニュースウォッチ9",
@@ -13625,6 +13626,10 @@
       "articles": 1
     },
     {
+      "name": "大田樹里",
+      "articles": 1
+    },
+    {
       "name": "大石忍",
       "articles": 1
     },
@@ -16022,7 +16027,7 @@
     },
     {
       "name": "水着",
-      "articles": 543
+      "articles": 544
     },
     {
       "name": "水着グラビア",
@@ -18131,6 +18136,10 @@
     {
       "name": "舌責め",
       "articles": 2
+    },
+    {
+      "name": "舞台女優",
+      "articles": 1
     },
     {
       "name": "舞台挨拶",
