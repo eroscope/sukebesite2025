@@ -1289,7 +1289,7 @@
   ],
   "counts": {
     "people": 796,
-    "works": 403,
+    "works": 404,
     "topics": 3437
   },
   "people": [
@@ -5428,6 +5428,10 @@
       "articles": 1
     },
     {
+      "code": "MIDA-855",
+      "articles": 1
+    },
+    {
       "code": "MIDV-461",
       "articles": 1
     },
@@ -6863,7 +6867,7 @@
     },
     {
       "name": "Himari",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "How to SEX",
@@ -7047,7 +7051,7 @@
     },
     {
       "name": "MOODYZ",
-      "articles": 69
+      "articles": 70
     },
     {
       "name": "MOODYZ DIVA",
@@ -7291,7 +7295,7 @@
     },
     {
       "name": "Qカップ",
-      "articles": 2
+      "articles": 3
     },
     {
       "name": "R18写真集",
