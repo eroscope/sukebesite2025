@@ -1289,7 +1289,7 @@
   "counts": {
     "people": 795,
     "works": 403,
-    "topics": 3434
+    "topics": 3435
   },
   "people": [
     {
@@ -6806,7 +6806,7 @@
     },
     {
       "name": "GIF",
-      "articles": 48
+      "articles": 49
     },
     {
       "name": "GIF動画",
@@ -9414,6 +9414,10 @@
     },
     {
       "name": "シャチ女",
+      "articles": 1
+    },
+    {
+      "name": "シャツたくし上げ",
       "articles": 1
     },
     {
@@ -17954,7 +17958,7 @@
     },
     {
       "name": "胸元",
-      "articles": 121
+      "articles": 122
     },
     {
       "name": "胸元チラ見え",
@@ -18086,7 +18090,7 @@
     },
     {
       "name": "自撮り",
-      "articles": 62
+      "articles": 63
     },
     {
       "name": "自撮り動画",
