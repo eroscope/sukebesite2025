@@ -1290,7 +1290,7 @@
   "counts": {
     "people": 796,
     "works": 404,
-    "topics": 3437
+    "topics": 3438
   },
   "people": [
     {
@@ -9723,7 +9723,7 @@
     },
     {
       "name": "セックス",
-      "articles": 47
+      "articles": 48
     },
     {
       "name": "セックスカウンセラー",
@@ -14202,6 +14202,10 @@
       "articles": 1
     },
     {
+      "name": "寝バック",
+      "articles": 1
+    },
+    {
       "name": "寝具家電",
       "articles": 1
     },
@@ -14687,7 +14691,7 @@
     },
     {
       "name": "後背位",
-      "articles": 15
+      "articles": 16
     },
     {
       "name": "後藤まつり",
@@ -16879,7 +16883,7 @@
     },
     {
       "name": "画像まとめ",
-      "articles": 300
+      "articles": 301
     },
     {
       "name": "画像ギャラリー",
